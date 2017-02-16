@@ -1,0 +1,12 @@
+<div>
+	<form data-dojo-attach-point="form"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<table width="99%" class="prmaxtable" cellspacing="0" cellpadding="0" border="0" style="padding-top:5px">
+			<tr><td align="right" valign="top" class="prmaxrowtag">Description</td><td><input data-dojo-props='tasktypedescription:"text",required:true,name:"tasktypedescription",style:"width:20em"' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="tasktypedescription" ></td></tr>
+			<tr>
+				<td><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="clsbtn" data-dojo-attach-event="onClick:_close" data-dojo-props='label:"Close"'></button></td>
+				<td align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="addbtn" data-dojo-props='busyLabel:"Adding ...",label:"Add"' data-dojo-attach-event="onClick:_add"></button></td>
+			</tr>
+		</table>
+	</form>
+</div>
+

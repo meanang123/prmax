@@ -1,0 +1,8 @@
+<div>
+	<div data-dojo-type="dojox/layout/ExpandoPane" data-dojo-props='"class":"bordered",title:"Research",region:"left",maxWidth:175,style:"margin:0px;padding:0px;width:15%;height:100%"' >
+		<div data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-id="catStore" data-dojo-props='url:"/research/frame/options"'></div>
+		<div data-dojo-type="dijit/tree/ForestStoreModel" data-dojo-id="catModel" query="{type:'1'}" childrenAttrs="children" store="catStore" rootId="root" rootLabel="root"></div>
+		<div data-dojo-type="dijit/Tree" data-dojo-props='"class":"bordered",model:catModel,showRoot:false' data-dojo-attach-event="onClick: _SelectNode" ></div>
+</div>
+	<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="zone" data-dojo-props='region:"center","class":"bordered"'></div>
+</div>

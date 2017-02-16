@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Testing Standard</title>
+	<style type="text/css">
+		@import "/static/dojo/dijit/tests/css/dijitTests.css";
+	</style>
+	
+	<script type="text/javascript" src="../../../../dojo.dev/dojo/dojo.js" 
+		djconfig="parseOnLoad:true, isDebug: true, defaultTestTheme:'tundra',
+		baseUrl:'../../../../dojo.dev/dojo/',modulePaths:{'ttl':'/static/dojo.comp/ttl','prmax':'/static/dojo.comp/prmax'}"></script>
+	<script type="text/javascript" src="../../../../dojo.dev/dijit/tests/_testCommon.js"></script>
+	<script type="text/javascript">
+		dojo.require("dojo.parser");	
+		dojo.require("ttl.utilities");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.form.CheckBox");
+		
+		function Clear()
+		{
+			dijit.byId("test_search_base").Clear();
+		}
+		function Set()
+		{
+			dijit.byId("test_search_base").setOptions(true);
+		}
+		function All()
+		{
+			dijit.byId("test_search_base").setOptions(false);
+		}
+		
+
+	</script>
+	<script type="text/javascript" src="/static/dojo.comp/prmax/common/SelectOptions.js"></script>	
+</head>
+<body class="tundra">
+<h1 class="testTitle">prmax.common.SelectOptions</h1>
+
+<div id="test_search_base" dojoType="prmax.common.SelectOptions" displayname="Test System" style="width:50%;border:solid 1px" ></div>
+<br/>
+<button  dojoType="dijit.form.Button" label="Clear" onClick="Clear"></button>
+<button  dojoType="dijit.form.Button" label="Selection" onClick="Set"></button>
+<button  dojoType="dijit.form.Button" label="All" onClick="All"></button>
+<br/>
+</body>
+</html>

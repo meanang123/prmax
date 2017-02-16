@@ -1,0 +1,13 @@
+<div style="width:400px;height:200px;" >
+	<form  data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='"class":"prmaxdefault",onsubmit:"return false;"'>
+		<input data-dojo-attach-point="employeeid" data-dojo-props='name:"employeeid",type:"hidden"' data-dojo-type="dijit/form/TextBox" >
+		<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0"  border ="0">
+			<tr><td  align="center" data-dojo-attach-point="heading" class="prmaxrowdisplaylarge" colspan="2" ></td></tr>
+			<tr><td align="right" class="prmaxrowtag" width="20%">New Outlet</td><td ><select data-dojo-attach-point="outletid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"outletid",searchAttr:"outletname",labelType:"html",style:"width:98%","class":"prmaxrequired"' data-dojo-attach-event="onChange:_outlet_selected"/></td></tr>
+			<tr data-dojo-attach-point="desk_view" class="prmaxhidden"><td align="right" class="prmaxrowtag">Desks</td><td ><select data-dojo-attach-point="outletdeskid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"outletdeskid",searchAttr:"deskname",labelType:"html",style:"width:98%","class":"prmaxrequired"'/></td></tr>
+		</table>
+	</form>
+	<br/><br/>
+	<button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",style:"float:left" ' data-dojo-attach-event="onClick:_close_dlg">Close</button>
+	<button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",style:"float:right" ' data-dojo-attach-event="onClick:_move_contact">Move Contact</button>
+</div>

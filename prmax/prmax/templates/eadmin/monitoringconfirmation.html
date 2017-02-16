@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+<head>
+<title>PRmax Order Confirmation</title>
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<meta name="AUTHOR" content="Chris Hoy"></meta>
+<meta name="COPYRIGHT" content="Prmax System v${prmax['dojoversion']} ${prmax['copyright']}"></meta>
+<style type="text/css"  media="screen" >
+	@import "/static/${prmax['prodpath']}/css/expiry.css?version=${prmax['dojoversion']}";
+</style>
+
+</head>
+<body >
+	<div id="outerBox2"><div id="innerBox">
+		<p >It is a legal requirement to have the permission of the copyright owner to reproduce their work. To receive a monitoring service you may need a license from the Newspaper Licensing Agency (NLA) or the Copyright Licensing Agency (CLA). Your monitoring service provider is obliged to inform the relevant agency of their monitoring customers so you may be approached by a licensing agency and asked to take out the appropriate licence. Information about licenses can be found at the following links:</p>
+		<a href="http://www.nla.co.uk/default.aspx?tabid=41">Newspaper Licensing Agency </a><br/>
+		<a href="http://www.cla.co.uk/licences/licences_available/">Copyright Licensing Agency</a><br/>
+		<form action="/monitoringconfirmation_accepted" method="post">
+			<input class="button_class" style="width:250px;float:right" type="submit" value="Accept Monitoring Terms"/>
+		</form>
+		<br/>
+	</div></div>
+</body></html>
+
+

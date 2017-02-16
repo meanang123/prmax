@@ -1,0 +1,17 @@
+<div>
+  <div dojoType="dijit.Dialog" title="Sorting" dojoAttachPoint="dlg">
+    <form class="prmaxdefault" dojoAttachPoint="form" dojoType="dijit.form.Form" onSubmit="return false;">
+      <table style="width:200px;height:100px" class="prmaxtable" >
+        <tr><td width="30%" class="prmaxrowtag">Sort Field </td><td><select dojoAttachPoint="select" dojotype ="dijit.form.FilteringSelect" name="sortfield" searchAttr="name" labelType="html" ></select></td></tr>
+        <tr><td width="30%" colspan=2">
+          <label dojoAttachPoint="accLabel" class="prmaxlabeltag">Asc</label><input dojoAttachPoint="accNode" value="+" type="radio" name="order" dojoType="dijit.form.RadioButton">
+          <label dojoAttachPoint="descLabel" class="prmaxlabeltag">Desc</label><input dojoAttachPoint="descNode" value="-"  type="radio" name="order" dojoType="dijit.form.RadioButton">
+        </td></tr>
+        <tr>
+          <td align="left"><button class="prmaxbutton" dojoAttachEvent="onClick:_Close" dojoType="dijit.form.Button" label="Close"></button></td>
+          <td colspan="2" align="right"><button type="button" class="prmaxbutton" dojoAttachPoint="saveNode" dojoAttachEvent="onClick:_Sort" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Sorting..." label="Sort"></button></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>

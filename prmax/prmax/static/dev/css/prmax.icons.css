@@ -1,0 +1,142 @@
+.dijitPrmaxIcon {
+	background-image: url('/static/images/prmaxicon.gif');
+	background-repeat: no-repeat;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+}
+
+.dijitPrmaxIconSearch { background-position: 0px; }
+.dijitPrmaxAdd { background-position: -18px; }
+.dijitPrmaxDelete { background-position: -36px; }
+.dijitPrmaxRename { background-position: -54px; }
+.dijitPrmaxPrint { background-position: -72px; }
+.dijitPrmaxEdit { background-position: -90px; }
+.dijitPrmaxLists { background-position: -108px; }
+.dijitPrmaxPrivate { background-position: -126px; }
+.dijitPrmaxOutlet { background-position: -144px; }
+.dijitPrmaxFreelance { background-position: -162px; }
+.dijitPrmaxSettings { background-position: -180px; }
+.dijitPrmaxUserPreferences { background-position: -198px; }
+.dijitPrmaxCustomer { background-position: -216px; }
+.dijitPrmaxTags { background-position: -234px; }
+.dijitPrmaxLogout { background-position: -252px; }
+.dijitEditorHelp { background-position: -270px; }
+.dijitPrmaxMarkClear { background-position: -288px; }
+.dijitPrmaxMarkAll { background-position: -306px; }
+.dijitPrmaxMarkInvert { background-position: -324px; }
+.dijitPrmaxMarkClearAppend { background-position: -342px; }
+.dijitPrmaxMarkAppend { background-position: -360px; }
+.dijitPrmaxIconNew { background-position: -378px; }
+.dijitPrmaxOutput { background-position: -396px; }
+.dijitPrmaxDelete { background-position: -414px; }
+.dijitPrmaxClearAll { background-position: -432px; }
+.dijitPrmaxTools { background-position: -450px; }
+.dijitPrmaxApplyTags { background-position: -468px; }
+.dijitPrmaxDuplicate { background-position: -486px; }
+.dijitPrmaxEmployee { background-position: -504px; }
+.dijitPrmaxContact { background-position: -522px; }
+.dijitPrmaxUpdate { background-position: -540px; }
+.dijitPrmaxMark{ background-position: -558px; }
+.dijitPrmaxSave{ background-position: -576px; }
+/* icon bar */
+#iconbar
+{
+	clear: both;
+	float: left;
+	margin: 0px;
+	padding: 0px;
+	white-space: nowrap;
+	width:100px;
+	height:20px;
+	overflow:hidden;
+	position:relative;
+}
+
+#iconbar li {
+	display: inline;
+	padding: 0;
+	margin: 0 ;
+	list-style-type: none	;
+	float: left;
+	width:18px;
+}
+
+#iconbar li a {
+	padding: 0;
+	margin: 0;
+	height: 18px;
+	width: 18px;
+}
+
+.PrmaxBannerIcon {
+	background-image: url('/static/images/prmaxheadericons.gif');
+	background-repeat: no-repeat;
+	width: 58px;
+	height: 40px;
+	text-align: center;
+}
+
+.PrmaxBannerHome { background-position: 0px; }
+.PrmaxBannerSearch { background-position: -58px; }
+.PrmaxBannerView { background-position: -116px; }
+.PrmaxBannerLists { background-position: -174px; }
+.PrmaxBannerPrivate { background-position: -232px; }
+.PrmaxBannerSettings { background-position: -290px; }
+.PrmaxBannerHelp { background-position: -348px; }
+.PrmaxBannerLogout { background-position: -406px; }
+.PrmaxBannerDistribute { background-position: -462px; }
+.PrmaxBannerMonitoring { background-position: -522px; }
+.PrmaxBannerCrm { background-position: -562px; }
+
+
+.PrmaxResultsIcon {
+	background-image: url('/static/images/prmaxresultsicons.gif');
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+}
+
+.PrmaxResultsEmpty { background-position: 0px; width: 1px;}
+.PrmaxResultsMark { background-position: 0px; }
+.PrmaxResultsSave { background-position: -40px; }
+.PrmaxResultsOutput { background-position: -80px; }
+.PrmaxResultsRemove { background-position: -120px; }
+.PrmaxResultsClear { background-position: -160px; }
+.PrmaxResultsTools { background-position: -200px; }
+.PrmaxResultsSearch { background-position: -240px; }
+
+.PrmaxIcon2 {
+	background-image: url('/static/images/prmaxicons2.gif');
+	background-repeat: no-repeat;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+}
+
+.PrmaxIcon2Details { background-position: 0px; }
+.PrmaxIcon2Sub { background-position: -18px; }
+.PrmaxIcon2Profile { background-position: -36px; }
+.PrmaxIcon2Where { background-position: -54px; }
+.PrmaxIcon2Contact { background-position: -72px; }
+
+
+.dijitEditorIconTtlinsertimage { background-position: -216px; }
+
+
+
+.SeoCustBannerIcon
+{
+	background-image: url('/static/images/seo_customers.gif');
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+}
+
+.SEOViewIcon { background-position: -0px; }
+.SEOClientsIcon { background-position: -40px; }
+.SEOCollateralIcon { background-position: -80px; }
+.SEOHelpIcon { background-position: -120px; }
+.SEOLogoutIcon { background-position: -160px; }

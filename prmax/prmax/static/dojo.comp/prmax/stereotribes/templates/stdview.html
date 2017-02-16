@@ -1,0 +1,52 @@
+<div >
+	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='key:"std_view.search_list",style:"width:100%;height:100%"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center",preload:true,href:"/layout/std_view_outlet"'></div>
+		<div data-dojo-attach-point="views" data-dojo-type="dijit.layout.StackContainer" data-dojo-props='region:"left",splitter:true,style:"width:50%"'>
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",title:"outlet_view"' data-dojo-attach-point="outlet_view" >
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden","class":"searchresults"'>
+				<div style="height:44px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+					<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="prmaxrowdisplaylarge">Manage Results</div>
+						<div data-dojo-type="dijit.Toolbar" class="dijitToolbarTop" style="float:left;height:100%;width:85%;padding:0px;margin:0px" >
+							<div data-dojo-type="dijit.form.DropDownButton" data-dojo-attach-point="markoptions" data-dojo-props='disabled:"disabled",iconClass:"PrmaxResultsIcon PrmaxResultsMark",showLabel:false'>
+								<span>Mark</span>
+								<div data-dojo-type="dijit.Menu">
+									<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Clear Marks"' data-dojo-attach-point="clear" ></div>
+									<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Marks All"' data-dojo-attach-point="markall" ></div>
+									<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Invert Marks"' data-dojo-attach-point="invertmarks" ></div>
+									<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Clear Marks &amp; Mark Appended"' data-dojo-attach-point="clearappend" ></div>
+									<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Mark Appended"' data-dojo-attach-point="markappended" ></div>
+								</div>
+							</div>
+							<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="save" data-dojo-attach-event="onClick:_Save" data-dojo-props='disabled:"disabled",iconClass:"PrmaxResultsIcon PrmaxResultsSave",showLabel:false'>Save</div>
+							<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="output" data-dojo-props='disabled:"disabled",iconClass:"PrmaxResultsIcon PrmaxResultsOutput",showLabel:false' data-dojo-attach-event="onClick:_OutputPrint" data-dojo-attach-point="output_print">Output</div>
+							<div data-dojo-type="dijit.form.Button"  data-dojo-attach-point="delete_option" data-dojo-attach-event="onClick:_Delete" data-dojo-props='disabled:"disabled",iconClass:"PrmaxResultsIcon PrmaxResultsRemove",showLabel:false'>Delete</div>
+							<div data-dojo-type="dijit.form.Button"  data-dojo-attach-point="clearall" data-dojo-attach-event="onClick:_ClearAll" data-dojo-props='disabled:"disabled",iconClass:"PrmaxResultsIcon PrmaxResultsClear",showLabel:false'>Clear</div>
+							<div data-dojo-type="dijit.form.DropDownButton" data-dojo-attach-point="tools" data-dojo-props='disabled:"disabled",iconClass:"PrmaxResultsIcon PrmaxResultsTools",showLabel:false'>
+								<span>Tools</span>
+								<div data-dojo-type="dijit.Menu">
+									<div data-dojo-attach-point="tag_menu" data-dojo-type="dijit.MenuItem" data-dojo-props='"class":"prmaxhidden",label:"Apply Tags"' data-dojo-attach-event="onClick:_ApplyTags"></div>
+									<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Apply Roles"' data-dojo-attach-event="onClick:_ApplyRoles"></div>
+									<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Apply Marks"' data-dojo-attach-event="onClick:_ApplyMarks"></div>
+								</div>
+							</div>
+						</div>
+						<div data-dojo-props='style:"float:right;padding:0px;margin:0px"' data-dojo-attach-point="countinfo" data-dojo-type="prmax.searchgrid.SearchGridCount"></div>
+					</div>
+				</div>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'>
+					<div data-dojo-attach-point="searchgrid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ name:"*"},keepRows:1,rowsPerPage:100,style:"width:100%;height:100%",structure:PRMAX.search.layoutSearch' ></div>
+				</div>
+			</div>
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",title:"advance_view"' data-dojo-attach-point="advance_view">
+					<div data-dojo-type="prcommon.advance.stdview" data-dojo-props='region:"center",advancefeatureslistid:"${advancefeatureslistid}"' data-dojo-attach-point="advance_ctrl" ></div>
+				</div>
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",title:"crm_view"' data-dojo-attach-point="crm_view"></div>
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",title:"list_view"' data-dojo-attach-point="list_view"></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="sort_dlg" data-dojo-type="prmax.searchgrid.SortDisplay"></div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Clear Existing Marks & Mark Group"' data-dojo-attach-point="apply_marks_dlg">
+		<div data-dojo-attach-point="apply_marks" data-dojo-type="prmax.searchgrid.ApplyMarks"></div>
+	</div>
+</div>
+

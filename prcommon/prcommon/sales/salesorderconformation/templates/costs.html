@@ -1,0 +1,24 @@
+<%
+from prcommon.Constants import PaymentMethod_DD
+%>
+% if c.paymentmethodid == PaymentMethod_DD:
+<p style="${style['sheader']}">Monthly Service Cost</p>
+% else:
+<p style="${style['sheader']}">Service Cost</p>
+% endif
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+	<tr><td style="width:200px" ><p style="${style['p']}">Media Database</p></td><td width="100px" align="right"><p style="${style['p']}">£${'%.2f' % (c.order_confirmation_media_cost/100.00,)}</p></td><td>&nbsp;</td></tr>
+% if c.advancefeatures:
+	<tr><td style="width:200px" ><p style="${style['p']}">Advance</p></td><td align="right" width="100px"><p style="${style['p']}">£${'%.2f' % (c.order_confirmation_adv_cost/100.00,)}</p></td><td>&nbsp;</td></tr>
+% endif
+% if c.updatum:
+	<tr><td style="width:200px" ><p style="${style['p']}">Monitoring</p></td><td align="right" width="100px"><p style="${style['p']}">£${'%.2f' % (c.order_confirmation_updatum_cost/100.00,)}</p></td><td>&nbsp;</td></tr>
+% endif
+% if c.has_international_data:
+	<tr><td style="width:200px" ><p style="${style['p']}">International</p></td><td align="right" width="100px"><p style="${style['p']}">£${'%.2f' % (c.order_confirmation_international_cost/100.00,)}</p></td><td>&nbsp;</td></tr>
+% endif
+	<tr><td style="width:200px"><p style="${style['p']}">VAT @ 20%</p></td><td width="100px" align="right"><p style="${style['p']}">£${'%.2f' % ((c.order_confirmation_media_vat+c.order_confirmation_adv_vat+c.order_confirmation_updatum_vat)/100.00,)}</p></td><td>&nbsp;</td></tr>
+	<tr><td style="width:200px"><p style="${style['p']}">TOTAL</p></td><td width="100px" align="right"><p style="${style['plabel']}">£${'%.2f' % ((c.order_confirmation_adv_cost+c.order_confirmation_media_cost+c.order_confirmation_media_vat+c.order_confirmation_adv_vat+c.order_confirmation_updatum_cost+c.order_confirmation_updatum_vat)/100.00,)}</p></td><td>&nbsp;</td></tr>
+</table>
+<br/>

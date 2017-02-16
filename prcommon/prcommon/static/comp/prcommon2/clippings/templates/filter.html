@@ -1,0 +1,16 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:100%;overflow:hidden;background-color:black;color:lightblue"' class="common_prmax_layout"><br/>
+		<div class="dijitReset"><label data-dojo-attach-point="client_label_1" class="label_size_small"></label><br/><select data-dojo-props='placeHolder:"No Selection",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"width:8em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_change_filter"></select></div>
+		<div class="dijitReset"><label data-dojo-attach-point="issue_label_1" class="label_size_small"></label><br/><select data-dojo-props='placeHolder:"No Selection",name:"issueid",autoComplete:true,searchAttr:"name",required:false,invalidMessage:"Select",labelType:"html",style:"width:8em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="issueid"></select></div>
+		<div class="dijitReset">
+			<label class="label_size_small">Dates</label><br/>
+			<div data-dojo-type="prcommon2/date/daterange" data-dojo-attach-point="date_search"></div>
+		</div>
+		<div class="dijitReset">
+			<label class="label_size_small">Tone</label><br/>
+			<div style="position:relative;top:2px;height:30px"><div data-dojo-type="prcommon2/clippings/selecttone" data-dojo-attach-point="tone_ctrl"></div></div>
+		</div>
+		<div class="dijitReset"><label data-dojo-attach-point="clippingstype_label" class="label_size_small prmaxhidden">Types</label><br/><select data-dojo-props='name:"clippingstypeid",autoComplete:true,labelType:"html",style:"width:10em;color:black",value:-1, class:"prmaxhidden"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="clippingstypeid" data-dojo-attach-event="onChange:_swap_view"></select></div>
+		<div class="dijitReset"><label>&nbsp;</label><br/><button data-dojo-attach-event="onClick:_update" data-dojo-attach-point="updbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating ...",label:"Refresh",iconClass:"fa fa-search-plus"'></button><br/><br/></div>
+	</div>
+</div>

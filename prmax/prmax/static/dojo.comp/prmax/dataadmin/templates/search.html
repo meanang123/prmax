@@ -1,0 +1,31 @@
+<div>
+	<div  dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden" gutters="False" >
+		<div  dojotype="dijit.layout.BorderContainer"  style="width:100%;height:55%; border: 1" region="top">
+			<div  dojoAttachPoint="search_form_pane" dojotype="dijit.layout.TabContainer" region="center" >
+				<div dojoAttachPoint="std_search_quick" dojoType="ttl.layout.ContentPane"  title="Smart" href="/layout/std_search_quick" style="overflow:auto" ></div>
+				<div dojoAttachPoint="std_search_outlet" dojoType="ttl.layout.ContentPane" title="Outlet" selected="selected" preload="false"  href="/layout/std_search_outlet"  ></div>
+				<div dojoAttachPoint="std_search_employee" dojoType="ttl.layout.ContentPane"   title="Contact" preload="false"  href="/layout/std_search_employee"  ></div>
+				<div dojoAttachPoint="std_search_freelance" dojoType="ttl.layout.ContentPane"   title="Freelance" preload="false"  href="/layout/std_search_freelance" ></div>
+			</div>
+			<div dojotype="dijit.layout.ContentPane" region="bottom" style="width:100%;height:12%;">
+				<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;" >
+					<tr>
+						<td ><button class="prmaxbutton" dojoAttachEvent="onClick:_ClearSearch" dojoType="dijit.form.Button" label="Clear Search Criteria" ></button></td>
+						<td ><button class="prmaxbutton" dojoAttachEvent="onClick:_ClearSearchResults" dojoType="dijit.form.Button" label="Clear Search Results" ></button></td>
+						<td align="right"><button dojoAttachPoint="searchbutton" class="prmaxbutton" dojoAttachEvent="onClick:_Search" dojoType="dojox.form.BusyButton" iconClass="dijitPrmaxIcon dijitPrmaxIconSearch" busyLabel="Searching..." ><div style="font-size:18pt">Search</div></button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div  dojoType="dijit.layout.BorderContainer" region="center" splitter="true" gutters="false" >
+			<div dojoAttachPoint="searchgrid" dojoType="dojox.grid.DataGrid" region="center" rowsPerPage="50"></div>
+			<div dojotype="dijit.layout.ContentPane"  region="bottom" style="width:100%;height:2em">
+				<button class="prmaxbutton" dojoAttachEvent="onClick:_ContactInterests" dojoType="dijit.form.Button" >Batch Contact Keywords</button>
+			</div>
+		</div>
+	</div>
+	<input dojoType="dijit.form.CheckBox"  id="search_partial" type="hidden" checked >
+	<div dojoAttachPoint="contact_interest_dlg" dojoType="dijit.Dialog" title ="Modify the Keywords on the Contacts In the Search Results">
+		<div dojoType="prmax.dataadmin.employees.ContactInterests"></div>
+	</div>
+</div>

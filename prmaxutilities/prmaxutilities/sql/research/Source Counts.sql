@@ -1,0 +1,1 @@
+﻿select st.sourcename,COUNT(*) from outlets AS o JOIN internal.sourcetypes AS st ON st.sourcetypeid = o.sourcetypeid where o.customerid = -1 GROUP BY st.sourcename

@@ -1,0 +1,17 @@
+<div>
+<div  dojoAttachPoint="dlg" dojoType="dijit.Dialog" title="Enter New Project">
+	<form dojoAttachPoint="form" dojoType="dijit.form.Form" onsubmit="return false">
+	<table>
+		<tr>
+			<td><label >Name</label></td>
+			<td><input dojoType="dijit.form.ValidationTextBox" dojoAttachPoint="projectname" name="projectname" required="true" trim="true" maxlength="45" promptMessage="Enter new projects name" type="text"/></td>
+		</tr>
+		<tr>
+			<td align="left">
+				<button dojoAttachEvent="onClick:_Cancel" dojoType="dijit.form.Button" type="button" >Cancel</button></td>
+			<td align="right">
+				<button dojoAttachEvent="onClick:_Save" dojoAttachPoint="saveNode"  dojoType="dojox.form.BusyButton" type="button" >Add Project</button></td>
+		</tr>
+	</table></form>
+</div>
+</div>

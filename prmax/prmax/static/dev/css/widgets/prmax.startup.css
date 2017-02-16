@@ -1,0 +1,101 @@
+.soria .prmaxstart
+{
+}
+/* set the size of the button*/
+.soria .prmaxstart .button
+{
+	width:100px;
+	padding:0px;
+	margin:0px;
+	vertical-align:top;
+}
+/* display panel info */
+.soria .prmaxstart .panel
+{
+	vertical-align:middle;
+	width:30%;
+	height:150px;
+	border: 1px solid blue;
+	padding:0px;
+	margin:0px;
+}
+
+.soria .prmaxstart .description
+{
+	padding-right:5px;
+}
+
+
+.soria .prmaxstart .panelfullwidth
+{
+	top:310px;
+	padding:0px;
+	width:100%;
+	height:200px;
+	border: 1px solid blue;
+	margin-top:10px;
+	float:left;
+	overflow:auto;
+}
+
+
+/* specific element for the search panel */
+.soria .prmaxstart .searchpanel
+{
+	background-color:#7D97A1;
+	background:#7D97A1 url('/static/images/home_grey_bg.gif') repeat-x top left;
+}
+.soria .prmaxstart .searchpanel .button
+{
+	padding: 0px;
+	margin: 0px;
+	float:left;
+	cursor:pointer;
+}
+
+/* specific element for the list panel */
+.soria .prmaxstart .newspanel
+{
+	background-color:#074987 ;
+	background:#074987  url('/static/images/home_blue_bg.gif') repeat-x top left;
+}
+
+
+/* specific element for the list panel */
+.soria .prmaxstart .listpanel
+{
+	background-color:#074987 ;
+	background:#074987  url('/static/images/home_blue_bg.gif') repeat-x top left;
+}
+
+.soria .prmaxstart .distribute
+{
+	background-color:#074987 ;
+}
+
+/* title text size */
+.soria .prmaxstart .titletext
+{
+	font-size:24pt;
+	color:white;
+}
+.soria .prmaxstart .listpanel .button
+{
+	padding: 0px;
+	margin: 0px;
+	float:left;
+	cursor:pointer;
+}
+
+/* description text */
+.soria .prmaxstart .desctext
+{
+	font-size:12pt;
+	color:white;
+}
+/* horizontal spacer */
+.soria .prmaxstart .spacer
+{
+	float:left;
+	width:2%;
+}

@@ -1,0 +1,21 @@
+<div>
+	<div  dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden" gutters="false">
+		<div dojotype="dijit.layout.ContentPane" region="top" style="width:100%;height:45px;">
+			<div style="height:40px;width:100%;overflow:hidden" class="searchresults">
+				<div style="height:100%;width:25%;float:left;" class="prmaxrowdisplaylarge">View Audit Trail</div>
+				<div style="float:left" >
+					<form dojoAttachPoint="filterform"  onsubmit="return false" dojoType="dijit.form.Form">
+						<input class="prmaxbutton" type="text"  dojoAttachPoint="filterdate" name = "filterdate" dojoType="dijit.form.DateTextBox" >
+						<button class="prmaxbutton"  type="submit" dojoType="dijit.form.Button" label="Filter By" ></button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div  dojoType="dijit.layout.ContentPane" region="center"  splitter="true" >
+			<div dojoAttachPoint="result_grid" dojoType="dojox.grid.DataGrid" rowsPerPage="50"></div>
+		</div>
+		<div  dojoType="dijit.layout.ContentPane" region="bottom"  splitter="true" style="width:100%;height:20%">
+			<div dojoAttachPoint="details_grid" dojoType="dojox.grid.DataGrid" rowsPerPage="50"></div>
+		</div>
+	</div>
+</div>

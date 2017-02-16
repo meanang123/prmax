@@ -1,0 +1,45 @@
+<div>
+	<form class="prmaxdefault" dojoAttachPoint="form" onsubmit="return false" dojoType="dijit.form.Form">
+	<input name="nbrofloginsid" dojoAttachPoint="nbroflogins" type="hidden" value="1" dojoType="dijit.form.TextBox" >
+	<input name="customersourceid" dojoAttachPoint="field_customersourceid" type="hidden" value="5" dojoType="dijit.form.TextBox" >
+	<input name="isprofessional" dojoAttachPoint="field_isprofessional" type="hidden" value="0" dojoType="dijit.form.TextBox" >
+
+		<table class="prmaxtable" width="800px"  border="0" style="margin-left:100px">
+			<tr><td class="prmaxrowdisplaylarge" align="center" colspan="2">Account Details</td></tr>
+			<tr><td class="prmaxrowtag" align="right" >Title</td><td><input class="prmaxinput" name="contact_title" dojoAttachPoint="contact_title" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 2em;" ></td></tr>
+			<tr><td class="prmaxrowtag" align="right" >First Name</td><td><input class="prmaxrequired" name="contact_firstname" dojoAttachPoint="contact_firstname" type="text" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" style="width: 8em;" ></td></tr>
+			<tr><td class="prmaxrowtag" align="right" >Surname</td><td><input class="prmaxrequired" name="contact_surname" dojoAttachPoint="contact_surname" type="text" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" style="width: 12em;"></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Job Title</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="contactjobtitle" name="contactjobtitle" type="text" trim="true" maxlength="80"  dojoType="dijit.form.TextBox" ></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Business Name</td><td width="70%"><input class="prmaxrequired" dojoAttachPoint="customername" name="customername" type="text" trim="true" required="true" maxlength="80" invalidMessage="Please Enter the name of the business" dojoType="dijit.form.ValidationTextBox" ></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Email:</td><td><input class="prmaxrequired" dojoAttachPoint="email" name="email" type="text" size="40" maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" lowercase="true" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="40" maxlength="70"/></td></tr>
+			<tr ><td colspan="2">
+				<div dojoType="dojox.form.PasswordValidator" name="password" class="prmaxrowtag" dojoAttachPoint="password">
+					<table class="prmaxtable" width="100%" >
+						<tr><td align="right" class="prmaxrowtag" width="30%">Password:</td><td><input class="prmaxrequired" type="password" pwType="new" /></td></tr>
+						<tr><td align="right" class="prmaxrowtag" >Verify:</td><td><input class="prmaxrequired" type="password" pwType="verify" /></td></tr>
+					</table>
+				</div>
+			</td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Address:</td><td><input class="prmaxrequired" dojoAttachPoint="address1" name="address1" type="text" size="40" required="true" invalidMessage="Please Enter first line of address" dojoType="dijit.form.ValidationTextBox"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Address 2:</td><td><input class="prmaxinput" dojoAttachPoint="address2" name="address2" type="text" size="40" maxlength="80" dojoType="dijit.form.TextBox"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Town</td><td><input class="prmaxrequired" dojoAttachPoint="townname" name="townname" type="text" size="30" dojoType="dijit.form.TextBox"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >County</td><td><input class="prmaxinput" dojoAttachPoint="county" name="county" type="text" dojoType="dijit.form.TextBox"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Postcode:</td><td><input class="prmaxrequired" dojoAttachPoint="postcode" name="postcode" type="text" style="width:10em" maxlength="10" required ="true" invalidMessage="Please Enter a post code " dojoType="dijit.form.ValidationTextBox"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Country</td><td>
+			<select class="prmaxinput" name="countryid" dojoAttachPoint="countryid" style="width:15em" dojoAttachEvent="onChange:_ShowVat" dojoType="dijit.form.FilteringSelect" autoComplete="true"></select>
+			</td></tr>
+			<tr class="prmaxhidden" dojoAttachPoint="vatnumber_view"><td align="right" class="prmaxrowtag" >Vat No</td><td><input class="prmaxrequired" dojoAttachPoint="vatnumber" trim="true" name="vatnumber" type="text" size="25" maxlength="40" dojoType="dijit.form.TextBox" /></td></tr>
+
+			<tr><td align="right" class="prmaxrowtag" >Tel:</td><td><input class="prmaxrequired" dojoAttachPoint="tel" name="tel" type="text" size="25" maxlength="40" required ="true" invalidMessage="Please enter a contact telephone number" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+			<tr><td class="prmaxrowtag" colspan ="2">&nbsp;</td></tr>
+			<tr data-dojo-attach-point="term_row_view"><td align="right" class="prmaxrowtag" >Term</td><td><select class="prmaxinput" name="termid" dojoAttachPoint="term" style="width:9em" dojoAttachEvent="onChange:_TermChanged" dojoType="dijit.form.FilteringSelect" autoComplete="true"></select></td></tr>
+			<tr data-dojo-attach-point="features_row_view"><td align="right" class="prmaxrowtag" >Features</td><td><input class="prmaxinput" dojoAttachPoint="advancefeatures" dojoType="dijit.form.CheckBox" name="advancefeatures" value="1" dojoAttachEvent="onChange:_ModuleChanged"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Cost (excluding VAT)</td><td><input class="prmaxinput" dojoAttachPoint="cost" dojoType="dijit.form.TextBox" value="${defaultcost}" readonly="readonly"/></td></tr>
+			<tr><td class="prmaxrowtag" colspan ="2">&nbsp;</td></tr>
+			<tr><td class="prmaxrowtag" colspan ="2" align="left"><label dojoAttachPoint="tclabel">I Agree to the Terms and Conditions</label>&nbsp;<input class="prmaxinput" dojoAttachPoint="tcaccept" dojoType="dijit.form.CheckBox" name="tcaccept"/>&nbsp;&nbsp;<a href="/static/rel/html/tc.pdf" target="_newtab">View  Terms and Conditions<a/></td></tr>
+			<tr><td class="prmaxrowtag" colspan="2" align="right"><button style="float:right" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Creating..." dojoAttachEvent="onClick:_CustomerSave" label="Create Account" class="prmaxbutton"></button></td></tr>
+		</table>
+	</form>
+</div>
+
+

@@ -1,0 +1,34 @@
+<div>
+    <div dojoType="dijit.TitlePane" title="Save Results to list" open="true" style="width:100%" >
+      <form class="prmaxdefault" dojoAttachPoint="saveform" name="saveform" onSubmit="return false;" dojoType="dijit.form.Form">
+        <table width="100%" class="prmaxtable" >
+          <tr><td class="prmaxrowtag" width="20%" >List Name</td>
+            <td><div dojoType="dijit.form.FilteringSelect"
+            name="listid"
+            dojoAttachPoint="lists"
+            required="true"
+            pageSize="20"
+            autoComplete="true"
+            labelAttr="listname"
+            searchAttr="listname"
+            promptMessage="Please Select a list"></div></td>
+            <td><button class="prmaxbutton" type="button" dojoAttachEvent="onClick:_ShowCreateList" dojoType="dijit.form.Button" label="Create a new List"></button></td>
+          </tr>
+          <tr><td class="prmaxrowtag" valign="top">Selection from Source</td><td><div name="selection" dojoAttachPoint="source" dojoType="prmax.common.SelectOptions" ></div></td></tr>
+          <tr><td class="prmaxrowtag">List Options</td><td>
+              <input dojoAttachPoint="override_button" type="radio" name="overwrite" dojotype="dijit.form.RadioButton" value="1" /> <label dojoAttachPoint="label_overwrite" class="prmaxlabeltag" >Overwrite</label>
+              <input dojoAttachPoint="append_button" type="radio" name="overwrite" dojotype="dijit.form.RadioButton" value="0" checked ="checked"/> <label class="prmaxlabeltag" dojoAttachPoint="label_append" >Append</label>
+          </td></tr>
+          <tr><td colspan="3" align="right"><button class="prmaxbutton" type="button" dojoAttachEvent="onClick:_SaveList" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Save results"></button></td></tr>
+        </table>
+      </form>
+    </div>
+    <div dojoType="dijit.TitlePane" dojoAttachPoint="addpane" title="Add  New List" open="false" style="width:100%" >
+      <form dojoAttachPoint="addform" name="addform"  onSubmit="return false;" dojoType="dijit.form.Form">
+        <table width="100%" class="prmaxtable" >
+            <tr><td class="prmaxrowtag">New List</td><td ><input dojoType="dijit.form.ValidationTextBox" name="listname" dojoAttachPoint="listnamenew" required="true" promptMessage="Please Enter new list name" trim="true" maxlength="45" ></td></tr>
+            <tr><td colspan="2" align="right"><button  type="button" class="prmaxbutton" dojoAttachEvent="onClick:_SaveNewList" dojoAttachPoint="addNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Add List"></button></td></tr>
+        </table>
+      </form>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+.soria .employeedisplay
+{
+	padding:0px;
+}
+
+.soria .employeedisplay .listarea
+{
+	height:60px;
+	overflow:auto;
+}
+
+.soria .employeedisplay .employeetype
+{
+	color:red;
+	align:right;
+}

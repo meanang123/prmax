@@ -1,0 +1,39 @@
+<div>
+	<div  dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer" gutters="false"  style="width:100%;height:100%;overflow: hidden; border: 0; padding: 0; margin: 0" >
+		<div dojotype="dijit.layout.ContentPane" region="top" style="width:100%;height:45px;">
+			<div style="height:44px;width:100%;overflow:hidden;padding:0px;margin:0px">
+				<div style="float:left" >
+				<p class="prmaxrowdisplaylarge" >Balance £&nbsp;<span dojoAttachPoint="balance_figure">0.00</span></p>
+				</div>
+				<div style="float:right;padding-top:0px;padding-right:10px;margin:5px" >
+					<input class="prmaxbutton" type="text"  dojoAttachPoint="filterdate" name = "filterdate" dojoType="dijit.form.DateTextBox" >
+					<label class="prmaxrowdisplay">Unallocated</label><input class="prmaxbutton" type="checkbox" dojoAttachPoint="unallocated" name = "unallocated" dojoType="dijit.form.CheckBox" >
+					<label class="prmaxrowdisplay">Money Only</label><input class="prmaxbutton" type="checkbox" dojoAttachPoint="moneyonly" name = "moneyonly" checked="checked" dojoType="dijit.form.CheckBox" >
+					<button type="button" dojoAttachEvent="onClick:_FilterBy" dojoType="dijit.form.Button" label="Filter By" ></button>
+				</div>
+			</div>
+		</div>
+		<div  dojoType="dijit.layout.ContentPane" region="center"  splitter="true" >
+			<div dojoAttachPoint="financialgrid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" style="width:100%;height:100%" ></div>
+		</div>
+		<div  dojoType="dijit.layout.ContentPane" region="bottom"  splitter="true" style="width:100%;height:20%">
+			<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="zone" region="center"  doLayout="true" style="border:1px solid black">
+				<div dojotype="dijit.layout.ContentPane" title="blank" dojoAttachPoint="blank_view" selected></div>
+				<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="allocations" gutters="false" dojoAttachPoint="allocations_view">
+					<div dojoAttachPoint="allocations_grid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" region="center"></div>
+					<div dojotype="dijit.layout.ContentPane" region="right" style="width:50%;height:100%">
+						<button class="prmaxbutton"  type="button" dojoType="dijit.form.Button" label="Re-Allocate" dojoAttachEvent="onClick:_ReAllocate" dojoAttachPoint="reallocate" ></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<form dojoAttachPoint="documentform" target="_blank" method="post" action="/iadmin/viewpdf">
+	<input type="hidden" name="audittrailid" dojoAttachPoint="documentform_audittrailid">
+</form>
+<form data-dojo-attach-point="htmlform" target="_blank" method="post" action="/iadmin/viewhtml">
+	<input type="hidden" name="audittrailid" data-dojo-attach-point="htmlform_audittrailid">
+</form>
+
+<div data-dojo-type="prmax.iadmin.accounts.ReAllocation" data-dojo-attach-point="reallocation"></div>
+</div>

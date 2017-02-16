@@ -1,0 +1,11 @@
+<div>
+  <div dojoType="dijit.TitlePane" title="Deduplicate " open="true" style="width:100%" >
+    <form class="prmaxdefault" dojoAttachPoint="form" dojoType="dijit.form.Form" onSubmit="return false">
+      <table style="width:100%" class="prmaxtable" >
+        <tr><td width="30%" colspan=2"><input checked dojoAttachPoint="byOutletNode" value="O" type="radio" name="deduplicateby" dojoType="dijit.form.RadioButton"><label dojoAttachPoint="byOutletLabel" class="prmaxlabeltag">by Outlet</label></td></tr>
+        <tr><td width="30%" colspan=2"><input dojoAttachPoint="byEmployeeNode" value="E"  type="radio" name="deduplicateby" dojoType="dijit.form.RadioButton"><label dojoAttachPoint="byEmployeeLabel" class="prmaxlabeltag">by Contact</label></td></tr>
+        <tr><td colspan="2" align="right"><button class="prmaxbutton" dojoAttachPoint="saveNode" dojoAttachEvent="onClick:_Deduplidate" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Deduplicating" label="Deduplicate"></button></td></tr>
+      </table>
+    </form>
+  </div>
+</div>

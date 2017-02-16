@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+<head>
+<title>PRmax Order Confirmation</title>
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<meta name="AUTHOR" content="Chris Hoy"></meta>
+<meta name="COPYRIGHT" content="Prmax System v${prmax['dojoversion']} ${prmax['copyright']}"></meta>
+</head>
+<body >
+	<p py:replace="Markup(order_details)">Test</p>
+	<form action="/orderconfirmation_accepted" method="post">
+		<input class="button_class" style="width:190px;float:right" type="submit" value="Accept Terms"/>
+	</form>
+</body></html>
+
+

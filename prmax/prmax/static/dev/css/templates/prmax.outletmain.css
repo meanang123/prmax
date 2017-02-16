@@ -1,0 +1,11 @@
+.soria .outletdisplay
+{
+	padding:2px;
+}
+
+.soria .outletdisplay .listarea
+{
+	width:100%;
+	height:60px;
+	overflow:auto
+}

@@ -1,0 +1,52 @@
+.claro .dijitTitlePaneContentInner {
+	padding: 1px !important;
+}
+
+.claro .dijitContentPane {
+	padding: 1px  !important;
+}
+
+/* nested layouts */
+.claro .dijitTabContainerTop-dijitContentPane,
+.claro .dijitTabContainerLeft-dijitContentPane,
+.claro .dijitTabContainerBottom-dijitContentPane,
+.claro .dijitTabContainerRight-dijitContentPane,
+.claro .dijitAccordionContainer-dijitContentPane {
+	background-color: #fff;
+	padding: 1px;
+}
+.claro .dijitSplitContainer-dijitContentPane,
+.claro .dijitBorderContainer-dijitContentPane {
+	background-color: #fff;
+	padding: 1px  !important;
+}
+
+.claro .dojoxGridSortNode {
+	background:url("/pprc_/images/header_shadow.png") #e5edf4 repeat-x bottom;
+	text-decoration:none;
+	display:block;
+	padding:0px 0px 0px 0px  !important;
+	border:1px solid #e0eefb;
+}
+
+.claro .dijitDialogTitleBar
+{
+	background-color:#0282A9;
+}
+
+.claro .dijitDialogPaneContent
+{
+  background-color: #ffffff;
+  background-image: none;
+  background-repeat: repeat-x;
+  background-attachment: scroll;
+  background-position: left top;
+  background-clip: border-box;
+  background-origin: padding-box;
+  background-size: auto auto;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #759dc0;
+  padding: 2px !important;
+  position: relative;
+}

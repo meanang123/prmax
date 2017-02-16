@@ -1,0 +1,19 @@
+<div>
+	<form target="_newtab" action="/iadmin/payment_dd_csv" dojoAttachEvent="onsubmit:_CreateCsv" >
+		<table width="700px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><div class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Create DD Csv </div></td>
+			<tr><td class="prmaxrowlabel" align="right" >DD Day</td><td><select data-dojo-props='"class":"prmaxrequired",required:"true",name:"pay_montly_day",autoComplete:"true",style:"width:3em"' data-dojo-attach-point="pay_montly_day" data-dojo-type="dijit.form.FilteringSelect" ><option value="1">1</option><option value="8">8</option><option value="15">15</option><option value="22">22</option></select></td></tr>
+			<tr><td colspan="2"><br/><br/><br/></td></tr>
+			<tr><td><button data-dojo-props='type:"button",label:"Reset Monthly Figures"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_ClearDown" ></button></td>
+			<td class="prmaxrowlabel" align="left"><button type="submit" dojoType="dijit.form.Button" label="Create DD Csv" ></button></td>
+			</tr>
+		</table>
+	</form>
+	<br/><br/><br/>
+	<table width="700px" cellpadding="0" cellpadding="0" >
+		<tr><td><form target="_newtab" action="/iadmin/payment_dd_csv_draft" method="post" dojoAttachEvent="onsubmit:_DraftInvoices" >
+			<input type="hidden"  dojoAttachPoint="tmp_cache" name = "tmp_cache" dojoType="dijit.form.TextBox" >
+			<input type="hidden"  dojoAttachPoint="pay_montly_day2" name = "pay_montly_day" dojoType="dijit.form.TextBox" >
+			<button type="submit" dojoType="dijit.form.Button" label="See Draft List" ></button></td></tr>
+	</table>
+</div>

@@ -1,0 +1,6 @@
+include start-prmaxcontrol.py
+include *.cfg
+include prmaxcontrol/config/*.cfg
+recursive-include prmaxcontrol/templates *.html
+recursive-include prmaxcontrol/templates *.kid
+recursive-include prmaxcontrol/static *

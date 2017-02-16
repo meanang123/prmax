@@ -1,0 +1,147 @@
+<%
+from ttl.ttlmako import isnull,text_html
+%>
+<p style="${style['sheader']}">Terms</p>
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td style="width:200px"><p style="${style['p']}">Nbr of Concurrent Users</p></td><td><p style="${style['p']}">${c.logins}</p></td></tr>
+% if c.updatum:
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring Nbr Users</p></td><td><p style="${style['p']}">${c.maxmonitoringusers}</p></td></tr>
+% endif
+% if c.orderpaymentmethodid in (1,2):
+<tr><td style="width:200px"><p style="${style['p']}">First Access Date</p></td><td><p style="${style['p']}">${c.licence_start_date.strftime("%d/%m/%Y")}</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">End Date</p></td><td><p style="${style['p']}">${c.licence_expire.strftime("%d/%m/%Y")}
+% if c.months_free>0:
+(includes ${c.months_free} month free)
+% endif
+</p></td></tr>
+% if c.advancefeatures:
+<tr><td style="width:200px"><p style="${style['p']}">Features Access Date</p></td><td><p style="${style['p']}">
+% if c.advance_licence_start != None:
+${c.advance_licence_start.strftime("%d/%m/%Y")}
+%endif
+</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Features End Date</p></td><td><p style="${style['p']}">
+% if c.advance_licence_expired != None:
+${c.advance_licence_expired.strftime("%d/%m/%Y")}
+%endif
+% if c.adv_months_free>0:
+(includes ${c.adv_months_free} month free)
+% endif
+</p></td></tr>
+%endif
+% if c.updatum:
+%if c.updatum_start_date:
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring Access Date</p></td><td><p style="${style['p']}">${c.updatum_start_date.strftime("%d/%m/%Y")}</p></td></tr>
+%endif
+%if c.updatum_end_date:
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring End Date</p></td><td><p style="${style['p']}">${c.updatum_end_date.strftime("%d/%m/%Y")}
+% if c.updatum_months_free>0:
+(includes ${c.updatum_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+%endif
+<tr><td style="width:200px"><p style="${style['p']}">Payment Terms</p></td><td><p style="${style['p']}">14 Days</p></td></tr>
+% if c.orderpaymentmethodid in (1,):
+<tr><td style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Credit Card</p></td></tr>
+%else:
+<tr><td style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Cheque or Bank Transfer</p></td></tr>
+%endif
+% elif c.orderpaymentmethodid in (3,):
+<tr><td style="width:200px"><p style="${style['p']}">First Access Date</p></td><td><p style="${style['p']}">On receipt of payment</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">End Date</p></td><td><p style="${style['p']}">${c.months_paid + c.months_free} months from receipt of first payment.
+% if c.months_free>0:
+(includes ${c.months_free} month free)
+% endif
+</p></td></tr>
+% if c.advancefeatures:
+<tr><td style="width:200px"><p style="${style['p']}">Features End Date</p></td><td><p style="${style['p']}">${c.adv_months_paid + c.adv_months_free} months from receipt of first payment.
+% if c.adv_months_free:
+(includes ${c.adv_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+% if c.updatum:
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring End Date</p></td><td><p style="${style['p']}">${c.updatum_months_paid + c.updatum_months_free} months from receipt of first payment.
+% if c.updatum_months_free:
+(includes ${c.updatum_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+<tr><td style="width:200px"><p style="${style['p']}">Payment Terms</p></td><td><p style="${style['p']}">In Advance</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Cheque or Bank Transfer</p></td></tr>
+% elif c.orderpaymentmethodid in (4,):
+<tr><td style="width:200px"><p style="${style['p']}">First Access Date</p></td><td><p style="${style['p']}">${c.licence_start_date.strftime("%d/%m/%Y")}</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.months_paid + c.months_free} months
+% if c.months_free>0:
+(includes ${c.months_free} month free)
+% endif
+</p></td></tr>
+% if c.advancefeatures:
+<tr><td style="width:200px"><p style="${style['p']}">Features End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.adv_months_paid + c.adv_months_free} months
+% if c.adv_months_free:
+(includes ${c.adv_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+% if c.updatum:
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.updatum_months_paid + c.updatum_months_free} months
+% if c.updatum_months_free:
+(includes ${c.updatum_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+<tr><td style="width:200px"><p style="${style['p']}">Payment Frequency</p></td><td><p style="${style['p']}">Monthly</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Direct debit. Thank you for giving us your bank details</p></td></tr>
+% elif c.orderpaymentmethodid in (5,):
+<tr><td style="width:200px"><p style="${style['p']}">First Access Date</p></td><td><p style="${style['p']}">${c.licence_start_date.strftime("%d/%m/%Y")}</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.months_paid + c.months_free} months
+% if c.months_free>0:
+(includes ${c.months_free} month free)
+% endif
+</p></td></tr>
+% if c.advancefeatures:
+<tr><td style="width:200px"><p style="${style['p']}">Features End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.adv_months_paid + c.adv_months_free} months
+% if c.adv_months_free:
+(includes ${c.adv_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+% if c.updatum:
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.updatum_months_paid + c.updatum_months_free} months
+% if c.updatum_months_free:
+(includes ${c.updatum_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+<tr><td style="width:200px"><p style="${style['p']}">Payment Frequency</p></td><td><p style="${style['p']}">Monthly</p></td></tr>
+<tr><td valign="top" style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Direct Debit. Please complete a Direct Debit Mandate <a target="_blank" href="http://app.prmax.co.uk/static2/pdf/ddmandate.pdf">Download Here</a></p></td></tr>
+
+% elif c.orderpaymentmethodid in (6,):
+<tr><td style="width:200px"><p style="${style['p']}">First Access Date</p></td><td><p style="${style['p']}">On receipt of Direct Debit Mandate</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">End Date</p></td><td><p style="${style['p']}">A Minimum of 12 months from receipt of Mandate</p></td></tr>
+% if c.advancefeatures:
+<tr><td style="width:200px"><p style="${style['p']}">Features End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.adv_months_paid + c.adv_months_free} months from receipt of Mandate
+% if c.adv_months_free:
+(includes ${c.adv_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+% if c.updatum:
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.updatum_months_paid + c.updatum_months_free} months from receipt of Mandate
+% if c.updatum_months_free:
+(includes ${c.updatum_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+<tr><td style="width:200px"><p style="${style['p']}">Payment Frequency</p></td><td><p style="${style['p']}">Monthly</p></td></tr>
+<tr><td valign="top" style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Direct Debit. Please return completed mandate immediately <a target="_blank" href="http://app.prmax.co.uk/static2/pdf/ddmandate.pdf">Download Here</a></p></td></tr>
+%endif
+<tr><td style="width:200px" valign="top"><p style="${style['p']}">Message</p></td><td><p style="${style['p']}">${text_html(c.order_confirmation_message)}</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Ordered By</p></td><td><p style="${style['p']}">${isnull(c.orderedby)}</p></td></tr>
+% if c.purchase_order:
+<tr><td style="width:200px"><p style="${style['p']}">Purchase Order</p></td><td><p style="${style['p']}">${isnull(c.purchase_order)}</p></td></tr>
+%endif
+</table>
+<br/>

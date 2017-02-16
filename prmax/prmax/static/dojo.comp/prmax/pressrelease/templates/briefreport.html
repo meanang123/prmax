@@ -1,0 +1,20 @@
+<div>
+	<form data-dojo-type="dijit.form.Form" data-dojo-props='onsubmit:"return false"' data-dojo-attach-point="form_node">
+		<input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="listid" data-dojo-props='name:"listid",type:"hidden"'>
+		<input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="reporttemplateid" data-dojo-props='name:"reporttemplateid",type:"hidden",value:"18"'>
+		<input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="sortorder" data-dojo-props='name:"sortorder",type:"hidden",value:"1"'>
+		<input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="reportoutputtypeid" data-dojo-props='name:"reportoutputtypeid",type:"hidden",value:"0"'>
+		<table width="100%" class="prmaxtable" >
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td class="prmaxrowtag">Report Title</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="reporttitle" data-dojo-props='name:"reporttitle",maxLength:45'></td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td colspan="2" ><div data-dojo-type="prmax.common.ReportBuilder" data-dojo-attach-point="report_ctrl" data-dojo-props='style:"display:none"'></div></td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr>
+			<td align="left"><button data-dojo-type="dijit.form.Button" data-dojo-props='"class":"prmaxbutton",label:"Close"' data-dojo-attach-point="close_btn" data-dojo-attach-event="onClick:_cancel"></button></td>
+			<td align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-props='"class":"prmaxbutton",busyLabel:"Please Wait Generating Report...",label:"Generate"' data-dojo-attach-point="report_btn" data-dojo-attach-event="onClick:_report"></button></td>
+		</tr>
+		</table>
+	</form>
+</div>

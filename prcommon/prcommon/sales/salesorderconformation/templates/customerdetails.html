@@ -1,0 +1,9 @@
+<p style="${style['sheader']}">Customer Details</p>
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td style="width:200px" ><p style="${style['p']}">Customer Name</p></td><td ><p style="${style['p']}">${c.customername}</p></td></tr>
+<tr><td><p style="${style['p']}">Contact Name</p></td><td ><p style="${style['p']}">${c.getContactName()}</p></td></tr>
+<tr><td valign="top"><p style="${style['p']}">Address</p></td><td ><p style="${style['p']}">${a.getAddressAsLine()}</p></td></tr>
+<tr><td><p style="${style['p']}">Email</p></td><td ><p style="${style['p']}">${c.email}</p></td></tr>
+</table>
+<br/>

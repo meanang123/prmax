@@ -1,0 +1,34 @@
+<div>
+<style>
+.contactus p
+{
+	padding:1px;
+	margin:0px;
+	background-color: white;
+}
+</style>
+
+	<div data-dojo-type="dojox.widget.Portlet" data-dojo-attach-point="portlet" data-dojo-props='title:"Contact Us", dndType:"Portlet", closable:false, style:"width:100%;height:100%",  toggleable:false, dragRestriction:true, "class":"contactus"'>
+		<table><tr>
+		<td><a target="_blank" href="mailto:feedback@prmax.co.uk"><img style="padding:0px;margin:0px;border:0px" src="/static/images/contactus_feedback_media.gif"></img></a></td>
+		<td><a target="_blank" href="mailto:support@prmax.co.uk"><img style="padding:0px;margin:0px;border:0px" src="/static/images/contactus_helpdesk.gif"></img></a></td>
+		<td><a data-dojo-attach-event="onclick:_ShowDetais"><img src="/static/images/contactus_support.gif"></img></a></td>
+		<td><a href="https://twitter.com/PRmaxUK" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @PRmaxUK</a></td>
+		</tr></table>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</div>
+	<div data-dojo-attach-point="contact_details_dialog" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Contact Details"'>
+		<table style="widht:350px;height:200px">
+			<tr><td colspan="2" align="center"><b><p>Support Details</p></b></td></tr>
+			<tr><td align="right">Tel:</td><td>01582 380 198</td></tr>
+			<tr><td align="right">Email:</td><td><a href="mailto:support@prmax.co.uk">PRmax Support</a></td></tr>
+			<tr><td align="right">Support Hours:</td><td>Monday to Friday 9am to 5pm (Closed Bank Holidays)</td></tr>
+			<tr><td colspan="2" >&nbsp;</td></tr>
+			<tr><td colspan="2" align="center"><b><p>Data Support</p></b></td></tr>
+				<tr><td align="right">Email:</td><td><a href="mailto:feedback@prmax.co.uk">PRmax Data Feedback</a></td></tr>
+			<tr><td align="right">Tel:</td><td>01582 380 191</td></tr>
+			<tr><td colspan="2" >&nbsp;</td></tr>
+			<tr><td colspan="2" align="right"><button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Close" data-dojo-props='type:"button", label:"Close"'></td></tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+<div>
+	<div dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden" gutters="false">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="height:42px;width:100%;overflow:hidden" class="searchresults">
+			<div style="height:40px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+				<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="dijitToolbar prmaxrowdisplaylarge">Manage Reason Codes</div>
+					<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:85%;padding:0px;margin:0px" >
+						<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true">
+							<span>Filter By</span>
+							<div dojoType="dijit.TooltipDialog" title="Enter Reason Filter filter" dojoAttachEvent="execute: _Execute">
+								<table>
+									<tr><td><label>Text</label></td><td><input dojoType="dijit.form.TextBox" name="filter" dojoAttachPoint="reason_filter_description" trim="true" maxlength="45" type="text" ></td></tr>
+									<tr><td><label >Category</label></td><td><select dojoAttachPoint="reasoncategoryfilter" name="reasoncategoryid" dojotype ="dijit.form.FilteringSelect" searchAttr="name" labelType="html" style="width:98%" /></td></tr>
+									<tr>
+										<td align="left"><button dojoAttachEvent="onClick: _ClearFilter" dojoType="dijit.form.Button" type="button" >Clear Filter by</button></td>
+										<td align="right"><button dojoType="dijit.form.Button" type="submit" name="submit">Filter by</button></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true">
+							<span>New Reason</span>
+							<div dojoType="dijit.TooltipDialog" title="Enter Reason Code" dojoAttachEvent="execute: _ExecuteAdd">
+								<table>
+									<tr><td><label >Reason</label></td><td><input required="true" invalidMessage="Role Name Required" dojoType="dijit.form.ValidationTextBox" name="reasoncodedescription" dojoAttachPoint="reasoncodedescription" trim="true" maxlength="45" type="text"  class="prmaxrequired" ></td></tr>
+									<tr><td><label >Category</label></td><td><select dojoAttachPoint="reasoncategoryid" name="reasoncategoryid" dojotype ="dijit.form.FilteringSelect" searchAttr="name" labelType="html" style="width:98%" class="prmaxrequired" /></td></tr>
+									<tr><td align="right" colspan="2"><button dojoType="dijit.form.Button" type="submit" name="submit">Add Reason</button></td></tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<div dojoType="dijit.layout.ContentPane" region="center">
+			<div dojoAttachPoint="reasons" dojoType="dojox.grid.DataGrid" query="{ reasonname:'*'}" rowsPerPage="50" style="width:100%:height:100%"  ></div>
+		</div>
+	</div>
+</div>

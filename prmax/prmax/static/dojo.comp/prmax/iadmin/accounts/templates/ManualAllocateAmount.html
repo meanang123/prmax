@@ -1,0 +1,9 @@
+<div>
+	<div dojoAttachPoint="popup_view" dojoType="dijit.Dialog" title="Enter Amount Remaining">
+		<br/>
+		<table width="300px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan>Amount</td><td><input type="text" name="value" dojoType="dijit.form.CurrencyTextBox" trim="true" dojoAttachPoint="toallocate_value" style="width:8em" constraints="{min:0.01,max:99999.00,fractional:true,places:'0,2'}" ></input></td></tr>
+			<tr><td align="left"><button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Close">Close</button></td><td align="right"><button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Allocate">Allocate</button></td></tr>
+		</table>
+	</div>
+</div>

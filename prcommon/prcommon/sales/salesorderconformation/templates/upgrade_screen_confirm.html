@@ -1,0 +1,19 @@
+<div style="width:640px;height:3em;text-align: center">
+<script>
+function sr_confirm()
+{
+	var tcaccept = document.getElementById("tcaccept");
+	if ( tcaccept.checked == false )
+	{
+		alert("T & C not accepted, Please accept before continuing");
+		return false ;
+	}
+
+	return confirm("Accept Confirmation");
+}
+</script>
+<form action="/upgrade_confirmation_accepted" onsubmit="return sr_confirm()" method="post">
+<p><label>I Agree to the Terms and Conditions</label>&nbsp;<input id = "tcaccept" type="checkbox" name="tcaccept"/>&nbsp;&nbsp;<a href="/static/rel/html/tc.pdf" target="_newtab">Read<a/></p>
+<p><input class="button_class" style="width:190px;font-size:1.5em" type="submit" value="Accept Terms"/></p>
+</form>
+</div>

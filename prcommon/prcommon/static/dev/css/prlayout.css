@@ -1,0 +1,142 @@
+.common_prmax_layout label, input, select
+{
+	display: block;
+	float: left;
+	padding:0px !important;
+	margin:2px 0px 2px 0px !important;
+}
+
+.common_prmax_layout p
+{
+	display: block;
+	float: left;
+	padding:0px !important;
+	margin:2px 0px 2px 0px !important;
+}
+
+.common_prmax_layout .dijitComboBox, .dijitSelect, .dijitTextBox
+{
+	display: block;
+	float: left;
+	padding:0px !important;
+	margin:2px 0px 2px 0px !important;
+}
+
+.common_prmax_layout .input_field, .dojo_button
+{
+	display: block;
+	float: left;
+	padding:2px !important;
+	margin:2px 0px 2px 0px !important;
+	border: 1px solid red !important;
+}
+
+.common_prmax_layout .label_size_1
+{
+	width:7em;
+	padding-top: 3px !important;
+}
+.common_prmax_layout .label_size_2
+{
+	width:9em;
+	padding-top: 3px !important;
+}
+.common_prmax_layout .label_size_3
+{
+	width:5em;
+	padding-top: 3px !important;
+}
+.common_prmax_layout .label_0
+{
+	width:3em;
+}
+.common_prmax_layout .label_1
+{
+	width:7em;
+}
+.common_prmax_layout .label_2
+{
+	width:9em;
+}
+.common_prmax_layout .label_size_small
+{
+	width:3em;
+	padding-top: 3px !important;
+}
+
+.common_prmax_layout .label_align_r
+{
+	text-align:right;
+	padding-right:5px !important;
+}
+
+.common_prmax_layout .btnright
+{
+	float:right;
+	padding-right:5px;
+}
+
+.common_prmax_layout .btnleft
+{
+	float:left;
+	padding-right:5px;
+}
+
+.common_prmax_layout .input_date
+{
+	width:7em;
+}
+
+.common_prmax_layout .heading
+{
+	text-align:center;
+	font-weight:bold;
+	font-size: 1.1em;
+	width:98%;
+	padding:5px !important;
+	margin: 0 0 0 0 !important;
+}
+
+.common_prmax_layout br
+{
+		clear: left;
+}
+
+.common_prmax_layout .label_tag
+{
+	color:#094b88;
+}
+
+.common_prmax_layout em
+{
+	font-weight:bold;
+	padding-left:2px;
+	padding-right:2px;
+}
+
+.common_prmax_layout div
+{
+	display: block;
+	float: left;
+	padding:0px !important;
+	margin:0px !important;
+}
+
+.common_prmax_layout .PlaceHolder {
+		color: #AAA;
+		font-style: italic;
+		top: 0;
+		left: 0;
+}
+
+.common_prmax_layout h1
+{
+	padding:4px !important;
+	margin:4px !important;
+}
+
+.common_prmax_layout h2
+{
+	padding:2px !important;
+	margin:2px !important;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<head>
+<title>Prmax login</title>
+<xi:include href="../std_mynewsdesk.html" />
+<link rel="stylesheet" href="/static/${prmax['prodpath']}/css/mynewsdesk_login.css" type="text/css" />
+<script>
+function start_up()
+{
+try {
+	document.getElementById("user_name").focus();
+		} catch ( e ) {}
+}
+</script>
+</head>
+<body onLoad="start_up()">
+    <div id="loginBox">
+        <h1>Welcome to PRmax</h1><br/>
+				<p class="strap">Search, Save and Distribute</p>
+        <form action="${previous_url}" method="POST" autocomplete="off">
+            <table cellspacing="0" cellpadding="1" border="0">
+                <tr><td class="label"><label for="user_name">Username</label></td></tr>
+								<tr><td class="field"><input type="text" id="user_name" name="user_name"/></td></tr>
+                <tr><td class="label"><label for="password">Password</label></td></tr>
+								<tr><td class="field"><input type="password" id="password" name="password"/></td></tr>
+                <tr><td class="buttons" style="text-align: center"><input id="login-button" type="submit" name="login" value="Login"/></td></tr>
+            </table>
+						<input py:if="forward_url" type="hidden" name="forward_url" value="${forward_url}"/>
+						<div py:for="name,values in original_parameters.items()" py:strip="1">
+								<input py:for="value in isinstance(values, list) and values or [values]" type="hidden" name="${name}" value="${value}"/>
+            </div>
+						<br/><br/>
+						<div><label>Support Email</label>&nbsp;<a href="mailto:support@prmax.co.uk">support@prmax.co.uk</a></div>
+        </form>
+				<p id="mynewdesk_logo">by&nbsp;<img height="15px" src="/static/images/mynewsdesk/mynewsdesk_logo_white.png"></img></p>
+    </div>
+</body>
+</html>

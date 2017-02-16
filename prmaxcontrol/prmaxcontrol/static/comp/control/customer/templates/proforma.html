@@ -1,0 +1,15 @@
+<div>
+<form data-dojo-attach-point="form"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+<table width="500px" cellpadding="0" cellpadding="0" >
+	<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Take Payment for <div data-dojo-props='style:"display:inline","class":"prmaxrowdisplaylarge"' data-dojo-attach-point="customername">Name</div></td>
+	<tr><td width="200px" ><label class="prmaxrowlabel">Text</label></td>
+	<td><input data-dojo-props='type:"text",name:"proformatext",required:true,trim:true' data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="proformatext"></td></tr>
+	<tr><td><label class="prmaxrowlabel">Value (Excluding Vat)</label></td>
+		<td><input data-dojo-props='type:"text",name:"value",required:true,trim:true' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="payment"></input></td>
+	</tr>
+	<tr><td class="prmaxrowlabel">Email Address</td>
+		<td><input data-dojo-props='"class":"prmaxinput",name:"email",type:"text",style:"width:100%",trim:true,required:true,regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address",size:"40",maxlength:"70"' data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox" /></td>
+	</tr>
+	<tr><td class="prmaxrowlabel" colspan="2" align="right"><button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_send_proforma">Send Proforma</button></td>
+</table></form>
+</div>

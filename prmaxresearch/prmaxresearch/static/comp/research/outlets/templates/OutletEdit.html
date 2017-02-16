@@ -1,0 +1,42 @@
+<div>
+	<div data-dojo-props='region:"top",style:"width:100%;height:30px","class":"prmaxrowdisplaytitle"' data-dojo-attach-point="blank_cont_view" data-dojo-type="dijit/layout/ContentPane" >
+		<p style="color:white;padding:0px;margin:0px;text-align:middle" data-dojo-attach-point="outlet_details_view"></p>
+	</div>
+	<div data-dojo-type="dijit/layout/TabContainer" data-dojo-attach-point="outlet_container" data-dojo-props='region:"center"' >
+		<div data-dojo-props='title:"Title/Address"' data-dojo-attach-point="outlet_main" data-dojo-type="research/outlets/OutletEditMainDetails" style="width:100%;height:100%;overflow:auto;"></div>
+		<div data-dojo-attach-point="outlet_profile_ctrl" data-dojo-type="research/outlets/Profile" data-dojo-props='title:"Profile",style:"width:100%;height:100%","class":"scrollpanel"'></div>
+		<div data-dojo-attach-point="outlet_coding_ctrl" data-dojo-type="research/outlets/Coding" data-dojo-props='title:"Related to/Coding",style:"width:100%;height:100%","class":"scrollpanel"'></div>
+		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="contact_grid" data-dojo-props='title:"Contacts",style:"width:100%;height:100%",gutters:"false"' >
+			<div data-dojo-attach-point="outlet_contact_no_edit_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:100%;height:100%;border:1px solid black",region:"center"'></div>
+			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-attach-point="outlet_contact_view" data-dojo-props='style:"width:100%;height:100%",gutters:"false"' >
+				<div data-dojo-attach-point="outlet_contact_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:100%;height:30%;border:1px solid black",splitter:true,region:"center"'></div>
+				<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="contact_edit_container" data-dojo-props='region:"bottom",style:"width:100%;height:70%",splitter:true' >
+					<div data-dojo-props='title:"blank_cont_view"' data-dojo-attach-point="blank_cont_view" data-dojo-type="dijit/layout/ContentPane" ></div>
+					<div data-dojo-props='title:"contact_edit","class":"scrollpanel"' data-dojo-attach-point="contact_edit" data-dojo-type="research/employees/EmployeeEdit"></div>
+				</div>
+			</div>
+		</div>
+		<div data-dojo-attach-point="outlet_advance_ctrl" data-dojo-type="research/outlets/AdvanceView" data-dojo-props='title:"Features",style:"width:100%;height:100%"'></div>
+		<div data-dojo-attach-point="outlet_research_ctrl" data-dojo-type="research/ResearchDetails" data-dojo-props='title:"Research",style:"width:100%;height:100%","class":"scrollpanel"'></div>
+		<div data-dojo-attach-point="outlet_audit_ctrl" data-dojo-type="research/audit/AuditViewer" data-dojo-props='title:"Audit",objectisbase:true,objecttypeid:1,style:"width:100%;height:100%"'></div>
+		<div data-dojo-attach-point="outlet_desk_ctrl" data-dojo-type="research/outlets/OutletDesks" data-dojo-props='title:"Desks",style:"width:100%;height:100%"'></div>
+	</div>
+	<div data-dojo-attach-point="employee_delete_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Delete Outlet Contact"'>
+		<div data-dojo-attach-point="employee_delete_ctrl" data-dojo-type="research/employees/EmployeeDelete"></div>
+	</div>
+	<div data-dojo-attach-point="employee_change_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Add Contact"'>
+		<div data-dojo-attach-point="employee_change_ctrl" data-dojo-type="research/employees/EmployeeEdit" data-dojo-props='style:"width:600px;height:500px"' ></div>
+	</div>
+	<div data-dojo-attach-point="employee_set_primary_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title :"Set Primary Contact"'>
+		<div data-dojo-attach-point="employee_set_primary_ctrl" data-dojo-type="research/outlets/OutletSetPrimary"></div>
+	</div>
+	<div data-dojo-attach-point="employee_move_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title :"Move Contact to another Outlet"'>
+		<div data-dojo-attach-point="employee_move_ctrl" data-dojo-type="research/outlets/OutletMoveContact"></div>
+	</div>
+	<div data-dojo-attach-point="employee_copy_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title :"Copy Contact to Outlet"'>
+		<div data-dojo-attach-point="employee_copy_ctrl" data-dojo-type="research/outlets/OutletCopyContact"></div>
+	</div>
+	<div data-dojo-attach-point="employee_merge_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title :"Merge selected Contact to"'>
+		<div data-dojo-attach-point="employee_merge_ctrl" data-dojo-type="research/employees/EmployeeMerge"></div>
+	</div>
+</div>

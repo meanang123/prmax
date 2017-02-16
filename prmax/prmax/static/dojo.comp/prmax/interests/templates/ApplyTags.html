@@ -1,0 +1,20 @@
+<div>
+<div dojoType="dijit.TitlePane" title="Apply Tags" open="true" style="width:100%" >
+	<form class="prmaxdefault" dojoAttachPoint="form" onSubmit="return false;" dojoType="dijit.form.Form">
+		<table width="100%" class="prmaxtable">
+		<tr><td valign="top" width="20%" class="prmaxrowtag">Apply To</td><td>
+			<input class="prmaxlabeltag" dojoAttachPoint="outletradio" type="radio" name="applyto" dojotype="dijit.form.RadioButton" value="0" checked ="checked"/><label dojoAttachPoint="outletradiolabel">Outlet</label><br/>
+			<input class="prmaxlabeltag" dojoAttachPoint="employeeradio" type="radio" name="applyto" dojotype="dijit.form.RadioButton" value="1" /> <label dojoAttachPoint="employeeradiolabel">Contact</label>
+		</td></tr>
+	<tr><td valign="top" class="prmaxrowtag">List Selection</td><td><div name="selected" dojoAttachPoint="selectedNode" dojoType="prmax.common.SelectOptions"  ></td></tr>
+	<tr><td colspan="2"><div  dojoType="prcommon.interests.Interests" restrict="0" displaytitle="Tags:" startopen="true" dojoAttachPoint="interests" size="6" name="interests" selectonly="true" nofilter="true" keytypeid="1" interesttypeid="2" ></div></td></tr>
+	<tr>
+		<td align="left"><button class="prmaxbutton" dojoAttachEvent="onClick:_Close" dojoType="dijit.form.Button"  label="Close"></button></td>
+		<td align="right"><button class="prmaxbutton" iconClass="dijitPrmaxIcon dijitPrmaxAdd" dojoAttachEvent="onClick:_ApplyTagsButton" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Adding Tags..." label="Apply Tags"></button></td>
+		</tr>
+	</table></form>
+</div>
+<div dojoAttachPoint="addpane" dojoType="dijit.TitlePane" title="Add Tag" open="false" style="width:100%" >
+	<div dojoType="prmax.interests.AddTags" dojoAttachPoint="addtag" style="width:100%" ></div>
+</div>
+</div>

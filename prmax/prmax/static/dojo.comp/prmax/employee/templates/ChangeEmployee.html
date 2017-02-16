@@ -1,0 +1,10 @@
+<div>
+<form dojoAttachPoint="formNode" dojoType="dijit.form.Form">
+ <table style="width:98%;border-collapse:collapse;" cellspacing="0" cellpadding="0" border="1">
+ <tr><td width="30%">Currently Selected Contact</td><td>${current}</td></tr>
+ <tr><td width="30%" colspan=2">&nbsp;</td></tr>
+ <tr><td colspan="2">
+ <select style="width:100%" size=25 multiple='true' name="select" dojoAttachPoint="select"></select></td></tr>
+<tr><td colspan="2" align="right"><button disabled="disabled" dojoAttachPoint="saveNode" type="submit" dojoType="dojox.form.BusyButton" type="submit" busyLabel="Please Wait Saving..." label="Save"></button></td></tr>
+</table></form>
+</div>

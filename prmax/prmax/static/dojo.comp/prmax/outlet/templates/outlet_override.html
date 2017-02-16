@@ -1,0 +1,31 @@
+<div>
+<form class="prmaxdefault" dojoType="dijit.form.Form" dojoAttachPoint="overrideNode" onsubmit="return false">
+<table style="width:99%" class="prmaxtable" cellspacing="0" cellpadding="0">
+<tr><td class="prmaxrowtag">Address1:</td><td><input style="width:20em" dojoAttachPoint="address1" name="address1" type="text" maxlength="80" trim="true" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag">Address2:</td>	<td><input style="width:20em" dojoAttachPoint="address2" name="address2" type="text" maxlength="80" trim="true" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag">Town</td>	<td><input style="width:20em" dojoAttachPoint="townname" name="townname" type="text" maxlength="80" trim="true" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag">County</td><td><input style="width:20em" dojoAttachPoint="county" name="county" type="text" trim="true" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag">Postcode:</td>	<td><input style="width:10em" dojoAttachPoint="postcode" name="postcode" type="text " maxlength="10" trim="true" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag">Email:</td><td ><input style="width:20em" name="email" dojoAttachPoint="email" type="text" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="20" maxlength="70"></tr>
+<tr><td class="prmaxrowtag">Tel:</td><td><input style="width:20em" dojoAttachPoint="tel" name="tel" type="text" maxlength="40" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+<tr><td class="prmaxrowtag">Fax:</td><td><input style="width:20em" dojoAttachPoint="fax" name="fax" type="text" maxlength="40" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+<tr dojoAttachPoint="primarycontactrow"><td class="prmaxrowtag" 	valign="top" >Primary Contact</td><td>
+<table style="width:100%" class="prmaxtable" cellspacing="0" cellpadding="0">
+<tr><td><input dojoAttachPoint="use_primary" name="use_primary" type="checkbox" dojoType="dijit.form.CheckBox" value="1"  dojoAttachEvent="onClick:_ChangePrimaryMode" /><label dojoAttachPoint="use_primary_label">Use Standard Primary Contact</label></td></tr>
+<select style="width:100%" name="primaryemployeeid" class="prmaxinput"
+				 autoComplete="true"
+				 searchAttr="displayname"
+				 labelAttr="displayname"
+				 dojoType="dijit.form.FilteringSelect"
+				 labelType="html"
+				 maxlength="80"
+				 dojoAttachPoint="primaryemployeeid" ></select></td></tr>
+</table></td><tr>
+<tr><td colspan="2"><div dojoAttachPoint="interests" class="prmaxhidden" name="interests" startopen="true" selectonly="true" nofilter="true" size="6" interesttypeid="2" restrict="0"  dojoType="prcommon.interests.Interests" keytypeid="6" displaytitle="Tags"></div></td></tr>
+<tr><td class="prmaxrowtag" valign="top">Profile</td>
+<td><div class="dialogprofileframe" ><textarea dojoAttachPoint="profile" name="profile" class="dijitTextarea" dojoType="dijit.form.Textarea" style="height:99%;width:99%" ></textarea><div></td></tr>
+<tr>
+<td  align="left"><button class="prmaxbutton" type="button" dojoAttachPoint="cancelNode" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close"  label="Close"></button></td>
+<td  align="right"><button class="prmaxbutton" type="button" dojoAttachPoint="saveNode" dojoAttachEvent="onClick:_SaveCtrl" disabled="disabled" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Save"></button></td></tr></table>
+</form>
+</div>

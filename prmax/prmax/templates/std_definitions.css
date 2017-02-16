@@ -1,0 +1,3 @@
+@import "/static/${prmax['dojopath']}/dijit/themes/soria/soria.css?version=${prmax['dojoversion']}";
+@import "/prcommon/css/prcommon.css?version=${prmax['dojoversion']}";
+@import "/static/${prmax['prodpath']}/css/prmax.css?version=${prmax['dojoversion']}";

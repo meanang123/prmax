@@ -1,0 +1,11 @@
+<div>
+	<br/>
+	<form dojoAttachPoint="form"  onsubmit="return false" dojoType="dijit.form.Form">
+		<table width="400px" class="prmaxtable" cellpadding="0" cellspacing="0" >
+			<tr><td width="40%" class="prmaxrowtag">Support User</td><td><select name="iuserid" dojoAttachPoint="users" autoComplete="true" searchAttr="name" dojoType="dijit.form.FilteringSelect" labelType="html" required="true"></select></td></tr>
+			<tr><td class="prmaxrowtag">Customers</td><td><select name="icustomerid" dojoAttachPoint="customers" autoComplete="true" searchAttr="customername" dojoType="dijit.form.FilteringSelect" labelType="html" required="true"></select></td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td colspan="2" align="center"><button  style="padding:0px;margin:0px" type="button" dojoAttachEvent="onClick:_SetCustomer" dojoType="dijit.form.Button" label="Set Customer"></button></td></tr>
+		</table>
+	</form>
+</div>

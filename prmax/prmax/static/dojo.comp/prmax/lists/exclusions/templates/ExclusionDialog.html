@@ -1,0 +1,28 @@
+<div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Remove Excluded Outlets/Contacts from the list"' data-dojo-attach-point="dlg_ctrl" >
+		<form class="prmaxdefault" data-dojo-attach-point="form" onSubmit="return false" data-dojo-type="dijit.form.Form">
+			<input type="hidden" name="searchtypeid" value="1" data-dojo-attach-point="searchtypeid">
+
+			<table width="100%" class="prmaxtable" >
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr><td class="prmaxrowtag" colspan="2" valign="top">Restrict To</td>
+				<td><table width="100%" class="prmaxtable">
+				<tr><td class="prmaxrowtag"><label data-dojo-attach-point="l_all">All</label></td><td><input data-dojo-props="name:'restict',value:'0',type:'radio',checked:true" data-dojo-type="dijit.form.RadioButton" data-dojo-attach-point="c_all"></td></tr>
+				<tr><td class="prmaxrowtag"><label data-dojo-attach-point="l_out">Outlets</label></td><td><input data-dojo-props="name:'restict',value:'1',type:'radio'" data-dojo-type="dijit.form.RadioButton" data-dojo-attach-point="c_out"></td></tr>
+				<tr><td class="prmaxrowtag"><label data-dojo-attach-point="l_emp">Employees</label></td><td><input data-dojo-props="name:'restict',value:'2',type:'radio'" data-dojo-type="dijit.form.RadioButton" data-dojo-attach-point="c_emp"></td></tr>
+			</table></td></tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+						<td align="left"><button data-dojo-attach-event = "onClick:_Close"
+												data-dojo-type="dijit.form.Button"
+												data-dojo-props="type:'button',label:'Close'"></button></td><td>
+						<td align="right">
+							<button class="prmaxbutton"
+								data-dojo-props='iconClass:"dijitPrmaxIcon dijitPrmaxDelete",type:"button",busyLabel:"Please Wait Removing ...",label:"Removing","class":"prmaxbutton"'
+								data-dojo-attach-event = "onClick:_SubmitForm"
+								data-dojo-attach-point="saveNode"
+								data-dojo-type="dojox.form.BusyButton" ></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>

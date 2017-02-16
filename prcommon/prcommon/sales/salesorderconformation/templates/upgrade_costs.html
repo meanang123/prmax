@@ -1,0 +1,48 @@
+<%!
+from prcommon.Constants import isPaymentMethodMonthly
+%>
+<%
+vat = 0
+cost = 0
+%>
+% if c.paymentmethodid in isPaymentMethodMonthly:
+<p style="${style['sheader']}">Revised Monthly Service Cost</p>
+<%
+if c.paymentmethodid in isPaymentMethodMonthly:
+	cost = c.order_confirmation_adv_cost+c.order_confirmation_media_cost+c.order_confirmation_updatum_cost
+	vat = c.order_confirmation_media_vat+c.order_confirmation_adv_vat+c.order_confirmation_updatum_vat
+%>
+% else:
+<p style="${style['sheader']}">Additional Service Cost</p>
+% endif
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+## show if upgrade or needed for breakdown of dd
+% if c.media_upgrade or c.paymentmethodid in isPaymentMethodMonthly:
+<%
+if c.paymentmethodid not in isPaymentMethodMonthly:
+	cost += c.order_confirmation_media_cost
+	vat += c.order_confirmation_media_vat
+%>
+	<tr><td style="width:200px" ><p style="${style['p']}">Media Database</p></td><td width="100px" align="right"><p style="${style['p']}">£${'%.2f' % (c.order_confirmation_media_cost/100.00,)}</p></td><td>&nbsp;</td></tr>
+% endif
+% if c.advancefeatures:
+<%
+if c.paymentmethodid not in isPaymentMethodMonthly:
+	cost += c.order_confirmation_adv_cost
+	vat += c.order_confirmation_adv_vat
+%>
+<tr><td style="width:200px" ><p style="${style['p']}">Advance</p></td><td align="right" width="100px"><p style="${style['p']}">£${'%.2f' % (c.order_confirmation_adv_cost/100.00,)}</p></td><td>&nbsp;</td></tr>
+% endif
+% if c.updatum:
+<%
+if c.paymentmethodid not in isPaymentMethodMonthly:
+	cost += c.order_confirmation_updatum_cost
+	vat += c.order_confirmation_updatum_vat
+%>
+<tr><td style="width:200px" ><p style="${style['p']}">Monitoring</p></td><td align="right" width="100px"><p style="${style['p']}">£${'%.2f' % (c.order_confirmation_updatum_cost/100.00,)}</p></td><td>&nbsp;</td></tr>
+% endif
+	<tr><td style="width:200px"><p style="${style['p']}">VAT @ 20%</p></td><td width="100px" align="right"><p style="${style['p']}">£${'%.2f' % (vat/100.00,)}</p></td><td>&nbsp;</td></tr>
+	<tr><td style="width:200px"><p style="${style['p']}">TOTAL</p></td><td width="100px" align="right"><p style="${style['plabel']}">£${'%.2f' % ((cost+vat)/100.00,)}</p></td><td>&nbsp;</td></tr>
+</table>
+<br/>

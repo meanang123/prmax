@@ -1,0 +1,54 @@
+/* main classes for dojox.widget.Toaster */
+
+.soria .dijitToasterContent{
+	padding:1em;
+	padding-top:0.25em;
+	background:blue;
+	color:#fff;
+	font-size:1.5em;
+}
+
+.soria .dijitToasterMessage{
+	color:#fff;
+}
+.soria .dijitToasterWarning{ }
+.soria .dijitToasterError,
+.soria .dijitToasterFatal{
+	font-weight:bold;
+	color:#fff;
+}
+
+.soria .dijitToasterMessage .dijitToasterContent{
+	background:blue;
+}
+
+
+.soria .dijitToasterWarning .dijitToasterContent{
+	padding:1em;
+	padding-top:0.25em;
+	background:#d4d943;
+}
+
+.soria .dijitToasterError .dijitToasterContent{
+	padding:1em;
+	padding-top:0.25em;
+	background:#c46600;
+}
+
+
+/* imported from dijit.css */
+
+.dijitToasterClip {
+	position: absolute;
+	overflow: hidden;
+}
+
+.dijitToasterContainer {
+	display: block;
+	position: absolute;
+	width: 17.5em;
+	z-index: 5000;
+	margin: 0px;
+	font:1.25em Tahoma, Helvetica, Verdana, Arial;
+	border: 1px solid #c46600;
+}

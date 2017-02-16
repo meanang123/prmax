@@ -1,0 +1,17 @@
+<div data-dojo-attach-point="tones_node" class="dijitInline dijitLeft dijitDownArrowButton dijitSelectFixedWidth dijitValidationTextBoxFixedWidth dijit dijitReset dijitSelect dijitValidationTextBox">
+	<p style="border:1px solid white;color:black;width:180px" data-dojo-attach-point="selected_tones">&nbsp;</p>
+	<div class="dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer" data-dojo-attach-point="_buttonNode" role="presentation" data-dojo-attach-event="onClick:_toggle"><input class="dijitReset dijitInputField dijitArrowButtonInner" value="▼ " type="text" tabindex="-1" readonly="readonly" role="button presentation" aria-hidden="true"></div>
+	<div data-dojo-attach-point="tone_view" style="height:6em;width:12em" data-dojo-type="dijit/TooltipDialog" data-dojo-attach-event="onBlur:_close_tooltip">
+		<label><input data-dojo-attach-point="very_pos" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox",checked:true,value:"1",tvalue:1,sname:"VPos"' data-dojo-attach-event="onClick:_change_tones" />Very Positive</label><br/>
+		<label><input data-dojo-attach-point="pos" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox",checked:true,value:"2",tvalue:2,sname:"Pos"' data-dojo-attach-event="onClick:_change_tones"/>Positive</label><br/>
+		<label><input data-dojo-attach-point="neutral" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox",checked:true,value:"3",tvalue:3,sname:"Neu"' data-dojo-attach-event="onClick:_change_tones"/>Neutral</label><br/>
+		<label><input data-dojo-attach-point="neg" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox",checked:true,value:"4",tvalue:4,sname:"Neg"' data-dojo-attach-event="onClick:_change_tones"/>Negative</label><br/>
+		<label><input data-dojo-attach-point="very_neg" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox",checked:true,value:"5",tvalue:5,sname:"VNeg"' data-dojo-attach-event="onClick:_change_tones"/>Very Negative</label><br/>
+		<label><input data-dojo-attach-point="bipolar" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox",checked:true,value:"6",tvalue:6,sname:"Bip"' data-dojo-attach-event="onClick:_change_tones"/>Bipolar</label><br/>
+		<hr/>
+		<div style="width:100%;text-align:center">
+			<button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Select All"' data-dojo-attach-event="onClick:_select_all"></button>
+		</div>
+	</div>
+</div>
+

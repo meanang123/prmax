@@ -1,0 +1,1 @@
+-- GRANT INSERT, SELECT,UPDATE  ON TABLE collateralfiles TO prmaxmsword;

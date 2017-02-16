@@ -1,0 +1,29 @@
+<div>
+<div dojoType="dijit.TitlePane" title="Contact Details" open="true" style="width:100%" >
+<form dojoAttachPoint="customerForm" onsubmit="return false" dojoType="dijit.form.Form">
+<table class="prmaxtable" width="100%">
+<tr><td class="prmaxrowtag" style="width:30%">Business Name</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="customername" name="customername" type="text" trim="true" required="true" invalidMessage="Please Enter the name of the business" dojoType="dijit.form.ValidationTextBox" ></td></tr>
+<tr><td class="prmaxrowtag" align="right" >Title</td><td><input class="prmaxinput" name="contact_title" dojoAttachPoint="contact_title" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 2em;" ></input></td></tr>
+<tr><td class="prmaxrowtag" align="right" >First Name</td><td><input class="prmaxrequired" name="contact_firstname" dojoAttachPoint="contact_firstname" type="text" trim="true" required="true" dojoType="dijit.form.TextBox" style="width: 8em;" ></input><td></tr>
+<tr><td class="prmaxrowtag" align="right" >Surname</td><td><input class="prmaxrequired" name="contact_surname" dojoAttachPoint="contact_surname" type="text" trim="true" required="true" dojoType="dijit.form.TextBox" style="width: 12em;"></input></td></tr>
+<tr><td class="prmaxrowtag" >Address:</td><td><input class="prmaxinput" dojoAttachPoint="address1" name="address1" type="text" size="40" required="true" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag" >Address 2:</td><td><input class="prmaxinput" dojoAttachPoint="address2" name="address2" type="text" size="40" maxlength="80" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag" >Town</td><td><input class="prmaxinput" dojoAttachPoint="townname" name="townname" type="text" size="30" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag" >County</td><td><input class="prmaxinput" dojoAttachPoint="county" name="county" type="text" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag" >Postcode:</td><td><input class="prmaxinput" dojoAttachPoint="postcode" name="postcode" type="text" style="width:10em" maxlength="10" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag" >Email:</td><td><input class="prmaxinput" dojoAttachPoint="email" name="email" type="text" size="40" maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="40" maxlength="70"/></td></tr>
+<tr><td class="prmaxrowtag" >Tel:</td><td><input class="prmaxinput" dojoAttachPoint="tel" name="tel" type="text" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag" colspan="2" align="right"><button iconClass="dijitPrmaxIcon dijitPrmaxUpdate" dojoAttachPoint="saveNode" disabled="disabled" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." dojoAttachEvent="onClick:_CustomerSave" label="Save" class="prmaxbutton"></button></td></tr>
+</table>
+</form>
+</div>
+<div dojoType="dijit.TitlePane" title="Licence" open="true" style="width:100%" >
+<table class="prmaxtable" width="100%">
+<tr><td class="prmaxrowtag" style="width:30%">Licence Expires</td><td><input  class="prmaxinputdisabled" dojoAttachPoint="licence_expire" type="text" disabled="disabled" style="width:12em" dojoType="dijit.form.TextBox"/></td></tr>
+<tr><td class="prmaxrowtag" >Max Logins</td><td><input class="prmaxinputdisabled" dojoAttachPoint="logins" type="text" disabled="disabled" style="width:8em" dojoType="dijit.form.TextBox"/></td></tr>
+</table></div>
+<div style="width:100%;padding-top:10px;padding-right:4px">
+<button   style="float:right" type="button" class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close" ><div class="prmaxbuttonlarge">Close</div></button>
+<div>
+
+</div>

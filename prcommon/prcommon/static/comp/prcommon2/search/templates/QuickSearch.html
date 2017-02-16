@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<body>
+<div class="searchform">
+	<div class="paddingcell" >
+		<form name="search_quick" cellspacing="0" cellpadding="0" id="std_search_quick_form" formid="std_search_quick_form" dojoType="ttl.Form" onsubmit="return false">
+			<input type="hidden" value="quick"  name="search_type" dojoType="dijit.form.TextBox" />
+			<div class="paddingrow">&nbsp;</div>
+			<div id="std_search_quick_outletname" usepartial="true" search="std_search_quick" displayname="Outlet Name" keytypeid="${prmax.search_indexes.outlet_name}" name="quick_searchname" dojoType="prmax.search.standard"></div>
+			<hr />
+			<div search="std_search_quick" usepartial="true"  displayname="Surname" keytypeid="${prmax.search_indexes.employee_contactfull_employeeid}" name="quick_contact" dojoType="prmax.search.standard"></div>
+			<hr/>
+			<div search="std_search_quick" style="width:99%" keytypeid="${prmax.search_indexes.outlet_outlettypeid}" name="quick_outlettypes" dojoType="prmax.search.PrmaxOutletTypes"></div>
+			<hr/>
+			<div   search="std_search_quick" id="std_search_quick_interests" style="width:99%" keytypeid="${prmax.search_indexes.quick_search_interests}" restrict="0"  name="quick_interests" dojoType="prcommon.interests.Interests"></div>
+			<hr/>
+			<div  search="std_search_quick" style="width:99%" keytypeid="${prmax.search_indexes.outlet_coverage}" name="quick_coverage"  id="quick_coverage" dojoType="prmax.geographical.Geographical" title="Geo. Coverage"></div>
+			<hr/>
+			<div search="std_search_quick" displayname="Tel" keytypeid="${prmax.search_indexes.quick_search_tel}" name="quick_tel" min="4" dojoType="prmax.search.standard"></div>
+			<hr/>
+			<div search="std_search_quick" displayname="Email" keytypeid="${prmax.search_indexes.quick_search_email}" name="quick_email" min="4" dojoType="prmax.search.standard"></div>
+			<hr/>
+			<div search="std_search_quick" style="width:99%" keytypeid="${prmax.search_indexes.outlet_countryid}" name="quick_countryid" dojoType="prcommon.search.Countries"></div>
+			<hr/>
+
+			<input type="submit" style="display:none"/>
+		</form>
+	</div>
+</div>
+</body></html>

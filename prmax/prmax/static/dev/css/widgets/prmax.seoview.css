@@ -1,0 +1,14 @@
+.seoview
+{
+}
+
+.seoview .dijitToolbar
+{
+	background:#81a6c3 url("/static/images/theme/resultsBar.png") repeat-x top left !important;
+	background-color:#81a6c3 !important;
+}
+
+.seoview .background_color
+{
+	background-color:#81a6c3 !important;
+}

@@ -1,0 +1,13 @@
+<div >
+	<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:450px;height:350px","class":"common_prmax_layout"'>
+		<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{},rowsPerPage:30' ></div>
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close",style:"float:left"'></button>
+		<button data-dojo-attach-event="onClick:_add_briefing_status" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Add New Briefing Status","class":"btnright",style:"float:right"'></button>
+	</div>
+	<div data-dojo-attach-point="new_briefingnote_status_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Briefing Note Status"'>
+		<div data-dojo-attach-point="new_briefingnote_status_ctrl" data-dojo-type="prcommon.crm.issues.briefingnoteadd"></div>
+	</div>
+	<div data-dojo-attach-point="upd_briefingnote_status_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Update Briefing Note Status"'>
+		<div data-dojo-attach-point="upd_briefingnote_status_ctrl" data-dojo-type="prcommon.crm.issues.briefingnoteupdate"></div>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+<div>
+	<div dojoAttachPoint="frame" dojoType="dijit.layout.BorderContainer" gutters="false" style="width:100%;height:100%">
+		<div dojoType="dijit.layout.ContentPane" region="right" style="width:10em;height:100%">
+			<button class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_AddFile" type="button" >Add File</button>
+			<br/>
+			<button class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_AddCollateral" type="button" >Add From Collateral</button>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center">
+			<div dojoAttachPoint="attgrid" dojoType="dojox.grid.DataGrid" query="{ }" rowsPerPage="150" style="width:100%;height:100%"></div>
+		</div>
+	</div>
+	<div dojoType="dijit.Dialog" title="Add Attachment From File" dojoAttachPoint="attfiledlg">
+		<form dojoAttachPoint="attfileform" method="post" name="form" enctype="multipart/form-data" onSubmit="return false;">
+			<input type="hidden"  dojoAttachPoint="emailtemplateid1" name="emailtemplateid" dojoType="dijit.form.TextBox" ></input>
+			<table width="300px" cellpadding="0" cellpadding="0" >
+				<tr><td align="right" class="prmaxrowlabel">File</td><td><input class="prmaxinput" type="file" dojoAttachPoint="attfilename" name="attfilename" size="50"></input></td></tr>
+				<tr><td align="left"><button dojoAttachEvent="onClick:_CloseAttFileDlg" dojoAttachPoint="closeNode" dojoType="dijit.form.Button" type="button" label="Close"></button></td>
+						<td align="right"><button dojoAttachPoint="attfilebtn" dojoType="dojox.form.BusyButton" type="button" busyLabel="Please Wait Uploading file" dojoAttachEvent="onClick:_UploadFile">Add File</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div dojoType="dijit.Dialog" title="Add Attachment From Collateral" dojoAttachPoint="attcolldlg">
+		<form class="prmaxdefault" dojoAttachPoint="attcollform" dojoType="dijit.form.Form" onSubmit="return false">
+			<input type="hidden"  dojoAttachPoint="emailtemplateid2" name="emailtemplateid" dojoType="dijit.form.TextBox" ></input>
+			<table width="300px" cellpadding="0" cellpadding="0" >
+				<tr><td align="right" class="prmaxrowlabel">Collateral Code</td><td><input name="collateralid" dojoType='dijit.form.FilteringSelect' required="true" labelType="html" labelAttr="collateralcode" searchAttr="collateralcode" dojoAttachPoint='collateralcodes' /></td></tr>
+				<tr>
+					<td align="left"><button dojoAttachEvent="onClick:_CloseAttCollDlg" dojoAttachPoint="closeNode" dojoType="dijit.form.Button" type="button" label="Close"></button></td>
+					<td align="right" ><button dojoAttachPoint="attcollbtn" dojoType="dojox.form.BusyButton" type="button" busyLabel="Please Wait Adding Collateral" dojoAttachEvent="onClick:_UploadCollateral">New Collateral</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,20 @@
+<div class="stdbanner">
+	<div style="height:100%;width:9%;float:left;padding-left:2px;padding-top:2px;background-color:#dae4ed;"><img height="40px" width="100%"  src="/static/images/banner_prmax_logo.gif"></img></div>
+	<div  class="dijitToolbarTop" dojoType="dijit.Toolbar" style="height:100%;width:62%;float:left;">
+		<div dojoType="dijit.form.Button" iconClass="PrmaxBannerIcon PrmaxBannerSearch" dojoAttachEvent="onClick:_ShowSearchStd" showLabel="${showlabel}">Search</div>
+		<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxBannerIcon PrmaxBannerView" showLabel="${showlabel}">
+			<div dojoType="dijit.Menu">
+			    <div dojoType="dijit.MenuItem" label="Outlets" dojoAttachEvent="onClick:_ShowResultList" ></div>
+			    <div dojoAttachPoint="advance_view" class="prmaxhidden" dojoType="dijit.MenuItem" label="Features" dojoAttachEvent="onClick:_ShowAdvanceResult" ></div>
+			</div>
+		</div>
+		<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:ShowListsPage" iconClass="PrmaxBannerIcon PrmaxBannerLists"  showLabel="${showlabel}">Lists</div>
+		<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Help" iconClass="PrmaxBannerIcon PrmaxBannerHelp"  showLabel="${showlabel}">Help</div>
+	</div>
+	<div style="height:100%;width:20%;float:right;background-color:#dae4ed;">
+		<table style="background-color:#dae4ed;" width="100%" height="100%" cellspacing="0" cellpadding="0">
+			<tr align="right" valign="top"><td class="message"><span class="powered">Powered by</span>&nbsp;<span class="prmax">PRmax</span></td></tr>
+			<tr align="right" valign="bottom"><td class="message">${message}</td></tr>
+		</table>
+	</div>
+</div>

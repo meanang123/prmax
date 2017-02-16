@@ -1,0 +1,10 @@
+<div style="width:300px">
+	<span class="common_prmax_layout">
+		<form class="prmaxdefault" data-dojo-attach-point="formnode" data-dojo-type="dijit.form.Form" onSubmit="return false">
+			<input data-dojo-props='name:"issueid",type:"hidden",value:"-1"' data-dojo-attach-point="issueid" data-dojo-type="dijit.form.TextBox"/><br/>
+			<label>Issue Name</label><p data-dojo-attach-point="issuename"></p><br/><br/>
+			<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft"'></button>
+			<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Archiving...",label:"Change Issue Status","class":"btnright "'></button><br/><br/>
+		</form>
+	</span>
+</div>

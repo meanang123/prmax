@@ -1,0 +1,210 @@
+
+/*
+	added to override selected
+*/
+
+.soria .dijitTabContainerTopStrip {
+	background-color:#81a6c3;
+}
+
+.soria .dijitTabChecked .dijitTabContent .tabLabel {
+	color:white;
+	font-size:1.5em;
+}
+
+.soria .dijitTitlePaneContentInner {
+	padding:2px;
+}
+
+.soria .dijitDialog {
+	background: white;
+	border: 1px solid #cbcbcb;
+	-webkit-box-shadow: 0px 5px 10px #adadad;
+	padding: 0px;
+}
+
+.soria .dijitDialog .dijitDialogPaneContent {
+	background: white;
+	border:none;
+	border-top: 1px solid #b1badf; /* w/out this, an <h1> on the top line causes a gap between the .content and .label */
+	padding:2px;
+}
+
+
+/* nested layouts */
+.soria .dijitTabContainerTop-dijitContentPane,
+.soria .dijitTabContainerLeft-dijitContentPane,
+.soria .dijitTabContainerBottom-dijitContentPane,
+.soria .dijitTabContainerRight-dijitContentPane,
+.soria .dijitAccordionContainer-dijitContentPane {
+    background-color: #fff;
+    padding: 0px;
+}
+
+.soria .dijitSplitContainer-dijitContentPane,
+.soria .dijitBorderContainer-dijitContentPane {
+    background-color: #fff;		/* override background-color setting on parent .dijitBorderContainer */
+    padding: 0px;
+}
+
+/* overrides of current settings */
+
+.soria .dijitBorderContainer {
+	background-color: #fcfcfc;
+	padding: 0px;
+	margin:0px;
+}
+
+.soria .dijitSplitContainer-dijitContentPane,
+.soria .dijitBorderContainer-dijitContentPane {
+    border: 1px #ccc solid;
+    background-color: #fff;
+    padding: 0px;
+	margin:0px;
+}
+
+
+/* temp for tabs */
+
+.soria .dijitTabInnerDiv {
+	padding:0px 3px 0px 0px;
+	margin: 0 0 0 4px;
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat;
+	background-position: right -400px;
+}
+
+.soria .dijitTab {
+	line-height:normal;
+	margin:0 2px 0 0;	/* space between one tab and the next in top/bottom mode */
+	padding:0px;
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat 0 -300px;
+	color: #243C5F;
+	border-bottom: 1px #B1BADF solid;
+}
+
+.soria .dijitTabInnerDiv .dijitTabContent {
+	padding:5px 3px 4px 4px;
+	background: url("/static/images/theme/tabContainerSprite.gif") repeat-x 0 -350px;
+	position: relative;
+}
+
+/* hovered tab */
+.soria .dijitTabHover {
+	color: #243C5F;
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat 0px -150px;
+}
+
+.soria .dijitTabHover .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat right -250px;
+}
+
+.soria .dijitTabHover .dijitTabInnerDiv .dijitTabContent {
+	background: url("/static/images/theme/tabContainerSprite.gif") repeat-x 0 -200px;
+}
+
+/* checked tab*/
+.soria .dijitTabChecked,
+.soria .dijitTabCloseButtonChecked
+{
+	/* the selected tab (with or without hover) */
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat 0px -0px;
+}
+
+.soria .dijitTabChecked .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat right -100px;
+}
+
+.soria .dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
+	background: url("/static/images/theme/tabContainerSprite.gif") repeat-x 0 -50px;
+	color: #243C5F !important;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTab {
+	border-bottom: none;
+	border-top: 1px solid #B1BADF;
+	background: url("/static/images/theme/tabBottomEnabledSpriteLR.gif") no-repeat bottom left;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabInnerDiv .dijitTabContent {
+	padding-top: 4px;
+	padding-bottom: 5px;
+	background: url("/static/images/theme/tabBottomEnabledC.gif") repeat-x bottom left;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabBottomEnabledSpriteLR.gif") no-repeat bottom right;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabHover {
+	color: #243C5F;
+	background: url("/static/images/theme/tabBottomHoverSpriteLR.gif") no-repeat bottom left;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabHover .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabBottomHoverSpriteLR.gif") no-repeat bottom right;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabHover .dijitTabInnerDiv .dijitTabContent {
+	background: url("/static/images/theme/tabBottomHoverC.gif") repeat-x bottom left;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabChecked,
+.soria .dijitTabContainerBottom-tabs .dijitTabCloseButtonChecked
+{
+	/* the selected tab (with or without hover) */
+	background: url("/static/images/theme/tabBottomActiveSpriteLR.gif") no-repeat bottom left;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabBottomActiveSpriteLR.gif") no-repeat bottom right;
+}
+
+.soria .dijitTabContainerBottom-tabs .dijitTabChecked .dijitTabInnerDiv .dijitTabContent {
+	background: url("/static/images/theme/tabBottomActiveC.gif") repeat-x bottom left;
+}
+
+.soria .dijitTabContainerRight-tabs .dijitTab {
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat left -350px;
+}
+.soria .dijitTabContainerRight-tabs .dijitTabHover .dijitTab {
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat left -200px;
+}
+
+.soria .dijitTabContainerLeft-tabs .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat right -350px;
+}
+.soria .dijitTabContainerLeft-tabs .dijitTabHover .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabContainerSprite.gif") no-repeat right -200px;
+}
+.soria .dijitTabContainerLeft-tabs .dijitTabChecked .dijitTabInnerDiv,
+.soria .dijitTabContainerLeft-tabs .dijitTabCheckedHover .dijitTabInnerDiv {
+	background: url("/static/images/theme/tabLeftChecked.gif") no-repeat right top;
+}
+
+
+.claro .dijitContentPane {
+	padding: 1px;
+}
+
+/* nested layouts */
+.claro .dijitTabContainerTop-dijitContentPane,
+.claro .dijitTabContainerLeft-dijitContentPane,
+.claro .dijitTabContainerBottom-dijitContentPane,
+.claro .dijitTabContainerRight-dijitContentPane,
+.claro .dijitAccordionContainer-dijitContentPane {
+	background-color: #fff;
+	padding: 1px;
+}
+.claro .dijitSplitContainer-dijitContentPane,
+.claro .dijitBorderContainer-dijitContentPane {
+	background-color: #fff;
+	padding: 1px;
+}
+
+.claro .dijitTitlePaneContentInner
+{
+padding-top: 0px;
+padding-right: 0px;
+padding-bottom: 0px;
+padding-left: 0px;
+}

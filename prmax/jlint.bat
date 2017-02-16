@@ -1,0 +1,1 @@
+"c:\Program Files\jsl-0.3.0\jsl.exe" -conf "c:\Program Files\jsl-0.3.0\jsl.default.conf" -process %1

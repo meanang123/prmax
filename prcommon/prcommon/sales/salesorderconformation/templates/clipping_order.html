@@ -1,0 +1,12 @@
+<p style="${style['sheader']}">Clippings Order Details Cost</p>
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+	<tr><td style="width:200px" ><p style="${style['p']}">Description</p></td><td width="100px" align="right"><p style="${style['p']}">${co.description}</p></td></tr>
+	<tr><td style="width:200px" ><p style="${style['p']}">Dates</p></td><td align="right" width="100px"><p style="${style['p']}">${co.startdate.strftime("%d/%m/%y")} to ${co.enddate.strftime("%d/%m/%y")} </p></td></tr>
+	<tr><td style="width:200px" ><p style="${style['p']}">Keywords</p></td><td align="right" width="100px"><p style="${style['p']}">${co.keywords}</p></td></tr>
+	<tr><td style="width:200px" ><p style="${style['p']}">Cost</p></td><td align="right" width="100px"><p style="${style['p']}">${cpsl.clippingpriceserviceleveldescription} - ${str(cp.nbrclips)}</p></td></tr>
+	<tr><td style="width:200px" ><p style="${style['p']}">Price</p></td><td align="right" width="100px"><p style="${style['p']}">£${'%.2f' % (cp.actual_price_net(),)}</p></td></tr>
+	<tr><td style="width:200px"><p style="${style['p']}">VAT @ 20%</p></td><td width="100px" align="right"><p style="${style['p']}">£${'%.2f' % (cp.actual_price_vat(c),)}</p></td></tr>
+	<tr><td style="width:200px"><p style="${style['p']}">TOTAL</p></td><td width="100px" align="right"><p style="${style['plabel']}">£${'%.2f' % (cp.actual_price_gross(c),)}</p></td></tr>
+</table>
+<br/>

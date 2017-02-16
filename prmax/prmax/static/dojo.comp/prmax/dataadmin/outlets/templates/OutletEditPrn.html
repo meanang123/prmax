@@ -1,0 +1,30 @@
+<div dojoAttachPoint="container" >
+	<div dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" gutters="false" >
+		<div dojotype="dijit.layout.ContentPane"   style="width:100%padding-left:5px" region="center"  >
+			<form  dojotype="dijit.form.Form" dojoAttachPoint="form" onsubmit="return false;">
+				<input type="hidden" name="outletid" value="-1" dojoType="dijit.form.TextBox" dojoAttachPoint="outletid">
+				<table width="100%" cellspacing="0" cellpadding="0">
+					<tr><td align="right" class="prmaxrowtag">Media Channel</td><td class="prmaxrowdisplay">
+					<select style="width:90%" class="prmaxrequired" name="prmax_outlettypeid"
+						autoComplete="true"
+						searchAttr="name"
+						dojoType="dijit.form.FilteringSelect"
+						required="true"
+						invalidMessage="Please select outlet type"
+						labelType="html"
+						dojoAttachPoint="prmax_outlettypeid"></select>
+					</td></tr>
+					<tr><td align="right" class="prmaxrowtag" valign="top">Keywords</td><td ><div name="interests" selectonly="true" size="6" displaytitle="" startopen=""  dojoAttachPoint="interests" restrict="0"  dojoType="prcommon.interests.Interests" keytypeid="6" title="Select"></div></td></tr>
+					<tr><td align="right" class="prmaxrowtag" valign="top">Geo. Coverage</td><td ><div name="coverage" selectonly="true" size="6" displaytitle="" startopen=""  dojoAttachPoint="coverage" dojoType="prmax.geographical.Geographical"  title="Select"></div></td></tr>
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr><td class="prmaxrowtag" colspan="2" >Reason </td></tr>
+					<tr><td align="right" class="prmaxrowtag" width="20%">Code</td><td >
+					<select dojoAttachPoint="reasoncodeid" name="reasoncodeid" dojotype ="dijit.form.FilteringSelect" searchAttr="name" labelType="html" style="width:98%" class="prmaxrequired"  />
+					</td></tr>
+					<tr><td align="right" class="prmaxrowtag" valign="top">Description</td><td ><div class="reasonframe" ><textarea dojoAttachPoint="reason" name="reason" required="true" dojoType="dijit.form.Textarea" style="width:99%;height:80%"  ></textarea></div></td></tr>
+					<tr><td align="right" colspan="2"><button dojoAttachPoint="updateBtn" type="button" dojoAttachEvent="onClick:_Update" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Updating Outlet..." label="Update Outlet"></button></td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

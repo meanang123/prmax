@@ -1,0 +1,297 @@
+<div>
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="customerstatus_filter_store"  url="/common/lookups?searchtype=customerstatus&filter=1"></div>
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="customerstatus_no_filter_store"  url="/common/lookups?searchtype=customerstatus"></div>
+<div  dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer" gutters="false" style="width:100%;height:100%" >
+	<div dojoAttachPoint="frame_tabs" dojotype="dijit.layout.TabContainer"  style="width:100%;height:100%" region="center" gutters="false">
+		<div dojoAttachPoint="frame_tab_m" dojotype="dijit.layout.BorderContainer" gutters="false" title="Maintenance" style="width:100%;height:100%" >
+			<div  dojoType="dijit.layout.ContentPane" region="top" style="width:100%" >
+				<div style="height:40px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+					<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="dijitToolbar prmaxrowdisplaylarge">Time</div>
+					<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:85%;padding:0px;margin:0px" >
+						<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true">
+							<span>Filter  By</span>
+							<div dojoType="dijit.TooltipDialog" title="Enter Project filter" dojoAttachEvent="execute: _ExecuteCustomerFilter">
+								<table width="500px">
+									<tr><td class="prmaxrowtag" align="right"><label >Status</label></td><td><select name="statusid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="filter_customer_statusid" store="customerstatus_filter_store"></select></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Customer Type</label></td><td><select name="customertypeid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="filter_customertypeid" ></select></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Customer Source</label></td><td><select name="customersourceid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="filter_customersourceid" ></select></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Financial Status</label></td><td><select name="financialstatusid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="filter_financialstatus" ></select></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Customer Name</label></td><td><input type="text" name="customername" dojoType="dijit.form.TextBox" dojoAttachPoint="filter_customername"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Account Nbr</label></td><td><input type="text" name="accountnbr" dojoType="dijit.form.TextBox" dojoAttachPoint="filter_accountnbr"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Not Expired</label></td><td><input type="checkbox" name="licence_expired" dojoAttachPoint="filter_licence_expired" dojoType="dijit.form.CheckBox"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Monitoring</label></td><td><select name="monitoringstatusid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="filter_monitoringstatusid" ></select></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Monitoring Source</label></td><td><select name="clippingsourceid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="filter_clippingsourceid" ></select></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Email</label></td><td><input type="text" name="email" dojoType="dijit.form.TextBox" dojoAttachPoint="filter_customeremail"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Is Internal</label></td><td><input type="text" name="isinternal" dojoType="dijit.form.CheckBox" dojoAttachPoint="filter_isinternal"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >User Name</label></td><td><input type="text" name="contactname" dojoType="dijit.form.TextBox" dojoAttachPoint="filter_contactname"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Invoice Nbr</label></td><td><input type="text" name="invoicenbr" dojoType="dijit.form.TextBox" dojoAttachPoint="filter_invoicenbr"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >Credit Nt. Nbr</label></td><td><input type="text" name="creditnotenbr" dojoType="dijit.form.TextBox" dojoAttachPoint="filter_creditnotenbr"></td></tr>
+									<tr><td class="prmaxrowtag" align="right"><label >UnAllocated</label></td><td><input type="checkbox" name="unallocated" dojoType="dijit.form.CheckBox" dojoAttachPoint="filter_unallocated"></td></tr>
+									<tr>
+										<td align="left"><button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_ClearFilter">Clear Filter by</button></td>
+										<td align="right"><button dojoType="dijit.form.Button" type="submit" name="submit">Filter by</button></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Logout" showLabel="true">Logout</div>
+					</div>
+				</div>
+			</div>
+			<div  dojoType="dijit.layout.ContentPane" region="left" style="width:50%" splitter="true" gutters="false" >
+				<div dojoAttachPoint="customergrid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" structure="PRMAX.iadmin.gridlayout.main_view" style="width:100%;height:100%"></div>
+			</div>
+			<div  dojoType="dijit.layout.BorderContainer" region="center" gutters="false" class="prmaxhidden" dojoAttachPoint="detailsview" >
+				<div dojoAttachPoint="tabs" dojoType="dijit.layout.TabContainer" style="width:99%;height:100%" region="center" gutters="false">
+					<div dojoType="dijit.layout.BorderContainer" gutters="false" title="Options">
+						<div dojoType="dijit.layout.TabContainer" region="center" style="width:99%;height:100%" dojoAttachPoint="options_tab">
+							<div  dojoType="dijit.layout.ContentPane" style="width:99%;height:100%" title="Details" dojoAttachPoint="options_tab_details">
+								<table style="width:100%;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+									<tr><td class="prmaxrowtag">Name</td><td class="prmaxrowdisplay" dojoAttachPoint="displayname"></td></tr>
+									<tr><td class="prmaxrowtag">Customer Source</td><td data-dojo-attach-point="customersourcedescription"></td></tr>
+									<tr><td class="prmaxrowtag">Status</td><td>
+										<select dojoAttachPoint="statusid"
+											autoComplete="true"
+											dojoType="dijit.form.FilteringSelect"
+											labelType="html"
+											store="customerstatus_no_filter_store">
+											</select><button dojoType="dojox.form.BusyButton" label="Change Status" dojoAttachPoint="statusidbutton" dojoAttachEvent="onClick:_ChangeStatus"></button>
+									</td></tr>
+									<tr><td class="prmaxrowtag">Customer type</td><td>
+										<select dojoAttachPoint="customertypeid"
+											autoComplete="true"
+											dojoType="dijit.form.FilteringSelect"
+											labelType="html"></select>
+											<button dojoAttachEvent="onClick:_CustomerType" dojoType="dijit.form.Button" label="Set Customer Type" type="button" ></button>
+									</td></tr>
+									<tr><td class="prmaxrowtag">Expire Date</td><td><div style="display:inline" class="prmaxrowtag" dojoAttachPoint="expire_display"></div>&nbsp;<button type="button" dojoType="dijit.form.Button" label="Set Expire Date" dojoAttachEvent="onClick:_SetExpireDate" ></button></td></tr>
+									<tr><td class="prmaxrowtag">Concurrent Count</td><td>
+										<form dojoAttachPoint="setusercountform"  onsubmit="return false" dojoType="dijit.form.Form">
+											<input type="text" name="logins" dojoType="dijit.form.NumberTextBox" dojoAttachPoint="logins" >
+											<button dojoAttachPoint="setusercount" dojoType="dijit.form.Button" label="Set User Count" type="submit" ></button>
+										</form>
+									</td></tr>
+									<tr><td class="prmaxrowtag">User Name Count</td><td>
+										<form dojoAttachPoint="setupernamecount"  onsubmit="return false" dojoType="dijit.form.Form">
+											<input type="text" name="nbrofusersaccounts" dojoType="dijit.form.NumberTextBox" dojoAttachPoint="nbrofusersaccounts" >
+											<button dojoAttachPoint="setusercount" dojoType="dijit.form.Button" label="Set User Name Count" type="submit" ></button>
+										</form>
+									</td></tr>
+									<tr><td class="prmaxrowtag">Collateral Limit</td><td>
+										<form dojoAttachPoint="collaterallimitform"  onsubmit="return false" dojoType="dijit.form.Form">
+											<input type="text" name="collateral_size" dojoType="dijit.form.NumberTextBox" dojoAttachPoint="collateral_size" >
+											<button dojoAttachPoint="collateral_sizecollateral_size_btn" dojoType="dijit.form.Button" label="Set Collateral Size" type="submit" ></button>
+										</form>
+									</td></tr>
+									<tr><td class="prmaxrowtag">Email Day Limit</td><td>
+										<form dojoAttachPoint="emaillimitform"  onsubmit="return false" dojoType="dijit.form.Form">
+											<input type="text" name="max_emails_for_day" dojoType="dijit.form.NumberTextBox" dojoAttachPoint="max_emails_for_day" >
+											<button dojoAttachPoint="email_limit_btn" dojoType="dijit.form.Button" label="Set Email Day Limit" type="submit" ></button>
+										</form>
+									</td></tr>
+									<tr><td class="prmaxrowtag" valign="top">Demo Status</td><td>
+										<form dojoAttachPoint="demoaccountform"  onsubmit="return false" dojoType="dijit.form.Form">
+											<table style="width:100%;border-collapse:collapse;" cellspacing="0" cellpadding="0">
+												<tr><td class="prmaxrowtag" width="20%">Core</td><td align="left"><input type="text" name="demo" dojoType="dijit.form.CheckBox" dojoAttachPoint="demoaccount_check"></td></tr>
+												<tr><td class="prmaxrowtag">Features</td><td><input type="text" name="isadvancedemo" dojoType="dijit.form.CheckBox" dojoAttachPoint="isadvancedemo"></td></tr>
+												<tr><td class="prmaxrowtag">Monitoring</td><td><input type="text" name="ismonitoringdemo" dojoType="dijit.form.CheckBox" dojoAttachPoint="ismonitoringdemo"></td></tr>
+												<tr><td></td><td><button dojoAttachPoint="demoaccountset" dojoType="dijit.form.Button" label="Change Demo Status" type="submit" ></button>
+						<button dojoAttachPoint="reactive_demo" dojoType="dijit.form.Button" label="Re-Activate Demo" type="button" class="prmaxhidden" dojoAttachEvent="onClick:_ReActiveDemo" ></button></td></tr>
+											</table>
+										</form>
+									</td></tr>
+									<tr><td class="prmaxrowtag">Email Enabled</td><td>
+										<form dojoAttachPoint="emailenabledform"  onsubmit="return false" dojoType="dijit.form.Form">
+											<input type="text" name="useemail" dojoType="dijit.form.CheckBox" dojoAttachPoint="useemail_check" value="1">
+											<label> Email Test Mode</label>
+											<input type="text" name="emailistestmode" dojoType="dijit.form.CheckBox" dojoAttachPoint="emailistestmode_check" value="1">
+											<button dojoAttachPoint="useemailset" dojoType="dijit.form.Button" label="Change Email Status" type="submit" ></button>
+										</form>
+									</td></tr>
+									<tr><td class="prmaxrowtag">Is Internal Account</td><td>
+											<input type="text" name="isinternal" dojoType="dijit.form.CheckBox" dojoAttachPoint="isinternal">
+											<button dojoType="dijit.form.Button" label="Change Internal Status" type="button" dojoAttachEvent="onClick:_ChangeInternalStatus"></button>
+									</td></tr>
+
+									<tr><td class="prmaxrowtag">Delete Account</td><td><button dojoAttachPoint="deleteaccount" dojoAttachEvent="onClick: _DeleteAccount" dojoType="dijit.form.Button" label="Delete Account" type="button" ></button></td></tr>
+									<tr><td valign="top" class="prmaxrowtag">Modules</td><td>
+										<table>
+											<tr><td align="right" class="prmaxrowtag" >Professional</td><td><input dojoAttachPoint="is_bundle" name="is_bundle" type="checkBox" dojoType="dijit.form.CheckBox" value="true" dojoAttachEvent="_bundle_settings"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Features</td><td><input dojoAttachPoint="advancefeatures" name="advancefeatures" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Crm</td><td><input dojoAttachPoint="crm" name="crm" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >International Data</td><td><input dojoAttachPoint="has_international_data" name="has_international_data" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td></tr>
+											<tr>
+												<td align="right" class="prmaxrowtag" >Monitoring</td><td><input dojoAttachPoint="updatum" name="updatum" type="checkBox" dojoType="dijit.form.CheckBox" value="true" dojoAttachEvent="onClick:_CheckLayout" ></td>
+												<td><table width="100%" dojoAttachPoint="max_users_monitoring" class="prmaxhidden"><tr><td class="prmaxrowtag" >Max Logins</td><td><input type="text" name="maxmonitoringusers" dojoType="dijit.form.NumberTextBox" dojoAttachPoint="maxmonitoringusers" ></td></tr></table></td>
+											</tr>
+											<tr><td align="right" class="prmaxrowtag" >News Room's</td><td><input dojoAttachPoint="has_news_rooms" name="has_news_rooms" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >SEO</td><td><input dojoAttachPoint="seo" name="seo" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Journo Requests</td><td><input dojoAttachPoint="has_journorequests" name="has_journorequests" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Clippings</td><td><input dojoAttachPoint="has_clippings" name="has_clippings" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td><td><button dojoAttachEvent="onClick:_UpdateModules" dojoType="dijit.form.Button" label="Update Modules" type="button" ></button></td></tr>
+										</table></td>
+									</tr>
+									<tr><td class="prmaxrowtag">Support User</td><td>
+											<select dojoAttachPoint="support_userid" autoComplete="true" searchAttr="name" dojoType="dijit.form.FilteringSelect" labelType="html" required="true"></select>
+											<button class="prmaxbutton" type="button" dojoAttachEvent="onClick:_SetCustomer" dojoType="dijit.form.Button" label="Set Support User to Customer"></button>
+									</td></tr>
+									<tr><td class="prmaxrowtag">SEO Free Qty</td><td class="prmaxrowtag"><button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_SetSeoCount" data-dojo-props='label:"Set SEO Free Count"'></button></td></tr>
+									<tr><td class="prmaxrowtag">Extended Email Subject</td><td>
+											<input type="text" name="has_extended_email_subject" dojoType="dijit.form.CheckBox" dojoAttachPoint="has_extended_email_subject">
+											<button dojoType="dijit.form.Button" label="Change Extended Subject" type="button" dojoAttachEvent="onClick:_change_extended_subject"></button>
+									</td></tr>
+								</table>
+							</div>
+							<div dojoType="prmax.iadmin.PrmaxDataSets" style="width:99%;height:100%" title="Data Sets" dojoAttachPoint="datasets"></div>
+							<div dojoType="prmax.iadmin.clippings.view" style="width:99%;height:100%" title="Clippings Order" dojoAttachPoint="clippings"></div>
+							<div dojoType="prmax.iadmin.extendedsettings" style="width:99%;height:100%" title="Extended Settings" dojoAttachPoint="extendedsettings"></div>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" title="Details">
+						<form dojoAttachPoint="customerForm" onsubmit="return false" dojoType="dijit.form.Form">
+							<table class="prmaxtable" width="100%" cellspacing="0" cellpadding="0">
+								<tr><td class="prmaxrowtag" align="right" style="width:30%">Business Name</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="customername" name="customername" type="text" trim="true" required="true" invalidMessage="Please Enter the name of the business" dojoType="dijit.form.ValidationTextBox" ></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Is Individual</td><td><input class="prmaxinput" dojoAttachPoint="individual" name="individual" dojoType="dijit.form.CheckBox" ></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Customer Source</td><td><select class="prmaxinput" name="customersourceid" dojoAttachPoint="customersourceid" style="width:15em" dojoType="dijit.form.FilteringSelect" autoComplete="true"></select>
+								</td></tr>
+								<tr><td class="prmaxrowtag">Contact Name</td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Title</td><td><input class="prmaxinput" name="contact_title" dojoAttachPoint="contact_title" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 2em;" ></input></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >First Name</td><td><input class="prmaxinput" name="contact_firstname" dojoAttachPoint="contact_firstname" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 8em;" ></input></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Surname</td><td><input class="prmaxrequired" name="contact_surname" dojoAttachPoint="contact_surname" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 12em;"></input></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Job Title</td><td><input class="prmaxinput" dojoAttachPoint="contactjobtitle" name="contactjobtitle" type="text" trim="true" maxlength="80"  dojoType="dijit.form.TextBox" ></td></tr>
+								<tr><td class="prmaxrowtag">Address</td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Address:</td><td><input class="prmaxinput" dojoAttachPoint="address1" name="address1" type="text" size="40" required="true" dojoType="dijit.form.TextBox"/></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Address 2:</td><td><input class="prmaxinput" dojoAttachPoint="address2" name="address2" type="text" size="40" maxlength="80" dojoType="dijit.form.TextBox"/></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Town</td><td><input class="prmaxinput" dojoAttachPoint="townname" name="townname" type="text" size="30" dojoType="dijit.form.TextBox"/></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >County</td><td><input class="prmaxinput" dojoAttachPoint="county" name="county" type="text" dojoType="dijit.form.TextBox"/></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Postcode:</td><td><input class="prmaxinput" dojoAttachPoint="postcode" name="postcode" type="text" style="width:10em" maxlength="10" dojoType="dijit.form.TextBox"/></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Email:</td><td><input class="prmaxinput" dojoAttachPoint="email" name="email" type="text" size="40" maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="40" maxlength="70"/></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Tel:</td><td><input class="prmaxinput" dojoAttachPoint="tel" name="tel" type="text" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Country</td><td><select class="prmaxinput" name="countryid" dojoAttachPoint="countryid" style="width:15em" dojoType="dijit.form.FilteringSelect" autoComplete="true"></select></td></tr>
+								<tr><td class="prmaxrowtag" align="right" >Vat No</td><td><input class="prmaxinput" dojoAttachPoint="vatnumber" trim="true" name="vatnumber" type="text" size="25" maxlength="40" dojoType="dijit.form.TextBox" /></td></tr>
+								<tr><td class="prmaxrowtag" colspan="2" align="right"><button iconClass="dijitPrmaxIcon dijitPrmaxUpdate" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." type="button" dojoAttachEvent="onClick:_CustomerSave" label="Save" class="prmaxbutton"></button></td></tr>
+							</table>
+						</form>
+					</div>
+					<div dojoType="prmax.iadmin.accounts.FinancialControl" dojoAttachPoint="financialcontrol" title="Financial Controls"></div>
+					<div  dojoType="dijit.layout.ContentPane" title="Financial Log" >
+						<div dojoAttachPoint="financialgrid" dojoType="prmax.iadmin.accounts.FinancialView" style="width:100%;height:100%"></div>
+					</div>
+					<div  dojoType="dijit.layout.BorderContainer" title="Users" gutters="false">
+						<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:42px">
+							<div style="height:40px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+								<div style="height:100%;width:15%;float:left;padding:0px;margin:0px"class="prmaxrowdisplaylarge">Manage Users</div>
+								<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:85%;padding:0px;margin:0px" >
+									<div dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" dojoAttachEvent="onClick:_Add_User">Add User</div>
+								</div>
+							</div>
+						</div>
+						<div  dojoType="dijit.layout.BorderContainer" preload="true" region="center" gutters="false" style="width:100%;height:100%">
+							<div dojoType="dijit.layout.ContentPane" preload="true" region="top" style="width:100%;height:30%" splitter="true">
+								<div dojoAttachPoint="usergrid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50"structure="PRMAX.iadmin.gridlayout.user_view" style="width:100%;height:100%"></div>
+							</div>
+							<div dojoType="dijit.layout.ContentPane" region="center" >
+								<div class="prmaxhidden" dojoAttachPoint="userdetails" style="width:99%;margin:2px">
+									<form dojoAttachPoint="userdetailsform"  onsubmit="return false" dojoType="dijit.form.Form">
+										<table class="prmaxtable" width="100%" border="0">
+											<tr><td class="prmaxrowtag" style="width:30%">Email Address</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="user_email_address" name="email_address" type="text" trim="true" required="true" invalidMessage="Please Enter the name of the business" dojoType="dijit.form.ValidationTextBox" ></td></tr>
+											<tr><td class="prmaxrowtag" style="width:30%">Login Name</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="user_user_name" name="user_name" type="text" trim="true" required="true" invalidMessage="Please Enter the name of the business" dojoType="dijit.form.ValidationTextBox" ></td></tr>
+											<tr><td class="prmaxrowtag" style="width:30%">Display Name</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="user_display_name" name="display_name" type="text" trim="true" required="true" invalidMessage="Please Enter the name of the business" dojoType="dijit.form.ValidationTextBox" ></td></tr>
+											<tr><td class="prmaxrowtag" style="width:30%">User Admin</td><td><input type="checkbox" name="isuseradmin" dojoAttachPoint="isuseradmin" dojoType="dijit.form.CheckBox"></td></tr>
+											<tr><td class="prmaxrowtag" style="width:30%">No Direct Mail</td><td><input type="checkbox" name="nodirectmail" dojoAttachPoint="nodirectmail" dojoType="dijit.form.CheckBox"></td></tr>
+											<tr><td class="prmaxrowtag" style="width:30%">See Invoices</td><td><input type="checkbox" name="canviewfinancial" dojoAttachPoint="canviewfinancial" dojoType="dijit.form.CheckBox"></td></tr>
+											<tr>
+												<td class="prmaxrowtag" align="left"><button dojoAttachEvent="onClick:_send_login_details" dojoType="dijit.form.Button" type="button" label="Send Login Details" class="prmaxbutton"></button></td>
+												<td class="prmaxrowtag" align="right"><button dojoAttachEvent="onClick:_UpdateUserDetails" iconClass="dijitPrmaxIcon dijitPrmaxUpdate" dojoAttachPoint="userdetailsNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." type="button" label="Change Details" class="prmaxbutton"></button></td></tr>
+										</table>
+									</form>
+									<br/>
+									<form dojoAttachPoint="userpasswordform"  onsubmit="return false" dojoType="dijit.form.Form">
+										<div dojoAttachPoint="userpassword" dojoType="dojox.form.PasswordValidator" name="password" class="prmaxrowtag" style="width:100%">
+											<table class="prmaxtable" width="100%" border="0" >
+												<tr><td class="prmaxrowtag" width="30%">Password:</td><td><input class="prmaxrequired" type="password" pwType="new" /></td></tr>
+												<tr><td class="prmaxrowtag" >Verify:</td><td><input class="prmaxrequired" type="password" pwType="verify" /></td></tr>
+												<tr><td class="prmaxrowtag" colspan="2" align="right"><button dojoAttachEvent="onClick:_UpdateUserPassword" iconClass="dijitPrmaxIcon dijitPrmaxUpdate" dojoAttachPoint="savePasswordNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." type="button" label="Change Password" class="prmaxbutton"></button></td></tr>
+											</table>
+										</div>
+									</form>
+									<br/>
+									<div dojoAttachPoint="user_monitor_total_view" class="prmaxhidden">
+										<form dojoAttachPoint="updatumform"  onsubmit="return false" dojoType="dijit.form.Form">
+											<label class="prmaxrowtag"> User Has Monitoring</label><input type="checkbox" name="hasmonitoring" dojoAttachPoint="hasmonitoring" dojoType="dijit.form.CheckBox" dojoAttachEvent="onClick:_ChangeMonitoring">
+											<div dojoAttachPoint="user_monitor_view" class="prmaxhidden">
+												<input class="prmaxinput" dojoAttachPoint="updatum_iuserid" name="iuserid" type="hidden" dojoType="dijit.form.TextBox" >
+												<table class="prmaxtable" width="100%" border="0">
+													<tr><td class="prmaxrowtag" style="width:30%">Current Password</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="updatum_pwd_display" type="text" readonly="readonly" dojoType="dijit.form.TextBox" ></td>
+													<td>Copy too Support user </td></tr>
+													<tr><td class="prmaxrowtag" style="width:30%">Monitoring User Name</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="updatum_username" name="updatum_username" type="text" trim="true" required="true" invalidMessage="Missing User" dojoType="dijit.form.ValidationTextBox" ></td></tr>
+													<tr><td colspan="2">
+														<div dojoAttachPoint="updatum_password" dojoType="dojox.form.PasswordValidator" name="updatum_password" class="prmaxrowtag" style="width:100%">
+															<table class="prmaxtable" width="100%" border="0" >
+																<tr><td class="prmaxrowtag" width="30%">Password:</td><td><input class="prmaxrequired" type="password" pwType="new" /></td></tr>
+																<tr><td class="prmaxrowtag" >Verify:</td><td><input class="prmaxrequired" type="password" pwType="verify" /></td></tr>
+															</table>
+														</div>
+													</td></tr>
+												</table>
+											</div>
+											<button style="float:right;padding-right:15px" dojoAttachEvent="onClick:_UpdateUpdatum" iconClass="dijitPrmaxIcon dijitPrmaxUpdate" dojoAttachPoint="saveUpdatum" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." type="button" label="Update Monitoring Details" class="prmaxbutton"></button>
+										</form>
+									</div>
+									<br/>
+									<table class="prmaxtable" width="99%" >
+										<tr><td><button iconClass="dijitPrmaxIcon dijitPrmaxDelete" dojoAttachEvent="onClick:_DeleteUser" dojoAttachPoint="deleteUserNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." type="button" label="Delete User" class="prmaxbutton"></button></td></tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div dojoAttachPoint="notestab" dojoType="dijit.layout.BorderContainer" title="Notes" style="width:100%;height:100%" gutters="false">
+						<div  dojoType="prmax.crm.viewer" dojoAttachPoint="crmviewer" region="center" ></div>
+					</div>
+					<div  dojoType="dijit.layout.ContentPane" title="Audit" style="width:100%;height:100%">
+						<div dojoAttachPoint="auditgrid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" structure="PRMAX.iadmin.gridlayout.audit_view" style="width:100%;height:100%"></div>
+					</div>
+					<div  dojoType="dijit.layout.ContentPane" title="Diary" style="width:100%;height:100%">
+						<div dojoAttachPoint="diary_view" dojoType="prmax.crm.task.viewer" style="width:100%;height:100%"></div>
+					</div>
+					<div  dojoType="dijit.layout.ContentPane" title="SEO" style="width:100%;height:100%">
+						<div dojoAttachPoint="seo_view" dojoType="prmax.iadmin.accounts.SeoView" style="width:100%;height:100%"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div dojoAttachPoint="frame_tab_e" dojotype="dijit.layout.BorderContainer" gutters="false" title="Extra Options" style="width:100%;height:100%;overflow: hidden; border: 0; padding: 0; margin: 0" >
+			<div  dojotype="dojox.layout.ExpandoPane"	title="Options"	region="left" maxWidth="175" style="width:15%;height:100%;overflow: hidden; border: 1px solid black; padding: 0; margin: 0" >
+				<div dojoType="dojo.data.ItemFileReadStore" jsId="catStore" url="/iadmin/options"></div>
+				<div dojoType="dijit.tree.ForestStoreModel" jsId="catModel" store="catStore" query="{type: '1'} "  childrenAttrs="children" rootId="root" rootLabel="root" ></div>
+				<div  dojoType="dijit.Tree" model="catModel" showRoot="false" dojoAttachEvent="onClick: _SelectNode" ></div>
+			</div>
+			<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="zone" region="center"  doLayout="true" style="border:1px solid black"></div>
+		</div>
+	</div>
+</div>
+<div dojoAttachPoint="expirectrl" dojoType="prmax.iadmin.sales.SetExpireDate" ></div>
+<div dojoType="dijit.Dialog" title="Add User" dojoAttachPoint="adduserdialog">
+	<div  dojoAttachPoint="adduserctrl" dojoType="prmax.user.AddUser" ></div>
+</div>
+<form dojoAttachPoint="documentform" target="_blank" method="post" action="/iadmin/viewpdf">
+	<input type="hidden" name="audittrailid"dojoAttachPoint="documentform_audittrailid">
+</form>
+<form data-dojo-attach-point="htmlform" target="_blank" method="post" action="/iadmin/viewhtml">
+	<input type="hidden" name="audittrailid" data-dojo-attach-point="htmlform_audittrailid">
+</form>
+
+
+<div dojoType="dijit.Dialog" title="New Task" dojoAttachPoint="newtaskdialog">
+	<div dojoAttachPoint="newtaskctrl" dojoType="prmax.iadmin.TaskAdd" ></div>
+</div>
+<div dojoType="dijit.Dialog" title="Re-Activate Demo" dojoAttachPoint="reactiveatedialog">
+	<div dojoAttachPoint="reactiveatectrl" dojoType="prmax.iadmin.sales.ReActivateDemo" ></div>
+</div>
+<div data-dojo-type="prmax.iadmin.sales.SetFreeSEOCount" data-dojo-attach-point="seofree"></div>
+
+<div data-dojo-type="dijit.Dialog"data-dojo-props='title:"Reset Password and Send Login Details"' data-dojo-attach-point="send_password_dialog">
+	<div data-dojo-attach-point="send_password_ctrl" data-dojo-type="prmax.iadmin.support.ResetAndSend" ></div>
+</div>
+
+<!-- -->

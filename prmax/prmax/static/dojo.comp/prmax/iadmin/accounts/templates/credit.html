@@ -1,0 +1,29 @@
+<div>
+	<form data-dojo-attach-point="form"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<table width="580px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="4"><div class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Credit for </div><div class="prmaxrowdisplaylarge" style="display:inline" data-dojo-attach-point="customername"></div></td></tr>
+			<tr>
+					<td class="prmaxrowlabel" align="right">Cost</td>
+					<td class="prmaxrowlabel"><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-attach-point="cost" data-dojo-props='"class":"prmaxinput",type:"text",name:"cost",required:true,trim:true,style:"width:8em",constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-attach-event="onBlur:_on_amount" ></input></td>
+					<td class="prmaxrowlabel" align="right">Amount Remaining</td>
+					<td class="prmaxrowlabel"><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="toallocate" data-dojo-props='type:"text",style:"width:8em",readOnly:true' ></input></td>
+			</tr>
+			<tr>
+				<td align="right" class="prmaxrowlabel">Vat</td>
+				<td><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-props='type:"text",name:"vat",required:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:8em"' data-dojo-attach-point="vat" data-dojo-attach-event="onBlur:_on_vat_amount"></input></td>
+			</tr>
+			<tr>
+					<td class="prmaxrowlabel" align="right" >Gross</td>
+					<td><input data-dojo-attach-point="payment" data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-props='"class":"prmaxinput",type:"text",name:"gross",style:"width:8em",constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},readOnly:true'></input></td>
+			</tr>
+			<tr><td class="prmaxrowlabel" align="right" valign="top">Message</td><td colspan="3"><div class="dialogprofileframe" ><textarea data-dojo-attach-point="message" data-dojo-props='name:"message","class":"dijitTextarea",style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Credit Date</td><td><input data-dojo-props='type:"text",name:"payment_date",required:"true"' data-dojo-attach-point="payment_date" data-dojo-type="dijit.form.DateTextBox" ></td></tr>
+			<tr><td class="prmaxrowlabel" align="right">Send Email</td><td><input data-dojo-attach-point="emailtocustomer" data-dojo-props='"class":"prmaxinput",name:"emailtocustomer",type:"checkbox",checked:"checked"' data-dojo-type="dijit.form.CheckBox" data-dojo-attach-event="onClick:_email_required"/><input data-dojo-attach-point="email" data-dojo-props='required:true,"class":"prmaxinput",name:"email",type:"text",style:"width:20em",trim:"true",regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address"' data-dojo-type="dijit.form.ValidationTextBox" /></td></tr>
+			<tr><td colspan="4">
+				<div data-dojo-attach-point="alloc_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='rowsPerPage:"500",style:"width:690px;height:300px"'></div>
+			</td></tr>
+			<tr><td class="prmaxrowlabel" colspan="4" align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="addbtn" data-dojo-props='labelBusy:"Crediting Account",type:"button"' data-dojo-attach-event="onClick:_create">Credit Account</button></td></tr>
+		</table>
+	</form>
+	<div data-dojo-attach-point="alloc_manual" data-dojo-type="prmax.iadmin.accounts.ManualAllocateAmount"></div>
+</div>

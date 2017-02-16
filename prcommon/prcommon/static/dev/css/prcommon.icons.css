@@ -1,0 +1,53 @@
+.PRMaxStdIcon {
+	background-image: url('/prcommon/images/prmaxstdicons.png');
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+}
+
+.PRMaxCommonStdIcon {
+	background-image: url('/prmax_common_s/images/prmaxstdicons.png');
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+}
+
+.PRMaxAddIcon { background-position: 0px; }
+.PRMaxFilterIcon { background-position: -40px; }
+.PRMaxDeleteIcon { background-position: -80px; }
+.PRMaxShowDistributionIcon { background-position: -120px; }
+.PRMaxUpdateIcon { background-position: -160px; }
+.PRMaxWithDrawIcon { background-position: -200px; }
+.PRMaxPublishIcon { background-position: -240px; }
+.PRMaxMsWordIcon { background-position: -280px; }
+.PRMaxSaveIcon { background-position: -320px; }
+.PRMaxViewSEOIcon { background-position: -360px; }
+.PRMaxClientsIcon { background-position: -400px; }
+.PRMaxCollateralIcon { background-position: -440px; }
+.PRMaxRefreshIcon { background-position: -480px; }
+.PRMaxHelpIcon { background-position: -520px; }
+
+.PRMaxSmallIcon
+{
+	background-image: url('/prcommon/images/prmaxsmallicons.png');
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+}
+
+.PRMaxSmallCommonIcon
+{
+	background-image: url('/prmax_common_s/images/prmaxsmallicons.png');
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+}
+
+.PRMaxSmallAddIcon { background-position: 0px; }
+.PRMaxSmallFilterIcon { background-position: -20px; }
+.PRMaxSmallSearchIcon { background-position: -40px; }
+.PRMaxSmallHelpIcon { background-position: -60px; }

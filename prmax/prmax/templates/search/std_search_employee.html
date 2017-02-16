@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+			xmlns:py="http://genshi.edgewall.org/"
+			xmlns:xi="http://www.w3.org/2001/XInclude">
+<body>
+<div class="searchform">
+	<div class="paddingcell" >
+		<form class="prmaxdefault" name="std_search_employee" cellspacing="0" cellpadding="0" id="std_search_employee_form"  formid="std_search_employee_form" dojoType="ttl.Form" onsubmit="return false">
+			<input type="hidden" value="employee"  name="search_type" dojoType="dijit.form.TextBox" />
+			<div class="paddingrow">&nbsp;</div>
+			<div usepartial="true" search="std_search_employee" id="std_search_employee_name" displayname="Surname" keytypeid="${prmax.search_indexes.employee_contact_employeeid}" name="employee_searchname" dojoType="prmax.search.standard"></div>
+			<hr/>
+<span py:if="prmax.customer.search_show_job_roles==1" py:strip="">
+			<div  search="std_search_employee"  dojoType="prmax.roles.SearchRoles" keytypeid="${prmax.search_indexes.employee_job_role}"  name="employee_roles" style="width:99%" showdefaultoption="false" ></div>
+			<hr/>
+</span>
+			<div search="std_search_employee" style="width:99%" keytypeid="${prmax.search_indexes.employee_employeeid_interestid}" name="employee_interests" dojoType="prcommon.interests.Interests"></div>
+			<hr/>
+			<div search="std_search_employee" style="width:99%" keytypeid="${prmax.search_indexes.employee_prmaxoutlettypeid}" name="employee_outlettypes" dojoType="prmax.search.PrmaxOutletTypes"></div>
+			<hr/>
+			<div search="std_search_employee" style="width:99%" keytypeid="${prmax.search_indexes.employee_countryid}" name="employee_countryid" dojoType="prcommon.search.Countries"></div>
+			<hr/>
+			<input type="submit" style="display:none"/>
+		</form>
+	</div>
+</div>
+</body>
+</html>

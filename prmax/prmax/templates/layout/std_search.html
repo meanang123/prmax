@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+	<div class="searchform" dojotype="dijit.layout.BorderContainer" style="width:700px;height:478px;overflow:hidden" gutters="false">
+		<div id="std_search_tabcontainer" dojotype="dijit.layout.TabContainer" region="center" >
+<span py:if="prmax.customer.search_show_smart==1" py:strip="">
+			<div id="std_search_quick" dojoType="ttl.layout.ContentPane" title="Smart" href="/layout/std_search_quick" style="overflow:auto" ></div>
+</span>
+			<div id="std_search_outlet" dojoType="ttl.layout.ContentPane" title="Outlet" py:attrs="outlet" preload="false"  href="/layout/std_search_outlet"  ></div>
+			<div id="std_search_employee" dojoType="ttl.layout.ContentPane" title="Contact" preload="false" href="/layout/std_search_employee"  ></div>
+			<div id="std_search_freelance" dojoType="ttl.layout.ContentPane" title="Freelance" preload="false" href="/layout/std_search_freelance" ></div>
+			<span py:if="advancefeatures" py:strip="True">
+			<div id="std_search_advance" dojoType="ttl.layout.ContentPane" title="Features" py:attrs="features" preload="false" href="/layout/std_search_advance" ></div>
+			</span>
+		</div>
+		<div dojoType="ttl.layout.ContentPane" region="bottom" style="height:10%" class="bottom">
+			<table width="98%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;" >
+			<tr>
+			<td align="left"><input class="prmaxdefault" py:attrs="prmax.user.partial" type="hidden" id="search_partial" value="2" /></td>
+			<td align="left"><input  class="prmaxdefault" dojotype="dijit.form.CheckBox" type="checkbox" id="search_append" value="1" /><label class="prmaxlabeltag2" for="search_append">Append</label></td>
+			<td align="left"><button class="prmaxbutton" type="button"  id="std_search_last" dojoType="dijit.form.Button" label="Last Criteria"></button></td>
+			<td align="left"><button  class="prmaxbutton" type="button" id="std_search_clear" dojoType="dijit.form.Button" label="Clear"></button></td>
+			<td align="right"><button class="prmaxbutton" id="std_search_search" dojoType="dojox.form.BusyButton" iconClass="dijitPrmaxIcon dijitPrmaxIconSearch" busyLabel="Searching..." ><div style="font-size:18pt">Search</div></button></td>
+			<!-- <td align="right"><button class="prmaxbutton" type="button"  id="std_search_total_button" dojoType="dijit.form.Button"><div style="width:32px" class="prmaxbutton">Total</div></button><div id="search_total_count" dojoType="prmax.search.SearchCount"></div></td> -->
+</tr></table>
+		</div>
+	</div>
+	<div dojoType="dijit.Tooltip" connectId="std_search_total,std_search_total_button" showDelay="800">
+	<div class="tooltipframe"><b>Results Found</b><br/>This does the search and determines how many results the search will actually find</div>
+	</div>
+</html>

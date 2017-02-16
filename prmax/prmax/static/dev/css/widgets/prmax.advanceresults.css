@@ -1,0 +1,32 @@
+.soria .advanceresults
+{
+	color:white;
+}
+
+.soria .searchresults .dijitToolbarTop {
+	border-bottom: 1px solid #ccc;
+	background:#81a6c3 url("/static/images/theme/resultsBar.png") repeat-x top left;
+	//background-color:#81a6c3;
+}
+
+.soria .searchresults .prmaxrowdisplaylarge
+{
+	padding:0px;
+	margin: 0px;
+	color:#094b88;
+	font-size:12pt;
+	font-weight:bold;
+}
+
+.soria .searchresults .prmaxrowdisplaylarge2
+{
+	padding-right:1px;
+	padding-left:1px;
+	padding-top:6px;
+	padding-bottom:1px;
+	margin: 0px;
+	color:white;
+	valign:top;
+	v-align:top;
+	font-size:1.5em;
+}

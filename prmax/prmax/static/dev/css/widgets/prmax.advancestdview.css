@@ -1,0 +1,41 @@
+.advstdview .rotated_text
+{
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	width:500px;
+	height:32px;
+	height:32px;
+	margin-left:-240px;
+	margin-top:290px;
+  padding:0px;
+  overflow:hidden;
+}
+
+.dj_ie .advstdview .rotated_text
+{
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+	width:500px;
+	height:32px;
+	padding:0px;
+	margin-top:40px;
+	margin-right:15px;
+	margin-left:0px;
+  overflow:hidden;
+}
+
+.advstdview .namecolour
+{
+	color:white;
+	font-weight:bold;
+}
+
+
+.soria .advance_unsaved_row
+{
+}
+.soria .advance_list_row
+{
+}
+.soria .advance_unsaved_results_row
+{
+}

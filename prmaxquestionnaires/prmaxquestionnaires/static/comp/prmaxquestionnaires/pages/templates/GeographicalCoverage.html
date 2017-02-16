@@ -1,0 +1,16 @@
+<div>
+	<div data-dojo-attach-point="outlet_coverage_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='splitter:false,region:"left",style:"width:50%;height:100%"'></div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='splitter:false,region:"center"'>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='splitter:false,region:"top",style:"width:100%;height:30%;border:1px solid black;text-align: center;vertical-align: middle; margin: auto;font-size:1.1em;padding:4px"'>
+			<p><b>Geographic coverage</b></p>
+			<p>If your outlet targets a particular area of the <span data-dojo-attach-point="country_name">United Kingdom</span> it is displayed in the left hand pane of the screen.</p>
+			<p>If you would like to amend the information then please comment in the box below and we will amend accordingly.</p>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='splitter:false,region:"center"'>
+			<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+				<input data-dojo-props='type:"hidden",name:"questionnaireid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="questionnaireid">
+				<div class="stdtextframe" ><textarea data-dojo-attach-point="geognotes" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"geognotes",style:"width:99%;height:99%"'  ></textarea></div>
+			</form>
+		</div>
+	</div>
+</div>

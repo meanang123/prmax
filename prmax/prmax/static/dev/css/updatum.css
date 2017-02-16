@@ -1,0 +1,8 @@
+/*#E05C2C   <- the orange
+ #636466   <- the grey
+*/
+
+.stdbanner div:first-child {
+    background: url("/static/images/updatum/logo.gif") no-repeat;
+    width: 125px !important;
+}

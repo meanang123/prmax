@@ -1,0 +1,13 @@
+<div class="searchform">
+	<div class="paddingcell" >
+	<form  class="prmaxdefault" name="std_search_mps" cellspacing="0" cellpadding="0" id="std_search_mps_form" dojoType="ttl.Form" onsubmit="return false">
+		<input type="hidden" value="mps"  name="search_type" dojoType="dijit.form.TextBox" />
+		<div class="paddingrow">&nbsp;</div>
+		<div usepartial="true" search="std_search_mps" id="std_search_mps_name" displayname="Surname" keytypeid="${prmax.search_indexes.mp_employeeid}" name="mps_searchname" dojoType="prmax.search.standard"></div>
+		<hr/>
+	    <div search="std_search_mps" style="width:99%" keytypeid="${prmax.search_indexes.mp_employeeid_interestid}" name="mps_interests" dojoType="prcommon.interests.Interests"></div>
+		<hr/>
+		<input type="submit" style="display:none"/>
+	  </form>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+.twitterview .singleTweet .tweeterImage  {
+	float: left;
+	padding-right:4px;
+}
+
+.twitterview .singleTweet .tweetText {
+	padding: 4px;
+}
+
+.twitterview .singleTweet .tweetTime {
+	font-style: italic;
+	margin-left: 6px;
+}
+.twitterview .singleTweet .clearer {
+	clear:both;
+	padding-bottom:4px;
+}

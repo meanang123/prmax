@@ -1,0 +1,20 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"left",style:"width:50%;height:100%",gutters:false' >
+		<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"width:100%;height:55%; border: 0; padding: 0; margin: 0",region:"top",gutters:false'>
+			<div data-dojo-attach-point="search_form_pane" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"' >
+				<div data-dojo-attach-point="std_search_advance" data-dojo-type="prcommon2/search/AdvanceSearch" data-dojo-props='title:"Features",style:"overflow:auto"' ></div>
+			</div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:35px"'>
+				<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;" >
+					<tr>
+						<td><button data-dojo-attach-event="onClick:_clear_search" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxbutton",label:"Clear Search Criteria",iconClass:"fa fa-eraser"' ></button></td>
+						<td><button data-dojo-attach-event="onClick:_clear_search_results" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxbutton",label:"Clear Search Results",iconClass:"fa fa-eraser"' ></button></td>
+						<td align="right"><button data-dojo-attach-point="searchbutton" data-dojo-attach-event="onClick:_search" data-dojo-type="dojox/form/BusyButton" data-dojo-props='"class":"prmaxbutton",busyLabel:"Searching...",label:"Search",iconClass:"fa fa-search-plus fa-2x"' ></button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div  data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true' data-dojo-attach-point="searchgrid_view" ></div>
+	</div>
+	<div data-dojo-attach-point="outlet_advance_ctrl" data-dojo-type="prcommon2/advance/advance" data-dojo-props='region:"center"'></div>
+</div>

@@ -1,0 +1,22 @@
+<div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="dialog" data-dojo-props='title:"Allocate"'>
+		<form dojoAttachPoint="form"  onsubmit="return false" dojoType="dijit.form.Form">
+			<input type="hidden" dojoType="dijit.form.TextBox" dojoAttachPoint="keyid" name="keyid" >
+			<table width="600px" cellpadding="0" cellpadding="0" >
+				<tr><td colspan="2"><div class="prmaxrowdisplaylarge" style="text-align:center;display:inline"></div><div class="prmaxrowdisplaylarge" style="display:inline" dojoAttachPoint="customername"></div></td></tr>
+				<tr><td class="prmaxrowlabel" align="right" >Value</td><td>
+					<table width="100%" cellpadding="0" cellpadding="0" ><tr>
+						<td><input class="prmaxinput" type="text" readonly="readonly" dojoType="dijit.form.CurrencyTextBox" dojoAttachPoint="payment" style="width:8em"></input></td>
+						<td class="prmaxrowlabel">Amount to Allocte</td>
+						<td class="prmaxrowlabel"><input type="text" dojoType="dijit.form.TextBox" dojoAttachPoint="toallocate" style="width:8em" readonly="readonly" ></input></td>
+					</tr></table>
+				</td></tr>
+				<tr><td colspan="2">
+					<div dojoAttachPoint="alloc_grid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="500" style="width:590px;height:300px"></div>
+				</td></tr>
+				<tr><td class="prmaxrowlabel" colspan="2" align="right"><button dojoType="dojox.form.BusyButton" labelBusy="Re-Allocation" dojoAttachPoint="allocate" type="button" dojoAttachEvent="onClick:_ReAllocate">Allocate</button></td></tr>
+			</table>
+		</form>
+	</div>
+	<div dojoAttachPoint="alloc_manual" dojoType="prmax.iadmin.accounts.ManualAllocateAmount"></div>
+</div>

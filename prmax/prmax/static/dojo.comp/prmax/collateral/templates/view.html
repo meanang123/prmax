@@ -1,0 +1,38 @@
+<div>
+	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",gutters:false' >
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", style:"height:42px;width:100%;overflow:hidden", "class":"std_menu_view"'>
+			<div style="height:38px;width:100%;overflow:hidden" class="std_menu_view">
+				<div style="height:100%;width:100px;float:left;padding-top:10px;" class="prmaxrowdisplaylarge">Collateral</div>
+				<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop", style:"float:left:height:94%;width:400px"' >
+					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_AddCollateral" data-dojo-attach-point="addbutton" data-dojo-props='label:"New Collateral", iconClass:"fa fa-plus fa-3x",showLabel:false'></div>
+					<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="deletebutton" data-dojo-attach-event="onClick:_delete"  data-dojo-props='label:"Delete Collateral", iconClass:"fa fa-trash fa-3x",showLabel:false'></div>
+				</div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center", splitter:true'>
+			<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ }, rowsPerPage:30' ></div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:60%;height:100%", region:"right", splitter:true'>
+			<div style="padding:2px" data-dojo-attach-point ="display_pane" class="prmaxhidden">
+				<form data-dojo-attach-point="update_form" data-dojo-props='"class":"prmaxdefault", onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+					<input data-dojo-attach-point="collateralid" data-dojo-props='name:"collateralid", type:"hidden", value:"-1"' data-dojo-type="dijit.form.TextBox" >
+					<table class="prmaxtable" width="500px" >
+						<tr><td colspan="2" align="center" class="prmaxrowdisplaylarge" > Collateral Details</td></tr>
+						<tr><td width="20%" class="prmaxrowtag" >Code</td><td class="prmaxrowdisplay" width="76%"><input data-dojo-props='style:"width:98%", "class":"prmaxrequired", name:"collateralcode", type:"text", maxlength:10, trim:true, required:true, invalidMessage:"Code field must be filled in"' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="code" /></td></tr>
+						<tr><td class="prmaxrowtag" >Description</td><td class="prmaxrowdisplay" width="76%"><input data-dojo-props='invalidMessage:"Description field must be filled in", style:"width:98%", "class":"prmaxrequired", name:"description", type:"text", maxlength:80, trim:true, required:true' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="description"/></td></tr>
+						<tr><td class="prmaxrowtag" >File Name</td><td class="prmaxrowdisplay" width="76%" data-dojo-attach-point="filename"></td></tr>
+						<tr><td class="prmaxrowtag" >PRMax Id</td><td class="prmaxrowdisplay" width="76%" data-dojo-attach-point="prmaxid"></td></tr>
+						<tr><td class="prmaxrowtag" >Press Release </td><td class="prmaxrowdisplay" width="76%" ><select data-dojo-attach-point="emailtemplateid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"emailtemplateid", searchAttr:"emailtemplatename", labelType:"html", style:"width:98%" '/></td></tr>
+						<tr><td class="prmaxrowtag" >Client Name</td><td class="prmaxrowdisplay" width="76%" ><select data-dojo-attach-point="clientid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"clientid", searchAttr:"clientname", labelType:"html", style:"width:98%" '/></td></tr>
+						<tr><td class="prmaxrowtag" >Controls</td><td class="prmaxrowdisplay" width="76%">
+							<button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Update", busyLabel:"Please Wait Updating" ' data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_Update" data-dojo-attach-point="update_form_btn"></button>
+							<button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Delete"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Delete"></button>
+							<button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Preview"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Preview"></button>
+						</td></tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="addctrl" data-dojo-type="prmax.collateral.adddialog"></div>
+</div>

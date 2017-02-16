@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<body>
+<div class="outletdisplay">
+	<table style="table-layout: fixed;border-collapse: collapse;" width="100%" >
+		<tr><td width="120px" class="prmaxrowdisplaylarge">Name</td><td width="auto" class="prmaxrowdisplaylarge" py:content="outlet.outletname"></td></tr>
+<span py:if="outlet.outlettypeid!=19" py:strip="">
+	<span py:if="newprofile['subtitle']" py:strip="">
+			<tr><td class="prmaxrowtag">Sub title</td><td class="prmaxrowdisplay" py:content="newprofile['subtitle']"></td></tr>
+	</span>
+	<span py:if="newprofile['incorporating']" py:strip="">
+			<tr><td class="prmaxrowtag">Incorporating</td><td class="prmaxrowdisplay" py:content="newprofile['incorporating']"></td></tr>
+	</span>
+</span>
+<span py:if="outlet.www" py:strip="">
+		<tr><td class="prmaxrowtag">Web</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.www}" target="_newtab" py:content="outlet.www"></a></td></tr>
+</span>
+<span py:if="outlet.address" py:strip="">
+		<tr><td class="prmaxrowtag" valign="top">Address</td><td py:content="outlet.address" class="${outlet.addressflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ></td></tr>
+		<tr><td class="prmaxrowtag" valign="top">Country</td><td py:content="outlet.countryname" class="prmaxrowdisplay" ></td></tr>
+</span>
+<span py:if="newprofile['seriesparent']" py:strip="">
+		<tr><td class="prmaxrowtag" valign="top">For contacts see</td><td class="prmaxrowdisplay" py:content="newprofile['seriesparent']"></td></tr>
+</span>
+<span py:if="outlet.tel" py:strip="">
+		<tr><td class="prmaxrowtag">Tel</td><td py:content="outlet.tel" class="${outlet.telflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ></td></tr>
+</span>
+<span py:if="outlet.fax" py:strip="">
+		<tr><td class="prmaxrowtag">Fax</td><td py:content="outlet.fax" class="${outlet.faxflag and 'prmaxoverride' or 'prmaxrowdisplay'}"></td></tr>
+</span>
+<span py:if="outlet.email" py:strip="">
+		<tr><td class="prmaxrowtag">Email</td><td class="${outlet.emailflag and 'prmaxoverride' or 'prmaxrowdisplay'}"><a py:attrs="{'href':'mailto:%s'%outlet.email}" target="blank" py:content="outlet.email"></a></td></tr>
+</span>
+<span py:if="outlet.twitter" py:strip="">
+	<tr><td class="prmaxrowtag">Twitter</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.twitter}" target="_newtab" py:content="outlet.twitter"></a></td></tr>
+</span>
+<span py:if="outlet.facebook" py:strip="">
+	<tr><td class="prmaxrowtag">Facebook</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.facebook}" target="_newtab" py:content="outlet.facebook"></a></td></tr>
+</span>
+<span py:if="outlet.linkedin" py:strip="">
+	<tr><td class="prmaxrowtag">Linkedin</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.linkedin}" target="_newtab" py:content="outlet.linkedin"></a></td></tr>
+</span>
+<span py:if="outlet.outlettypeid!=19" py:strip="">
+		<tr ><td class="prmaxrowtag">Primary Contact</td><td py:content="primary.contactname" class="${outlet.primaryflag and 'prmaxoverride' or 'prmaxrowdisplay'}"></td></tr>
+<span py:if="newprofile['circulation']" py:strip="">
+		<tr><td class="prmaxrowtag">Circulation</td><td class="prmaxrowdisplay"><span py:strip="True" py:if="newprofile['circulation']" py:content="newprofile['circulation']"></span></td></tr>
+</span>
+<span py:if="newprofile['webbrowsers']" py:strip="">
+		<tr><td class="prmaxrowtag">Web Browsers</td><td class="prmaxrowdisplay"><span py:strip="True" py:if="newprofile['webbrowsers']" py:content="newprofile['webbrowsers']"></span></td></tr>
+</span>
+<span py:if="newprofile['frequency']" py:strip="">
+		<tr><td class="prmaxrowtag">Frequency</td><td class="prmaxrowdisplay" py:content="newprofile['frequency']"></td></tr>
+</span>
+<span py:if="newprofile['costfield']" py:strip="">
+		<tr><td class="prmaxrowtag">Cost</td><td class="prmaxrowdisplay" py:content="newprofile['costfield']"></td></tr>
+</span>
+</span>
+<span py:if="outlet.mp_sqcm" py:strip="">
+		<tr><td class="prmaxrowtag">Sqcm</td><td class="prmaxrowdisplay" py:content="'£%.2f' % outlet.mp_sqcm"></td></tr>
+</span>
+<span py:if="outlet.prmax_outlettypename" py:strip="">
+	<tr><td class="prmaxrowtag">Type</td><td class="prmaxrowdisplay" py:content="outlet.prmax_outlettypename"></td></tr>
+</span>
+	<tr><td width="20%" valign="top" class="prmaxrowtag">Keywords</td><td>
+		<span py:for="interest in interests" py:strip="True"><span class="prmaxrowdisplay" py:content="interest.interestname"></span>,&nbsp;</span>
+	</td></tr>
+	</table>
+</div>
+</body></html>

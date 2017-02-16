@@ -1,0 +1,9 @@
+%if lu["has_user"]:
+<p style="${style['sheader']}">Login Details</p>
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td style="width:200px" ><p style="${style['p']}">User:</p></td><td ><p style="${style['p']}">${lu["email"]}</p></td></tr>
+<tr><td style="width:200px" ><p style="${style['p']}">Password</p></td><td ><p style="${style['p']}">${lu["password"]}</p></td></tr>
+</table>
+<br/>
+%endif

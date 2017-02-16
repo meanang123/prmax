@@ -1,0 +1,33 @@
+.dijitReset {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    line-height: normal;
+    font: inherit;
+    color: inherit;
+}
+
+.soria .requestdemo p {
+    padding: 0px;
+    margin: 0px;
+    font-family: Arial,Helvetica,Sans-serif;
+    font-size: 16px;
+    color: #0B4C89;
+    font-weight: normal;
+    text-align: left;
+}
+.soria .requestdemo .prmaxrowtag {
+    font-size: 12px;
+    text-align: right;
+}
+.soria .requestdemo .infozone {
+    padding-left: 100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.soria .requestdemo .prmaxrequired {
+    background: #fff url('/static/images/required.gif') repeat top left;
+    padding: 0px;
+    margin: 0px;
+    color: black;
+}

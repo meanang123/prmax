@@ -1,0 +1,54 @@
+.stdbanner
+{
+	background-color:#336799 !important;
+	padding:0px;
+	margin:0px;
+}
+
+.stdbanner .dijitToolbarTop {
+	border-bottom: 1px solid #ccc;
+	background:#336799;
+}
+
+.stdbanner .message
+{
+	background-color:#336799;
+	color:white;
+	font-size:10pt;
+	padding-right:5px;
+}
+
+.stdbanner .powered
+{
+	color:white;
+	font-size:12pt;
+}
+
+.stdbanner .prmax
+{
+	color:white;
+	font-size:14pt;
+}
+
+.stdbanner .background_color
+{
+	background-color:#336799;
+}
+
+.stdbanner .dijitArrowButtonInner
+{
+background-image: url("/static/images/kantar/spriteArrows.png");
+background-color: #336799;
+}
+
+.soria .dijitToolbar .dijitDropDownButtonFocused,
+.soria .dijitToolbar .dijitDropDownButtonHover,
+.soria .dijitToolbar .dijitButtonHover,
+.soria .dijitToolbar .dijitToggleButtonHover,
+.soria .dijitToolbar .dijitDropDownButtonHover,
+.soria .dijitToolbar .dijitComboButton .dijitButtonContentsHover,
+.soria .dijitToolbar .dijitComboButton .dijitDownArrowButtonHover
+{
+background-color: #336799;
+}
+

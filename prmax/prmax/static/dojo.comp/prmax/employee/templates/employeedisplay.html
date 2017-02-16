@@ -1,0 +1,44 @@
+<div class="employeedisplay">
+	<div dojoType="dijit.layout.BorderContainer" dojoAttachPoint="frame" gutters="false">
+		<div dojoAttachPoint="tabControl" dojotype="dijit.layout.TabContainer" tabStrip="true" region="center">
+			<div dojoAttachPoint="maintab" dojoType="ttl.layout.ContentPane" title='Details' selected="true" style="padding:2px" class="scrollpanel">
+				<table class="prmaxtable" width="100%" cellpadding="0" cellspacing="0" style="border-style:collapsed" >
+					<tr>
+						<td width="14%" class="prmaxrowdisplaylarge" >Name</td><td class="prmaxrowdisplaylarge" width="76%" dojoAttachPoint="employee_display_contactname"></td>
+						<td width="10%" class="employeetype" dojoAttachPoint="employee_display_options" ></td></tr>
+					<tr><td class="prmaxrowtag" width="14%">Job Title</td><td class="prmaxrowdisplay" colspan="2" width="86%" dojoAttachPoint="employee_display_job_title"></td></tr>
+					<tr><td class="prmaxrowtag" >Address</td><td class="prmaxrowdisplay" colspan="2"dojoAttachPoint="employee_display_address"></td></tr>
+					<tr><td class="prmaxrowtag" >Email</td><td class="prmaxrowdisplay" colspan="2"><a dojoAttachPoint="employee_display_email" href='outlet.email' style="width:100%" target="blank"></a></td></tr>
+					<tr><td class="prmaxrowtag" >Tel</td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_tel"></td></tr>
+					<tr><td class="prmaxrowtag" >Fax</td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_fax"></td></tr>
+					<tr><td class="prmaxrowtag" >Mobile</td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_mobile"></td></tr>
+					<tr class="prmaxhidden" dojoAttachPoint="employee_display_twitter_row"><td class="prmaxrowtag">Twitter</td><td class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_twitter" style="width:100%" target="blank"></a></td></tr>
+					<tr class="prmaxhidden"  dojoAttachPoint="employee_display_facebook_row"><td class="prmaxrowtag">Facebook</td><td class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_facebook" style="width:100%" target="blank"></a></td></tr>
+					<tr class="prmaxhidden"  dojoAttachPoint="employee_display_linkedin_row"><td class="prmaxrowtag">Linkedin</td><td class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_linkedin" style="width:100%" target="blank"></a></td></tr>
+					<tr><td class="prmaxrowtag" valign="top" >Roles</td><td class="prmaxrowdisplay" colspan="2"><div dojoAttachPoint="employee_display_roles"></div></td></tr>
+					<tr><td class="prmaxrowtag" valign="top" >Keywords</td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="interest_display"></td></tr>
+				</table>
+			</div>
+			<div dojoType="ttl.layout.ContentPane" title='Notes' >
+				<div style="padding:2px">
+					<table class="prmaxtable" width="100%" >
+						<tr><td valign="top" class="prmaxrowtag" width="17%">Local Profile&nbsp;<button class="edit_profile" type="button" dojoAttachEvent="onclick:_do_notes_edit">Add Notes</button></td><td class="prmaxrowdisplay" dojoAttachPoint="employee_display_localprofile"></td></tr>
+					</table>
+				</div>
+			</div>
+			<div dojoAttachPoint="whereusedtab" dojoType="dijit.layout.BorderContainer" design="headline" title='History'>
+				<table dojoAttachPoint="whereused" dojoType="dojox.grid.DataGrid" query="{employeeid:-1}" rowsPerPage="50" region="center" style="width:100%;height:100%">
+					<thead><tr><th field="listname" width="auto">List Name</th><th field="listtypedescription" width="auto">Type</th></tr></thead>
+				</table>
+			</div>
+			<div dojoAttachPoint="twitterview" dojoType="ttl.layout.ContentPane" title='Twitter' >
+				<div dojoAttachPoint="twitterctrl" dojoType="prcommon.twitter.twitterview" style="width:100%;height:100%"></div>
+			</div>
+			<div data-dojo-attach-point="crmview" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Engagement",preload:true'>
+					<div data-dojo-attach-point="crmctrl" data-dojo-type="prcommon.crm.viewer_only" data-dojo-props='region:"center",mode:"contact"'></div>
+				</div>
+
+		</div>
+	</div>
+	<div class="prmaxrowdisplaylarge prmaxnametab"><div style="text-align:right;padding-right:4px;padding-top:3px">Contact</div></div>
+</div>

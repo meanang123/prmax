@@ -1,0 +1,15 @@
+<div>
+		<div dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer" gutters="false" title="Active Users" style="width:100%;height:100%;overflow: hidden" >
+			<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%">
+				<div style="height:40px;width:100%;overflow:hidden" class="searchresults">
+					<div style="height:100%;width:15%;float:left;" dojoAttachPoint="activeusers_time" class="dijitToolbar prmaxrowdisplaylarge">Time</div>
+						<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:83%" >
+							<div dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" dojoAttachEvent="onClick:_ActiveUsers_Refresh">Refresh</div>
+						</div>
+					</div>
+				</div>
+			<div  dojoType="dijit.layout.ContentPane" region="center" >
+				<div dojoAttachPoint="activeusers" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" ></div>
+			</div>
+		</div>
+</div>

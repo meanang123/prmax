@@ -1,0 +1,16 @@
+<div>
+	<div data-dojo-attach-point="search_people_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Find People",style:"width:600px;height:500px"'>
+		<form data-dojo-props='"class":"prmaxdefault",name:"std_search_person",cellspacing:"0",cellpadding:"0",formid:"std_search_person_form",onsubmit:"return false"' data-dojo-type="ttl.Form" data-dojo-attach-point="form_name">
+			<input data-dojo-props='type:"hidden",value:"quick",name:"search_type"' data-dojo-type="dijit.form.TextBox" />
+			<div class="paddingrow">&nbsp;</div>
+			<div data-dojo-props='usepartial:true,search:"quick_employee",displayname:"Surname",keytypeid:10,name:"quick_contact"' data-dojo-type="prmax.search.standard" data-dojo-attach-point="std_search_outlet_contact_name"></div>
+			<hr/>
+			<div  data-dojo-props='usepartial:true,displayname:"Outlet Name",keytypeid:1,name:"quick_searchname",value:""' data-dojo-attach-point="std_search_outlet_outlet_name" data-dojo-type="prmax.search.standard"></div>
+			<hr/><br/>
+			<button data-dojo-attach-event="onClick:_clear" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Clear","class":"btn_left",style:"float:left"'></button>
+			<button data-dojo-attach-event="onClick:_search" data-dojo-attach-point="searchbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Search","class":"btn_right",style:"float:right"'></button><br style="clear:both"/>
+			<br/>
+		</form>
+		<div data-dojo-attach-point="viewer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30' ></div>
+	</div>
+</div>

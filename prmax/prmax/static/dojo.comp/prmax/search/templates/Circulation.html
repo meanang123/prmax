@@ -1,0 +1,25 @@
+<div class="circulation">
+	<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" >
+		<tr><td width="20%"   class="prmaxrowtag">Circulation</td>
+				<td width="5%" ><img height="16px" width="16px" dojoAttachPoint="toggleCtrl" dojoAttachEvent="onclick:_Toggle" src="/static/images/toopen.gif" class="toggleselect"></img>
+				<td align="right" v-align="top" ><div dojoAttachPoint="countNode" dojotype="prmax.search.SearchCount"></div></td>
+		</tr>
+	</table>
+	<div style="border 2px solid black">
+		<div dojoAttachPoint="selectarea" style="display:none" >
+			<table width="100%" class="prmaxtable">
+			  <tr>
+			  <td width="8%"><input class="prmaxdefault" dojoAttachPoint="node_1"  dojoType="dijit.form.CheckBox" type="checkbox" value="1" dojoAttachEvent="onClick:checkCount"/></td><td width="23%"><label dojoAttachPoint="node_1_label" class="labeltag">1-500</label></td>
+			  <td width="8%"><input class="prmaxdefault" dojoAttachPoint="node_2" dojoType="dijit.form.CheckBox" type="checkbox" value="2" dojoAttachEvent="onClick:checkCount"/></td><td width="26%"><label dojoAttachPoint="node_2_label" class="labeltag">501-2500</label></td>
+			  <td width="8%"><input class="prmaxdefault" dojoAttachPoint="node_3" dojoType="dijit.form.CheckBox" type="checkbox" value="3" dojoAttachEvent="onClick:checkCount"/></td><td width="21%"><label dojoAttachPoint="node_3_label" class="labeltag">2501-10k</label></td>
+			  </tr>
+			  <tr>
+			  <td width="8%"><input class="prmaxdefault" dojoAttachPoint="node_4" dojoType="dijit.form.CheckBox" type="checkbox" value="4" dojoAttachEvent="onClick:checkCount"/></td><td width="23%"><label dojoAttachPoint="node_4_label" class="labeltag">10001-50k</label></td>
+			  <td width="8%"><input class="prmaxdefault" dojoAttachPoint="node_5" dojoType="dijit.form.CheckBox" type="checkbox" value="5" dojoAttachEvent="onClick:checkCount"/></td><td width="26%"><label dojoAttachPoint="node_5_label" class="labeltag">50001-100k</label></td>
+			  <td width="8%"><input class="prmaxdefault" dojoAttachPoint="node_6" dojoType="dijit.form.CheckBox" type="checkbox" value="6" dojoAttachEvent="onClick:checkCount"/></td><td width="21%"><label dojoAttachPoint="node_6_label" class="labeltag">100001+</label></td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+

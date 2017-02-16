@@ -1,0 +1,17 @@
+<div>
+	<form dojoAttachPoint="form"  onsubmit="return false" dojoType="dijit.form.Form">
+		<input type="hidden" dojoAttachPoint="group" name="group" dojoType="dijit.form.TextBox" >
+		<table width="99%" class="prmaxtable" cellspacing="0" cellpadding="0" border="0" style="padding-top:5px">
+			<tr><td align="right" valign="top" class="prmaxrowtag" width="120px" >Subject</td><td><input type="text" required="true" dojoAttachPoint="subject" name="subject" dojoType="dijit.form.ValidationTextBox" style="width:30em"></td>
+			<tr><td align="right" valign="top" class="prmaxrowtag" >Customer</td><td><select name="icustomerid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" searchAttr="customername" dojoAttachPoint="icustomerid" required="true"></select></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Type</td><td><select name="tasktypeid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="tasktypeid" ></select></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Status</td><td><select name="taskstatusid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="taskstatusid" ></select></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Due Date</td><td><input type="text" required="true" dojoAttachPoint="due_date" name="due_date" dojoType="dijit.form.DateTextBox" style="width:8em" ></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Owner</td><td><select class="prmaxrequired" required="true" dojoAttachPoint="assigntoid" name="assigntoid" autoComplete="true" style="width:15em" dojoType="dijit.form.FilteringSelect" labelType="html"></select></td></td></tr>
+			<tr dojoAttachPoint="tasktag" class="prmaxhidden"><td align="right" valign="top" class="prmaxrowtag">Diary Type</td><td><select dojoAttachPoint="tasktagid" required="false"  name="tasktagid" autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html"></select></td></td></tr>
+			<tr><td colspan="2"><br/></td></tr>
+			<tr><td><button dojoType="dijit.form.Button" dojoAttachPoint="clsbtn" dojoAttachEvent="onClick:_Close" label="Close"></td><td align="right">
+							<button dojoType="dojox.form.BusyButton" dojoAttachPoint="addbtn" busyLabel="Adding ..." dojoAttachEvent="onClick:_Add" label="Add"><td></tr>
+		</table>
+	</form>
+</div>

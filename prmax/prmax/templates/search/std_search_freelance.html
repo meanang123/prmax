@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<body>
+<div class="searchform">
+	<div class="paddingcell" >
+		<form class="prmaxdefault" name="std_search_freelance" cellspacing="0" cellpadding="0" id="${prefix}std_search_freelance_form" formid="std_search_freelance_form" dojoType="ttl.Form" onsubmit="return false">
+			<input type="hidden" value="freelance"  name="search_type" dojoType="dijit.form.TextBox" />
+			<div class="paddingrow">&nbsp;</div>
+			<div usepartial="true" search="std_search_freelance" id="${prefix}std_search_freelance_name" displayname="Surname" keytypeid="${prmax.search_indexes.freelance_employeeid}" name="freelance_searchname" dojoType="prmax.search.standard"></div>
+			<hr/>
+			<div search="std_search_freelance" displayname="Email" keytypeid="${prmax.search_indexes.freelance_email}" name="freelance_email" dojoType="prmax.search.standard"></div>
+			<hr/>
+			<div search="std_search_freelance" displayname="Tel" keytypeid="${prmax.search_indexes.freelance_tel}" name="freelance_tel" dojoType="prmax.search.standard"></div>
+			<hr/>
+			<div search="std_search_freelance" style="width:99%" keytypeid="${prmax.search_indexes.freelance_employeeid_interestid}" name="freelance_interests" dojoType="prcommon.interests.Interests"></div>
+			<hr/>
+<span py:if="prmax.customer.search_show_profile==1" py:strip="">
+			<div search="std_search_freelance" displayname="Profile" keytypeid="${prmax.search_indexes.freelance_profile}" name="freelance_profile" dojoType="prmax.search.standard"></div>
+			<hr/>
+</span>
+			<div style="width:99%" search="std_search_freelance" keytypeid="${prmax.search_indexes.freelance_employeeid_countryid}" name="freelance_countryid" dojoType="prcommon.search.Countries"></div>
+			<hr/>
+			<input type="hidden" name="searchtypeid" py:attrs="dict(value=searchtypeid)" dojoType="dijit.form.TextBox"/>
+			<input type="submit" style="display:none"/>
+		</form>
+	</div>
+</div>
+</body></html>

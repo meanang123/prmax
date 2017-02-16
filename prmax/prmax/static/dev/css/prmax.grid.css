@@ -1,0 +1,109 @@
+.soria .dojoxGrid {
+	background-color: #e9e9e9;
+	font-size: 0.85em; /* inherit font-family from dojo.css */
+}
+
+.soria .dojoxGridHeader td {
+	padding: 0;
+	margin:0;
+}
+.soria .dojoxGrid td {
+	padding: 0;
+	margin:0;
+}
+
+.soria .dojoxGridHeader .dojoxGridCell {
+	border-width: 1px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	border-color: transparent #ACA899 #919191 transparent;
+	background: url(/static/images/theme/titleBarDark.png) #e9e9e9 repeat-x top;
+	color: #ffffff !important;
+}
+
+.soria .prmaxSelectedRow
+{
+	background-color: #e5997f;
+	color: white;
+}
+
+.soria .appendedRow
+{
+	background-color: #abc4d8;
+	color: black;
+}
+
+.soria .outofDateRow
+{
+	background-color: #D4DF55;
+	color: black;
+}
+
+.soria .overridePrimaryRow
+{
+	background-color: #957f80;
+	color: black;
+}
+
+.soria .prnPrimaryRow
+{
+	background-color: #bef8be;
+	color: black;
+
+}
+.soria .overridePrivateRow
+{
+	background-color: #dbc5c6; //957f80;
+	color: black;
+}
+
+.soria .employeeSelected
+{
+	background-color: #7d292b;
+	color: yellow;
+}
+
+.soria .prExcludeEmployee
+{
+	background-color: #D40055;
+	color:white;
+}
+
+.soria .prExcludeOutlet
+{
+	background-color: #FF3F55;
+	color:white;
+}
+
+.claro .prmaxSelectedRow .dojoxGridRowTable tr
+{
+	background-color:#e5997f !important
+}
+
+.claro .prmaxOverDueRow .dojoxGridRowTable tr
+{
+	background-color: red; !important
+	color: white;
+}
+
+.claro .prmaxCurrent
+{
+	background-color: green !important;
+	color: white;
+}
+
+
+
+.claro .dojoxGridSortNode {
+	background:url("images/header_shadow.png") #e5edf4 repeat-x bottom;
+	text-decoration:none;
+	display:block;
+	padding:0px 0px 0px 0px;
+	border:1px solid #e0eefb;
+}
+
+.largegrid .dojoxGrid
+{
+	//font-size: 1.0em;
+}

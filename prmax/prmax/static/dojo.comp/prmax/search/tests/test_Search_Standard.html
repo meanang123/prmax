@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Testing Standard</title>
+	<style type="text/css">
+		@import "/static/dojo/dijit/tests/css/dijitTests.css";
+	</style>
+	
+	<script type="text/javascript" src="../../../../dojo.dev/dojo/dojo.js" 
+		djconfig="parseOnLoad:true, isDebug: true, defaultTestTheme:'ppr',
+		baseUrl:'../../../../dojo.dev/dojo/',modulePaths:{'ttl':'/static/dojo.comp/ttl','prmax':'/static/dojo.comp/prmax'}"></script>
+	<script type="text/javascript" src="../../../../dojo.dev/dijit/tests/_testCommon.js"></script>
+	<script type="text/javascript">
+		dojo.require("dojo.parser");	
+		dojo.require("ttl.utilities");
+		dojo.require("dijit.form.Button");
+		
+		function Clear()
+		{
+			dijit.byId("test_search_base").Clear();
+		}
+	</script>
+	<script type="text/javascript" src="/static/dojo.comp/prmax/search/standard.js"></script>	
+</head>
+<body class="tundra">
+<h1 class="testTitle">prmax.search.standard</h1>
+
+<div id="test_search_base" dojoType="prmax.search.standard" testmode="true" displayname="Test System" style="width:50%" ></div>
+<br/>
+<button  dojoType="dijit.form.Button" label="Clear" onClick="Clear"></button>
+<br/>
+</body>
+</html>

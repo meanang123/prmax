@@ -1,0 +1,38 @@
+<div>
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-point='style:"width:100%;height:100%",gutters:false' >
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="controls" data-dojo-props='region:"top",style:"height:50px;width:100%;padding:0x;margin:0px;overflow:hidden","class":"std_menu_view"'>
+			<label>Client&nbsp;</label><select data-dojo-props='autoComplete:true,searchAttr:"clientname",labelType:"html",style:"width:8em;background-color:black"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_change_filter"></select>
+			<div data-dojo-attach-event="onClick:_add_clipping" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",label:"Add Clipping",showLabel:false'></div>
+			<div data-dojo-attach-event="onClick:_search_ext" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-search fa-3x",label:"Search",showLabel:false'></div>
+			<div data-dojo-attach-event="onClick:_reporting" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-bar-chart fa-3x",label:"Output",showLabel:false'></div>
+			<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"fa fa-ellipsis-v fa-3x",label:"Options",showLabel:false'>
+				<div data-dojo-type="dijit.Menu" >
+					<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Clients"' data-dojo-attach-event="onClick:_clients"></div>
+					<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Issues"' data-dojo-attach-point="issue_label_1" data-dojo-attach-event="onClick:_issues"></div>
+					<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Questions"' data-dojo-attach-event="onClick:_questions"></div>
+				</div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='region:"center",splitter:true'>
+			<div data-dojo-attach-point="viewer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30,style:"width:100%;height:100%"' ></div>
+		</div>
+		<div data-dojo-attach-point="clipping_view_ctrl" data-dojo-type="dijit.layout.StackContainer" data-dojo-props='region:"right",splitter:true,style:"width:50%;height:100%"'>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="blank_view" data-dojo-props='style:"width:100%;height:100%"'></div>
+			<div data-dojo-attach-point="clippings_view" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='style:"width:100%;height:100%"' >
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="clipping_view" data-dojo-props='title:"Clipping",style:"width:100%;height:100%"'></div>
+				<div data-dojo-type="prcommon.clippings.analysis.edit" data-dojo-attach-point="clipping_analysis_view" data-dojo-props='title:"Analysis",style:"width:100%;height:100%"'></div>
+				<div data-dojo-type="prcommon.clippings.edit" data-dojo-attach-point="clipping_edit_view" data-dojo-props='title:"Edit",style:"width:100%;height:100%"'></div>
+				<div data-dojo-type="prcommon.clippings.edit_private" data-dojo-attach-point="clipping_edit_private_view" data-dojo-props='title:"Edit",style:"width:100%;height:100%",mode:"edit"'></div>
+			</div>
+		</div>
+	<div data-dojo-attach-point="search_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Search Clippings",style:"width:500px;height:300px"'>
+		<div data-dojo-attach-point="search_ctrl" data-dojo-type="prcommon.clippings.searchext"></div>
+	</div>
+	<div data-dojo-attach-point="add_clipping_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add Clippings",style:"width:600px;height:600px"'>
+		<div data-dojo-attach-point="add_clipping_ctrl" data-dojo-type="prcommon.clippings.edit_private"></div>
+	</div>
+	<div data-dojo-attach-point="output_clipping_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Clippings Output",style:"width:600px;height:400px"'>
+		<div data-dojo-attach-point="output_clipping_ctrl" data-dojo-type="prcommon.clippings.clippingoutput"></div>
+	</div>
+</div>
+

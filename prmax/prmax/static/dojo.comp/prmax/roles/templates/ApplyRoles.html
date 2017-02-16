@@ -1,0 +1,19 @@
+<div>
+	<form class="prmaxdefault" dojoAttachPoint="form" onSubmit="return false;" dojoType="dijit.form.Form">
+		<table width="100%" class="prmaxtable">
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td colspan="2"><div  dojoType="prmax.roles.Roles" startopen="true" dojoAttachPoint="roles" size="6" name="roles" ></div></td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td valign="top" class="prmaxrowtag" colspan="2"><label dojoAttachPoint="label_primary">If no such roles revert to Primary Contact?&nbsp;</label><div dojoAttachPoint="primary" dojotype="dijit.form.CheckBox" value="1" name="setprimary"</div></td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td width="40%" valign="top" class="prmaxrowtag">List Selection</td><td><div name="selected" dojoAttachPoint="selectedNode" dojoType="prmax.common.SelectOptions"  ></td></tr>
+		<tr><td valign="top" colspan="2" class="prmaxrowtag">Searching for Roles pick contacts with particular job instead of Primary Contact.<br/>
+			<br/>If the tick box is selected, any Outlets that don't have a contact in the given Role will revert to the Primary Contact
+		</td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr>
+			<td align="left"><button class="prmaxbutton" dojoAttachEvent="onClick:_Close" dojoType="dijit.form.Button"  label="Close"></button></td>
+			<td align="right"><button class="prmaxbutton" iconClass="dijitPrmaxIcon dijitPrmaxAdd" dojoAttachEvent="onClick:_ApplyTagsButton" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Updating Roles..." label="Apply Roles"></button></td>
+		</tr>
+	</table></form>
+</div>

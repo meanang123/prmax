@@ -1,0 +1,49 @@
+<div class="stdbanner">
+	<div style="height:100%;width:9%;float:left;padding-left:2px;padding-top:2px"><img height="40px" width="100%"  src="/static/images/blueboo/logo.png"></img></div>
+	<div  class="dijitToolbarTop" dojoType="dijit.Toolbar" style="height:100%;width:62%;float:left;">
+		<div dojoType="dijit.form.Button" iconClass="PrmaxBannerIcon PrmaxBannerSearch" dojoAttachEvent="onClick:_ShowSearchStd" showLabel="${showlabel}">Search</div>
+		<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxBannerIcon PrmaxBannerView" showLabel="${showlabel}">
+			<div dojoType="dijit.Menu">
+			    <div dojoType="dijit.MenuItem" label="Outlets" dojoAttachEvent="onClick:_ShowResultList" ></div>
+			    <div dojoAttachPoint="advance_view" class="prmaxhidden" dojoType="dijit.MenuItem" label="Features" dojoAttachEvent="onClick:_ShowAdvanceResult" ></div>
+			</div>
+		</div>
+		<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:ShowListsPage" iconClass="PrmaxBannerIcon PrmaxBannerLists"  showLabel="${showlabel}">Lists</div>
+		<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxBannerIcon PrmaxBannerDistribute"  showLabel="${showlabel}" dojoAttachPoint="distribution_menu" >
+			<span>Distribute</span>
+			<div dojoType="dijit.Menu">
+			    <div dojoType="dijit.MenuItem" label="Create" dojoAttachEvent="onClick:ShowNewPressRelease" ></div>
+			    <div dojoType="dijit.MenuItem" label="Drafts" dojoAttachEvent="onClick:ShowExistingPressRelease" ></div>
+					<div dojoType="dijit.MenuItem" label="Sent" dojoAttachEvent="onClick:ShowSentDistributions" ></div>
+			</div>
+		</div>
+		<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxBannerIcon PrmaxBannerPrivate"  showLabel="${showlabel}">
+			<span>Private</span>
+			<div dojoType="dijit.Menu">
+				<div dojoType="dijit.MenuItem" label="New Outlet" dojoAttachEvent="onClick:_Outlet" ></div>
+				<div dojoType="dijit.MenuItem" label="New Freelance" dojoAttachEvent="onClick:_Freelance" ></div>
+				<div dojoAttachPoint="tag_menu" class="prmaxhidden" dojoType="dijit.MenuItem" label="Tags" dojoAttachEvent="onClick:_Tags" ></div>
+				<div dojoType="dijit.MenuItem" label="Collateral" dojoAttachEvent="onClick:_Collateral" ></div>
+				<div dojoType="dijit.MenuItem" label="Distributions" dojoAttachEvent="onClick:_Distribute" ></div>
+				<div data-dojo-attach-point="clients" data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Clients"' data-dojo-attach-event="onClick:_Clients" ></div>
+				<div dojoAttachPoint="project_menu" class="prmaxhidden"  dojoType="dijit.MenuItem" label="Projects" dojoAttachEvent="onClick:_Projects" ></div>
+			</div>
+		</div>
+		<div dojoType="dijit.form.DropDownButton" iconClass="PrmaxBannerIcon PrmaxBannerSettings"  showLabel="${showlabel}">
+		    <span>Settings</span>
+		    <div dojoType="dijit.Menu" >
+				<div dojoType="dijit.MenuItem" label="User Preferences" dojoAttachEvent="onClick:_Preferences" ></div>
+		        <div dojoType="dijit.MenuItem" label="Customer Details" dojoAttachEvent="onClick:_Customers" ></div>
+		        <div dojoType="dijit.MenuItem" disabled label="User Admin" dojoAttachEvent="onClick:_UserAdmin" dojoAttachPoint="useradmin" ></div>
+		     </div>
+		</div>
+		<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Help" iconClass="PrmaxBannerIcon PrmaxBannerHelp"  showLabel="${showlabel}">Help</div>
+	</div>
+	<div style="height:100%;width:20%;float:left"><table width="100%" height="100%" cellspacing="0" cellpadding="0"><tr align="right" valign="bottom"><td class="message">${message}</td></tr></table></div>
+	<div style="height:100%;width:8%;float:left;padding:0px;margin:0px" class="background_color">
+		<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Logout" iconClass="PrmaxBannerIcon PrmaxBannerLogout" class="adept_logout_btn"  showLabel="${showlabel}">Logout</div>
+		<div dojoType="dijit.layout.ContentPane" href="/maintenance/global_data_store" style="width:1px;height:1px"></div>
+	</div>
+	<div dojoType="prmax.pressrelease.newrelease" dojoAttachPoint="newrelease"></div>
+	<div dojoType="prmax.pressrelease.selectrelease" dojoAttachPoint="selectrelease"></div>
+</div>

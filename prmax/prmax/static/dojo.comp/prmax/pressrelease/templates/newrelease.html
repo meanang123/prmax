@@ -1,0 +1,20 @@
+<div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Enter Distribution Name"' data-dojo-attach-point="dlg">
+		<div style="width:350px;padding:20px">
+			<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"prmaxdefault",onsubmit:"return false"'>
+				<input data-dojo-props='type:"hidden",name:"emailtemplatecontent",value:""' data-dojo-type="dijit.form.TextBox"/>
+				<table class="prmaxtable" cellpadding="0" cellspacing ="0">
+					<tr>
+						<td class="prmaxlabeltag" >Distribution Name</label></td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="emailtemplatename" data-dojo-props='name:"emailtemplatename",required:true,trim:true,maxLength:45,promptMessage:"Enter Distribution name",type:"text"' ></td>
+						<tr><td class="prmaxlabeltag" >Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select></td></tr>
+					</tr>
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr>
+						<td align="left"><button data-dojo-props='"class":"prmaxbutton",type:"button",label:"Cancel"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Cancel"></button></td>
+						<td align="right"><button data-dojo-attach-event="onClick:_Save" data-dojo-attach-point="saveNode" data-dojo-type="dojox.form.BusyButton" data-dojo-props='"class":"prmaxbutton",busyLabel:"Please Wait Creating...",label:"Create"'></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

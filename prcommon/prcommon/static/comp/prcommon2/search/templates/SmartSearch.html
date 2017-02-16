@@ -1,0 +1,25 @@
+<div>
+	<div>
+		<form data-dojo-props='onsubmit:"return false","class":"prmaxtable",name:"std_search_quick",formid:"std_search_quick_form"' data-dojo-attach-point="form_name" data-dojo-type="ttl/Form2" >
+			<br/>
+			<input data-dojo-props='type:"hidden",value:"quick",name:"search_type"' data-dojo-type="dijit/form/TextBox" />
+			<div  data-dojo-props='usepartial:true,displayname:"Outlet Name",keytypeid:1,name:"quick_searchname",value:""' data-dojo-type="prcommon2/search/standard"></div>
+			<hr/>
+				<div data-dojo-props='usepartial:true,displayname:"Surname",keytypeid:22,name:"quick_contact"' data-dojo-type="prcommon2/search/standard"></div>
+			<hr/>
+			<div data-dojo-props='style:"width:99%",keytypeid:23,name:"quick_outlettypes"' data-dojo-type="prcommon2/search/PrmaxOutletTypes"></div>
+			<hr/>
+			<div data-dojo-props='style:"width:99%",keytypeid:114,size:8,name:"quick_interests",restrict:0' data-dojo-type="prcommon2/interests/Interests"></div>
+			<hr/>
+			<div data-dojo-props='style:"width:99%",keytypeid:50,name:"quick_coverage"' data-dojo-type="prcommon2/geographical/Geographical" ></div>
+			<hr/>
+			<div data-dojo-props='search:"std_search_quick",displayname:"Tel",keytypeid:118,name:"quick_tel",min:4' data-dojo-type="prcommon2/search/standard"></div>
+			<hr/>
+			<div data-dojo-props='search:"std_search_quick",displayname:"Email",keytypeid:117,name:"quick_email",min:4' data-dojo-type="prcommon2/search/standard"></div>
+			<hr/>
+			<div data-dojo-props='style:"width:99%",keytypeid:24,name:"quick_countryid"' data-dojo-type="prcommon2/search/Countries"></div>
+			<input data-dojo-props='type:"hidden",name:"searchtypeid",value:1' data-dojo-attach-point="searchtypeid" data-dojo-type="dijit/form/TextBox"/>
+			<input type="submit" style="display:none"/>
+		</form>
+	</div>
+</div>

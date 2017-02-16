@@ -1,0 +1,12 @@
+<div>
+	<div dojoAttachPoint="borderCtrl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%"  >
+		<div dojoAttachPoint="tabCtrl" dojotype="dijit.layout.TabContainer" region="center" >
+			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="Media" dojoAttachPoint="standingtab_view" ${startup_standing} >
+				<div dojoAttachPoint="standing" dojotype="prmax.lists.standinglist" region="center" style="width:100%;height:100%"></div>
+			</div>
+			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="Distributions" dojoAttachPoint="distributionstab_view" ${startup_distributions} >
+				<div dojoAttachPoint="distribution" dojotype="prmax.pressrelease.view" region="center" display="Distribution Lists" startup_mode="${startup_mode}"></div>
+			</div>
+		</div>
+	</div>
+</div>

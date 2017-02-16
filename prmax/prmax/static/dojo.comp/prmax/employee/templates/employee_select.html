@@ -1,0 +1,25 @@
+<div>
+	<input name="contacttype"  value="N" dojoAttachEvent="onClick:_ContactMode"dojoAttachPoint="nocontactNode" dojoType="dijit.form.RadioButton"> </input><label dojoAttachPoint="nocontactlabel">No Person</label>
+	<input name="contacttype"  value="S" checked dojoAttachEvent="onClick:_ContactMode" dojoAttachPoint="selectContactNode" dojoType="dijit.form.RadioButton"> </input><label dojoAttachPoint="selectcontactlabel">Select Person</label>
+	<div dojoAttachPoint="selectContactForm" class="prmaxvisible" >
+		<table style="width:100%" class="prmaxtable">
+			<tr><td class="prmaxrowtag">Person</td>
+				<td><select name="contactid"
+						dojoAttachPoint="contactlist"
+						 autoComplete="false"
+						 searchAttr="contactname"
+						 labelAttr="contactname"
+						 dojoType="dijit.form.FilteringSelect"
+						 pageSize="20"
+						 required="${required}"
+						 labelType="html">
+					</select>
+				</td>
+				<td><button type="button" dojoType="dijit.form.Button" label="New Person" dojoAttachEvent="onClick:_AddContactShow"><td>
+			</tr>
+		</table>
+	</div>
+	<div dojoAttachPoint="addContactForm" class="prmaxhidden" >
+		<div dojoAttachPoint="addContactControl" dojoType="prmax.employee.EmployeeNew"></div>
+	</div>
+</div>

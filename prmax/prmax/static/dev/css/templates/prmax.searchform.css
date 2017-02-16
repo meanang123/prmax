@@ -1,0 +1,29 @@
+.soria .searchform hr
+{
+	width:96%;
+	color:gray;
+}
+
+.soria .searchform .bottom
+{
+	background-color:#094b88;
+	padding:4px;
+}
+
+.soria .searchform .prmaxlabeltag2
+{
+	padding: 0px;
+	margin: 0px;
+	color:white;
+}
+
+.soria .searchform .paddingrow
+{
+	height:5px;
+	width:100%;
+}
+
+.soria .searchform .paddingcell
+{
+	padding: 5px;
+}

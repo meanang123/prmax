@@ -1,0 +1,19 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%;height:48px;padding:0px;margin:0px"'>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",showLabel:true' data-dojo-attach-event="onClick:_add_desk"><span>Add Desk</span></div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center"'>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' data-dojo-attach-point="grid_view"></div>
+		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="controls" data-dojo-props="region:'bottom',style:'width:100%;height:50%',preload:false,splitter:true">
+			<div data-dojo-attach-point="blank" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"blank",selected:"selected"'></div>
+			<div data-dojo-attach-point="desk_update_ctrl" data-dojo-type="prcommon2/outlet/desks/DeskAdd" data-dojo-props='mode:"update",style:"width:100%;height:100%","class":"scrollpanel"'></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="desk_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Add Desk",style:"width:600px;height:520px"'>
+		<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"width:590px;height:490px"'>
+			<div data-dojo-attach-point="desk_add_ctrl" data-dojo-type="prcommon2/outlet/desks/DeskAdd" data-dojo-props='region:"center"'></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false","class":"prmaxdefault"' data-dojo-type="dijit.form.Form">
+		<input data-dojo-props='type:"hidden",name:"icustomerid"' data-dojo-attach-point="icustomerid" data-dojo-type="dijit.form.TextBox" ></input>
+		<table class="prmaxtable" width="500px"  border="0">
+			<tr><td class="prmaxrowtag" align="right" >Email Address</td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",size:"40",maxlength:"80",trim:true,required:true,regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address",size:"40"' data-dojo-attach-point="email" /></td></tr>
+			<tr><td class="prmaxrowtag" align="right" >Contact Name</td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"displayname",type:"text",size:"80",maxlength:"80",trim:true,required:true' data-dojo-attach-point="displayname" /></td></tr>
+			<tr><td class="prmaxrowtag" align="right" >End Date</td><td><input data-dojo-props='type:"text",required:true,name:"licence_expire",style:"width:8em"' data-dojo-attach-point="licence_expire" data-dojo-type="dijit.form.DateTextBox"><td></tr>
+			<tr><td class="prmaxrowtag" align="right" >Send Email</td><td><input data-dojo-attach-point="sendemail" data-dojo-props='value:"true",name:"sendemail",type:"checkBox"' data-dojo-type="dijit.form.CheckBox" ></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Assigned To</td><td><select data-dojo-props='"class":"prmaxrequired",required:true,name:"assigntoid",autoComplete:true,style:"width:15em",labelType:"html"' data-dojo-attach-point="assigntoid"  data-dojo-type="dijit.form.FilteringSelect" ></select></td></td></tr>
+
+			<tr><td class="prmaxrowtag" colspan ="2">&nbsp;</td></tr>
+			<tr><td class="prmaxrowtag" colspan="2" align="right"><button data-dojo-attach-point="updBtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='busyLabel:"Please Wait Updating...",label:"Re-Activate","class":"prmaxbutton"' data-dojo-attach-event="onClick:_Update" ></button></td></tr>
+		</table>
+	</form>
+</div>
+
+

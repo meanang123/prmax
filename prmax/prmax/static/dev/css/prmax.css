@@ -1,0 +1,59 @@
+/*
+ paperround specific css settings
+*/
+
+/*
+for dojo grid
+*/
+@import "prmax.grid.css";
+
+/*
+general ppr style for widgets
+*/
+@import "prmax.general.css";
+
+/*
+ppr icons for dojo
+*/
+@import "prmax.icons.css";
+
+/*
+ppr dojo toast widget settings
+*/
+@import "prmax.toast.css";
+
+/*
+override styles for dojo standard widgets
+*/
+@import "prmax.overrides.css";
+
+/* widgets */
+@import "widgets/prmax.geographical.css";
+@import "widgets/prmax.startup.css";
+@import "widgets/prmax.employeedisplay.css";
+@import "widgets/prmax.email.css";
+@import "widgets/prmax.stdbanner.css";
+@import "widgets/prmax.results.css";
+@import "widgets/prmax.circulation.css";
+@import "widgets/prmax.outlettypes.css";
+@import "widgets/prmax.prmaxoutlettypes.css";
+@import "widgets/prmax.tooltips.css";
+@import "widgets/prmax.helpdialog.css";
+@import "widgets/prmax.requestdemo.css";
+@import "widgets/prmax.sendemail.css";
+@import "widgets/prmax.advanceresults.css";
+@import "widgets/prmax.advancestdview.css";
+@import "widgets/prmax.twitter.css";
+@import "widgets/prmax.seoview.css";
+@import "widgets/prmax.seocustomerview.css";
+@import "widgets/prmax.clientview.css";
+@import "widgets/prmax.listsview.css";
+
+/* templates */
+@import "templates/prmax.searchform.css";
+@import "templates/prmax.outletmain.css";
+@import "templates/prmax.profile.css";
+
+
+
+

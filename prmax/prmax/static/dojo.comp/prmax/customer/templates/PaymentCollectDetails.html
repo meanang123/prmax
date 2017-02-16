@@ -1,0 +1,30 @@
+<div>
+	<form class="prmaxdefault" dojoAttachPoint="form" onSubmit="return false;" dojoType="dijit.form.Form">
+		<input class="prmaxinput" dojoAttachPoint="nbrofloginsid" name="nbrofloginsid" type="hidden" dojoType="dijit.form.TextBox"  value="1"/>
+		<input class="prmaxinput" dojoAttachPoint="isprofessional_field" name="isprofessional" type="hidden" dojoType="dijit.form.TextBox"  value="0"/>
+		<table width="100%" border="0" cellspacing = "1" >
+			<tr><td >&nbsp;</td></tr>
+			<tr><td colspan="3" align="center" class="prmaxrowdisplaylarge">Please Confirm Payment Details</td></tr>
+			<tr><td colspan="3"><hr/></td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Company Name</td><td width="70%">${companyname}</td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Card Holder Surname</td><td  ><input dojoAttachPoint="card_surname" class="prmaxrequired" name="surname" type="text" style="width:20em" maxlength="40" required ="true" invalidMessage="Please Enter Card Holders Surname" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Card Holder First Name</td><td  ><input class="prmaxrequired" name="firstname" type="text" style="width:20em" maxlength="40" required ="true" invalidMessage="Please Enter Card Holders First Name" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+			<tr><td class="prmaxrowdisplaylarge" colspan="2" align="left">Card Holder's Address</td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Address 1 </td><td><input class="prmaxrequired" name="address1" type="text" required="true" invalidMessage="Please Enter first line of address" dojoType="dijit.form.ValidationTextBox" style="width:25em"/></td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Address 2 </td><td ><input class="prmaxinput" name="address2" type="text" size="40" maxlength="80" dojoType="dijit.form.TextBox"  style="width:25em"/></td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Town</td><td  ><input class="prmaxrequired" name="townname" type="text" size="30" required="true" invalidMessage="Please Enter postal Town" dojoType="dijit.form.ValidationTextBox"/></td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Post Code</td><td  ><input class="prmaxrequired" name="postcode" type="text" style="width:10em" maxlength="10" required ="true" invalidMessage="Please Enter a post code " dojoType="dijit.form.ValidationTextBox" /></td></tr>
+			<tr><td class="prmaxrowtag" >Confirmation Email:</td><td><input class="prmaxrequired" name="email" type="text"  trim="true" required="true" dojoType="dijit.form.ValidationTextBox" lowercase="true" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="40" maxlength="80"/></td></tr>
+			<tr data-dojo-attach-point="advancefeatures_row_view"><td class="prmaxrowtag" >Advance Features</td><td  ><input dojoAttachPoint="advancefeatures_view" name="advancefeatures" type="checkbox" dojoType="dijit.form.CheckBox" dojoAttachEvent="onChange:_ChangeCost"/></td></tr>
+			<tr data-dojo-attach-point="term_view"><td class="prmaxrowtag">Term</td><td><select dojoAttachPoint="payment_start_termid" class="prmaxinput" name="termid" style="width:9em" dojoType="dijit.form.FilteringSelect" autoComplete="true" searchAttr="name" labelType="html" dojoAttachEvent="onChange:_ChangeCost"></select></td><td></td></tr>
+			<tr><td class="prmaxrowtag" >Cost (including Vat)</td><td><input dojoAttachPoint ="payment_cost" class="prmaxinput" dojoType="dijit.form.TextBox" readonly="readonly" value="£" /></td></tr>
+			<tr><td colspan="3">&nbsp;</td></tr>
+			<tr><td colspan="3">&nbsp;</td></tr>
+			<tr><td colspan="3" align="right"><input class="prmaxrowdisplaylarge" type="button" dojoAttachEvent="onClick:_Proceed" name="Proceed" dojoType="dijit.form.Button" label="Continue" value="Proceed"/></td></tr>
+			<tr><td colspan="3">&nbsp;</td></tr>
+		</table>
+	</form>
+	<table width="100%" border="0">
+		<tr><td  width="70%">&nbsp;</td><td align="right"><input class="prmaxbutton" type="button" dojoAttachEvent="onClick:_ProForma" name="proforma" dojoType="dijit.form.Button" label="Send Proforma" value="proforma"/></td></tr>
+	</table>
+</div>

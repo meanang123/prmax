@@ -1,0 +1,18 @@
+<div>
+	<table style="width:99%;border-style:collapsed" class="prmaxtable" cellpadding="0" cellspacing="0" >
+		<tr><td width="20%" ><span class="prmaxrowtag">${displayname}</span></td>
+			<td width="70%" >
+				<select data-dojo-type="dijit/form/ComboBox" data-dojo-props='style:"width:8em",autocomplete:false,value:"No Selection"' data-dojo-attach-point="option" data-dojo-attach-event="onChange:_option_changed">
+						<option>No Selection</option>
+						<option>Before</option>
+						<option>After</option>
+						<option>Between</option>
+				</select>
+				<input data-dojo-attach-point="from_date_box" data-dojo-props='"class":"prmaxbutton prmaxhidden",type:"text",style:"width:6em"' data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-event="onChange:_date_changed">
+				<label data-dojo-attach-point="to_box_label" class="prmaxhidden"> and </label><input data-dojo-attach-point="to_date_box" data-dojo-props='"class":"prmaxbutton prmaxhidden",type:"text",style:"width:6em" '  data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-event="onChange:_date_changed" >
+				<input data-dojo-attach-point="month_checkbox" data-data-props='type:"checkbox",checked:"checked",value:"1"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-event="onChange:_date_changed" ><label data-dojo-attach-point="label_box" checked >Include Months</label>
+			</td>
+			<td width="10%" align="right"><div data-dojo-attach-point="countnode" data-dojo-type="prcommon2/search/SearchCount"></div></td>
+		</tr>
+	</table>
+</div>

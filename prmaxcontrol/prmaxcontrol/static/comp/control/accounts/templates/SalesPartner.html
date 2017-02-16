@@ -1,0 +1,73 @@
+<div>
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"height:35px;width:100%;overflow:hidden;border:1px solid black"'>
+            <div class="dijitToolbarTop" data-dojo-type="dijit/Toolbar" data-dojo-props='style:"float:left:height:100%;width:100%","class":"prmaxbuttonlarge"' >
+                <table width="50%" border="0" cellpadding="0" cellspacing="0" >
+                    <tr><td class="prmaxrowtag" style="width:70px">Partner</td><td style="width:250px"><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='"class":"prmaxinput",name:"customersourceid",style:"width:15em"' data-dojo-attach-point="customersourceid" ></select></td>
+                        <td><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_change_partner">Show Partner</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    <div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"' >
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='"class":"scrollpanel",style:"width:100%;height:100%",title:"Details"' >
+            <form data-dojo-attach-point="DetailsForm" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit/form/Form">
+                <table class="prmaxtable" width="500px" cellspacing="0" cellpadding="0" border="0">
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Name</td><td width="70%"><input data-dojo-attach-point="name" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"name"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Contact</td><td width="70%"><input data-dojo-attach-point="contactname" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"contactname"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Address1</td><td width="70%"><input data-dojo-attach-point="address1" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"address1"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Address2</td><td width="70%"><input data-dojo-attach-point="address2" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"address2"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >County</td><td width="70%"><input data-dojo-attach-point="county" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"county"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Postcode</td><td width="70%"><input data-dojo-attach-point="postcode" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"postcode"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Townname</td><td width="70%"><input data-dojo-attach-point="townname" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"townname"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >County</td><td width="70%"><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='"class":"prmaxinput",name:"country"' data-dojo-attach-point="country" ></select></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Email Address</td><td width="70%"><input data-dojo-attach-point="email" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"email",required:true,regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address",size:40,maxLength:70' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td class="prmaxrowtag" style="width:30%" align="right" >Phone</td><td width="70%"><input data-dojo-attach-point="phone" data-dojo-props='"class":"prmaxinput",type:"text",trim:true,name:"phone"' data-dojo-type="dijit/form/TextBox"></td></tr>
+                    <tr><td><button data-dojo-attach-point="updbtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_update_partner">Update</button></td></tr>
+                </table>
+            </form>
+        </div>
+
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='"class":"scrollpanel",style:"width:100%;height:100%",title:"Financial Log"' >
+            <div style="height:6%;width:100%;overflow:hidden;padding:0px;margin:0px">
+                <div style="float:left;padding-top:0px;padding-right:10px;margin:5px" >
+                    <label class="label_size_small">Dates</label><div data-dojo-type="prcommon2/date/daterange" data-dojo-attach-point="date_search"></div>
+                    <label class="prmaxrowdisplay">Unallocated</label><input data-dojo-props='"class":"prmaxbutton",type:"checkbox",name:"unallocated",checked:true' data-dojo-attach-point="unallocated" data-dojo-type="dijit/form/CheckBox" >
+                    <button type="button" data-dojo-attach-event="onClick:_FilterBy" data-dojo-type="dijit/form/Button" label="Filter By" ></button>
+                    <button data-dojo-attach-event="onClick:_statement_report" data-dojo-attach-point="statementreportbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-print",type:"button",busyLabel:"Generating Statement Report...",label:"Statement Report PDF"'></button>
+                    <td><button data-dojo-attach-event="onClick:_statement_report_excel" data-dojo-attach-point="statementreportexcelbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-print",type:"button",busyLabel:"Generating Statement Report Excel...",label:"Statement Report Excel"'></button>
+                </div>
+            </div>
+
+             <div data-dojo-attach-point="financialgrid" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true,style:"width:100%;height:93%"' ></div>
+        </div>
+
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='"class":"scrollpanel",style:"width:100%;height:100%",title:"Customers"' >
+            <div style="height:6%;width:100%;overflow:hidden;padding:0px;margin:0px">
+                <div style="float:left;padding-top:0px;padding-right:10px;margin:5px" >
+                    <select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='"class":"prmaxinput",name:"customerstatus", value:0' data-dojo-attach-point="customerstatus" ></select>
+                    <button type="button" data-dojo-attach-event="onClick:_FilterBy_Customers" data-dojo-type="dijit/form/Button" label="Filter By" ></button>
+                    <button data-dojo-attach-event="onClick:_listing_report" data-dojo-attach-point="listingreportbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-print",type:"button",busyLabel:"Generating Customers Report...",label:"Customers Report PDF"'></button>
+                    <button data-dojo-attach-event="onClick:_listing_report_excel" data-dojo-attach-point="listingreportexcelbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-print",type:"button",busyLabel:"Generating Customers Report Excel...",label:"Customers Report Excel"'></button>
+                </div>
+            </div>
+        
+            <div data-dojo-attach-point="customersgrid" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true,style:"width:100%;height:93%"' ></div>
+        </div>
+
+        <div data-dojo-attach-point="listing_report_dlg" data-dojo-type="dijit/Dialog" title="Partners' Customers" data-dojo-props='style:"width:300px"'>
+            <div data-dojo-type="prcommon2/reports/ReportBuilder" data-dojo-attach-point="listing_report_node"></div>
+        </div><br/>
+        <div data-dojo-attach-point="statement_report_dlg" data-dojo-type="dijit/Dialog" title="Partners' Statement" data-dojo-props='style:"width:300px"'>
+            <div data-dojo-type="prcommon2/reports/ReportBuilder" data-dojo-attach-point="statement_report_node"></div>
+        </div>        
+    </div>
+
+    <form data-dojo-attach-point="documentform" target="_blank" method="post" action="/audit/viewpdf">
+        <input type="hidden" name="audittrailid" data-dojo-attach-point="documentform_audittrailid">
+    </form>
+    <form data-dojo-attach-point="htmlform" target="_blank" method="post" action="/audit/viewhtml">
+        <input type="hidden" name="audittrailid" data-dojo-attach-point="htmlform_audittrailid">
+    </form>
+    
+</div>

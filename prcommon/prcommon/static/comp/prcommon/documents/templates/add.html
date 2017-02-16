@@ -1,0 +1,14 @@
+<div>
+	<form  data-dojo-attach-point="document_form" method="post" name="document_form" enctype="multipart/form-data"  onSubmit="return false;">
+		<input class="prmaxinput" type="hidden" data-dojo-attach-point="document_cache" name="document_cache" value="-1">
+		<table width="99%" border="0" cellpadding="0" cellspacing="1" >
+			<tr><td width="120px" align="right" class="prmaxrowtag">File Name</td><td><input size="30" class="prmaxinput" type="file" data-dojo-attach-point="document_file" name="document_file"></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Description</td><td><input data-dojo-props='style:"width:98%", "class":"prmaxrequired", name:"documentname", type:"text", maxLength:255, trim:true, required:true, invalidMessage:"Description field must be filled in"' data-dojo-attach-point="document_name" data-dojo-type="dijit.form.ValidationTextBox"/></td></tr>
+			<tr><td colspan = "2" >&nbsp;</td></tr>
+			<tr><td colspan = "2" ><span data-dojo-attach-point="progressnode" style="display:none;"><div data-dojo-type="dijit.ProgressBar" data-dojo-attach-point="progresscontrol" data-dojo-props='style:"width:200px", indeterminate:true'></div></span></td></tr>
+			<tr><td align="left"><button data-dojo-props='"class":"prmaxbutton prmaxhidden", label:"Close", type:"button"' data-dojo-attach-point="closenode" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_close"></button></td>
+					<td align="right"><button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Add"' data-dojo-attach-point="savenode" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_add"></button></td>
+			</tr>
+		</table>
+	</form>
+</div>

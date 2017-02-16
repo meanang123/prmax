@@ -1,0 +1,54 @@
+.soria .sendemail .prmaxrowdisplaylarge2
+{
+	padding:1px;
+	margin: 1px;
+	valign:top;
+	v-align:top;
+	font-size:1.5em;
+	color:#094b88;
+}
+
+.soria .sendemail .step
+{
+	color:blue;
+	font-size:20px;
+	float:left;
+	padding:0px;
+	margin:0px;
+}
+.soria .sendemail .stepspace
+{
+	padding-left:15px;
+	padding-right:15px;
+	float:left;
+	font-size:20px;
+	padding:0px;
+	margin:0px;
+}
+
+.soria .sendemail .stepdetails
+{
+	color:light-blue;
+	font-size:20px;
+	float:left;
+	padding:0px;
+	margin:0px;
+}
+
+.soria .sendemail .subjecttitle
+{
+	float:right;
+	padding-right:2px;
+	height:100%;
+	width:50%;
+	overflow:hidden;
+	text-align:right;
+	align:middle;
+	font-size:20px;
+}
+
+.soria .sendemail .emailcount
+{
+	font-size:1.2em;
+	font-weight:bold;
+}

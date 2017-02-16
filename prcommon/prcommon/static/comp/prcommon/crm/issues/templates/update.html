@@ -1,0 +1,38 @@
+<div>
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,style:"width:100%;height:100%"' >
+		<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="display_view" data-dojo-props='region:"center"'>
+			<div title="blank" data-dojo-attach-point="blank" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='selected:"selected",style:"width:100%;height:100%"'></div>
+			<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props="region:'center',splitter:true,'class':'bordered'">
+				<div data-dojo-attach-point="details"  data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Details',style:'height:100%;width:500px;overflow :auto','class':'bordered scrollpane',selected:'selected'">
+					<span class="common_prmax_layout">
+					<form class="prmaxdefault" data-dojo-attach-point="formnode" data-dojo-type="dijit.form.Form" onSubmit="return false">
+						<input data-dojo-props='name:"issueid",type:"hidden",value:"-1"' data-dojo-attach-point="issueid" data-dojo-type="dijit.form.TextBox"/><br/>
+						<br/>
+						<label class="label_1">Title</label><input data-dojo-props='"class":"prmaxrequired",name:"name",type:"text",maxlength:80,trim:true,required:true,style:"width:20em"' data-dojo-attach-point="issuename" data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+						<label class="label_1">Document</label><select data-dojo-props='name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select><br/>
+						<label class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><br/>
+						<label>Briefing Notes</label><br/>
+						<div class="stdframe" style="height:250px;" data-dojo-attach-point="notes_frame"><textarea data-dojo-attach-point="briefingnotes" data-dojo-props='name:"briefingnotes",trim:true,required:true,style:"width:99%;height:80%"' data-dojo-type="dijit.form.Textarea" ></textarea></div><br/>
+						<label class="label_1">Notes Status</label><select data-dojo-props='"class":"prmaxrequired",name:"briefingnotesstatusid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Briefing Note Status",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="briefingnotesstatusid" data-dojo-attach-event="onChange:_change_colour"></select><br/>
+						<label class="label_1">Approved By</label><select data-dojo-props='"class":"prmaxrequired",name:"approvedbyid",autoComplete:true,searchAttr:"name",required:false,invalidMessage:"Select",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="approvedbyid"></select><br/><br/>
+					<button data-dojo-attach-event="onClick:_update_issue" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Upating...",label:"Update","class":"btnright"'></button><br/><br/>
+					</form>
+					</span>
+				</div>
+				<div data-dojo-attach-point="history"  data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="title:'History',style:'height:100%;width:100%;overflow :auto','class':'bordered scrollpanel'">
+					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region: "center"'>
+						<div data-dojo-attach-point="history_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30,style:"width:100%;height:100%"' ></div>
+					</div>
+					<div data-dojo-attach-point="history_view_ctrl" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region: "right",style:"width:70%;height:100%"'></div>
+				</div>
+				<div data-dojo-attach-point="engagements"  data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Engagements',style:'height:100%;width:100%;overflow :auto','class':'bordered scrollpanel'">
+					<div data-dojo-attach-point="engagements_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30,style:"width:100%;height:100%"' ></div>
+				</div>
+				<div data-dojo-attach-point="coverage" data-dojo-type="prcommon.crm.solidsocial.viewercoverage" data-dojo-props="title:'Coverage',style:'height:100%;width:100%;overflow :auto','class':'bordered scrollpanel'"></div>
+				<div data-dojo-attach-point="analysis_tab" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Analysis",gutters:false' >
+					<div data-dojo-type="prcommon.clippings.questions.analysis_viewer" data-dojo-props='region:"center",style:"width:100%;height:100%"' data-dojo-attach-point="analysis_ctrl"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

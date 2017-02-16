@@ -1,0 +1,35 @@
+<div >
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center"'>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%;height:240px"'>
+			<textarea name = "query_text" style="width:100%" rows=9 class="prmaxdefault" data-dojo-attach-point="query_text"></textarea>
+			<table cellpadding="0" cellpadding="0" width="100%">
+				<tr><td><button data-dojo-attach-point="execute_button" data-dojo-type="dojox/form/BusyButton" data-dojo-attach-event="onClick:_Execute" data-dojo-props='busyLabel:"Wait Executing"'>Execute</button></td>
+			<td>
+				<form data-dojo-attach-point="to_excel_form" target="_newtab" method="post" action="/query/to_excel" data-dojo-attach-event="onsubmit:_To_Excel" >
+					<input type="hidden"  data-dojo-attach-point="query_text_to_excel" name = "query_text" data-dojo-type="dijit/form/TextBox" >
+					<input type="hidden"  data-dojo-attach-point="tmp_to_excel" name = "tmp_cache" data-dojo-type="dijit/form/TextBox" >
+					<button type="submit" data-dojo-type="dijit/form/Button" label="To Excel" ></button>
+				</form>
+			</td>
+			<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_Save">Save As</button><select data-dojo-attach-point="select" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='searchAttr:"subject",labelType:"html"' ></select><button data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_Load">Load</button></td></tr></table>
+			<br/>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' data-dojo-attach-point="result_view">
+		</div>
+	</div>
+	<div data-dojo-attach-point="savedlg" data-dojo-type="dijit/Dialog"  title="Save Query">
+		<div><br/>
+			<form class="prmaxdefault" data-dojo-attach-point="formNode" data-dojo-type="dijit/form/Form" onSubmit="return false">
+				<input type="hidden"  name = "typeid" value="1" data-dojo-type="dijit/form/TextBox" >
+				<table style="width:100%;border-collapse:collapse;" cellspacing="1" cellpadding="1" border="0">
+					<tr><td class="prmaxrowtag">Subject</td><td><input  data-dojo-props='style:"float:left",name:"subject",type:"text",trim:true,required:true' data-dojo-attach-point="subject_name" data-dojo-type="dijit/form/ValidationTextBox"/></td></tr>
+				</table>
+			</form>
+			<br/>
+		</div>
+		<div >
+				<button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_CancelDialog" style="float:left">Cancel</button>
+				<button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_Query_Save" style="float:right">OK</button>
+		</div><br/>
+	</div>
+</div>

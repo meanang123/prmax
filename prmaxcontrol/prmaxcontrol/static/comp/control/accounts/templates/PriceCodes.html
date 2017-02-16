@@ -1,0 +1,59 @@
+<div>
+	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"width:100%;height:100%",gutters:false'>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"height:35px;width:100%;overflow:hidden;border:1px solid black"'>
+			<div class="dijitToolbarTop" data-dojo-type="dijit/Toolbar" data-dojo-props='style:"float:left:height:100%;width:100%","class":"prmaxbuttonlarge"' >
+				<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"PrmaxResultsIcon PrmaxResultsEmpty",showLabel:true' data-dojo-attach-event="onClick:_New">New</div>
+			</div>
+		</div>
+		<div data-dojo-attach-point="view_grid" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true'></div>	
+	</div>
+	<div data-dojo-type="dijit/Dialog" title="New Price Code" data-dojo-attach-point="pricecodedialog">
+		<form data-dojo-attach-point="form" onsubmit="return false" data-dojo-type="dijit/form/Form">
+			<table style="width:500px;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+				<tr><td align="right" class="prmaxrowtag" >Products</td><td><input data-dojo-props='type:"text",required:true,name:"customerproductid",style:"width:300px"' data-dojo-attach-point="customerproductid" data-dojo-type="dijit/form/FilteringSelect"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" width="150px">Price Code</td><td><input data-dojo-props='type:"text",required:true,name:"pricecodedescription",style:"width:150px"' data-dojo-attach-point="pricecodedescription" data-dojo-type="dijit/form/ValidationTextBox"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Price Description</td><td><input data-dojo-props='type:"text",required:true,name:"pricecodelongdescription",style:"width:300px"' data-dojo-attach-point="pricecodelongdescription" data-dojo-type="dijit/form/ValidationTextBox" ></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Module Type</td><td><select data-dojo-props='"class":"prmaxinput",name:"prmaxmoduleid",style:"width:10em",autoComplete:true,required:true' data-dojo-attach-point="prmaxmoduleid" data-dojo-type="dijit/form/FilteringSelect" ></select>
+				
+				<tr><td align="right" class="prmaxrowtag" >Partners</td><td><select data-dojo-props='"class":"prmaxinput",name:"customersourceid",style:"width:10em"' data-dojo-attach-point="customersourceid" data-dojo-type="dijit/form/FilteringSelect" ></select>
+
+				<tr><td align="right" class="prmaxrowtag" >Fixed Sales Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"fixed_salesprice",required:true,trim:true,style:"width:8em",constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="fixed_salesprice"  ></input>
+				<tr><td align="right" class="prmaxrowtag" >Fixed Renewal Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"fixed_renewalprice",required:true,trim:true,style:"width:8em",constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="fixed_renewalprice" ></input>
+				<tr><td align="right" class="prmaxrowtag" >Monthly Sales Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"monthly_salesprice",required:true,trim:true,style:"width:8em",constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="monthly_salesprice"></input>
+				<tr><td align="right" class="prmaxrowtag" >Monthly Renewal Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"monthly_renewalprice",required:true,trim:true,style:"width:8em",constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="monthly_renewalprice" ></input>
+				<tr><td align="right" class="prmaxrowtag" >Concurrent Users</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"concurrentusers",required:true,trim:true,style:"width:5em",constraints:{min:1,max:200}' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="concurrentusers" ></input>
+				<tr><td align="right" class="prmaxrowtag" >Paid Months</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"paid_months",required:true,trim:true,style:"width:5em",constraints:{min:1,max:50}' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="paid_months"></input>
+				<tr><td colspan="2"><br/></td></tr>
+				<tr>
+					<td><button data-dojo-props='type:"button",label:"Close"' data-dojo-attach-event="onClick:_Close" data-dojo-type="dijit/form/Button"></button></td>
+					<td align="right"><button data-dojo-props='type:"button",busyLabel:"Adding ...",label:"Add Price Code"' data-dojo-attach-point="addbtn" data-dojo-attach-event="onClick:_Add" data-dojo-type="dojox/form/BusyButton"></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div data-dojo-type="dijit/Dialog" title="Update Price Code" data-dojo-attach-point="pricecodeupddialog">
+		<form data-dojo-attach-point="formupd"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+			<input type="hidden" data-dojo-attach-point="pricecodeid" name = "pricecodeid" data-dojo-type="dijit/form/TextBox" />
+			<table style="width:500px;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+				<tr><td align="right" class="prmaxrowtag" >Products</td><td><input data-dojo-props='type:"text",required:true,name:"customerproductid",style:"width:300px"' data-dojo-attach-point="customerproductid2" data-dojo-type="dijit/form/FilteringSelect"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" width="150px">New Price Code</td><td><input data-dojo-props='type:"text",required:true,name:"pricecodedescription",style:"width:300px"' data-dojo-attach-point="pricecodedescription2" data-dojo-type="dijit/form/ValidationTextBox"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Price Description</td><td><input data-dojo-props='type:"text",required:true,name:"pricecodelongdescription",style:"width:300px"' data-dojo-attach-point="pricecodelongdescription2" data-dojo-type="dijit/form/ValidationTextBox" ></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Module Type</td><td><select  data-dojo-props='"class":"prmaxinput",name:"prmaxmoduleid",style:"width:10em",autoComplete:true,required:true' data-dojo-attach-point="prmaxmoduleid2" data-dojo-type="dijit/form/FilteringSelect" ></select>
+
+				<tr><td align="right" class="prmaxrowtag" >Partners</td><td><select data-dojo-props='"class":"prmaxinput",name:"customersourceid",style:"width:10em"' data-dojo-attach-point="customersourceid2" data-dojo-type="dijit/form/FilteringSelect" ></select>
+
+				<tr><td align="right" class="prmaxrowtag" >Fixed Sales Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"fixed_salesprice",required:true,trim:true,style:"width:8em",constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="fixed_salesprice2"  ></input>
+				<tr><td align="right" class="prmaxrowtag" >Fixed Renewal Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"fixed_renewalprice",required:true,trim:true,style:"width:8em",constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="fixed_renewalprice2" ></input>
+				<tr><td align="right" class="prmaxrowtag" >Monthly Sales Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"monthly_salesprice",required:true,trim:true,style:"width:8em",constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="monthly_salesprice2"></input>
+				<tr><td align="right" class="prmaxrowtag" >MOnthly Renewal Price</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"monthly_renewalprice",required:true,trim:true,style:"width:8em",constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="monthly_renewalprice2" ></input>
+				<tr><td align="right" class="prmaxrowtag" >Concurrent Users</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"concurrentusers",required:true,trim:true,style:"width:5em",constraints:{min:1,max:200}' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="concurrentusers2" ></input>
+				<tr><td align="right" class="prmaxrowtag" >Paid Months</td><td><input data-dojo-props='"class":"prmaxinput",type:"text",name:"paid_months",required:true,trim:true,style:"width:5em",constraints:{min:1,max:50}' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="paid_months2"></input>
+				<tr><td colspan="2"><br/></td></tr>
+				<tr>
+					<td><button data-dojo-props='type:"button",label:"Close"' data-dojo-attach-event="onClick:_Close2" data-dojo-type="dijit/form/Button"></button></td>
+					<td align="right"><button data-dojo-props='type:"button",busyLabel:"Updating ...",label:"Update Price Code"' data-dojo-attach-point="updbtn" data-dojo-attach-event="onClick:_Update" data-dojo-type="dojox/form/BusyButton" ></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

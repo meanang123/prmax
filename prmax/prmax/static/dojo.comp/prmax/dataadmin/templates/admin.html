@@ -1,0 +1,10 @@
+<div>
+	<div  dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%" gutters="false" >
+		<div  dojotype="dojox.layout.ExpandoPane"	title="Options"	region="left" maxWidth="175" style="width:220px;height:100%;overflow: hidden" splitter="true">
+			<div dojoType="dojo.data.ItemFileReadStore" jsId="catStore" url="/dataadmin/options"></div>
+				<div dojoType="dijit.tree.ForestStoreModel" jsId="catModel" store="catStore" query="{type: '1'} "  childrenAttrs="children" rootId="root" rootLabel="root" ></div>
+				<div  dojoType="dijit.Tree" model="catModel" showRoot="false" dojoAttachEvent="onClick: _SelectNode" style="border: 1px solid black" ></div>
+		</div>
+		<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="zone" region="center"  doLayout="true" splitter="true" style="border:1px solid black"></div>
+	</div>
+</div>

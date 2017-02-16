@@ -1,0 +1,9 @@
+td, th {
+        padding-top: 0.2em;
+        padding-left: 0.2em;
+    }  
+    
+.header_main { font-weight: bold;font-size:2em;   }
+.header { background-color:#d0e3f5;font-weight: bold;font-size:2em;   }
+.odd { background-color:#d0e3f5;}
+.even {}

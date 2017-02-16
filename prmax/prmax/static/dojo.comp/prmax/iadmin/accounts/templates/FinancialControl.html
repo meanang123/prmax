@@ -1,0 +1,114 @@
+<div>
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:true,style:"width:100%;height:100%"' >
+		<div data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"center"' >
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"scrollpanel",style:"width:100%;height:100%",title:"Details"' >
+				<form data-dojo-attach-point="financialForm" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+					<table class="prmaxtable" width="500px" cellspacing="0" cellpadding="0" border="0">
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Order Status</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"customerorderstatusid",style:"width:19em",autoComplete:true' data-dojo-attach-point="customerorderstatusid" data-dojo-type="dijit.form.FilteringSelect" ></select></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Financial Status</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"financialstatusid",style:"width:15em",autoComplete:true' data-dojo-attach-point="financialstatusid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Payment Method</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"paymentmethodid",style:"width:15em",autoComplete:true' data-dojo-attach-point="paymentmethodid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Core Renewal Date</td><td><input data-dojo-attach-point="renewal_date" data-dojo-props='"class":"prmaxinput",type:"text",required:true,name:"renewal_date"' data-dojo-type="dijit.form.DateTextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Features Renewal Date</td><td><input data-dojo-attach-point="renewal_date_features" data-dojo-props='"class":"prmaxinput",type:"text",name:"renewal_date_features"' data-dojo-type="dijit.form.DateTextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Invoice Email</td><td width="70%"><input data-dojo-props='"class":"prmaxinput",regExpGen:dojox.validate.regexp.emailAddress,trim:true,name:"invoiceemail",type:"text"' data-dojo-attach-point="invoiceemail" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Bank Name</td><td width="70%"><input data-dojo-props='"class":"prmaxinput",name:"bank_name",type:"text",trim:true' data-dojo-attach-point="bank_name" data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Account Name</td><td width="70%"><input data-dojo-attach-point="bank_account_name" data-dojo-props='name:"bank_account_name",type:"text",trim:true,"class":"prmaxinput"' data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Sort Code</td><td width="70%"><input data-dojo-props='"class":"prmaxinput",name:"bank_sort_code",type:"text",trim:true' data-dojo-attach-point="bank_sort_code" data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Account Number</td><td width="70%"><input data-dojo-attach-point="bank_account_nbr" data-dojo-props='"class":"prmaxinput",name:"bank_account_nbr",type:"text",trim:"true"' data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Purchase Order</td><td width="70%"><input data-dojo-attach-point="purchase_order" data-dojo-props='"class":"prmaxinput",name:"purchase_order",type:"text",trim:true' data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" style="width:30%" align="right" >Bundled Invoice</td><td><input data-dojo-attach-point="has_bundled_invoice" data-dojo-props='"class":"prmaxinput",name:"has_bundled_invoice",type:"checkbox"' data-dojo-type="dijit.form.CheckBox"/></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">DD Reference</td><td width="70%"><input data-dojo-attach-point="dd_ref" data-dojo-props='type:"text","class":"prmaxinput",name:"dd_ref"' data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">DD Start Day of Month</td><td width="70%"><select data-dojo-props='style:"width:50px","class":"prmaxinput",name:"dd_start_day",type:"text"' data-dojo-attach-point="dd_start_day" data-dojo-type="dijit.form.ComboBox"></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">DD Start Month</td><td width="70%"><input data-dojo-props='"class":"prmaxinput",name:"dd_start_month",type:"text",trim:true, constraints:{min:0,max:3}, style:"width:3em"' data-dojo-attach-point="dd_start_month" data-dojo-type="dijit.form.NumberTextBox"></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">DD Media Mn.</td><td width="70%"><input data-dojo-attach-point="pay_monthly_value" data-dojo-props='"class":"prmaxinput",name:"pay_monthly_value",type:"text",trim:true' data-dojo-type="dijit.form.CurrencyTextBox" >&nbsp;<select data-dojo-props='"class":"prmaxinput",name:"dd_media_pricecodeid",style:"width:5em",autoComplete:true' data-dojo-attach-point="dd_media_pricecodeid" data-dojo-type="dijit.form.ComboBox"></select></td></tr>
+						<tr data-dojo-attach-point="adv_1"><td class="prmaxrowtag" align="right" style="width:30%">DD Features Mn.</td><td width="70%"><input data-dojo-attach-point="dd_advance_value" data-dojo-props='"class":"prmaxinput",name:"dd_advance_value",type:"text",trim:true' data-dojo-type="dijit.form.CurrencyTextBox" ></td></tr>
+						<tr data-dojo-attach-point="monitoring_1"><td class="prmaxrowtag" align="right" style="width:30%">DD Monitoring Mn.</td><td width="70%"><input data-dojo-attach-point="dd_monitoring_value" data-dojo-props='"class":"prmaxinput",name:"dd_monitoring_value",type:"text",trim:true' data-dojo-type="dijit.form.CurrencyTextBox" ></td></tr>
+						<tr data-dojo-attach-point="int_1"><td class="prmaxrowtag" align="right" style="width:30%">DD International Mn.</td><td width="70%"><input data-dojo-attach-point="dd_international_data_value" data-dojo-props='"class":"prmaxinput",name:"dd_international_data_value",type:"text",trim:true' data-dojo-type="dijit.form.CurrencyTextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Monthly Day</td><td width="70%"><select data-dojo-props='style:"width:50px","class":"prmaxinput",name:"pay_montly_day",type:"text"' data-dojo-attach-point="pay_montly_day" data-dojo-type="dijit.form.ComboBox"></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Next Monthly Value</td><td width="70%"><input data-dojo-props='"class":"prmaxinput",name:"next_month_value",type:"text",trim:true' data-dojo-attach-point="next_month_value" data-dojo-type="dijit.form.CurrencyTextBox"></td></tr>
+						<tr><td class="prmaxrowtag" align="right" valign="top">Next Monthly Invoice Message</td><td><div class="dialogprofileframe" ><textarea data-dojo-attach-point="next_invoice_message" data-dojo-props='name:"next_invoice_message","class":"dijitTextarea",style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Sub Day of Month</td><td width="70%"><select data-dojo-props='style:"width:50px","class":"prmaxinput",name:"sub_start_day",type:"text"' data-dojo-attach-point="sub_start_day" data-dojo-type="dijit.form.ComboBox"></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Last Paid Month</td><td width="70%"><input data-dojo-attach-point="last_paid_date" data-dojo-props='"class":"prmaxinput",readonly:"readonly",type:"text",trim:true' data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Collection Date</td><td width="70%"><input data-dojo-props='"class":"prmaxinput",readonly:"readonly",type:"text",trim:true' data-dojo-attach-point="dd_collectiondate" data-dojo-type="dijit.form.TextBox" ></td></tr>
+						<tr><td class="prmaxrowtag" align="right" >SEO Payment Method</td><td ><select data-dojo-props='"class":"prmaxinput",name:"seopaymenttypeid",style:"width:15em",autoComplete:true' data-dojo-attach-point="seopaymenttypeid" data-dojo-type="dijit.form.FilteringSelect" ></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" >SEO Free Qty</td><td><input data-dojo-props='"class":"prmaxinput",readonly:"readonly", type:"text", "disabled":"disabled"' data-dojo-attach-point="seonbrincredit" data-dojo-type="dijit.form.TextBox"></td></tr>
+						<tr ><td class="prmaxrowtag" colspan="2"><button data-dojo-props='label:"Save","class":"prmaxbutton",busyLabel:"Please Wait Saving...",type:"button"' data-dojo-attach-point="saveFinancialNode" data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_UpdateFinancial" ></button></td></tr>
+					</table>
+				</form>
+			</div>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"scrollpanel",style:"width:100%;height:100%",title:"Sales Analysis"' >
+				<form data-dojo-attach-point="salesform" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+					<table class="prmaxtable" width="500px" cellspacing="0" cellpadding="0" border="0">
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Media</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"pricecodeid",style:"width:9em",autoComplete:true' data-dojo-attach-point="pricecodeid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Features</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"advpricecodeid",style:"width:9em",autoComplete:true' data-dojo-attach-point="advpricecodeid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Updateum</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"updatumpricecodeid",style:"width:9em",autoComplete:true' data-dojo-attach-point="updatumpricecodeid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">International</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"intpricecodeid",style:"width:9em",autoComplete:true' data-dojo-attach-point="intpricecodeid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right" style="width:30%">Clippings</td><td width="70%"><select data-dojo-props='"class":"prmaxinput",name:"clippingspricecodeid",style:"width:9em",autoComplete:true' data-dojo-attach-point="clippingspricecodeid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+
+						<tr><td class="prmaxrowtag" colspan="2"><button data-dojo-props='label:"Save","class":"prmaxbutton",busyLabel:"Please Wait Saving...",type:"button"' data-dojo-attach-point="savesalesanalysis" data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_update_sales_analysis" ></button></td></tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"scrollpanel",region:"right",style:"height:100%;width:150px"' >
+			<button data-dojo-attach-event="onClick:_TakePayment" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Enter Payment",type:"button"'></button>
+			<button data-dojo-attach-event="onClick:_ManualPayment" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Pay & Allocate",type:"button"' ></button>
+			<button data-dojo-attach-event="onClick:_OneOffInvoice" data-dojo-type="dijit.form.Button" data-dojo-props='label:"On Off Invoice",type:"button"' ></button>
+			<button data-dojo-attach-event="onClick:_SendProforma" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Send Proforma",type:"button"' ></button>
+			<button data-dojo-attach-event="onClick:_ManualInvoice" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Manual Invoice",type:"button"' ></button>
+			<button data-dojo-attach-event="onClick:_Invoice" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Invoice",type:"button"' ></button>
+			<button data-dojo-attach-event="onClick:_CreditNote" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Credit Note",type:"button"' ></button>
+			<button data-dojo-attach-event="onClick:_ManualCredit" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Manual Credit",type:"button"' ></button>
+			<button data-dojo-attach-event="onClick:_Adjustment" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Adjustment",type:"button"' ></button>
+			<hr/>
+			<button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_SendConfirmation" data-dojo-props='label:"Order Confirmation"' ></button>
+			<button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_SendUpdateConfirmation" data-dojo-props='label:"Upgrade Confirmation"' ></button>
+			<hr/>
+			<button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_dd_received_confirm" data-dojo-props='label:"Letter DD Received"' ></button>
+		</div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Take Payment"' data-dojo-attach-point="takepaymentdialog">
+		<div  data-dojo-attach-point="takepaymentctrl" data-dojo-type="prmax.iadmin.accounts.Payment" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Credit Account"' data-dojo-attach-point="creditdialog">
+		<div  data-dojo-attach-point="creditctrl" data-dojo-type="prmax.iadmin.accounts.Credit" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Monthly Payment"' data-dojo-attach-point="monthlypaymentdialog">
+		<div  data-dojo-attach-point="monthlypaymentctrl" data-dojo-type="prmax.iadmin.accounts.MonthlyPayment" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Direct Debit Reject Payment"' data-dojo-attach-point="ddrejectpaymentdialog">
+		<div  data-dojo-attach-point="ddrejectpaymentctrl" data-dojo-type="prmax.iadmin.accounts.DDReturnPayment" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"First Month DD"' data-dojo-attach-point="ddpaymentdialog">
+		<div data-dojo-attach-point="ddpaymentctrl" data-dojo-type="prmax.iadmin.accounts.DDPayment" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Send Proforma"' data-dojo-attach-point="sendproformadialog">
+		<div  data-dojo-attach-point="sendproformactrl" data-dojo-type="prmax.iadmin.accounts.Proforma" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Enter Manual Invoice"' data-dojo-attach-point="manualinvoicedialog">
+		<div data-dojo-attach-point="manualinvoicectrl" data-dojo-type="prmax.iadmin.accounts.ManualInvoice" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Enter Payment & Allocated"' data-dojo-attach-point="allocpaymentdialog">
+		<div  data-dojo-attach-point="allocpaymentctrl" data-dojo-props='manualmode:"true"' data-dojo-type="prmax.iadmin.accounts.Payment" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Adjust Account"' data-dojo-attach-point="adjustdialog">
+		<div  data-dojo-attach-point="adjustctrl" data-dojo-type="prmax.iadmin.accounts.Adjustments" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Invoice Account"' data-dojo-attach-point="invdialog">
+		<div  data-dojo-attach-point="invctrl" data-dojo-type="prmax.iadmin.accounts.PrePayInvoice" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Enter Order Confirmation"' data-dojo-attach-point="sendorderconfirmationdialog">
+		<div data-dojo-attach-point="sendorderconfirmationctrl" data-dojo-type="prmax.iadmin.accounts.OrderConfirmation" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Upgrade Confirmation"' data-dojo-attach-point="upgradeconfirmationdialog">
+		<div data-dojo-attach-point="upgradeconfirmationctrl" data-dojo-type="prmax.iadmin.accounts.UpgradeOrderConfirmation" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"One Off Invoice"' data-dojo-attach-point="onceoffinvoicedialog">
+		<div data-dojo-attach-point="onceoffinvoicectrl" data-dojo-type="prmax.iadmin.accounts.OneOffInvoice" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Manual Credit"' data-dojo-attach-point="manualcreditdialog">
+		<div data-dojo-attach-point="manualcreditctrl" data-dojo-type="prmax.iadmin.accounts.ManualCredit" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Send DD Confirmation"' data-dojo-attach-point="dd_conf_dialog">
+		<div data-dojo-attach-point="dd_conf_ctrl" data-dojo-type="prmax.iadmin.accounts.SendDDConf" ></div>
+	</div>
+</div>

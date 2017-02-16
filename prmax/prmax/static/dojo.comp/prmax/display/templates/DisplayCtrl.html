@@ -1,0 +1,26 @@
+<div>
+	<div  dojoAttachPoint="borderCtrl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" gutters="false" >
+		<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="controls" region="center"  doLayout="true" splitter="true">
+			<div  title="blank" dojoAttachPoint="blank_view" dojoType="dijit.layout.ContentPane" selected></div>
+			<div title="main" dojoAttachPoint="tabControl" dojotype="dijit.layout.TabContainer" tabStrip="true" region="center" >
+				<div dojoAttachPoint="mainView" dojoType="ttl.layout.ContentPane" title='Details' preload="true" href="/layout/std_outlet_view_startup" > </div>
+				<div dojoAttachPoint="contactView" dojoType="dijit.layout.BorderContainer" title='Contacts' preload="true" style="width:100%;height:100%" selected="selected" gutters="false">
+					<div dojoAttachPoint="contactgrid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="30" region="top" style="height:50%;width:100%" splitter="true"></div>
+					<div dojoAttachPoint="contactdisplay" region="center" dojotype="prmax.employee.EmployeeDisplay" splitter="true" ></div>
+				</div>
+				<div dojoAttachPoint="profileView" dojoType="ttl.layout.ContentPane" title='Profile' preload="false"></div>
+				<div class="prmaxhidden" dojoAttachPoint="advanceView" dojoType="dijit.layout.BorderContainer" title='Features' preload="true">
+						<div dojoAttachPoint="advancectrl" dojotype="prcommon.advance.listview" region="center"></div>
+				</div>
+				<div data-dojo-attach-point="crmView" data-dojo-type="dijit.layout.BorderContainer", data-dojo-props='title:"Engagement",preload:true,"class":"prmaxhidden" '>
+					<div data-dojo-attach-point="crmctrl" data-dojo-type="prcommon.crm.viewer_only" data-dojo-props='region:"center",mode:"outlet"'></div>
+				</div>
+				<div class="prmaxhidden" dojoAttachPoint="twitterview" dojoType="ttl.layout.ContentPane" title='Twitter' >
+					<div dojoAttachPoint="twitterctrl" dojoType="prcommon.twitter.twitterview" style="width:100%;height:100%"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div dojoType="prcommon.contacthistory.edit"></div>
+</div>
+

@@ -1,0 +1,49 @@
+<div>
+	<div data-dojo-type="dijit/layout/StackContainer" data-dojo-props='region:"center",splitter:true' data-dojo-attach-point="main_view" >
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:100%;height:100%;"' data-dojo-attach-point="supplier_view">
+			<p>Select Data Supplier Source </p>
+			<br/>
+			<label class="prmaxrowtag"><input data-dojo-attach-point="source_stamm" data-dojo-type="dijit/form/RadioButton" data-dojo-props='"class":"prmaxdefault",checked:"checked",type:"radio",value:"5"'/>Stamm</label><br/>
+			<label class="prmaxrowtag"><input data-dojo-attach-point="source_nijgh" data-dojo-type="dijit/form/RadioButton" data-dojo-props='"class":"prmaxdefault",type:"radio",value:"6"'/>Nijgh Periodieken</label><br/>
+			<label class="prmaxrowtag"><input data-dojo-attach-point="source_cyberwatch" data-dojo-type="dijit/form/RadioButton" data-dojo-props='"class":"prmaxdefault",type:"radio",value:"8"'/>Cyberwatch</label><br/>
+			<label class="prmaxrowtag"><input data-dojo-attach-point="source_madaptive" data-dojo-type="dijit/form/RadioButton" data-dojo-props='"class":"prmaxdefault",type:"radio",value:"8"'/>Madaptive</label><br/>
+			<br/>
+			<button data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:left",type:"button",label:"Display Translations"' data-dojo-attach-event="onClick:_do_show_translations"></button>
+			<br/>
+		</div>
+		<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"width:100%;height:100%;",gutters:false' data-dojo-attach-point="trans_view" >
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%;height:48px;padding:0px;margin:0px"'>
+				<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+					<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter",showLabel:true'>
+						<span>Filter By</span>
+						<div data-dojo-type="dijit/TooltipDialog" title="Filter" data-dojo-attach-event="execute: _execute">
+							<table>
+								<tr><td>Source Text</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_sourcetext" data-dojo-props='name:"sourcetext",trim:"true",maxlength:45,type:"text"' ></td></tr>
+								<tr><td>Not Translated Only</td><td><input data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="not_translated" data-dojo-props='name:"not_translated",type:"checkbox",checked:true' ></td> </tr>
+								<tr><td>Source Field</td><td ><select data-dojo-attach-point="filter_sourcefield" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"sourcefield",searchAttr:"name",labelType:"html",style:"width:98%",required:false,placeHolider:"No Selection"'/></td></tr>
+								<tr>
+									<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit/form/Button" type="button" >Clear Filter by</button></td>
+									<td align="right"><button data-dojo-type="dijit/form/Button" type="submit" name="submit">Filter by</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' data-dojo-attach-point="grid_view"></div>
+			<div data-dojo-type="dijit/layout/StackContainer" data-dojo-props='region:"bottom",splitter:true,style:"height:50%;width:100%;"' data-dojo-attach-point="edit_view" >
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="blank_view"></div>
+				<div data-dojo-type="research/translations/basicedit" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="basic_edit"></div>
+				<div data-dojo-type="research/translations/translatelanguage" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="language_edit"></div>
+				<div data-dojo-type="research/translations/translatecountry" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="country_edit"></div>
+				<div data-dojo-type="research/translations/translateinterests" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="interests_edit"></div>
+				<div data-dojo-type="research/translations/translationcirculationsource" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="circulationsource_edit"></div>
+				<div data-dojo-type="research/translations/translatefrequency" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="frequency_edit"></div>
+				<div data-dojo-type="research/translations/translatejobrole" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="jobrole_edit"></div>
+				<div data-dojo-type="research/translations/translatemediatype" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="mediatype_edit"></div>
+				<div data-dojo-type="research/translations/translateclassification" data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="classification_edit"></div>
+			</div>
+		</div>
+	</div>
+</div>
+

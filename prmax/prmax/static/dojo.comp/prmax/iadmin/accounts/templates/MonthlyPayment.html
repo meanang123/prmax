@@ -1,0 +1,17 @@
+<div>
+<form dojoAttachPoint="form"  onsubmit="return false" dojoType="dijit.form.Form">
+<table width="500px" cellpadding="0" cellpadding="0" >
+	<tr><td colspan="4"><div class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Monthly Payment (Inc Vat.)</div><div class="prmaxrowdisplaylarge" style="display:inline" dojoAttachPoint="customername"></div></td>
+	<tr><td class="prmaxrowlabel" align="right">Amount (Inc Vat.)</td>
+		<td><input type="text" name="value" dojoType="dijit.form.CurrencyTextBox" required="true" trim="true" dojoAttachPoint="payment"></input></td>
+	</tr>
+	<tr><td class="prmaxrowlabel" align="right">Paid Month</td>
+	<td><select class="prmaxinput" name="monthid" dojoAttachPoint="monthid" style="width:10em" dojoType="dijit.form.FilteringSelect" autoComplete="true"></select></td>
+	<td class="prmaxrowlabel" align="right">Paid Year</td><td><select class="prmaxinput" name="yearid" dojoAttachPoint="yearid" style="width:5em" dojoType="dijit.form.FilteringSelect" autoComplete="true"></select></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" valign="top">Message</td><td><div class="dialogprofileframe" ><textarea dojoAttachPoint="message" name="message" class="dijitTextarea" dojoType="dijit.form.Textarea"  style="width:99%;height:99%" ></textarea></div></td></tr>
+	<tr><td class="prmaxrowlabel"align="right" >Email Address</td><td><input class="prmaxinput" dojoAttachPoint="email" name="email" type="text" style="width:100%" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="40" maxlength="70"/></td></tr>
+	<tr><td class="prmaxrowlabel">Payment Date</td><td><input type="text"  dojoAttachPoint="payment_date" name = "payment_date" dojoType="dijit.form.DateTextBox" ></td>
+	</tr>
+	<tr><td class="prmaxrowlabel" colspan="4" align="right"><button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_TakePayment">Take Payment</button></td>
+</table></form>
+</div>

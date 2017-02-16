@@ -1,0 +1,17 @@
+.soria .tooltipLink .dijitButtonNode,
+.soria .tooltipLink .dijitButtonNode .dijitDropDownButtonHover,
+.soria .buttonLink .dijitButtonNode,
+.soria .buttonLink .dijitButtonHover .dijitButtonNode {
+	background: none !important;
+	border:none;
+}
+.soria .tooltipLink .dijitArrowButtonInner {
+	display:none;
+}
+.soria .tooltipLink button,
+.soria .tooltipLink button .dijitButtonText,
+.soria .buttonLink button .dijitButtonText {
+	text-decoration:underline !important;
+	color:blue;
+	display:inline;
+}

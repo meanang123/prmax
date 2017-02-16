@@ -1,0 +1,2 @@
+--CREATE SCHEMA "prpublish" AUTHORIZATION postgres;
+--GRANT USAGE ON SCHEMA "prpublish" TO prmax;

@@ -1,0 +1,30 @@
+.soria .prmaxoutlettype .labeltag
+{
+	padding: 0px;
+	margin: 0px;
+	color:#094b88;
+}
+.soria .prmaxoutlettype .box1
+{
+	width:200px;
+}
+
+.soria .prmaxoutlettype check_input
+{
+	float:left;
+}
+
+.soria .prmaxoutlettype label
+{
+	float:left;
+}
+.soria .prmaxoutlettype .imagebox
+{
+	float:left;
+	padding-left:5px;
+}
+.soria .prmaxoutlettype img
+{
+	padding:0px;
+	margin:0px;
+}
