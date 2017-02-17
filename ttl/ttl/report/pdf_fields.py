@@ -1,0 +1,6 @@
+# report contstant
+rwCOL_HEADER,rwGROUP_HEADER,rwNORMAL,rwSUBTOTAL,rwTOTAL,rwHEADING,rwNORMALBACKGROUND,rwNEWPAGE, rwNOTRIM=range(9)
+ctCOL_TYPES=(ctSTRING,ctNUMBER,ctAMOUNT)=range(3)
+
+rSingleLine = 0
+rMultiLine = 1
