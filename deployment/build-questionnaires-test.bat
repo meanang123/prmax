@@ -1,0 +1,1 @@
+C:\Python27\Scripts\fab.exe prepare_test_questionnaires_deploy -f ..\deployment\deployment.py

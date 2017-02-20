@@ -1,0 +1,6 @@
+include start-prmaxresearch.py
+include *.cfg
+include prmaxresearch/config/*.cfg
+recursive-include prmaxresearch/templates *.html
+recursive-include prmaxresearch/templates *.mak
+recursive-include prmaxresearch/static *

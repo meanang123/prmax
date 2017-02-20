@@ -1,0 +1,6 @@
+include start-prmaxapi.py
+include *.cfg
+include prmaxapi/config/*.cfg
+recursive-include prmaxapi/templates *.html
+recursive-include prmaxapi/templates *.kid
+recursive-include prmaxapi/static *

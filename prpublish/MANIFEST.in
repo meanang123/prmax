@@ -1,0 +1,6 @@
+include start-prpublish.py
+include *.cfg
+include prpublish/config/*.cfg
+recursive-include prpublish/templates *.html
+recursive-include prpublish/templates *.kid
+recursive-include prpublish/static *

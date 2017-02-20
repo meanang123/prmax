@@ -1,0 +1,1 @@
+c:\Python27\Scripts\fab deploy_test_to_test -f deployment.py
