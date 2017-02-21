@@ -22,6 +22,7 @@ define([
 	"dojo/data/ItemFileReadStore",
 	"dojo/dom-attr",
 	"dojo/dom-construct",
+	"dojo/dom",
 	"dojo/on",
 	"dojo/_base/array",
 	"dijit/form/Button",	
@@ -37,7 +38,7 @@ define([
 	"prcommon2/outlet/OutletSelect",
 	"prcommon2/outlet/SelectMultipleOutlets",
 	"research/outlets/OutletDelete"
-	], function(declare, BaseWidgetAMD, template, BorderContainer,ContentPane, topic,  lang, utilities2, request , JsonRest, ItemFileReadStore, domattr, domConstruct, on, array, Button, TextBox){
+	], function(declare, BaseWidgetAMD, template, BorderContainer,ContentPane, topic,  lang, utilities2, request , JsonRest, ItemFileReadStore, domattr, domConstruct, dom, on, array, Button, TextBox){
  return declare("research.outlets.Coding",
 	[BaseWidgetAMD, BorderContainer],{
 	templateString: template,
@@ -69,6 +70,10 @@ define([
 		if (outlet.serieschildren.length > 0)
 		{
 			domConstruct.destroy('serieschildren_table');
+			if (dom.byId('serieschildren_td')) 
+			{
+				domConstruct.destroy('serieschildren_td');
+			};			
 			domConstruct.create('td', {
 				'align':'right', 
 				'class': 'prmaxrowtag' ,
