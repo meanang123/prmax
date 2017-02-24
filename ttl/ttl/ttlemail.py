@@ -617,8 +617,7 @@ def SendMessage( host, port, message, test = False, sender = None ):
 			smtp = smtplib.SMTP_SSL(host= "smtp.gmail.com", port=465)
 			smtp.ehlo()
 			#smtp.login("chris.hoy@prmax.co.uk", "RO9JWPqV")
-			#smtp.login("chris.hoy@prmax.co.uk", "Ignore")
-			smtp.login("stamatia.vatsi@prmax.co.uk", "gmatoyla!!!")
+			smtp.login("chris.hoy@prmax.co.uk", "Ignore")
 		else:
 			if prmaxCtrl.isPrmaxSender( sender ):
 				smtp = smtplib.SMTP_SSL(host= "smtp.gmail.com", port=465)
