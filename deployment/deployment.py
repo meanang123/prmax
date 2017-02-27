@@ -12,36 +12,36 @@ python_egg_27 = "2.7"
 python_path = python_27
 python_egg = python_egg_27
 
-test_location = "prmax\development"
+test_location = r"prmax\development"
 min_test_location = "prmaxtest-min"
-live_location = "prmax\live"
+live_location = r"prmax\live"
 
 def build_folders ( location ) :
     if location == min_test_location:
         return (
-            (test_location+"\ttl","ttl") ,
-            (test_location+"\prcommon", "prcommon"),
-            (test_location+"\prmax", "prmax"),
-            (test_location+"\prmaxapi","prmaxapi"),
-            (test_location+"\prmaxutilities","prmaxutilities"),
-            (test_location+"\prpublish","prpublish"),
-            (test_location+"\prmaxresearch","prmaxresearch"),
-            (test_location+"\prmaxquestionnaires", "prmaxquestionnaires"),
-            (test_location+"\prservices","prservices"),
-            (test_location + "\prmaxcontrol", "prmaxcontrol"))
+            (test_location+ r"\ttl","ttl") ,
+            (test_location+ r"\prcommon", "prcommon"),
+            (test_location+ r"\prmax", "prmax"),
+            (test_location+ r"\prmaxapi","prmaxapi"),
+            (test_location+ r"\prmaxutilities","prmaxutilities"),
+            (test_location+ r"\prpublish","prpublish"),
+            (test_location+ r"\prmaxresearch","prmaxresearch"),
+            (test_location+ r"\prmaxquestionnaires", "prmaxquestionnaires"),
+            (test_location+ r"\prservices","prservices"),
+            (test_location + r"\prmaxcontrol", "prmaxcontrol"))
     else:
         return (
-            (location+"\ttl","ttl") ,
-            (location+"\prcommon", "prcommon"),
-            (location+"\prmax", "prmax"),
-            (location+"\prmaxapi","prmaxapi"),
-            (location+"\prmaxcollateral","prmaxcollateral"),
-            (location+"\prmaxutilities","prmaxutilities"),
-            (location+"\prpublish","prpublish"),
-            (location+"\prmaxresearch","prmaxresearch"),
-            (location+"\prmaxquestionnaires", "prmaxquestionnaires"),
-            (location+"\prservices","prservices"),
-            (location + "\prmaxcontrol", "prmaxcontrol"))
+            (location+ r"\ttl","ttl") ,
+            (location+ r"\prcommon", "prcommon"),
+            (location+ r"\prmax", "prmax"),
+            (location+ r"\prmaxapi","prmaxapi"),
+            (location+ r"\prmaxcollateral","prmaxcollateral"),
+            (location+ r"\prmaxutilities","prmaxutilities"),
+            (location+ r"\prpublish","prpublish"),
+            (location+ r"\prmaxresearch","prmaxresearch"),
+            (location+ r"\prmaxquestionnaires", "prmaxquestionnaires"),
+            (location+ r"\prservices","prservices"),
+            (location + r"\prmaxcontrol", "prmaxcontrol"))
 
 def build_live_dojo():
     local('python c:\Projects\%s\prmax\setup_dojo.py --live' % live_location, capture=False)
@@ -69,6 +69,7 @@ def build_live_eggs():
 
 def build_test_eggs():
     for fd in build_folders ( test_location ) :
+        print "\Projects\\" + fd[0]
         with lcd("\Projects\\" + fd[0] ):
             print fd[1]
             local('%s setup.py clean --all bdist_egg' % python_path , capture=True)

@@ -38,7 +38,7 @@ def buildRelease(build = True,islive = True , version = "missing" ):
 
    # set up correct build profile
    out = open(profile_dest,"w")
-   out.write(open( profile_source,"r").read().replace("prmax\\live",vpath_live if islive else vpath_test ))
+   out.write(open( profile_source,"r").read().replace("prmax/live",vpath_live.replace("\\", "/") if islive else vpath_test.replace("\\", "/")))
    out.close()
 
    # execute dojo builder
