@@ -2430,8 +2430,8 @@ dependencies ={
     prefixes: [
         [ "dijit", "../dijit" ],
         [ "dojox", "../dojox" ],
-        [ "prmax", "/projects/prmax2/prmax/prmax/static/dojo.comp/prmax" ],
-        [ "ttl", "/projects/ttl/ttl/static/comp/ttl" ],
-        [ "prcommon", "/projects/prmax2/prcommon/prcommon/static/comp/prcommon" ]
+        [ "prmax", "/projects/prmax/live/prmax/prmax/static/dojo.comp/prmax" ],
+        [ "ttl", "/projects/prmax/live/ttl/ttl/static/comp/ttl" ],
+        [ "prcommon", "/projects/prmax/live/prcommon/prcommon/static/comp/prcommon" ]
     ]
 };

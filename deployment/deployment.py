@@ -12,7 +12,7 @@ python_egg_27 = "2.7"
 python_path = python_27
 python_egg = python_egg_27
 
-test_location = "prmax\test"
+test_location = "prmax\development"
 min_test_location = "prmaxtest-min"
 live_location = "prmax\live"
 
@@ -213,7 +213,7 @@ def ppr_research_build_folders ( location ) :
     )
 
 def build_test_dojo_2( command ):
-    local('python /Projects/prmax/test/deployment/setup_dojo.py %s' % command, capture=False)
+    local('python /Projects/prmax/development/deployment/setup_dojo.py %s' % command, capture=False)
 
 def build_test_dojo_live( command ):
     local('python /Projects/prmax/live/deployment/setup_dojo.py %s' % command, capture=False)

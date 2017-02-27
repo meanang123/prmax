@@ -33,7 +33,7 @@ import gc
 import platform
 
 if platform.system() in ('Microsoft', "Windows"):
-	COMMANDFILE = r'\Projects\tg15env\Scripts\python \Projects\prmaxtest\prservices\prservices\prexport\prexporter.py --countryid=%d --outdir=%s'
+	COMMANDFILE = r'\Projects\tg15env\Scripts\python \Projects\prmax\development\prservices\prservices\prexport\prexporter.py --countryid=%d --outdir=%s'
 else:
 	COMMANDFILE = 'python2.7 /usr/local/lib/python2.7/dist-packages/prservices-1.0.0.1-py2.7.egg/prservices/prexport/prexporter.py  --countryid=%d --outdir=%s'
 

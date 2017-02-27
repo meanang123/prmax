@@ -77,8 +77,8 @@ def buildRelease(build, islive, version, module ):
                   r"icons\images",
                   r"themes\claro\form\images"]
    if vpath == "test":
-      sourcethemeroot= r"\Projects\prmax\test\deployment\dojo\release\prmax\dijit"
-      destthemeroot= "\\Projects\\prmax\\test\\prcommon\\prcommon\\static\\rel\\dijit"
+      sourcethemeroot= r"\Projects\prmax\development\deployment\dojo\release\prmax\dijit"
+      destthemeroot= "\\Projects\\prmax\\development\\prcommon\\prcommon\\static\\rel\\dijit"
    else:
       sourcethemeroot= r"\Projects\prmax\live\deployment\dojo\release\prmax\dijit"
       destthemeroot= "\\Projects\\prmax\\live\\prcommon\\prcommon\\static\\rel\\dijit"
@@ -108,8 +108,8 @@ def buildRelease(build, islive, version, module ):
 
    print "Compress Js and Css and Images prcommon"
    if vpath == "test":
-      rootdev= r"\Projects\prmax\test\prcommon\prcommon\static\dev"
-      rootrel= r"\Projects\prmax\test\prcommon\prcommon\static\rel"
+      rootdev= r"\Projects\prmax\development\prcommon\prcommon\static\dev"
+      rootrel= r"\Projects\prmax\development\prcommon\prcommon\static\rel"
    else:
       rootdev= r"\Projects\prmax\live\prcommon\prcommon\static\dev"
       rootrel= r"\Projects\prmax\live\prcommon\prcommon\static\rel"
@@ -165,8 +165,8 @@ def buildRelease(build, islive, version, module ):
 
    print "Copying ", module
    if vpath == "test":
-      rootdev= r"\Projects\prmax\\test\%s\%s\static\dev" %(module, module)
-      rootrel= r"\Projects\prmax\\test\%s\%s\static\rel" %(module, module)
+      rootdev= r"\Projects\prmax\\development\%s\%s\static\dev" %(module, module)
+      rootrel= r"\Projects\prmax\\development\%s\%s\static\rel" %(module, module)
    else:
       rootdev= r"\Projects\prmax\live\%s\%s\static\dev" %(module, module)
       rootrel= r"\Projects\prmax\live\%s\%s\static\rel" %(module, module)
@@ -222,14 +222,14 @@ def buildRelease(build, islive, version, module ):
 
 def _init_path( base_locations, islive , version, module) :
    istest  = "_test" if not islive else ""
-   build_exe = r"\Projects\prmax\test\deployment\build_dojo.bat %s %s" % (module, version)
+   build_exe = r"\Projects\prmax\development\deployment\build_dojo.bat %s %s" % (module, version)
    # live/test version here
-   profile_source = r"\Projects\prmax\test\deployment\%s.profile.js" % module
-   profile_dest = r"\Projects\prmax\test\deployment\dojo\util\buildscripts\profiles\%s.profile.js" % module
+   profile_source = r"\Projects\prmax\development\deployment\%s.profile.js" % module
+   profile_dest = r"\Projects\prmax\development\deployment\dojo\util\buildscripts\profiles\%s.profile.js" % module
 
    if base_locations == "test":
-      spath = r"\Projects\prmax\test\deployment\dojo\release\prmax\dojo"
-      dpath = r"\Projects\prmax\test\prcommon\prcommon\static\rel\dojo"
+      spath = r"\Projects\prmax\development\deployment\dojo\release\prmax\dojo"
+      dpath = r"\Projects\prmax\development\prcommon\prcommon\static\rel\dojo"
    else:
       spath = r"\Projects\prmax\live\deployment\dojo\release\prmax\dojo"
       dpath = r"\Projects\prmax\live\prcommon\prcommon\static\rel\dojo"

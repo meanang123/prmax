@@ -16,8 +16,8 @@ import gzip, zlib
 import codecs
 
 # path to test/live environment
-vpath_test = "prmaxtest"
-vpath_live = "prmax2"
+vpath_test = "prmax\\development"
+vpath_live = "prmax\\live"
 
 # standard files
 valid_folders = ('_firebug','nls','resources','images','resources\\images')
@@ -38,7 +38,7 @@ def buildRelease(build = True,islive = True , version = "missing" ):
 
    # set up correct build profile
    out = open(profile_dest,"w")
-   out.write(open( profile_source,"r").read().replace("prmax2",vpath_live if islive else vpath_test ))
+   out.write(open( profile_source,"r").read().replace("prmax\\live",vpath_live if islive else vpath_test ))
    out.close()
 
    # execute dojo builder

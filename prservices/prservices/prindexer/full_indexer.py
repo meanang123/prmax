@@ -21,7 +21,7 @@ from prcommon.Constants import HIGHEST_INDEX_ID
 NBROFTHREADS = 8
 
 if platform.system() in ('Microsoft', "Windows"):
-	COMMANDFILE = r'\Projects\tg15env\Scripts\python \Projects\prmaxtest\prservices\prservices\prindexer\indexer.py --filter=%d'
+	COMMANDFILE = r'\Projects\tg15env\Scripts\python \Projects\prmax\development\prservices\prservices\prindexer\indexer.py --filter=%d'
 else:
 	COMMANDFILE = 'python2.7 /usr/local/lib/python2.7/dist-packages/prservices-1.0.0.1-py2.7.egg/prservices/prindexer/indexer.py  --filter=%d'
 

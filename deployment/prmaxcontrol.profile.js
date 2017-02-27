@@ -47,11 +47,11 @@ dependencies ={
 	prefixes: [
 			[ "dijit", "../dijit" ],
 			[ "dojox", "../dojox" ],
-			[ 'dgrid', '../dgrid' ],
+			[ "dgrid", "../dgrid" ],
 			[ "xstyle", "../xstyle"],
 			[ "put-selector", "../put-selector"],
-			[ "control", "C:\\Projects\\prmax\\test\\prmaxcontrol\\prmaxcontrol\\static\\comp\\control" ],
-			[ "ttl", "c:\\projects\\prmax\\test\\ttl\\ttl\\static\\comp\\ttl" ],
-			[ "prcommon2", "C:\\Projects\\prmax\\test\\prcommon\\prcommon\\static\\comp\\prcommon2" ]
+			[ "control", "C:\\Projects\\prmax\\development\\prmaxcontrol\\prmaxcontrol\\static\\comp\\control" ],
+			[ "ttl", "c:\\projects\\prmax\\development\\ttl\\ttl\\static\\comp\\ttl" ],
+			[ "prcommon2", "C:\\Projects\\prmax\\development\\prcommon\\prcommon\\static\\comp\\prcommon2" ]
     ]
 };

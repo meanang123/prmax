@@ -29,7 +29,7 @@ if __name__=='__main__':
 			buildRelease(True,True,_captureVersion(p, "prmaxresearch"), "prmaxresearch")
 			done = True
 		if o in ("--prmaxresearchtest",):
-			p = "/Projects/prmax/test/prmaxresearch"
+			p = "/Projects/prmax/development/prmaxresearch"
 			buildRelease(True,False,_captureVersion(p, "prmaxresearch"), "prmaxresearch")
 			done = True
 
@@ -38,7 +38,7 @@ if __name__=='__main__':
 			buildRelease(True,True,_captureVersion(p, "prmaxquestionnaires"), "prmaxquestionnaires")
 			done = True
 		if o in ("--prmaxquestionnairestest",):
-			p = "/Projects/prmax/test/prmaxquestionnaires"
+			p = "/Projects/prmax/development/prmaxquestionnaires"
 			buildRelease(True,False,_captureVersion(p, "prmaxquestionnaires"), "prmaxquestionnaires")
 			done = True
 
@@ -47,7 +47,7 @@ if __name__=='__main__':
 			buildRelease(True,True,_captureVersion(p, "prmaxcontrol"), "prmaxcontrol")
 			done = True
 		if o in ("--prmaxcontroltest",):
-			p = "/Projects/prmax/test/prmaxcontrol"
+			p = "/Projects/prmax/development/prmaxcontrol"
 			buildRelease(True,False,_captureVersion(p, "prmaxcontrol"), "prmaxcontrol")
 			done = True
 
@@ -56,7 +56,7 @@ if __name__=='__main__':
 			buildRelease(True,True,_captureVersion(p, "prmax"), "prmaxclippings")
 			done = True
 		if o in ("--prmaxclippingstest",):
-			p = "/Projects/prmax/test/prmax"
+			p = "/Projects/prmax/development/prmax"
 			buildRelease(True,False,_captureVersion(p, "prmax"), "prmaxclippings")
 			done = True
 

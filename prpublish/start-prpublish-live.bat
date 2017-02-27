@@ -1,2 +1,2 @@
-SET PYTHONPATH=c:\projects\ttl;c:\projects\prmax2\prpublish;c:\projects\prmax2\prcommon
+SET PYTHONPATH=c:\projects\prmax\live\ttl;c:\projects\prmax\live\prpublish;c:\projects\prmax\live\prcommon
 python start-prpublish.py dev-live.cfg
