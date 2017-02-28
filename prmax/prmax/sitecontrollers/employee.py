@@ -66,7 +66,7 @@ class EmployeeController(SecureController):
 		return EmployeeDisplay.getDisplayPage (DictExt(
 			EmployeeDisplay.getPageDisplayParams(kw)))
 
-	@expose("")
+	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
 	@validate(validators=PrEmployeeIdFormSchema(), state_factory=std_state_factory_extended)
@@ -74,7 +74,7 @@ class EmployeeController(SecureController):
 	def employeedisplay(self, *args, **kw):
 		""" return the details to be displayed avout an emplyeee"""
 
-		response.headers["Content-type"] = "application/json"
+		#response.headers["Content-type"] = "application/json"
 		return EmployeeDisplay.getEmployeeDisplay (kw)
 
 	@expose("json")
