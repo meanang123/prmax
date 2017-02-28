@@ -33,7 +33,7 @@ INSERT INTO internal.customerproducts VALUES (1, 'Freelance');
 INSERT INTO internal.customerproducts VALUES (2, 'Standard');
 INSERT INTO internal.customerproducts VALUES (3, 'Professional');
 
-ALTER TABLE accounts.pricecodes ADD COLUMN customerproductid integer NOT NULL;
+ALTER TABLE accounts.pricecodes ADD COLUMN customerproductid integer;
 ALTER TABLE accounts.pricecodes ADD CONSTRAINT fk_customerproductid FOREIGN KEY (customerproductid) REFERENCES internal.customerproducts (customerproductid)  ON UPDATE NO ACTION ON DELETE SET NULL;
 
 ALTER TABLE accounts.pricecodes DROP CONSTRAINT un_pricecode;
