@@ -11,5 +11,11 @@ define([
 	"prcommon2/prevents",
 	"prcommon2/store/DataStores",
 	"prcommon2/query/query",
-	"control/customer/partner_add"
+	"control/customer/partner_add",
+	"control/accounts/DataPartner",
+	"control/accounts/PriceCodes",
+	"control/accounts/SalesPartner",
+	"control/support/PrivateData",
+	"control/support/query",
+	"control/customer/dd_csv"
 ], function( ){});
