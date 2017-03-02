@@ -75,39 +75,16 @@ class PartnersStatementPDF(object):
 	""" PartnertsListPDF
 	"""
 	# common page format for both templates:
-	def logo_and_header_old(self, canvas, doc) :
-		"""Draws a logo and text on each page."""
-		canvas.saveState()
-
-		banner_height=0.75*cm   # bigger the no, nearer the top!
-		ypos=doc.pagesize[1] - doc.topMargin- banner_height
-
-		canvas.setFont(FONT_TYPE_BOLD, 14)
-		x_centre=doc.width/2.0 + 1.5*cm
-		ypos=ypos + 0.75*cm
-		canvas.drawCentredString(x_centre, ypos, "Partners Statement Report")
-
-
-		canvas.setFont(FONT_TYPE, 8)
-		right_text='Page %d'%self.page_count
-		canvas.drawString(doc.width-2*cm, 0.75*cm,right_text)
-		self.page_count+=1
-
-		left_text="Printed %s" % datetime.datetime.today().strftime("%d/%m/%y %H:%M")
-		canvas.drawString(0.75*cm, 0.75*cm,left_text)
-
-		canvas.restoreState()
-
 	def logo_and_header(self, canvas, doc) :
 		"""Draws a logo and text on each page."""
 		canvas.saveState()
 		banner_height=1.0*cm   # bigger the no, nearer the top!
 		ypos=doc.pagesize[1] - doc.topMargin- banner_height
-		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadtop.jpg'))
+		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadtop.png'))
 		Im = ImageReader(tmp)
 		data = canvas.drawImage( Im, doc.leftMargin, ypos, 550,40)
 
-		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadbot.jpg'))
+		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadbot.png'))
 		Im = ImageReader(tmp)
 		ypos=doc.bottomMargin- 30
 		data = canvas.drawImage( Im, doc.leftMargin, ypos, 550,40)
@@ -190,14 +167,15 @@ class PartnersStatementPDF(object):
 
 		self.new_page()
 
-		self.append(Paragraph(self._customersource[0]['customersourcedescription'], DATA_STYLE))
-		self.append(Paragraph(self._customersource[0]['name'], DATA_STYLE))
-		self.append(Paragraph(self._customersource[0]['address1'], DATA_STYLE))
-		self.append(Paragraph(self._customersource[0]['address2'], DATA_STYLE))
-		self.append(Paragraph(self._customersource[0]['townname'], DATA_STYLE))
-		self.append(Paragraph(self._customersource[0]['postcode'], DATA_STYLE))
-		self.append(Paragraph(self._customersource[0]['countryname'], DATA_STYLE))
-		self.append(Spacer(10, 50))	
+		if self._customersource:
+			self.append(Paragraph(self._customersource[0]['customersourcedescription'], DATA_STYLE))  if self._customersource[0]['customersourcedescription'] else ''
+			self.append(Paragraph(self._customersource[0]['name'], DATA_STYLE)) if self._customersource[0]['name'] else ''
+			self.append(Paragraph(self._customersource[0]['address1'], DATA_STYLE)) if self._customersource[0]['address1'] else ''
+			self.append(Paragraph(self._customersource[0]['address2'], DATA_STYLE)) if self._customersource[0]['address2'] else ''
+			self.append(Paragraph(self._customersource[0]['townname'], DATA_STYLE)) if self._customersource[0]['townname'] else ''
+			self.append(Paragraph(self._customersource[0]['postcode'], DATA_STYLE)) if self._customersource[0]['postcode'] else ''
+			self.append(Paragraph(self._customersource[0]['countryname'], DATA_STYLE)) if self._customersource[0]['countryname'] else ''
+			self.append(Spacer(10, 50))	
 
 		self.append(Paragraph("Invoices", HEADING_STYLE3))
 		self.append(Spacer(10, 30))	

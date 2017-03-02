@@ -102,11 +102,11 @@ class OrderConfirmationPDF(object):
 		canvas.saveState()
 		banner_height=1.0*cm   # bigger the no, nearer the top!
 		ypos=doc.pagesize[1] - doc.topMargin- banner_height
-		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadtop.jpg'))
+		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadtop.png'))
 		Im = ImageReader(tmp)
 		data = canvas.drawImage( Im, doc.leftMargin, ypos, 550,40)
 
-		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadbot.jpg'))
+		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadbot.png'))
 		Im = ImageReader(tmp)
 		ypos=doc.bottomMargin- 30
 		data = canvas.drawImage( Im, doc.leftMargin, ypos, 550,40)

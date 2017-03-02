@@ -78,14 +78,7 @@ class ClippingsPieChartPDF(object):
 		canvas.saveState()
 
 		banner_height=0.75*cm   # bigger the no, nearer the top!
-
-
-		
 		ypos=doc.pagesize[1] - doc.topMargin- banner_height
-#		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadtop.jpg'))
-#		Im = ImageReader(tmp)
-#		data = canvas.drawImage( Im, doc.leftMargin, ypos, 550, 40)
-
 		canvas.setFont(FONT_TYPE_BOLD, 14)
 		x_centre=doc.width/2.0 + 5*cm
 		ypos=ypos + -9*cm
@@ -99,12 +92,6 @@ class ClippingsPieChartPDF(object):
 
 		left_text="Printed %s" % datetime.datetime.today().strftime("%d/%m/%y %H:%M")
 		canvas.drawString(0.75*cm, 0.75*cm,left_text)
-
-	
-#		tmp = os.path.normpath(os.path.join(os.path.dirname(__file__),'resources/PRmaxletterheadbot.jpg'))
-#		Im = ImageReader(tmp)
-#		ypos=doc.bottomMargin + 10
-#		data = canvas.drawImage( Im, doc.leftMargin, ypos, 550,40)
 
 		canvas.restoreState()
 
