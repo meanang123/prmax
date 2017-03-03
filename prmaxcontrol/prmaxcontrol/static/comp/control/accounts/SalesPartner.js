@@ -142,6 +142,7 @@ return declare("control.accounts.SalesPartner",
 		
 		if (utilities2.form_validator( this.DetailsForm ) == false )
 		{
+			alert("Not all required field filled in");		
 			return false;
 		}		
 		var content = this.DetailsForm.get("value");
