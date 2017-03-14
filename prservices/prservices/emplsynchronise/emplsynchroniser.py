@@ -39,9 +39,7 @@ def _run():
 
 	results = []
 	if childoutlets:
-		i = 0
 		for childoutlet in childoutlets:
-			print i, childoutlet.outletid
 			parent_allow_sync = session.query(OutletProfile).\
 			    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 			    filter(OutletProfile.outletid == childoutlet.seriesparentid).\
@@ -49,13 +47,12 @@ def _run():
 			if (parent_allow_sync):
 				resultdata = None
 				try:
-					sync = EmployeeSynchronise(childoutlet)
+					sync = EmployeeSynchronise(childoutlet, True)
 					resultdata = sync.synchronise_employees()
 					if resultdata:
 						results.append()
 				except Exception, ex:
 					results.append(str(ex))
-				i = i + 1
 		print results
 
 

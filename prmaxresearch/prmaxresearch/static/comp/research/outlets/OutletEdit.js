@@ -243,6 +243,14 @@ define([
 			this.outlet_profile_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
 			this.outlet_coding_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
 			this.outlet_research_ctrl.load ( this._outletid, response.outlet.outlet.outlettypeid ) ;
+			if (response.outlet.serieschildren.length > 0)
+			{
+				domclass.remove(this.outlet_research_ctrl.synchrbtn.domNode,"prmaxhidden");
+			}			
+			else
+			{
+				domclass.add(this.outlet_research_ctrl.synchrbtn.domNode,"prmaxhidden");
+			}
 			this.outlet_desk_ctrl.load ( this._outletid, response.outlet.outlet.outlettypeid ) ;
 			this.outlet_advance_ctrl.load ( this._outletid ) ;
 			this.contact_edit_container.selectChild ( this.blank_cont_view ) ;

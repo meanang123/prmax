@@ -12,7 +12,8 @@
 #-----------------------------------------------------------------------------
 
 from turbogears import expose, identity, validate, error_handler, \
-	 exception_handler, identity, validators
+	 exception_handler, identity, validators, database
+from turbogears.database import session
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrFormSchema, \
@@ -42,6 +43,9 @@ from prcommon.sitecontrollers.webdates import WebDatesController
 from prcommon.sitecontrollers.production import ProductionCompanyController
 from prcommon.sitecontrollers.outletdesks import OutletDeskController
 
+from prcommon.model.outlets.emplsynchronisation import EmployeeSynchronise
+from prcommon.model.outlet import OutletProfile
+from prcommon.model.research import ResearchDetails
 
 class PRMaxRolesSchema(PrFormSchema):
 	""" prmax role schema"""
@@ -210,6 +214,26 @@ class DataAdminController(SecureController):
 		return QuestionnaireEmailer.preview_questionnaire(params)
 
 
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ReseachDetailsSchema(), state_factory=std_state_factory)
+	def synchronise_employees(self, *args, **params):
+		""" Synchronise serial members """
+	
+		childoutlets = session.query(OutletProfile).\
+			join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+			filter(OutletProfile.seriesparentid != None).\
+			filter(ResearchDetails.no_sync == False ).\
+			filter(OutletProfile.seriesparentid == int(params['outletid'])).all()
+	
+		if childoutlets:
+			for childoutlet in childoutlets:
+				sync = EmployeeSynchronise(childoutlet,True)
+				resultdata = sync.synchronise_employees()
+		
+		return  stdreturn()
 
 
 

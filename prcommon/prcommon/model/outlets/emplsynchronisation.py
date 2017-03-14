@@ -27,13 +27,15 @@ LOGGER = logging.getLogger("prcommon")
 class EmployeeSynchronise(object):
 	""" EmployeesSynchronise  """
 
-	def __init__(self, childoutlet):
+	def __init__(self, childoutlet, intrans=False):
 		self._childoutlet = childoutlet
+		self._intrans = intrans
 		
 		
 	def synchronise_employees(self):
 
-		transaction = BaseSql.sa_get_active_transaction()
+		if not self._intrans:
+			transaction = BaseSql.sa_get_active_transaction()		
 
 		try:
 			child_employees = session.query(Employee).filter(Employee.outletid == self._childoutlet.outletid).all()
@@ -61,12 +63,14 @@ class EmployeeSynchronise(object):
 					self.delete_employee(child)
 			
 			self.update_researchdetails()
-					
-			transaction.commit()
+
+			if not self._intrans:					
+				transaction.commit()
 			
 		except:
 			LOGGER.exception("synchronise_employees")
-			transaction.rollback()
+			if not self._intrans:
+				transaction.rollback()
 			raise
 			
 	def update_researchdetails(self):
@@ -82,6 +86,7 @@ class EmployeeSynchronise(object):
 			self.check_desk(parent_emp, employee)
 			self.update_jobroles(parent_emp,employee)
 			self.update_interests(parent_emp,employee)
+			self.check_jobtitle(parent_emp, employee)
 		except:
 			LOGGER.exception("employee_update")
 			raise
@@ -111,6 +116,11 @@ class EmployeeSynchronise(object):
 			session.execute(text("UPDATE employees SET outletdeskid = :outletdeskid WHERE employeeid = :employeeid"),\
 			                {'outletdeskid': desk.outletdeskid, 'employeeid':employee.employeeid}, Employee)
 			
+	def check_jobtitle(self, parent_emp, employee):
+		if parent_emp.job_title != employee.job_title:
+			session.execute(text("UPDATE employees SET job_title = :job_title WHERE employeeid = :employeeid"),\
+			                {'job_title': parent_emp.job_title, 'employeeid':employee.employeeid}, Employee)
+
 	def update_jobroles(self, parent_emp, employee):
 		dbroles = {}
 		existing_jobroles = session.query(EmployeePrmaxRole).filter(EmployeePrmaxRole.employeeid == employee.employeeid).all()

@@ -42,6 +42,7 @@ define([
 		this.researchfrequencyid.set("store",PRCOMMON.utils.stores.Research_Frequencies());
 		this._load_call_back = lang.hitch ( this, this._load_call);
 		this._update_call_back = lang.hitch ( this, this._update_call);
+		this._synchronise_call_back = lang.hitch ( this, this._synchronise_call);
 
 		this.quest_month_1.set("store",this._months);
 		this.quest_month_2.set("store",this._months);
@@ -240,6 +241,26 @@ define([
 		domattr.set(this.preview_objecttypeid,"value", this._objecttypeid );
 		domattr.set(this.preview_objectid,"value", this.outletid.get("value") );
 		this.previewform.submit();
-	}
+	},
+	_synchronise_now:function()
+	{
+		var parent_outletid =  this.outletid.get("value");
+		request.post('/research/admin/synchronise_employees',
+				utilities2.make_params({ data:{outletid: parent_outletid }})).then
+				(this._synchronise_call_back);		
+	
+	},
+	_synchronise_call:function( response )
+	{
+		if ( response.success=="OK")
+		{
+			alert("Employees Synchronised");
+		}
+		else
+		{
+			alert("Employees Synchronisation Failed");
+		}
+	},
+	
 });
 });
