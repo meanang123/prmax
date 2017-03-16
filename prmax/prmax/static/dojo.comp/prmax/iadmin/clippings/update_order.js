@@ -27,11 +27,13 @@ dojo.declare("prmax.iadmin.clippings.update_order",
 		this._resend_conformation_call_back = dojo.hitch(this, this._resend_conformation_call);
 		this._cancel_call_back = dojo.hitch(this, this._cancel_call);
 		this._reactivate_call_back = dojo.hitch(this, this._reactivate_call);
+		this._Client_Add_Call_Back = dojo.hitch(this, this._Client_Add_Call);
 		this._clippings_orders_model = new dojox.data.JsonRestStore({target:'/iadmin/clippings/list_clippingsprices', idAttribute:"clippingspriceid"});
 		this._clients = new dojox.data.JsonRestStore({target:"/iadmin/clippings/list_clients", idAttribute:"clientid"});
 		this._issues = new dojox.data.JsonRestStore({target:"/iadmin/clippings/list_issues", idAttribute:"issueid"});
 		this._pricecodes = new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=pricecodes&type=clippings"});
 		this._sources = new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=clippingsource"});
+		this._change_client_enabled=true;
 	},
 	postCreate:function()
 	{
@@ -50,7 +52,6 @@ dojo.declare("prmax.iadmin.clippings.update_order",
 		this.clippingsorderid.set("value",clippingsorderid);
 		this.icustomerid.set("value",icustomerid);
 		this.clientid.set("query",{icustomerid:icustomerid});
-		this.issueid.set("query",{icustomerid:icustomerid});
 		
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
@@ -74,6 +75,7 @@ dojo.declare("prmax.iadmin.clippings.update_order",
 				this.purchaseorder.set("value",order.purchaseorder);
 				this.description.set("value",order.description);
 				this.message.set("value","");
+				this._change_client_enabled = false;
 				this.clientid.set("value",order.defaultclientid);
 				this.issueid.set("value",order.defaultissueid);
 				this.clippingspriceid.set("value",order.clippingspriceid);
@@ -145,8 +147,10 @@ dojo.declare("prmax.iadmin.clippings.update_order",
 		this.purchaseorder.set("value","");
 		this.description.set("value","");
 		this.message.set("value","");
+		this._change_client_enabled = false;
 		this.clientid.set("value", -1);
 		this.issueid.set("value", -1);
+		this._change_client_enabled = true;
 		this.supplierreference.set("value","");
 		this.resendsupemail.set("checked",false);
 		this.clippingsourceid.set("value", 1);
@@ -188,8 +192,12 @@ dojo.declare("prmax.iadmin.clippings.update_order",
 			icustomerid: this.icustomerid.get("value"),
 			clientid: clientid
 		});
-
-		this.issueid.set("value",null);
+		
+		if (this._change_client_enabled==true)
+		{
+			this.issueid.set("value",null);
+		}
+		this._change_client_enabled = true ;		
 	},
 	_resend_conformation_call:function(response)
 	{
@@ -280,5 +288,17 @@ dojo.declare("prmax.iadmin.clippings.update_order",
 			url:'/iadmin/clippings/reactivate_order',
 			content: content}));
 		
-	}	
+	},
+	_Client_Add_Call:function(action, data )
+	{
+		this._change_client_enabled==true
+		this.clientid.set("value", data.clientid );
+		this.client_add_dialog.hide();
+	},
+	_New_Client:function()
+	{
+		this.client_add_ctrl.Load(-1, this._Client_Add_Call_Back);
+		this.client_add_dialog.show();
+	}
+	
 });

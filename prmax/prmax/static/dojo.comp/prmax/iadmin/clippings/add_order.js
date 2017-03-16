@@ -23,6 +23,7 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 	constructor: function()
 	{
 		this._add_call_back = dojo.hitch(this,this._add_call);
+		this._Client_Add_Call_Back = dojo.hitch(this, this._Client_Add_Call);
 		this._clippings_orders_model = new dojox.data.JsonRestStore({target:'/iadmin/clippings/list_clippingsprices', idAttribute:"clippingspriceid"});
 		this._clients = new dojox.data.JsonRestStore({target:"/iadmin/clippings/list_clients", idAttribute:"clientid"});
 		this._issues = new dojox.data.JsonRestStore({target:"/iadmin/clippings/list_issues", idAttribute:"issueid"});
@@ -47,7 +48,7 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 		this.icustomerid.set("value",icustomerid);
 		this.clientid.set("query",{icustomerid:icustomerid});
 		this.issueid.set("query",{icustomerid:icustomerid});
-		this._dialog.resize({w:1010, h:525})
+		this._dialog.resize({w:1010, h:700})
 	},
 	_close:function()
 	{
@@ -79,7 +80,7 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 		this.message.set("value","");
 		this.clientid.set("value", -1);
 		this.issueid.set("value", -1);
-		this.clippingsourceid.set("value", 1);
+		this.clippingsourceid.set("value", 6);
 	},
 	_add:function()
 	{
@@ -141,5 +142,15 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 			this._dialog.resize({w:1010, h:700});
 			dojo.removeClass( this.clippingstypes_node, "prmaxhidden");
 		}
-	}
+	},
+	_Client_Add_Call:function(action, data )
+	{
+		this.clientid.set("value", data.clientid );
+		this.client_add_dialog.hide();
+	},
+	_New_Client:function()
+	{
+		this.client_add_ctrl.Load(-1, this._Client_Add_Call_Back);
+		this.client_add_dialog.show();
+	}	
 });

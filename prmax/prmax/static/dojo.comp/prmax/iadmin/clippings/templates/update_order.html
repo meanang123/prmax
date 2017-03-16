@@ -15,7 +15,8 @@
 			<div style="height:165px;width:49%;float:right;padding:0px;margin:0px">
 				<label class="label_2">Price Code</label><select data-dojo-attach-point="pricecodeid" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='name:"pricecodeid",autoComplete:true,style:"width:8em"'></select><br/>
 				<label class="label_2">Purchase Order</label><input data-dojo-attach-point="purchaseorder" data-dojo-props='name:"purchaseorder",type:"text",required:false,trim:true,style:"width:12em"' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
-				<label class="label_2">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_client_change"></select><br/>
+				<label class="label_2">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_client_change"></select>
+					<button data-dojo-attach-event="onClick: _New_Client" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >New</button><br/>
 				<label class="label_2">Campaign</label><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid"></select><br/>
 				<label class="label_2">Supplier Ref</label><input data-dojo-attach-point="supplierreference" data-dojo-props='name:"supplierreference",type:"text",required:false,trim:true' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
 				<label class="label_2">Resend Supplier?</label><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="resendsupemail" data-dojo-props='type:"checkbox",name:"resendsupemail"' ><br/>
@@ -42,6 +43,9 @@
 				<button data-dojo-attach-event="onClick:_cancel" data-dojo-type="dijit.form.Button" data-dojo-attach-point="cancelbtn" data-dojo-props='type:"button",label:"Cancel Clipping",style:"float:left"'></button>
 			</div>
 		</form>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="client_add_dialog" data-dojo-props='title:"Add New Client",style:"width:700px;height:600px"'>
+		<div data-dojo-type="prmax.customer.clients.add" data-dojo-attach-point="client_add_ctrl"></div>
 	</div>
 </div>
 
