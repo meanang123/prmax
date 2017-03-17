@@ -31,13 +31,15 @@ class EmployeeSynchronise(object):
 		self._childoutlet = childoutlet
 		self._intrans = intrans
 		
-		
 	def synchronise_employees(self):
 
 		if not self._intrans:
 			transaction = BaseSql.sa_get_active_transaction()		
 
 		try:
+			
+			self.check_childoutlet_com_address()
+			
 			child_employees = session.query(Employee).filter(Employee.outletid == self._childoutlet.outletid).all()
 			parent_employees = session.query(Employee).\
 		        filter(Employee.outletid == self._childoutlet.seriesparentid).\
@@ -72,6 +74,59 @@ class EmployeeSynchronise(object):
 			if not self._intrans:
 				transaction.rollback()
 			raise
+		
+	def check_childoutlet_com_address(self):
+
+		parent_outlet = Outlet.query.get(self._childoutlet.seriesparentid)
+		parent_com = Communication.query.get(parent_outlet.communicationid)
+		parent_address = session.query(Address). \
+		    filter(Address.addressid == parent_com.addressid).scalar()
+
+		child_outlet = Outlet.query.get(self._childoutlet.outletid)
+		child_com = Communication.query.get(child_outlet.communicationid)
+		child_address = session.query(Address). \
+		    filter(Address.addressid == child_com.addressid).scalar()
+
+		self.update_childoutlet_address(parent_address, child_address, parent_com, child_com)
+		self.update_childoutlet_communication(parent_com, child_com)
+		
+	def update_childoutlet_communication(self, parent_com, child_com):
+		if parent_com.tel != child_com.tel or \
+		   parent_com.fax != child_com.fax :
+			session.execute(text("UPDATE communications SET tel = :tel, fax = :fax WHERE communicationid = :communicationid"),\
+			                {'tel': parent_com.tel, 'fax': parent_com.fax, 'communicationid':child_com.communicationid}, Communication)								
+
+	def update_childoutlet_address(self, parent_address, child_address, parent_com, child_com):
+		if not parent_address:
+			parent_address = Address(address1 = '',
+					          address2 = '',
+					          county = '',
+					          postcode = '',
+					          townname = '')
+			session.add(parent_address)
+			session.flush()
+			session.execute(text("UPDATE communications SET addressid = :addressid WHERE communicationid = :communicationid"),\
+			                {'addressid': parent_address.addressid, 'communicationid':parent_com.communicationid}, Communication)			
+
+		if not child_address:
+			child_address = Address(address1 = '',
+					          address2 = '',
+					          county = '',
+					          postcode = '',
+					          townname = '')
+			session.add(child_address)
+			session.flush()
+			session.execute(text("UPDATE communications SET addressid = :addressid WHERE communicationid = :communicationid"),\
+			                {'addressid': child_address.addressid, 'communicationid':child_com.communicationid}, Communication)			
+			
+		if parent_address.address1 != child_address.address1 or \
+		   parent_address.address2 != child_address.address2 or \
+		   parent_address.townname != child_address.tonwname or \
+		   parent_address.county != child_address.county or \
+		   parent_address.postcode != child_address.postcode: 
+			session.execute(text("UPDATE addresses SET address1 = :address1, address2 = :address2, townname = :townname, county = :county, postcode = :postcode WHERE addressid = :addressid"),\
+			                {'address1': parent_address.address1, 'address2': parent_address.address2, 'townname': parent_address.townname, 'county': parent_address.county, \
+			                 'postcode': parent_address.postcode, 'addressid':child_address.addressid}, Address)
 			
 	def update_researchdetails(self):
 		last_sync = datetime.now()
