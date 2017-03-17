@@ -102,7 +102,7 @@ class OutletFields(object):
 		else:
 			if key == "contact":
 				self.doContact(data, self.common["customerid"])
-			if  key in ("interestid", "interestid1", "interestid2", "interestid3", "interestid4"):
+			if  key in ("interestid", "interestid1", "interestid2", "interestid3", "interestid4", "interestid5", "interestid6", "interestid7", "interestid8", "interestid9", "interestid10"):
 
 				for interestname in data.replace(";", ",").split(","):
 					interestname = interestname.strip()
@@ -154,7 +154,7 @@ class OutletFields(object):
 		self.primary_contact_com["contact_tel"] = self.primary_contact_com["contact_tel"][:44]
 
 	def fixContact(self):
-		if self.contact["familyname"]:
+		if self.contact["familyname"] or self.contact["firstname"]:
 			self.employee["contacttype"] = "T"
 			if self.contact["familyname"].find(",") != -1:
 				tmp = self.contact["familyname"].split(",")
