@@ -25,7 +25,7 @@ LOGGER = logging.getLogger("prcommon.model")
 
 class List(BaseSql):
 	""" Class that handles the control of the lsit system """
-	Where_Used_Data = """SELECT l.listid, l.listname, lt.listtypedescription
+	Where_Used_Data = """SELECT l.listid, l.listname, lt.listtypedescription, l.update_time
 	FROM
 	userdata.listmembers as lm
 	JOIN userdata.list as l ON l.listid = lm.listid
@@ -33,7 +33,7 @@ class List(BaseSql):
 	JOIN internal.listtypes AS lt ON lt.listtypeid = l.listtypeid
 
 	WHERE ( ( lm.employeeid = :employeeid) OR ( lm.employeeid IS NULL AND o.primaryemployeeid=:employeeid)) AND l.customerid = :customerid
-	GROUP BY  l.listid, l.listname, lt.listtypedescription
+	GROUP BY  l.listid, l.listname, lt.listtypedescription, l.update_time
 	ORDER BY  %s %s
 	LIMIT :limit OFFSET :offset
 	"""
