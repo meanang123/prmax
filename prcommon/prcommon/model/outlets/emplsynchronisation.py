@@ -96,6 +96,10 @@ class EmployeeSynchronise(object):
 			session.execute(text("UPDATE communications SET tel = :tel, fax = :fax WHERE communicationid = :communicationid"),\
 			                {'tel': parent_com.tel, 'fax': parent_com.fax, 'communicationid':child_com.communicationid}, Communication)								
 
+		if child_com.email == None and parent_com.email:
+			session.execute(text("UPDATE communications SET email = :email WHERE communicationid = :communicationid"),\
+		                    {'email': parent_com.email, 'communicationid':child_com.communicationid}, Communication)
+
 	def update_childoutlet_address(self, parent_address, child_address, parent_com, child_com):
 		if not parent_address:
 			parent_address = Address(address1 = '',
@@ -121,7 +125,7 @@ class EmployeeSynchronise(object):
 			
 		if parent_address.address1 != child_address.address1 or \
 		   parent_address.address2 != child_address.address2 or \
-		   parent_address.townname != child_address.tonwname or \
+		   parent_address.townname != child_address.townname or \
 		   parent_address.county != child_address.county or \
 		   parent_address.postcode != child_address.postcode: 
 			session.execute(text("UPDATE addresses SET address1 = :address1, address2 = :address2, townname = :townname, county = :county, postcode = :postcode WHERE addressid = :addressid"),\

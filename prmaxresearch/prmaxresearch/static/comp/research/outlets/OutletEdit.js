@@ -60,6 +60,7 @@ define([
 		topic.subscribe(PRCOMMON.Events.Employee_Deleted, lang.hitch(this,this._employee_deleted_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Add, lang.hitch(this,this._employee_add_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Updated, lang.hitch(this,this._employee_update_event));
+		topic.subscribe(PRCOMMON.Events.Outlet_Updated, lang.hitch(this, this._outlet_update_event));
 		topic.subscribe("/employee/delete_request", lang.hitch(this, this._employee_deleted_request_event));
 
 		this._load_call_back = lang.hitch(this, this._load_call);
@@ -240,17 +241,17 @@ define([
 				this.outlet_contact_grid.set("query", {outletid: this._outletid, extended:1});
 			}
 			this.outlet_main.load ( this._outletid, response.outlet, response.outlet.profile ) ;
-			this.outlet_profile_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
-			this.outlet_coding_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
-			this.outlet_research_ctrl.load ( this._outletid, response.outlet.outlet.outlettypeid ) ;
 			if (response.outlet.serieschildren.length > 0)
 			{
-				domclass.remove(this.outlet_research_ctrl.synchrbtn.domNode,"prmaxhidden");
+				domclass.remove(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
 			}			
 			else
 			{
-				domclass.add(this.outlet_research_ctrl.synchrbtn.domNode,"prmaxhidden");
+				domclass.add(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
 			}
+			this.outlet_profile_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
+			this.outlet_coding_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
+			this.outlet_research_ctrl.load ( this._outletid, response.outlet.outlet.outlettypeid ) ;
 			this.outlet_desk_ctrl.load ( this._outletid, response.outlet.outlet.outlettypeid ) ;
 			this.outlet_advance_ctrl.load ( this._outletid ) ;
 			this.contact_edit_container.selectChild ( this.blank_cont_view ) ;
@@ -313,6 +314,27 @@ define([
 	{
 		if ( this.id == sourcelistid )
 			this._delete_employee();
+	},
+	_outlet_update_event:function(response)
+	{
+		if (response.outlet.profile.profile.seriesparentid && response.outlet.researchdetails.no_sync == false)
+		{
+			this.contact_grid.selectChild(this.outlet_contact_no_edit_view);
+			this.outlet_contact_no_edit_grid.set("query", {outletid: this._outletid});
+		}
+		else
+		{
+			this.contact_grid.selectChild(this.outlet_contact_view);
+			this.outlet_contact_grid.set("query", {outletid: this._outletid, extended:1});
+		}
+		if (response.outlet.serieschildren.length > 0)
+		{
+			domclass.remove(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
+		}
+		else
+		{
+			domclass.add(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
+		}
 	}
 });
 });

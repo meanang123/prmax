@@ -41,6 +41,7 @@
 		<table width="99%" cellspacing="0" cellpadding="0">
 				<tr>
 					<td align="left"><button data-dojo-attach-event="onClick:_delete" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Delete Outlet"'></button></td>
+					<td align="left"><button data-dojo-attach-event="onClick:_synchronise" data-dojo-attach-point='synchrbtn' data-dojo-type="dijit/form/Button" data-dojo-props='type:"button","class":"prmaxhidden",label:"Synchronise"'></button></td>
 					<td align="right"><label class="prmaxrowtag">Reason</label><select data-dojo-attach-point="reasoncodeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html","class":"prmaxrequired",style:"width:120px"'></select></td>
 					<td align="right"><button data-dojo-attach-point="updatebtn" data-dojo-attach-event="onClick:_update" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving Outlet...",label:"Save"'></button></td>
 				</tr>

@@ -432,8 +432,9 @@ class OutletController(SecureController):
 
 		OutletGeneral.research_coding_update( params )
 
-		return stdreturn()
+		data = Outlet.getForEdit(params['outletid'] , -1)
 
+		return stdreturn( outlet = data["outlet"],  primary = data["primary"])
 
 	@expose("text/html")
 	@error_handler(pr_form_error_handler)

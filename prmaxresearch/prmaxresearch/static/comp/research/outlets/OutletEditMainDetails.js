@@ -46,6 +46,8 @@ define([
 	{
 		this._updated_call_back = lang.hitch ( this , this._updated_call );
 		this._media_only_call_back = lang.hitch(this, this._media_only_call );
+		this._synchronise_call_back = lang.hitch ( this, this._synchronise_call);
+		
 		this._circulationsources = new JsonRestStore( {target:'/research/admin/circulationsources/list', labelAttribute:"circulationsourcedescription",idProperty:"circulationsourceid"});
 		this._circulationauditdates = new JsonRestStore( {target:'/research/admin/circulationdates/list', labelAttribute:"circulationauditdatedescription",idProperty:"circulationauditdateid"});
 		this._websources = new JsonRestStore( {target:'/research/admin/websources/list', labelAttribute:"websourcedescription",idProperty:"websourceid"});
@@ -240,8 +242,26 @@ define([
 	_add_web_dates_event:function( webdates )
 	{
 		this.webauditdateid.set("value", webdates.webauditdateid);
+	},
+	_synchronise:function()
+	{
+		var parent_outletid =  this._outletid;
+		request.post('/research/admin/synchronise_employees',
+				utilities2.make_params({ data:{outletid: parent_outletid }})).then
+				(this._synchronise_call_back);		
+	
+	},
+	_synchronise_call:function( response )
+	{
+		if ( response.success=="OK")
+		{
+			alert("Employees Synchronised");
+		}
+		else
+		{
+			alert("Employees Synchronisation Failed");
+		}
 	}
-
 });
 });
 
