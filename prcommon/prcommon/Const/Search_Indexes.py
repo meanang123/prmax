@@ -67,6 +67,7 @@ freelance_profile = 115
 quick_search_interests = 114
 quick_search_email = 117
 quick_search_tel = 118
+quick_search_countryid = 132
 
 # advance features
 advance_search_name = 122
@@ -79,7 +80,7 @@ advance_search_name_outletid = 128
 seo_categories = 129
 seo_keywords = 130
 
-# next id 132
+# next id 133
 
 HIGHEST_INDEX_ID = 131
 
@@ -107,6 +108,7 @@ Search_Extended_Data = (outlet_interest, employee_employeeid_interestid,
 isEmailAddress = ( employee_email, outlet_email, freelance_email,quick_search_email)
 isTelNumber = (freelance_tel, employee_tel, outlet_tel,quick_search_tel)
 isProfile = ( outlet_profile, freelance_profile )
+isQuickProcedure = (quick_search_countryid, )
 
 FAMILY_INDEX = ( mp_employeeid, employee_contact_employeeid, freelance_employeeid, employee_contactfull_employeeid , freelance_employee_outletid)
 FAMILY_OUTLET_INDEX = ( freelance_employee_outletid, mp_employee_outletid, employee_contact_outletid )

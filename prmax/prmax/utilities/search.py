@@ -683,3 +683,29 @@ def doQuickTel(SD, plpy, customerid, data, byemployeeid):
 		entry.index.add(row[keyfield])
 
 	return entry
+
+
+def doQuickCountry(SD, plpy, customerid, data ):
+	"""Search for countries for quick search
+	need to be both outlets and freelancers
+	"""
+
+	if SD.has_key("search_quick_country_plan"):
+		plan = SD['search_quick_country_plan']
+	else:
+		plan = plpy.prepare("""SELECT nbr,data FROM userdata.setindex WHERE keytypeid IN (24,25) AND (customerid = -1 OR customerid = $1 ) AND keyname IN ( $2 )
+		AND (prmaxdatasetid IN (SELECT prmaxdatasetid FROM internal.customerprmaxdatasets WHERE customerid = $1 ) OR prmaxdatasetid IS NULL)""",["int", "text"])
+
+	controlSettings = PostGresControl(plpy)
+	controlSettings.doDebug(data)
+	controlSettings.doDebug(str(customerid))
+
+	entry = IndexEntry()
+	for row in plpy.execute(plan, [ customerid, data]):
+		indextmp = DBCompress.decode(row["data"])
+		controlSettings.doDebug("row")
+		entry.index.union_update(indextmp.index)
+
+	controlSettings.doDebug("postrow")
+
+	return entry

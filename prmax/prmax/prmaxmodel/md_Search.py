@@ -56,7 +56,8 @@ class Search(BaseSql):
 	  Constants.advance_outletname:"SearchAdvanceOutletNameCount",
 	  Constants.advance_pub_date:"SearchAdvancePubDateCount",
 	  Constants.advance_outlettypeid:"SearchAdvanceMediaChannelCount",
-	  Constants.advance_search_name_outletid:"SearchOutletAdvanceCount"
+	  Constants.advance_search_name_outletid:"SearchOutletAdvanceCount",
+	  Constants.quick_search_countryid: "SearchQuickCountryCount",
 	}
 
 	Search_Count_Single = """SELECT IFNULL(SUM(si.nbr),0) as nbr from userdata.setindex as si WHERE ( si.customerid=-1 OR customerid = :customerid) AND keytypeid = :keytypeid AND keyname = :keyname AND prmaxdatasetid in ( SELECT prmaxdatasetid FROM internal.customerprmaxdatasets WHERE customerid = :customerid)"""
@@ -122,6 +123,8 @@ class Search(BaseSql):
 				kw.data  = DBCompress.encode2 ( commands )
 			elif kw.keytypeid == Constants.advance_pub_date:
 				kw.data = _minisearch_advance_pub_date ( kw.keyname , kw )["data"]
+			elif kw.keytypeid == Constants.quick_search_countryid:
+				kw.data = DBCompress.encode2(JSONDecoder().decode(kw["value"]))
 			else:
 				kw.data = kw.keyname
 
@@ -309,7 +312,7 @@ class Searching(BaseSql):
 		('quick_coverage', "SearchCoverageAll", _convertobj, Constants.Search_Data_Outlet, False ),
 		('quick_email',"SearchQuickEmail",_convertdata_email, Constants.Search_Data_Employee, False ),
 		('quick_tel',"SearchQuickTel",_convertdata_tel, Constants.Search_Data_Employee, False ),
-		('quick_countryid', Constants.outlet_countryid,_covertdata_or_logic, Constants.Search_Data_Outlet, False),
+		('quick_countryid', "SearchQuickCountry",_convertobj, Constants.Search_Data_Outlet, False),
 		)
 
 	_outlet_kw = (
