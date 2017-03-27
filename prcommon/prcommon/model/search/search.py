@@ -112,6 +112,8 @@ class ApiSearch(object):
 				params.data = DBCompress.encode2(commands)
 			elif params.keytypeid == Constants.advance_pub_date:
 				params.data = _minisearch_advance_pub_date(params.keyname, params)["data"]
+			elif params.keytypeid == Constants.quick_search_countryid:
+				params.data = DBCompress.encode2(JSONDecoder().decode(params["value"]))
 			else:
 				params.data = params.keyname
 
@@ -291,7 +293,7 @@ class ApiSearching(object):
 		('quick_coverage', "SearchCoverageAll", _convertobj, Constants.Search_Data_Outlet, False),
 		('quick_email', "SearchQuickEmail", _convertdata_email, Constants.Search_Data_Employee, False),
 		('quick_tel', "SearchQuickTel", _convertdata_tel, Constants.Search_Data_Employee, False),
-		('quick_countryid', Constants.outlet_countryid, _covertdata_or_logic, Constants.Search_Data_Outlet, False),
+		('quick_countryid', "SearchQuickCountry",_convertobj, Constants.Search_Data_Outlet, False),
 		)
 
 	_outlet_kw = (
