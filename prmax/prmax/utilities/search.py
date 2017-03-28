@@ -693,7 +693,7 @@ def doQuickCountry(SD, plpy, customerid, data ):
 	if SD.has_key("search_quick_country_plan"):
 		plan = SD['search_quick_country_plan']
 	else:
-		plan = plpy.prepare("""SELECT nbr,data FROM userdata.setindex WHERE keytypeid IN (24,25) AND (customerid = -1 OR customerid = $1 ) AND keyname IN ( $2 )
+		plan = plpy.prepare("""SELECT nbr,data FROM userdata.setindex WHERE keytypeid IN (24,25) AND (customerid = -1 OR customerid = $1 ) AND keyname = $2
 		AND (prmaxdatasetid IN (SELECT prmaxdatasetid FROM internal.customerprmaxdatasets WHERE customerid = $1 ) OR prmaxdatasetid IS NULL)""",["int", "text"])
 
 	controlSettings = PostGresControl(plpy)
@@ -701,10 +701,11 @@ def doQuickCountry(SD, plpy, customerid, data ):
 	controlSettings.doDebug(str(customerid))
 
 	entry = IndexEntry()
-	for row in plpy.execute(plan, [ customerid, data]):
-		indextmp = DBCompress.decode(row["data"])
-		controlSettings.doDebug("row")
-		entry.index.union_update(indextmp.index)
+	for countryid in data.split(','):
+		for row in plpy.execute(plan, [ customerid, countryid]):
+			indextmp = DBCompress.decode(row["data"])
+			controlSettings.doDebug("row")
+			entry.index.union_update(indextmp.index)
 
 	controlSettings.doDebug("postrow")
 
