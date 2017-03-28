@@ -13,7 +13,7 @@ class ConnectToImap(object):
     _Email_IMAP_host = "imap.gmail.com"
     _Email_Support_User = "unsubscribe@prmax.co.uk"
     _Email_Support_Password = "Xc$cR6QhAa3s"
-    
+
     def __init__(self):
         """ init the connection too the email server """
         self._msg_ids = []
@@ -50,7 +50,8 @@ class ConnectToImap(object):
                 if 'unsubscribe' in part.get('Subject'):
                     ref = {}
                     subject = part.get('Subject')
-                    ref['listmemberdistributionid'] = unicode(subject[subject.find('unsubscribe')+11:].strip())
+                    subject = subject.replace(">", "")
+                    ref['listmemberdistributionid'] = unicode(subject[subject.find('lunsubscribe')+12:].strip())
                     if ref['listmemberdistributionid'].isnumeric:
                         UnsubscribeGeneral.do_unsubscribe(ref)
                         print 'Unsubscribe listmemberdistributionid = %s' %ref['listmemberdistributionid']
