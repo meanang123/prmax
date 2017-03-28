@@ -64,6 +64,7 @@ class ConnectToImap(object):
 		""" move a message to the archive mail store """
 		self._connection.store(msg_id, '+FLAGS', '\\Seen')
 		self._connection.store(msg_id, '+FLAGS', '\\Deleted')
+		self._connection.expunge()
 
 	def restEmail(self, msg_id):
 		""" convert the message back too unread"""
@@ -142,6 +143,8 @@ class AnalysisMessage(object):
 	@property
 	def isIgnoreEmailAddress(self):
 		""" check too see if the email address is in the potential ignore list """
+		if self._msg["to"] == None:
+			return True
 		return self._msg["to"].lower().strip("<>") in AnalysisMessage._IgnoreEmails
 
 	@property
@@ -157,7 +160,11 @@ class AnalysisMessage(object):
 		""" analyse an email message"""
 
 		# extract the too address
-		self._to = self._msg["to"].strip("<>")
+		if self._msg["to"]:
+			self._to = self._msg["to"].strip("<>")
+		else:
+			self._to
+
 		t = self._to.split(".")
 
 		# this is a bounced email from a distribution
