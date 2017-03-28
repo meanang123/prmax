@@ -60,7 +60,7 @@ define([
 		topic.subscribe(PRCOMMON.Events.Employee_Deleted, lang.hitch(this,this._employee_deleted_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Add, lang.hitch(this,this._employee_add_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Updated, lang.hitch(this,this._employee_update_event));
-		topic.subscribe(PRCOMMON.Events.Outlet_Updated, lang.hitch(this, this._outlet_update_event));
+		topic.subscribe("/coding/update", lang.hitch(this, this._outlet_update_event));
 		topic.subscribe("/employee/delete_request", lang.hitch(this, this._employee_deleted_request_event));
 
 		this._load_call_back = lang.hitch(this, this._load_call);
@@ -234,11 +234,25 @@ define([
 			{
 				this.contact_grid.selectChild(this.outlet_contact_no_edit_view);
 				this.outlet_contact_no_edit_grid.set("query", {outletid: this._outletid});
+				this.outlet_main.address1.set("disabled", true);
+				this.outlet_main.address2.set("disabled", true);
+				this.outlet_main.postcode.set("disabled", true);
+				this.outlet_main.townname.set("disabled", true);
+				this.outlet_main.county.set("disabled", true);
+				this.outlet_main.tel.set("disabled", true);
+				this.outlet_main.fax.set("disabled", true);
 			}
 			else
 			{
 				this.contact_grid.selectChild(this.outlet_contact_view);
 				this.outlet_contact_grid.set("query", {outletid: this._outletid, extended:1});
+				this.outlet_main.address1.set("disabled", false);
+				this.outlet_main.address2.set("disabled", false);
+				this.outlet_main.postcode.set("disabled", false);
+				this.outlet_main.townname.set("disabled", false);
+				this.outlet_main.county.set("disabled", false);
+				this.outlet_main.tel.set("disabled", false);
+				this.outlet_main.fax.set("disabled", false);
 			}
 			this.outlet_main.load ( this._outletid, response.outlet, response.outlet.profile ) ;
 			if (response.outlet.serieschildren.length > 0)
@@ -321,11 +335,25 @@ define([
 		{
 			this.contact_grid.selectChild(this.outlet_contact_no_edit_view);
 			this.outlet_contact_no_edit_grid.set("query", {outletid: this._outletid});
+			this.outlet_main.address1.set("disabled", true);
+			this.outlet_main.address2.set("disabled", true);
+			this.outlet_main.postcode.set("disabled", true);
+			this.outlet_main.townname.set("disabled", true);
+			this.outlet_main.county.set("disabled", true);
+			this.outlet_main.tel.set("disabled", true);
+			this.outlet_main.fax.set("disabled", true);
 		}
 		else
 		{
 			this.contact_grid.selectChild(this.outlet_contact_view);
 			this.outlet_contact_grid.set("query", {outletid: this._outletid, extended:1});
+			this.outlet_main.address1.set("disabled", false);
+			this.outlet_main.address2.set("disabled", false);
+			this.outlet_main.postcode.set("disabled", false);
+			this.outlet_main.townname.set("disabled", false);
+			this.outlet_main.county.set("disabled", false);
+			this.outlet_main.tel.set("disabled", false);
+			this.outlet_main.fax.set("disabled", false);
 		}
 		if (response.outlet.serieschildren.length > 0)
 		{
