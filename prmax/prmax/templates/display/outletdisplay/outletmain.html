@@ -23,9 +23,6 @@
 		<tr><td class="prmaxrowtag" valign="top">Address</td><td py:content="outlet.address" class="${outlet.addressflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ></td></tr>
 		<tr><td class="prmaxrowtag" valign="top">Country</td><td py:content="outlet.countryname" class="prmaxrowdisplay" ></td></tr>
 </span>
-<span py:if="newprofile['seriesparent']" py:strip="">
-		<tr><td class="prmaxrowtag" valign="top">For contacts see</td><td class="prmaxrowdisplay" py:content="newprofile['seriesparent']"></td></tr>
-</span>
 <span py:if="outlet.tel" py:strip="">
 		<tr><td class="prmaxrowtag">Tel</td><td py:content="outlet.tel" class="${outlet.telflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ></td></tr>
 </span>

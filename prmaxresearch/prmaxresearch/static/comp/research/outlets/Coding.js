@@ -166,7 +166,7 @@ define([
 		if ( response.success == "OK")
 		{
 			alert("Updated");
-			topic.publish(PRCOMMON.Events.Outlet_Updated, response);
+			topic.publish("/coding/update", response);
 			this.coverage.clear_selection();
 			this.interests.clear_selection();
 		}

@@ -199,3 +199,11 @@ CREATE OR REPLACE FUNCTION SearchQuickCountryCount(
 	return len(doQuickCountry(SD, plpy,customerid,tmpdata))
 
 $$ LANGUAGE plpythonu;
+
+--Delete from cache the details of all series children
+DELETE 
+  FROM cache.cachestore 
+ WHERE objectid IN (SELECT outletid 
+                      FROM outletprofile 
+                     WHERE seriesparentid IS NOT NULL)
+

@@ -95,6 +95,9 @@ class EmployeeSynchronise(object):
 		   parent_com.fax != child_com.fax :
 			session.execute(text("UPDATE communications SET tel = :tel, fax = :fax WHERE communicationid = :communicationid"),\
 			                {'tel': parent_com.tel, 'fax': parent_com.fax, 'communicationid':child_com.communicationid}, Communication)								
+		if (child_com.email == None or child_com.email == "") and parent_com.email:
+			session.execute(text("UPDATE communications SET email = :email WHERE communicationid = :communicationid"),\
+			                {'email': parent_com.email, 'communicationid':child_com.communicationid}, Communication)
 
 	def update_childoutlet_address(self, parent_address, child_address, parent_com, child_com):
 		if not parent_address:
