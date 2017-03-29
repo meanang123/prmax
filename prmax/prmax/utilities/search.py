@@ -429,6 +429,7 @@ def doOutletProfile(SD, plpy, customerid, data, byemployeeid):
 		FROM outlets as o
 		LEFT OUTER JOIN outletcustomers AS oc ON oc.customerid = $1 and oc.outletid = o.outletid
 			LEFT JOIN  outletprofile as op on o.outletid = op.outletid
+			LEFT OUTER JOIN internal.publishers AS pub ON o.publisherid = pub.publisherid
 		WHERE
 		  ((o.customerid=-1 AND o.countryid IN (SELECT pc.countryid
 		  		FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
@@ -436,9 +437,9 @@ def doOutletProfile(SD, plpy, customerid, data, byemployeeid):
 		      OR o.customerid=$1 ) AND
 			(o.outlettypeid !=19 AND o.outlettypeid !=41 ) AND
 			( o.customerid=-1 OR o.customerid=$1) AND
-			(op.editorialprofile ILIKE $2 ) AND
-		  (o.countryid in ( SELECT countryid FROM internal.customerprmaxdatasets WHERE customerid = $3) OR
-		  o.nationid IS NOT NULL AND o.nationid in ( SELECT countryid FROM internal.customerprmaxdatasets WHERE customerid = $3))
+			(op.editorialprofile ILIKE $2 OR op.readership ILIKE $2 OR op.nrsreadership ILIKE $2 OR op.jicregreadership ILIKE $2 or pub.publishername ILIKE $2) AND
+		  (o.countryid in ( SELECT pc.countryid FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid WHERE customerid = $3) OR
+		  o.nationid IS NOT NULL AND o.nationid in ( SELECT pc.countryid  FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid WHERE customerid = $3))
 		  """, ["int", "text", "int"])
 		SD['search_outlet_profile_plan'] = plan
 
