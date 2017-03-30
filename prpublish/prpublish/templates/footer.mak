@@ -6,6 +6,6 @@
 <a class="bottlinks" href="/contactus">Contact Us</a>  |
 <a class="bottlinks" href="/sitemap">SiteMap</a>
 <p class="copyright"><br />
-Copyright &copy; 2014 PRmax Limited. All Rights Reserved<br />
+Copyright &copy; 2014 - 2017 PRmax Limited. All Rights Reserved<br />
 </p>
 </div>
