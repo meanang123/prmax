@@ -23,7 +23,7 @@ define([
 	"dojo/_base/lang",
 	"dojo/topic",
 	"dojo/dom-attr",
-	"dojo/dom-class",	
+	"dojo/dom-class",
 	"dijit/layout/TabContainer",
 	"research/outlets/OutletEditMainDetails",
 	"dijit/layout/BorderContainer",
@@ -230,7 +230,7 @@ define([
 	{
 		if ( response.success=="OK")
 		{
-			if (response.outlet.profile.profile.seriesparentid && response.outlet.researchdetails.no_sync == false)
+			if (response.outlet.profile.profile != null && response.outlet.profile.profile.seriesparentid && response.outlet.researchdetails.no_sync == false)
 			{
 				this.contact_grid.selectChild(this.outlet_contact_no_edit_view);
 				this.outlet_contact_no_edit_grid.set("query", {outletid: this._outletid});
@@ -258,7 +258,7 @@ define([
 			if (response.outlet.serieschildren.length > 0)
 			{
 				domclass.remove(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
-			}			
+			}
 			else
 			{
 				domclass.add(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
@@ -331,7 +331,7 @@ define([
 	},
 	_outlet_update_event:function(response)
 	{
-		if (response.outlet.profile.profile.seriesparentid && response.outlet.researchdetails.no_sync == false)
+		if (response.outlet.profile.profile != null && response.outlet.profile.profile.seriesparentid && response.outlet.researchdetails.no_sync == false)
 		{
 			this.contact_grid.selectChild(this.outlet_contact_no_edit_view);
 			this.outlet_contact_no_edit_grid.set("query", {outletid: this._outletid});

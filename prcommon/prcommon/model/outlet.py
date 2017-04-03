@@ -803,13 +803,16 @@ class Outlet(BaseSql):
 					language2id = row.languageid
 				elif language1id is  None:
 					language1id = row.languageid
-									
+
 		serieschildren = [child for child in session.query( Outlet).\
 		                  join(OutletProfile, Outlet.outletid == OutletProfile.outletid).\
 		                  filter(OutletProfile.seriesparentid == outlet.outletid).all()]
-		researchdetails = ResearchDetails.query.get(outlet.researchdetailid)
-	
-	
+		if outlet.researchdetailid:
+			researchdetails = ResearchDetails.query.get(outlet.researchdetailid)
+		else:
+			researchdetails = session.query(ResearchDetails).filter(ResearchDetails.outletid == outlet.outletid).scalar()
+			outlet.researchdetailid = researchdetails.researchdetailid
+
 		return dict (
 		    outlet = dict ( outlet = outlet ,
 		                    languages = dict (
