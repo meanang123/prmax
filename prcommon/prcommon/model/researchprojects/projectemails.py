@@ -32,8 +32,8 @@ LOGGER = logging.getLogger("prcommon.model")
 
 LOGOFILE = None
 try:
-	fileobj = open(os.path.join(os.path.normpath(os.path.join(os.path.dirname(__file__), 'resources')), 'prmax_logo.png'), "rb")
-	LOGOFILE = fileobj.read()
+	with open(os.path.join(os.path.normpath(os.path.join(os.path.dirname(__file__), 'resources')), 'prmax_logo.png'), "rb") as fileobj:
+		LOGOFILE = fileobj.read()
 except:
 	pass
 
@@ -79,11 +79,10 @@ class ProjectEmails(object):
 			<p>Diss</p>
 			<p>Norfolk IP22 4GT</p>
 			<p>United Kingdom</p><br/>
-			<img height="51px" width="118px" src="cid:cid1" alt="PRmax Logo">	"""
+			<img height="51px" width="118px" src="cid:cid1" alt="PRmax Logo">"""
 
-	RESENTFOOTER = """<p>Thank you for your help.</p>
-<p>Kind regards,</p><br/>
-%(researcher)s"""
+	RESENTFOOTER = """<br/>%(researcher)s"""
+
 	FIRST_EMAIL_EXPIRE = 5
 	SECOND_EMAIL_EXPIRE = 5
 
@@ -156,7 +155,7 @@ class ProjectEmails(object):
 			# If project has start date
 			command = command.filter(text("""(ResearchProjects.ismonthly=false OR (ResearchProjects.ismonthly=true AND ResearchProjects.startdate=current_date))"""))
 
-		FIRSTEXPIRE = date_by_adding_business_days(datetime.date.today(), ProjectEmails.FIRST_EMAIL_EXPIRE, [])
+		first_expire = date_by_adding_business_days(datetime.date.today(), ProjectEmails.FIRST_EMAIL_EXPIRE, [])
 		first_send_total = 0
 		for research in command.all():
 			first_send_total += 1
@@ -171,11 +170,11 @@ class ProjectEmails(object):
 				researchdetails.last_questionaire_sent = datetime.date.today()
 				research[0].researchprojectstatusid = Constants.Research_Project_Status_First_Email_Send
 				research[0].lastactiondate = datetime.date.today()
-				research[0].expire_date = FIRSTEXPIRE
+				research[0].expire_date = first_expire
 			else:
 				research[0].researchprojectstatusid = Constants.Research_Project_Status_No_Email
 				research[0].lastactiondate = datetime.date.today()
-				research[0].expire_date = FIRSTEXPIRE
+				research[0].expire_date = first_expire
 
 
 			if researchdetails and to_local_address:
@@ -320,7 +319,7 @@ class ProjectEmails(object):
 
 		link = ProjectEmails.get_link(istest)
 		email_text = ProjectEmails.QuestionairreTextCtrl()
-		NEXTEXPIRE = date_by_adding_business_days(datetime.date.today(), expire_value, [])
+		next_expire = date_by_adding_business_days(datetime.date.today(), expire_value, [])
 		sent_qty = 0
 
 		# first email sent but no response in period
@@ -344,7 +343,7 @@ class ProjectEmails(object):
 			researchdetails.last_questionaire_sent = datetime.date.today()
 			research[0].researchprojectstatusid = newstatusid
 			research[0].lastationdate = datetime.date.today()
-			research[0].expire_date = NEXTEXPIRE
+			research[0].expire_date = next_expire
 
 			emailaddress = researchdetails.email if to_email is None else to_email
 			if emailaddress:
@@ -403,7 +402,7 @@ class ProjectEmails(object):
 		research.last_questionaire_sent = datetime.date.today()
 		research.researchprojectstatusid = 12
 
-		researchproject = ResearchProjects.query.get(research.researchprojectid)
+		#researchproject = ResearchProjects.query.get(research.researchprojectid)
 		outlet = Outlet.query.get(research.outletid)
 
 		finalt = bodytext.replace(BODYTEXTLINK, "%s/%d/quest" % (link, researchprojectitemid))

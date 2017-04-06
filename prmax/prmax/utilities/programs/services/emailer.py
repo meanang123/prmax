@@ -23,14 +23,28 @@ import platform
 if platform.system().lower() == "windows":
 	testMode = True
 
+_sql_get_domains = "SELECT host FROM internal.hostspf WHERE is_valid_source = true"
+
+
 class EmailController(object):
 	"""  Email send controller """
 	def heartbeat(self):
 		"heartbeat"
 		pass
 
+	def is_valid_domain_email(self, email):
+		"""check """
+		try:
+			domain = email.split("@")[1].lower()
+			if domain in self._domains:
+				return True
+		except:
+			pass
+
+		return False
 	def run(self):
 		""" run """
+		self._domains = {}
 		try:
 			db = DBConnect(Constants.db_Command_Service)
 			cur = db.getCursor()
@@ -38,11 +52,13 @@ class EmailController(object):
 			# all email that hav't been sent and who have no embargo time
 			# all email that hav't been sent but who embargo time has expired
 			cur.execute("""SELECT emailqueueid,emailaddress,subject,message
-			FROM queues.emailqueue WHERE statusid = 1 AND ( embargo is NULL OR embargo < now() ) ORDER BY emailqueueid LIMIT %d """ % randint(50,150))
+			FROM queues.emailqueue WHERE statusid = 1 AND ( embargo is NULL OR embargo < now() ) ORDER BY emailqueueid LIMIT %d """ % randint(50, 150))
 			rows = cur.fetchall()
 			if len(rows):
+				for domain in db.executeAll(_sql_get_domains, None, False):
+					self._domains[domain[0]] = True
 				for row in rows:
-					fields = dict( statusid = 2, error = "", emailqueueid = row[0])
+					fields = dict(statusid=2, error="", emailqueueid=row[0])
 					try:
 						# get email record
 						emailrec = DBCompress.decode(row[3])
@@ -51,7 +67,11 @@ class EmailController(object):
 						if emailrec.fromAddress.find("@prmax.co.uk") != -1:
 							sender = emailrec.fromAddress
 						else:
-							sender = '<%s@prmax.co.uk>' % (emailrec.fromAddress.replace("@", "="))
+							is_valid_email_domain = self.is_valid_domain_email(emailrec.fromAddress)
+							if is_valid_email_domain:
+								sender = emailrec.fromAddress
+							else:
+								sender = '<%s@prmax.co.uk>' % (emailrec.fromAddress.replace("@", "="))
 
 						(fields['error'], ignore) = SendMessage(
 							Constants.email_host ,
@@ -78,7 +98,7 @@ class EmailController(object):
 
 # need to add a timing loop in here to run every 60 second if not already running
 emailCtrl = EmailController()
-while (1==1):
+while 1 == 1:
 	emailCtrl.heartbeat()
 	emailCtrl.run()
-	sleep( randint(1,30))
+	sleep(randint(1, 30))
