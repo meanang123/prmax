@@ -102,7 +102,9 @@ class OutletFields(object):
 		else:
 			if key == "contact":
 				self.doContact(data, self.common["customerid"])
-			if  key in ("interestid", "interestid1", "interestid2", "interestid3", "interestid4", "interestid5", "interestid6", "interestid7", "interestid8", "interestid9", "interestid10"):
+			if  key in ("interestid", "interestid1", "interestid2", "interestid3", "interestid4", "interestid5", "interestid6", "interestid7", "interestid8", "interestid9", "interestid10", \
+			            "interestid11", "interestid12", "interestid13", "interestid14", "interestid15", "interestid16", "interestid17", "interestid18", "interestid19", "interestid20", "interestid21",\
+			            "interestid22", "interestid23", "interestid24", "interestid25", "interestid26", "interestid27", "interestid28", "interestid29"):
 
 				for interestname in data.replace(";", ",").split(","):
 					interestname = interestname.strip()
