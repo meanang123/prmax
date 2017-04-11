@@ -9,39 +9,43 @@
 <%include file="../header_google.mak"/>
 </head>
 <body>
-<div class="totalframe">
-	<%include file="default_header.mak"/>
-	<div class="maincontent">
-		<div class="innertube innertube_newsroom">
+<%include file="default_header.mak"/>
+<div class="content-width">
+	<div class="single-news-content">
+		<div class="single-news-text">
+			<div class="news-title">Contact Details</div>
+			<%
+			from ttl.ttlmako import correct_http_link
+			%>
+			${client.clientname}<br/>
+			% if client.tel:
+			${client.tel}<br/>
+			% endif
+			% if client.www:
+			<a href='${correct_http_link(client.www)}' target="_blank">${client.www}</a><br/>
+			% endif
+			% if client.email:
+			<a href='mailto:${client.email}'>Email</a><br/>
+			% endif
+			% if client.twitter:
+			<a href='${correct_http_link(client.twitter)}' target="_blank">Twitter</a><br/>
+			% endif
+			% if client.facebook:
+			<a href='${correct_http_link(client.facebook)}' target="_blank">Facebook</a><br/>
+			% endif
+			% if client.linkedin:
+			<a href='${correct_http_link(client.linkedin)}' target="_blank">LinkedIn</a><br/>
+			% endif
+			<br/><br/>
+			<div class="single-news-links">	
+				<div class="news-contact">
+					<div class="title">Info</div>
+					<%include file="info_pane.mak"/>
+				</div>
+			</div>	
+		</div>
+	</div>
+	<%include file="default_footer.mak"/>
+</div>	
 
-		<p class="header">Contact Details</p>
-<%
-from ttl.ttlmako import correct_http_link
-%>
-<div style="padding-left:20px;padding-bottom:20px">
-<p>${client.clientname}</p>
-% if client.tel:
-<p>${client.tel}</p>
-% endif
-% if client.www:
-<p><a href='${correct_http_link(client.www)}' target="_blank">${client.www}</a></p>
-% endif
-% if client.email:
-<p><a href='mailto:${client.email}'>Email</a></p>
-% endif
-% if client.twitter:
-<p><a href='${correct_http_link(client.twitter)}' target="_blank">Twitter</a></p>
-% endif
-% if client.facebook:
-<p><a href='${correct_http_link(client.facebook)}' target="_blank">Facebook</a></p>
-% endif
-% if client.linkedin:
-<p><a href='${correct_http_link(client.linkedin)}' target="_blank">LinkedIn</a></p>
-% endif
-		</div>
-		</div>
-		<%include file="info_pane.mak"/>
-	</div>
-<%include file="default_footer.mak"/>
-	</div>
 </body></html>

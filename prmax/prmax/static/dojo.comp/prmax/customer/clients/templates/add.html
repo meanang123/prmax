@@ -21,27 +21,36 @@
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<tr>
 								<td align="right" class="prmaxrowtag" width="20%">News Room Root</td>
-								<td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="news_room_root" data-dojo-props='lowercase:true,"class":"prmaxrequired",name:"news_room_root",trim:true,maxLength:20,type:"text",style:"width:10em", regExp:"[\\w]+", invalidMessage:"Invalid"'/></td>
+								<td colspan="2"><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="news_room_root" data-dojo-props='lowercase:true,"class":"prmaxrequired",name:"news_room_root",trim:true,maxLength:20,type:"text",style:"width:10em", regExp:"[\\w]+", invalidMessage:"Invalid"'/></td>
 								<td><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="show_new_room_url" data-dojo-attach-event="onClick:_show_new_room_url" data-dojo-props='type:"button","class":"prmaxhidden",label:"Goto News Room"'></button></td>
 							</tr>
 							<tr>
 								<td align="right" class="prmaxrowtag">Custom Link 1</td>
-								<td>
+								<td colspan="2">
 									<span class="prmaxrowtag">Name</span><input data-dojo-attach-point="link_1_name" data-dojo-props='"class":"prmaxinput",name:"link_1_name",type:"text",maxLength:"80",trim:true,style:"width:10em"' data-dojo-type="dijit.form.TextBox" />
 									<span class="prmaxrowtag">Url</span><input data-dojo-attach-point="link_1_url" data-dojo-props='"class":"prmaxinput",name:"link_1_url",type:"text",maxLength:"80",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:20em"' data-dojo-type="dijit.form.ValidationTextBox" />
 								</td>
 							</tr>
 							<tr>
 								<td align="right" class="prmaxrowtag">Custom Link 2</td>
-								<td>
+								<td colspan="2">
 									<span class="prmaxrowtag">Name</span><input data-dojo-attach-point="link_2_name" data-dojo-props='"class":"prmaxinput",name:"link_2_name",type:"text",maxLength:"80",trim:true,style:"width:10em"' data-dojo-type="dijit.form.TextBox" />
 									<span class="prmaxrowtag">Url</span><input data-dojo-attach-point="link_2_url" data-dojo-props='"class":"prmaxinput",name:"link_2_url",type:"text",maxLength:"80",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:20em"' data-dojo-type="dijit.form.ValidationTextBox" />
 								</td>
 							</tr>
-							<tr><td align="right" class="prmaxrowtag" valign="top" >Header Color</td><td colspan="2"><div data-dojo-type="prmax.customer.clients.pickcolour" data-dojo-attach-point="header_colour" data-dojo-props='name:"header_colour",style:"width:200px"' ></div></td></tr>
-							<tr><td align="right" class="prmaxrowtag" valign="top" >Header Image Left</td><td colspan="2"><div data-dojo-type="prmax.customer.clients.headerimage" data-dojo-attach-point="headerimage_left" data-dojo-props='style:"width:500px;height:120px;margin:2px","class":"bordered",title:"Left side Image",imagetypeid:1,name:"headerimageleftid"' ></div></td></tr>
-							<tr><td align="right" class="prmaxrowtag" valign="top" >Header Image Right</td><td colspan="2"><div data-dojo-type="prmax.customer.clients.headerimage" data-dojo-attach-point="headerimage_right" data-dojo-props='style:"width:500px;height:120px;margin:2px","class":"bordered",title:"Right side Image",imagetypeid:2,name:"headerimagerightid"' ></div></td></tr>
-							<tr><td align="right" class="prmaxrowtag" valign="top" >About</td><td colspan="2"><div data-dojo-type="dijit.Editor" data-dojo-attach-point="about_template" data-dojo-props='name:"about_template", "class":"bordered", extraPlugins:[{name:"dijit._editor.plugins.FontChoice",command:"fontName", generic:false},"fontSize","createLink","viewsource","preview"],style:"width:95%;height:150px"' ></div></td></tr>
+							<tr>
+								<td align="right" class="prmaxrowtag" valign="top" >Header Color</td>
+								<td width="200px">
+									<div data-dojo-type="prmax.customer.clients.pickcolour" data-dojo-attach-point="header_colour" data-dojo-props='name:"header_colour",style:"width:200px"' data-dojo-attach-event="onClick:_ColourUpdate" ></div>
+								</td>
+								<td >
+									<label><input data-dojo-attach-point="default_header_colour" data-dojo-type="dijit.form.CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"0",checked:false' data-dojo-attach-event="onClick:_use_default_color"/>Use Default</label><br/>
+								</td>
+									
+							</tr>
+							<tr><td align="right" class="prmaxrowtag" valign="top" >Header Image Left</td><td colspan="3"><div data-dojo-type="prmax.customer.clients.headerimage" data-dojo-attach-point="headerimage_left" data-dojo-props='style:"width:500px;height:120px;margin:2px","class":"bordered",title:"Left side Image",imagetypeid:1,name:"headerimageleftid"' ></div></td></tr>
+							<tr><td align="right" class="prmaxrowtag" valign="top" >Header Image Right</td><td colspan="3"><div data-dojo-type="prmax.customer.clients.headerimage" data-dojo-attach-point="headerimage_right" data-dojo-props='style:"width:500px;height:120px;margin:2px","class":"bordered",title:"Right side Image",imagetypeid:2,name:"headerimagerightid"' ></div></td></tr>
+							<tr><td align="right" class="prmaxrowtag" valign="top" >About</td><td colspan="3"><div data-dojo-type="dijit.Editor" data-dojo-attach-point="about_template" data-dojo-props='name:"about_template", "class":"bordered", extraPlugins:[{name:"dijit._editor.plugins.FontChoice",command:"fontName", generic:false},"fontSize","createLink","viewsource","preview"],style:"width:95%;height:150px"' ></div></td></tr>
 						</table>
 					</div>
 				</form>

@@ -9,15 +9,25 @@
 <%include file="../header_google.mak"/>
 </head>
 <body>
-<div class="totalframe">
-	<%include file="default_header.mak"/>
-	<div class="maincontent">
-		<div class="innertube innertube_newsroom">
-		<p class="header">About ${client.clientname}</p>
-		<div>${newsroom.get_about_contents()}</div>
+
+<%include file="default_header.mak"/>
+<div class="content-width">
+	<div class="single-news-content">
+		<div class="single-news-text">
+		
+		<div class="news-title">About ${client.clientname}</div>
+			<div>${newsroom.get_about_contents()}</div><br/><br/>
 		</div>
-		<%include file="info_pane.mak"/>
+
+		<div class="single-news-links">	
+			<div class="news-contact">
+				<div class="title">Info</div>
+				<%include file="info_pane.mak"/>
+			</div>
+		</div>				
 	</div>
-<%include file="default_footer.mak"/>
-	</div>
+
+	<%include file="default_footer.mak"/>
+</div>	
+
 </body></html>

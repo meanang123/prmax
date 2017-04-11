@@ -9,24 +9,32 @@
 <%include file="../header_google.mak"/>
 </head>
 <body>
-<div class="totalframe">
-	<%include file="default_header.mak"/>
-	<div class="maincontent">
-		<div class="innertube innertube_collateral">
-		<table width="100%" cellpadding="0px" cellspacing="0px">
-			<tr><th><p class="heading">Pictures &amp; Videos</p></th></tr>
-%for collateral in clientcollateral:
-			<tr class="${loop.cycle('odd', 'even')}"><td width="100%"><a href="${collateral.get_link_address()}" target="_blank">${collateral.get_link_description()}</a></td></tr>
-%endfor
-		</table>
-%if len(clientcollateral)< 18:
-%for x in xrange(len(clientcollateral),18):
-	<br/>
-%endfor
-%endif
+<%include file="default_header.mak"/>
+<div class="content-width">
+	<div class="single-news-content">
+		<div class="single-news-text">
+			<div class="news-title">Pictures &amp; Videos</div>
+
+			<table width="100%" cellpadding="0px" cellspacing="0px">
+				%for collateral in clientcollateral:
+					<tr class="${loop.cycle('odd', 'even')}"><td width="100%"><a href="${collateral.get_link_address()}" target="_blank">${collateral.get_link_description()}</a></td></tr>
+				%endfor
+			</table>
+
+			%if len(clientcollateral)< 18:
+				%for x in xrange(len(clientcollateral),18):
+					<br/>
+				%endfor
+			%endif
+
+			<div class="single-news-links">	
+				<div class="news-contact">
+					<div class="title">Info</div>
+					<%include file="info_pane.mak"/>
+				</div>	
+			</div>
 		</div>
-		<%include file="info_pane.mak"/>
 	</div>
-<%include file="default_footer.mak"/>
-	</div>
+	<%include file="default_footer.mak"/>
+</div>	
 </body></html>

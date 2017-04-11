@@ -10,15 +10,17 @@
 %endif
 <%include file="header_google.mak"/>
 </head>
-<body>
-<div class="totalframe">
-<div class="headercontent"><%include file="header.mak"/></div>
-<div class="maincontent"><div class="innertube">
-<br/>
-<a href="/releases/${seorelease.seoreleaseid}.html">Back to Release</a><br/>
-<a href="mailto:${seorelease.email}">Send Email</a><br/>
-<br/><br/><br/><br/><br/><br/>
-</div></div>
-<%include file="footer.mak"/>
+
+<body >
+<%include file="header.mak"/>
+
+<div class="content-width">
+    <div class="single-news-content">
+        <a class="back" href="/releases/${seorelease.seoreleaseid}.html">Back</a><br/><br/><br/>
+        <div  class="single-news-text">
+            <a href="mailto:${seorelease.email}">Send Email</a><br/>
+        </div>
+    </div>
 </div>
+<%include file="footer.mak"/>
 </body></html>

@@ -9,15 +9,21 @@
 <%include file="header_google.mak"/>
 </head>
 <body >
-<div class="totalframe">
-<div class="headercontent"><%include file="header.mak"/></div>
-<div class="maincontent"><div class="innertube">
-	<p class="pageheadline">About Us</p>
-	<p>PRnewslink is an online news distribution service from  PRmax.</p>
-	<p>PRmax is the UK`s fastest growing media database and  press release distribution provider. </p>
-	<p>PRmax focus is on providing accurate, up to the minute  journalist data with thousands of real-time media updates, giving clients the  best possible starting point for their journalist relationships and ensuring  that every press release has the best possible chance of making news copy.</p>
-	<p>Accurate data surrounded by powerful but simple to use  software makes PRmax an indispensable yet highly affordable media planning tool  for all PR professionals.</p>
-</div></div>
-<%include file="footer.mak"/>
+<%include file="header.mak"/>
+<div class="content-width">
+    <div class="plain-page about">
+        <div class="plain-page-title">About</div>
+        <div class="plain-page-logo"></div>
+        <div class="plain-page-content">
+            PRnewslink is an online news distribution service from PRmax.
+            <br><br>
+            PRmax is the UK`s fastest growing media database and press release distribution provider.
+            <br><br>
+            PRmax focus is on providing accurate, up to the minute journalist data with thousands of real-time media updates, giving clients the best possible starting point for their journalist relationships and ensuring that every press release has the best possible chance of making news copy.
+            <br><br>
+            Accurate data surrounded by powerful but simple to use software makes PRmax an indispensable yet highly affordable media planning tool for all PR professionals.
+        </div>
+    </div>
 </div>
+<%include file="footer.mak"/>
 </body></html>

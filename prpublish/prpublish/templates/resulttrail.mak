@@ -1,4 +1,4 @@
-<%def name="create_trail(resultcount, criteria, offset, blocks=15)">
+<%def name="create_trail(resultcount, criteria, offset, blocks=16)">
 <div class="trail">
 <%
   # setup number of pages
@@ -29,15 +29,18 @@
   showing2 = offset
   if offset >1:
     showing2 -= 1
-  show_high = (showing2*blocks)+last_section
+  show_high = ((showing2+1)*blocks)+last_section
 
   # encode url
   from urllib import urlencode
 %>
  <!--<p>${offset}|${pages}|${startpoint}|${min(lsections,10)}|${lsections}</p> -->
 %if pages>1:
-<p class="showing">Showing ${show_low} - ${show_high} of ${resultcount}</p>
+<!--<p class="showing">Showing ${show_low} - ${show_high} of ${resultcount}</p>-->
 <p class="bread">
+%if offset >1:
+  <a href="/search_results?${urlencode(dict(s=criteria,o=offset-1))}">Prev &nbsp &nbsp</a>
+% endif
 %for x in xrange(startpoint,startpoint + min(lsections,10)):
 <%
   if x == offset:
@@ -45,13 +48,10 @@
   else:
     lclass = ""
 %>
-  <a class="${lclass}" href="/search_results?${urlencode(dict(o=x,s=criteria))}">Pg:${x}</a>
+  <a class="${lclass}" href="/search_results?${urlencode(dict(o=x,s=criteria))}">${x}&nbsp</a>
 % endfor
-%if offset >1:
-  <a href="/search_results?${urlencode(dict(s=criteria,o=offset-1))}">Prev</a>
-% endif
 %if offset < pages:
-  <a href="/search_results?${urlencode(dict(s=criteria,o=offset+1))}">Next</a>
+  <a href="/search_results?${urlencode(dict(s=criteria,o=offset+1))}">&nbsp &nbsp Next</a>
 % endif
 </p>
 %endif

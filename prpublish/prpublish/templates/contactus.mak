@@ -10,26 +10,40 @@
 <%include file="header_google.mak"/>
 </head>
 <body >
-<div class="totalframe">
-<div class="headercontent"><%include file="header.mak"/></div>
-<div class="maincontent">
-  <div class="innertube">
-    <p class="pageheadline">Contact us</p>
-    <p>PRnewslink is a news distribution service from PRmax<br />
-Please feel free to contact us at PRmax at any time for  sales information or support on:</p>
-    <p>Sales<br />
-      Tel: 01582 380199<br />
-      Email: <a href="mailto:sales@prmax.co.uk">sales@prmax.co.uk</a></p>
-    <p>Support<br />
-      Tel: 01582 380198<br />
-      Email: <a href="mailto:support@prmax.co.uk">support@prmax.co.uk</a></p>
-    <p>Address<br />
-      PRmax Limited<br />
-      18 Burywick<br />
-      Harpenden<br />
-      AL5 2AH</p>
-    <p>PRmax is a company registered in England Nbr 6166158. VAT  No: 979 7008 65</p>
-</div></div>
-<%include file="footer.mak"/>
+<%include file="header.mak"/>
+<div class="content-width">
+    <div class="plain-page contact">
+        <div class="plain-page-title">Contact us</div>
+        <div class="plain-page-logo"></div>
+        <div class="plain-page-content">
+
+            PRnewslink is a news distribution service from <a class="text-link" href="https://www.prmax.co.uk/" target="_blank">PRmax.</a> <br><br>
+            Please feel free to contact us at PRmax at any time for sales information or support on: <br><br>
+
+            <div class="contact-box mt20">
+                <b class="color-blue">Sales</b> <br>
+                Tel: 01582 380199 <br>
+                Email: sales@prmax.co.uk
+            </div>
+            <div class="contact-box mt20">
+                <b class="color-blue">Support</b> <br>
+                Tel: 01582 380198 <br>
+                Email: support@prmax.co.uk
+            </div>
+            <div class="contact-box mt20">
+                <b class="color-blue">Address</b> <br>
+                PRmax Limited <br>
+                18 Burywick <br>
+                Harpenden <br>
+                AL5 2AH
+            </div>
+            
+            <div class="clear-fix"></div>
+            <div><p>PRmax is a company registered in England Nbr 6166158. VAT  No: 979 7008 65</p></div>
+        </div>
+    </div>
 </div>
+<%include file="footer.mak"/>
 </body></html>
+
+

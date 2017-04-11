@@ -35,7 +35,7 @@ from ttl.string import encode_html_2, encode_clean_up
 import logging
 LOG = logging.getLogger("prcommon")
 
-BLOCK_SIZE = 15
+BLOCK_SIZE = 16
 
 #########################################################
 ## Map object to db
@@ -72,12 +72,14 @@ class SEORelease(BaseSql):
 			content = DBCompress.decode ( seo.content )
 
 		return dict ( seo = seo,
-								  content = content ,
-								  keywords = ",".join ([ r.seoreleasekeyword.strip(",").replace("_", " ")
-		                                     for r in session.query(SEOReleaseInterests).filter_by ( seoreleaseid = seoreleaseid).all()]),
-								  categories = ",".join( [r.seocategorydescription
-		                                      for r in session.query(SEOCategories).join( SEOReleaseCategories,SEOReleaseCategories.seocategoryid == SEOCategories.seocategoryid ).filter( SEOReleaseCategories.seoreleaseid == seoreleaseid).all()])
-								  )
+		               content = content ,
+		               keywords = ",".join ([ r.seoreleasekeyword.strip(",").replace("_", " ")
+		                                      for r in session.query(SEOReleaseInterests).filter_by ( seoreleaseid = seoreleaseid).all()]),
+		               categories = ",".join( [r.seocategorydescription
+		                                       for r in session.query(SEOCategories).join( SEOReleaseCategories,SEOReleaseCategories.seocategoryid == SEOCategories.seocategoryid ).filter( SEOReleaseCategories.seoreleaseid == seoreleaseid).all()]),
+		               categories2 = [r.seocategorydescription
+		                              for r in session.query(SEOCategories).join( SEOReleaseCategories,SEOReleaseCategories.seocategoryid == SEOCategories.seocategoryid ).filter( SEOReleaseCategories.seoreleaseid == seoreleaseid).all()]
+		               )
 
 	@classmethod
 	def get_for_edit(cls, seoreleaseid, emailtemplateid ) :
@@ -431,6 +433,7 @@ class SEORelease(BaseSql):
 	@classmethod
 	def get_for_release(cls, params ):
 		""" Do the search and return the details"""
+
 		whereused = " WHERE published < CURRENT_TIMESTAMP AND seostatusid = 2 "
 		fields = dict ( limit = int(params.get("limit", BLOCK_SIZE)),
 								    offset = BLOCK_SIZE * (int(params.get("o", 1))-1)
@@ -504,6 +507,9 @@ class SEORelease(BaseSql):
 
 				if key == "b":
 					whereused += " AND seo.content_text ilike :b "
+				
+				if key == "search":
+					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 		else:
 			# This is for the quick search
 			if params.get("common","").strip():
@@ -533,6 +539,10 @@ class SEORelease(BaseSql):
 				if "cid" in params:
 					cri["cid"] = int (params["cid"])
 					whereused += " AND seo.clientid  = :cid "
+				
+				if 'search' in params:
+					cri["search"] = "%" + params["search"].strip() + "%"
+					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 
 		fields.update( cri )
 		return dict (

@@ -1,11 +1,13 @@
-<div class="footer" align="center">
-<a class="bottlinks" href="/">Home Page</a> |
-<a class="bottlinks" href="/aboutus">About us</a> |
-<a class="bottlinks" href="/privacypolicy">Privacy Policy</a>  |
-<a class="bottlinks" href="/termsconditions">Terms &amp; Conditions</a>  |
-<a class="bottlinks" href="/contactus">Contact Us</a>  |
-<a class="bottlinks" href="/sitemap">SiteMap</a>
-<p class="copyright"><br />
-Copyright &copy; 2014 - 2017 PRmax Limited. All Rights Reserved<br />
-</p>
+<div class="footer">
+    <div class="content-width">
+        <div class="links">
+        <a class="" href="/">Home page</a>
+        <a class="" href="/aboutus">About us</a>
+        <a class="" href="/privacypolicy">Privacy policy</a>
+        <a class="" href="/termsconditions">Terms &amp; conditions</a>
+        <a class="" href="/contactus">Contact us</a>
+        <a class="" href="/sitemap">Site map</a>
+        </div>
+    </div>
+    <div class="copyright">Copyright &copy; 2014 - 2017 PRmax Limited. All Rights Reserved</div>
 </div>

@@ -54,6 +54,12 @@ class Root(controllers.RootController):
 		""" Contact Us Page """
 		return page_settings_basic()
 
+	@expose(template="prpublish.templates.searchmodal")
+	def searchmodal(self, *args, **kw ):
+		""" Contact Us Page """
+		return page_settings_basic()
+
+
 	@expose(template="prpublish.templates.sitemap")
 	def sitemap(self, *args, **kw ):
 		""" Contact Us Page """

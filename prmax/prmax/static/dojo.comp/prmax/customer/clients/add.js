@@ -267,5 +267,17 @@ dojo.declare("prmax.customer.clients.add",
 	{
 		this.inherited(arguments);
 		this.frame.resize(arguments[0]);
-	}
+	},
+	_use_default_color:function()
+	{
+		if (this.default_header_colour.checked)
+		{
+			this.header_colour.set("value", "#2e74b5")	
+		} 
+	},
+	_ColourUpdate:function()
+	{
+		this.default_header_colour.set("checked", false);
+	},
+	
 });

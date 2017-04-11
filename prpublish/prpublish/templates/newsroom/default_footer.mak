@@ -1,6 +1,6 @@
-<div class="footer" align="center">
-<a class="bottlinks" href="/privacypolicy2">Privacy Policy</a>
-<p class="copyright"><br />
-Powered by <a href="http://prmax.co.uk">PRMax</a> Copyright &copy; 2014 - 2017 PRmax Limited. All Rights Reserved<br/>
-</p>
+<div class="footer">
+    <div class="content-width">
+        <div class="links"><a class="" href="/privacypolicy2">Privacy Policy</a></div>
+    </div>
+    <div class="copyright">Copyright &copy; 2014 - 2017 PRmax Limited. All Rights Reserved</div>
 </div>
