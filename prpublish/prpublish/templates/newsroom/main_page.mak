@@ -14,19 +14,18 @@
 	<div class="single-news-content">
 		<div class="single-news-text">
 			% if not results:
-				<p class="notfound" >No Results Found</p>
+				<div class="empty" >No Results Found</div>
 			% else:
 				<%namespace file="../resulttrail.mak" import="create_trail"/>
 				${create_trail( resultcount, criteria, offset)}
 				% for result in results:
 					%if result['seoimageid']:
-						<img style="float:left;margin-right:20px;" alt="Image" src="${'/releases/images?imageid=%d' % result['seoimageid']}" height="${result['height']}px" width="${result['width']}px"></img>
+						<img style="float:left;margin:0px 20px 10px 0px;" alt="Image" src="${'/releases/images?imageid=%d' % result['seoimageid']}" height="${result['height']}px" width="${result['width']}px"></img>
 					%else:
 						<img style="float:left" alt="No Image" src="/static/images/noimage.gif" height="100px" width="100px"></img>
 					%endif
 					<div class="news-title-newsroom"><a href="${result['link']}">${result['headline']}</a></div>
-					<div>${result['synopsis'].replace("\n"," ").replace("  "," ")}</div>
-					<br/><br/>
+					<div class="newsroom-synopsis">${result['synopsis'].replace("\n"," ").replace("  "," ")}</div>
 				% endfor
 			%endif
 		</div><br/><br/>
