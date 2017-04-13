@@ -194,7 +194,6 @@ dojo.declare("prmax.customer.clients.add",
 	},
 	Clear:function()
 	{
-
 		this.clientid.set("value", -1 ) ;
 		this.clientid.set("value","");
 		this.clientname.set("value","");
@@ -208,6 +207,7 @@ dojo.declare("prmax.customer.clients.add",
 		this.clientid.set("value",-1);
 		this.news_room_root.set("value", "");
 		this.about_template.set("value", "");
+		this.default_header_colour.set("checked", false);
 		this.headerimage_left.set("value",-1);
 		this.headerimage_right.set("value",-1);
 		dojo.addClass(this.delete_ctrl.domNode, "prmaxhidden" );

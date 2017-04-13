@@ -61,7 +61,8 @@ class Client(BaseSql):
 				  clientid=client.clientid,
 				  customerid=params["customerid"],
 				  news_room_root=params["news_room_root"],
-				  about_template=params["about_template"])
+				  about_template=params["about_template"],
+				  header_colour=params["header_colour"])
 				session.add(newsroom)
 				if params.get("headerimageleftid", "") == "-2":
 					cls._update_image(1, params)

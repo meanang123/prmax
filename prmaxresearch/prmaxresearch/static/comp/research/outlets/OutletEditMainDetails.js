@@ -261,6 +261,15 @@ define([
 		{
 			alert("Employees Synchronisation Failed");
 		}
+	},
+	_open_url_new_tab:function()
+	{
+		url = this.www.get("value");
+		if (url && url != '')
+		{
+			var win = window.open(url, '_blank');
+			win.focus();
+		}
 	}
 });
 });
