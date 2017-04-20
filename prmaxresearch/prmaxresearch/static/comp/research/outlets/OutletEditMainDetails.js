@@ -36,7 +36,8 @@ define([
 	"prcommon2/web/WebSourcesAdd",
 	"prcommon2/web/WebDatesAdd",
 	"prcommon2/circulation/CirculationSourcesAdd",
-	"prcommon2/circulation/CirculationDatesAdd"
+	"prcommon2/circulation/CirculationDatesAdd",
+	"prcommon2/web/WebButton"
 	], function(declare, BaseWidgetAMD, template, BorderContainer, topic,  lang, utilities2, request, domattr, JsonRestStore, ItemFileReadStore ){
  return declare("research.outlets.OutletEditMainDetails",
 	[BaseWidgetAMD, BorderContainer],{
@@ -47,6 +48,7 @@ define([
 		this._updated_call_back = lang.hitch ( this , this._updated_call );
 		this._media_only_call_back = lang.hitch(this, this._media_only_call );
 		this._synchronise_call_back = lang.hitch ( this, this._synchronise_call);
+		this._complete_call_back = lang.hitch(this, this._complete_call);		
 		
 		this._circulationsources = new JsonRestStore( {target:'/research/admin/circulationsources/list', labelAttribute:"circulationsourcedescription",idProperty:"circulationsourceid"});
 		this._circulationauditdates = new JsonRestStore( {target:'/research/admin/circulationdates/list', labelAttribute:"circulationauditdatedescription",idProperty:"circulationauditdateid"});
@@ -75,6 +77,11 @@ define([
 
 		this.outletpriceid.set("store", this._costs);
 		this.mediaaccesstypeid.set("store", this._mediaaccesstypes);
+		
+		this.www_show.set("source", this.www);
+		this.facebook_show.set("source",this.facebook);
+		this.twitter_show.set("source",this.twitter);
+		this.linkedin_show.set("source",this.linkedin);
 
 		this.inherited(arguments)
 	},
@@ -245,32 +252,33 @@ define([
 	},
 	_synchronise:function()
 	{
+		var content = {};
 		var parent_outletid =  this._outletid;
-		request.post('/research/admin/synchronise_employees',
-				utilities2.make_params({ data:{outletid: parent_outletid }})).then
-				(this._synchronise_call_back);		
-	
+		content['outletid'] = parent_outletid;
+
+		this.synchronise_dlg.show();
+		this.synchronise_node.SetCompleted(this._complete_call_back);
+		this.synchronise_node.start(content);
+		
 	},
 	_synchronise_call:function( response )
 	{
 		if ( response.success=="OK")
 		{
 			alert("Employees Synchronised");
+			this._complete_call();
 		}
 		else
 		{
 			alert("Employees Synchronisation Failed");
 		}
 	},
-	_open_url_new_tab:function()
+	_complete_call:function()
 	{
-		url = this.www.get("value");
-		if (url && url != '')
-		{
-			var win = window.open(url, '_blank');
-			win.focus();
-		}
-	}
+		this.synchrbtn.cancel();
+		this.synchronise_dlg.hide();
+	}	
+
 });
 });
 

@@ -32,7 +32,8 @@ define([
 	"dijit/form/NumberTextBox",
 	"research/audit/AuditViewer",
 	"research/ResearchDetails",
-	"research/freelance/FreelanceDelete"
+	"research/freelance/FreelanceDelete",
+	"prcommon2/web/WebButton"
 	], function(declare, BaseWidgetAMD, template, BorderContainer, request, utilities2, json, ItemFileReadStore, lang, topic ){
  return declare("research.freelance.FreelanceEdit",
 	[BaseWidgetAMD,BorderContainer],{
@@ -53,6 +54,9 @@ define([
 		this.countryid.set("store",PRCOMMON.utils.stores.Countries());
 		this.delete_ctrl.set("dialog", this.delete_dlg);
 
+		this.facebook_show.set("source",this.facebook);
+		this.twitter_show.set("source",this.twitter);
+		this.linkedin_show.set("source",this.linkedin);
 		this.inherited(arguments);
 	},
 	_saved:function(response)

@@ -21,12 +21,24 @@
 				<tr><td align="right" class="prmaxrowtag">Www</td>
 					<td>
 						<span><input data-dojo-attach-point="www" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"www",type:"text",maxlength:"120",pattern:dojox.validate.regexp.url,style:"width:90%"' /></span>
-						<span><button data-dojo-attach-event="onClick:_open_url_new_tab" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"'><i class="fa fa-eye" aria-hidden="true"></i></button></span>
+						<span><div data-dojo-attach-point="www_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
 					</td>
 				</tr>
-				<tr><td align="right" class="prmaxrowtag">Twitter</td><td><input data-dojo-attach-point="twitter" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"twitter",pattern:dojox.validate.regexp.url,type:"text",maxlength:80,trim:true,style:"width:90%"'/></td></tr>
-				<tr><td align="right" class="prmaxrowtag">Facebook</td><td><input data-dojo-attach-point="facebook" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"facebook",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"'/></td></tr>
-				<tr><td align="right" class="prmaxrowtag">Linkedin</td><td><input data-dojo-attach-point="linkedin" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"linkedin",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Twitter</td>
+					<td><span><input data-dojo-attach-point="twitter" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"twitter",pattern:dojox.validate.regexp.url,type:"text",maxlength:80,trim:true,style:"width:90%"'/></span>
+						<span><div data-dojo-attach-point="twitter_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Facebook</td>
+					<td><span><input data-dojo-attach-point="facebook" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"facebook",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"'/></span>
+						<span><div data-dojo-attach-point="facebook_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Linkedin</td>
+					<td><span><input data-dojo-attach-point="linkedin" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"linkedin",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></span>
+						<span><div data-dojo-attach-point="linkedin_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
 				<tr><td align="right" class="prmaxrowtag">Circulation</td><td><input data-dojo-attach-point="circulation" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='"class":"prmaxinput",name:"circulation",type:"text",value:0,constraints:{min:0,max:999999999}, trim:true'/></td></tr>
 				<tr><td align="right" class="prmaxrowtag">Circulation Source</td><td><select data-dojo-props='style:"width:15em",name:"circulationsourceid",autoComplete:true,searchAttr:"circulationsourcedescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationsourceid"></select></td></tr>
 				<tr><td align="right" class="prmaxrowtag">Circulation Date</td><td><select data-dojo-props='style:"width:15em",name:"circulationauditdateid",autoComplete:true,searchAttr:"circulationauditdatedescription",required:false,placeHolder:"No Selection",pageSize:20' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationauditdateid"></select></td></tr>
@@ -46,7 +58,11 @@
 		<table width="99%" cellspacing="0" cellpadding="0">
 				<tr>
 					<td align="left"><button data-dojo-attach-event="onClick:_delete" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Delete Outlet"'></button></td>
-					<td align="left"><button data-dojo-attach-event="onClick:_synchronise" data-dojo-attach-point='synchrbtn' data-dojo-type="dijit/form/Button" data-dojo-props='type:"button","class":"prmaxhidden",label:"Synchronise"'></button></td>
+					<td align="left"><button data-dojo-attach-event="onClick:_synchronise" data-dojo-attach-point='synchrbtn' data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button","class":"prmaxhidden",label:"Synchronise"'></button></td>
+						<div data-dojo-attach-point="synchronise_dlg" data-dojo-type="dijit/Dialog" title="Synchronise Employees" data-dojo-props='style:"width:350px"'>
+							<div data-dojo-type="prcommon2/dialogs/SynchroniseDialog" data-dojo-attach-point="synchronise_node"></div>
+						</div>						
+					
 					<td align="right"><label class="prmaxrowtag">Reason</label><select data-dojo-attach-point="reasoncodeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html","class":"prmaxrequired",style:"width:120px"'></select></td>
 					<td align="right"><button data-dojo-attach-point="updatebtn" data-dojo-attach-event="onClick:_update" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving Outlet...",label:"Save"'></button></td>
 				</tr>
