@@ -47,7 +47,7 @@ class MadaptiveSearch(object):
 		self._translations = {}
 		self._translations_outlets = {}
 		self._missing = {}
-		self._missing_outlets = []
+		self._missing_outlets = {}
 		self.clippingstype_db_trans = {3:MA_Index_News,
 					    4:MA_Index_Twitter,
 					    5:MA_Index_Facebook,
@@ -75,8 +75,11 @@ class MadaptiveSearch(object):
 		search = MadaptiveAccess()
 
 		results = search.execute_search(self._clippingorder.rss_feed)
+		if 'entries'not in results['entries'] or results['entries'] is None:
+			return
 
-		transaction = BaseSql.sa_get_active_transaction()
+
+		transaction = session.begin()
 		self._clippingorder.last_completed = datetime.now()
 
 		try:
@@ -90,8 +93,8 @@ class MadaptiveSearch(object):
 							tmp = urlparse(url)
 							url = "%s://%s" % (tmp.scheme, tmp.hostname)
 						outletname = clip.get("authorName", "") if "authorName" in clip.keys() else ""
-						if outletname != "" and outletname not in self._translations_outlets and (outletname, url) not in self._missing_outlets:
-							self._missing_outlets.append((outletname, url))
+						if outletname != "" and outletname.strip().lower() not in self._translations_outlets and outletname.strip().lower() not in self._missing_outlets:
+							self._missing_outlets[outletname.strip().lower()] = (outletname.strip(), url)
 						if outletname in self._translations_outlets:
 							clip['outletid'] = self._translations_outlets[outletname]
 
@@ -188,16 +191,18 @@ class MadaptiveSearch(object):
 
 		for row in session.query(OutletExternalLink).\
 		    filter(OutletExternalLink.linktypeid == Constants.Clipping_Source_Madaptive).all():
-			self._translations_outlets[row.linktext.strip()] = row.outletid
+			self._translations_outlets[row.linktext.strip().lower()] = row.outletid
 
 	def _update_translations_outlets(self):
 		inserts = []
 
-		for i in range(len(self._missing_outlets)):
-			inserts.append({"linktext": self._missing_outlets[i][0],
-			                "linkdescription": self._missing_outlets[i][0],
-			                'url': self._missing_outlets[i][1],
-			                "linktypeid" : Constants.Clipping_Source_Madaptive}
+		outlets_to_add = self._missing_outlets.values()
+		for i in range(len(outlets_to_add)):
+			inserts.append({"linktext": outlets_to_add[i][0],
+			                "linkdescription": outlets_to_add[i][0],
+			                'url': outlets_to_add[i][1],
+			                "linktypeid" : Constants.Clipping_Source_Madaptive,
+			                'ignore': False,}
 			               )
 
 		if inserts:

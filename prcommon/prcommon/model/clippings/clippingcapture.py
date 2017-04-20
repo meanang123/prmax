@@ -28,7 +28,8 @@ def execute_capture():
 	for order in session.query(ClippingsOrder).\
 	    join(Customer, Customer.customerid == ClippingsOrder.customerid).\
 	    filter(Customer.customerstatusid.in_((1, 2))).\
-	    filter(text("CURRENT_DATE BETWEEN clippingsorder.startdate AND clippingsorder.enddate")).all():
+	    filter(text("CURRENT_DATE BETWEEN clippingsorder.startdate AND clippingsorder.enddate")).\
+	    order_by(Customer.customerid).all():
 		resultdata = None
 		try:
 #			if order.clippingsourceid == Constants.Clipping_Source_Cyberwatch:
@@ -38,10 +39,8 @@ def execute_capture():
 #				resultdata = MediaToolKitSearch.do_search(order)
 			if order.clippingsourceid == Constants.Clipping_Source_Madaptive:
 				search = MadaptiveSearch(order)
-				resultdata = search.do_search()
-			if resultdata:
-				results.append()
+				search.do_search()
 		except Exception, ex:
-			results.append(str(ex))
+			LOGGER.exception("general")
 
 	print results
