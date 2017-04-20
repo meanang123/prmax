@@ -26,6 +26,7 @@ from prcommon.sitecontrollers.search import SearchController
 from prcommon.sitecontrollers.languages import  LanguageController
 from prcommon.sitecontrollers.roles import RolesController
 from prcommon.sitecontrollers.query import QueryController
+from prcommon.sitecontrollers.synchronise import SynchroniseController
 
 import logging
 LOGGER = logging.getLogger("prmaxresearch")
@@ -42,6 +43,7 @@ class Root(controllers.RootController):
 	lanquages = LanguageController()
 	roles = RolesController()
 	query = QueryController()
+	synchronise = SynchroniseController()
 
 	@expose("")
 	def index(self, *args, **params):

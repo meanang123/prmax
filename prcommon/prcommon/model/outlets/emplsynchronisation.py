@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""synchronise parent children employees"""
+"""synchronise series members"""
 #-----------------------------------------------------------------------------
 # Name:        employeesynchronise.py
 # Purpose:
@@ -16,6 +16,7 @@ from prcommon.model.communications import Communication, Address
 from prcommon.model.employee import Employee, EmployeeInterests, EmployeeInterestView, EmployeePrmaxRole
 from prcommon.model.contact import Contact
 from prcommon.model.research import ResearchDetails
+from prcommon.model.queues import ProcessQueue
 import prcommon.Constants as Constants
 from datetime import datetime
 
@@ -25,12 +26,58 @@ from ttl.model import BaseSql
 LOGGER = logging.getLogger("prcommon")
 
 class EmployeeSynchronise(object):
-	""" EmployeesSynchronise  """
+	""" EmployeeSynchronise  """
 
-	def __init__(self, childoutlet, intrans=False):
-		self._childoutlet = childoutlet
+	def __init__(self, process, intrans=False):
+
+		self._childoutlet = None
+		if process:
+			self._parentoutletid = process.objectid
+			
 		self._intrans = intrans
+
+	def run(self):
 		
+		self.start_one_off(self._parentoutletid)
+		
+	def start_one_off(self, parentoutletid):
+		""" Run synchronisation for one outlet """
+		childoutlets = session.query(OutletProfile).\
+		    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+		    filter(OutletProfile.seriesparentid != None).\
+		    filter(ResearchDetails.no_sync == False ).\
+		    filter(OutletProfile.seriesparentid == parentoutletid).all()
+		
+		if childoutlets:
+			for childoutlet in childoutlets:
+				self._childoutlet = childoutlet
+				self.synchronise_employees()
+				
+	def start_service(self):
+		childoutlets = session.query(OutletProfile).\
+			    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+			    filter(OutletProfile.seriesparentid != None).\
+			    filter(ResearchDetails.no_sync == False ).all()
+		
+		results = []
+		if childoutlets:
+			for childoutlet in childoutlets:
+				self._childoutlet = childoutlet
+				parent_allow_sync = session.query(OutletProfile).\
+					join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+					filter(OutletProfile.outletid == childoutlet.seriesparentid).\
+					filter(ResearchDetails.no_sync == False).scalar()
+				if (parent_allow_sync):
+					resultdata = None
+					try:
+						resultdata = self.synchronise_employees()
+						if resultdata:
+							results.append()
+					except Exception, ex:
+						results.append(str(ex))
+			print results
+				
+				
 	def synchronise_employees(self):
 
 		if not self._intrans:
@@ -286,3 +333,15 @@ class EmployeeSynchronise(object):
 		    filter(OutletDesk.outletid == self._childoutlet.outletid).\
 		    filter(OutletDesk.deskname == deskname).scalar()
 		return desk
+
+
+
+
+
+	@classmethod
+	def status(cls, outletid, processqueueid):
+		""" Check status of synchronisation """
+		return session.query(ProcessQueue).\
+		       filter(ProcessQueue.objectid == outletid).\
+		       filter(ProcessQueue.processqueueid==processqueueid).scalar()
+

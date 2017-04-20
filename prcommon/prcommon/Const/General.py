@@ -64,6 +64,7 @@ Queue_Processed =  3
 Process_Outlet_Profile = 1
 Process_Clipping_View = 2
 Clipping_Output_Build_PowerPoint = 3
+Process_Synchronisation = 4
 
 UNSUB_LIVE = "<mailto:unsubscribe@prmax.co.uk?subject=lunsubscribe%d> , <https://app.prmax.co.uk/unsubscribe/%d>"
 UNSUB_TEST = "<mailto:unsubscribe@prmax.co.uk?subject=tunsubscribe%d> , <https://testapp.prmax.co.uk/unsubscribe/%d>"

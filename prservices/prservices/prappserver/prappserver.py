@@ -31,13 +31,15 @@ from prcommon.model import  ProcessQueue
 from prcommon.model.general.profilecache import ProfileCache
 from prcommon.model.clippings.clippingscache import ClippingCache
 from prcommon.model.clippings.output.clippingoutputpowerpoint import ClippingOutputPowerPoint
+from prcommon.model.outlets.emplsynchronisation import EmployeeSynchronise
 
 # add function to process email
 
 PROCESSMAPPING = {
   Constants.Process_Outlet_Profile : ProfileCache,
   Constants.Process_Clipping_View : ClippingCache,
-  Constants.Clipping_Output_Build_PowerPoint : ClippingOutputPowerPoint
+  Constants.Clipping_Output_Build_PowerPoint : ClippingOutputPowerPoint,
+  Constants.Process_Synchronisation : EmployeeSynchronise
 }
 
 logging.basicConfig(level=logging.DEBUG)
@@ -65,16 +67,7 @@ class WorkerController(threading.Thread):
 
 				try:
 					# first lock the record as processing
-					process = None
-					self._lock.acquire()
-					try:
-						session.begin()
-						process = ProcessQueue.query.get(record["processqueueid"])
-						process.statusid = Constants.Queue_Processed
-						session.commit()
-					finally:
-						self._lock.release()
-
+					process = ProcessQueue.query.get(record["processqueueid"])
 					# do action here
 					session.begin()
 					command = PROCESSMAPPING[process.processid](process)
@@ -84,7 +77,12 @@ class WorkerController(threading.Thread):
 					if getattr(command, "get_response", None):
 						process.processqueueoutput = command.get_response()
 
-					session.commit()
+					self._lock.acquire()
+					try:
+						process.statusid = Constants.Queue_Processed
+						session.commit()
+					finally:
+						self._lock.release()
 
 				except:
 					LOGGER.exception("Id = %d", record["processqueueid"])

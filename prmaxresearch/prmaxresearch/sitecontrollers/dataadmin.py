@@ -66,7 +66,6 @@ class ReseachDetailsSchema(PrFormSchema):
 	""" reseach details """
 	outletid = validators.Int()
 
-
 class ReseachDetailsUpdateSchema(PrFormSchema):
 	""" reseach details """
 	outletid = validators.Int()
@@ -212,28 +211,3 @@ class DataAdminController(SecureController):
 		"preview questionaiie"
 
 		return QuestionnaireEmailer.preview_questionnaire(params)
-
-
-
-	@expose("json")
-	@error_handler(pr_form_error_handler)
-	@exception_handler(pr_std_exception_handler)
-	@validate(validators=ReseachDetailsSchema(), state_factory=std_state_factory)
-	def synchronise_employees(self, *args, **params):
-		""" Synchronise serial members """
-	
-		childoutlets = session.query(OutletProfile).\
-			join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
-			filter(OutletProfile.seriesparentid != None).\
-			filter(ResearchDetails.no_sync == False ).\
-			filter(OutletProfile.seriesparentid == int(params['outletid'])).all()
-	
-		if childoutlets:
-			for childoutlet in childoutlets:
-				sync = EmployeeSynchronise(childoutlet,True)
-				resultdata = sync.synchronise_employees()
-		
-		return  stdreturn()
-
-
-
