@@ -60,7 +60,7 @@ dojo.declare("prmax.display.Output",
 			this.reportButtonNode.cancel();
 			return;
 		}
-
+		dojo.addClass( this.report_notshown, "prmaxhidden");
 		this.formNode.submit();
 	},
 	_csvreport:function()
@@ -71,6 +71,7 @@ dojo.declare("prmax.display.Output",
 			this.csvReportButtonNode.cancel();
 			return;
 		}
+		dojo.addClass( this.csv_notshown, "prmaxhidden");
 		this.csvFormNode.submit();
 	},
 	_Submit:function()
@@ -105,6 +106,8 @@ dojo.declare("prmax.display.Output",
 		// need to close dialog
 		PRMAX.search.stdDialog.hide();
 		this.reportButtonNode.cancel();
+		dojo.removeClass( this.report_notshown, "prmaxhidden");
+		dojo.attr(this.report_link, "href", "/reports/viewpdf?reportid="+ this.reportNode.reportid.value);
 		console.log("_complete");
 		this.reportNode.hide();
 	},
@@ -113,6 +116,8 @@ dojo.declare("prmax.display.Output",
 		// need to close dialog
 		PRMAX.search.stdDialog.hide();
 		this.csvReportButtonNode.cancel();
+		dojo.removeClass( this.csv_notshown, "prmaxhidden");
+		dojo.attr(this.csv_link, "href", "/reports/viewcsv?reportid="+ this.csvReportNode.reportid.value);
 		this.csvReportNode.hide();
 	},
 	_labelcomplete:function()
@@ -120,6 +125,8 @@ dojo.declare("prmax.display.Output",
 		// need to close dialog
 		PRMAX.search.stdDialog.hide();
 		this.labelReportButtonNode.cancel();
+		dojo.removeClass( this.label_notshown, "prmaxhidden");
+		dojo.attr(this.label_link, "href", "/reports/viewpdf?reportid="+ this.labelReportNode.reportid.value);
 		this.labelReportNode.hide();
 	},
 
@@ -158,6 +165,7 @@ dojo.declare("prmax.display.Output",
 			return;
 		}
 
+		dojo.addClass( this.label_notshown, "prmaxhidden");
 		this.labelFormNode.submit();
 	},
 	_labelSubmit:function()

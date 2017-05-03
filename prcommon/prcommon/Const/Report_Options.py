@@ -48,5 +48,5 @@ windowsReportDebugPath = "c:/Temp/prmaxreportstemp"
 linuxReportDebugPath = "/tmp/prmaxreportstemp"
 
 # path to external label
-windows_label_path = "python.exe /Projects/ttl/ttl/labels/generate.py"
+windows_label_path = "python.exe /Projects/prmax/development/ttl/ttl/labels/generate.py"
 unix_label_path = "python /usr/local/lib/python2.7/dist-packages/ttl-1.0.0.1-py2.7.egg/ttl/labels/generate.py"

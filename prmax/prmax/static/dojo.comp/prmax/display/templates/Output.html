@@ -22,6 +22,8 @@
 						<tr><td><div dojoType="prmax.common.ReportBuilder" dojoAttachPoint="csvReportNode" style="display:none"></div></td></tr>
 						<tr><td colspan="2" align="right"><button class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Generating Report..." label="Generate" dojoAttachPoint="csvReportButtonNode" dojoAttachEvent="onClick:_csvreport"></button></td></tr>
 					</table></td></tr>
+					<tr><td colspan="2"><div dojoAttachPoint="csv_notshown" class="prmaxhidden">If you cannot see the report, please press <a  dojoAttachPoint="csv_link" href=""  target="_blank">here</a></div></td></tr>				
+					
 				</table>
 			</form>
 		</div>
@@ -50,7 +52,9 @@
 				<table width="90%" class="prmaxtable">
 					<tr><td><div dojoType="prmax.common.ReportBuilder" dojoAttachPoint="labelReportNode" style="display:none"></div></td></tr>
 					<tr><td colspan="2" align="right"><button class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Generating Labels..." label="Generate" dojoAttachPoint="labelReportButtonNode" dojoAttachEvent="onClick:_labelreport"></button></td></tr>
-				</table></td></tr></table>
+				</table></td></tr>
+			<tr><td colspan="2"><div dojoAttachPoint="label_notshown" class="prmaxhidden">If you cannot see the report, please press <a  dojoAttachPoint="label_link" href=""  target="_blank">here</a></div></td></tr>				
+			</table>
 			</form>
 		</div>
 		<div dojoType="dijit.layout.ContentPane" title="Reports" preload="true" dojoAttachPoint="reports" >
@@ -76,7 +80,9 @@
 				<table width="90%" class="prmaxtable">
 					<tr><td><div dojoType="prmax.common.ReportBuilder" dojoAttachPoint="reportNode" style="display:none"></div></td></tr>
 					<tr><td colspan="2" align="right"><button class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Generating Report..." label="Generate" dojoAttachPoint="reportButtonNode" dojoAttachEvent="onClick:_report"></button></td></tr>
-				</table></td></tr></table>
+				</table></td></tr>
+			<tr><td colspan="2"><div dojoAttachPoint="report_notshown" class="prmaxhidden">If you cannot see the report, please press <a  dojoAttachPoint="report_link" href=""  target="_blank">here</a></div></td></tr>				
+			</table>
 			</form>
 		</div>
 	</div>
