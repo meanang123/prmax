@@ -28,6 +28,7 @@ define([
 	"dijit/Dialog",
 	"dijit/layout/BorderContainer",
 	"prcommon2/search/OutletSearch",
+	"prcommon2/outlet/OutletSelectDetails",
 	"dijit/layout/ContentPane",
 	"dojox/form/BusyButton"
 	], function(declare, BaseWidgetAMD, template, json, request, utilities2, JsonRest, Observable, lang, topic, Grid, domattr, domclass, array){
@@ -54,7 +55,8 @@ define([
 			{label: 'Name',className:"standard", field:"outletname"},
 			{label: 'Contact',className:"standard", field:"contactname"},
 			{label: 'Source',className:"dgrid-column-status-small", field:"sourcename"},
-			{label: 'Id',className:"dgrid-column-accountnbr", field:"outletid"}
+			{label: 'Id',className:"dgrid-column-accountnbr", field:"outletid"},
+			{label: ' ',name:'edit', className:"dgrid-column-type-boolean",field:'outletid',formatter:utilities2.format_row_ctrl},
 		];
 
 		this.model = new Observable(new JsonRest( {target:this.source_url, idProperty:"sessionsearchid"}));
@@ -67,13 +69,27 @@ define([
 		});
 
 		this.select_search_view.set("content", this.searchgrid);
-		this.searchgrid.on("dgrid-select", lang.hitch(this,this._on_cell_call));
+		this.searchgrid.on(".dgrid-cell:click", lang.hitch(this,this._on_cell_call));
 
 		domclass.add(this.clearbtn.domNode,"prmaxhidden");
 		domclass.add(this.parentbtn.domNode,"prmaxhidden");
 		domattr.set(this.display,"innerHTML",this.placeHolder);
 
 		this.inherited(arguments);
+
+		this.selectdetails_ctrl.set("dialog", lang.hitch(this, this._show_details_function));
+	},
+	_show_details_function:function(command)
+	{
+		if (command =="show")
+		{	
+			this.selectdetails_dlg.show();
+//			this.selectdetails_ctrl.load(this.outletid);
+		}
+		else
+		{
+			this.selectdetails_dlg.hide();
+		}
 	},
 	_load_call:function(response)
 	{
@@ -82,6 +98,7 @@ define([
 			outletid = response.outlet.outlet.outletid;
 			sourcetypeid = response.outlet.outlet.sourcetypeid;
 			prmax_grouptypeid = "";
+//			this.selectdetails_ctrl.set("outletid", outletid);		
 			if (response.outlet.outlet.outlettypeid == 19)
 			{
 				prmax_grouptypeid = "freelance";
@@ -221,10 +238,30 @@ define([
 	},
 	_on_cell_call:function (e)
 	{
-		this._outletid = e.rows[0].data.outletid;
-		domattr.set(this.display,"innerHTML",e.rows[0].data.outletname);
-		this.select_dlg.hide();
-		this._set_view();
+
+		var cell = this.searchgrid.cell(e);
+		
+		this._row = cell.row.data;
+		this._outletid = this._row.outletid;
+		if ( cell.column.id  == 5)	
+		{
+			this.selectdetails_dlg.startup();
+			this.selectdetails_dlg.show();
+			this.selectdetails_ctrl.load(this._outletid);
+		}
+		else
+		{
+			domattr.set(this.display,"innerHTML",this._row.outletname);
+			this.select_dlg.hide();
+			this._set_view();
+		}
+		
+//		this._outletid = e.rows[0].data.outletid;
+//		domattr.set(this.display,"innerHTML",e.rows[0].data.outletname);
+//		this.select_dlg.hide();
+//		this._set_view();
 	}
+	
+	
 });
 });

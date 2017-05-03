@@ -20,6 +20,7 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
      ResearchFrequencies, PRMaxRoles, EmailSendTypes, Languages, Continents, ContactHistoryStatus,\
      ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, \
      ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes
+from prcommon.model.lookups import Publishers
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.validators import  SimpleFormValidator, Schema
 from ttl.tg.controllers import OpenSecureController
@@ -99,7 +100,8 @@ class OpenController(OpenSecureController):
 	              "clippingtones": ClippingsTone,
 	              "mediaaccesstypes" :  MediaAccessTypes,
 	              "paymentmethods" : PaymentMethods,
-	              "paymenttypes": CustomerPaymentTypes
+	              "paymenttypes": CustomerPaymentTypes,
+	              "publishers" :  Publishers
 		            }
 
 	_AddFilter = ("taskstatus", "users", "tasktype", "tasktags", "countrytypes", "seostatus", "newsfeedtypes", "customertypes",

@@ -801,6 +801,19 @@ class TaskTypeStatus(BaseSql):
 					for row in data.fetchall()]
 		return cls.sqlExecuteCommand(text(TaskTypeStatus.List_Types), None, _convert)
 
+class Publishers(BaseSql):
+	"Publishers"
+	List_Types = """SELECT publisherid,publishername FROM internal.publishers ORDER BY publisherid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.publisherid, name=row.publishername)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(Publishers.List_Types), None, _convert)
+
 #########################################################
 # load tables from db
 EmailSendTypes.mapping = Table('emailsendtypes', metadata, autoload=True, schema="internal")
@@ -845,6 +858,7 @@ ClippingsTone.mapping = Table('clippingstone', metadata, autoload=True, schema='
 ClippingsTypes.mapping = Table('clippingstype', metadata, autoload=True, schema='internal')
 MediaAccessTypes.mapping = Table('mediaaccesstypes', metadata, autoload=True, schema='internal')
 TaskTypeStatus.mapping = Table('tasktypestatus', metadata, autoload=True, schema='internal')
+Publishers.mapping = Table('publishers', metadata, autoload = True, schema='internal')
 
 mapper(EmailSendTypes, EmailSendTypes.mapping)
 mapper(UnSubscribeReason, UnSubscribeReason.mapping)
@@ -888,5 +902,6 @@ mapper(ClippingsTone, ClippingsTone.mapping)
 mapper(ClippingsTypes, ClippingsTypes.mapping)
 mapper(MediaAccessTypes, MediaAccessTypes.mapping)
 mapper(TaskTypeStatus, TaskTypeStatus.mapping)
+mapper(Publishers, Publishers.mapping )
 
 
