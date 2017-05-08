@@ -62,9 +62,16 @@ class NewsRoom(object):
 		if self._page == None:
 			lparams = self.get_env( envir )
 			lparams.update(SEORelease.do_search (dict (cid = self._client[1].clientid)))
+			template = "prpublish.templates.newsroom.main_page"
+			if (self._client[1].clientid == 2014 or self._client[1].clientid == 1966): #Cardiff
+#				lparams.update(SEORelease.do_search (dict (customerid = self._customer.customerid)))
+				template = "prpublish.templates.newsroom.cardiff.main_page";
+#			else:
+#				lparams.update(SEORelease.do_search (dict (cid = self._client[1].clientid)))
+				
 			data = view.render(
 			  lparams,
-			  template = "prpublish.templates.newsroom.main_page")
+			  template = template)
 		elif self._page[0] in NewsRoom._standard_pages_html:
 			lparams = self.get_env( envir )
 			lparams.update( dict( client = self._client[1]))
