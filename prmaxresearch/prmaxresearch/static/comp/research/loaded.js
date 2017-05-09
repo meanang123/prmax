@@ -11,6 +11,7 @@ define([
 	"ttl/Amduuid",
 	"prcommon2/prevents",
 	"prcommon2/store/DataStores",
+	"prcommon2/dialogs/SynchroniseDialog",	
 	"research/lookups/Roles",
 	"research/lookups/Geographical",
 	"research/lookups/Interests",

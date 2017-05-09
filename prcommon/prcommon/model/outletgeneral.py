@@ -146,15 +146,22 @@ class OutletGeneral(object):
 			ActivityDetails.AddChange(outlet.outletpriceid, params['outletpriceid'], activity.activityid, Constants.Field_Outlet_Price)
 			ActivityDetails.AddChange(outlet.mediaaccesstypeid, params['mediaaccesstypeid'], activity.activityid, Constants.Field_Media_Access_Types)
 
-			ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
-			ActivityDetails.AddChange(address.address2, params['address2'], activity.activityid, Constants.Field_Address_2)
-			ActivityDetails.AddChange(address.townname, params['townname'], activity.activityid, Constants.Field_Address_Town)
-			ActivityDetails.AddChange(address.county, params['county'], activity.activityid, Constants.Field_Address_County)
-			ActivityDetails.AddChange(address.postcode, params['postcode'], activity.activityid, Constants.Field_Address_Postcode)
+			if 'address1' in params:
+				ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
+			if 'address2' in params:
+				ActivityDetails.AddChange(address.address2, params['address2'], activity.activityid, Constants.Field_Address_2)
+			if 'townname' in params:
+				ActivityDetails.AddChange(address.townname, params['townname'], activity.activityid, Constants.Field_Address_Town)
+			if 'county' in params:
+				ActivityDetails.AddChange(address.county, params['county'], activity.activityid, Constants.Field_Address_County)
+			if 'postcode' in params:
+				ActivityDetails.AddChange(address.postcode, params['postcode'], activity.activityid, Constants.Field_Address_Postcode)
 
 			ActivityDetails.AddChange(comm.email, params['email'], activity.activityid, Constants.Field_Email)
-			ActivityDetails.AddChange(comm.tel, params['tel'], activity.activityid, Constants.Field_Tel)
-			ActivityDetails.AddChange(comm.fax, params['fax'], activity.activityid, Constants.Field_Fax)
+			if 'tel' in params:
+				ActivityDetails.AddChange(comm.tel, params['tel'], activity.activityid, Constants.Field_Tel)
+			if 'fax' in params:
+				ActivityDetails.AddChange(comm.fax, params['fax'], activity.activityid, Constants.Field_Fax)
 			ActivityDetails.AddChange(comm.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
 			ActivityDetails.AddChange(comm.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
 			ActivityDetails.AddChange(comm.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
@@ -198,15 +205,22 @@ class OutletGeneral(object):
 
 			outlet.mediaaccesstypeid = params["mediaaccesstypeid"]
 
-			address.address1 = params['address1']
-			address.address2 = params['address2']
-			address.townname = params['townname']
-			address.county = params['county']
-			address.postcode = params['postcode']
+			if 'address1' in params:
+				address.address1 = params['address1']
+			if 'address2' in params:
+				address.address2 = params['address2']
+			if 'townname' in params:
+				address.townname = params['townname']
+			if 'county' in params:
+				address.county = params['county']
+			if 'postcode' in params:
+				address.postcode = params['postcode']
 
 			comm.email = params['email']
-			comm.tel = params['tel']
-			comm.fax = params['fax']
+			if 'tel' in params:
+				comm.tel = params['tel']
+			if 'fax' in params:
+				comm.fax = params['fax']
 			comm.facebook = params['facebook']
 			comm.twitter = params['twitter']
 			comm.linkedin = params['linkedin']
