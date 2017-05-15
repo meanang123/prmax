@@ -9,3 +9,9 @@ insert into internal.reporttemplates values
 (30, -1, 'Distribution Check List2', 
 '<queries><query type="SQL" format="list" dictname="results" defaultsortorder="sort_outletname" header="Outlet Name,Contact Name,Tel,Email,Status"> SELECT outletname, contactname, tel, emailaddress, distributionstatusdescription FROM distributed_view as dv WHERE dv.listid = %(listid)s ORDER BY sortname</query></queries>',
 '', 8, 'DistributionReport');
+
+insert into internal.reporttemplates values 
+(31, -1, 'Activity Report', 
+'<queries><query type="CUSTOM"></query></queries>',
+'', 9, 'ActivityReport');
+

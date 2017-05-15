@@ -13,6 +13,7 @@
 
 import prmax.Constants as Constants
 import datetime
+from datetime import timedelta
 from ttl.postgres import DBCompress
 from ttl.ttlemail import EmailMessage
 from ttl.model import BaseSql
@@ -23,6 +24,7 @@ from ttl.report.std_invoice_pdf import InvoicePDF
 from ttl.report.std_creditnote_pdf import CreditNotePdf
 from ttl.report.order_confirmation import OrderConfirmationPDF
 from ttl.report.engagement_report import EngagementPDF
+from ttl.report.activity_report import ActivityPDF
 from ttl.report.clippings_piechart_report import ClippingsPieChartPDF
 from ttl.report.clippings_lineschart_report import ClippingsLinesChartPDF
 from ttl.report.partners_list_report import PartnersListPDF
@@ -678,9 +680,14 @@ class ReportEngagments(ReportCommon):
 		LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid
 		LEFT OUTER JOIN internal.contacthistorystatus AS chs ON chs.contacthistorystatusid = ch.contacthistorystatusid"""
 
+
 		whereclause = """WHERE ch.ref_customerid = %(icustomerid)s"""
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
+		params['clientid'] = self._reportoptions["clientid"]
+		if params['clientid'] != -1 and params['clientid'] != '-1':
+			whereclause += ' AND ch.clientid = %(clientid)s'
+			
 
 		drange = simplejson.loads(self._reportoptions["drange"])
 		option = TTLConstants.CONVERT_TYPES[drange["option"]]
@@ -721,6 +728,130 @@ class ReportEngagments(ReportCommon):
 		report = EngagementPDF( self._reportoptions,  data["results"])
 
 		output.write(report.stream())
+
+class ActivityReport(ReportCommon):
+	"""Activity Report"""
+
+	def __init__(self, reportoptions, parent):
+		ReportCommon.__init__ (self, reportoptions, parent )
+		self._byissue = False
+
+	def load_data(self, db_connect ):
+		"Load Data"
+
+		engagements = """SELECT
+			ch.contacthistoryid,
+			to_char(ch.taken, 'DD/MM/YYYY') as taken_display,
+		  COALESCE(o.outletname,'') as outletname,
+		  COALESCE(ch.details,'') as details,
+		  COALESCE(ch.outcome,'') as outcome,
+		  chs.contacthistorystatusdescription,
+		  COALESCE(array_to_string(array(
+		  SELECT i.name FROM userdata.issues AS i JOIN userdata.contacthistoryissues AS chi ON chi.issueid = i.issueid
+		  WHERE chi.contacthistoryid = ch.contacthistoryid ORDER BY i.name), ', '),'') as issue,
+		  client.clientname
+		FROM userdata.contacthistory AS ch
+		LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid
+		LEFT OUTER JOIN internal.contacthistorystatus AS chs ON chs.contacthistorystatusid = ch.contacthistorystatusid
+		LEFT OUTER JOIN userdata.client on client.clientid = ch.clientid"""
+
+		clippings = """SELECT 
+		to_char(clip.clip_source_date, 'DD/MM/YYYY') as source_date,
+		clip.clip_title, clip.clip_abstract, 
+		client.clientname,
+		o.outletname
+		FROM userdata.clippings AS clip
+		LEFT OUTER JOIN outlets AS o ON o.outletid = clip.outletid
+		LEFT OUTER JOIN userdata.client on client.clientid = clip.clientid"""
+
+		releases = """SELECT  
+		et.emailtemplatename,
+		et.subject,
+		client.clientname,
+		to_char(sent_time,'DD/MM/YYYY') AS sent_time
+		FROM userdata.emailtemplates AS et
+		LEFT OUTER JOIN userdata.client AS client ON client.clientid = et.clientid
+		"""
+		
+		total_eng = """SELECT count(*) 
+		FROM userdata.contacthistory AS ch
+		LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid"""
+		total_clip = """SELECT count(*) 
+		FROM userdata.clippings AS clip"""
+		total_rel = """SELECT count(*) 
+		FROM userdata.emailtemplates AS et"""
+		
+		andclause_completed_eng = """ AND ch.contacthistorystatusid = 1 """
+		andclause_inprogress_eng = """ AND ch.contacthistorystatusid = 2 """
+
+		whereclause_eng = """ WHERE ch.ref_customerid = %(icustomerid)s"""
+		whereclause_clip = """ WHERE clip.customerid = %(icustomerid)s """
+		whereclause_rel = """ WHERE et.customerid = %(icustomerid)s and et.pressreleasestatusid = 2"""
+
+		andclause_eng = ""
+		andclause_clip = ""
+		andclause_rel = ""
+		
+		params = dict(icustomerid = self._reportoptions["customerid"])
+		params['clientid'] = self._reportoptions["clientid"]
+		if params['clientid'] != -1 and params['clientid'] != '-1':
+			andclause_eng = """AND ch.clientid = %(clientid)s"""
+			andclause_clip = """AND clip.clientid = %(clientid)s"""
+			andclause_rel = """AND et.clientid = %(clientid)s"""
+		
+		drange = simplejson.loads(self._reportoptions["drange"])
+		option = TTLConstants.CONVERT_TYPES[drange["option"]]
+		if option == TTLConstants.BEFORE:
+			params["from_date"] = drange["from_date"]
+			params["from_date_rel"] = (datetime.datetime.strptime(str(drange['from_date']),"%Y-%m-%d" ) + timedelta(days=1)).strftime('%d/%m/%Y')
+			whereclause_eng = BaseSql.addclause( whereclause_eng, 'ch.taken <= %(from_date)s')
+			whereclause_clip = BaseSql.addclause( whereclause_clip, 'clip.clip_source_date <= %(from_date)s')
+			whereclause_rel = BaseSql.addclause( whereclause_rel, 'sent_time <= %(from_date_rel)s')
+		elif option == TTLConstants.AFTER:
+			# After
+			params["from_date"] = drange["from_date"]
+			whereclause_eng = BaseSql.addclause( whereclause_eng, 'ch.taken >= %(from_date)s')
+			whereclause_clip = BaseSql.addclause( whereclause_clip, 'clip.clip_source_date >= %(from_date)s')
+			whereclause_rel = BaseSql.addclause( whereclause_rel, 'sent_time >= %(from_date)s')
+		elif option == TTLConstants.BETWEEN:
+			# ABetween
+			params["from_date"] = drange["from_date"]
+			params["to_date"] = drange["to_date"]
+			params["to_date_rel"] = (datetime.datetime.strptime(str(drange['to_date']),"%Y-%m-%d" ) + timedelta(days=1)).strftime('%d/%m/%Y')
+			whereclause_eng = BaseSql.addclause( whereclause_eng, 'ch.taken BETWEEN %(from_date)s AND %(to_date)s')
+			whereclause_clip = BaseSql.addclause( whereclause_clip, 'clip.clip_source_date BETWEEN %(from_date)s AND %(to_date)s')
+			whereclause_rel = BaseSql.addclause( whereclause_rel, 'sent_time BETWEEN %(from_date)s AND %(to_date_rel)s')
+
+		is_dict = True
+
+		results_eng = db_connect.executeAll(engagements + whereclause_eng + andclause_eng, params, is_dict)
+		results_total_eng = db_connect.executeAll(total_eng + whereclause_eng + andclause_eng, params, False)
+		results_completed_eng = db_connect.executeAll(total_eng + whereclause_eng + andclause_eng + andclause_completed_eng, params, False)
+		results_inprogress_eng = db_connect.executeAll(total_eng + whereclause_eng + andclause_eng + andclause_inprogress_eng, params, False)
+		results_clip = db_connect.executeAll(clippings + whereclause_clip + andclause_clip, params, is_dict)
+		results_total_clip = db_connect.executeAll(total_clip + whereclause_clip + andclause_clip, params, False)
+		results_rel = db_connect.executeAll(releases + whereclause_rel + andclause_rel, params, is_dict)
+		results_total_rel = db_connect.executeAll(total_rel + whereclause_rel + andclause_rel, params, False)
+
+		data = dict(
+			results_eng = results_eng, 
+			total_eng = results_total_eng, 
+			completed_eng = results_completed_eng, 
+			inprogress_eng = results_inprogress_eng,
+		    results_clip = results_clip,
+		    total_clip = results_total_clip,
+		    results_rel = results_rel,
+		    total_rel = results_total_rel
+		)
+		return data
+
+	def run( self, data , output ) :
+		"run daily report"
+
+		report = ActivityPDF( self._reportoptions,  data["results_eng"], data["total_eng"], data["completed_eng"], data["inprogress_eng"], data["results_clip"], data["total_clip"], data["results_rel"], data["total_rel"])
+
+		output.write(report.stream())
+
 
 class ReportEngagments2(ReportEngagments):
 	"""Engagments"""
