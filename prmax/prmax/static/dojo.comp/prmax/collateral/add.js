@@ -37,14 +37,6 @@ dojo.declare("prmax.collateral.add",
 				urlPreventCache:true
 			});
 
-			this._release_data = new dojox.data.QueryReadStore (
-			{url:'/emails/templates_list?include_no_select=1&is_combo=1',
-			onError:ttl.utilities.globalerrorchecker,
-			clearOnClose:true,
-			urlPreventCache:true
-		});
-
-
 			this.inherited(arguments);
 		},
 		postCreate:function()
@@ -52,9 +44,6 @@ dojo.declare("prmax.collateral.add",
 			this.dlg = null;
 			this.clientid.store = this._client_data;
 			this.clientid.set("value",-1);
-
-			this.emailtemplateid.store = this._release_data;
-			this.emailtemplateid.set("value", -1);
 
 
 			if (PRMAX.utils.settings.productid==PRCOMMON.Constants.PRMAX_Pro)

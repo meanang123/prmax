@@ -151,3 +151,8 @@ TO prmax;
 
 
 GRANT USAGE ON SCHEMA internal, userdata, queues, cache, seoreleases, accounts,research TO prmax;
+
+
+GRANT INSERT,UPDATE,DELETE,SELECT ON
+customeraccesslog
+ TO PRMAX;

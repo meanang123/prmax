@@ -53,10 +53,6 @@ dojo.declare("prmax.professional.banner",
 			this.mainpanel.showPage(page);
 		}
 	},
-	_help_professional:function()
-	{
-		ttl.utilities.openPage("/static/pdf/professional_help.pdf");
-	},
 	_show_clippings:function()
 	{
 		this.loadLinks();

@@ -12,18 +12,19 @@
 # Copyright:   (c) 2011
 
 #-----------------------------------------------------------------------------
+import os
+import os.path
+import logging
 from turbogears import config
 from turbogears.database import metadata, mapper, session, config
 from sqlalchemy import Table, MetaData, text
-from sqlalchemy.sql.functions import sum
+from sqlalchemy.sql.functions import sum as sql_sum
 from prcommon.model.common import BaseSql
 from prcommon.model.identity import Customer
 from prcommon.model.projects import ProjectCollateral
-from  ttl.postgres import DBCompress
 import prcommon.Constants as Constants
-import os, os.path
+from ttl.postgres import DBCompress
 
-import logging
 LOGGER = logging.getLogger("prcommon.model")
 
 CACHEDIR = config.get("prmax.cachedir", "/tmp/collateral")
@@ -87,9 +88,8 @@ class Collateral(BaseSql):
 		transaction = cls.sa_get_active_transaction()
 		try:
 			coll = Collateral.query.get(params['collateralid'])
-			coll.code = params["collateralcode"]
-			coll.description = params["description"]
-			coll.emailtemplateid = params["emailtemplateid"] if params["emailtemplateid"] != '-1' else None
+			coll.collateralcode = params["collateralcode"]
+			coll.collateralname = params["description"]
 			coll.clientid = params["clientid"] if params["clientid"] != '-1' else None
 			transaction.commit()
 		except:
@@ -130,7 +130,7 @@ class Collateral(BaseSql):
 		""" Check to see if a bit of collateral exceed the customers allowence """
 		cust = Customer.query.get(customerid)
 
-		size = session.query(sum(Collateral.collaterallength)).filter_by(customerid=customerid).one()
+		size = session.query(sql_sum(Collateral.collaterallength)).filter_by(customerid=customerid).one()
 		if size[0]:
 			return True if cust.collateral_size > (size[0] + collaterallength) / Constants.ByteToMegaByte else False
 		else:
@@ -149,7 +149,7 @@ class Collateral(BaseSql):
 
 		transaction = cls.sa_get_active_transaction()
 		try:
-			(root, ext) = os.path.splitext(fobj.filename.strip())
+			(_, ext) = os.path.splitext(fobj.filename.strip())
 			# create control record
 			coll = Collateral(
 			  customerid=params['customerid'],
@@ -160,9 +160,6 @@ class Collateral(BaseSql):
 			  collaterallength=collaterallength)
 			if params["clientid"] != "-1":
 				coll.clientid = int(params["clientid"])
-
-			if params["emailtemplateid"] not in ("-1", ""):
-				coll.emailtemplateid = params["emailtemplateid"]
 
 			session.add(coll)
 			session.flush()
@@ -194,22 +191,19 @@ class Collateral(BaseSql):
 
 		obj = Collateral.query.get(params['collateralid'])
 		emailtemplatename = clientname = ""
-		if obj.emailtemplateid:
-			emailtemplatename = EmailTemplates.query.get(obj.emailtemplateid).emailtemplatename
 		if obj.clientid:
 			clientname = Client.query.get(obj.clientid).clientname
 
 		return dict(customerid=obj.customerid,
-					 collateralname=obj.collateralname,
-		       collateralcode=obj.collateralcode.strip(),
-					 filename=obj.filename,
-					 ext=obj.ext,
-					 collateralid=obj.collateralid,
-		       emailtemplatename=emailtemplatename,
-		       emailtemplateid=obj.emailtemplateid,
-		       clientname=clientname,
-		       clientid=obj.clientid,
-					 collaterallength=round(obj.collaterallength / float(Constants.ByteToMegaByte), 2)
+		            collateralname=obj.collateralname,
+		            collateralcode=obj.collateralcode.strip(),
+		            filename=obj.filename,
+		            ext=obj.ext,
+		            collateralid=obj.collateralid,
+		            emailtemplatename=emailtemplatename,
+		            clientname=clientname,
+		            clientid=obj.clientid,
+		            collaterallength=round(obj.collaterallength / float(Constants.ByteToMegaByte), 2)
 					 )
 
 	ListData = """
@@ -267,27 +261,28 @@ class Collateral(BaseSql):
 			params["sort"] = 'UPPER(%s)' % params["sort"]
 
 		return BaseSql.getGridPage(params,
-								'UPPER(collateralcode)',
-								'collateralid',
-								Collateral.ListData,
-								Collateral.ListDataCount,
-								cls)
+		                           'UPPER(collateralcode)',
+		                           'collateralid',
+		                           Collateral.ListData,
+		                           Collateral.ListDataCount,
+		                           cls)
 
 	@classmethod
 	def get_list_page(cls, params):
 		""" get a page of collateral for a list"""
 		whereextra = ""
+
 		if params["emailtemplateid"] == "-1":
 			whereextra = " AND c.emailtemplateid IS NULL"
 		else:
 			whereextra = " AND ( c.emailtemplateid  = :emailtemplateid  OR c.emailtemplateid IS NULL)"
 
 		return BaseSql.getListPage(params,
-								'collateralcode',
-								'collateralid',
-								Collateral.ListDataList % whereextra,
-								Collateral.ListDataListId,
-								cls)
+		                           'collateralcode',
+		                           'collateralid',
+		                           Collateral.ListDataList % whereextra,
+		                           Collateral.ListDataListId,
+		                           cls)
 
 	def get_link_address(self):
 		""" get the link address"""
@@ -368,7 +363,6 @@ except:
 Collateral.mapping = Table('collateral', metadata, autoload=True, schema="userdata")
 CollateralIntgerests.mapping = Table('collateralinterests', metadata, autoload=True, schema='userdata')
 CollateralUser.mapping = Table('collateralusers', metadata, autoload=True, schema='userdata')
-
 
 mapper(Collateral, Collateral.mapping)
 mapper(CollateralIntgerests, CollateralIntgerests.mapping)

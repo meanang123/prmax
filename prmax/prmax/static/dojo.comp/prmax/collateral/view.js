@@ -44,13 +44,6 @@ dojo.declare("prmax.collateral.view",
 				oncallbackparams: dojo.hitch(this,this._get_context)
 			} );
 
-			this.emailtemplateid_store = new dojox.data.QueryReadStore (
-				{url:'/emails/templates_list?include_sent=1&include_no_select&is_combo=1',
-				onError:ttl.utilities.globalerrorchecker,
-				clearOnClose:true,
-				urlPreventCache:true
-				});
-
 			this._client_data = new dojox.data.QueryReadStore (
 			{	url:'/clients/combo?include_no_select',
 				onError:ttl.utilities.globalerrorchecker,
@@ -77,8 +70,6 @@ dojo.declare("prmax.collateral.view",
 
 			this.grid._setStore(this.model);
 
-			this.emailtemplateid.store = this.emailtemplateid_store;
-			this.emailtemplateid.set("value",-1);
 			this.clientid.set("store",this._client_data);
 			this.clientid.set("value",-1)
 
@@ -111,8 +102,6 @@ dojo.declare("prmax.collateral.view",
 			this.collateralid.set("value", this._row.i.collateralid ) ;
 			this.code.set("value", this._row.i.collateralcode ) ;
 			this.description.set("value", this._row.i.collateralname ) ;
-			console.log (	this._row.i.emailtemplateid )  ;
-			this.emailtemplateid.set("value", this._row.i.emailtemplateid==null? -1: this._row.i.emailtemplateid) ;
 			this.clientid.set("value", this._row.i.clientid==null? -1: this._row.i.clientid) ;
 
 		},
@@ -136,7 +125,6 @@ dojo.declare("prmax.collateral.view",
 				dojo.attr(this.filename,"innerHTML", "") ;
 				dojo.attr(this.prmaxid,"innerHTML", "" ) ;
 
-				this.emailtemplateid.set("value", "-1" ) ;
 				this.clientid.set("value", "-1" ) ;
 				this.code.set("value", "") ;
 				dojo.attr(this.description,"description", "") ;
@@ -211,7 +199,6 @@ dojo.declare("prmax.collateral.view",
 				this.model.setValue(  this._row, "clientname" , response.data.clientname, true );
 				this.model.setValue(  this._row, "clientid" ,  response.data.clientid, true );
 				this.model.setValue(  this._row, "emailtemplatename" , response.data.emailtemplatename, true );
-				this.model.setValue(  this._row, "emailtemplateid" ,  response.data.emailtemplateid, true );
 			}
 			else if ( response.success == "DU")
 			{
