@@ -9,6 +9,8 @@
 # Copyright:  (c) 2012
 
 #-----------------------------------------------------------------------------
+import logging
+
 from turbogears.database import session
 from prcommon.model.outlet import Outlet, Activity, ActivityDetails, OutletProfile
 from prcommon.model.communications import Communication, Address
@@ -17,13 +19,11 @@ from prcommon.model.research import ResearchControRecord, ResearchDetails
 from prcommon.model.advance import AdvanceFeature
 from prcommon.model.clippings.clipping import Clipping
 from prcommon.lib.caching import Invalidate_Cache_Object_Research
-
+import prcommon.Constants as Constants
 from prcommon.model.queues import ProcessQueue
 from ttl.model import BaseSql
 
-import logging
 LOGGER = logging.getLogger("prcommon.model")
-import prcommon.Constants as Constants
 
 class OutletGeneral(object):
 	""" Outlet General """
@@ -198,8 +198,8 @@ class OutletGeneral(object):
 
 			if outlet.mediaaccesstypeid != params["mediaaccesstypeid"]:
 				# licence changed we need to tell all the clippings to rebuild and reflect this
-				rows = [ {"processid":Constants.Process_Clipping_View , "objectid": row.clippingid}
-				          for row in session.query(Clipping.clippingid).filter(Clipping.outletid == outlet.outletid)]
+				rows = [{"processid":Constants.Process_Clipping_View, "objectid": row.clippingid}
+				        for row in session.query(Clipping.clippingid).filter(Clipping.outletid == outlet.outletid)]
 				if rows:
 					session.execute(ProcessQueue.mapping.insert(), rows)
 
@@ -332,6 +332,11 @@ class OutletGeneral(object):
 		"""list for dropdown list"""
 
 		whereused = BaseSql.addclause("", "customerid = -1 AND sourcetypeid IN(1,2)")
+		if "prmaxdatasetids" in params:
+			whereused = BaseSql.addclause(whereused, "countryid IN (SELECT countryid FROM internal.prmaxdatasetcountries WHERE prmaxdatasetid IN %s)" % params["prmaxdatasetids"])
+		if "ioutletid" in params:
+			whereused = BaseSql.addclause(whereused, "countryid IN (SELECT countryid FROM outlets WHERE outletid=:ioutletid)" )
+			params["ioutletid"] = int(params["ioutletid"])
 		primaryid = False
 
 		if "outletname" in params:
@@ -341,7 +346,7 @@ class OutletGeneral(object):
 				if "extended_search" in  params:
 					params["outletname"] = "%" + params["outletname"] + "%"
 				else:
-					params["outletname"] = params["outletname"] +  "%"
+					params["outletname"] = params["outletname"] + "%"
 		else:
 			return Outlet.grid_to_rest(dict(numRows=0, items=[], identity="outletid"),
 			                          params["offset"],
