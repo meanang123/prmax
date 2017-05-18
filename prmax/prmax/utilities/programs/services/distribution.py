@@ -128,7 +128,7 @@ LEFT OUTER JOIN userdata.emailserver AS es ON es.emailserverid = c.emailserverid
 LEFT OUTER JOIN userdata.distributiontemplates AS dtf ON dtf.distributiontemplateid = et.templatefooterid
 LEFT OUTER JOIN userdata.distributiontemplates AS dth ON dtf.distributiontemplateid = et.templateheaderid
 
-WHERE lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) %s ORDER BY et.embargo"""
+WHERE lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
 
 _sql_processing_limit = """ LIMIT %(nbr)s """
 
@@ -233,11 +233,14 @@ class WorkerController(threading.Thread):
 				# at this point we need to do click throught management
 				# check for links
 				# translate links
-				links = db.executeAll(_sql_get_clickthrought, dict(emailtemplateid=record["emailtemplateid"]), True)
+				links = db.executeAll(_sql_get_clickthrought, dict(emailtemplateid=record["emailtemplateid"]))
 				if links:
 					for link in links:
-						sourcebody = sourcebody.replace('"' + link[0].replace("&", "&amp;") + '"',
-						                                "%s/%d/click/%s" % (clicklink, record["listmemberdistributionid"], link[1]))
+						try:
+							sourcebody = sourcebody.replace('"' + link[0].replace("&", "&amp;") + '"',
+							                                "%s/%d/click/%s" % (clicklink, record["listmemberdistributionid"], link[1]))
+						except:
+							pass
 				#
 				bodytext = header + sourcebody + footer
 
@@ -364,8 +367,11 @@ class WorkerController(threading.Thread):
 					log.exception("Id = %d", record["listmemberdistributionid"])
 
 			log.info("Processed %d, Thread: %d", record["listmemberdistributionid"], thread.get_ident())
-			del email
-			del record
+			try:
+				del email
+				del record
+			except:
+				pass
 			gc.collect()
 			db.Close()
 			dbCache.Close()
@@ -375,13 +381,14 @@ class DistController(threading.Thread):
 	It then process each record and send out the email, and added a done entry too the email log
 
 	"""
-	def __init__(self, nbr=5, do_email=True, istest=False, restriction_p=None, customer_restrict=None):
+	def __init__(self, nbr=5, do_email=True, istest=False, restriction_p=None, customer_restrict=None, sendpriority=0):
 		""" Start the distribution systen """
 		self._do_email = do_email
 		self._istest = istest
 		self._lock = threading.Lock()
 		self._nbr = int(nbr * 1.5)
 		self._restriction = restriction_p
+		self._sendpriority = sendpriority
 		self._customer_restrict = customer_restrict
 		self._spamming_control = NotTooOften()
 		threading.Thread.__init__(self)
@@ -421,7 +428,7 @@ class DistController(threading.Thread):
 
 				command += _sql_processing_limit
 
-				rows = db.executeAll(command, dict(nbr=self._nbr), True)
+				rows = db.executeAll(command, dict(nbr=self._nbr, sendpriority=self._sendpriority), True)
 				log.info("Query Count %d", len(rows))
 
 				# single customer for close of app
@@ -488,14 +495,14 @@ class DistController(threading.Thread):
 		db.closeCursor(cur2)
 		db.Close()
 
-def _run(test_environment, run_restriction, single_customer):
+def _run(test_environment, run_restriction, single_customer, sendpriority):
 	""" run the application """
 	# create an instance of the report server and run the threading application
 
 	do_email = True
 	if singlecustomer:
 		print "Single Customer", singlecustomer
-	ctrl = DistController(10, do_email, test_environment, run_restriction, single_customer)
+	ctrl = DistController(10, do_email, test_environment, run_restriction, single_customer, sendpriority)
 	ctrl.setDaemon(True)
 	ctrl.initApp()
 	ctrl.start()
@@ -514,8 +521,9 @@ if __name__ == '__main__':
 	restriction = None
 	singlecustomer = None
 	testEnvironment = None
+	sendpriority = 0
 	updatePRmaxSettings()
-	opts, args = getopt.getopt(sys.argv[1:], "", ["live", "test", "cfg=", "customerid="])
+	opts, args = getopt.getopt(sys.argv[1:], "", ["live", "test", "cfg=", "customerid=", "ispriority"])
 	for option, params in opts:
 		if option in ("--live",):
 			testEnvironment = False
@@ -523,6 +531,8 @@ if __name__ == '__main__':
 			testEnvironment = True
 		if option in ("--customerid",):
 			singlecustomer = params
+		if option in ("--ispriority"):
+			sendpriority = 1
 	if testEnvironment == None:
 		print "No Environment Specific --live or --test"
 		exit(-1)
@@ -530,4 +540,4 @@ if __name__ == '__main__':
 	# find restruction
 	restriction = turbogears.config.get("dist_restriction", None)
 
-	_run(testEnvironment, restriction, singlecustomer)
+	_run(testEnvironment, restriction, singlecustomer, sendpriority)

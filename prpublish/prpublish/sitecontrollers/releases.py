@@ -10,15 +10,14 @@
 # Copyright:   (c) 2011
 
 #-----------------------------------------------------------------------------
+from datetime import datetime, timedelta
 from turbogears import controllers, expose, view
 from cherrypy import response
-
+from slimmer import html_slimmer
 from prcommon.model import SEORelease, SEOCache, SEOImage
 from prpublish.lib.common import page_settings_basic
-from slimmer import html_slimmer
 from ttl.ttlemail import ext_to_content_type
 from ttl.postgres import DBCompress
-from datetime import datetime,  timedelta
 
 
 class ReleasesController(controllers.RootController):
@@ -28,21 +27,27 @@ class ReleasesController(controllers.RootController):
 	def default(self, *argv, **kw):
 		""" default handler """
 		seorelease = None
+		layout = 0
 		emailtemplateid = None
+		actual_field = 0
+		if argv[0] == "c":
+			layout = 1
+			actual_field = 1
+
 		if len(argv) > 0:
-			temp = argv[0].split(".")
-			if len(temp)>1:
+			temp = argv[actual_field].split(".")
+			if len(temp) > 1:
 				try:
 					# get the id
-					emailtemplateid = int ( temp[0] )
+					emailtemplateid = int(temp[0])
 
 					#is it cached
-					html = SEOCache.get_cached ( emailtemplateid )
+					html = SEOCache.get_cached(emailtemplateid, layout)
 					if html:
 						return html
 
 					#get details
-					seorelease = SEORelease.get_for_display( emailtemplateid )
+					seorelease = SEORelease.get_for_display(emailtemplateid, layout)
 					if seorelease == None:
 						return ""
 				except:
@@ -51,25 +56,26 @@ class ReleasesController(controllers.RootController):
 		# build page and compress and cache is applicable
 		ret = page_settings_basic()
 		ret["seorelease"] = seorelease
-		html = html_slimmer( view.render( ret, template = "prpublish.templates.release" ))
+		ret["layout"] = layout
+		html = html_slimmer(view.render(ret, template="prpublish.templates.release"))
 		if emailtemplateid:
-			SEOCache.add_cache ( emailtemplateid , html )
+			SEOCache.add_cache(emailtemplateid, html, layout)
 		# return page
 		return html
 
 	@expose("")
-	def images(self, imageid , *args, **kw):
+	def images(self, imageid, *args, **kw):
 		""" return a thmb mail imabe """
 
 		try:
-			seoimage = SEOImage.query.get( imageid )
-			seodata = DBCompress.decode ( seoimage.seoimage )
+			seoimage = SEOImage.query.get(imageid)
+			seodata = DBCompress.decode(seoimage.seoimage)
 
 			# return data
-			response.headers["Content-Length"] = len( seodata )
-			response.headers["Content-type"] = ext_to_content_type( seoimage.seo_image_extension )
+			response.headers["Content-Length"] = len(seodata)
+			response.headers["Content-type"] = ext_to_content_type(seoimage.seo_image_extension)
 			response.headers["Age"] = 30
-			tday =  datetime.now().strftime("%a, %d %b %Y %M:%H:%S GMT")
+			tday = datetime.now().strftime("%a, %d %b %Y %M:%H:%S GMT")
 			response.headers["Date"] = tday
 			response.headers["Last-Modified"] = tday
 			response.headers["Expires"] = (datetime.now()+ timedelta(days=1)).strftime("%a, %d %b %Y %M:%H:%S GMT")

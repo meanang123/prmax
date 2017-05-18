@@ -33,7 +33,7 @@ class FrameController(SecureControllerExt):
 				        items=[
 				            dict(id=2, type=0, name="Options", children=[dict(_reference=20), dict(_reference=10)]),
 				            dict(id=10, type=1, name="Accounts", children=[dict(_reference=11), dict(_reference=12), dict(_reference=13), dict(_reference=14), dict(_reference=15)]),
-				            dict(id=20, type=1, name="Support", children=[dict(_reference=21), dict(_reference=22), dict(_reference=23)]),
+				            dict(id=20, type=1, name="Support", children=[dict(_reference=21), dict(_reference=22), dict(_reference=23), dict(_reference=24)]),
 				            dict(id=11, type=2, name="Price Codes", content="control/accounts/PriceCodes"),
 				            dict(id=12, type=2, name="DD Invoices's", content="control/customer/dd_invoices"),
 				            dict(id=13, type=2, name="DD Csv", content="control/customer/dd_csv"),
@@ -41,7 +41,9 @@ class FrameController(SecureControllerExt):
 				            dict(id=15, type=2, name="Data Partner", content="control/accounts/DataPartner"),
 				            dict(id=21, type=2, name="Query", content="control/support/query"),
 				            dict(id=22, type=2, name="Private Data", content="control/support/PrivateData"),
-			              dict(id=23, type=2, name="SPF", content="control/support/spfcontrol")
+			                dict(id=23, type=2, name="SPF", content="control/support/spfcontrol"),
+			                dict(id=24, type=2, name="Distribution", content="control/support/Distribution")
+
 			            ])
 
 		return retdata
