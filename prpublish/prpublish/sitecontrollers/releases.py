@@ -47,7 +47,7 @@ class ReleasesController(controllers.RootController):
 						return html
 
 					#get details
-					seorelease = SEORelease.get_for_display(emailtemplateid, layout)
+					seorelease = SEORelease.get_for_display(emailtemplateid)
 					if seorelease == None:
 						return ""
 				except:
