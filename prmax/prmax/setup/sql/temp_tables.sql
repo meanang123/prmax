@@ -15,3 +15,9 @@ insert into internal.reporttemplates values
 '<queries><query type="CUSTOM"></query></queries>',
 '', 9, 'ActivityReport');
 
+ALTER TABLE seoreleases.seocache
+ADD COLUMN layout integer NOT NULL default 0;
+
+ALTER TABLE seoreleases.seocache DROP CONSTRAINT pk_cache;
+ALTER TABLE seoreleases.seocache ADD CONSTRAINT pk_cache PRIMARY KEY (seoreleaseid, layout);
+UPDATE seoreleases.seocache SET layout = 0;

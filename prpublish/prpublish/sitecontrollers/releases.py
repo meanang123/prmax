@@ -28,21 +28,27 @@ class ReleasesController(controllers.RootController):
 	def default(self, *argv, **kw):
 		""" default handler """
 		seorelease = None
+		layout = 0
 		emailtemplateid = None
+		actual_field = 0
+		if argv[0][0] == "c":
+			layout = 1
+			actual_field = 1
+
 		if len(argv) > 0:
-			temp = argv[0].split(".")
-			if len(temp)>1:
+			temp = argv[actual_field].split(".")
+			if len(temp) > 1:
 				try:
 					# get the id
-					emailtemplateid = int ( temp[0] )
+					emailtemplateid = int(temp[0])
 
 					#is it cached
-					html = SEOCache.get_cached ( emailtemplateid )
+					html = SEOCache.get_cached(emailtemplateid, layout)
 					if html:
 						return html
 
 					#get details
-					seorelease = SEORelease.get_for_display( emailtemplateid )
+					seorelease = SEORelease.get_for_display(emailtemplateid)
 					if seorelease == None:
 						return ""
 				except:
@@ -51,9 +57,14 @@ class ReleasesController(controllers.RootController):
 		# build page and compress and cache is applicable
 		ret = page_settings_basic()
 		ret["seorelease"] = seorelease
-		html = html_slimmer( view.render( ret, template = "prpublish.templates.release" ))
+		ret["layout"] = layout
+		template = "prpublish.templates.release"
+		if layout == 1:
+			template = "prpublish.templates.release_cardiff"
+		html = html_slimmer( view.render( ret, template = template ))
+#		html = html_slimmer(view.render(ret, template="prpublish.templates.release"))
 		if emailtemplateid:
-			SEOCache.add_cache ( emailtemplateid , html )
+			SEOCache.add_cache(emailtemplateid, html, layout)
 		# return page
 		return html
 

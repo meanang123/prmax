@@ -427,6 +427,11 @@ class SEORelease(BaseSql):
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
+	_Release_List_Date2 = """SELECT seo.synopsis,'/releases/c/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
+	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
+	FROM seoreleases.seorelease AS seo
+	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
+	
 	_Release_List_Count = """SELECT COUNT(*) FROM seoreleases.seorelease AS seo """
 	_Release_List_Order = """ ORDER BY published DESC OFFSET :offset LIMIT :limit"""
 
@@ -545,15 +550,20 @@ class SEORelease(BaseSql):
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 
 		fields.update( cri )
+		command = SEORelease._Release_List_Date + whereused + SEORelease._Release_List_Order
+		if 'cid' in params and (params['cid'] == 2014 or params['cid'] == 1966): #Clients 2014 and 1966 are Cardiff
+			command = SEORelease._Release_List_Date2 + whereused + SEORelease._Release_List_Order
+
 		return dict (
-		  results = cls.sqlExecuteCommand ( text ( SEORelease._Release_List_Date + whereused + SEORelease._Release_List_Order ) ,
-								                   fields,
-		                               BaseSql.ResultAsEncodedDict ),
-		  resultcount =  cls.sqlExecuteCommand ( text ( SEORelease._Release_List_Count  + whereused) ,
-		                                         fields,
-		                                         BaseSql.singleFieldInteger),
-		  criteria = simplejson.JSONEncoder().encode(cri),
-		  offset = (fields["offset"]/BLOCK_SIZE) + 1)
+	      results = cls.sqlExecuteCommand ( text ( command ) ,
+	                                               fields,
+	                                   BaseSql.ResultAsEncodedDict ),
+	      resultcount =  cls.sqlExecuteCommand ( text ( SEORelease._Release_List_Count  + whereused) ,
+	                                             fields,
+	                                             BaseSql.singleFieldInteger),
+		  
+	      criteria = simplejson.JSONEncoder().encode(cri),
+	      offset = (fields["offset"]/BLOCK_SIZE) + 1)
 
 
 	@classmethod
@@ -753,11 +763,13 @@ class SEOCache(BaseSql):
 	""" Cache output of a record """
 
 	@classmethod
-	def get_cached ( cls, seoreleaseid ):
+	def get_cached ( cls, seoreleaseid, layout ):
 		""" get an entry from the cache """
-		seocache = SEOCache.query.get ( seoreleaseid )
+		seocache = user = session.query(SEOCache).\
+		    filter(SEOCache.seoreleaseid == seoreleaseid).\
+			filter(SEOCache.layout == layout).scalar()
 		if seocache:
-			seorelease = SEORelease.query.get( seoreleaseid )
+			seorelease = SEORelease.query.get(seoreleaseid)
 			if seorelease:
 				seorelease.viewed = seorelease.viewed + 1
 			return seocache.cache
@@ -765,17 +777,20 @@ class SEOCache(BaseSql):
 			return None
 
 	@classmethod
-	def add_cache(cls, seoreleaseid, html ) :
+	def add_cache(cls, seoreleaseid, html, layout ) :
 		""" Add an entry to the cache"""
 
 		transaction = cls.sa_get_active_transaction()
 		try:
 			# update Email record
-			seocache = SEOCache.query.get ( seoreleaseid )
+			seocache = user = session.query(SEOCache).\
+				filter(SEOCache.seoreleaseid == seoreleaseid).\
+				filter(SEOCache.layout == layout).scalar()
 
 			if not seocache:
 				session.add ( SEOCache( seoreleaseid = seoreleaseid ,
-																cache = html ) )
+				                        layout = layout,
+				                        cache = html ) )
 				seorelease = SEORelease.query.get( seoreleaseid )
 				if seorelease:
 					seorelease.viewed = seorelease.viewed + 1

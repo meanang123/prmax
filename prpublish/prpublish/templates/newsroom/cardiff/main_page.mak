@@ -18,7 +18,7 @@ js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9";
 fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<%include file="default_header.mak"/>
+<%include file="../../default_header_cardiff.mak"/>
 <div class="content-width">
 	<div class="single-news-content">
 		<p class="content-title" align="center">Latest Releases</p>

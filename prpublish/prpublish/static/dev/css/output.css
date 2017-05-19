@@ -609,6 +609,66 @@ select {
     color: #1c1c1c;
     padding-bottom:4px;
   }  
+.single-news-content-cardiff {
+  background-color: white;
+  width: 990px;
+  padding: 60px 130px 60px 90px;
+  position: relative;
+  margin-top: 15px; 
+  min-height:1000px;}
+  .single-news-content-cardiff .single-news-text {
+    padding-left: 40px;
+    color: #737373;
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    line-height: 19px; }
+    .single-news-content-cardiff .single-news-text .news-title {
+      font-family: "Raleway", sans-serif;
+      font-size: 24px;
+      color: #2e74b5;
+      margin-bottom: 50px;
+      line-height: 30px; }
+    .single-news-content-cardiff .single-news-text img {
+      max-width: 100%; }
+  .single-news-content-cardiff .single-news-text .empty{
+    width: 200px;
+    height: 200px;
+    background-color:white;
+    margin-top: 15px; 
+    font-family: "Raleway", sans-serif;
+    font-size: 16px;
+    color: #2e74b5;}
+  .single-news-content-cardiff .back {
+    position: absolute;
+    left: 15px;
+    top: 25px;
+    color: #2e74b5;
+    font-size: 14px;
+    font-weight: "Raleway", sans-serif;
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    width: 50px;
+    padding-left: 20px;
+    background-image: url(/static/images/back.svg);
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 12px 20px; }
+    .single-news-content-cardiff .back:hover {
+      color: #2b4b7c; }
+  .single-news-content-cardiff .content-title{
+    font-size: 24px; 
+    color: #1c1c1c;
+    padding-bottom:35px;
+  }
+
+
+
+
+
+
+
+
 
 .empty-state {
   text-align: center;
@@ -740,7 +800,7 @@ select {
       margin: 0 5px; }
 
 @media only screen and (max-width: 990px) {
-  .content-width, .news-list, .single-news-content, .plain-page{
+  .content-width, .news-list, .single-news-content, single-news-content-cardiff, .plain-page{
     width: 100%; }
 
   .content-width {
@@ -769,7 +829,9 @@ select {
     .single-news-content .single-news-links {
       width: 100%;
       position: static;
-      padding-left: 50px; } }
+      padding-left: 50px; } 
+  .single-news-content-cardiff {
+    padding: 30px 50px 30px 90px; } }
 @media only screen and (max-width: 775px) {
   .news-list .news-box {
     width: 47%; } }
@@ -846,7 +908,12 @@ select {
       padding-left: 0; }
     .single-news-content .single-news-links {
       padding-left: 0; }
-
+  .single-news-content-cardiff {
+    padding: 30px; }
+    .single-news-content-cardiff .back {
+      display: none; }
+    .single-news-content-cardiff .single-news-text {
+      padding-left: 0; }
   .search-modal .modal {
     width: calc(100% - 20px); } }
 @media only screen and (max-width: 420px) {
@@ -858,19 +925,20 @@ select {
     .page-content .news-list .news-box .news-box-title {
       font-size: 20px;
       line-height: 24px; }
-
   .main-header .search-bar .search-menu-bar .search {
     width: 100px; }
-
   .single-news-content {
     padding: 25px; }
     .single-news-content .single-news-text {
       font-size: 16px;
       line-height: 21px; }
-
+  .single-news-content-cardiff {
+    padding: 25px; }
+    .single-news-content-cardiff .single-news-text {
+      font-size: 16px;
+      line-height: 21px; }
   .single-news-content .single-news-links .news-contact, .single-news-content .single-news-links .news-category .category-item {
     font-size: 16px; }
-
   .search-modal .modal {
     top: 10%; } }
 @media only screen and (max-width: 370px) {
