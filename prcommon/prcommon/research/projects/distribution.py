@@ -7,7 +7,7 @@ import prcommon.Constants as Constants
 class ProjectDistributionController(threading.Thread):
 	""" thread waits for a project question record, then process email and log it """
 
-_sql_set_processing = """ UPDATE research.researchprojectitem SET emailstatusid = %(emailstatusid)s,queued_time = LOCALTIMESTAMP WHERE listmemberdistributionid = %(listmemberdistributionid)s"""
+	_sql_set_processing = """ UPDATE research.researchprojectitem SET emailstatusid = %(emailstatusid)s,queued_time = LOCALTIMESTAMP WHERE listmemberdistributionid = %(listmemberdistributionid)s"""
 
 	def __init__( self, queue, lock, do_email = True, isTest = False  ):
 		""" setup """
@@ -58,6 +58,9 @@ _sql_set_processing = """ UPDATE research.researchprojectitem SET emailstatusid 
 					log.info ("Failed %d, Thread: %d" % ( record["researchprojectitemid"], thread.get_ident()))
 				else:
 					log.info ("Processed %d, Thread: %d" % ( record["researchprojectitemid"], thread.get_ident()))
-			del email
-			del record
+			try:
+				del email
+				del record
+			except:
+				pass
 			db.Close()

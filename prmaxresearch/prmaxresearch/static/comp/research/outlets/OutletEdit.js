@@ -203,12 +203,12 @@ define([
 	},
 	_move_to_other_outlet:function()
 	{
-		this.employee_move_ctrl.load(this._row.employeeid, this._row.job_title +":" + this._row.contactname, this.employee_move_dlg);
+		this.employee_move_ctrl.load(this._row.employeeid, this._row.job_title +":" + this._row.contactname, this.employee_move_dlg, this._outletid);
 		this.employee_move_dlg.show();
 	},
 	_copy_to_other_outlet:function()
 	{
-		this.employee_copy_ctrl.load(this._row.employeeid, this._row.job_title +":" + this._row.contactname, this.employee_copy_dlg);
+		this.employee_copy_ctrl.load(this._row.employeeid, this._row.job_title +":" + this._row.contactname, this.employee_copy_dlg, this._outletid);
 		this.employee_copy_dlg.show();
 	},
 	_primary_contact:function()
@@ -223,10 +223,10 @@ define([
 	},
 	_add_employee:function()
 	{
-		this.employee_change_ctrl.load (  -1 ,  this._outletid  ) ;
+		this.employee_change_ctrl.load (-1, this._outletid);
 		this.employee_change_dlg.show();
 	},
-	_load_call:function ( response )
+	_load_call:function(response)
 	{
 		if ( response.success=="OK")
 		{

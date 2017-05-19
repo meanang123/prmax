@@ -26,7 +26,7 @@ def getEnvironment():
 
 
 def getConfigFile():
-	opts, args = getopt.getopt(sys.argv[1:],"" , ["live","test","cfg=", "customerid="])
+	opts, args = getopt.getopt(sys.argv[1:],"" , ["live","test","cfg=", "customerid=", "ispriority"])
 	for o, a in opts:
 		if o in ("--cfg",):
 			return a

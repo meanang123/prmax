@@ -17,5 +17,6 @@ define([
 	"control/accounts/SalesPartner",
 	"control/support/PrivateData",
 	"control/support/query",
+	"control/support/Distribution",
 	"control/customer/dd_csv"
 ], function( ){});

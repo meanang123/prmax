@@ -77,12 +77,14 @@ define([
 		domclass.add(this.desk_view,"prmaxhidden");
 
 	},
-	load:function( employeeid, employeename, dialog)
+	load:function( employeeid, employeename, dialog, outletid)
 	{
 		this.clear();
 		this.employeeid.set("value", employeeid );
 		domattr.set(this.heading,"innerHTML" , employeename ) ;
 		this._dialog = dialog;
+		this.outletid.set("query",{ioutletid:outletid});
+		this.outletid.set("value", null);
 	},
 	_close_dlg:function()
 	{

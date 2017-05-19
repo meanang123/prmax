@@ -11,19 +11,17 @@
 # Copyright:   (c) 2008
 
 #-----------------------------------------------------------------------------
-from turbogears import expose, validate, validators, error_handler, \
-	 exception_handler, identity
+from turbogears import expose, validate, validators, error_handler, exception_handler, identity
 import ttl.tg.validators as tgvalidators
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
-from prmax.utilities.common import addConfigDetails
-from prcommon.model import Communication, Outlet, Freelance, SearchSession, \
-     OutletGeneral
-import prcommon.Constants as Constants
 from ttl.tg.validators import PrOutletIdFormSchema
-from ttl.tg.validators import std_state_factory, PrFormSchema, IntNull , RestSchema
-from prcommon.lib.Security import check_access_rights
+from ttl.tg.validators import std_state_factory, PrFormSchema, IntNull, RestSchema
 from ttl.base import  stdreturn
+from prmax.utilities.common import addConfigDetails
+from prcommon.model import Communication, Outlet, Freelance, SearchSession, OutletGeneral
+from prcommon.lib.Security import check_access_rights
+import prcommon.Constants as Constants
 
 
 class ProfileSaveSchema(PrFormSchema):
@@ -59,9 +57,9 @@ class OutletResearchSave2Schema(PrFormSchema):
 	webbrowsers = IntNull()
 	frequencyid = validators.Int()
 	countryid = validators.Int()
-	circulationsourceid =  IntNull()
+	circulationsourceid = IntNull()
 	circulationauditdateid = IntNull()
-	websourceid =  IntNull()
+	websourceid = IntNull()
 	webauditdateid = IntNull()
 	outletpriceid = IntNull()
 	mediaaccesstypeid = IntNull()
@@ -108,7 +106,6 @@ class OutletOverideSaveSchema(PrFormSchema):
 class OutletProfileFormSchema(PrFormSchema):
 	"schema"
 	outletid = validators.Int()
-	publisherid = validators.Int()
 	reasoncodeid = validators.Int()
 	seriesparentid = IntNull()
 	supplementofid = IntNull()
@@ -150,7 +147,7 @@ class OutletController(SecureController):
 		else:
 			Outlet.update(params)
 
-		return dict(success="OK" , data = Outlet.getBasicDetails(params))
+		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -161,11 +158,11 @@ class OutletController(SecureController):
 		""" Delete an outlet"""
 
 		# get the basic data to allow the system to delete at the front end
-		data = Outlet.getBasicDetails( params)
+		data = Outlet.getBasicDetails(params)
 		Outlet.delete(params)
 		data['statistics'] = SearchSession.getSessionCount(params)
 
-		return dict(success="OK", data = data )
+		return dict(success="OK", data=data)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -173,7 +170,7 @@ class OutletController(SecureController):
 	@validate(validators=PrOutletIdFormSchema(), state_factory=std_state_factory)
 	def outlet_override_get(self, *args, **params):
 		""" get the override details for a specific customer outlet combination"""
-		return Outlet.getOverrides( params['outletid'], params['customerid'])
+		return Outlet.getOverrides(params['outletid'], params['customerid'])
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -183,7 +180,7 @@ class OutletController(SecureController):
 	def outlet_edit_get(self, *args, **params):
 		""" get details fo editing """
 
-		return stdreturn( data = Outlet.getForEdit(params['outletid'] , params['customerid']) )
+		return stdreturn(data=Outlet.getForEdit(params['outletid'], params['customerid']))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -225,7 +222,7 @@ class OutletController(SecureController):
 		else:
 			Freelance.update(Constants.Outlet_Type_Freelance, params)
 
-		return dict(success = "OK", data = Outlet.getBasicDetails(params))
+		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -235,7 +232,7 @@ class OutletController(SecureController):
 		""" update a freelance """
 		if params['outletid'] != -1:
 			Freelance.update(Constants.Outlet_Type_Freelance, params)
-		return dict(success = "OK")
+		return dict(success="OK")
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -252,7 +249,7 @@ class OutletController(SecureController):
 	def freelance_get_for_load(self, *args, **params):
 		""" return freelance details"""
 
-		return stdreturn( data = Freelance.getForEdit(params['outletid'])["data"] )
+		return stdreturn(data=Freelance.getForEdit(params['outletid'])["data"])
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -261,10 +258,10 @@ class OutletController(SecureController):
 	def freelance_delete(self, *args, **params):
 		""" Delete a freelance """
 
-		data = Outlet.getBasicDetails( params )
+		data = Outlet.getBasicDetails(params)
 		Outlet.delete(params)
 		data['statistics'] = SearchSession.getSessionCount(params)
-		return dict(success="OK", data = data)
+		return dict(success="OK", data=data)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -299,7 +296,7 @@ class OutletController(SecureController):
 
 		Outlet.research_update_prn(params)
 
-		return dict(success="OK" , data = Outlet.getBasicDetails(params))
+		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 
 	@expose("json")
@@ -312,7 +309,7 @@ class OutletController(SecureController):
 
 		params["outletid"] = Outlet.research_main_add(params)
 
-		return dict(success="OK" , data = Outlet.getBasicDetails(params))
+		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 
 	@expose("json")
@@ -324,9 +321,9 @@ class OutletController(SecureController):
 		"""Update a profile"""
 
 		params["outletid"] = params["objectid"]
-		Outlet.research_profile_update( params )
+		Outlet.research_profile_update(params)
 
-		return dict(success="OK" )
+		return dict(success="OK")
 
 
 	@expose("json")
@@ -339,7 +336,7 @@ class OutletController(SecureController):
 
 		params['outletid'] = Freelance.research_add(params)
 
-		return dict(success = "OK", data = Outlet.getBasicDetails(params))
+		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -349,9 +346,9 @@ class OutletController(SecureController):
 	def freelance_research_update(self, *args, **params):
 		""" save an outlet"""
 
-		Freelance.research_update(  params)
+		Freelance.research_update(params)
 
-		return stdreturn(data = Outlet.getBasicDetails(params))
+		return stdreturn(data=Outlet.getBasicDetails(params))
 
 
 	@expose("json")
@@ -364,10 +361,10 @@ class OutletController(SecureController):
 
 		# get the basic data to allow the system to delete at the front end
 		params["searchtypeid"] = Constants.Search_Standard_Research
-		data = Outlet.getBasicDetails( params)
+		data = Outlet.getBasicDetails(params)
 		Outlet.research_delete(params)
 
-		return dict(success="OK", data = data )
+		return dict(success="OK", data=data)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -377,25 +374,25 @@ class OutletController(SecureController):
 	def research_outlet_edit_get(self, *args, **params):
 		""" get details fo editing """
 
-		data = Outlet.getForEdit(params['outletid'] , -1)
+		data = Outlet.getForEdit(params['outletid'], -1)
 
-		return stdreturn( outlet = data["outlet"],  primary = data["primary"])
+		return stdreturn(outlet=data["outlet"], primary=data["primary"])
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators = OutletSchema(), state_factory=std_state_factory)
+	@validate(validators=OutletSchema(), state_factory=std_state_factory)
 	def check_twitter(self, *argc, **params):
 		""" return the twitter handle """
 
 		twitter = ""
 		if params["outletid"] > 0:
-			outlet = Outlet.query.get ( params["outletid"] )
+			outlet = Outlet.query.get(params["outletid"])
 			if outlet.communicationid:
-				comm = Communication.query.get ( outlet.communicationid )
+				comm = Communication.query.get(outlet.communicationid)
 				twitter = comm.twitter
 
-		return stdreturn ( twitter = twitter )
+		return stdreturn(twitter=twitter)
 
 
 	@expose("json")
@@ -406,7 +403,7 @@ class OutletController(SecureController):
 	def research_update_media(self, *args, **params):
 		""" update social media only """
 
-		Outlet.research_update_media ( params )
+		Outlet.research_update_media(params)
 
 		return stdreturn()
 
@@ -418,7 +415,7 @@ class OutletController(SecureController):
 	def update_profile(self, *args, **params):
 		""" update the profile record """
 
-		OutletGeneral.update_profile( params )
+		OutletGeneral.update_profile(params)
 
 		return stdreturn()
 
@@ -430,11 +427,11 @@ class OutletController(SecureController):
 	def update_coding(self, *args, **params):
 		""" update the profile record """
 
-		OutletGeneral.research_coding_update( params )
+		OutletGeneral.research_coding_update(params)
 
-		data = Outlet.getForEdit(params['outletid'] , -1)
+		data = Outlet.getForEdit(params['outletid'], -1)
 
-		return stdreturn( outlet = data["outlet"],  primary = data["primary"])
+		return stdreturn(outlet=data["outlet"], primary=data["primary"])
 
 	@expose("text/html")
 	@error_handler(pr_form_error_handler)
@@ -452,7 +449,8 @@ class OutletController(SecureController):
 	def list_research(self, *args, **params):
 		""" List of outlets for research"""
 
-		return OutletGeneral.get_research_list ( params )
+		#params["prmaxdatasetids"] = "(1,)"
+		return OutletGeneral.get_research_list(params)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -462,7 +460,7 @@ class OutletController(SecureController):
 	def research_move_contact(self, *args, **params):
 		""" Move a contact between outlets"""
 
-		Outlet.research_move_contact ( params )
+		Outlet.research_move_contact(params)
 
 		return stdreturn()
 
@@ -474,7 +472,7 @@ class OutletController(SecureController):
 	def research_copy_contact(self, *args, **params):
 		""" Copy a contact to an outlet"""
 
-		Outlet.research_copy_contact ( params )
+		Outlet.research_copy_contact(params)
 
 		return stdreturn()
 
@@ -487,7 +485,7 @@ class OutletController(SecureController):
 	def update_international(self, *args, **params):
 		""" update the internaltion research """
 
-		OutletGeneral.update_international( params )
+		OutletGeneral.update_international(params)
 
 		return stdreturn()
 
