@@ -9,7 +9,7 @@
 <select name="seocategoryid">
 <option value="-1">All Selections</option>
 % for cat in categories:
-<option value="${cat.seocategoryid}">${cat.seocategorydescription.replace("&", "&amp;")}</option>
+<option value="${cat['seocategoryid']}">${cat['seocategorydescription']}</option>
 %endfor
 </select><br/><br/>
 <label class="searchtext">Body Text</label><br/><input type="text" name="bodytext" value="" /><br/>

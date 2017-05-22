@@ -473,7 +473,7 @@ class CustomerStatus(BaseSql):
 		if params.get('filter'):
 			lines.insert(0, dict(id=-1, name="No Filter"))
 		if "show_all" in params:
-			lines.insert(0, dict(id=0,name='Show All'))			
+			lines.insert(0, dict(id=0,name='Show All'))
 		return lines
 
 class OutletSearchType(BaseSql):
@@ -641,7 +641,7 @@ class SEOCategories(BaseSql):
 	def get_list(cls):
 		""" get a listing """
 
-		return session.query(SEOCategories).all()
+		return [dict(seocategoryid=row.seocategoryid, seocategorydescription=row.seocategorydescription.replace("&", "&amp;")) for row in session.query(SEOCategories).all()]
 
 	@classmethod
 	def get_page_map(cls):
