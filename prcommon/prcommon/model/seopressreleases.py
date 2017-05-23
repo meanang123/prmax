@@ -329,9 +329,12 @@ class SEORelease(BaseSql):
 			usersession.seo_image_extension = None
 			usersession.seo_image = None
 
-		seocache = SEOCache.query.get( seo.seoreleaseid )
+		seocache = session.query(SEOCache).\
+	    filter(SEOCache.seoreleaseid == seo.seoreleaseid).all()
 		if seocache:
-			session.delete ( seocache )
+			for i in xrange(0, len(seocache)):
+				session.delete ( seocache[i] )
+				session.flush()
 
 
 	@classmethod
@@ -583,9 +586,12 @@ class SEORelease(BaseSql):
 
 				session.delete ( seo )
 			# clear cache
-			seocache = SEOCache.query.get( params["seoreleaseid"] )
+			seocache = session.query(SEOCache).\
+			filter(SEOCache.seoreleaseid == params["seoreleaseid"]).all()			
 			if seocache:
-				session.delete ( seocache )
+				for i in xrange(0, len(seocache)):
+					session.delete ( seocache[i] )
+					session.flush()
 			transaction.commit()
 		except:
 			LOG.exception("SEOPressRelease_delete")
@@ -604,10 +610,13 @@ class SEORelease(BaseSql):
 			if seo:
 				seo.seostatusid = seostatusid
 			# clear cache
-			seocache = SEOCache.query.get( params["seoreleaseid"] )
+			seocache = session.query(SEOCache).\
+			filter(SEOCache.seoreleaseid == params["seoreleaseid"]).all()			
 			if seocache:
-				session.delete ( seocache )
-			transaction.commit()
+				for i in xrange(0, len(seocache)):
+					session.delete ( seocache[i] )
+					session.flush()
+			transaction.commit()			
 		except:
 			LOG.exception("SEOPressRelease_withdraw")
 			transaction.rollback()
@@ -765,7 +774,7 @@ class SEOCache(BaseSql):
 	@classmethod
 	def get_cached ( cls, seoreleaseid, layout ):
 		""" get an entry from the cache """
-		seocache = user = session.query(SEOCache).\
+		seocache = session.query(SEOCache).\
 		    filter(SEOCache.seoreleaseid == seoreleaseid).\
 			filter(SEOCache.layout == layout).scalar()
 		if seocache:
