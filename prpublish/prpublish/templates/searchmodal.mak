@@ -35,7 +35,7 @@
                 <select name="seocategoryid" id="category">
                     <option value="-1">All Selections</option>
                     % for cat in categories:
-                    <option value="${cat.seocategoryid}">${cat.seocategorydescription.replace("&", "&amp;")}</option>
+                    <option value="${cat['seocategoryid']}">${cat['seocategorydescription']}</option>
                     %endfor
                 </select>
                 <div class="clear-fix"></div>

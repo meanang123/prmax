@@ -20,8 +20,8 @@
           % for cat in categories:
           <table border="0" cellspacing="3" cellpadding="3">
             <tr>
-              <td width="280px"><a title="${cat.seocategorydescription}" href="/search?seocategoryid=${cat.seocategoryid}">${cat.seocategorydescription}</a></td>
-              <td width="20px"><a class="rss" title="RSS" target="_blank" href="/rss.xml?seocategoryid=${cat.seocategoryid}"><i class="fa fa-rss-square fa-2x" aria-hidden="true"></i></a></td>
+              <td width="280px"><a title="${cat['seocategorydescription']}" href="/search?seocategoryid=${cat['seocategoryid']}">${cat['seocategorydescription']}</a></td>
+              <td width="20px"><a class="rss" title="RSS" target="_blank" href="/rss.xml?seocategoryid=${cat['seocategoryid']}"><i class="fa fa-rss-square fa-2x" aria-hidden="true"></i></a></td>
              </tr>
           </table>
           % endfor
