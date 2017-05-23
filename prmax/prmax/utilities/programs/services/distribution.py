@@ -13,21 +13,23 @@
 #-----------------------------------------------------------------------------
 from time import sleep
 import logging
-import prmax.Constants as Constants
-import threading, Queue, thread
-from ttl.postgres import DBCompress, DBConnect
-from ttl.ttlemail import EmailMessage, SendSupportEmailMessage
-from prcommon.lib.distribution import MailMerge, get_view_link, add_read_link, get_view_link_to_seo, get_unsubscribe
-from ttl.ttlemail import getTestMode, SMTPServer
-from ttl.ttldict import NotTooOften
-from ttl.ttlenv import getConfigFile
-import turbogears
+import threading
+import Queue
+import thread
 import gc
 import sys
 from os import getcwd
 from os.path import exists, join, split
 import getopt
+import turbogears
 import dkim
+import prmax.Constants as Constants
+from ttl.postgres import DBCompress, DBConnect
+from ttl.ttlemail import EmailMessage, SendSupportEmailMessage
+from ttl.ttlemail import getTestMode, SMTPServer
+from ttl.ttldict import NotTooOften
+from ttl.ttlenv import getConfigFile
+from prcommon.lib.distribution import MailMerge, get_view_link, add_read_link, get_view_link_to_seo, get_unsubscribe
 
 PRMAXDKIM = """
 -----BEGIN RSA PRIVATE KEY-----
@@ -105,10 +107,13 @@ def updatePRmaxSettings():
 	                         modulename="prmax.config")
 
 
+#COALESCE((SELECT COUNT(*) FROM userdata.emailtemplatesattachements AS eta WHERE eta.emailtemplateid = et.emailtemplateid),0)
+
 # These are the sql statements
 _sql_processing = """SELECT lmd.listmemberdistributionid,lmd.listmemberid,lmd.job_title,lmd.familyname,lmd.firstname,lmd.prefix,
 lmd.suffix,lmd.emailaddress, et.emailtemplateid, et.emailtemplatecontent,et.returnaddress,et.returnname,et.include_view_as_link,et.subject, et.customerid,
-COALESCE((SELECT COUNT(*) FROM userdata.emailtemplatesattachements AS eta WHERE eta.emailtemplateid = et.emailtemplateid),0) AS attcount,seo.seoreleaseid,
+0 AS attcount,
+seo.seoreleaseid,
 COALESCE( es.email_host, 'localhost') AS email_host,
 COALESCE( es.email_port, 0) AS email_port,
 COALESCE( es.email_https, false) AS email_https,
@@ -381,14 +386,14 @@ class DistController(threading.Thread):
 	It then process each record and send out the email, and added a done entry too the email log
 
 	"""
-	def __init__(self, nbr=5, do_email=True, istest=False, restriction_p=None, customer_restrict=None, sendpriority=0):
+	def __init__(self, nbr=5, do_email=True, istest=False, restriction_p=None, customer_restrict=None, in_sendpriority=0):
 		""" Start the distribution systen """
 		self._do_email = do_email
 		self._istest = istest
 		self._lock = threading.Lock()
-		self._nbr = int(nbr * 1.5)
+		self._nbr = int(nbr * 3)
 		self._restriction = restriction_p
-		self._sendpriority = sendpriority
+		self._sendpriority = in_sendpriority
 		self._customer_restrict = customer_restrict
 		self._spamming_control = NotTooOften()
 		threading.Thread.__init__(self)
@@ -410,7 +415,7 @@ class DistController(threading.Thread):
 				while self._queue.qsize() > 0:
 					sleep(Sleepintervals)
 
-				attCount = 0
+				#attCount = 0
 				# added this to fix issue on windows where timestamp is confused
 				#test = db.executeAll( "SELECT CURRENT_TIMESTAMP", None, True)
 				#log.info("Time %s" % str(test[0]) )
@@ -435,18 +440,24 @@ class DistController(threading.Thread):
 				if self._customer_restrict and not rows:
 					return
 
+				if len(rows) == 0:
+					# reasonable bet that their are no release no need to check for a while
+					sleep(60)
+
 				for row in rows:
 					# don't sent too many too a single domain at any one time
-					if not self._spamming_control.able_to_send(row["emailaddress"]):
-						continue
-					self._spamming_control.set_sent(row["emailaddress"])
+					# way people use the system this causes and issue
+					#if not self._spamming_control.able_to_send(row["emailaddress"]):
+					#	continue
+
+					#self._spamming_control.set_sent(row["emailaddress"])
 
 					# we need to restrict the number of attachment email running at any one
 					# moment
-					if row["attcount"]:
-						attCount = attCount + 1
-					if attCount > 4:
-						continue
+					#if row["attcount"]:
+					#	attCount = attCount + 1
+					#if attCount > 4:
+					#	continue
 
 					# if test mode then swap to me
 					if self._istest:
@@ -495,14 +506,14 @@ class DistController(threading.Thread):
 		db.closeCursor(cur2)
 		db.Close()
 
-def _run(test_environment, run_restriction, single_customer, sendpriority):
+def _run(test_environment, run_restriction, single_customer, tmp_sendpriority):
 	""" run the application """
 	# create an instance of the report server and run the threading application
 
 	do_email = True
 	if singlecustomer:
 		print "Single Customer", singlecustomer
-	ctrl = DistController(10, do_email, test_environment, run_restriction, single_customer, sendpriority)
+	ctrl = DistController(20, do_email, test_environment, run_restriction, single_customer, tmp_sendpriority)
 	ctrl.setDaemon(True)
 	ctrl.initApp()
 	ctrl.start()
@@ -531,7 +542,7 @@ if __name__ == '__main__':
 			testEnvironment = True
 		if option in ("--customerid",):
 			singlecustomer = params
-		if option in ("--ispriority"):
+		if option in ("--ispriority", ):
 			sendpriority = 1
 	if testEnvironment == None:
 		print "No Environment Specific --live or --test"
