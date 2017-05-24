@@ -19,7 +19,6 @@ LOG = logging.getLogger("prmax")
 from types import ListType, DictionaryType
 import simplejson
 import shutil
-
 from prcommon.model import Countries, DataSourceTranslations
 from prcommon.model.datafeeds.xmlbase import XMLBaseImport, BaseContent
 from prcommon.model.outlet import Outlet, OutletInterests, OutletProfile, OutletLanguages
@@ -30,6 +29,7 @@ from prcommon.model.research import DataSourceTranslations, FrequencyCodes
 from prcommon.model import Interests
 from prcommon.model.queues import ProcessQueue
 from prcommon.model.publisher import Publisher
+from prcommon.model import Subject, SubjectInterest, Interests
 
 import prcommon.Constants as Constants
 
@@ -81,7 +81,29 @@ EMAILRADIOCOLUMN = 11
 #constants for TV xls file
 WWWTVCOLUMN = 9
 EMAILTVCOLUMN = 10
-
+#--------------------------
+OUTLETNAME_OLD = 5
+ADDRESS1_OLD = 21
+ADDRESS2_OLD = 22
+CITY_OLD = 23
+COUNTY_OLD = 25
+POSTCODE_OLD= 27
+PHONE_OLD = 20
+EMAIL_OLD = 28
+FAX_OLD = 18
+WWW_OLD = 10
+PROFILE_OLD = 17
+FREQUENCY_OLD = 12
+JOBTITLE_OLD = 3
+PRMAX_OUTLETTYPE = 16
+FAMILYNAME_OLD = 43
+FIRSTNAME_OLD = 44
+PREFIX_OLD = 30
+CIRCULATION_OLD = 52
+LINKEDIN_OLD = 37
+TWITTER_OLD = 38
+CONTACT_EMAIL_OLD = 2
+SUBJECT_OLD = 6
 
 
 class USADataImport(object):
@@ -103,7 +125,7 @@ class USADataImport(object):
 	def _load_frequencies(self):
 		for row in session.query(FrequencyCodes).all():
 			self._frequencies[row.frequencyname.lower()] = row.frequencyid
-			
+
 	def _load_translations(self):
 		self._translations = {}
 		for row in session.query(DataSourceTranslations).\
@@ -160,6 +182,9 @@ class USADataImport(object):
 					regionaltypeid = DEFAULTREGIONALWEEKLY
 					frequency = FREQUENCYWEEKLY
 					self.import_daily_weekly(filename, regionaltypeid, frequency)
+				elif 'd2_d_usmedia_' in filename.lower():
+					self._import_old_ping_outlets(filename)
+					
 		
 	def run_update(self):
 		"Runs the update"
@@ -290,7 +315,7 @@ class USADataImport(object):
 								contactsource["title"] = prefix
 								contactsource["first-name"] =  ' '.join(contact[1:len(contact)-1])
 						contactid = self._get_contactid(contactsource)
-						primaryemployeeid = self._add_employee(contactid, contactsource, publication, com)	
+						primaryemployeeid = self._add_employee(contactid, contactsource, publication, com, xls_sheet, rnum)	
 						changed = True
 					else:
 						primaryemployeeid = publication.primaryemployeeid
@@ -795,7 +820,7 @@ class USADataImport(object):
 							
 					contactid = self._get_contactid(contactsource)
 	
-					self._add_employee(contactid, contactsource, outlet, outlet_com)
+					self._add_employee(contactid, contactsource, outlet, outlet_com, xls_sheet, rnum)
 					
 	
 				if not outlet.primaryemployeeid:
@@ -825,6 +850,133 @@ class USADataImport(object):
 			session.commit()
 		print '%s records imported for file %s' %(counter, filename) 
 
+	def _import_old_ping_outlets(self, filename):
+		
+		if self._check:
+			return 
+		counter = 0
+		contact = {}		
+		self._load_prefixes()
+		self._load_frequencies()
+		self._load_translations()
+		
+		workbook = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
+
+		xls_sheet = workbook.sheet_by_index(0)	
+
+		for rnum in xrange(1, xls_sheet.nrows):
+			
+			session.begin()	
+
+			outletname = self._get_as_string(xls_sheet.cell_value(rnum,OUTLETNAME_OLD))
+			pc = self._get_as_string(xls_sheet.cell_value(rnum,POSTCODE_OLD))
+			address1 = self._get_as_string(xls_sheet.cell_value(rnum,ADDRESS1_OLD))
+			
+			frequency_text = xls_sheet.cell_value(rnum,FREQUENCY_OLD).strip().lower()
+			frequency = self._translations['frequency'][frequency_text][0] if frequency_text in self._translations['frequency'] else None
+#			if frequency_text in self._translations['frequency']:
+#				frequency = self._translations['frequency'][frequency_text][0]
+				
+			contactsource = {}
+			address = Address(
+		      address1 = address1,
+		      address2 = self._get_as_string(xls_sheet.cell_value(rnum,ADDRESS2_OLD)),
+		      address3 = '',
+		      county = xls_sheet.cell_value(rnum,COUNTY_OLD).strip(),
+		      townname = xls_sheet.cell_value(rnum,CITY_OLD).strip(),
+		      postcode = pc,
+		      countryid = DEFAULTCOUNTRYID)
+			session.add(address)
+			session.flush()
+				
+			outlet_com = Communication(
+		      addressid=address.addressid,
+		      tel=self._get_as_string(xls_sheet.cell_value(rnum,PHONE_OLD)),
+		      email=self._get_as_string(xls_sheet.cell_value(rnum,EMAIL_OLD)),
+		      fax=self._get_as_string(xls_sheet.cell_value(rnum,FAX_OLD)))
+			session.add(outlet_com)
+			session.flush()
+						
+						
+			prmax_outlettype = ''
+			prmax_outlettypename = self._get_as_string(xls_sheet.cell_value(rnum,PRMAX_OUTLETTYPE)).lower()
+			if prmax_outlettypename in self._translations['mediatype']:
+				prmax_outlettype = self._translations['mediatype'][prmax_outlettypename][0]
+						
+			outlet = Outlet(
+		      outletname=outletname[:119],
+		      sortname=outletname.lower()[:119],
+		      addressid=address.addressid,
+		      communicationid=outlet_com.communicationid,
+		      customerid=-1,
+		      outlettypeid=Constants.Outlet_Type_Standard,
+		      prmax_outlettypeid=prmax_outlettype,
+		      profile = self._get_as_string(xls_sheet.cell_value(rnum, PROFILE_OLD)),
+		      www=self._get_as_string(xls_sheet.cell_value(rnum, WWW_OLD))[:119],
+		      statusid=Outlet.Live,
+		      outletsearchtypeid=Constants.Source_Type_Usa,
+		      sourcetypeid=Constants.Source_Type_Usa,
+		      circulation =  None if xls_sheet.cell_value(rnum, CIRCULATION_OLD) == '' else xls_sheet.cell_value(rnum, CIRCULATION_OLD),
+		      #sourcekey=publication["mediaid"],
+		      frequencyid=frequency,
+		      countryid=DEFAULTCOUNTRYID
+		    )
+			session.add(outlet)
+			session.flush()		
+
+			interests_done = {}
+			prmax_keyword =  xls_sheet.cell_value(rnum, SUBJECT_OLD).strip()
+			
+			for interestname in prmax_keyword.strip().split("|"):
+				
+				interest = session.query(SubjectInterest).\
+				    join(Subject, Subject.subjectid == SubjectInterest.subjectid).\
+					join(Interests, Interests.interestid == SubjectInterest.interestid).\
+				    filter(Subject.subjectname.ilike(interestname.lower())).all()
+				
+				if interest:
+					for x in xrange(0, len(interest)):
+						if interest[x] and interest[x].interestid not in interests_done:
+							interests_done[interest[x].interestid] = True
+							session.add(OutletInterests(
+								outletid=outlet.outletid,
+								interestid=interest[x].interestid))
+		
+			#if jobtitle is editor add the contact otherwise add a dummy employee
+			jobtitle = xls_sheet.cell_value(rnum, JOBTITLE_OLD).strip()
+			if jobtitle.lower() == 'editor':
+				contactsource = {}
+				contactsource["surname"] = self._get_as_string(xls_sheet.cell_value(rnum, FAMILYNAME_OLD))
+				contactsource["first-name"] = xls_sheet.cell_value(rnum, FIRSTNAME_OLD).strip()
+				contactsource["title"] = xls_sheet.cell_value(rnum, PREFIX_OLD).strip()
+							
+				contactid = self._get_contactid(contactsource)
+	
+				self._add_employee(contactid, contactsource, outlet, outlet_com, xls_sheet, rnum)
+
+			if not outlet.primaryemployeeid:
+				# add dummy emplyee
+				tmp_emp = Employee(outletid=outlet.outletid,
+			                   job_title="Editor",
+				                sourcetypeid=Constants.Source_Type_Usa,
+			                   isprimary=1)
+				session.add(tmp_emp)
+				session.flush()
+				outlet.primaryemployeeid = tmp_emp.employeeid
+
+				
+			#Readership
+			readership = xls_sheet.cell_value(rnum, PROFILE_OLD).strip()
+			outletprofile = OutletProfile(
+		        outletid=outlet.outletid,
+		        readership=readership
+		    )
+		
+			session.add(outletprofile)
+
+			counter = counter + 1
+			session.commit()
+		print '%s records imported for file %s' %(counter, filename) 
 
 	def _get_contactid(self, contact):
 		"""get the contact id """
@@ -845,24 +997,24 @@ class USADataImport(object):
 				familyname=contact["surname"],
 				firstname=contact["first-name"],
 				prefix=contact.get("title", ""),
-			        sourcetypeid=Constants.Source_Type_Usa
+			    sourcetypeid=Constants.Source_Type_Usa
 			)
 			session.add(contact_record)
 			session.flush()
 			return contact_record.contactid
 		return None	
 	
-	def _add_employee(self, contactid, contactsource, outlet, outlet_com):
+	def _add_employee(self, contactid, contactsource, outlet, outlet_com, xls_sheet, rnum):
 		"""add a contact """
 
-		# address ?
+		# address
 		contact_com = Communication(
-			email=outlet_com.email,
+			email= xls_sheet.cell_value(rnum, CONTACT_EMAIL_OLD).strip() if xls_sheet.cell_value(rnum, CONTACT_EMAIL_OLD).strip() else outlet_com.email,
 			tel=outlet_com.tel,
 			fax=outlet_com.fax,
 			webphone="",
-			linkedin="",
-			twitter="")
+			linkedin= xls_sheet.cell_value(rnum, LINKEDIN_OLD)[:84].strip(),
+			twitter= xls_sheet.cell_value(rnum, TWITTER_OLD)[:84].strip())
 		session.add(contact_com)
 		session.flush()
 
@@ -1096,6 +1248,9 @@ class USADataImport(object):
 	def _get_as_string(self, value):
 		if type(value) is float:
 			value = str(int(value)).strip()
-		else:
+		elif type(value) is int:
 			value = str(value).strip()    
+		else:
+			value = value.encode('utf8').strip()
+
 		return value

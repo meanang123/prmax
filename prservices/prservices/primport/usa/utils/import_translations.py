@@ -46,72 +46,47 @@ def _run():
 		return
 
 	inserts = []
-	workbook = xlrd.open_workbook(os.path.join(sourcedir, "MagazineUSA.xlsx"))
-	xls_sheet_matched = workbook.sheet_by_name('Matched')
-		
-	for rnum_matched in range(1, xls_sheet_matched.nrows):
-		english = ''
-		keywords = []
-		sourcetext = xls_sheet_matched.cell_value(rnum_matched, 0)
-		
-		if type(sourcetext) is float:
-			sourcetext = str(int(sourcetext)).strip()
-		else:
-			sourcetext = str(sourcetext).strip()    
+	workbook = xlrd.open_workbook(os.path.join(sourcedir, "translations.xlsx"))
+	xls_sheet = workbook.sheet_by_name('mediatype')
+	for rnum in xrange(1, xls_sheet.nrows):
+		sourcetext = xls_sheet.cell_value(rnum, 0).encode('utf-8')
+		des_text = xls_sheet.cell_value(rnum, 1).strip()
+		english = xls_sheet.cell_value(rnum, 1).strip()
+		translation = int(xls_sheet.cell_value(rnum, 2))
 
-		media_channel = xls_sheet_matched.cell_value(rnum_matched, 2).strip()
-		outlettype = session.query(PRmaxOutletTypes).filter(PRmaxOutletTypes.prmax_outlettypename.ilike(media_channel)).scalar()
-		prmax_outlettypeid = unicode(outlettype.prmax_outlettypeid) if outlettype else None
-		for cnum_matched in xrange(3, xls_sheet_matched.ncols):
-			english = english + ':' + xls_sheet_matched.cell_value(rnum_matched, cnum_matched)
-		
-		while english.endswith(':'):
-			english = english[0:len(english)-1]
-		while english.startswith(':'):
-			english = english[1:len(english)]
-		
-		for interestname in english.strip().split(":"):
-			interestname = interestname.strip()
-			interestid = session.query(Interests.interestid).\
-		          filter(Interests.interestname.ilike(interestname)).\
-		          filter(Interests.customerid == -1).scalar()
-			if interestid:
-				keywords.append(interestid)
-			else:
-				interests = session.query(Interests).filter(Interests.interestname.ilike(interestname)).all()
-				if interests:
-					interests[0].customerid = -1
-					keywords.append(interests[0].interestid)
-				else:
-					print interestname
-		keywords = simplejson.dumps(keywords)
-
-		tmp = session.query(DataSourceTranslations).\
-	          filter(DataSourceTranslations.sourcetypeid == Constants.Source_Type_Usa).\
-	          filter(DataSourceTranslations.fieldname == "interests").\
-	          filter(DataSourceTranslations.sourcetext == sourcetext).scalar()
-		if tmp:
-			if prmax_outlettypeid != tmp.translation or \
-		           english != tmp.english or \
-		           keywords != tmp.extended_translation:
-				session.begin()
-				tmp.translation = prmax_outlettypeid
-				tmp.english = english
-				tmp.extended_translation = keywords
-				session.commit()
-		else:
-			inserts.append({"fieldname": "interests",
-		                        "sourcetext": sourcetext,
-		                        "sourcetypeid" : Constants.Source_Type_Usa,
-		                        "translation" : prmax_outlettypeid,
-		                        "english" : english,
-		                        "extended_translation" : keywords,
-		                        })
+		inserts.append({"fieldname": "mediatype",
+		                "sourcetext": sourcetext,
+		                "sourcetypeid" : Constants.Source_Type_Usa,
+		                "translation" : translation,
+		                "english" : english,
+		                })
 
 	if inserts:
 		session.begin()
 		session.execute(DataSourceTranslations.mapping.insert(), inserts)
 		session.commit()
+
+	inserts_frequencies = []
+	workbook = xlrd.open_workbook(os.path.join(sourcedir, "translations.xlsx"))
+	xls_sheet = workbook.sheet_by_name('frequency')
+	for rnum in xrange(1, xls_sheet.nrows):
+		sourcetext = xls_sheet.cell_value(rnum, 0).encode('utf-8')
+		des_text = xls_sheet.cell_value(rnum, 1).strip()
+		english = xls_sheet.cell_value(rnum, 1).strip()
+		translation = int(xls_sheet.cell_value(rnum, 2))
+
+		inserts_frequencies.append({"fieldname": "frequency",
+	                    "sourcetext": sourcetext,
+	                    "sourcetypeid" : Constants.Source_Type_Usa,
+	                    "translation" : translation,
+	                    "english" : english,
+	                    })
+
+	if inserts_frequencies:
+		session.begin()
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_frequencies)
+		session.commit()
+
 
 
 if __name__ == '__main__':
