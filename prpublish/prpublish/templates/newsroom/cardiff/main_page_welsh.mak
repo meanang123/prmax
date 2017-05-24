@@ -18,13 +18,13 @@ js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9";
 fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<%include file="../../default_header_cardiff.mak"/>
+<%include file="../../default_header_welsh.mak"/>
 <div class="content-width">
 	<div class="news-content-cardiff">
-		<p class="content-title" align="center">Latest Releases</p>
+		<p class="content-title" align="center">Diweddaraf Datganiadau</p>
 		<div class="single-news-text">
 			% if not results:
-				<div class="empty" >No Results Found</div>
+				<div class="empty" >Ni chafwyd canlyniadau</div>
 			% else:
 				${create_trail( resultcount, criteria, offset)}
 				% for result in results:
@@ -41,7 +41,7 @@ fjs.parentNode.insertBefore(js, fjs);
 		</div><br/><br/>
 			
 		<div class="single-news-links">	
-			<p class="socialmedia-title">Latest Tweets</p>
+			<p class="socialmedia-title">Trydar diweddaraf</p>
 			<div class="latest-tweets">
 				<a class="twitter-timeline" href="https://twitter.com/cardiffcouncil">Tweets by cardiffcouncil</a> 
 				<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

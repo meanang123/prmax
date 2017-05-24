@@ -63,8 +63,10 @@ class NewsRoom(object):
 			lparams = self.get_env( envir )
 			lparams.update(SEORelease.do_search (dict (cid = self._client[1].clientid)))
 			template = "prpublish.templates.newsroom.main_page"
-			if (self._client[1].clientid == 2014 or self._client[1].clientid == 1966): #Cardiff
+			if (self._client[1].clientid == 2014): #Cardiff - English
 				template = "prpublish.templates.newsroom.cardiff.main_page";
+			if (self._client[1].clientid == 1966): #Cardiff - Welsh
+				template = "prpublish.templates.newsroom.cardiff.main_page_welsh";
 				
 			data = view.render(
 			  lparams,
