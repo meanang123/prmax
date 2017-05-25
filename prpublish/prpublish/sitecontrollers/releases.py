@@ -33,6 +33,9 @@ class ReleasesController(controllers.RootController):
 		if argv[0][0] == "c":
 			layout = 1
 			actual_field = 1
+		if argv[0][0] == "w":
+			layout = 2
+			actual_field = 1
 
 		if len(argv) > 0:
 			temp = argv[actual_field].split(".")
@@ -60,6 +63,8 @@ class ReleasesController(controllers.RootController):
 		template = "prpublish.templates.release"
 		if layout == 1:
 			template = "prpublish.templates.release_cardiff"
+		if layout == 2:
+			template = "prpublish.templates.release_welsh"
 		html = html_slimmer( view.render( ret, template = template ))
 		if emailtemplateid:
 			SEOCache.add_cache(emailtemplateid, html, layout)

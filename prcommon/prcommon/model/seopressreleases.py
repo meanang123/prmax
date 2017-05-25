@@ -430,7 +430,16 @@ class SEORelease(BaseSql):
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
-	_Release_List_Date2 = """SELECT seo.synopsis,'/releases/c/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
+	_Release_List_Date_Cardiff = """SELECT seo.synopsis,
+	CASE 
+	WHEN seo.clientid = 2014 THEN '/releases/c/'||seo.seoreleaseid||'.html'
+	WHEN seo.clientid = 1966 THEN '/releases/w/'||seo.seoreleaseid||'.html'
+	END as link,
+	seo.headline, seo.seoimageid,
+	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
+	FROM seoreleases.seorelease AS seo
+	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
+	_Release_List_Date_Welsh = """SELECT seo.synopsis,'/releases/w/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
@@ -554,8 +563,8 @@ class SEORelease(BaseSql):
 
 		fields.update( cri )
 		command = SEORelease._Release_List_Date + whereused + SEORelease._Release_List_Order
-		if 'cid' in params and (params['cid'] == 2014 or params['cid'] == 1966): #Clients 2014 and 1966 are Cardiff
-			command = SEORelease._Release_List_Date2 + whereused + SEORelease._Release_List_Order
+		if 'cid' in params and (params['cid'] == 2014 or params['cid'] == 1966): #Cardiff
+			command = SEORelease._Release_List_Date_Cardiff + whereused + SEORelease._Release_List_Order
 
 		return dict (
 	      results = cls.sqlExecuteCommand ( text ( command ) ,
