@@ -75,7 +75,7 @@ class MadaptiveSearch(object):
 		search = MadaptiveAccess()
 
 		results = search.execute_search(self._clippingorder.rss_feed)
-		if 'entries'not in results['entries'] or results['entries'] is None:
+		if 'entries'not in results or results['entries'] is None:
 			return
 
 
