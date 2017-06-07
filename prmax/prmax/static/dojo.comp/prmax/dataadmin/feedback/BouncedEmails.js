@@ -175,7 +175,7 @@ dojo.declare("prmax.dataadmin.feedback.BouncedEmails",
 	},
 	_Refresh:function()
 	{
-		this_ClearFilter();
+		this._ClearFilter();
 	},
 	_ClearFilter:function()
 	{

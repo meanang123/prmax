@@ -62,7 +62,7 @@ dojo.declare("prmax.iadmin.sales.prospects.bounces.view",
 	},
 	_refresh:function()
 	{
-		this_clearfilter();
+		this._clear_filter();
 	},
 	_clear_filter:function()
 	{

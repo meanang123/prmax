@@ -37,8 +37,8 @@ LOGGER = logging.getLogger("prcommon.model")
 def _run():
 	""" run the application """
 
-	fromdate = date.today().strftime("%y-%m-%d")
-	todate =  (date.today() - timedelta(days = 30)).strftime("%y-%m-%d")
+	todate = date.today().strftime("%y-%m-%d")
+	fromdate =  (date.today() - timedelta(days = 30)).strftime("%y-%m-%d")
 	
 	query1 = "SELECT * FROM monthly_highest_bounces('%s', '%s')" %(fromdate, todate)
 	query2 = "SELECT * FROM monthly_top_50_breakdown('%s', '%s')" %(fromdate, todate)
