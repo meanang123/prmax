@@ -11,7 +11,7 @@
 # Copyright:  (c) 2010
 
 #-----------------------------------------------------------------------------
-from turbogears import identity, config
+from turbogears import identity, config, visit
 import copy
 from turbogears.database import metadata, mapper, session
 from sqlalchemy import Table, Column, text, Integer, func
@@ -72,6 +72,9 @@ class User(BaseSql):
 	User_Clear_logins = """UPDATE visit SET expiry = '2001-01-01 00:00:00'
 					  WHERE visit_key IN
 					(SELECT vi.visit_key FROM visit_identity AS vi WHERE vi.user_id =:user_id AND vi.visit_key !=:visit_key)"""
+
+
+
 
 	def __repr__(self):
 		return '<User: name="%s", email="%s", display name="%s">' %(
@@ -681,6 +684,22 @@ class User(BaseSql):
 		  user_id=user.user_id,
 		  hasmonitoring=user.hasmonitoring)
 
+
+	def force_logout(self):
+		"""For a logout"""
+
+		identity.current.logout()
+
+		# delete all the visit keys
+		try:
+			sessionid = visit.current().key
+			session.query(Visit).filter(Visit.visit_key == sessionid).delete()
+			session.query(VisitIdentity).filter(VisitIdentity.visit_key == sessionid).delete()
+			session.query(VisitIdentity).filter(VisitIdentity.user_id == self.user_id).delete()
+		except:
+			LOGGER.exception("force_logout")
+
+
 class Customer(BaseSql):
 	""" interface to the customer details
 	"""
@@ -723,6 +742,17 @@ class Customer(BaseSql):
 					return False
 
 			return True
+
+		return False
+
+
+	def fail_ip_test(self, ip):
+		"""check to see if ip is in db """
+
+		if self.valid_ips:
+			if ip not in self.valid_ips:
+				print "sucess"
+				return True
 
 		return False
 
@@ -981,9 +1011,10 @@ class Customer(BaseSql):
 			customer.no_export = params["no_export"]
 			customer.has_clickthrought = params["has_clickthrought"]
 			customer.distributionistemplated = params["distributionistemplated"]
+			customer.valid_ips = params["valid_ips"]
 
-			cmat = [ row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).\
-			                             filter(CustomerMediaAccessTypes.customerid == customer.customerid).all()]
+			cmat = [row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).\
+			        filter(CustomerMediaAccessTypes.customerid == customer.customerid).all()]
 
 			# CLA licence
 			if "cla" in params:
@@ -1072,7 +1103,7 @@ class Customer(BaseSql):
 			LOGGER.exception("update_customer_financial")
 			transaction.rollback()
 			raise
-		
+
 	@classmethod
 	def update_customer_salesanalysis(cls, inparams):
 		""" update customers sales analysis fields	"""
@@ -1383,11 +1414,11 @@ class Customer(BaseSql):
 		WHERE c.customerid =:id"""
 
 	List_Partners_Customers = """
-		SELECT JSON_ENCODE(c.customername) as customername, c.contactname, cs.customerstatusname 
+		SELECT JSON_ENCODE(c.customername) as customername, c.contactname, cs.customerstatusname
 		FROM internal.customers AS c
 	    LEFT OUTER JOIN internal.customerstatus AS cs ON cs.customerstatusid = c.customerstatusid
 		WHERE c.customersourceid = :customersourceid"""
-	
+
 	List_Partners_Customers_Count = """
 		SELECT count(*)
 		FROM internal.customers AS c
@@ -1424,16 +1455,16 @@ class Customer(BaseSql):
 			params['direction'] = "asc"
 		if params.get('sortfield', "") == "contactname":
 			params["sortfield"] = "c.contactname"
-	
+
 		if params.get('sortfield', "") == "customerstatusname":
 			params["sortfield"] = "cs.customerstatusname"
-			
+
 		if "customersourceid" not in params:
 			params["customersourceid"] = -1
-		
+
 		if "customerstatus" in params and 0 != int(params['customerstatus']):
 			params['customerstatusid'] = params['customerstatus']
-			andclause = ' AND c.customerstatusid = :customerstatusid' 
+			andclause = ' AND c.customerstatusid = :customerstatusid'
 			if Constants.Customer_Active == int(params['customerstatusid']):
 				andclause += ' AND licence_expire > CURRENT_DATE'
 
@@ -1541,8 +1572,8 @@ class Customer(BaseSql):
 
 			custsource = CustomerSources.query.get(cust.customersourceid)
 
-			cust_mediaaccesstype = [ row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).
-					                 filter(CustomerMediaAccessTypes.customerid == cust.customerid).all()]
+			cust_mediaaccesstype = [row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).
+			                        filter(CustomerMediaAccessTypes.customerid == cust.customerid).all()]
 
 		return dict(cust=cust,
 		            address=address,

@@ -13,6 +13,7 @@ dojo.require("ttl.BaseWidget");
 dojo.require("prcommon.search.Countries");
 dojo.require("prcommon.languages.Languages");
 dojo.require("prcommon.clippings.clippingstype");
+dojo.require("prmax.customer.clients.add");
 
 dojo.require("prcommon.search.std_search");
 
@@ -46,6 +47,7 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 		this._dialog = dialog;
 		this.end_date = end_date;
 		this.icustomerid.set("value",icustomerid);
+		this._icustomerid = icustomerid;
 		this.clientid.set("query",{icustomerid:icustomerid});
 		this.issueid.set("query",{icustomerid:icustomerid});
 		this._dialog.resize({w:1010, h:700})
@@ -78,8 +80,8 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 		this.purchaseorder.set("value","");
 		this.description.set("value","");
 		this.message.set("value","");
-		this.clientid.set("value", -1);
-		this.issueid.set("value", -1);
+		this.clientid.set("value", null);
+		this.issueid.set("value", null);
 		this.clippingsourceid.set("value", 6);
 	},
 	_add:function()
@@ -126,10 +128,10 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 		this.issueid.set("value",null);
 
 	},
-	_change_source:function() 
+	_change_source:function()
 	{
 		var sourceid = this.clippingsourceid.get("value");
-		if (sourceid == 1 || sourceid == 7) 
+		if (sourceid == 1 || sourceid == 7)
 		{
 			dojo.addClass( this.clippingstypes_node, "prmaxhidden");
 			if (this._dialog)
@@ -151,6 +153,7 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 	_New_Client:function()
 	{
 		this.client_add_ctrl.Load(-1, this._Client_Add_Call_Back);
+		this.client_add_ctrl.set("icustomerid",this._icustomerid);
 		this.client_add_dialog.show();
-	}	
+	}
 });

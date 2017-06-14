@@ -10,10 +10,10 @@
 # RCS-ID:      $Id:  $
 # Copyright:  (c) 2011
 #-----------------------------------------------------------------------------
+import logging
 from turbogears.database import metadata, mapper, session
 from sqlalchemy import Table, text
 from prcommon.model.common import BaseSql
-
 from prcommon.model.emails import EmailTemplates
 from prcommon.model.seopressreleases import SEORelease
 from prcommon.model.newsroom.clientnewsroom import ClientNewsRoom
@@ -22,7 +22,6 @@ from prcommon.model.newsroom.clientnewsroomcustumlinks import ClientNewsRoomCust
 from prcommon.model.session import UserSessionImage
 from prcommon.model.list import List
 
-import logging
 LOG = logging.getLogger("prmax")
 
 class Client(BaseSql):
@@ -49,6 +48,10 @@ class Client(BaseSql):
 		clientid = None
 		transaction = cls.sa_get_active_transaction()
 		try:
+			# fix up customerid
+			if "icustomerid" in params:
+				params["customerid"] = params["icustomerid"]
+
 			params.pop("clientid")
 			client = Client(**params)
 			session.add(client)

@@ -42,6 +42,17 @@
 			padding-bottom:10px;
         }
 
+
+		#loginBox h3
+		{
+			font-size: 18px;
+			font-family: "Trebuchet MS";
+			margin: 0;
+			color: red;
+			padding-bottom:10px;
+			text-align:center;
+		}
+
         #loginBox p
         {
             position: relative;
@@ -136,6 +147,9 @@ catch ( e ) {}
     <div id="loginBox">
         <h2>Search, Save and Distribute with PRmax</h2>
         <h1>PRmax Login</h1>
+<span py:if="message">
+				<h3>${message}</h3>
+ </span>
         <form action="${previous_url}" method="POST">
             <table cellspacing="0" cellpadding="1" border="0">
                 <tr>

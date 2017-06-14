@@ -52,9 +52,9 @@ from prcommon.sales.salesorderconformation import SendOrderConfirmationBuilder, 
 from prcommon.sitecontrollers import QueryController
 from prcommon.sitecontrollers.languages import LanguageController
 from prcommon.sitecontrollers.clippingstypes import ClippingsTypeController
+from prcommon.sitecontrollers.search import SearchController as SearchController2
 from ttl.tg.validators import std_state_factory, PrFormSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler_text
-from prcommon.sitecontrollers.search import SearchController as SearchController2
 
 LOGGER = logging.getLogger("prmax")
 
@@ -127,23 +127,32 @@ class Root(controllers.RootController):
 	def login(self, forward_url=None, previous_url=None, *args, **kw):
 		"std login method"
 
+		msg = None
 		if not identity.current.anonymous \
 			and identity.was_login_attempted() \
 			and not identity.get_identity_errors():
 			# check too see if a customer is a noninteractive on if so then LOGGER it out
 			customer = Customer.query.get(identity.current.user.customerid)
 			if customer.isFinancialOnly():
-				identity.current.logout()
+				identity.current.user.force_logout()
 				response.status = 403
 				raise redirect("/login")
 
+			if customer.fail_ip_test(request.headers.get("X-Forwarded-For", request.remote.ip)):
+				if identity.current.user.usertypeid != Constants.UserType_Support:
+					session.add(CustomerAccessLog(customerid=identity.current.user.customerid,
+					                              userid=identity.current.user.user_id,
+					                              levelid=CustomerAccessLog.IPFAILED,
+					                              username=identity.current.user.user_name))
+				identity.current.user.force_logout()
+				response.status = 403
+				raise redirect("/login", dict(message="Forbidden"))
+
+			print "post test"
 			# clear connections
 			try:
-				try:
-					sess = request.simple_cookie.get(Root.tg_cookie_name, None)
-				except:
-					# for 1.5
-					sess = request.cookie.get(Root.tg_cookie_name, None)
+				# for 1.5
+				sess = request.cookie.get(Root.tg_cookie_name, None)
 				if sess:
 					User.logout_other_users(sess.value, identity.current.user.user_id)
 			except:
@@ -166,13 +175,14 @@ class Root(controllers.RootController):
 		except:
 			previous_url = request.path_info
 
-		if identity.was_login_attempted():
-			msg = "Please LOGGER in."
-		elif identity.get_identity_errors():
-			msg = "Please LOGGER in."
+		if identity.was_login_attempted() or identity.get_identity_errors():
+			msg = None
 		else:
-			msg = "Please LOGGER in."
+			msg = None
 			forward_url = request.headers.get("Referer", "/")
+
+		if "message" in kw:
+			msg = kw["message"]
 
 		response.status = 403
 
