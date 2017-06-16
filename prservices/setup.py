@@ -36,6 +36,8 @@ setup(
               "prservices.primport.stamm.utils",
               "prservices.primport.usa",
               "prservices.primport.usa.utils",
+              "prservices.primport.southamerica",
+              "prservices.primport.southamerica.utils",
               "prservices.primport.nijgh",
               "prservices.primport.nijgh.utils",
               "prservices.emplsynchronise",
