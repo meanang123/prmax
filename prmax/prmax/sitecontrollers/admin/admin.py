@@ -379,6 +379,7 @@ class ExtendedSettingsSchema(PrFormSchema):
 	no_export = BooleanValidator()
 	distributionistemplated = BooleanValidator()
 	has_clickthrought = BooleanValidator()
+	extended_security = BooleanValidator()
 
 class IUserSchema(PrFormSchema):
 	"schema"
@@ -1002,6 +1003,18 @@ class InternalAdminController(SecureController):
 		User.DeleteUser(params["iuserid"])
 
 		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrUserSchema(), state_factory=std_state_factory)
+	def unlock_user(self, *argv, **params):
+		""" Update users detials"""
+
+		User.UnlockUser(params["iuserid"])
+
+		return stdreturn()
+
 
 	@expose("json")
 	@error_handler(pr_std_error_handler)

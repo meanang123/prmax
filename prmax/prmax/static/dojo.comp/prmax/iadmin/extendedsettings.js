@@ -32,6 +32,7 @@ dojo.declare("prmax.iadmin.extendedsettings",
 		this.distributionistemplated.set("checked", customer.distributionistemplated);
 		this.cla.set("checked", false);
 		this.nla.set("checked", false);
+		this.extended_security.set("checked", customer.extended_security);
 		if (customermediaaccesstypes != null && customermediaaccesstypes.length > 0)
 		{
 			for (var i = 0; i < customermediaaccesstypes.length; i++) {
@@ -59,6 +60,7 @@ dojo.declare("prmax.iadmin.extendedsettings",
 	{
 		if ( response.success=="OK")
 		{
+			dojo.publish("extended_settings",[response.data]);
 			alert("Updated");
 		}
 		else
