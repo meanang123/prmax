@@ -11,6 +11,7 @@
 dojo.provide("prcommon.crm.issues.add");
 
 dojo.require("prcommon.crm.solidsocial.preview");
+dojo.require("prcommon.documents.adddialog");
 
 dojo.declare("prcommon.crm.issues.add",
 	[ ttl.BaseWidget ],

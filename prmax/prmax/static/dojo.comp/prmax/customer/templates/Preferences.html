@@ -1,45 +1,56 @@
-<div >
-<div dojoType="dijit.TitlePane" title="General Settings" open="true" style="width:100%">
-<form dojoAttachPoint="generalForm" onsubmit="return false" dojoType="dijit.form.Form">
-	<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0">
-	<tr><td align="right" width="30%" class="prmaxrowtag" >User Name</td><td><input disabled="disabled" class="prmaxinput" size="40" dojoAttachPoint="username" name="username" maxlength="40" trim="true" required="true" invalidMessage="This cammot be blank" dojoType="dijit.form.ValidationTextBox"/></td></tr>
-	<tr><td align="right" class="prmaxrowtag">Display Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="displayname" name="displayname" maxlength="40" trim="true" required="true" invalidMessage="This cammot be blank" dojoType="dijit.form.ValidationTextBox" /></td></tr>
-	<tr><td align="right" class="prmaxrowtag">Email Address</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="email" name="email" maxlength="70" trim="true" required="true" invalidMessage="This must be a valid email address" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress"/></td></tr>
-	<tr><td align="right" class="prmaxrowtag">Select First Row</td><td><input class="prmaxinput" dojoAttachPoint="autoselectfirstrecord" value="1" name="autoselectfirstrecord" dojoType="dijit.form.CheckBox" /></td></tr>
-	<tr><td align="right" class="prmaxrowtag">Use Partial Match</td><td><input class="prmaxinput" dojoAttachPoint="usepartialmatch" value="1" name="usepartialmatch" dojoType="dijit.form.CheckBox" /></td></tr>
-	<tr><td align="right" class="prmaxrowtag">Search Append's </td><td><input class="prmaxinput" dojoAttachPoint="searchappend" value="1" name="searchappend" dojoType="dijit.form.CheckBox" /></td></tr>
-	<tr><td align="right" class="prmaxrowtag">Reply To Email</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="emailreplyaddress" name="emailreplyaddress" maxlength="70" trim="true" invalidMessage="This must be a valid email address" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress"/></td></tr>
-	<tr><td align="right" class="prmaxrowtag">Default Sort Order</td><td><select class="prmaxinput"  dojoAttachPoint="stdview_sortorder" dojotype ="dijit.form.FilteringSelect" name="stdview_sortorder" searchAttr="name" labelType="html" ></select></td></tr>
-	<tr><td align="right" class="prmaxrowtag">"Client" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="client_name" name="client_name" maxlength="20" trim="true" required="true" invalidMessage="This cammot be blank" dojoType="dijit.form.ValidationTextBox" /></td></tr>
-	<tr><td align="right" class="prmaxrowtag">"Issue" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="issue_description" name="issue_description" maxlength="20" trim="true" required="true" invalidMessage="This cammot be blank" dojoType="dijit.form.ValidationTextBox" /></td></tr>
-	<tr><td colspan="2"><div data-dojo-props ='style:"width:99%",name:"user_countries",selectonly:true,startopen:true,preload:false' data-dojo-attach-point="user_countries" data-dojo-type="prcommon.search.Countries"></div></td></tr>
-	<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="dijitPrmaxIcon dijitPrmaxUpdate" disabled="disabled"  dojoAttachPoint="general_update" dojoAttachEvent="onClick:_SaveGeneral" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Update Settings"></button></td></tr>
-	</table>
-</form>
-</div>
-<div dojoType="dijit.TitlePane" title="Interface Setting" open="true" style="width:100%" >
-	<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0">
-	<tr><td width="30%" class="prmaxrowtag">Font Size:</td>
-	<td width="70%"><select class="prmaxinput" autoComplete="true" name="interface_font_size" dojoAttachPoint="interface_font_size" style="width:5em" dojoType="dijit.form.FilteringSelect">
-		<option value="9">9</option>
-		<option value="10">10</option>
-		<option value="11">11</option>
-		<option value="12">12</option>
-		<option value="14">14</option>
-		<option value="18">18</option>
-		</select><label class="prmaxrowtag">pt</label>
-		</td></tr>
-	<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="dijitPrmaxIcon dijitPrmaxUpdate"  disabled="disabled" dojoAttachPoint="interface_upd" dojoAttachEvent="onClick:_SaveInterface" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Update Interface Settings"></button></td></tr>
-	</table>
-</div>
-<div dojoType="dijit.TitlePane" title="User Password" open="false"  style="width:100%">
-	<table width="100%" class="prmaxtable" >
-		<tr><td width="30%" class="prmaxrowtag">Enter New Password:</td><td width="30%"><input class="prmaxinput" dojoAttachPoint="pssw_name" size="20" maxlength="20" trim="true" dojoType="dijit.form.TextBox" type="password"/></td></tr>
-		<tr><td width="30%" class="prmaxrowtag">Confirm Password:</td><td width="30%"><input class="prmaxinput" dojoAttachPoint="pssw_cnfrm" size="20" maxlength="20" trim="true" dojoType="dijit.form.TextBox"  type="password"/></td></tr>
-		<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="dijitPrmaxIcon dijitPrmaxUpdate" disabled="disabled" dojoAttachPoint="pssw_update"  dojoAttachEvent="onClick:_SavePasswordButton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Change Password"></button></td></tr>
-	</table>
-</div>
-<div style="width:100%;padding-top:10px;padding-right:4px">
-	<button style="float:right" type="button" class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close" label="Close"></button>
-</div>
+<div style="width:710px;height:535px;overflow:auto;padding:0px;margin:0px">
+	<div dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer" style="710px;height:535px" gutters="false" class="scrollpanel">
+		<div dojoType="dijit.layout.TabContainer" dojoAttachPoint="preferences_view" region="center">
+			<div dojoType="dijit.layout.ContentPane" dojoAttachPoint="general" title="General Settings" style="height:100%;width:100%;overflow :auto" class='bordered scrollpanel' >
+				<form dojoAttachPoint="generalForm" onsubmit="return false" dojoType="dijit.form.Form">
+					<table width="95%" class="prmaxtable" cellpadding="0" cellspacing="0">
+						<tr><td align="right" class="prmaxrowtag">Display Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="displayname" name="displayname" maxlength="40" trim="true" required="true" invalidMessage="This cammot be blank" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+						<tr><td align="right" class="prmaxrowtag">Email Address</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="email" name="email" maxlength="70" trim="true" required="true" invalidMessage="This must be a valid email address" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress"/></td></tr>
+						<tr><td align="right" class="prmaxrowtag">Select First Row</td><td><input class="prmaxinput" dojoAttachPoint="autoselectfirstrecord" value="1" name="autoselectfirstrecord" dojoType="dijit.form.CheckBox" /></td></tr>
+						<tr><td align="right" class="prmaxrowtag">Use Partial Match</td><td><input class="prmaxinput" dojoAttachPoint="usepartialmatch" value="1" name="usepartialmatch" dojoType="dijit.form.CheckBox" /></td></tr>
+						<tr><td align="right" class="prmaxrowtag">Search Append's </td><td><input class="prmaxinput" dojoAttachPoint="searchappend" value="1" name="searchappend" dojoType="dijit.form.CheckBox" /></td></tr>
+						<tr><td align="right" class="prmaxrowtag">Reply To Email</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="emailreplyaddress" name="emailreplyaddress" maxlength="70" trim="true" invalidMessage="This must be a valid email address" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress"/></td></tr>
+						<tr><td align="right" class="prmaxrowtag">Default Sort Order</td><td><select class="prmaxinput"  dojoAttachPoint="stdview_sortorder" dojotype ="dijit.form.FilteringSelect" name="stdview_sortorder" searchAttr="name" labelType="html" ></select></td></tr>
+						<tr><td align="right" class="prmaxrowtag">"Client" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="client_name" name="client_name" maxlength="20" trim="true" required="true" invalidMessage="This cammot be blank" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+						<tr><td align="right" class="prmaxrowtag">"Issue" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="issue_description" name="issue_description" maxlength="20" trim="true" required="true" invalidMessage="This cammot be blank" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+						<tr><td colspan="2"><div data-dojo-props ='style:"width:99%",name:"user_countries",selectonly:true,startopen:true,preload:false,size:4' data-dojo-attach-point="user_countries" data-dojo-type="prcommon.search.Countries"></div></td></tr>
+						<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="fa fa-floppy-o fa-2x" disabled="disabled"  dojoAttachPoint="general_update" dojoAttachEvent="onClick:_SaveGeneral" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Update Settings"></button></td></tr>
+					</table>
+				</form>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="Interface Settings" dojoAttachPoint="interface" style="height:100%;width:100%;overflow :auto" class='bordered scrollpanel' selected="true">
+				<br/>
+				<table width="95%" class="prmaxtable" cellpadding="0" cellspacing="0">
+					<tr><td width="30%" class="prmaxrowtag">Font Size:</td>
+						<td width="70%"><select class="prmaxinput" autoComplete="true" name="interface_font_size" dojoAttachPoint="interface_font_size" style="width:5em" dojoType="dijit.form.FilteringSelect">
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="14">14</option>
+						<option value="18">18</option>
+						</select><label class="prmaxrowtag">pt</label>
+					</td></tr>
+					<tr><td><br/></td></tr>
+					<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="fa fa-floppy-o fa-2x"  disabled="disabled" dojoAttachPoint="interface_upd" dojoAttachEvent="onClick:_SaveInterface" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Update Interface Settings"></button></td></tr>
+				</table>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="User Password" dojoAttachPoint="password" style="width:532px">
+				<br/>
+				<form dojoAttachPoint="userpasswordform"  onsubmit="return false" dojoType="dijit.form.Form">
+					<div dojoType="dojox.form.PasswordValidator" name="pssw" class="prmaxrowtag" dojoAttachPoint="pssw">
+						<table class="prmaxtable" width="95%" >
+							<tr><td width="30%" class="prmaxrowtag">Enter New Password:</td><td width="30%"><input class="prmaxinput" dojoAttachPoint="pssw_name" size="20" maxlength="20" trim="true" dojoType="dijit.form.TextBox" type="password" pwType="new"/></td></tr>
+							<tr><td width="30%" class="prmaxrowtag">Confirm Password:</td><td width="30%"><input class="prmaxinput" dojoAttachPoint="pssw_cnfrm" size="20" maxlength="20" trim="true" dojoType="dijit.form.TextBox" type="password" pwType="verify"/></td></tr>
+							<tr><td><br/></td></tr>
+							<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="fa fa-floppy-o fa-2x" disabled="disabled" dojoAttachPoint="pssw_update"  dojoAttachEvent="onClick:_SavePasswordButton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Change Password"></button></td></tr>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" style="width:532px;padding-top:10px;padding-right:4px;padding-right:10px" region="bottom">
+			<button iconClass="fa fa-close fa-2x" style="float:right" type="button" class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close" label="Close"></button>
+		</div>
+	</div>
 </div>

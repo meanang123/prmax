@@ -54,7 +54,7 @@ class ContactHistoryGeneral():
 	LEFT OUTER JOIN contacts AS c ON c.contactid = COALESCE(ch.contactid,e.contactid)
 	LEFT OUTER JOIN internal.customers AS cust ON cust.customerid = ch.ref_customerid
 	LEFT OUTER JOIN tg_user AS taken ON taken.user_id = ch.taken_by
-	LEFT OUTER JOIN tg_user AS mod ON mod.user_id = ch.modifiedby
+	LEFT OUTER JOIN tg_user AS mod ON mod.user_id = ch.modified
 	WHERE ch.contacthistoryid = :contacthistoryid"""
 
 	@staticmethod
@@ -139,14 +139,18 @@ class ContactHistoryGeneral():
 	o.outletname,
 	e.job_title,
 	COALESCE(o.outletname,cust.customername) AS source,
-	chstatus.contacthistorystatusdescription
+	chstatus.contacthistorystatusdescription,
+	taken.display_name,
+	follow.display_name as follow_up_by
 	FROM userdata.contacthistory AS ch
 	LEFT OUTER JOIN internal.contacthistorysources as chs ON chs.contacthistorysourceid = ch.contacthistorysourceid
 	LEFT OUTER JOIN internal.contacthistorystatus as chstatus ON chstatus.contacthistorystatusid = ch.contacthistorystatusid
 	LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid
 	LEFT OUTER JOIN employees AS e ON e.employeeid = ch.employeeid
 	LEFT OUTER JOIN contacts AS c ON c.contactid = COALESCE(ch.contactid,e.contactid)
-	LEFT OUTER JOIN internal.customers AS cust ON cust.customerid = ch.ref_customerid"""
+	LEFT OUTER JOIN internal.customers AS cust ON cust.customerid = ch.ref_customerid
+	LEFT OUTER JOIN tg_user AS taken ON taken.user_id = ch.taken_by
+	LEFT OUTER JOIN tg_user AS follow ON follow.user_id = ch.follow_up_ownerid"""
 	List_View_Count = """SELECT COUNT(*) FROM userdata.contacthistory AS ch %s"""
 
 	@staticmethod

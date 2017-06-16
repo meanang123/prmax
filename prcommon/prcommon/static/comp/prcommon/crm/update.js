@@ -288,6 +288,10 @@ dojo.declare("prcommon.crm.update",
 	_download:function()
 	{
 		ttl.utilities.gotoDialogPageStatic("/crm/documents/download/"+ this._document_data.documentid+this._document_data.ext);
+	},
+	_close:function()
+	{
+		dojo.publish("/crm/update_note_close");
 
 	}
 });
