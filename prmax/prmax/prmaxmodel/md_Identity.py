@@ -15,6 +15,7 @@ from sqlalchemy import Table, Column, Integer, DateTime
 from turbogears import identity
 from prcommon.model import AuditTrail, Terms, NbrOfLogins, Address, \
      UserView, Customer, CustomerView, User, UserDefaultCountries, Countries
+from datetime import datetime
 
 import logging
 log = logging.getLogger("prmax.model")
@@ -26,7 +27,9 @@ class Preferences(object):
 	@classmethod
 	def get(cls, user_id):
 		""" get items"""
-		return dict (user = UserView.query.get(user_id),
+		user = User.query.get(user_id)
+		return dict (control=user.get_settings(),
+		             user = UserView.query.get(user_id),
 		             countries  = [ dict( countryid = country.countryid,
 		                                  countryname  = country.countryname)
 		              for user,country in session.query(UserDefaultCountries, Countries).
@@ -51,14 +54,37 @@ class Preferences(object):
 			raise ex
 
 	@classmethod
+	def is_valid_password(cls, psw):
+		has_lower = False
+		has_upper = False
+		has_digit = False
+		for i in xrange(0, len(psw)):
+			if not psw.isdigit() and psw[i] == psw[i].lower():
+				has_lower = True
+			if not psw.isdigit() and psw[i] == psw[i].upper():
+				has_upper = True
+			if psw[i].isdigit():
+				has_digit = True
+		if len(psw)>=8 and has_lower and has_upper and has_digit:
+			return True
+		return False
+
+	@classmethod
 	def update_password(cls, kw):
 		""" Update the current users passsword"""
 		transaction = session.begin(subtransactions=True)
 		try:
 			user = User.query.get(kw['user_id'])
-			user.password = kw.get("pssw_name")
-			session.flush()
-			transaction.commit()
+			customer = Customer.query.get(user.customerid)
+			valid_password = True
+			if customer and customer.extended_security == True:
+				valid_password = Preferences.is_valid_password(kw.get("pssw_name"))
+			if valid_password:
+				user.password = kw.get("pssw_name")
+				user.last_change_pssw = datetime.today()
+				user.force_change_pssw = False
+				session.flush()
+				transaction.commit()
 		except Exception, ex:
 			try:
 				transaction.rollback()

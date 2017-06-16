@@ -30,6 +30,7 @@ import datetime
 import simplejson
 import random
 from ttl.string import encode_html_2, encode_clean_up
+from datetime import date, datetime, timedelta
 
 
 import logging
@@ -678,6 +679,13 @@ class SEORelease(BaseSql):
 	LEFT OUTER JOIN internal.customers AS c ON c.customerid = seo.customerid
 	LEFT OUTER JOIN userdata.client AS cl ON seo.clientid = cl.clientid"""
 
+	_List_View2 = """SELECT
+	seo.seoreleaseid,
+	seo.headline as title,
+	seo.synopsis as summary,
+	'http://prnewslink.net/releases/'||seo.seoreleaseid||'.html' as link
+	FROM seoreleases.seorelease AS seo"""
+
 	_Sort_Order = """ ORDER BY %s %s
 	LIMIT :limit  OFFSET :offset """
 
@@ -714,6 +722,47 @@ class SEORelease(BaseSql):
 		  SEORelease._List_View + whereclause + SEORelease._Sort_Order,
 		  SEORelease._Count_Figure + whereclause,
 		  cls )
+
+
+
+	@classmethod
+	def get_list(cls, params , internal = False ):
+		""" get a list of the seo """
+
+
+		customerid = params.get("customerid","").strip()
+		if customerid:
+			cust = Customer.query.get(customerid)
+			if cust.licence_expire < date.today():
+				return
+
+		fromdate =  (date.today() - timedelta(days = 128)).strftime("%Y-%m-%d")
+		todate = date.today().strftime("%Y-%m-%d")
+		
+#		whereclause = ' '
+		whereclause = """ WHERE seo.published BETWEEN '%s' AND '%s'""" %(fromdate, todate)
+
+		if customerid and customerid not in ("-1", "-2"):
+#			whereclause = " WHERE seo.customerid = :customerid"
+			whereclause = BaseSql.addclause(whereclause, "seo.customerid = :customerid")
+			params["customerid"] = int(params["customerid"])
+		clientid = params.get("clientid","").strip()
+		if clientid and clientid not in ("-1"):
+			whereclause = BaseSql.addclause(whereclause, "seo.clientid = :clientid")
+			params["clientid"] = int(params["clientid"])
+		
+
+
+		return cls.sqlExecuteCommand ( text ( SEORelease._List_View2 + whereclause ),
+		                               params,
+	                                   BaseSql.ResultAsEncodedDict )
+
+
+
+
+
+
+
 
 	@classmethod
 	def get(cls, seoreleaseid):

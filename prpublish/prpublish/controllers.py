@@ -11,6 +11,7 @@ get_engine()
 create_session()
 
 from sitecontrollers.releases import ReleasesController
+from sitecontrollers.feed import FeedController
 from sitecontrollers.newsroom import NewsRoomController
 from cherrypy import response
 from prcommon.model import SEORelease, SEOSite, SEOCategories
@@ -22,6 +23,7 @@ class Root(controllers.RootController):
 	"""The root controller of the application."""
 
 	releases = ReleasesController()
+	feed = FeedController()
 	r = ReleasesController()
 	nr = NewsRoomController()
 

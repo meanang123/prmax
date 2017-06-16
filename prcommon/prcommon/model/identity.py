@@ -255,10 +255,83 @@ class User(BaseSql):
 		   customertypeid=customer.customertypeid,
 		   distributionistemplated=customer.distributionistemplated,
 		   uctid=self.customertypeid,
-		   has_ct=customer.has_clickthrought
+		   has_ct=customer.has_clickthrought,
+		   extended_security = customer.extended_security
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
+
+
+	def get_settings(self):
+		""" return the setting object for the user inthe current browser"""
+
+		customer = session.query(Customer).filter_by(customerid=self.customerid).one()
+		# groups
+		groups = ""
+		gs_rec = session.query(Group).filter(Group.group_id == UserGroups.group_id).\
+		  filter(UserGroups.user_id == self.user_id).all()
+		if gs_rec:
+			groups = ",".join([g.group_name for g in gs_rec])
+
+		# get user default countries list
+		countries = [dict(countryid=country.countryid,
+		                  countryname=country.countryname.replace("'", r"\u0027"))
+		             for DUMMY, country in session.query(UserDefaultCountries, Countries).
+		             filter(UserDefaultCountries.countryid == Countries.countryid).
+		             filter(UserDefaultCountries.userid == self.user_id).all()]
+
+		# see if the user has monitoring
+		monitoring = False
+		if customer.is_monitoring_active() and self.hasmonitoring:
+			monitoring = True
+
+		data = dict(
+		  autoselectfirstrecord=self.autoselectfirstrecord,
+			 showmenubartext=self.showmenubartext,
+			 show_dialog_on_load=self.show_dialog_on_load,
+			 collateralurl=config.get('collateral.link'),
+		   questionnaireurl=config.get("questionnaire.web"),
+			 productid=customer.productid,
+		   useemail=customer.useemail,
+		   usepartialmatch=self.usepartialmatch,
+		   searchappend=self.searchappend,
+		   emailreplyaddress=self.emailreplyaddress,
+		   test_extensions=self.test_extensions,
+		   stdview_sortorder=self.stdview_sortorder,
+		   base_plus=customer.base_plus,
+		   crm=customer.crm,
+		   advancefeatures=customer.isAdvanceActive(),
+		   updatum=monitoring,
+		   seo=customer.seo,
+		   isdemo=customer.isdemo,
+		   isadvancedemo=customer.isadvancedemo,
+		   ismonitoringdemo=customer.ismonitoringdemo,
+		   groups=groups,
+		   countries=countries,
+		   client_name=self.client_name,
+		   cid=customer.customerid,
+		   has_news_rooms=customer.has_news_rooms,
+		   has_journorequests=customer.has_journorequests,
+		   has_e_e_s=customer.has_extended_email_subject,
+		   is_r_adm=self._is_research_admin(),
+		   uid=self.user_id,
+		   crm_user_define_1=customer.crm_user_define_1,
+		   crm_user_define_2=customer.crm_user_define_2,
+		   crm_user_define_3=customer.crm_user_define_3,
+		   crm_user_define_4=customer.crm_user_define_4,
+		   issue_description=self.issue_description,
+		   clippings=customer.has_clippings,
+		   no_distribution=customer.no_distribution,
+		   no_export=customer.no_export,
+		   customertypeid=customer.customertypeid,
+		   distributionistemplated=customer.distributionistemplated,
+		   uctid=self.customertypeid,
+		   has_ct=customer.has_clickthrought,
+		   extended_security = customer.extended_security
+		  )
+
+		return data
+
 
 	def _is_research_admin(self):
 		"""determine is user is a research admin """
@@ -319,7 +392,10 @@ class User(BaseSql):
 			            email_address=kw['email'],
 			            display_name=kw['displayname'],
 			            password=kw['password'],
-			            customerid=kw.get("icustomerid", kw["customerid"]))
+			            customerid=kw.get("icustomerid", kw["customerid"]),
+			            force_change_pssw = True if kw['extended_security'] == 'true' else False,
+			            last_change_pssw = datetime.now() if kw['extended_security'] == 'true' else ''
+			            )
 
 			session.add(user)
 			session.flush()
@@ -396,6 +472,24 @@ class User(BaseSql):
 			raise
 
 	@classmethod
+	def UnlockUser(cls, userid):
+		""" update the user details
+		"""
+		transaction = cls.sa_get_active_transaction()
+		try:
+			user = User.query.get(userid)
+			user.invalid_login_tries = 0
+			transaction.commit()
+		except:
+			try:
+				transaction.rollback()
+			except:
+				pass
+			LOGGER.exception("UnlockUser")
+			raise
+
+
+	@classmethod
 	def update_password(cls, params):
 		""" update the user password
 		"""
@@ -404,6 +498,9 @@ class User(BaseSql):
 			user = User.query.get(params["iuserid"])
 
 			user.password = params['password']
+			user.last_change_pssw = datetime.today()
+			user.force_change_pssw = False
+			user.invalid_login_tries = 0
 			transaction.commit()
 		except:
 			LOGGER.exception("update_password")
@@ -597,6 +694,22 @@ class User(BaseSql):
 			u.last_logged_in = datetime.now()
 		except:
 			LOGGER.exception("setLoggedIn", extra=dict(userid=userid))
+		
+	@classmethod
+	def reset_invalid_login_tries(cls, userid):
+		transaction = cls.sa_get_active_transaction()
+		try:
+			user = User.query.get(userid)
+			user.invalid_login_tries = 0
+			transaction.commit()
+		except:
+			try:
+				transaction.rollback()
+			except:
+				pass
+			LOGGER.exception("reset_invalid_login_tries")
+			raise
+		
 
 	@classmethod
 	def setTriedToLogin(cls, sess):
@@ -682,7 +795,9 @@ class User(BaseSql):
 		  updatum_username=user.updatum_username,
 		  updatum_pwd_display=enc.decode(user.updatum_password),
 		  user_id=user.user_id,
-		  hasmonitoring=user.hasmonitoring)
+		  hasmonitoring=user.hasmonitoring,
+		  invalid_login_tries=user.invalid_login_tries
+		)
 
 
 	def force_logout(self):
@@ -1011,6 +1126,12 @@ class Customer(BaseSql):
 			customer.no_export = params["no_export"]
 			customer.has_clickthrought = params["has_clickthrought"]
 			customer.distributionistemplated = params["distributionistemplated"]
+			customer.extended_security = params["extended_security"]
+			
+			if params["extended_security"] == True:
+				users = session.query(User).filter(User.customerid == params['icustomerid']).all()
+				for user in users:
+					user.last_change_pssw = datetime.today()
 			customer.valid_ips = params["valid_ips"]
 
 			cmat = [row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).\

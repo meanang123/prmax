@@ -10,11 +10,14 @@
 # Copyright:   (c) 2008
 #-----------------------------------------------------------------------------
 import logging
-from turbogears import controllers, expose, config, identity, redirect, view, exception_handler, validate
+from turbogears import controllers, expose, config, identity, redirect, view, exception_handler, validate, visit
 from turbogears.database import session
 from cherrypy import request, response
+from datetime import datetime, timedelta
+
 from prmax.utilities.common import addConfigDetails
-from prmax.model import Customer, User
+from prmax.model import Customer, User, Preferences
+
 from prmax.sitecontrollers.layout import LayoutController
 from prmax.sitecontrollers.search import SearchController
 from prmax.sitecontrollers.general import GeneralController
@@ -108,6 +111,20 @@ class Root(controllers.RootController):
 
 		return GeneralController.WebSiteCommonFile(self, args, kw)
 
+
+	@expose(template="prmax.templates.locked")
+	def locked(self, *args, **kw):
+		
+		template = "prmax.templates.locked"
+		fields = addConfigDetails(
+		  dict(message='You have been locked. Please contact the system administrator',
+		       support_phone="01582 380 198",
+		       support_email="support@prmax.co.uk"
+		       )
+		)
+		return view.render(fields, template=template)
+	
+
 	@expose("")
 	def index(self, *args, **kw):
 		" root index page"
@@ -127,12 +144,28 @@ class Root(controllers.RootController):
 	def login(self, forward_url=None, previous_url=None, *args, **kw):
 		"std login method"
 
+		if identity.current.anonymous:
+			user = None
+			if "user_name" in request.body_params and "password" in request.body_params:
+				user = User.by_user_name(request.body_params['user_name'])
+			elif "prmax_user_name" in request.params and "prmax_password" in request.params:
+				user = User.by_user_name(request.params['prmax_user_name'])
+			if user:
+				user.invalid_login_tries += 1
+				if user.invalid_login_tries >= 10:
+					raise redirect("/locked")
+		
 		msg = None
 		if not identity.current.anonymous \
 			and identity.was_login_attempted() \
 			and not identity.get_identity_errors():
-			# check too see if a customer is a noninteractive on if so then LOGGER it out
+
+			user = User.by_user_name(request.body_params['user_name'])
 			customer = Customer.query.get(identity.current.user.customerid)
+			if user.invalid_login_tries >= 10:
+				raise redirect("/locked")			
+			User.reset_invalid_login_tries(user.user_id)
+			# check too see if a customer is a noninteractive on if so then LOGGER it out
 			if customer.isFinancialOnly():
 				identity.current.user.force_logout()
 				response.status = 403
@@ -238,17 +271,45 @@ class Root(controllers.RootController):
 	@expose("text/html")
 	@identity.require(identity.not_anonymous())
 	def start(self, *args, **kw):
-		"""This is the standard page for application start
+		"""This is the standard page for application starts
 		"""
+		
+		kw['message1'] = 'Please enter a new password'
+		kw['message2'] = ''
+		if 'pssw_name' in kw and 'pssw_conf' in kw:
+			if kw['pssw_name'] != kw['pssw_conf']:
+				kw['message1'] = 'Please re-type the password'
+				kw['message2'] = 'New password and Confirm do not match.'
+			else:
+				kw['user_id'] = identity.current.user.user_id
+				Preferences.update_password(kw)
+				if identity.current.user.force_change_pssw:
+					kw['message1'] = 'Please enter a valid password'
+					kw['message2'] = 'Minimum length of 8 characters, at least one character upper case, one character lower case and one digit.'
+
+
 		cust = Customer.query.get(identity.current.user.customerextid)
 		org_template = template = cust.get_start_point()
-		User.setLoggedIn(identity.current.user.user_id)
-		if identity.current.user.usertypeid != Constants.UserType_Support:
-			session.add(CustomerAccessLog(customerid=identity.current.user.customerid,
-			                              userid=identity.current.user.user_id,
-			                              levelid=CustomerAccessLog.LOGGEDIN,
-			                              username=identity.current.user.user_name))
+		if identity.current.user.force_change_pssw:
+			template = 'prmax.templates.eadmin/change_password'		
+		if cust.extended_security == True:
+			startdate = datetime.now() - timedelta(days = 60)
+			if startdate >= identity.current.user.last_change_pssw:
+				template = 'prmax.templates.eadmin/change_password'	
+		if identity.current.user.invalid_login_tries >= 10:
+			raise redirect('/login')
 
+		User.setLoggedIn(identity.current.user.user_id)
+		User.reset_invalid_login_tries(identity.current.user.user_id)
+		if identity.current.user.usertypeid != Constants.UserType_Support and identity.current.user.force_change_pssw == False:
+			session.add(CustomerAccessLog(customerid=identity.current.user.customerid,
+		                                  userid=identity.current.user.user_id,
+		                                  levelid=CustomerAccessLog.LOGGEDIN,
+		                                  username=identity.current.user.user_name))
+		
+			
+		
+		
 		# this is a financial only customer cannot be used for anything else
 		if cust.isFinancialOnly():
 			raise redirect("/login")
@@ -288,7 +349,7 @@ class Root(controllers.RootController):
 			template = 'prmax.templates.eadmin/monitoringconfirmation'
 		response.headers["P3P"] = Constants.Security_P3P
 
-		if template == org_template and identity.current.user.usertypeid != Constants.UserType_Support:
+		if template == org_template and identity.current.user.usertypeid != Constants.UserType_Support and identity.current.user.force_change_pssw == False:
 			session.add(CustomerAccessLog(customerid=identity.current.user.customerid,
 			                              userid=identity.current.user.user_id,
 					                          levelid=CustomerAccessLog.MAINSYSTEMACCESSED,

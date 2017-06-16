@@ -23,7 +23,8 @@ import shutil
 from prcommon.model import Countries, DataSourceTranslations
 from prcommon.model.datafeeds.xmlbase import XMLBaseImport, BaseContent
 from prcommon.model.outlet import Outlet, OutletInterests, OutletProfile, OutletLanguages
-from prcommon.model.employee import Employee, Contact, EmployeePrmaxRole
+from prcommon.model.employee import Employee, EmployeePrmaxRole
+from prcommon.model.contact import Contact
 from prcommon.model.communications import Communication, Address
 from prcommon.model.lookups import PRmaxOutletTypes
 from prcommon.model.research import DataSourceTranslations, FrequencyCodes
@@ -40,13 +41,15 @@ DEFAULTCOUNTRYID = 171
 CONTACTCOLUMN = 0
 OUTLETNAMECOLUMN = 1
 JOBTITLECOLUMN = 3
+KEYWORDSCOLUMN = 4
 PHONECOLUMN = 5
 MOBILECOLUMN = 6
 EMAILCOLUMN = 7
 TOWNCOLUMN = 9
 COUNTYCOLUMN = 10
 COUNTRYCOLUMN = 11
-MEDIACHANNELCOLUMN = 13
+MEDIACHANNELCOLUMN1 = 12
+MEDIACHANNELCOLUMN2 = 13
 TWITTERCOLUMN = 14
 
 class SADataImport(object):
@@ -86,7 +89,7 @@ class SADataImport(object):
 				if row.extended_translation:
 					extra = simplejson.loads(row.extended_translation)
 				if row.fieldname.strip() == "interests":
-					translation = simplejson.loads(row.translation)
+					translation = row.translation
 				self._translations[row.fieldname.strip()][row.sourcetext.lower().strip()] = (translation, extended_function, extra)	
 				
 
@@ -98,11 +101,11 @@ class SADataImport(object):
 			if os.path.isdir(os.path.join(self._sourcedir, filename)) == False:
 				print ('Processing file %s' %filename)
 #				if 'salvador' in filename.lower():
-				regionaltypeid = DEFAULTREGIONALDAILY
-				self.import_south_america(filename, regionaltypeid)
+#				regionaltypeid = DEFAULTREGIONALDAILY
+				self.import_south_america(filename)
 		
 
-	def import_south_america(self, filename, regionaltypeid):
+	def import_south_america(self, filename):
 		
 		if self._check:
 			return 
@@ -117,20 +120,22 @@ class SADataImport(object):
 		for rnum in xrange(1, xls_sheet.nrows):
 			session.begin()	
 
-			outletname=xls_sheet.cell_value(rnum, OUTLETNAMECOLUMN).strip()
-			phone=xls_sheet.cell_value(rnum, PHONECOLUMN).strip()
-			mobile=xls_sheet.cell_value(rnum, MOBILECOLUMN).strip()
-			email=xls_sheet.cell_value(rnum, EMAILCOLUMN).strip()
-			twitter = xls_sheet.cell_value(rnum,TWITTERCOLUMN).strip()
-			job_title = xls_sheet.cell_value(rnum,JOBTITLECOLUMN).strip()
-			city=xls_sheet.cell_value(rnum, TOWNCOLUMN).strip()
+			outletname=self._get_as_string(xls_sheet.cell_value(rnum, OUTLETNAMECOLUMN))
+			phone=self._get_as_string(xls_sheet.cell_value(rnum, PHONECOLUMN))
+			mobile=self._get_as_string(xls_sheet.cell_value(rnum, MOBILECOLUMN))
+			email=self._get_as_string(xls_sheet.cell_value(rnum, EMAILCOLUMN))
+			twitter = self._get_as_string(xls_sheet.cell_value(rnum,TWITTERCOLUMN))
+			job_title = self._get_as_string(xls_sheet.cell_value(rnum,JOBTITLECOLUMN))
+			city=self._get_as_string(xls_sheet.cell_value(rnum, TOWNCOLUMN))
 			county=self._get_as_string(xls_sheet.cell_value(rnum, COUNTYCOLUMN))
-			countryname=xls_sheet.cell_value(rnum, COUNTRYCOLUMN).strip()
+			countryname=self._get_as_string(xls_sheet.cell_value(rnum, COUNTRYCOLUMN))
 			countryid = session.query(Countries.countryid).filter(Countries.countryname.ilike(countryname)).scalar()
 			contact_fullname = xls_sheet.cell_value(rnum, CONTACTCOLUMN).strip()
+			mediatype=self._get_as_string(xls_sheet.cell_value(rnum, MEDIACHANNELCOLUMN1)) 
+			if self._get_as_string(xls_sheet.cell_value(rnum, MEDIACHANNELCOLUMN1)).lower() !=  self._get_as_string(xls_sheet.cell_value(rnum, MEDIACHANNELCOLUMN2)).lower():
+				mediatype= '%s %s' %(self._get_as_string(xls_sheet.cell_value(rnum, MEDIACHANNELCOLUMN1)), self._get_as_string(xls_sheet.cell_value(rnum, MEDIACHANNELCOLUMN2)))
 
 			publication = self._find_outlet(outletname, phone, email, city, countryid)
-		
 			if publication: #check if is a new employee to existing outlet
 				contactsource = {}
 				if contact_fullname:
@@ -160,7 +165,10 @@ class SADataImport(object):
 				      twitter=twitter)
 				session.add(outlet_com)
 				session.flush()
-											
+						
+				if mediatype.lower().strip() in self._translations['mediatype']:
+					prmax_outlettypeid = self._translations['mediatype'][mediatype.lower()][0]
+									
 				outlet = Outlet(
 					  outletname=outletname,
 					  sortname=outletname.lower()[:119],
@@ -168,7 +176,7 @@ class SADataImport(object):
 					  communicationid=outlet_com.communicationid,
 					  customerid=-1,
 					  outlettypeid=Constants.Outlet_Type_Standard,
-					  prmax_outlettypeid=regionaltypeid,
+					  prmax_outlettypeid=prmax_outlettypeid,
 					  www='',
 					  statusid=Outlet.Live,
 					  outletsearchtypeid=Constants.Source_Type_SouthAmerica,
@@ -178,6 +186,28 @@ class SADataImport(object):
 					)
 				session.add(outlet)
 				session.flush()		
+
+				interests_done = {}
+				keywords =  xls_sheet.cell_value(rnum, KEYWORDSCOLUMN).strip().split(',')
+				for keyword in keywords:
+					if keyword.lower().strip() in self._translations['interests']:
+						prmax_keywords = self._translations['interests'][keyword.lower().strip()][2]
+						for interestid in prmax_keywords:
+							if interestid and interestid not in interests_done:
+								interests_done[interestid] = True
+								session.add(OutletInterests(
+									outletid=outlet.outletid,
+									interestid=interestid))
+					else:
+						interestid = session.query(Interests.interestid).\
+							filter(Interests.interestname.ilike(keyword.strip())).\
+							filter(Interests.customerid == -1).scalar()
+						if interestid and interestid not in interests_done:
+							interests_done[interestid] = True
+							session.add(OutletInterests(
+						        outletid=outlet.outletid,
+						        interestid=interestid))
+
 	
 				#get contact details, search if exists and if doesnt insert new dummy employee
 				contactsource = {}
@@ -249,11 +279,8 @@ class SADataImport(object):
 				contactsource["suffix"] = contact[len(contact)-1]
 				tmpname = ' '.join(contact[0:len(contact)-1])
 				contact = tmpname.split()
-		if len(contact) <= 2:
-			contactsource["first-name"] = contact[0]
-			contactsource["surname"] = contact[1]
-		else:
-			pass
+		contactsource["surname"] = contact[len(contact)-1]
+		contactsource["first-name"] = ' '.join(contact[0:len(contact)-1])
 					
 		return contactsource
 
@@ -265,8 +292,8 @@ class SADataImport(object):
 			return None
 
 		contact_record = session.query(Contact).\
-			filter(Contact.familyname == contact["surname"]).\
-			filter(Contact.firstname == contact["first-name"]).\
+		    filter(Contact.firstname == contact["first-name"]).\
+		    filter(Contact.familyname == contact["surname"]).\
 			filter(Contact.sourcetypeid == Constants.Source_Type_SouthAmerica).scalar()
 		
 		if contact_record:
@@ -274,9 +301,10 @@ class SADataImport(object):
 
 		if contact["surname"]:
 			contact_record = Contact(
-				familyname=contact["surname"],
-				firstname=contact["first-name"],
-				prefix=contact.get("title", ""),
+				familyname=unicode(contact["surname"]),
+				firstname=unicode(contact["first-name"]),
+			    prefix=contact.get("title", ""),
+			    suffix=contact.get("suffix", ""),
 			        sourcetypeid=Constants.Source_Type_SouthAmerica
 			)
 			session.add(contact_record)
@@ -317,3 +345,17 @@ class SADataImport(object):
 		else:
 			value = value.strip()    
 		return value
+	
+	
+	def _get_interest_outlet(self, outletname, prmax_keyword):
+		"GEt interests"
+		interests = []
+		interestnames = prmax_keyword.strip().split(':')
+		for interestname in interestnames:
+			interestname = interestname.strip()
+			interestid = session.query(Interests.interestid).\
+		        filter(Interests.interestname.ilike(interestname)).\
+		        filter(Interests.customerid == -1).scalar()
+			interests.append(interestid)
+
+		return [int(interestid) for interestid in interests]	
