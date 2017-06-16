@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿ALTER TABLE userdata.clippings DROP CONSTRAINT clippings_outletid_fkey;
 ALTER TABLE userdata.clippings ADD CONSTRAINT clippings_outletid_fkey1 FOREIGN KEY (outletid) REFERENCES outlets (outletid) ON UPDATE NO ACTION ON DELETE SET NULL;
 
@@ -66,5 +67,4 @@ UPDATE tg_user SET force_change_pssw = false;
 
 ALTER TABLE tg_user ADD COLUMN last_change_pssw timestamp without time zone;
 
-
-
+ALTER TABLE internal.customers ADD COLUMN valid_ips character varying;

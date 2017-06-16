@@ -29,6 +29,7 @@ dojo.declare("prmax.customer.clients.add",
 		this._Save_Call_Back = dojo.hitch(this, this._Save_Call);
 		this._Load_Call_Back = dojo.hitch(this, this._Load_Call);
 		this._Delete_Call_Back = dojo.hitch(this, this._Delete_Call);
+		this._icustomerid = null;
 	},
 	postCreate:function()
 	{
@@ -90,6 +91,9 @@ dojo.declare("prmax.customer.clients.add",
 		}
 
 		var content = dojo.mixin(this.form.get("value"),this.form2.get("value"));
+
+		if (this._icustomerid != null)
+			content["icustomerid"] = this._icustomerid;
 
 		dojo.xhrPost(
 		ttl.utilities.makeParams({
@@ -272,12 +276,15 @@ dojo.declare("prmax.customer.clients.add",
 	{
 		if (this.default_header_colour.checked)
 		{
-			this.header_colour.set("value", "#2e74b5")	
-		} 
+			this.header_colour.set("value", "#2e74b5")
+		}
 	},
 	_ColourUpdate:function()
 	{
 		this.default_header_colour.set("checked", false);
 	},
-	
+	_setIcustomeridAttr:function(value)
+	{
+		this._icustomerid = value;
+	}
 });

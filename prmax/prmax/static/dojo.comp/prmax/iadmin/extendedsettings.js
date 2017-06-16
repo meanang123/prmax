@@ -33,6 +33,7 @@ dojo.declare("prmax.iadmin.extendedsettings",
 		this.cla.set("checked", false);
 		this.nla.set("checked", false);
 		this.extended_security.set("checked", customer.extended_security);
+		this.valid_ips.set("value", customer.valid_ips);
 		if (customermediaaccesstypes != null && customermediaaccesstypes.length > 0)
 		{
 			for (var i = 0; i < customermediaaccesstypes.length; i++) {

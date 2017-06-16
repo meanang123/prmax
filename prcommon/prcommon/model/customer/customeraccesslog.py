@@ -18,6 +18,7 @@ class CustomerAccessLog(BaseSql):
 	LOGGEDIN = 1
 	MAINSYSTEMACCESSED = 2
 	DOSEARCH = 3
+	IPFAILED = 4
 
 
 CustomerAccessLog.mapping = Table('customeraccesslog', metadata, autoload=True)

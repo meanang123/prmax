@@ -127,6 +127,10 @@ catch ( e ) {}
         <h1>Professional</h1>
         <form action="${previous_url}" method="POST">
             <table cellspacing="0" cellpadding="1" border="0">
+%if message:
+				<tr>
+					<td class="label">${message|h}</td></tr>
+ %endif
                 <tr>
                     <td class="label">
                         <label for="user_name">User Name</label>
@@ -148,10 +152,10 @@ catch ( e ) {}
                 </tr>
             </table>
 %if forward_url:
-	        <input type="hidden" name="forward_url" value="${forward_url}"/>
+	        <input type="hidden" name="forward_url" value="${forward_url|h}"/>
 %endif
 %for name,values in original_parameters.items():
-						<input type="hidden" name="${name}" value="${values}"/>
+						<input type="hidden" name="${name|h}" value="${values|h}"/>
 %endfor
 				<br/><br/>
 				<div><label>Support Email</label>&nbsp;<a style="link:red;visited:red;active:red;hover:red" href="mailto:">Email Address</a></div>
