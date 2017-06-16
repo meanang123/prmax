@@ -50,7 +50,7 @@ dojo.declare("prcommon.crm.viewer",
 	},
 	view:{
 		cells: [[
-			{name: 'Date',width: "80px",field:'taken_display'},
+			{name: 'Date',width: "60px",field:'taken_display'},
 			{name: 'Subject',width: "auto",field:'subject'},
 			{name: 'Outlet',width: "auto",field:'outletname'},
 			{name: 'Contact',width: "auto",field:'contactname'},
