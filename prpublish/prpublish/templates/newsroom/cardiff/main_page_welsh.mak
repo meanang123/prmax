@@ -57,5 +57,6 @@ fjs.parentNode.insertBefore(js, fjs);
 			</div>
 		</div>
 	</div>
+	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>	
 </div>
 </body></html>
