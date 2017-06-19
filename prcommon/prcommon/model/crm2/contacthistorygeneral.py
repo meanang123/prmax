@@ -45,7 +45,8 @@ class ContactHistoryGeneral():
 	mod.user_name AS modifiedbyname,
 	chstatus.contacthistorystatusdescription,
 	ch.outletid,
-	ch.employeeid
+	ch.employeeid,
+	taken.display_name
 	FROM userdata.contacthistory AS ch
 	LEFT OUTER JOIN internal.contacthistorysources as chs ON chs.contacthistorysourceid = ch.contacthistorysourceid
 	LEFT OUTER JOIN internal.contacthistorystatus as chstatus ON chstatus.contacthistorystatusid = ch.contacthistorystatusid
@@ -54,7 +55,7 @@ class ContactHistoryGeneral():
 	LEFT OUTER JOIN contacts AS c ON c.contactid = COALESCE(ch.contactid,e.contactid)
 	LEFT OUTER JOIN internal.customers AS cust ON cust.customerid = ch.ref_customerid
 	LEFT OUTER JOIN tg_user AS taken ON taken.user_id = ch.taken_by
-	LEFT OUTER JOIN tg_user AS mod ON mod.user_id = ch.modified
+	LEFT OUTER JOIN tg_user AS mod ON mod.user_id = ch.modifiedby
 	WHERE ch.contacthistoryid = :contacthistoryid"""
 
 	@staticmethod
