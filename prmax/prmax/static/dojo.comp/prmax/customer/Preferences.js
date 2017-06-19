@@ -34,7 +34,7 @@ dojo.declare("prmax.customer.Preferences",
 			c = str.charAt(i);
 			if (c == c.toLowerCase())
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -48,7 +48,7 @@ dojo.declare("prmax.customer.Preferences",
 			c = str.charAt(i);
 			if (c == c.toUpperCase())
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -62,7 +62,7 @@ dojo.declare("prmax.customer.Preferences",
 			c = str.charAt(i);
 			if (parseInt(c))
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -75,13 +75,13 @@ dojo.declare("prmax.customer.Preferences",
 			alert("Invalid Password");
 			this.pssw_update.cancel();
 			return false;
-		}	
+		}
 		var password = this.pssw.value;
 		if (this._extended_security == true)
 		{
 			if (password.length < 8 || this._has_lower_case(password) == false || this._has_upper_case(password) == false || this._has_number(password) == false)
 			{
-				alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");	
+				alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");
 				this.pssw_update.cancel();
 				return;
 			}
@@ -121,10 +121,9 @@ dojo.declare("prmax.customer.Preferences",
 	_Load:function(response)
 	{
 //		console.log(response);
-		
-		this._extended_security = response.data.control.extended_security;
 
-		this.username.set("value",response.data.user.user_name);
+		//this._extended_security = response.data.control.extended_security;
+
 		this.displayname.set("value",response.data.user.display_name);
 		this.email.set("value",response.data.user.email_address);
 		this.autoselectfirstrecord.set("value",response.data.user.autoselectfirstrecord);
@@ -140,7 +139,7 @@ dojo.declare("prmax.customer.Preferences",
 		this.general_update.set("disabled",false);
 		this.pssw_update.set("disabled",false);
 		this.interface_upd.set("disabled",false);
-		
+
 		this.preferences_view.selectChild(this.general);
 	},
 	Clear:function()
@@ -217,5 +216,9 @@ dojo.declare("prmax.customer.Preferences",
 	_Close:function()
 	{
 		dojo.publish(PRCOMMON.Events.Dialog_Close, ["preferences"]);
+	},
+	resize:function()
+	{
+		this.frame.resize(arguments[0]);
 	}
 });

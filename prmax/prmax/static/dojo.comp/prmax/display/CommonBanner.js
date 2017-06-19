@@ -30,7 +30,7 @@ dojo.declare("prmax.display.CommonBanner",
 	constructor: function() {
 		this.search = new prmax.search.SearchCtrl();
 		this.stdDialog = new prmax.DlgCtrl2("width:30em;height:35em");
-		this.largeDialog = new prmax.DlgCtrl2("width:40em;height:50em");
+		this.largeDialog = new prmax.DlgCtrl2("wwidth:710px;height:565px;");
 		dojo.subscribe(PRCOMMON.Events.Dialog_Close, dojo.hitch(this,this._DialogCloseEvent));
 		dojo.subscribe(PRCOMMON.Events.PressReleaseStart, dojo.hitch(this,this._StartPressEvent));
 	},
@@ -342,7 +342,7 @@ dojo.declare("prmax.display.CommonBanner",
 	},
    _Preferences:function()
 	{
-		this.largeDialog.set("content",'<div dojoType="prmax.customer.Preferences"></div>');
+		this.largeDialog.set("content",'<div dojoType="prmax.customer.Preferences" style="width:710px;height:565px" class="scrollpanel"></div>');
 		this.largeDialog.show("User Preferences");
 	},
   _Customers:function()

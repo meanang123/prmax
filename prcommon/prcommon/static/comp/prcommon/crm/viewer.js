@@ -37,6 +37,8 @@ dojo.declare("prcommon.crm.viewer",
 
 		dojo.subscribe("/crm/newnote", dojo.hitch(this, this._new_crm_event));
 		dojo.subscribe("/crm/update_note", dojo.hitch(this, this._update_crm_event));
+		dojo.subscribe("/crm/update_note_close", dojo.hitch(this, this._close_update_crm_event));
+
 
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._contacthistorystatus = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=contacthistorystatus&nofilter=1'});
@@ -48,10 +50,11 @@ dojo.declare("prcommon.crm.viewer",
 	},
 	view:{
 		cells: [[
-			{name: 'Date',width: "80px",field:'taken_display'},
+			{name: 'Date',width: "60px",field:'taken_display'},
 			{name: 'Subject',width: "auto",field:'subject'},
 			{name: 'Outlet',width: "auto",field:'outletname'},
 			{name: 'Contact',width: "auto",field:'contactname'},
+			{name: 'User',width: "120px",field:'display_name'},
 			{name: 'Status',width: "120px",field:'contacthistorystatusdescription'}
 			]]
 	},
@@ -173,6 +176,10 @@ dojo.declare("prcommon.crm.viewer",
 	{
 			this.settings_ctrl.set("dialog",this.settings_dlg);
 			this.settings_ctrl.load();
+	},
+	_close_update_crm_event:function()
+	{
+		this.update_crm_ctrl.clear();
 	}
 });
 

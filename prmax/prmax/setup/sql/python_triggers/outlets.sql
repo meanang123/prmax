@@ -22,9 +22,15 @@ CREATE OR REPLACE FUNCTION prmax_outlet_index ()
 
   if SD.has_key("prmax_outlet_index"):
     prmax_outlet_index = SD["prmax_outlet_index"]
+	prmax_outlet_employee_del_index = SD["prmax_outlet_employee_del_index"]
+	prmax_outlet_employee_del_index = SD['prmax_outlet_employee_add_index']
   else:
     prmax_outlet_index = plpy.prepare("INSERT INTO queues.indexerqueue( objecttype, objectid, data, action, customerid ) SELECT 119,$1,prmaxroleid::text::bytea,2,$2 FROM internal.prmaxroles where visible = true ;", [ "int","int"])
     SD["prmax_outlet_index"] = prmax_outlet_index
+	prmax_outlet_employee_del_index = plpy.prepare("INSERT INTO queues.indexerqueue( objecttype, objectid, data, action, customerid ) SELECT $1,employeeid,$2::text::bytea,2,$3 FROM employees WHERE outletid = $4", [ "int","int","int","int","int"])
+	SD["prmax_outlet_employee_del_index"] = prmax_outlet_employee_del_index
+	prmax_outlet_employee_add_index = plpy.prepare("INSERT INTO queues.indexerqueue( objecttype, objectid, data, action, customerid ) SELECT $1,employeeid,$2::text::bytea,1,$3 FROM employees WHERE outletid = $4", [ "int","int","int","int","int"])
+	SD["prmax_outlet_employee_add_index"] = prmax_outlet_employee_add_index
 
 
   if (TD['old'] and TD['old']['outlettypeid'] == Constants.Outlet_Type_Freelance) or   (TD['new'] and TD['new']['outlettypeid'] == Constants.Outlet_Type_Freelance):
@@ -64,6 +70,15 @@ CREATE OR REPLACE FUNCTION prmax_outlet_index ()
     )
     # clear out job roles index
     plpy.execute(prmax_outlet_index,[TD['old']['outletid'],TD['old']['customerid']])
+
+  # need to cascade the country and outlettype chnages to the employee indexs
+  if TD['event'] == 'UPDATE' AND TD['new'] AND TD['new']['countryid'] != TD['old']['countryid']:
+    plpy.execute(prmax_outlet_employee_del_index,[Constants.employee_outletid_countryid, TD['old']['countryid'], TD['old']['customerid'],TD['old']['outletid']])
+	plpy.execute(prmax_outlet_employee_add_index,[Constants.employee_outletid_countryid, TD['new']['countryid'], TD['new']['customerid'],TD['new']['outletid']])
+
+  if TD['event'] == 'UPDATE' AND TD['new'] AND TD['new']['prmax_outlettypeid'] != TD['old']['prmax_outlettypeid']:
+	plpy.execute(prmax_outlet_employee_del_index,[Constants.employee_prmaxoutlettypeid, TD['old']['prmax_outlettypeid'], TD['old']['customerid'],TD['old']['outletid']])
+	plpy.execute(prmax_outlet_employee_add_index,[Constants.employee_prmaxoutlettypeid, TD['new']['prmax_outlettypeid'], TD['new']['customerid'],TD['new']['outletid']])
 
   controlSettings.doDebug(index_Fields)
 
