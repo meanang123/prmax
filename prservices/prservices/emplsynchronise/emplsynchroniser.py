@@ -13,7 +13,7 @@
 
 import logging
 import os
-LOGGER = logging.getLogger("prcommon.model")
+from turbogears import database
 from ttl.tg.config import read_config
 
 # initiale interface to tg to get at data model
@@ -22,6 +22,9 @@ read_config(os.getcwd(), None, None)
 database.bind_meta_data()
 
 from prcommon.model.outlets.emplsynchronisation import EmployeeSynchronise
+
+LOGGER = logging.getLogger("prcommon.model")
+
 
 def _run():
 	""" run the application """
