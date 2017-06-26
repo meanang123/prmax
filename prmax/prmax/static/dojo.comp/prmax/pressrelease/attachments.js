@@ -188,9 +188,9 @@ dojo.declare("prmax.pressrelease.attachments",
 			}
 		}
 		console.log ( amount_allocated ) ;
-		if (amount_allocated> 5000000)
+		if (amount_allocated> 3000000)
 		{
-			alert("Attachments limited to less than 5MB");
+			alert("Attachments limited to less than 3MB");
 			return false;
 		}
 		else
