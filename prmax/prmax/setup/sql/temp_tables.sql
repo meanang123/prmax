@@ -67,3 +67,8 @@ UPDATE tg_user SET force_change_pssw = false;
 ALTER TABLE tg_user ADD COLUMN last_change_pssw timestamp without time zone;
 
 ALTER TABLE internal.customers ADD COLUMN valid_ips character varying;
+
+
+ALTER TABLE seoreleases.seorelease ALTER twitter TYPE character varying;
+ALTER TABLE seoreleases.seorelease ALTER facebook TYPE character varying;
+
