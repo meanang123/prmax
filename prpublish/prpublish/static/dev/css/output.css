@@ -232,7 +232,20 @@ select {
     background-repeat: no-repeat;
     cursor: pointer;
     height: 140px;}
-
+  .main-header-cardiff .second-top-bar-newsroom-cardiff-contacts {
+    background-image: url(/static/images/cardifflogo_contacts.png);
+    background-color:#AE1A2A;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 140px;}
+  .main-header-cardiff .second-top-bar-newsroom-welsh-contacts {
+    background-image: url(/static/images/welshlogo_contacts.png);
+    background-color:#AE1A2A;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 140px;}
 .main-header {
   background-color: #e8e8e8;
   z-index: 5000;
@@ -457,6 +470,50 @@ select {
       font-size: 12px;
       color: #2e74b5;
       line-height: 25px; }
+
+.contacts-content {
+  background-color: white;
+  width: 990px;
+  height: 580px;
+  padding: 0px 50px 0px 50px;
+  position: relative;
+  margin-top: 10px;}
+  .contacts-content .contact{
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    color: black;
+    padding-top:30px;
+    line-height: 22px;
+    float:left;
+    width:50%;}
+  .contacts-content .contact .name{
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;
+    font-weight: bold;}
+  .contacts-content .contact .jobtitle{
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;}
+  .contacts-content .contact .email{
+    color: blue;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;}
+  .contacts-content .contact .email .title{
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;
+    font-weight: bold;}
+  .contacts-content .contact .tel{
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;}
+  .contacts-content .contact .tel .title{
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;
+    font-weight: bold;}
+      
 .single-news-content {
   background-color: white;
   width: 990px;
@@ -473,41 +530,6 @@ select {
     font-family: "Lato", sans-serif;
     font-size: 14px;
     line-height: 19px; }
-  .single-news-content .single-news-text .contacts{
-    font-family: "Lato", sans-serif;
-    font-size: 14px;
-    color: black;
-    padding-top:30px;
-    line-height: 25px; 
-    }
-
-  .single-news-content .single-news-text .contacts .name{
-    color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 18px;
-    font-weight: bold;}
-  .single-news-content .single-news-text .contacts .jobtitle{
-    color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 18px;}
-  .single-news-content .single-news-text .contacts .email{
-    color: blue;
-    font-family: "Lato", sans-serif;
-    font-size: 18px;}
-  .single-news-content .single-news-text .contacts .email .title{
-    color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 18px;
-    font-weight: bold;}
-  .single-news-content .single-news-text .contacts .tel{
-    color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 18px;}
-  .single-news-content .single-news-text .contacts .tel .title{
-    color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 18px;
-    font-weight: bold;}
     .single-news-content .single-news-text .news-title {
       font-family: "Raleway", sans-serif;
       font-size: 24px;
