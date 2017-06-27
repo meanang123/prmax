@@ -20,7 +20,7 @@ fjs.parentNode.insertBefore(js, fjs);
 <%include file="default_header_cardiff.mak"/>
 <div class="content-width">
 	<div class="single-news-content">
-		<div class="title">Press Contacts</div>
+		<div class="title">Contacts</div>
 		<div class="single-news-text">
 			<div class="contacts">
 				<div class="name">Tim Gordon</div>
