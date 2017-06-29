@@ -224,7 +224,7 @@ class OrderConfirmationPDF(object):
 
 		self.append(FrameBreak())
 		self.append(Paragraph("Any queries, please email accounts@prmax.co.uk or call accounts on 01582 380194", DETAILS_CENTER))
-		self.append(Paragraph("Accounts, PRmax Ltd, Suite F, Diss Business Park, Hopper Way, Diss, IP22 4GT" ,DETAILS_CENTER))
+		self.append(Paragraph("Accounts, PRmax Ltd, 222 Chertsey Lane, Staines, TW18 3NF" ,DETAILS_CENTER))
 
 
 	def append(self, object) :

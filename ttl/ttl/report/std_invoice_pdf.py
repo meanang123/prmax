@@ -327,7 +327,7 @@ class InvoicePDF(object):
 			self._bank_details()
 		self.append(FrameBreak())
 		self.append(Paragraph("Any queries, please email accounts@prmax.co.uk or call accounts on 01582 380194" ,DETAILS_CENTER))
-		self.append(Paragraph("Address : PRmax Ltd, Suite F, Diss Business Park, Hopper Way, Diss, IP22 4GT" ,DETAILS_CENTER))
+		self.append(Paragraph("Address : PRmax Ltd, 222 Chertsey Lane, Staines, TW18 3NF" ,DETAILS_CENTER))
 
 		if "seolines" in self.page_header:
 			self._do_seo_lines()

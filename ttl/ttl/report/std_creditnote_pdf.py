@@ -229,7 +229,7 @@ class CreditNotePdf(object):
 		self.append(Paragraph(self._vatline ,DETAILS_LEFT))
 		self.append(FrameBreak())
 		self.append(Paragraph("Any queries, please email accounts@prmax.co.uk or call accounts on 01582 380194" ,DETAILS_CENTER))
-		self.append(Paragraph("Address : PRmax Ltd, Suite F, Diss Business Park, Hopper Way, Diss, IP22 4GT" ,DETAILS_CENTER))
+		self.append(Paragraph("Address : PRmax Ltd, 222 Chertsey Lane, Staines, TW18 3NF" ,DETAILS_CENTER))
 
 	def append(self, object) :
 		"""Appends an object to our platypus "story" (using ReportLab's terminology)."""
