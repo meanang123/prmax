@@ -1,4 +1,4 @@
-﻿ALTER TABLE userdata.clippings DROP CONSTRAINT clippings_outletid_fkey;
+ALTER TABLE userdata.clippings DROP CONSTRAINT clippings_outletid_fkey;
 ALTER TABLE userdata.clippings ADD CONSTRAINT clippings_outletid_fkey1 FOREIGN KEY (outletid) REFERENCES outlets (outletid) ON UPDATE NO ACTION ON DELETE SET NULL;
 
 update outlets set prmax_outlettypeid = 13 WHERE prmax_outlettypeid = 68;
@@ -72,3 +72,9 @@ ALTER TABLE internal.customers ADD COLUMN valid_ips character varying;
 ALTER TABLE seoreleases.seorelease ALTER twitter TYPE character varying;
 ALTER TABLE seoreleases.seorelease ALTER facebook TYPE character varying;
 
+
+ALTER TABLE internal.customers ADD COLUMN required_client boolean NOT NULL DEFAULT false;
+UPDATE internal.customers SET required_client = false;
+
+ALTER TABLE internal.hostspf ADD COLUMN privatekey character varying;
+ALTER TABLE internal.hostspf ADD COLUMN selector character varying;

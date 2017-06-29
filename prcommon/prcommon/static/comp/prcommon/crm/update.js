@@ -22,6 +22,7 @@ dojo.declare("prcommon.crm.update",
 	history_view:"/crm/history_view?contacthistoryhistoryid=${contacthistoryhistoryid}",
 	constructor: function()
 	{
+	
 
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._contacthistorystatus = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=contacthistorystatus'});
@@ -29,6 +30,7 @@ dojo.declare("prcommon.crm.update",
 		this._load_call_back = dojo.hitch(this, this._load_call);
 		this._save_call_back = dojo.hitch(this, this._save_call);
 		this._error_call_back = dojo.hitch(this, this._error_call);
+		this._client_add_call_back = dojo.hitch(this, this._client_add_call);
 		this._tmp_size = null;
 
 		this._issues = new dojox.data.QueryReadStore (
@@ -76,6 +78,16 @@ dojo.declare("prcommon.crm.update",
 		this.contacthistorytypeid.store = this._contacthistorytypes;
 		this.issueid.store = this._issues;
 		this.clientid.set("store", this._clients);
+		if (PRMAX.utils.settings.required_client)
+		{
+			dojo.addClass(this.clientid,"prmaxrequired");
+			this.clientid.set("query",{required_client:true})
+		}
+		else
+		{
+			dojo.removeClass(this.clientid,"prmaxrequired");
+			this.clientid.set("value",  "-1");
+		}		
 		this.documentid.set("store", this._documents);
 
 		this.history_grid.set("structure", this.view);
@@ -293,7 +305,17 @@ dojo.declare("prcommon.crm.update",
 	{
 		dojo.publish("/crm/update_note_close");
 
-	}
+	},
+	_new_client:function()
+	{
+		this.client_add_ctrl.Load(-1, this._client_add_call_back);
+		this.client_add_dialog.show();
+	},
+	_client_add_call:function(action, data )
+	{
+		this.clientid.set("value", data.clientid );
+		this.client_add_dialog.hide();
+	}	
 });
 
 

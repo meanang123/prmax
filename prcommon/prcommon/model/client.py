@@ -327,8 +327,8 @@ class Client(BaseSql):
 		else:
 			items = []
 
-		if not params.get("id", None) or \
-		   params.get("id", "") in("-1", -1):
+		if (not params.get("id", None) or params.get("id", "") in("-1", -1)) and \
+		   "required_client" not in params:
 			items.insert(0, dict(id=-1, clientname="No Selection"))
 
 		return dict(

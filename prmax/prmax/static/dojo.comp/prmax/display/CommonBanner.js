@@ -30,7 +30,7 @@ dojo.declare("prmax.display.CommonBanner",
 	constructor: function() {
 		this.search = new prmax.search.SearchCtrl();
 		this.stdDialog = new prmax.DlgCtrl2("width:30em;height:35em");
-		this.largeDialog = new prmax.DlgCtrl2("wwidth:710px;height:565px;");
+		this.largeDialog = new prmax.DlgCtrl2("width:710px;height:565px;");
 		dojo.subscribe(PRCOMMON.Events.Dialog_Close, dojo.hitch(this,this._DialogCloseEvent));
 		dojo.subscribe(PRCOMMON.Events.PressReleaseStart, dojo.hitch(this,this._StartPressEvent));
 	},

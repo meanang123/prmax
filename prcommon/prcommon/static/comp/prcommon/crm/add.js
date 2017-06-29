@@ -24,7 +24,6 @@ dojo.declare("prcommon.crm.add",
 	templatePath: dojo.moduleUrl( "prcommon.crm","templates/add.html"),
 	constructor: function()
 	{
-
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._contacthistorystatus = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=contacthistorystatus'});
 		this._contacthistorytypes = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=prmaxcontacthistorytypes'});
@@ -32,6 +31,7 @@ dojo.declare("prcommon.crm.add",
 		this._on_select_contact_call_back = dojo.hitch(this,this._on_select_contact);
 		this._save_call_back = dojo.hitch(this, this._save_call);
 		this._issue_brief_call_back = dojo.hitch(this, this._issue_brief_call);
+		this._client_add_call_back = dojo.hitch(this, this._client_add_call);
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 		this._documents = new dojox.data.JsonRestStore( {target:"/crm/documents/rest_combo", idAttribute:"id"});
 
@@ -80,6 +80,17 @@ dojo.declare("prcommon.crm.add",
 		}
 
 		this.clientid.set("store", this._clients);
+		if (PRMAX.utils.settings.required_client)
+		{
+			dojo.addClass(this.clientid,"prmaxrequired");
+			this.clientid.set("query",{required_client:true})
+			this.clientid.set("store", this._clients);
+		}
+		else
+		{
+			dojo.removeClass(this.clientid,"prmaxrequired");
+			this.clientid.set("value",  "-1");
+		}
 		this.documentid.set("store", this._documents);
 
 		this._clear();
@@ -107,7 +118,6 @@ dojo.declare("prcommon.crm.add",
 		this.details.set("value","");
 		this.outcome.set("value","");
 		this.follow_up_view_check.set("checked",false);
-		this.clientid.set("value",  "-1");
 		this.documentid.set("value",  "-1");
 	},
 	_clear_contact:function()
@@ -272,5 +282,15 @@ dojo.declare("prcommon.crm.add",
 		{
 			this.details.set("value", response.data.briefingnotes);
 		}
+	},
+	_new_client:function()
+	{
+		this.client_add_ctrl.Load(-1, this._client_add_call_back);
+		this.client_add_dialog.show();
+	},
+	_client_add_call:function(action, data )
+	{
+		this.clientid.set("value", data.clientid );
+		this.client_add_dialog.hide();
 	}
 });

@@ -86,14 +86,6 @@ dojo.declare("prmax.customer.Preferences",
 				return;
 			}
 		}
-//		var pssw_cnfrm = this.pssw_cnfrm.get("value");
-//
-//		if (pssw_name.length==0 || ( pssw_cnfrm!=pssw_name))
-//		{
-//			alert("Password doesn't match");
-//			this.pssw_update.cancel();
-//			return;
-//		}
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
 				load: this._SavePasswordSaveCall,

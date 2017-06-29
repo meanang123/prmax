@@ -380,6 +380,7 @@ class ExtendedSettingsSchema(PrFormSchema):
 	distributionistemplated = BooleanValidator()
 	has_clickthrought = BooleanValidator()
 	extended_security = BooleanValidator()
+	required_client = BooleanValidator()
 
 class IUserSchema(PrFormSchema):
 	"schema"

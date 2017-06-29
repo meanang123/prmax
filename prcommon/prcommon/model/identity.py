@@ -256,7 +256,8 @@ class User(BaseSql):
 		   distributionistemplated=customer.distributionistemplated,
 		   uctid=self.customertypeid,
 		   has_ct=customer.has_clickthrought,
-		   extended_security = customer.extended_security
+		   extended_security = customer.extended_security,
+		   required_client = customer.required_client
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
@@ -327,7 +328,8 @@ class User(BaseSql):
 		   distributionistemplated=customer.distributionistemplated,
 		   uctid=self.customertypeid,
 		   has_ct=customer.has_clickthrought,
-		   extended_security = customer.extended_security
+		   extended_security = customer.extended_security,
+		   required_client = customer.required_client
 		  )
 
 		return data
@@ -1127,6 +1129,7 @@ class Customer(BaseSql):
 			customer.has_clickthrought = params["has_clickthrought"]
 			customer.distributionistemplated = params["distributionistemplated"]
 			customer.extended_security = params["extended_security"]
+			customer.required_client = params["required_client"]
 			
 			if params["extended_security"] == True:
 				users = session.query(User).filter(User.customerid == params['icustomerid']).all()
