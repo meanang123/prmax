@@ -23,6 +23,7 @@ from os.path import exists, join, split
 import getopt
 import turbogears
 import dkim
+import gs.dmarc
 import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
 from ttl.ttlemail import EmailMessage, SendSupportEmailMessage
@@ -157,6 +158,8 @@ _sql_get_clickthrought = """SELECT url,linkname FROM userdata.emailtemplateslink
 
 _sql_get_domains = "SELECT host FROM internal.hostspf WHERE is_valid_source = true"
 
+_sql_get_domains_keys_selectors = "SELECT host, privatekey, selector FROM internal.hostspf WHERE is_valid_source = true and privatekey is not null"
+
 class ValidSender(object):
 	"check to see if we can send direclty for domain"
 
@@ -167,9 +170,14 @@ class ValidSender(object):
 
 	def init_list(self):
 		self._domains = {}
+		self._privatekeys = {}
+		self._selectors = {}
 		db = DBConnect(Constants.db_Command_Service)
 		for domain in db.executeAll(_sql_get_domains, None, False):
 			self._domains[domain[0]] = True
+		for ks in db.executeAll(_sql_get_domains_keys_selectors, None, False):
+			self._privatekeys[ks[0]] = ks[1]
+			self._selectors[ks[0]] = ks[2]
 
 		db.Close()
 
@@ -181,7 +189,15 @@ class ValidSender(object):
 				return True
 		except:
 			pass
-
+		return False
+	def has_privatekey(self, email):
+		"""check """
+		try:
+			domain = email.split("@")[1].lower()
+			if domain in self._privatekeys:
+				return True
+		except:
+			pass
 		return False
 
 class WorkerController(threading.Thread):
@@ -222,6 +238,7 @@ class WorkerController(threading.Thread):
 					viewlink = get_view_link_to_seo(viewlink, record["seoreleaseid"])
 
 				is_valid_email_domain = self._domain.is_valid_domain_email(record["returnaddress"])
+				has_privatekey = self._domain.has_privatekey(record["returnaddress"])
 
 				if is_valid_email_domain:
 					send_address = record["returnaddress"]
@@ -296,6 +313,17 @@ class WorkerController(threading.Thread):
 					email.BuildMessageHtmlOnly()
 				else:
 					email.BuildMessage()
+				
+				if is_valid_email_domain and has_privatekey:
+					sig = dkim.sign(
+					  email.serialise(),
+					  self._domain._selectors[record['returnaddress']],
+					  record['returnaddress'].split("@")[1].lower(),
+					  self._domain._privatekeys[record['returnaddress']],
+					  canonicalize=(dkim.Relaxed, dkim.Relaxed),
+					  include_headers=['from', 'to', 'subject'])
+
+					email.set_dkim(sig[len("DKIM-Signature: "):])
 
 				if not is_valid_email_domain:
 					# sign message

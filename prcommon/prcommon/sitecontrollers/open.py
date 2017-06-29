@@ -20,6 +20,7 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
      ResearchFrequencies, PRMaxRoles, EmailSendTypes, Languages, Continents, ContactHistoryStatus,\
      ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, \
      ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes
+from prcommon.model.hostspf import Hostspf
 from prcommon.model.lookups import Publishers
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.validators import  SimpleFormValidator, Schema
@@ -65,6 +66,7 @@ class OpenController(OpenSecureController):
 	              "tasktypes" : TaskType,
 	              "users":  User,
 	              "pricecodes": PriceCode,
+	              "hostspf": Hostspf,
 	              "clippingsource": ClippingSource,
 	              "prmaxmodules": PrmaxModules,
 	              "customersources": CustomerSources,

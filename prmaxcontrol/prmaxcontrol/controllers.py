@@ -22,6 +22,7 @@ from prmaxcontrol.sitecontrollers.allocation import AllocationController
 from prmaxcontrol.sitecontrollers.payment import PaymentController
 from prmaxcontrol.sitecontrollers.orderconfirmation import OrderConfirmationController
 from prmaxcontrol.sitecontrollers.audit import AuditController
+from prmaxcontrol.sitecontrollers.hostspf import HostspfController
 from prcommon.sitecontrollers.query import QueryController
 from prmaxcontrol.sitecontrollers.customersource import CustomerSourceController
 from prcommon.sitecontrollers.report import ReportController
@@ -41,6 +42,7 @@ class Root(controllers.RootController):
 	query = QueryController()
 	partners = CustomerSourceController()
 	reports = ReportController()
+	hostspf = HostspfController()
 
 	@expose("")
 	def index(self, *args, **params):
