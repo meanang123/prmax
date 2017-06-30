@@ -106,16 +106,6 @@ class Root(controllers.RootController):
 
 		return ret
 
-	@expose(template="prpublish.templates.contacts_cardiff")
-	def contacts_cardiff(self, *args, **kw ):
-		""" Contact Us Page """
-		return page_settings_basic()
-
-	@expose(template="prpublish.templates.contacts_welsh")
-	def contacts_welsh(self, *args, **kw ):
-		""" Contact Us Page """
-		return page_settings_basic()
-
 	@expose("")
 	def default(self, *args,  **kw ):
 		""" default files """

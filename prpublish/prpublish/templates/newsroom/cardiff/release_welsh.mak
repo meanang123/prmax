@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<%include file="header_common.mak"/>
+<%include file="../../header_common.mak"/>
 % if seorelease:
 <title>${seorelease['seo'].headline}</title>
 <meta name="description" content="${seorelease['seo'].headline}"></meta>
 <meta name="keywords" content="${seorelease['keywords']}"></meta>
 %endif
-<%include file="header_google.mak"/>
+<%include file="../../header_google.mak"/>
 <script type="text/javascript">var switchTo5x=false;</script>
 <script type="text/javascript">stLight.options({publisher:'a8ad746a-9fd2-4279-b743-150377f85716'});</script>
 </head>
@@ -31,5 +31,6 @@
             <div class="empty-page">No results found</div>
         %endif
     </div>
+    <img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>	    
 </div>
 </body></html>

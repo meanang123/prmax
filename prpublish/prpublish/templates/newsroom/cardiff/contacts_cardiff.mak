@@ -2,10 +2,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<%include file="header_common.mak"/>
+<%include file="../../header_common.mak"/>
 <meta name="description" content=""></meta>
 <meta name="keywords" content=""></meta>
-<%include file="header_google.mak"/>
+<%include file="../../header_google.mak"/>
 </head>
 <body class="cardiff">
 <div id="fb-root"></div>

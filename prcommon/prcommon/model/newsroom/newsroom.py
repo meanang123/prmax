@@ -33,6 +33,8 @@ class NewsRoom(object):
 	  "about": "about",
 	  "collateral": "collateral",
 	  "contact": "contact",
+	  "contacts_cardiff": "contacts_cardiff",
+	  "contacts_welsh": "contacts_welsh",
 	  None: "newsround"
 	}
 
@@ -76,9 +78,12 @@ class NewsRoom(object):
 			lparams.update( dict( client = self._client[1]))
 			if self._page[0] == "collateral" :
 				lparams["clientcollateral"] = session.query(Collateral).filter_by(clientid = self._client[0].clientid).all()
+			base_template = "prpublish.templates.newsroom."
+			if (self._client[1].clientid == 2014 or self._client[1].clientid == 1966): #Cardiff/Welsh
+				base_template = "prpublish.templates.newsroom.cardiff."
 			data = view.render(
 			  lparams,
-			  template = "prpublish.templates.newsroom." + NewsRoom._standard_pages_html[self._page[0]])
+			  template = base_template + NewsRoom._standard_pages_html[self._page[0]])
 		elif self._page[0] in NewsRoom._standard_pages_images:
 			if self._page[0].startswith ("nr_logo_"):
 				key = int(self._page[0][self._page[0].rfind("_")+1:].split(".")[0])

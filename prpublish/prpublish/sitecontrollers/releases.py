@@ -62,9 +62,9 @@ class ReleasesController(controllers.RootController):
 		ret["layout"] = layout
 		template = "prpublish.templates.release"
 		if layout == 1:
-			template = "prpublish.templates.release_cardiff"
+			template = "prpublish.templates.newsroom.cardiff.release_cardiff"
 		if layout == 2:
-			template = "prpublish.templates.release_welsh"
+			template = "prpublish.templates.newsroom.cardiff.release_welsh"
 		html = html_slimmer( view.render( ret, template = template ))
 		if emailtemplateid:
 			SEOCache.add_cache(emailtemplateid, html, layout)
