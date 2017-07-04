@@ -23,7 +23,6 @@ from os.path import exists, join, split
 import getopt
 import turbogears
 import dkim
-import gs.dmarc
 import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
 from ttl.ttlemail import EmailMessage, SendSupportEmailMessage
@@ -158,7 +157,7 @@ _sql_get_clickthrought = """SELECT url,linkname FROM userdata.emailtemplateslink
 
 _sql_get_domains = "SELECT host FROM internal.hostspf WHERE is_valid_source = true"
 
-_sql_get_domains_keys_selectors = "SELECT host, privatekey, selector FROM internal.hostspf WHERE is_valid_source = true and privatekey is not null"
+_sql_get_domains_keys_selectors = "SELECT host, privatekey, selector FROM internal.hostspf WHERE is_valid_source = true and privatekey is not null and privatekey != ''"
 
 class ValidSender(object):
 	"check to see if we can send direclty for domain"
@@ -315,11 +314,12 @@ class WorkerController(threading.Thread):
 					email.BuildMessage()
 				
 				if is_valid_email_domain and has_privatekey:
+					dom = record['returnaddress'].split("@")[1].lower()
 					sig = dkim.sign(
 					  email.serialise(),
-					  self._domain._selectors[record['returnaddress']],
-					  record['returnaddress'].split("@")[1].lower(),
-					  self._domain._privatekeys[record['returnaddress']],
+					  self._domain._selectors[dom],
+					  dom,
+					  self._domain._privatekeys[dom],
 					  canonicalize=(dkim.Relaxed, dkim.Relaxed),
 					  include_headers=['from', 'to', 'subject'])
 
