@@ -18,5 +18,6 @@ define([
 	"control/support/PrivateData",
 	"control/support/query",
 	"control/support/Distribution",
+	"control/support/spfcontrol",
 	"control/customer/dd_csv"
 ], function( ){});
