@@ -732,7 +732,7 @@ class SEORelease(BaseSql):
 			if cust.licence_expire < datetime.date.today():
 				return
 
-		fromdate =  (datetime.date.today() - datetime.timedelta(days = 128)).strftime("%Y-%m-%d")
+		fromdate =  (datetime.date.today() - datetime.timedelta(days = 28)).strftime("%Y-%m-%d")
 		todate = datetime.date.today().strftime("%Y-%m-%d")
 		
 		whereclause = """ WHERE seo.published BETWEEN '%s' AND '%s'""" %(fromdate, todate)
