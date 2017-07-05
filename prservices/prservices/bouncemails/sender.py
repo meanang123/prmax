@@ -4,7 +4,7 @@
 # Name:        sender.py
 # Purpose:     run queries, create csv files, attach the files to email and send email.
 #
-# Author:      
+# Author:
 #
 # Created:     12/01/2017
 # Copyright:  (c) 2017
@@ -37,9 +37,13 @@ LOGGER = logging.getLogger("prcommon.model")
 def _run():
 	""" run the application """
 
+	import sys
+	reload(sys)
+	sys.setdefaultencoding('utf8')
+
 	todate = date.today().strftime("%Y-%m-%d")
 	fromdate =  (date.today() - timedelta(days = 30)).strftime("%Y-%m-%d")
-	
+
 	query1 = "SELECT * FROM monthly_highest_bounces('%s', '%s')" %(fromdate, todate)
 	query2 = "SELECT * FROM monthly_top_50_breakdown('%s', '%s')" %(fromdate, todate)
 
