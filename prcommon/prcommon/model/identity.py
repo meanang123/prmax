@@ -396,7 +396,7 @@ class User(BaseSql):
 			            password=kw['password'],
 			            customerid=kw.get("icustomerid", kw["customerid"]),
 			            force_change_pssw = True if kw['extended_security'] == 'true' else False,
-			            last_change_pssw = datetime.now() if kw['extended_security'] == 'true' else ''
+			            last_change_pssw = datetime.now() if kw['extended_security'] == 'true' else None
 			            )
 
 			session.add(user)
