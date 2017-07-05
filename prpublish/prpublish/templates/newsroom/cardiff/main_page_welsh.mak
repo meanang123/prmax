@@ -26,7 +26,6 @@ fjs.parentNode.insertBefore(js, fjs);
 			% if not results:
 				<div class="empty" >Ni chafwyd canlyniadau</div>
 			% else:
-				${create_trail( resultcount, criteria, offset)}
 				% for result in results:
 					%if result['seoimageid']:
 						<img style="float:left;margin:0px 20px 10px 0px;" alt="Image" src="${'/releases/images?imageid=%d' % result['seoimageid']}" height="${result['height']}px" width="${result['width']}px"></img>
