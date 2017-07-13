@@ -30,7 +30,7 @@ fjs.parentNode.insertBefore(js, fjs);
 					%if result['seoimageid']:
 						<img style="float:left;margin:0px 20px 10px 0px;" alt="Image" src="${'/releases/images?imageid=%d' % result['seoimageid']}" height="${result['height']}px" width="${result['width']}px"></img>
 					%else:
-						<%namespace file="../../resulttrail.mak" import="create_trail"/>					
+						<%namespace file="../../resulttrail.mak" import="create_trail"/>
 						<img style="float:left" alt="No Image" src="/static/images/noimage.gif" height="100px" width="100px"></img>
 					%endif
 					<div class="news-title-newsroom"><a href="${result['link']}">${result['headline']}</a></div>
@@ -38,8 +38,8 @@ fjs.parentNode.insertBefore(js, fjs);
 				% endfor
 			%endif
 		</div><br/><br/>
-			
-		<div class="single-news-links">	
+
+		<div class="single-news-links">
 			<p class="socialmedia-title">Trydar diweddaraf</p>
 			<div class="latest-tweets">
 				<a class="twitter-timeline" href="https://twitter.com/cyngorcaerdydd">Tweets by cardiffcouncil</a> 
@@ -52,10 +52,10 @@ fjs.parentNode.insertBefore(js, fjs);
 					<blockquote cite="https://www.facebook.com/cardiff.council1/" class="fb-xfbml-parse-ignore">
 						<a href="https://www.facebook.com/cardiff.council1/">The City of Cardiff Council / Cyngor Dinas Caerdydd</a>
 					</blockquote>
-				</div>			
+				</div>
 			</div>
 		</div>
 	</div>
-	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>	
+	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>
 </div>
 </body></html>
