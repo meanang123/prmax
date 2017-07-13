@@ -27,7 +27,8 @@ define([
 	"dijit/form/Button",
 	"dojox/validate",
 	"research/employees/EmployeeSelect",
-	"prcommon2/roles/Roles"
+	"prcommon2/roles/Roles",
+	"prcommon2/web/WebButton"
 	], function(declare, BaseWidgetAMD, ContentPane, template, request, utilities2, json, lang, topic, JsonRestStore, Observable, domattr ,domclass){
  return declare("research.questionnaires.EmployeeEdit",
 	[BaseWidgetAMD,ContentPane],{
@@ -70,6 +71,9 @@ define([
 	},
 	postCreate:function()
 	{
+		this.facebook_show.set("source",this.facebook);
+		this.twitter_show.set("source",this.twitter);
+		this.linkedin_show.set("source",this.linkedin);		
 		this.inherited(arguments);
 	},
 	_reset_fields:function()

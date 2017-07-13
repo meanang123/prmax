@@ -33,7 +33,8 @@ define([
 	"dojox/validate",
 	"research/questionnaires/UserModified",
 	"prcommon2/circulation/CirculationSourcesAdd",
-	"prcommon2/circulation/CirculationDatesAdd"
+	"prcommon2/circulation/CirculationDatesAdd",
+	"prcommon2/web/WebButton"	
 	], function(declare, BaseWidgetAMD, template, BorderContainer, topic,  lang, utilities2, request, JsonRestStore, ItemFileReadStore ){
  return declare("research.questionnaires.OutletEditMainDetails",
 	[BaseWidgetAMD, BorderContainer],{
@@ -60,6 +61,11 @@ define([
 		this.circulationauditdateid.set("store", this._circulationauditdates);
 
 		this.outletpriceid.set("store", this._costs);
+
+		this.www_show.set("source", this.www);
+		this.facebook_show.set("source",this.facebook);
+		this.twitter_show.set("source",this.twitter);
+		this.linkedin_show.set("source",this.linkedin);		
 	},
 	_updated_call: function( response)
 	{

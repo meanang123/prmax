@@ -29,7 +29,8 @@ define([
 	"dojox/form/BusyButton",
 	"dijit/Dialog",
 	"dojox/validate",
-	"research/questionnaires/UserModified"
+	"research/questionnaires/UserModified",
+	"prcommon2/web/WebButton"
 	], function(declare, BaseWidgetAMD, template, BorderContainer, topic,  lang, utilities2, request, JsonRestStore, ItemFileReadStore ){
  return declare("research.questionnaires.DeskDetails",
 	[BaseWidgetAMD, BorderContainer],{
@@ -41,6 +42,10 @@ define([
 	},
 	postCreate:function()
 	{
+		this.facebook_show.set("source",this.facebook);
+		this.twitter_show.set("source",this.twitter);	
+		this.linkedin_show.set("source",this.linkedin);
+
 		this.inherited(arguments);
 	},
 	_updated_call: function( response)

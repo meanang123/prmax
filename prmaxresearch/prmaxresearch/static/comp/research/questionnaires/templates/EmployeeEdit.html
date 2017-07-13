@@ -13,9 +13,25 @@
 			<tr><td align="right" class="prmaxrowtag">Tel</td><td><input data-dojo-attach-point="tel" data-dojo-props='"class":"prmaxinput",name:"tel",type:"text",size:25,maxlength:40' data-dojo-type="dijit/form/TextBox"/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="tel_modified"></div></td></tr>
 			<tr><td align="right" class="prmaxrowtag">Fax</td><td><input data-dojo-attach-point="fax" data-dojo-type="dijit/form/TextBox" data-dojo-props='"class":"prmaxinput",name:"fax",type:"text",size:25,maxlength:40' /></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="fax_modified"></div></td></tr>
 			<tr><td align="right" class="prmaxrowtag">Mobile</td><td><input data-dojo-props='"class":"prmaxinput",name:"mobile",type:"text",size:25,maxlength:40' data-dojo-attach-point="mobile" data-dojo-type="dijit/form/TextBox"/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="mobile_modified"></div></td></tr>
-			<tr><td align="right" class="prmaxrowtag">Twitter</td><td><input data-dojo-attach-point="twitter" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"twitter",pattern:dojox.validate.regexp.url,type:"text",maxlength:80,trim:true,style:"width:70%"'/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="twitter_modified"></div></td></tr>
-			<tr><td align="right" class="prmaxrowtag">Facebook</td><td><input data-dojo-attach-point="facebook" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"facebook",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"'/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="facebook_modified"></div></td></tr>
-			<tr><td align="right" class="prmaxrowtag">Linkedin</td><td><input data-dojo-attach-point="linkedin" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"linkedin",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="linkedin_modified"></div></td></tr>
+
+			<tr><td align="right" class="prmaxrowtag">Twitter</td>
+				<td><span><input data-dojo-attach-point="twitter" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"twitter",pattern:dojox.validate.regexp.url,type:"text",maxlength:80,trim:true,style:"width:90%"'/></span>
+					<span><div data-dojo-attach-point="twitter_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+				</td>
+				<td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="twitter_modified"></div></td>
+			</tr>
+			<tr><td align="right" class="prmaxrowtag">Facebook</td>
+				<td><span><input data-dojo-attach-point="facebook" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"facebook",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"'/></span>
+					<span><div data-dojo-attach-point="facebook_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+				</td>
+				<td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="facebook_modified"></div></td>
+			</tr>
+			<tr><td align="right" class="prmaxrowtag">Linkedin</td>
+				<td><span><input data-dojo-attach-point="linkedin" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"linkedin",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></span>
+					<span><div data-dojo-attach-point="linkedin_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+				</td>
+				<td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="linkedin_modified"></div></td>
+			</tr>
 			<tr><td align="right" class="prmaxrowtag">Different Address</td><td><input data-dojo-props='name:"no_address",type:"checkbox"' data-dojo-attach-point="no_address"  data-dojo-type="dijit/form/CheckBox" data-dojo-attach-event="onClick:_address_show" /></td></tr>
 			<tr data-dojo-attach-point="addr1" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Address1</td><td><input data-dojo-attach-point="address1" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='style:"margin-left:10px","class":"prmaxinput",name:"address1",type:"text",trim:true,invalidMessage:"Please enter address",style:"width:90%"'></input></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="address1_modified"></div></td></tr>
 			<tr data-dojo-attach-point="addr2" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Address2</td><td><input data-dojo-attach-point="address2" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='style:"margin-left:10px","class":"prmaxinput",name:"address2",type:"text",trim:true,style:"width:90%"'></input></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="address2_modified"></div></td></tr>
