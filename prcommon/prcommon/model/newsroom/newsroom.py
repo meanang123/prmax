@@ -19,12 +19,21 @@ from prcommon.model.newsroom.clientnewsroomimage import ClientNewsRoomImage
 from prcommon.model.newsroom.clientnewsroomcustumlinks import ClientNewsRoomCustumLinks
 from prcommon.model.seopressreleases import SEOSite, SEORelease
 from prcommon.model.collateral import Collateral
+from prcommon.model import SEORelease, SEOSite, SEOCategories
+
 from cherrypy import response
 from ttl.postgres import DBCompress
 import copy
 import  prcommon.Constants as Constants
 import logging
 LOGGER = logging.getLogger("prcommon.model")
+
+try:
+	CATEGORY_PAGES = SEOCategories.get_page_map()
+except:
+	pass
+
+
 
 class NewsRoom(object):
 	"""actual news room"""
@@ -35,12 +44,19 @@ class NewsRoom(object):
 	  "contact": "contact",
 	  "contacts_cardiff": "contacts_cardiff",
 	  "contacts_welsh": "contacts_welsh",
+	  "searchmodal_cardiff": "searchmodal_cardiff",
+	  "searchmodal_welsh": "searchmodal_welsh",	  
 	  None: "newsround"
 	}
 
 	_standard_pages_images = {"nr_logo_1.png": "",
 	                          "nr_logo_2.png": "",}
 	_standard_pages_rss = {"rss.xml": "",}
+
+	_standard_pages_search_cardiff_welsh = {
+	    "searchcardiff": "searchcardiff",
+	    "searchwelsh": "searchwelsh",
+	}
 
 	def __init__(self, customer, client, page = None, params = None):
 		""" setup news desk """
@@ -55,7 +71,7 @@ class NewsRoom(object):
 		    filter_by( clientid = client[0].clientid).all():
 			self._images[row.imagetypeid] = row
 
-	def get_page(self, envir):
+	def get_page(self, envir, params):
 		"""return the requested page """
 		data = ""
 		data_type = "html"
@@ -99,6 +115,31 @@ class NewsRoom(object):
 			                       title = self._client[1].clientname + " News",
 			                       description = 'Current News From '+ self._client[1].clientname)
 			data_type = "xml"
+		elif self._page[0] in NewsRoom._standard_pages_search_cardiff_welsh:
+			lparams = self.get_env( envir )
+			params['cid'] = self._client[0].clientid
+			lparams.update(SEORelease.do_search (params))
+			template = "";
+			if self._client[0].clientid == 2014:
+				template = "prpublish.templates.newsroom.cardiff.main_page";
+			elif self._client[0].clientid == 1966:
+				template = "prpublish.templates.newsroom.cardiff.main_page_welsh";
+			data = view.render(
+			  lparams,
+			  template = template)
+		elif self._page[0] in CATEGORY_PAGES:
+			lparams = self.get_env( envir )
+			params['cid'] = self._client[0].clientid
+			params['seocategoryid'] = CATEGORY_PAGES[self._page[0].lower()].seocategoryid
+			lparams.update(SEORelease.do_search (params))
+			template = "";
+			if self._client[0].clientid == 2014:
+				template = "prpublish.templates.newsroom.cardiff.main_page";
+			elif self._client[0].clientid == 1966:
+				template = "prpublish.templates.newsroom.cardiff.main_page_welsh";
+			data = view.render(
+			  lparams,
+			  template = template)
 
 		return (data, data_type)
 

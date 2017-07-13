@@ -1,4 +1,4 @@
-ALTER TABLE userdata.clippings DROP CONSTRAINT clippings_outletid_fkey;
+﻿ALTER TABLE userdata.clippings DROP CONSTRAINT clippings_outletid_fkey;
 ALTER TABLE userdata.clippings ADD CONSTRAINT clippings_outletid_fkey1 FOREIGN KEY (outletid) REFERENCES outlets (outletid) ON UPDATE NO ACTION ON DELETE SET NULL;
 
 update outlets set prmax_outlettypeid = 13 WHERE prmax_outlettypeid = 68;
@@ -78,3 +78,33 @@ UPDATE internal.customers SET required_client = false;
 
 ALTER TABLE internal.hostspf ADD COLUMN privatekey character varying;
 ALTER TABLE internal.hostspf ADD COLUMN selector character varying;
+
+ALTER TABLE internal.seocategories ADD COLUMN seocategorydescription_welsh character varying;
+
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Celf ac Adloniant' where seocategoryid = 1;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Moduron, Llongau a Hedfan' where seocategoryid = 2;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Busnes a Chyllid' where seocategoryid = 3;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Elusennau' where seocategoryid = 4;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Plant, Pobl Ifanc a Bywyd Teulu' where seocategoryid = 5;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Adeiladu' where seocategoryid = 6;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Crefftau a Hobïau' where seocategoryid = 7;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Ynni' where seocategoryid = 8;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Yr Amgylchedd ac Anifeiliaid' where seocategoryid = 9;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Ffermio, Pysgota a Choedwigaeth' where seocategoryid = 10;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Ffasiwn a Harddwch' where seocategoryid = 11;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Bwyd, Diod a Lletygarwch' where seocategoryid = 12;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Llywodraeth, Amddiffyn a’r Gyfraith' where seocategoryid = 13;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Y Cartref a’r Ardd' where seocategoryid = 14;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Y Diwydiant Cynhyrchu' where seocategoryid = 15;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Y Cyfryngau a Marchnata' where seocategoryid = 16;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'O ddiddordeb i ddynion' where seocategoryid = 17;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Mân-werthu a Chyfanwerthu' where seocategoryid = 18;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Gwyddoniaeth a Meddyginiaeth' where seocategoryid = 19;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Chwaraeon, Iechyd a Ffitrwydd' where seocategoryid = 20;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Technoleg' where seocategoryid = 21;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Masnach, Trafnidiaeth a’r Gadwyn Gyflenwi' where seocategoryid = 22;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Teithio a Thwristiaeth' where seocategoryid = 23;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'O ddiddordeb i fenywod' where seocategoryid = 24;
+UPDATE internal.seocategories SET seocategorydescription_welsh = 'Gwaith ac Addysg' where seocategoryid = 25;
+
+ALTER TABLE internal.seocategories ALTER COLUMN seocategorydescription_welsh SET NOT NULL;

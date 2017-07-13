@@ -641,7 +641,11 @@ class SEOCategories(BaseSql):
 	def get_list(cls):
 		""" get a listing """
 
-		return [dict(seocategoryid=row.seocategoryid, seocategorydescription=row.seocategorydescription.replace("&", "&amp;"), web_page=row.web_page) for row in session.query(SEOCategories).all()]
+		return [dict(seocategoryid=row.seocategoryid, \
+		             seocategorydescription=row.seocategorydescription.replace("&", "&amp;"), \
+		             seocategorydescription_welsh=row.seocategorydescription_welsh.replace("&", "&amp;"), \
+		             web_page=row.web_page) \
+		        for row in session.query(SEOCategories).all()]
 
 	@classmethod
 	def get_page_map(cls):

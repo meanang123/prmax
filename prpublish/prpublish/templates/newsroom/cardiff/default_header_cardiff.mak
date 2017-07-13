@@ -15,7 +15,26 @@ from datetime import date
             </span>
         </div>
     </div>
-    <div class="second-top-bar-newsroom-cardiff">
-    </div>
+    <div><a href="https://www.cardiffnewsroom.co.uk"><div class="second-top-bar-newsroom-cardiff"></div></a></div>
+
+    <div class="search-bar">
+        <div class="content-width">
+            <form action="/searchcardiff" method="post" target="_parent">
+                <button class="prmax-cardiff-btn dark-cardiff-btn latest-news"><a href="/" title="Latest News"><span>Latest news</span></a></button>
+                <div class="search-menu-bar">
+                    <div class="float-right">
+                        <input type="text" class="default-input search" placeholder="Search" name="search" id="search">
+                        <button class="detailed-search prmax-cardiff-btn dark-cardiff-btn"><a href="https://www.cardiffnewsroom.co.uk/searchmodal_cardiff">More</a></button>
+                        <div class="menu-trigger-cardiff"> <span>Categories</span>
+                            <div class="menu-categories">
+                                <div><%include file="../../categories.mak"/></div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+            </form>
+        </div>
+    </div> 
+    
 </div>
 

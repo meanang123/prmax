@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <%include file="../../header_common.mak"/>
-<title>${client.clientname} Newsroom</title>
 <meta name="description" content=""></meta>
 <meta name="keywords" content=""></meta>
 <%include file="../../header_google.mak"/>

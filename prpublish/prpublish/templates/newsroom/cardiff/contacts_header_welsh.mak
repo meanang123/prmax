@@ -15,7 +15,7 @@ from datetime import date
             </span>
         </div>
     </div>
-    <div class="second-top-bar-newsroom-welsh-contacts">
-    </div>
+    <div><a href="https://www.cardiffnewsroom.co.uk/newyddioncaerdydd"><div class="second-top-bar-newsroom-welsh-contacts"></div></a></div>
+
 </div>
 

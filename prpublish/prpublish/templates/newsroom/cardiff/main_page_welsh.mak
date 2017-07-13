@@ -42,7 +42,7 @@ fjs.parentNode.insertBefore(js, fjs);
 		<div class="single-news-links">	
 			<p class="socialmedia-title">Trydar diweddaraf</p>
 			<div class="latest-tweets">
-				<a class="twitter-timeline" href="https://twitter.com/cardiffcouncil">Tweets by cardiffcouncil</a> 
+				<a class="twitter-timeline" href="https://twitter.com/cyngorcaerdydd">Tweets by cardiffcouncil</a> 
 				<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 			</div>
 

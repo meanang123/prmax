@@ -28,7 +28,7 @@ class NewsRoomController(controllers.RootController):
 		  params)
 		# if is valid news room then get data
 		if newsroom:
-			(data, datatype) = newsroom.get_page( page_settings_basic() )
+			(data, datatype) = newsroom.get_page( page_settings_basic(), params )
 		else:
 			datatype = "html"
 			data = ""

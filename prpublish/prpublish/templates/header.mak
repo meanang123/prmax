@@ -15,7 +15,7 @@ from datetime import date
         <div class="main-title">The essential journalist news source</div>
         <div class="search-bar">
             <form action="/search" method="post" target="_parent">
-                <button class="prmax-btn dark-btn latest-news"><a href="/" title="Latest News">Latest News</a></button>
+                <button class="prmax-btn dark-btn latest-news"><a href="/" title="Latest News"><span>Latest News</span></a></button>
                 <div class="search-menu-bar">
                     <div class="float-right">
                         <input type="text" class="default-input search" placeholder="Search" name="search" id="search">

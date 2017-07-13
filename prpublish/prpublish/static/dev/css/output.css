@@ -70,6 +70,25 @@ body a {
     color: gainsboro;
     border-color: transparent; }
 
+.prmax-cardiff-btn {
+  outline: none;
+  color: black;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  font-weight: lighter;
+  cursor: pointer;
+  display: inline-block;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 4px rgba(88, 88, 88, 0.1); }
+  .prmax-cardiff-btn a {
+    color: black; }
+  .prmax-cardiff-btn:disabled, .prmax-cardiff-btn.disabled {
+    pointer-events: none;
+    background: gainsboro;
+    color: gainsboro;
+    border-color: transparent; }
+    
 .prmax-btn.dark-btn {
   border-color: #2b4b7c;
   background-color: #2b4b7c; }
@@ -82,6 +101,19 @@ body a {
     color: gainsboro;
     border-color: transparent; }
 
+.prmax-cardiff-btn.dark-cardiff-btn {
+  border-color: #b5b5b5;
+  background-color: #ececec; }
+  .prmax-cardiff-btn.dark-cardiff-btn:hover {
+    border-color: #8B0000;
+    background-color: #f2f2f2;}
+  .prmax-cardiff-btn.dark-cardiff-btn:disabled, .prmax-btn.dark-cardiff-btn.disabled {
+    pointer-events: none;
+    background: gainsboro;
+    color: gainsboro;
+    border-color: transparent; }
+
+
 .prmax-btn.light-btn {
   background-color: #2e74b5;
   border-color: #2e74b5; }
@@ -93,6 +125,20 @@ body a {
     background: #b5b5b5;
     color: gainsboro;
     border-color: transparent; }
+
+.prmax-cardiff-btn.light-cardiff-btn {
+  background-color: #A21228;
+  border-color: #A21228; 
+  color:white;}
+  .prmax-cardiff-btn.light-cardiff-btn:hover {
+    background-color: #ed5e5e;
+    border-color: #ed5e5e; }
+  .prmax-cardiff-btn.light-cardiff-btn:disabled, .prmax-cardiff-btn.light-cardiff-btn.disabled {
+    pointer-events: none;
+    background: #b5b5b5;
+    color: gainsboro;
+    border-color: transparent; }
+
 
 .prmax-btn.white-btn {
   background-color: #f4f4f4;
@@ -111,6 +157,25 @@ body a {
     background: #b5b5b5;
     color: gainsboro;
     border-color: transparent; }
+
+.prmax-cardiff-btn.white-cardiff-btn {
+  background-color: #f4f4f4;
+  color: #A21228;
+  border-color: #dedede; }
+  .prmax-cardiff-btn.white-cardiff-btn:hover {
+    border-color: #AE1A2A;
+    background-color: #AE1A2A;
+    color: white; }
+    .prmax-cardiff-btn.white-cardiff-btn:hover a {
+      color: white; }
+  .prmax-cardiff-btn.white-cardiff-btn a {
+    color: #AE1A2A; }
+  .prmax-cardiff-btn.white-cardiff-btn:disabled, .prmax-cardiff-btn.white-cardiff-btn.disabled {
+    pointer-events: none;
+    background: #b5b5b5;
+    color: gainsboro;
+    border-color: transparent; }
+
 
 .default-input, .default-textarea {
   background-color: #ececec;
@@ -246,6 +311,87 @@ select {
     background-repeat: no-repeat;
     cursor: pointer;
     height: 140px;}
+
+  .main-header-cardiff .search-bar {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 15px;
+    background-color:#AE1A2A;}
+    .main-header-cardiff .search-bar .latest-news, .main-header .search-bar .search-menu-bar {
+      float: left;
+      height: 45px;}
+    .main-header-cardiff .search-bar .latest-news {
+      width: 145px;
+      margin-right: 10px;
+      font-size: 16px;
+      color: white;
+      padding-left: 35px;
+      background-image: url(/static/images/clock2.svg);
+      background-position: left 10px center;
+      background-repeat: no-repeat;
+      background-size: 20px 20px; }
+    .main-header-cardiff .search-bar .latest-news:hover {
+      background-color: #f2f2f2;}
+    .main-header-cardiff .search-bar .search-menu-bar {
+      background-color: #AE1A2A;
+      border-radius: 3px;
+      padding: 7px 30px;}
+      .main-header-cardiff .search-bar .search-menu-bar .search {
+        width: 235px;
+        padding-right: 30px;
+        float: left;
+        margin-right: 20px;
+        background-image: url(/static/images/search2.svg);
+        background-position: right 7px center;
+        background-repeat: no-repeat;
+        background-size: 20px 20px; }
+      .main-header-cardiff .search-bar .search-menu-bar .detailed-search {
+        float: left;
+        margin-right: 60px; }
+      .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff {
+        float: left;
+        font-size: 16px;
+        font-family: "Raleway", sans-serif;
+        font-weight: lighter;
+        color: #ececec;
+        padding-top: 4px;
+        padding-right: 15px;
+        background-image: url(/static/images/arrow2.svg);
+        background-position: right top 12px;
+        background-repeat: no-repeat;
+        background-size: 10px 7px;
+        cursor: pointer;
+        position: relative; }
+        .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff:hover {
+          color: #b5b5b5; }
+          .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff:hover .menu-categories {
+            display: block;}
+        .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff .menu-categories {
+          display: none;
+          position:relative;
+          z-index:9999;        
+          width: 220px;
+          border-radius: 5px;
+          color: #AE1A2A;
+          position: absolute;
+          top: 20px;
+          right: 0;
+          background-color: white;
+          height: 320px;
+          overflow-y: auto;
+          box-shadow: 0px 5px 10px 5px rgba(88, 88, 88, 0.25); }
+          .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff .menu-categories .menu-item a{
+            color: #AE1A2A;}
+          .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff .menu-categories .menu-item {
+            padding: 5px 10px;
+            font-size: 13px;}
+            .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff .menu-categories .menu-item:hover{
+              color: white;
+              background-color: #AE1A2A;
+              display: block; }
+            .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff .menu-categories .menu-item:hover a {
+              color: white;}            
+
 .main-header {
   background-color: #e8e8e8;
   z-index: 5000;
@@ -380,6 +526,14 @@ select {
             display: block; }
           .main-header .search-bar .search-menu-bar .menu-trigger .menu-categories .menu-item:hover a {
             color: white;}
+            
+            
+            
+            
+            
+            
+            
+            
   .main-header .top-bar-newsroom {
     height: 90px;
     font-size: 12px;
@@ -963,6 +1117,11 @@ select {
       color: white;
       padding: 10px;
       border-radius: 5px 5px 0 0; }
+    .search-modal .modal .modal-header-cardiff {
+      background-color: #A21228;
+      color: white;
+      padding: 10px;
+      border-radius: 5px 5px 0 0; }
     .search-modal .modal .modal-form {
       padding: 20px; }
       .search-modal .modal .modal-form textarea {
@@ -981,6 +1140,26 @@ select {
       .search-modal .modal .modal-form option {
         color: #2e74b5;
         font-family: "Lato", sans-serif;}
+
+    .search-modal .modal .modal-form-cardiff {
+      padding: 20px; }
+      .search-modal .modal .modal-form-cardiff textarea {
+        resize: none;
+        width: 250px; }
+      .search-modal .modal .modal-form-cardiff input {
+        width: 250px;
+        margin-bottom: 15px; }
+      .search-modal .modal .modal-form-cardiff label {
+        display: inline-block;
+        width: 80px; }
+      .search-modal .modal .modal-form-cardiff select {
+        margin-top: 15px;
+        width: 262px; 
+        color: #A21228;}
+      .search-modal .modal .modal-form-cardiff option {
+        color: #A21228;
+        font-family: "Lato", sans-serif;}
+
     .search-modal .modal .prmax-btn {
       margin: 0 5px; }
 
@@ -1001,13 +1180,17 @@ select {
     padding: 7px 10px; }
     .main-header .search-bar .search-menu-bar .detailed-search {
       margin-right: 20px; }
+  .main-header-cardiff .search-bar .search-menu-bar {
+    width: calc(100%);
+    padding: 7px 10px; }
+
 
   .news-list .news-box {
     width: 31%;
     margin: 0 7px 25px 7px; } }
 @media only screen and (max-width: 860px) {
   .plain-page.contact .plain-page-content .contact-box {
-    width: 100%; } }
+    width: 100%; } }  
 @media only screen and (max-width: 800px) {
   .single-news-content {
     padding: 30px 50px 30px 90px; }
@@ -1033,6 +1216,20 @@ select {
     .main-header .search-bar .search-menu-bar .menu-trigger .menu-categories .menu-item {
       padding: 7px 10px;
       font-size: 16px; }
+  .main-header-cardiff .search-bar .latest-news {
+    width: 47px;
+    background-position: center center; }
+    .main-header-cardiff .search-bar .latest-news span {
+      display: none; }
+  .main-header-cardiff .search-bar .search-menu-bar {
+    width: calc(100%); }
+    .main-header-cardiff .search-bar .search-menu-bar .search {
+      width: 100px; }
+    .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff .menu-categories .menu-item {
+      padding: 7px 10px;
+      font-size: 16px; }
+
+
 
   .plain-page .empty-page{
     padding: 20px; }
@@ -1053,8 +1250,10 @@ select {
   .news-list .news-box {
     width: 100%; }
 
-  .menu-boxes {
-    width: 100%;}
+  .menu-boxes, .menu-boxes-first, .menu-boxes-last {
+    width: 100%;
+    margin: 0 0;
+    padding: 0 0;}
   .footer {
     height: 70px; }
     .footer .links a {
@@ -1086,6 +1285,15 @@ select {
     background-size: 25px 25px; }
     .main-header .search-bar .search-menu-bar .menu-trigger span {
       display: none; }
+  .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff {
+    width: 25px;
+    height: 25px;
+    background-image: url(/static/images/filter2.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 25px 25px; }
+    .main-header-cardiff .search-bar .search-menu-bar .menu-trigger-cardiff span {
+      display: none; }
 
   .single-news-content {
     padding: 30px; }
@@ -1114,6 +1322,9 @@ select {
       line-height: 24px; }
   .main-header .search-bar .search-menu-bar .search {
     width: 100px; }
+  .main-header-cardiff .search-bar .search-menu-bar .search {
+    width: 60px; }
+    
   .single-news-content {
     padding: 25px; }
     .single-news-content .single-news-text {
@@ -1136,6 +1347,13 @@ select {
     margin-right: 10px; }
   .main-header .search-bar .search-menu-bar .detailed-search {
     margin-right: 10px; }
+  .main-header-cardiff .main-title {
+    display: none; }
+  .main-header-cardiff .search-bar .search-menu-bar .search {
+    width: 55px;
+    margin-right: 5px; }
+  .main-header-cardiff .search-bar .search-menu-bar .detailed-search {
+    margin-right: 5px; }
 
   .content-width {
     padding: 0 10px; }

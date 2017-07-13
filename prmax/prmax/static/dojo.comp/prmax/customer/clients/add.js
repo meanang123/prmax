@@ -171,6 +171,16 @@ dojo.declare("prmax.customer.clients.add",
 				this.has_news_room.set("checked", client.has_news_room);
 				if (newsroom)
 				{
+					if (client.clientid == 2014)
+					{
+						newsroom.news_room_url = "https://www.cardiffnewsroom.co.uk/" //live
+//						newsroom.news_room_url = "http://testcardiffnewsroom.prmax.co.uk/" //test
+					}
+					if (client.clientid == 1966)
+					{
+						newsroom.news_room_url = "https://www.cardiffnewsroom.co.uk/newyddioncaerdydd" //live
+//						newsroom.news_room_url = "http://testnewyddioncaerdydd.prmax.co.uk/" //test
+					}
 					this.news_room_root.set("value", newsroom.news_room_root);
 					this.about_template.set("value", newsroom.about_template);
 					dojo.attr(this.show_news_room_form,"action",newsroom.news_room_url);
