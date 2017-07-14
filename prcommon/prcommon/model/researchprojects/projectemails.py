@@ -55,7 +55,7 @@ class ProjectEmails(object):
 <p>This is your opportunity to review all the information we hold about your outlet and amend or add to it as required. You have received this email as you are the main contact for updating your outlet's information on the PRmax database.</p>
 <p>Please click on the link below. It will take you to an update wizard to review and amend the information in the database. Your outlet's record in the database is completely free of charge.</p>
 <p>The deadline for this update is %(deadline)s </p>
-<p><a href="%(link)s/quest">Link to database</a></p>
+<p><a href="%(link)s/quest">%(link)s/quest</a></p>
 <p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
 <p>Thank you for your help.</p>
 <p>Kind regards,</p><br/>
@@ -67,7 +67,7 @@ class ProjectEmails(object):
 	<p>This is your opportunity to review all the information we hold about you as a freelancer in the PRmax database and amend or add to it as required.</p>
 	<p>Please click on the link below. It will take you to an update screen to review and amend the information in the database. Your freelance record in the database is completely free of charge.</p>
 	<p>The deadline for this update is %(deadline)s </p>
-	<p><a href="%(link)s/quest">Link to database</a></p>
+	<p><a href="%(link)s/quest">%(link)s/quest</a></p>
 	<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
 	<p>Thank you for your help.</p>
 	<p>Kind regards,</p><br/>
