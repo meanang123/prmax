@@ -108,3 +108,96 @@ UPDATE internal.seocategories SET seocategorydescription_welsh = 'O ddiddordeb i
 UPDATE internal.seocategories SET seocategorydescription_welsh = 'Gwaith ac Addysg' where seocategoryid = 25;
 
 ALTER TABLE internal.seocategories ALTER COLUMN seocategorydescription_welsh SET NOT NULL;
+
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p>This is your opportunity to review all the information we hold about you as a freelancer in the PRmax’s database and amend or add to it as required.</p>
+<p>The deadline for this update is %(deadline)s. You will receive two more reminders as the deadline approaches.</p>
+<p>Please click on the link below. It will take you to an update screen to review and amend the information in the database. Your freelance record in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 7;
+
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p> This is your opportunity to review all the information we hold about you as a freelancer in the PRmax’s database and amend or add to it as required.</p>
+<p>The deadline for this update is %(deadline)s. You will receive one more reminder as the deadline approaches.</p>
+<p> Please click on the link below. It will take you to an update screen to review and amend the information in the database. Your freelance record in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 8;
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p> This is your opportunity to review all the information we hold about you as a freelancer in the PRmax’s database and amend or add to it as required.</p>
+<p>The deadline for this update is %(deadline)s.</p>
+<p> Please click on the link below. It will take you to an update screen to review and amend the information in the database. Your freelance record in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 9;
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p>This is your opportunity to review all the information we hold about your editorial desk and amend or add to it as necessary.</p>
+<p>The deadline for this update is %(deadline)s. You will receive two more reminders as the deadline approaches.</p>
+<p>Please click on the link below. It will take you to an update wizard to review and amend the information in the database. Your desk’s listing in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 10;
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p>This is your opportunity to review all the information we hold about your editorial desk and amend or add to it as necessary.</p>
+<p>The deadline for this update is %(deadline)s. You will receive one more reminder as the deadline approaches.</p>
+<p>Please click on the link below. It will take you to an update wizard to review and amend the information in the database. Your desk’s listing in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 11;
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p>This is your opportunity to review all the information we hold about your editorial desk and amend or add to it as necessary.</p>
+<p>The deadline for this update is %(deadline)s.</p>
+<p>Please click on the link below. It will take you to an update wizard to review and amend the information in the database. Your desk’s listing in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 12;
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p>This is your opportunity to review all the information we hold about your media outlet and amend or add to it as necessary.</p>
+<p>The deadline for this update is %(deadline)s. You will receive two more reminders as the deadline approaches.</p>
+<p>Please click on the link below. It will take you to an update wizard to review and amend the information in the database. Your outlet’s listing in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 1;
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p>This is your opportunity to review all the information we hold about your media outlet and amend or add to it as necessary.</p>
+<p>The deadline for this update is %(deadline)s. You will receive one more reminder as the deadline approaches.</p>
+<p>Please click on the link below. It will take you to an update wizard to review and amend the information in the database. Your outlet’s listing in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 2;
+UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p>
+<p>This is your opportunity to review all the information we hold about your media outlet and amend or add to it as necessary.</p>
+<p>The deadline for this update is %(deadline)s.</p>
+<p>Please click on the link below. It will take you to an update wizard to review and amend the information in the database. Your outlet’s listing in the database is completely free of charge.</p>
+<p><a href="%(link)s">%(link)s</a></p>
+<p>If you have trouble connecting to the database via the link please email <a href=mailto:"updates@prmax.co.uk">updates@prmax.co.uk</a></p>
+<p>Thank you for your help.</p>
+<p>Kind regards,</p><br/>
+<p>%(researcher)s</p>'
+where questionnairetextid = 3;
+
