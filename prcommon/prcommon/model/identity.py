@@ -696,7 +696,7 @@ class User(BaseSql):
 			u.last_logged_in = datetime.now()
 		except:
 			LOGGER.exception("setLoggedIn", extra=dict(userid=userid))
-		
+
 	@classmethod
 	def reset_invalid_login_tries(cls, userid):
 		transaction = cls.sa_get_active_transaction()
@@ -711,7 +711,7 @@ class User(BaseSql):
 				pass
 			LOGGER.exception("reset_invalid_login_tries")
 			raise
-		
+
 
 	@classmethod
 	def setTriedToLogin(cls, sess):
@@ -1130,7 +1130,7 @@ class Customer(BaseSql):
 			customer.distributionistemplated = params["distributionistemplated"]
 			customer.extended_security = params["extended_security"]
 			customer.required_client = params["required_client"]
-			
+
 			if params["extended_security"] == True:
 				users = session.query(User).filter(User.customerid == params['icustomerid']).all()
 				for user in users:
@@ -1220,6 +1220,7 @@ class Customer(BaseSql):
 			customer.dd_start_day = inparams["dd_start_day"]
 			customer.dd_start_month = inparams["dd_start_month"]
 			customer.has_bundled_invoice = inparams["has_bundled_invoice"]
+			customer.invoiceemail = inparams["invoiceemail"]
 
 			session.flush()
 			transaction.commit()
