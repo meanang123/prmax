@@ -179,6 +179,7 @@ class ECollateralController(controllers.RootController):
 	                         dll="application/x-msdownload",
 	                         dms="application/octet-stream",
 	                         doc="application/msword",
+	                         docx="application/msword",
 	                         dot="application/msword",
 	                         dvi="application/x-dvi",
 	                         dxr="application/x-director",
