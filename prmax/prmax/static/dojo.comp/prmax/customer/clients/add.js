@@ -168,6 +168,7 @@ dojo.declare("prmax.customer.clients.add",
 				this.twitter.set("value", client.twitter );
 				this.facebook.set("value", client.facebook );
 				this.linkedin.set("value", client.linkedin );
+				this.instagram.set("value", client.instagram );
 				this.has_news_room.set("checked", client.has_news_room);
 				if (newsroom)
 				{
@@ -178,7 +179,7 @@ dojo.declare("prmax.customer.clients.add",
 					}
 					if (client.clientid == 1966)
 					{
-						newsroom.news_room_url = "https://www.cardiffnewsroom.co.uk/newyddioncaerdydd" //live
+						newsroom.news_room_url = "https://www.newyddioncaerdydd.co.uk" //live
 //						newsroom.news_room_url = "http://testnewyddioncaerdydd.prmax.co.uk/" //test
 					}
 					this.news_room_root.set("value", newsroom.news_room_root);
@@ -217,6 +218,7 @@ dojo.declare("prmax.customer.clients.add",
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this.save.cancel();
 		this.clientid.set("value",-1);
 		this.news_room_root.set("value", "");
