@@ -95,7 +95,7 @@ define([
 			this.host2.set("value", this._row.host);
 			this.is_valid_source2.set("checked", this._row.is_valid_source);
 			this.privatekey2.set("value", "");
-			this.selector2.set("value", "");
+			this.selector2.set("value", this._row.selector);
 		}
 	},
 	_Close:function()
