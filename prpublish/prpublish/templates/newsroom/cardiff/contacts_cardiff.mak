@@ -69,6 +69,12 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="tel"><span class="title">Tel: </span><span>029 2087 2409</span></div>
 			<div class="tel"><span class="title">Mob: </span><span>07966 678603</span></div>
 		</div>
+		<div class="contact">
+			<div class="name">Danni Janssens</div>
+			<div class="jobtitle">Press Officer</div>
+			<div class="email"><span class="title">Email: </span><span>danni.janssens@cardiff.gov.uk</span></div>
+			<div class="tel"><span class="title">Tel: </span><span>029 2087 2965</span></div>
+		</div>
 	</div>
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>		
 </div>

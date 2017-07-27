@@ -62,6 +62,12 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="email"><span class="title">Ebost: </span><span>davidharris@caerdydd.gov.uk</span></div>
 			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2409 / 07966 678603</span></div>
 		</div>
+		<div class="contact">
+			<div class="name">Danni Janssens</div>
+			<div class="jobtitle">Swyddog y Wasg</div>
+			<div class="email"><span class="title">Ebost: </span><span>danni.janssens@caerdydd.gov.uk</span></div>
+			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2965 </span></div>
+		</div>
 	</div>
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>		
 </div>
