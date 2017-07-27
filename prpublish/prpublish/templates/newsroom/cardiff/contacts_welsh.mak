@@ -27,6 +27,12 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2964 / 07989 996 112</span></div>
 		</div>
 		<div class="contact">
+			<div class="name">Jeremy Rhys</div>
+			<div class="jobtitle">Swyddog Cyfathrebu</div>
+			<div class="email"><span class="title">Ebost: </span><span>jeremy.rhys@caerdydd.gov.uk</span></div>
+			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2639 / 07817 708 955</span></div>
+		</div>
+		<div class="contact">
 			<div class="name">Ian Lloyd-Davies</div>
 			<div class="jobtitle">Ymgynghorydd y Cyfryngau </div>
 			<div class="email"><span class="title">Ebost: </span><span>ILloyd-davies@caerdydd.gov.uk</span></div>
@@ -45,16 +51,10 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2450 / 07792 879 910</span></div>
 		</div>
 		<div class="contact">
-			<div class="name">Jeremy Rhys</div>
-			<div class="jobtitle">Swyddog Cyfathrebu</div>
-			<div class="email"><span class="title">Ebost: </span><span>jeremy.rhys@caerdydd.gov.uk</span></div>
-			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2639 / 07817 708 955</span></div>
-		</div>
-		<div class="contact">
-			<div class="name">Mark Jacques</div>
+			<div class="name">Danni Janssens</div>
 			<div class="jobtitle">Swyddog y Wasg</div>
-			<div class="email"><span class="title">Ebost: </span><span>Mark.Jacques2@caerdydd.gov.uk</span></div>
-			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 3580 / 07966 678606</span></div>
+			<div class="email"><span class="title">Ebost: </span><span>danni.janssens@caerdydd.gov.uk</span></div>
+			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2965 </span></div>
 		</div>
 		<div class="contact">
 			<div class="name">Dave Harris</div>
@@ -63,10 +63,10 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2409 / 07966 678603</span></div>
 		</div>
 		<div class="contact">
-			<div class="name">Danni Janssens</div>
+			<div class="name">Mark Jacques</div>
 			<div class="jobtitle">Swyddog y Wasg</div>
-			<div class="email"><span class="title">Ebost: </span><span>danni.janssens@caerdydd.gov.uk</span></div>
-			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 2965 </span></div>
+			<div class="email"><span class="title">Ebost: </span><span>Mark.Jacques2@caerdydd.gov.uk</span></div>
+			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 3580 / 07966 678606</span></div>
 		</div>
 	</div>
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>		

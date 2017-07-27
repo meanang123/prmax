@@ -28,6 +28,13 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="tel"><span class="title">Mob: </span><span>07989 996 112</span></div>
 		</div>
 		<div class="contact">
+			<div class="name">Jeremy Rhys</div>
+			<div class="jobtitle">Communications officer</div>
+			<div class="email"><span class="title">Email: </span><span>jeremy.rhys@cardiff.gov.uk</span></div>
+			<div class="tel"><span class="title">Tel: </span><span>029 2087 2639</span></div>
+			<div class="tel"><span class="title">Mob: </span><span>07817 708 955</span></div>
+		</div>
+		<div class="contact">
 			<div class="name">Ian Lloyd-Davies</div>
 			<div class="jobtitle">Media Advisor</div>
 			<div class="email"><span class="title">Email: </span><span>ILloyd-davies@cardiff.gov.uk</span></div>
@@ -49,18 +56,11 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="tel"><span class="title">Mob: </span><span>07792 879 910</span></div>
 		</div>
 		<div class="contact">
-			<div class="name">Jeremy Rhys</div>
-			<div class="jobtitle">Communications officer</div>
-			<div class="email"><span class="title">Email: </span><span>jeremy.rhys@cardiff.gov.uk</span></div>
-			<div class="tel"><span class="title">Tel: </span><span>029 2087 2639</span></div>
-			<div class="tel"><span class="title">Mob: </span><span>07817 708 955</span></div>
-		</div>
-		<div class="contact">
-			<div class="name">Mark Jacques</div>
+			<div class="name">Danni Janssens</div>
 			<div class="jobtitle">Press Officer</div>
-			<div class="email"><span class="title">Email: </span><span>Mark.Jacques2@cardiff.gov.uk</span></div>
-			<div class="tel"><span class="title">Tel: </span><span>029 2087 3580</span></div>
-			<div class="tel"><span class="title">Mob: </span><span>07966 678606</span></div>
+			<div class="email"><span class="title">Email: </span><span>danni.janssens@cardiff.gov.uk</span></div>
+			<div class="tel"><span class="title">Tel: </span><span>029 2087 2965</span></div>
+			<div class="tel"><span class="title">Mob: </span><span> - </span></div>
 		</div>
 		<div class="contact">
 			<div class="name">Dave Harris</div>
@@ -70,10 +70,11 @@ fjs.parentNode.insertBefore(js, fjs);
 			<div class="tel"><span class="title">Mob: </span><span>07966 678603</span></div>
 		</div>
 		<div class="contact">
-			<div class="name">Danni Janssens</div>
+			<div class="name">Mark Jacques</div>
 			<div class="jobtitle">Press Officer</div>
-			<div class="email"><span class="title">Email: </span><span>danni.janssens@cardiff.gov.uk</span></div>
-			<div class="tel"><span class="title">Tel: </span><span>029 2087 2965</span></div>
+			<div class="email"><span class="title">Email: </span><span>Mark.Jacques2@cardiff.gov.uk</span></div>
+			<div class="tel"><span class="title">Tel: </span><span>029 2087 3580</span></div>
+			<div class="tel"><span class="title">Mob: </span><span>07966 678606</span></div>
 		</div>
 	</div>
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>		
