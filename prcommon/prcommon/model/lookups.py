@@ -777,6 +777,16 @@ class ClippingsTypes(object):
 
 		return data
 
+class ServerTypes(object):
+	"serverstypes"
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a listing """
+		data = [dict(id=row.servertypeid, name=row.servertypename)
+		        for row in session.query(ServerTypes).order_by(ServerTypes.servertypeid).all()]
+
+		return data
+
 class MediaAccessTypes(BaseSql):
 	""" media acceess types """
 
@@ -863,6 +873,7 @@ ClippingsTypes.mapping = Table('clippingstype', metadata, autoload=True, schema=
 MediaAccessTypes.mapping = Table('mediaaccesstypes', metadata, autoload=True, schema='internal')
 TaskTypeStatus.mapping = Table('tasktypestatus', metadata, autoload=True, schema='internal')
 Publishers.mapping = Table('publishers', metadata, autoload = True, schema='internal')
+ServerTypes.mapping = Table('servertypes', metadata, autoload=True, schema='internal')
 
 mapper(EmailSendTypes, EmailSendTypes.mapping)
 mapper(UnSubscribeReason, UnSubscribeReason.mapping)
@@ -907,5 +918,6 @@ mapper(ClippingsTypes, ClippingsTypes.mapping)
 mapper(MediaAccessTypes, MediaAccessTypes.mapping)
 mapper(TaskTypeStatus, TaskTypeStatus.mapping)
 mapper(Publishers, Publishers.mapping )
+mapper(ServerTypes, ServerTypes.mapping)
 
 

@@ -28,7 +28,7 @@ from prcommon.model.lookups import CustomerTypes, UserTypes, SortOrder, Frequenc
      CustomerSources, CountryTypes, OrderConformationPaymentMethods, ResearchProjectStatus, SEOCategories, SEOStatus, SeoPaymentTypes, \
      NewsFeedTypes, UnSubscribeReason, OutletPrices, EmailSendTypes, IssueStatus, ContactHistoryStatus, QuestionTypes, \
      ClippingPriceServiceLevel, ClippingStatus, ClippingSource, DistributionTemplateTypes, ClippingsTypes, ClippingsTone, MediaAccessTypes, \
-     CustomerProducts, TaskTypeStatus
+     CustomerProducts, TaskTypeStatus, ServerTypes
 
 from prcommon.model.list import List, ListMembers, ExclusionList
 
@@ -193,6 +193,7 @@ from prcommon.model.mediatoolkit.mediatoolkitaccess import MediaToolKitAccess
 from prcommon.model.madaptive.madaptiveaccess import MadaptiveAccess
 from prcommon.model.clippings.output.clippingsreport import ClippingsReport
 from prcommon.model.clippings.clippingschartgeneral import ClippingsChartGeneral
+#from prcommon.model.customer.customeremailserver import CustomerEmailServer
 
 from prcommon.model.researchext.outletexternallinks import OutletExternalLink
 from prcommon.model.researchext.outletexternallinkgeneral import OutletExternalLinkGeneral
@@ -249,5 +250,5 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "JournoRequestsGeneral", "ForwardCache", "ResearchDetailsDesk", "DistributionTemplates", "ClippingsCyberWatch",
            "OutletDeskGeneral", "GeneralDistributionTemplates", "DistributionTemplateTypes", "MediaToolKitAccess", "MadaptiveAccess",
            "CustomerAccessLog", "ClippingsChartGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
-           "ApiLookups", "TaskTypeStatus"
+           "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout"
 					 ]

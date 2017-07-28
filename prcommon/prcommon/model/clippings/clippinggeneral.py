@@ -17,6 +17,7 @@ from prcommon.model.common import BaseSql
 from prcommon.model.client import Client
 from prcommon.model.clippings.clippingsissues import ClippingsIssues
 from prcommon.model.clippings.clippingstype import ClippingsType
+from prcommon.model.clippings.clippingselection import ClippingSelection
 from prcommon.model.queues import ProcessQueue
 import prcommon.Constants as Constants
 from ttl.tg.validators import DateRangeResult
@@ -32,30 +33,41 @@ class ClippingsGeneral(object):
 	c.clippingid,
 	to_char(c.clip_source_date,'DD/MM/YY') as clip_source_date_display,
 	c.clip_title,
+	c.clip_link,
+	c.clip_abstract,
 	o.outletname,
 	cs.clippingsstatusdescription,
 	css.clippingsourcedescription,
 	ct.clippingstypedescription,
 	cto.clippingstonedescription,
-	ct.icon_name
+	ct.icon_name,
+	CASE WHEN (csel.clippingid IS NULL) THEN false ELSE true END as selected
 
 	FROM userdata.clippings AS c
 	JOIN internal.clippingstatus AS cs ON cs.clippingsstatusid = c.clippingsstatusid
 	JOIN internal.clippingsource AS css ON css.clippingsourceid = c.clippingsourceid
 	JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
 	LEFT OUTER JOIN internal.clippingstone AS cto ON cto.clippingstoneid = c.clippingstoneid
-	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
+	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid
+	LEFT OUTER JOIN userdata.clippingselection AS csel ON csel.clippingid = c.clippingid
+	LEFT OUTER JOIN tg_user ON tg_user.user_id = csel.userid
+	"""
 
 	List_Customer_Data_Count = """SELECT COUNT(*) FROM userdata.clippings AS c
 	JOIN internal.clippingstatus AS cs ON cs.clippingsstatusid = c.clippingsstatusid
 	JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
 	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
 
+
 	@staticmethod
 	def list_clippings(params):
 		"""list of clippings for customer"""
 
 		whereclause = ''
+
+		if "selected" in params and params['selected'] == True:
+			whereclause = BaseSql.addclause(whereclause, 'csel.userid = :userid AND csel.clippingid = c.clippingid')
+
 		if "customerid" in params:
 			whereclause = BaseSql.addclause(whereclause, 'c.customerid=:customerid')
 
@@ -260,6 +272,63 @@ class ClippingsGeneral(object):
 		  clippingstonedescription=clippingstonedescription,
 		  icon_name=clippingstype.icon_name
 		)
+
+	@staticmethod
+	def add_user_selection(params):
+		"""add clipping to user clipping selection"""
+
+		transaction = BaseSql.sa_get_active_transaction()
+
+		try:
+			userclip = ClippingSelection(
+				userid=params["userid"],
+				clippingid=params["clippingid"])
+			session.add(userclip)
+			session.flush()
+			transaction.commit()
+		except:
+			LOGGER.exception("clipping_user_selection_add")
+			try:
+				transaction.rollback()
+			except:
+				pass
+			raise
+
+	@staticmethod
+	def delete_user_selection(params):
+		"""add clipping to user clipping selection"""
+
+		transaction = BaseSql.sa_get_active_transaction()
+
+		try:
+			userclip = session.query(ClippingSelection).filter(ClippingSelection.userid == params['userid']).filter(ClippingSelection.clippingid == params['clippingid']).scalar()
+			if userclip:
+				session.delete(userclip)
+		except:
+			LOGGER.exception("clipping_user_selection_delete")
+			try:
+				transaction.rollback()
+			except:
+				pass
+			raise
+
+	@staticmethod
+	def clear_user_selection(params):
+		"""add clipping to user clipping selection"""
+
+		transaction = BaseSql.sa_get_active_transaction()
+
+		try:
+			userclips = session.query(ClippingSelection).filter(ClippingSelection.userid == params['userid']).all()
+			for userclip in userclips:
+				session.delete(userclip)
+		except:
+			LOGGER.exception("clipping_user_selection_clear")
+			try:
+				transaction.rollback()
+			except:
+				pass
+			raise
 
 	@staticmethod
 	def private_clipping_add(params):

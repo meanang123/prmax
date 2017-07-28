@@ -18,9 +18,11 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
      OrderConformationPaymentMethods, ResearchProjectStatus, SEOStatus, SeoPaymentTypes, NewsFeedTypes, ProspectSource, ProspectType, \
      UnSubscribeReason, ProspectRegion, GeographicalLookupTypes, ReasonCategories, ReasonCodes, Countries, OutletPrices, \
      ResearchFrequencies, PRMaxRoles, EmailSendTypes, Languages, Continents, ContactHistoryStatus,\
-     ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, \
+     ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, ServerTypes, \
      ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes
 from prcommon.model.hostspf import Hostspf
+from prcommon.model.emails import EmailFooter, EmailHeader, EmailLayout
+from prcommon.model.customer.customeremailserver import CustomerEmailServer
 from prcommon.model.lookups import Publishers
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.validators import  SimpleFormValidator, Schema
@@ -103,7 +105,12 @@ class OpenController(OpenSecureController):
 	              "mediaaccesstypes" :  MediaAccessTypes,
 	              "paymentmethods" : PaymentMethods,
 	              "paymenttypes": CustomerPaymentTypes,
-	              "publishers" :  Publishers
+	              "publishers" :  Publishers,
+	              "servertypes": ServerTypes,
+	              "customeremailserver": CustomerEmailServer,
+	              "emailheader": EmailHeader,
+	              "emailfooter": EmailFooter,
+	              "emaillayout": EmailLayout
 		            }
 
 	_AddFilter = ("taskstatus", "users", "tasktype", "tasktags", "countrytypes", "seostatus", "newsfeedtypes", "customertypes",

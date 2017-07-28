@@ -55,6 +55,8 @@ from prcommon.sales.salesorderconformation import SendOrderConfirmationBuilder, 
 from prcommon.sitecontrollers import QueryController
 from prcommon.sitecontrollers.languages import LanguageController
 from prcommon.sitecontrollers.clippingstypes import ClippingsTypeController
+from prcommon.sitecontrollers.customeremailserver import CustomerEmailServerController
+from prcommon.sitecontrollers.emails import EmailFooterController, EmailHeaderController, EmailLayoutController
 from prcommon.sitecontrollers.search import SearchController as SearchController2
 from ttl.tg.validators import std_state_factory, PrFormSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler_text
@@ -103,6 +105,11 @@ class Root(controllers.RootController):
 	clippings = ClippingsController()
 	languages = LanguageController()
 	clippingstypes = ClippingsTypeController()
+	customeremailserver = CustomerEmailServerController()
+	emailheader = EmailHeaderController()
+	emailfooter = EmailFooterController()
+	emaillayout = EmailLayoutController()
+
 
 	@expose("")
 	def default(self, *args, **kw):

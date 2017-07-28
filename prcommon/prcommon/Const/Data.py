@@ -324,4 +324,6 @@ Clipping_Source_MediaToolKit = 5
 Clipping_Source_Madaptive = 6
 
 
+KEY1 = '!D5#$4sRg@rc1F7V'
 
+Email_Layout_Standard = 1
