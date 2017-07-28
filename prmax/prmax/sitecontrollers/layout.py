@@ -57,6 +57,7 @@ class LayoutController(SecureController):
 	  Constants.CustomerType_Professional:"prmax.professional.banner",
 	  Constants.CustomerType_LevelCert:"prmax.levelcert.banner",
 	  Constants.CustomerType_StereoTribes: "prmax.stereotribes.banner",
+	  Constants.CustomerType_PressData: "prmax.pressdata.banner",
 	}
 	__std_start_view = {
 	  Constants.CustomerType_SolididMedia:"prmax.solidmedia.stdview",
@@ -65,6 +66,7 @@ class LayoutController(SecureController):
 	  Constants.CustomerType_Professional:"prmax.professional.stdview",
 	  Constants.CustomerType_LevelCert:"prmax.levelcert.stdview",
 	  Constants.CustomerType_StereoTribes: "prmax.stereotribes.stdview",
+	  Constants.CustomerType_PressData: "prmax.pressdata.stdview",
 	}
 
 	#######################################################
@@ -240,6 +242,8 @@ class LayoutController(SecureController):
 	  "professional_start_view":"layout",  #professional
 	  "levelcert_start_view":"layout",  #levelcert
 	  "stereotribes_start_view": "layout",
+	  "pressdata_start_view": "layout",
+
 
 		# search templates
 		"std_search_quick":"search", # quick search form

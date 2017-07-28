@@ -26,7 +26,7 @@ valid_files = ('dojo.js','prmaxdojo.js','parser.js','prmaxstartup.js','prmaxnewc
                'prmaxupdatumdojo.js', 'prmaxfensdojo.js', 'prmaxkantardojo.js',
                'prmaxphoenixpbdojo.js', 'prmaxseoodojo.js', 'prmaxblueboodojo.js',
                'prmaxipcbdojo.js', 'prmaxsolidmediadojo.js', 'prmaxdeperslijst.js',
-               'prmaxmynewsdesk.js', 'prmaxprofessional.js', 'prmaxstereotribes.js')
+               'prmaxmynewsdesk.js', 'prmaxprofessional.js', 'prmaxstereotribes.js', 'prmaxpressdata.js')
 
 def buildRelease(build = True,islive = True , version = "missing" ):
    print "build dojo release", islive

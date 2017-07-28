@@ -2241,9 +2241,9 @@ dependencies ={
 			"prmax.pressrelease.distributiontemplate.viewer"
 			]
 		},
-// prmaxprofessional
+// pressdata
 		{
-		name: "prmaxprofessional.js",
+		name: "prmaxpressdata.js",
 				dependencies: [
 			"dojo.io.iframe",
 			"dojo.back",
@@ -2409,21 +2409,16 @@ dependencies ={
 			"prcommon.contacthistory.notes",
 			"prcommon.documents.view",
 
-			"prmax.professional.view",
-			"prmax.professional.banner",
-			"prmax.professional.stdview",
-			"prmax.professional.startup",
+			"prmax.pressdata.view",
+			"prmax.pressdata.banner",
+			"prmax.pressdata.stdview",
+			"prmax.pressdata.startup",
 
 			"prcommon.clippings.viewer",
 
 			"prmax.pressrelease.distributiontemplate.viewer"
 
 			]
-		},		{
-			name: "prmaxseoodojo.js",
-        dependencies: [
-				"prmax.pressrelease.seo.customer.view"
-				]
 		}
     ],
 //compress/build/
