@@ -131,7 +131,7 @@ define([
 	{
 		if (value)
 		{
-			this.show_parentbtn = true;
+			this.show_parentbtn = value;
 		}
 	},
 	_getValueAttr:function()

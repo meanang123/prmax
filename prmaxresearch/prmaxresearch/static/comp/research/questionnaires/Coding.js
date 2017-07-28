@@ -19,9 +19,14 @@ define([
 	"dojox/data/JsonRestStore",
 	"dojo/data/ItemFileReadStore",
 	"dojo/dom-attr",
+	"dojo/dom-construct",	
+	"dojo/dom",
+	"dojo/on",
+	"dojo/_base/array",	
+	"dijit/form/Button",	
+	"dijit/form/TextBox",
 	"dijit/layout/ContentPane",
 	"dijit/form/Form",
-	"dijit/form/TextBox",
 	"dijit/form/FilteringSelect" ,
 	"dijit/form/Button",
 	"dojox/form/BusyButton",
@@ -29,7 +34,7 @@ define([
 	"dijit/form/Textarea",
 	"prcommon2/outlet/OutletSelect",
 	"prcommon2/outlet/SelectMultipleOutlets"
-	], function(declare, BaseWidgetAMD, template, BorderContainer, ContentPane, topic, lang, utilities2, request , JsonRest, ItemFileReadStore, domattr){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, ContentPane, topic, lang, utilities2, request , JsonRest, ItemFileReadStore, domattr, domConstruct, dom, on, array, Button, TextBox){
  return declare("research.questionnaires.Coding",
 	[BaseWidgetAMD, BorderContainer],{
 	templateString: template,
@@ -43,6 +48,7 @@ define([
 		this.prmax_outlettypeid.set("store",PRCOMMON.utils.stores.OutletTypes());
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Add_Codes());
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
+		this.seriesparentid.set("parentbtnvalue", false);
 
 		this.inherited(arguments);
 	},
@@ -53,14 +59,53 @@ define([
 	load:function( projectitem, outlet , user_changes )
 	{
 
+		this.seriesparentid.set("parentbtnvalue", false);
 		this._reset_fields();
 		this.prmax_outlettypeid.set("value",outlet.outlet.prmax_outlettypeid);
 
 		this.interests.set("value",outlet.interests ) ;
-		domattr.set(this.serieschildren, "innerHTML",outlet.serieschildren);
+//		domattr.set(this.serieschildren, "innerHTML",outlet.serieschildren);
+
+		if (outlet.serieschildren.length > 0)
+		{
+			domConstruct.destroy('serieschildren_table');
+			if (dom.byId('serieschildren_td')) 
+			{
+				domConstruct.destroy('serieschildren_td');
+			};			
+			domConstruct.create('td', {
+				'align':'right', 
+				'class': 'prmaxrowtag' ,
+				'valign':'top',
+				'style': {'padding-top': '10px'},
+				'id':'serieschildren_td',
+				innerHTML: 'Series Children'
+				}, 'serieschildren_tr', 'first');
+			
+			td2 = domConstruct.create('td', {}, 'serieschildren_tr', 'last');
+			div = domConstruct.create('div', {
+				'id': 'serieschildren_div'	
+			}, td2);
+			
+			domConstruct.create('table', {'id':'serieschildren_table'}, 'serieschildren_div', 'first');
+			array.forEach(outlet.serieschildren, function(child, i) {
+				var tr = domConstruct.create("tr", {}, "serieschildren_table"),
+					td = domConstruct.create("td", {}, tr),
+					txbox = domConstruct.create(new TextBox({
+							value: child.outletname,
+							'readonly':'readonly'
+							}).placeAt(td, 'first'))
+			 });	
+		}
+		else 
+		{
+			domConstruct.destroy('serieschildren_table');
+			domConstruct.destroy('serieschildren_td');
+		};
 
 		if (outlet.profile.profile)
 		{
+			this.seriesparentid.set("parentbtnvalue", false);
 			this.seriesparentid.set("value", outlet.profile.profile.seriesparentid);
 			this.supplementofid.set("value", outlet.profile.profile.supplementofid)
 			this.seriesparentid.set("displayvalue", outlet.profile.seriesparentname);
