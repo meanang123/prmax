@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <%include file="../../header_common.mak"/>
-<title>${client.clientname} Newsroom</title>
 <meta name="description" content=""></meta>
 <meta name="keywords" content=""></meta>
 <%include file="../../header_google.mak"/>
@@ -42,7 +41,7 @@ fjs.parentNode.insertBefore(js, fjs);
 		<div class="single-news-links">
 			<p class="socialmedia-title">Trydar diweddaraf</p>
 			<div class="latest-tweets">
-				<a class="twitter-timeline" href="https://twitter.com/cyngorcaerdydd">Tweets by cardiffcouncil</a> 
+				<a class="twitter-timeline" href="https://twitter.com/cyngorcaerdydd">Tweets by cardiffcouncil</a>
 				<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 			</div>
 

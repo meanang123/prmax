@@ -95,6 +95,7 @@ class MadaptiveSearch(object):
 						outletname = clip.get("authorName", "") if "authorName" in clip.keys() else ""
 						if outletname != "" and outletname.strip().lower() not in self._translations_outlets and outletname.strip().lower() not in self._missing_outlets:
 							self._missing_outlets[outletname.strip().lower()] = (outletname.strip(), url)
+						outletname = outletname.strip().lower()
 						if outletname in self._translations_outlets:
 							clip['outletid'] = self._translations_outlets[outletname]
 
