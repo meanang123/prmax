@@ -20,6 +20,7 @@ from prcommon.lib.common import add_config_details
 from prmax.sitecontrollers.clippings.questions import QuestionsController
 from prmax.sitecontrollers.clippings.analyse import AnalyseController
 from prmax.sitecontrollers.clippings.charting import ChartingController
+from prmax.model import EmailTemplates, EmailQueue
 
 class ClippingIdSchema(PrFormSchema):
 	"schema"
@@ -91,6 +92,20 @@ class ClippingsController(SecureController):
 
 		return ClippingsGeneral.list_clippings(params)
 
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ClippingListSchema(), state_factory=std_state_factory)
+	def list_selected_clippings(self, *args, **params):
+		""" list of clipps """
+
+		if args:
+			params['clippingid'] = int(args[0])
+		params['selected'] = True
+
+		return ClippingsGeneral.list_clippings(params)
+
 	@expose('text/html')
 	@validate(validators=ClippingIdSchema(), state_factory=std_state_factory)
 	def display_page(self, *args, **params):
@@ -128,6 +143,32 @@ class ClippingsController(SecureController):
 		ClippingsGeneral.delete_clipping(params)
 
 		return stdreturn(data=params["clippingid"])
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ClippingIdSchema(), state_factory=std_state_factory)
+	def user_select(self, *args, **params):
+		""" user clippings selection"""
+
+		if params['selected'] == 'true':
+			ClippingsGeneral.add_user_selection(params)
+		else:
+			ClippingsGeneral.delete_user_selection(params)
+		
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def clear_user_selection(self, *args, **params):
+		""" user clippings selection"""
+
+		ClippingsGeneral.clear_user_selection(params)
+		
+		return stdreturn()
+
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -179,3 +220,11 @@ class ClippingsController(SecureController):
 
 		return """<iframe scrolling="no" frameborder="0" width="100%" height="100%" src="/clippings/frame?as_frame=1"></iframe>"""
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	def send_clippings_email(self, *args, **params):
+		""" send email with all selected clippings """
+		
+		EmailQueue.send_email_clippings(params)
+		return stdreturn()

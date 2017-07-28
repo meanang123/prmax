@@ -24,6 +24,8 @@ define([
 	"prcommon2/clippings/filter",
 	"prcommon2/clippings/detailedviewer",
 	"prcommon2/clippings/edit_private",
+	"prcommon2/clippings/emails",
+	"prcommon2/clippings/add_server",
 	"dijit/form/ValidationTextBox",
 	"dijit/form/DateTextBox",
 	"dijit/form/NumberTextBox",
@@ -63,14 +65,17 @@ define([
 	},
 	_details_btn_event:function()
 	{
+		domclass.remove(this.emailsbtn.domNode,"prmaxhidden");
 		this._change_view_event("clippings_view");
 	},
 	_summary_btn_event:function()
 	{
+		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		this._show_hide_details(this.piechart);
 	},
 	_time_btn_event:function()
 	{
+		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		this._show_hide_details(this.lineschart);
 	},
 	_refesh_chart_event:function()
@@ -80,22 +85,31 @@ define([
 	},
 	_add_btn_event:function()
 	{
+		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		this.add_private.clear();
 		this.controls.selectChild(this.add_private);
 		this._active_page = null;
+	},
+	_email_btn_event:function()
+	{
+		this.emails_ctrl.load(this.email_dlg);
+		this.email_dlg.show();
 	},
 	_change_view_event:function(move_to_view)
 	{
 		switch (move_to_view)
 		{
 			case "clippings_view":
+				domclass.remove(this.emailsbtn.domNode,"prmaxhidden");
 				this._show_hide_details(this.clippings_view);
 				break;
 			case "linechart":
+				domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 				this._show_hide_details(this.lineschart);
 				break;
 			case "newclipping":
-			this._add_btn_event();
+				domclass.add(this.emailsbtn.domNode,"prmaxhidden");
+				this._add_btn_event();
 				break;
 
 		}

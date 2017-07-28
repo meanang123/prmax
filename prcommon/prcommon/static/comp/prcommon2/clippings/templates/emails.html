@@ -1,0 +1,40 @@
+<div>
+    <form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='"onSubmit":"return false"'>
+        <table width="100%" class="prmaxtable" >
+            <tr><td align="right" width="15%" class="prmaxrowtag"><label>Subject</label></td><td><input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="emailsubject" data-dojo-props='placeHolder:"Enter Email Subject",required:true,name:"emailsubject",trim:true,type:"text",style:"width:300px"'></td></tr>
+            <tr><td align="right" width="15%" class="prmaxrowtag"><label>From</label></td><td><span><select data-dojo-props='name:"fromemailaddress",autoComplete:true,labelType:"html", style:"width:300px"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="customeremailserverid" ></select></span>
+            <span style="margin-left:10px"><button data-dojo-attach-event="onClick:_add_server" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Add</button><br/></span>            
+            </td></tr>
+            <tr><td align="right" width="15%" class="prmaxrowtag"><label>To</label></td><td><input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="toemailaddress" data-dojo-props='placeHolder:"Enter Email Address",required:true,regExpGen:dojox.validate.regexp.emailAddress,name:"toemailaddress",trim:true,type:"text",style:"width:300px"'></td></tr>
+            <tr><td align="right" width="15%" class="prmaxrowtag"><label>Header</label></td><td><span><select data-dojo-props='name:"emailheaderid",autoComplete:true,labelType:"html",style:"width:300px"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="emailheaderid" ></select></span>
+            <span style="margin-left:10px"><button data-dojo-attach-event="onClick:_add_header" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Add</button><br/></span>            
+            </td></tr>
+            <tr><td align="right" width="15%" class="prmaxrowtag"><label>Footer</label></td><td><span><select data-dojo-props='name:"emailfooterid",autoComplete:true,labelType:"html",style:"width:300px"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="emailfooterid" ></select></span>
+            <span style="margin-left:10px"><button data-dojo-attach-event="onClick:_add_footer" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Add</button><br/></span>            
+            </td></tr>
+            <tr><td align="right" width="15%" class="prmaxrowtag"><label>Layout</label></td><td><span><select data-dojo-props='name:"emaillayoutid",autoComplete:true,labelType:"html",style:"width:300px"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="emaillayoutid" ></select></span>
+<!--            <span style="margin-left:10px"><button data-dojo-attach-event="onClick:_add_layout" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Add</button><br/></span>            
+-->
+            </td></tr>
+
+            <tr><td class="prmaxrowtag" colspan="2" align="right"><button data-dojo-attach-event="onClick:_send" data-dojo-attach-point="sendbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-envelope-o fa-2x",type:"button",busyLabel:"Please Wait Sending...",label:"Send","class":"btnright"'></button></td></tr>
+
+        </table></br></br>
+    </form>
+
+    <div data-dojo-type="dijit.Dialog" data-dojo-attach-point="add_server_dialog" data-dojo-props='title:"Add Email Server",style:"width:400px;height:260px"'>
+        <div data-dojo-type="prcommon2.clippings.add_server" data-dojo-attach-point="add_server_ctrl"></div>
+    </div>	
+    <div data-dojo-type="dijit.Dialog" data-dojo-attach-point="add_header_dialog" data-dojo-props='title:"Add Email Header",style:"width:400px;height:300px"'>
+        <div data-dojo-type="prcommon2.clippings.add_header" data-dojo-attach-point="add_header_ctrl"></div>
+    </div>	
+    <div data-dojo-type="dijit.Dialog" data-dojo-attach-point="add_footer_dialog" data-dojo-props='title:"Add Email Footer",style:"width:400px;height:300px"'>
+        <div data-dojo-type="prcommon2.clippings.add_footer" data-dojo-attach-point="add_footer_ctrl"></div>
+    </div>	
+    <div data-dojo-type="dijit.Dialog" data-dojo-attach-point="add_layout_dialog" data-dojo-props='title:"Add Email Layout",style:"width:300px;height:100px"'>
+        <div data-dojo-type="prcommon2.clippings.add_layout" data-dojo-attach-point="add_layout_ctrl"></div>
+
+    </div>	
+       
+</div>
+

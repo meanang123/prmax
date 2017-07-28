@@ -39,16 +39,23 @@ define([
 	constructor: function()
 	{
 		this._clippings = new Observable(new JsonRest ({target:'/clippings/list_clippings', idProperty:'clippingid'}));
+//		this._selected_clippings = new Observable(new JsonRest ({target:'/clippings/list_selected_clippings', idProperty:'clippingid'}));
 		this._load_call_back = lang.hitch(this, this._load_call,"view");
 		this._load2_call_back = lang.hitch(this, this._load_call,"edit");
 		this._delete_call_back = lang.hitch(this, this._delete_call);
+		this._selection_call_back = lang.hitch(this, this._selection_call);
+		this._clear_selection_call_back = lang.hitch(this, this._clear_selection_call);
+		this._clear_selection2_call_back = lang.hitch(this, this._clear_selection2_call);
 		this._std_menu = null;
 		this._loaded=false;
+		this.selected_clippings = [];
+		this.userid = PRMAX.utils.settings.uid;
 
 		topic.subscribe("/clipping/update", lang.hitch(this, this._update_event));
 		topic.subscribe("/clipping/private_add", lang.hitch(this, this._private_add_event));
 		topic.subscribe("/clipping/refresh_details", lang.hitch(this, this._section_view_event));
 		topic.subscribe("/clipping/deleted", lang.hitch(this, this._clipping_delete_event));
+
 	},
 	postCreate:function()
 	{
@@ -56,6 +63,7 @@ define([
 
 		var cells=
 		[
+			{label: ' ', className:"grid-field-image-view",field:'selected',formatter:utilities2.check_cell},
 			{label: ' ', sortable:false,className:"grid-field-image-view", field:"menu", formatter:utilities2.format_row_icon,
 			renderHeaderCell: function(node){
 								node.title = "Menu Options";
@@ -78,36 +86,72 @@ define([
 			minRowsPerPage:100,
 			loadingMessage: "<i class='fa fa-spinner fa-spin fa-3x fa-fw'></i><p>Loading Data</p>",
 			noDataMessage: "<span class='fa-stack fa-lg'><i class='fa fa-ban fa-3x fa-stack-2x text-danger'></i></span><p>No Results</p>"
-
 		});
 
 		this.clippings_grid_view.set("content", this.clippings_grid);
-		//this.clippings_grid.on("dgrid-select", lang.hitch(this, this._on_row_click));
 		this.clippings_grid.on(".dgrid-cell:click", lang.hitch(this,this._on_row_click));
 		this.clippings_grid.on("dgrid-refresh-complete", lang.hitch(this,this._first_clipping_call));
 
 		this.filter_view.set("Updateevent", lang.hitch(this, this._refresh_details_event));
-
+		
 		this.inherited(arguments);
-
 	},
 	_first_clipping_call:function(event)
 	{
-		if ( this._loaded == true )
-			return;
-		if (event.results.results && event.results.results[0].length>0)
+		this.event_first_clip = event;
+		request.post('/clippings/clear_user_selection',
+			utilities2.make_params({ data : {userid:this.userid}})).
+			then(this._clear_selection2_call_back);
+	},
+	_clear_selection2_call:function(response)
+	{
+		if (response.success=="OK")
 		{
-			var row = this.clippings_grid.row(event.results.results[0][0]);
-			this.clippings_grid.select(row);
-			this._load_clipping(event.results.results[0][0]);
+			if ( this._loaded == true )
+				return;
+			if (this.event_first_clip.results.results && this.event_first_clip.results.results[0].length>0)
+			{
+				var row = this.clippings_grid.row(this.event_first_clip.results.results[0][0]);
+				this.clippings_grid.select(row);
+				this._load_clipping(this.event_first_clip.results.results[0][0]);
+			}
+			this._loaded = true ;
 		}
-		this._loaded = true ;
+		else
+		{
+			alert("Problem");
+		}
 	},
 	_load_clipping:function(data)
 	{
 		request.post('/clippings/get_for_edit',
 				utilities2.make_params({ data : {clippingid:data.clippingid}})).
 				then (this._load_call_back);
+	},
+	_selection_call:function(response)
+	{
+		if (response.success=="OK")
+		{
+			this._clippings.put(this._row);
+
+			if (this._row.selected == true )
+			{
+				this.selected_clippings.push(this._row);
+			}
+			else
+			{
+//				this._selected_clippings.remove(this._row);
+				var index = this.selected_clippings.indexOf(this._row);
+				if (index > -1)
+				{
+					this.selected_clippings.splice(index, 1);
+				}
+			}
+		}
+		else
+		{
+			alert("Problem");
+		}
 	},
 	_on_row_click:function(evt)
 	{
@@ -117,7 +161,17 @@ define([
 
 		this._row = cell.row.data;
 
-		if ( cell.column.field =="menu")
+		// user click on the selection row
+		if (cell.column.field == "selected")
+		{
+			var selected = !this._row.selected;
+			this._row.selected = !this._row.selected;
+			var userid = PRMAX.utils.settings.uid;
+			request.post('/clippings/user_select',
+				utilities2.make_params({ data : {clippingid:this._row.clippingid, userid:userid, selected:selected}})).
+				then(this._selection_call_back);
+		}
+		else if ( cell.column.field =="menu")
 		{
 			if (this._std_menu === null)
 			{
@@ -238,12 +292,24 @@ define([
 	},
 	_refresh_details_event:function(extra_filter)
 	{
-		var filter = this.filter_view.get("filterlimited");
-
+		this.filter_par = this.filter_view.get("filterlimited");
+		this.extra_filter_par = extra_filter;
 		this._loaded = false;
-		this.clippings_grid.set("query", lang.mixin(filter,extra_filter));
 
+		this.clippings_grid.set("query", lang.mixin(this.filter_par,this.extra_filter_par));
 		this.clippings_view_ctrl.selectChild(this.blank_view);
+	},
+	_clear_selection_call:function(response)
+	{
+		if (response.success=="OK")
+		{
+			this.clippings_grid.set("query", lang.mixin(this.filter_par,this.extra_filter_par));
+			this.clippings_view_ctrl.selectChild(this.blank_view);
+		}
+		else
+		{
+			alert("Problem");
+		}
 	},
 	_section_view_event:function(newfilter)
 	{

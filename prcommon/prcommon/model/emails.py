@@ -22,7 +22,7 @@ from datetime import datetime, date, timedelta
 from turbogears.database import metadata, mapper, session, config
 from sqlalchemy import Table, text, func, or_, and_
 from bs4 import BeautifulSoup
-from ttl.ttlemail import EmailMessage
+from ttl.ttlemail import EmailMessage, SMTPServer, SMTPServer1to1, SMTPServerGMail, SMTPServerHotmail, SMTPServerYahoo, SMTPSERVERBYTYPE
 from ttl.postgres import DBCompress
 import ttl.Constants as ttlConstants
 from prcommon.model.common import BaseSql
@@ -37,6 +37,9 @@ from prcommon.Const.Email_Templates import Demo_Body, Demo_Subject
 from prcommon.lib.distribution import MailMerge
 import prcommon.Constants as Constants
 from prcommon.lib.bouncedemails import AnalysisMessage
+from prcommon.model.clippings.clipping import Clipping
+from prcommon.model.clippings.clippingselection import ClippingSelection
+from prcommon.model.customer.customeremailserver import CustomerEmailServer
 
 LOGGER = logging.getLogger("prcommon.model")
 
@@ -97,6 +100,62 @@ class EmailQueue(BaseSql):
 			transaction.rollback()
 			raise
 
+
+	@classmethod
+	def send_email_clippings(cls, params):
+		""" send email with clippings"""
+
+		merge = MailMerge()
+		header = footer = headertext = footertext = ""
+		bodytext = "<br/>"
+		params2 = dict(params)
+
+		for row in session.query(Clipping.clip_source_date, Clipping.clip_title, Clipping.clip_abstract, Clipping.clip_link).\
+			join(ClippingSelection, Clipping.clippingid == ClippingSelection.clippingid).\
+			filter(ClippingSelection.userid == params['userid']):
+			params2['clip_title'] = row.clip_title
+			params2['clip_source_date'] = row.clip_source_date.strftime("%d/%m/%Y")
+			params2['clip_link'] = row.clip_link.replace(".", ".<span></span>").replace("//", "//<span></span>")
+			params2['clip_abstract'] = row.clip_abstract
+
+			if int(params['emaillayoutid']) == Constants.Email_Layout_Standard:
+				bodytext = bodytext + Constants.Email_Clippings_Body % params2
+
+		if 'emailheaderid' in params and params["emailheaderid"] != '':
+			header = EmailHeader.query.get(params['emailheaderid'])
+			headertext = "<p style='font-size:14px'>" + header.htmltext + "</p>"
+		if 'emailfooterid' in params and params["emailfooterid"] != '':
+			footer = EmailFooter.query.get(params['emailfooterid'])
+			footertext = "<p style='font-size:14px'>" + footer.htmltext + "</p>"
+
+		bodytext = merge.do_merge_test(headertext + bodytext + footertext)
+		if params['fromemailaddress']:
+			customeremailserver = CustomerEmailServer.query.get(params['fromemailaddress'])
+			fromemailaddress = customeremailserver.fromemailaddress
+
+#		email = EmailMessage(fromemailaddress,
+#	                         params['toemailaddress'],
+#	                         params['emailsubject'],
+#	                         bodytext,
+#	                          "text/html"
+#	                         )
+#		email.BuildMessageHtmlOnly()
+#		emailserver = SMTPSERVERBYTYPE[2](
+#		    username='stamatia.vatsi@prmax.co.uk',
+#	        password='!!!gsmatoyla')
+#		sender = 'stamatia.vatsi@prmax.co.uk'
+#		emailserver.send(email,sender)
+
+		EmailQueue.send_email_and_attachments(
+		    fromemailaddress,
+		    params['toemailaddress'],
+		    params['emailsubject'],
+		    bodytext,
+		    None,
+		    Constants.EmailQueueType_Internal,
+		    "text/html",
+		    Constants.Email_Html_Only)
+
 	@classmethod
 	def send_email_and_attachments(cls, fromemailaddress, toaddress,
 	              subject, body, files,
@@ -111,8 +170,9 @@ class EmailQueue(BaseSql):
 		emailm.bodytype = newtype
 
 		# attach files
-		for (data, name) in files:
-			emailm.addAttachment(data, name)
+		if files:
+			for (data, name) in files:
+				emailm.addAttachment(data, name)
 
 		if emailsendtypeid == Constants.Email_Html_Only:
 			emailm.BuildMessageHtmlOnly()
@@ -942,6 +1002,25 @@ class EmailTemplates(BaseSql):
 
 		return self.emailtemplatecontent
 
+	@classmethod
+	def test_email_server(cls, params):
+		""" send a test email """
+
+		email = EmailMessage(params['fromemailaddress'],
+		                      'support@prmax.co.uk',
+		                      'Email Account Verification',
+		                      'The email account %s has been verified.' %(params['fromemailaddress']),
+		                      "text/html"
+							 )
+		email.BuildMessage()
+
+		if int(params['host']) in SMTPSERVERBYTYPE:
+			emailserver = SMTPSERVERBYTYPE[int(params['host'])](
+				username=params["username"],
+				password=params["password"])
+			sender = 'stamatia.vatsi@gmail.com'
+			emailserver.send(email,sender)
+
 
 class EmailTemplateList(BaseSql):
 	""" List of list that are used to create the distribution list """
@@ -1292,6 +1371,112 @@ class EmailTemplatesLinkThrough(object):
 
 		return "%s/%d/click/%s" % (config.get('prmax.clickthrought'), listmemberid, self.linkname)
 
+class EmailHeader(BaseSql):
+
+	List_Email_Headers = """SELECT emailheaderdescription FROM internal.emailheader"""
+	List_Email_Headers_count = """SELECT count(*) FROM internal.emailheader"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		data = [dict(id=row.emailheaderid, name=row.emailheaderdescription)
+		        for row in session.query(EmailHeader).order_by(EmailHeader.emailheaderdescription).all()]
+		return data
+
+	@classmethod
+	def add(cls, params):
+		""" add a new emailheader record """
+
+		try:
+			transaction = cls.sa_get_active_transaction()
+			emailheader = EmailHeader(
+			    emailheaderdescription=params["emailheaderdescription"],
+			    customerid=params.get("icustomerid", None),
+			    htmltext=params["htmltext"])
+			session.add(emailheader)
+			session.flush()
+			transaction.commit()
+			return emailheader.emailheaderid
+		except:
+			LOGGER.exception("Email_header_add")
+			transaction.rollback()
+			raise
+
+	@classmethod
+	def get(cls, emailheaderid):
+
+		return EmailHeader.query.get(emailheaderid);
+
+class EmailFooter(BaseSql):
+
+	List_Email_Footers = """SELECT emailfooterdescription FROM internal.emailfooter"""
+	List_Email_Servers_count = """SELECT count(*) FROM internal.emailfooter"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		data = [dict(id=row.emailfooterid, name=row.emailfooterdescription)
+		        for row in session.query(EmailFooter).order_by(EmailFooter.emailfooterdescription).all()]
+		return data
+
+	@classmethod
+	def add(cls, params):
+		""" add a new emailfooter record """
+
+		try:
+			transaction = cls.sa_get_active_transaction()
+			emailfooter = EmailFooter(
+			    emailfooterdescription=params["emailfooterdescription"],
+			    customerid=params.get("icustomerid", None),
+			    htmltext=params["htmltext"])
+			session.add(emailfooter)
+			session.flush()
+			transaction.commit()
+			return emailfooter.emailfooterid
+		except:
+			LOGGER.exception("Email_footer_add")
+			transaction.rollback()
+			raise
+
+	@classmethod
+	def get(cls, emailfooterid):
+
+		return EmailFooter.query.get(emailfooterid);
+
+class EmailLayout(BaseSql):
+
+	List_Email_Layouts = """SELECT emaillayoutdescription FROM internal.emaillayout"""
+	List_Email_Servers_count = """SELECT count(*) FROM internal.emaillayout"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		data = [dict(id=row.emaillayoutid, name=row.emaillayoutdescription)
+		        for row in session.query(EmailLayout).order_by(EmailLayout.emaillayoutdescription).all()]
+		return data
+
+	@classmethod
+	def add(cls, params):
+		""" add a new emaillayout record """
+
+		try:
+			transaction = cls.sa_get_active_transaction()
+			emaillayout = EmailLayout(
+			    emaillayoutdescription=params["emaillayoutdescription"],
+			    customerid=params.get("icustomerid", None))
+			session.add(emaillayout)
+			session.flush()
+			transaction.commit()
+			return emaillayout.emaillayoutid
+		except:
+			LOGGER.exception("Email_layout_add")
+			transaction.rollback()
+			raise
+
+	@classmethod
+	def get(cls, emaillayoutid):
+
+		return EmailLayout.query.get(emaillayoutid);
+
+
+
 
 ################################################################################
 ## get definitions from the database
@@ -1303,6 +1488,9 @@ EmailTemplateList.mapping = Table('emailtemplatelist', metadata, autoload=True, 
 ListMemberDistribution.mapping = Table('listmemberdistribution', metadata, autoload=True, schema="userdata")
 EmailTemplatesAttachements.mapping = Table('emailtemplatesattachements', metadata, autoload=True, schema="userdata")
 EmailTemplatesLinkThrough.mapping = Table('emailtemplateslinkthrough', metadata, autoload=True, schema="userdata")
+EmailHeader.mapping = Table('emailheader', metadata, autoload=True, schema="internal")
+EmailFooter.mapping = Table('emailfooter', metadata, autoload=True, schema="internal")
+EmailLayout.mapping = Table('emaillayout', metadata, autoload=True, schema="internal")
 
 mapper(EmailQueue, EmailQueue.mapping)
 mapper(EmailTemplates, EmailTemplates.mapping)
@@ -1310,3 +1498,6 @@ mapper(EmailTemplateList, EmailTemplateList.mapping)
 mapper(ListMemberDistribution, ListMemberDistribution.mapping)
 mapper(EmailTemplatesAttachements, EmailTemplatesAttachements.mapping)
 mapper(EmailTemplatesLinkThrough, EmailTemplatesLinkThrough.mapping)
+mapper(EmailHeader, EmailHeader.mapping)
+mapper(EmailFooter, EmailFooter.mapping)
+mapper(EmailLayout, EmailLayout.mapping)

@@ -156,20 +156,27 @@ Clippings_Order_Header_Update = """Prmax Clipping Order Update"""
 Clippings_Order_Body_Change = """
 <p>Updated Clippings Order</p><br/>
 <table cellspacing ="0" cellpadding="0" >
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Prmax Reference</td><td>%(clippingsorderid)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5pxSupplier Ref</td><td>%(clippingsorderid)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Customer Id</td><td>%(icustomerid)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Customer Name</td><td>%(customername)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Description</td><td>%(description)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Nbr Clips</td><td>%(nbrclips)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Price Level</td><td>%(clippingpriceserviceleveldescription)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Start Date</td><td>%(startdate_display)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">End Date</td><td>%(enddate_display)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Keywords</td><td>%(keywords)s</td</tr>
-<tr><td style="padding:0px;margin:0px;padding-right:5px">Notes</td><td>%(message)s</td</tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Prmax Reference</td><td>%(clippingsorderid)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Supplier Ref</td><td>%(clippingsorderid)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Customer Id</td><td>%(icustomerid)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Customer Name</td><td>%(customername)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Description</td><td>%(description)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Nbr Clips</td><td>%(nbrclips)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Price Level</td><td>%(clippingpriceserviceleveldescription)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Start Date</td><td>%(startdate_display)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">End Date</td><td>%(enddate_display)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Keywords</td><td>%(keywords)s</td></tr>
+<tr><td style="padding:0px;margin:0px;padding-right:5px">Notes</td><td>%(message)s</td></tr>
 </table>
 <br/>
 <p>Support</p>"""
 
-
+Email_Clippings_Body = """
+<table cellspacing ="0" cellpadding="10" style="width:700px;background-color:#F5F5F5;border-color:#606060;font-family:Arial;">
+<tr><td align='left' style="width:600px;font-size:16px;font-weight:bold">%(clip_title)s</td><td align='right' style="width:100px;font-style:italic">%(clip_source_date)s</td></tr>
+<tr><td colspan="2">%(clip_link)s</td></tr>
+<tr><td colspan="2">%(clip_abstract)s</td></tr>
+</table>
+<br/>
+"""
 

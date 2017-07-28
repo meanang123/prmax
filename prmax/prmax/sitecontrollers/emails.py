@@ -495,6 +495,15 @@ class EmailController(SecureController):
 
 		return formreturn(data)
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	def email_test_server(self, *args, **params):
+		""" send a test email for a new customer email server """
+
+
+		EmailTemplates.test_email_server(params)
+		return stdreturn()
 
 
 

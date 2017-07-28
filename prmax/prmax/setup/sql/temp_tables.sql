@@ -201,3 +201,382 @@ UPDATE research.questionnairetext set email_body_text = '<p>Dear %(contact)s,</p
 <p>%(researcher)s</p>'
 where questionnairetextid = 3;
 
+
+CREATE TABLE userdata.clippingselection
+(
+  userid integer NOT NULL,
+  clippingid integer NOT NULL,
+  CONSTRAINT pk_clippingselection PRIMARY KEY (userid,clippingid),
+  CONSTRAINT fk_clippingid FOREIGN KEY (clippingid)
+      REFERENCES userdata.clippings (clippingid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_userid FOREIGN KEY (userid)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE userdata.clippingselection OWNER TO postgres;
+GRANT ALL ON TABLE userdata.clippingselection TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.clippingselection TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.clippingselection TO prmaxcontrol;
+
+CREATE TABLE internal.servertypes
+(
+  servertypeid integer NOT NULL,
+  servertypename character varying NOT NULL,
+  CONSTRAINT pk_servertype PRIMARY KEY (servertypeid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.servertypes OWNER TO postgres;
+GRANT ALL ON TABLE internal.servertypes TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.servertypes TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.servertypes TO prmaxcontrol;
+
+INSERT INTO internal.servertypes VALUES (2, 'gmail');
+INSERT INTO internal.servertypes VALUES (3, 'yahoo');
+INSERT INTO internal.servertypes VALUES (4, 'hotmail');
+INSERT INTO internal.servertypes VALUES (5, '1to1');
+
+CREATE TABLE public.customeremailserver
+(
+  customeremailserverid serial NOT NULL,
+  fromemailaddress character varying NOT NULL,
+  customerid integer NOT NULL,
+  servertypeid integer NOT NULL,
+  username character varying NOT NULL,
+  password character varying NOT NULL,
+  CONSTRAINT pk_customeremailserver PRIMARY KEY (customeremailserverid),  
+  CONSTRAINT fk_customerid FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_servertypeid FOREIGN KEY (servertypeid)
+      REFERENCES internal.servertypes (servertypeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT un_customeremailserver UNIQUE (fromemailaddress, customerid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.customeremailserver OWNER TO postgres;
+GRANT ALL ON TABLE public.customeremailserver TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.customeremailserver TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.customeremailserver TO prmaxcontrol;
+GRANT ALL ON TABLE customeremailserver_customeremailserverid_seq TO postgres;
+GRANT UPDATE ON TABLE customeremailserver_customeremailserverid_seq TO prmax;
+GRANT UPDATE ON TABLE customeremailserver_customeremailserverid_seq TO prmaxcontrol;
+
+
+ALTER TABLE communications ADD COLUMN instagram character varying;
+
+CREATE TABLE internal.emaillayout
+(
+  emaillayoutid integer NOT NULL,
+  customerid integer,
+  emaillayoutdescription character varying NOT NULL,
+  CONSTRAINT pk_customer_emaillayoutid PRIMARY KEY (emaillayoutid),
+  CONSTRAINT fk_customerid FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT un_customer_emaillayoutdescription UNIQUE (customerid, emaillayoutdescription)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.emaillayout OWNER TO postgres;
+GRANT ALL ON TABLE internal.emaillayout TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emaillayout TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emaillayout TO prmaxcontrol;
+
+INSERT INTO internal.emaillayout VALUES (1, null, 'Standard');
+
+CREATE TABLE internal.emailheader
+(
+  emailheaderid serial NOT NULL,
+  customerid integer,
+  emailheaderdescription character varying NOT NULL,
+  htmltext character varying,
+  CONSTRAINT pk_customer_emailheaderid PRIMARY KEY (emailheaderid),
+  CONSTRAINT fk_customerid FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT un_customer_emailheaderdescription UNIQUE (customerid, emailheaderdescription)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.emailheader OWNER TO postgres;
+GRANT ALL ON TABLE internal.emailheader TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailheader TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailheader TO prmaxcontrol;
+ALTER TABLE internal.emailheader_emailheaderid_seq OWNER TO postgres;
+GRANT ALL ON TABLE internal.emailheader_emailheaderid_seq TO postgres;
+GRANT UPDATE ON TABLE internal.emailheader_emailheaderid_seq TO prmax;
+
+CREATE TABLE internal.emailfooter
+(
+  emailfooterid serial NOT NULL,
+  customerid integer,
+  emailfooterdescription character varying NOT NULL,
+  htmltext character varying,
+  CONSTRAINT pk_customer_emailfooterid PRIMARY KEY (emailfooterid),
+  CONSTRAINT fk_customerid FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT un_customer_emailfooterdescription UNIQUE (customerid, emailfooterdescription)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.emailfooter OWNER TO postgres;
+GRANT ALL ON TABLE internal.emailfooter TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailfooter TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailfooter TO prmaxcontrol;
+ALTER TABLE internal.emailfooter_emailfooterid_seq OWNER TO postgres;
+GRANT ALL ON TABLE internal.emailfooter_emailfooterid_seq TO postgres;
+GRANT UPDATE ON TABLE internal.emailfooter_emailfooterid_seq TO prmax;
+
+
+DROP VIEW research_external_data;
+
+CREATE VIEW research_external_data AS
+SELECT
+u.user_id,
+rxt.researchexternalcontactid,
+rxt.outletid,
+con.familyname, con.firstname, con.prefix,
+a.address1,
+a.address2,
+a.townname,
+a.county,
+a.postcode,
+o.www,
+com.tel,
+com.email,
+com.fax,
+com.twitter,
+com.facebook,
+com.instagram
+
+FROM tg_user AS u
+JOIN internal.researchexternalcontacts AS rxt ON rxt.researchexternalcontactid = u.researchexternalcontactid
+JOIN outlets AS o ON o.outletid = rxt.outletid
+JOIN communications AS com ON com.communicationid = o.communicationid
+JOIN addresses AS a ON a.addressid = com.addressid
+JOIN employees AS e on o.primaryemployeeid = e.employeeid
+JOIN contacts AS con ON con.contactid = e.contactid;
+
+GRANT SELECT ON research_external_data TO prcontact;
+
+
+DROP VIEW ListMember_Ai_View;
+
+CREATE VIEW ListMember_Ai_View AS SELECT
+	lm.listid,
+	lm.outletid,
+	CASE WHEN lm.employeeid IS NULL THEN o.primaryemployeeid ELSE lm.employeeid END as employeeid,
+	JSON_ENCODE(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
+	COALESCE(o.circulation,0) AS circulation,
+	o.frequencyid,
+	a.address1,
+	a.address2,
+	a.townname,
+	a.county,
+	a.postcode,
+	comm.email AS outlet_email,
+	comm.tel AS outlet_tel,
+	comm.fax,
+	o.prmax_outlettypeid AS outlettypeid,
+	e.job_title,
+	JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
+	get_override(ecomm.email,comm.email,'','') AS contact_email,
+	ecomm.tel AS contact_tel,
+	o.www,
+	get_override(ecomm.twitter,comm.twitter,'','') AS contact_twitter,
+	get_override(ecomm.facebook,comm.facebook,'','') AS contact_facebook,
+	get_override(ecomm.linkedin,comm.linkedin,'','') AS contact_linkedin,
+	get_override(ecomm.instagram,comm.instagram,'','') AS contact_instagram,
+	o.profile
+
+FROM userdata.listmembers AS lm
+JOIN userdata.list AS l ON lm.listid = l.listid
+JOIN outlets as o ON o.outletid = lm.outletid
+JOIN communications AS comm ON comm.communicationid = o.communicationid
+JOIN addresses AS a ON a.addressid = comm.addressid
+JOIN employees AS e ON COALESCE(lm.employeeid,o.primaryemployeeid)= e.employeeid
+LEFT OUTER JOIN communications AS ecomm ON ecomm.communicationid = e.communicationid
+LEFT OUTER JOIN contacts AS c ON e.contactid = c.contactid
+ORDER BY o.outletname;
+
+GRANT SELECT ON ListMember_Ai_View TO prapi;
+
+
+DROP VIEW Search_Results_View_Report;
+
+CREATE VIEW Search_Results_View_Report  AS SELECT
+	s.selected as selected,
+	CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END as outletname,
+	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
+	CASE WHEN s.employeeid IS NULL THEN o.primaryemployeeid ELSE s.employeeid END as employeeid,
+	s.outletid,
+	o.customerid,
+	s.appended,
+	s.userid,
+	s.searchtypeid,
+	c.familyname,
+	c.firstname,
+	c.prefix,
+	c.suffix,
+	-- for addresses
+	coalesce(CASE WHEN eca.address1 IS NULL THEN
+	     CASE WHEN ea.address1 IS NULL THEN
+		CASE WHEN oca.address1 IS NULL THEN oa.address1 ELSE oca.address1 END
+	     ELSE ea.address1 END
+	ELSE eca.address1 END,'') as address1,
+	coalesce(CASE WHEN eca.address1 IS NULL THEN
+	     CASE WHEN ea.address1 IS NULL THEN
+		CASE WHEN oca.address1 IS NULL THEN oa.address2 ELSE oca.address2 END
+	     ELSE ea.address2 END
+	ELSE eca.address2 END,'') as address2,
+	coalesce(CASE WHEN eca.address1 IS NULL THEN
+	     CASE WHEN ea.address1 IS NULL THEN
+		CASE WHEN oca.address1 IS NULL THEN oa.townname ELSE oca.townname END
+	     ELSE ea.townname END
+	ELSE eca.townname END,'') as townname,
+	coalesce(CASE WHEN eca.address1 IS NULL THEN
+	     CASE WHEN ea.address1 IS NULL THEN
+		CASE WHEN oca.address1 IS NULL THEN oa.county ELSE oca.county END
+	     ELSE ea.county END
+	ELSE eca.county END,'') as county,
+	coalesce(CASE WHEN eca.address1 IS NULL THEN
+	     CASE WHEN ea.address1 IS NULL THEN
+		CASE WHEN oca.address1 IS NULL THEN oa.postcode ELSE oca.postcode END
+	     ELSE ea.postcode END
+	ELSE eca.postcode END,'') as postcode,
+	get_override(ec_c.tel,e_c.tel,oc_oc.tel,o_c.tel) as tel,
+	get_override(ec_c.email,e_c.email,oc_oc.email,o_c.email) as email,
+	e.job_title,
+	pr.sortorder,
+	coalesce(e.prmaxstatusid,1) AS prmaxstatusid,
+	UPPER(o.outletname) as sortname,
+	pr.prmax_outlettypename,
+	o.circulation,
+	get_override(ec_c.twitter,e_c.twitter,oc_oc.twitter,o_c.twitter) AS twitter,
+	get_override(ec_c.facebook,e_c.facebook,oc_oc.facebook,o_c.facebook) AS facebook,
+	get_override(ec_c.linkedin,e_c.linkedin,oc_oc.linkedin,o_c.linkedin) AS linkedin,
+	get_override(ec_c.instagram,e_c.instagram,oc_oc.instagram,o_c.instagram) AS instagram,
+	country.countryname,
+	o.profile_link_field as displaylink
+	FROM userdata.searchsession as s
+		JOIN outlets as o on o.outletid = s.outletid
+		LEFT OUTER JOIN outletcustomers as oc ON s.outletid = oc.outletid AND s.customerid = oc.customerid
+		JOIN employees as e on COALESCE(s.employeeid,oc.primaryemployeeid,o.primaryemployeeid)= e.employeeid
+		JOIN tg_user as u on s.userid = u.user_id
+		LEFT OUTER JOIN contacts as c on e.contactid = c.contactid
+		LEFT OUTER JOIN employeecustomers as ec ON ec.employeeid = COALESCE(s.employeeid,oc.primaryemployeeid,o.primaryemployeeid) AND ec.customerid = s.customerid
+
+		-- outlet communications
+		LEFT OUTER JOIN communications as o_c ON o_c.communicationid = o.communicationid
+		-- outlet override
+		LEFT OUTER JOIN communications as oc_oc ON oc_oc.communicationid = oc.communicationid
+		-- employee communications
+		LEFT OUTER JOIN communications as e_c ON e_c.communicationid = e.communicationid
+		-- employee override
+		LEFT OUTER JOIN communications as ec_c ON ec.communicationid = ec_c.communicationid
+
+		LEFT OUTER JOIN addresses as oa ON oa.addressid = o_c.addressid
+		LEFT OUTER JOIN addresses as oca ON oca.addressid = oc_oc.addressid
+		LEFT OUTER JOIN addresses as ea ON ea.addressid = e_c.addressid
+		LEFT OUTER JOIN addresses as eca ON eca.addressid = ec_c.addressid
+		LEFT OUTER JOIN internal.prmax_outlettypes AS pr ON pr.prmax_outlettypeid = o.prmax_outlettypeid
+		LEFT OUTER JOIN internal.countries as country ON country.countryid = o.countryid
+
+ORDER BY o.outletname;
+
+GRANT SELECT ON Search_Results_View_Report TO prmax;
+
+
+DROP VIEW ListMember_Ai_View;
+
+CREATE VIEW ListMember_Ai_View AS SELECT
+	lm.listid,
+	lm.outletid,
+	CASE WHEN lm.employeeid IS NULL THEN o.primaryemployeeid ELSE lm.employeeid END as employeeid,
+	JSON_ENCODE(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
+	COALESCE(o.circulation,0) AS circulation,
+	o.frequencyid,
+	a.address1,
+	a.address2,
+	a.townname,
+	a.county,
+	a.postcode,
+	comm.email AS outlet_email,
+	comm.tel AS outlet_tel,
+	comm.fax,
+	o.prmax_outlettypeid AS outlettypeid,
+	e.job_title,
+	JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
+	get_override(ecomm.email,comm.email,'','') AS contact_email,
+	ecomm.tel AS contact_tel,
+	o.www,
+	get_override(ecomm.twitter,comm.twitter,'','') AS contact_twitter,
+	get_override(ecomm.facebook,comm.facebook,'','') AS contact_facebook,
+	get_override(ecomm.linkedin,comm.linkedin,'','') AS contact_linkedin,
+	get_override(ecomm.instagram,comm.instagram,'','') AS contact_instagram,
+	o.profile
+
+FROM userdata.listmembers AS lm
+JOIN userdata.list AS l ON lm.listid = l.listid
+JOIN outlets as o ON o.outletid = lm.outletid
+JOIN communications AS comm ON comm.communicationid = o.communicationid
+JOIN addresses AS a ON a.addressid = comm.addressid
+JOIN employees AS e ON COALESCE(lm.employeeid,o.primaryemployeeid)= e.employeeid
+LEFT OUTER JOIN communications AS ecomm ON ecomm.communicationid = e.communicationid
+LEFT OUTER JOIN contacts AS c ON e.contactid = c.contactid
+ORDER BY o.outletname;
+
+GRANT SELECT ON ListMember_Ai_View TO prapi;
+
+DROP VIEW ListMember_Ai_View;
+CREATE VIEW ListMember_Ai_View AS SELECT
+	lm.listid,
+	lm.outletid,
+	CASE WHEN lm.employeeid IS NULL THEN o.primaryemployeeid ELSE lm.employeeid END as employeeid,
+	JSON_ENCODE(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
+	o.circulation,
+	o.frequencyid,
+	a.address1,
+	a.address2,
+	a.townname,
+	a.county,
+	a.postcode,
+	comm.email AS outlet_email,
+	comm.tel AS outlet_tel,
+	comm.fax,
+	o.prmax_outlettypeid AS outlettypeid,
+	e.job_title,
+	JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
+	get_override(ecomm.email,comm.email,'','') AS contact_email,
+	ecomm.tel AS contact_tel,
+	o.www,
+	get_override(ecomm.twitter,comm.twitter,'','') AS contact_twitter,
+	get_override(ecomm.facebook,comm.facebook,'','') AS contact_facebook,
+	get_override(ecomm.linkedin,comm.linkedin,'','') AS contact_linkedin,
+	get_override(ecomm.instagram,comm.instagram,'','') AS contact_instagram,
+	o.profile
+
+FROM userdata.listmembers AS lm
+JOIN userdata.list AS l ON lm.listid = l.listid
+JOIN outlets as o ON o.outletid = lm.outletid
+JOIN communications AS comm ON comm.communicationid = o.communicationid
+JOIN addresses AS a ON a.addressid = comm.addressid
+JOIN employees AS e ON COALESCE(lm.employeeid,o.primaryemployeeid)= e.employeeid
+JOIN communications AS ecomm ON ecomm.communicationid = e.communicationid
+LEFT OUTER JOIN contacts AS c ON e.contactid = c.contactid
+ORDER BY o.outletname;
+
+GRANT SELECT ON ListMember_Ai_View TO prapi;
+
