@@ -10,19 +10,15 @@
 # Copyright:   (c) 2011
 
 #-----------------------------------------------------------------------------
-from datetime import datetime, timedelta
-from turbogears import controllers, expose, view
-from cherrypy import response
-from prcommon.model import SEORelease, SEOCache, SEOImage
-from prpublish.lib.common import page_settings_basic
-from ttl.ttlemail import ext_to_content_type
-from ttl.postgres import DBCompress
 import json
+from turbogears import controllers, expose
+from cherrypy import response
+from prcommon.model import SEORelease, SEOSite
 
 class FeedController(controllers.RootController):
 	""" Details of feed"""
 
-	@expose("json")
+	@expose("")
 	def default(self, *argv, **kw):
 		""" default handler """
 
@@ -33,15 +29,21 @@ class FeedController(controllers.RootController):
 		if len(argv) > 2:
 			clientid = argv[1]
 
-		params = {'customerid':customerid, 'export_type':export_type, 'clientid':clientid}
-		results = {}
+		params = {'customerid':customerid, 'export_type':export_type, 'clientid':clientid, 'days': 300,}
 		seoreleases = SEORelease.get_list(params)
-		
+
 		if seoreleases == None:
 			return ""
-		
-		seoreleases = json.dumps(seoreleases)
-		return seoreleases
+
+		if export_type == "json":
+			response.headers["Content-type"] =  "application/json;charset=utf-8"
+			seoreleases = json.dumps(seoreleases)
+			return seoreleases
+		elif  export_type == "rss":
+			response.headers["Content-type"] = "text/xml;charset=utf-8"
+			return SEOSite.get_rss_limited_feed(seoreleases)
+
+		return ""
 
 
 

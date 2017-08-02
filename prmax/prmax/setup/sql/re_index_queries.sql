@@ -91,3 +91,9 @@ INSERT INTO queues.indexerqueue( objecttype, objectid, data, action, customerid 
 INSERT INTO queues.indexerqueue( objecttype, objectid, data, action, customerid ) VALUES(14,251529,'1029',2,-1);
 
 INSERT INTO queues.indexerqueue( objecttype, objectid, data, action, customerid ) VALUES(7,249084,'1029',2,-1);
+
+
+
+update internal.prmaxcontrol set search_index_rebuild_mode = 1;
+update outlets set force_index = now() WHERE outletid = 107884;
+update internal.prmaxcontrol set search_index_rebuild_mode = 0;

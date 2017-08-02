@@ -431,7 +431,7 @@ class SEORelease(BaseSql):
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
 	_Release_List_Date_Cardiff = """SELECT seo.synopsis,
-	CASE 
+	CASE
 	WHEN seo.clientid = 2014 THEN '/releases/c/'||seo.seoreleaseid||'.html'
 	WHEN seo.clientid = 1966 THEN '/releases/w/'||seo.seoreleaseid||'.html'
 	END as link,
@@ -443,7 +443,7 @@ class SEORelease(BaseSql):
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
-	
+
 	_Release_List_Count = """SELECT COUNT(*) FROM seoreleases.seorelease AS seo """
 	_Release_List_Order = """ ORDER BY published DESC OFFSET :offset LIMIT :limit"""
 
@@ -524,7 +524,7 @@ class SEORelease(BaseSql):
 
 				if key == "b":
 					whereused += " AND seo.content_text ilike :b "
-				
+
 				if key == "search":
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 		else:
@@ -556,7 +556,7 @@ class SEORelease(BaseSql):
 				if "cid" in params:
 					cri["cid"] = int (params["cid"])
 					whereused += " AND seo.clientid  = :cid "
-				
+
 				if 'search' in params:
 					cri["search"] = "%" + params["search"].strip() + "%"
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
@@ -573,7 +573,7 @@ class SEORelease(BaseSql):
 	      resultcount =  cls.sqlExecuteCommand ( text ( SEORelease._Release_List_Count  + whereused) ,
 	                                             fields,
 	                                             BaseSql.singleFieldInteger),
-		  
+
 	      criteria = simplejson.JSONEncoder().encode(cri),
 	      offset = (fields["offset"]/BLOCK_SIZE) + 1)
 
@@ -596,7 +596,7 @@ class SEORelease(BaseSql):
 				session.delete ( seo )
 			# clear cache
 			seocache = session.query(SEOCache).\
-			filter(SEOCache.seoreleaseid == params["seoreleaseid"]).all()			
+			filter(SEOCache.seoreleaseid == params["seoreleaseid"]).all()
 			if seocache:
 				for i in xrange(0, len(seocache)):
 					session.delete ( seocache[i] )
@@ -620,12 +620,12 @@ class SEORelease(BaseSql):
 				seo.seostatusid = seostatusid
 			# clear cache
 			seocache = session.query(SEOCache).\
-			filter(SEOCache.seoreleaseid == params["seoreleaseid"]).all()			
+			filter(SEOCache.seoreleaseid == params["seoreleaseid"]).all()
 			if seocache:
 				for i in xrange(0, len(seocache)):
 					session.delete ( seocache[i] )
 					session.flush()
-			transaction.commit()			
+			transaction.commit()
 		except:
 			LOG.exception("SEOPressRelease_withdraw")
 			transaction.rollback()
@@ -682,7 +682,8 @@ class SEORelease(BaseSql):
 	seo.seoreleaseid,
 	seo.headline as title,
 	seo.synopsis as summary,
-	'http://prnewslink.net/releases/'||seo.seoreleaseid||'.html' as link
+	'http://prnewslink.net/releases/'||seo.seoreleaseid||'.html' as link,
+	to_char(seo.published,'DD-MM-YY') AS published_display
 	FROM seoreleases.seorelease AS seo"""
 
 	_Sort_Order = """ ORDER BY %s %s
@@ -723,7 +724,7 @@ class SEORelease(BaseSql):
 		  cls )
 
 	@classmethod
-	def get_list(cls, params , internal = False ):
+	def get_list(cls, params, internal=False):
 		""" get a list of the seo """
 
 		customerid = params.get("customerid","").strip()
@@ -732,9 +733,9 @@ class SEORelease(BaseSql):
 			if cust.licence_expire < datetime.date.today():
 				return
 
-		fromdate =  (datetime.date.today() - datetime.timedelta(days = 28)).strftime("%Y-%m-%d")
+		fromdate = (datetime.date.today() - datetime.timedelta(days=params['days'])).strftime("%Y-%m-%d")
 		todate = datetime.date.today().strftime("%Y-%m-%d")
-		
+
 		whereclause = """ WHERE seo.published BETWEEN '%s' AND '%s'""" %(fromdate, todate)
 
 		if customerid and customerid not in ("-1", "-2"):
@@ -1173,6 +1174,53 @@ class SEOSite(object):
 					SEOReleaseCategories ( seoreleaseid = seo.seoreleaseid ,
 					                       seocategoryid = tmp )
 					used[tmp] = True
+
+
+	@staticmethod
+	def get_rss_limited_feed(results,
+	                         title="PRNewslink News",
+	                         description='Current News From PRmax'):
+		""" get the rss feed for the site """
+		webroot = config.get('prpublish.web','')
+		doc = Document()
+		rss = doc.createElement('rss')
+		rss.setAttribute("version","2.0")
+		doc.appendChild ( rss )
+		channel = doc.createElement('channel')
+		rss.appendChild ( channel )
+		tmp = doc.createElement('title')
+		title = title
+		tmp.appendChild ( doc.createTextNode(title))
+		channel.appendChild ( tmp )
+		tmp = doc.createElement('link')
+		tmp.appendChild ( doc.createTextNode(webroot))
+		channel.appendChild ( tmp )
+		tmp = doc.createElement('description')
+		tmp.appendChild ( doc.createTextNode(description))
+		channel.appendChild(tmp)
+		tmp = doc.createElement('language')
+		tmp.appendChild(doc.createTextNode('en-uk'))
+		channel.appendChild(tmp)
+
+		# now append the last 24 hours news
+		for seo in results:
+			item = doc.createElement('item')
+			channel.appendChild(item)
+			tmp = doc.createElement('title')
+			tmp.appendChild(doc.createTextNode(seo['title']))
+			item.appendChild(tmp)
+			tmp = doc.createElement('description')
+			tmp.appendChild(doc.createTextNode(seo['summary']))
+			item.appendChild(tmp)
+			tmp = doc.createElement('link')
+			link = webroot + "releases/%d.html" % seo['seoreleaseid']
+			tmp.appendChild(doc.createTextNode(link))
+			item.appendChild(tmp)
+			tmp = doc.createElement('pubdate')
+			tmp.appendChild(doc.createTextNode(str(seo['published_display'])))
+			item.appendChild(tmp)
+
+		return doc.toxml("UTF-8")
 
 class SEOImage(BaseSql):
 	""" images for the seo release """

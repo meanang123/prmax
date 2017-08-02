@@ -249,7 +249,7 @@ CREATE TABLE public.customeremailserver
   servertypeid integer NOT NULL,
   username character varying NOT NULL,
   password character varying NOT NULL,
-  CONSTRAINT pk_customeremailserver PRIMARY KEY (customeremailserverid),  
+  CONSTRAINT pk_customeremailserver PRIMARY KEY (customeremailserverid),
   CONSTRAINT fk_customerid FOREIGN KEY (customerid)
       REFERENCES internal.customers (customerid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE,
@@ -580,4 +580,13 @@ ORDER BY o.outletname;
 
 GRANT SELECT ON ListMember_Ai_View TO prapi;
 
-﻿INSERT INTO internal.customertypes(customertypeid,customertypename) VALUES(23,'PressData');
+INSERT INTO internal.customertypes(customertypeid, customertypename) VALUES (23,'PressData');
+
+ALTER TABLE internal.customers ADD COLUMN crm_outcome character varying(45) NOT NULL DEFAULT 'Outcome';
+ALTER TABLE internal.customers ADD COLUMN crm_subject character varying(45) NOT NULL DEFAULT 'Subject';
+
+ALTER TABLE userdata.contacthistory ADD COLUMN crm_response text;
+ALTER TABLE userdata.contacthistory ADD COLUMN crm_subject character varying(255);
+
+
+
