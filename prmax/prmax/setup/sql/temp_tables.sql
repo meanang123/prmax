@@ -588,5 +588,7 @@ ALTER TABLE internal.customers ADD COLUMN crm_subject character varying(45) NOT 
 ALTER TABLE userdata.contacthistory ADD COLUMN crm_response text;
 ALTER TABLE userdata.contacthistory ADD COLUMN crm_subject character varying(255);
 
+ALTER TABLE tg_user ADD COLUMN external_key character varying(20);
+ALTER TABLE tg_user ADD UNIQUE (customerid, external_key);
 
 

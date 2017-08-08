@@ -1220,6 +1220,14 @@ class SEOSite(object):
 			tmp.appendChild(doc.createTextNode(str(seo['published_display'])))
 			item.appendChild(tmp)
 
+			html = SEOCache.get_cached(seo["seoreleaseid"], 0)
+			item.appendChild(tmp)
+			tmp = doc.createElement('html')
+			tmp.appendChild(doc.createTextNode(unicode(html)))
+			item.appendChild(tmp)
+
+
+
 		return doc.toxml("UTF-8")
 
 class SEOImage(BaseSql):
