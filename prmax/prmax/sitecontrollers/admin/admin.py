@@ -976,6 +976,11 @@ class InternalAdminController(SecureController):
 	@validate(validators=UpdateUserDetailsSchema(), state_factory=std_state_factory)
 	def update_user_details(self, *argv, **params):
 		""" Update users detials"""
+
+		# check to see user already exists
+		if User.exists(params["user_name"], params["iuserid"]):
+			return errorreturn("User Name %s Already in Use" % params["user_name"])
+
 		User.update_details(params)
 		return stdreturn()
 

@@ -65,6 +65,14 @@ def set_default_response_settings():
 	response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 	response.headers['Pragma'] = 'no-cache'
 	response.headers['Expires'] = 0
+	set_cors_header()
+
+
+def set_cors_header():
+	"""
+	"""
+	response.headers['Access-Control-Request-Method'] = "GET,POST"
+	response.headers['Access-Control-Allow-Origin'] = "www.pressdata.co.uk , www.mynewspad.co.uk"
 
 
 def set_response_type( intype ):

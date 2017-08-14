@@ -2,14 +2,14 @@
 	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,"class":"clientview",style:"width:100%;height:100%;overflow: hidden"'>
 		<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'left',splitter:true,'class':'bordered',style:'height:100%;width:40%',gutters:false">
 			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="controls" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden", "class":"std_menu_view"'>
-				<div style="height:100%;width:100px;float:left;padding-top:10px;" class="prmaxrowdisplaylarge">Clients</div>
+				<div style="height:100%;width:150px;float:left;padding-top:10px;" class="prmaxrowdisplaylarge" data-dojo-attach-point="client_header_name">Clients</div>
 				<div data-dojo-type="dijit.Toolbar" data-dojo-props='style:"float:left;height:99%;width:200px;padding:0px;margin:0px","class":"dijitToolbarTop"'>
-					<div data-dojo-attach-event="onClick:_Add" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",label:"Add Client"'></div>
-					<div data-dojo-type="dijit.form.DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter List"'>
+					<div data-dojo-attach-event="onClick:_Add" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",label:"Add",showLabel:false'></div>
+					<div data-dojo-type="dijit.form.DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter List",showLabel:false'>
 						<span></span>
 						<div data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Filter By"' data-dojo-attach-event="execute:_ExecuteFilter">
 							<table>
-								<tr><td class="prmaxrowtag">Client Name</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="clientname_filter" data-dojo-props='name:"clientname_filter",type:"text"' ></td></tr>
+								<tr><td class="prmaxrowtag">Name</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="clientname_filter" data-dojo-props='name:"clientname_filter",type:"text"' ></td></tr>
 								<tr>
 									<td align="left"><button data-dojo-attach-event="onClick: _ClearFilter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Clear Filter by</button></td>
 									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Filter by</button></td>

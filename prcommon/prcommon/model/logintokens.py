@@ -93,5 +93,18 @@ class LoginTokens(BaseSql):
 
 		return logintoken.userid
 
+	@classmethod
+	def get_from_external(cls, params):
+		"""if we are using other peoples id"""
+
+		user = session.query(User).\
+		    join(Customer, Customer.customerid == User.customerid).\
+		    filter(User.external_key == params["external_key"]).\
+		    filter(Customer.customertypeid == params["customertypeid"]).all()
+		if user:
+			return user[0].user_id
+
+		return None
+
 LoginTokens.mapping = Table('logins_tokens', metadata, autoload=True)
 mapper(LoginTokens, LoginTokens.mapping)

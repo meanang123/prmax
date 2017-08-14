@@ -108,15 +108,15 @@ class UserController(SecureController):
 	def add(self, *args, **kw):
 		""" Change user startup flag """
 
-		if not Customer.user_able_to_add_check( kw ):
-			return duplicatereturn( message = "Licenced User Count Exceeded")
+		if not Customer.user_able_to_add_check(kw):
+			return duplicatereturn(message="Licenced User Count Exceeded")
 
 		if User.exists(kw['email']) or User.exists_email(kw['email']):
-			return duplicatereturn( message = "Email address already exists")
+			return duplicatereturn(message="Email address already exists")
 
-		userid = User.addUser( kw )
+		userid = User.addUser(kw)
 
-		return stdreturn( data = UserView.query.get(userid))
+		return stdreturn(data=UserView.query.get(userid))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

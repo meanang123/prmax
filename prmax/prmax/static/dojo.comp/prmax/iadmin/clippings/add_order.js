@@ -141,7 +141,12 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 		}
 		else
 		{
-			this._dialog.resize({w:1010, h:700});
+			try
+			{
+				this._dialog.resize({w:1010, h:700});
+			}
+			catch(e){}
+
 			dojo.removeClass( this.clippingstypes_node, "prmaxhidden");
 		}
 	},

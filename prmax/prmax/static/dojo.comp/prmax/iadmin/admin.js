@@ -242,6 +242,7 @@ dojo.declare("prmax.iadmin.admin",
 			this.updatum_pwd_display.set("value", response.data.updatum_pwd_display);
 			this.updatum_password.reset();
 			this.updatum_iuserid.set("value", this._userrow.i.user_id );
+			this.external_key.set("value", response.data.external_key);
 			if (response.data.invalid_login_tries >= 10)
 			{
 				dojo.removeClass(this.unlockUserNode.domNode, "prmaxhidden");
@@ -305,6 +306,8 @@ dojo.declare("prmax.iadmin.admin",
 	},
 	_LoadCustomer:function( response )
 	{
+		this._customertypeid = response.data.cust.customertypeid;
+
 		dojo.removeClass(this.detailsview.domNode,"prmaxhidden");
 		dojo.addClass (this.userdetails, "prmaxhidden") ;
 
@@ -388,6 +391,18 @@ dojo.declare("prmax.iadmin.admin",
 		//Clippings
 		this.clippings.load(response.data.cust.customerid, response.data.cust.end_date);
 
+		// check external user id
+		if (response.data.cust.customertypeid == 23)
+		{
+			dojo.removeClass(this.external_id_view,"prmaxhidden");
+			this.external_key.set("required", true);
+		}
+		else
+		{
+			dojo.addClass(this.external_id_view,"prmaxhidden");
+			this.external_key.set("required", false);
+		}
+
 		this.options_tab.selectChild(this.options_tab_details);
 	},
 	_Change_Expire_Date:function( cust )
@@ -395,7 +410,7 @@ dojo.declare("prmax.iadmin.admin",
 		dojo.attr(this.expire_display , "innerHTML", cust.licence_expire_display);
 
 	},
-	
+
 	_ChangeStatus:function()
 	{
 		dojo.xhrPost(
@@ -692,7 +707,7 @@ dojo.declare("prmax.iadmin.admin",
 			c = str.charAt(i);
 			if (c == c.toLowerCase())
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -706,7 +721,7 @@ dojo.declare("prmax.iadmin.admin",
 			c = str.charAt(i);
 			if (c == c.toUpperCase())
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -720,7 +735,7 @@ dojo.declare("prmax.iadmin.admin",
 			c = str.charAt(i);
 			if (parseInt(c))
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -739,7 +754,7 @@ dojo.declare("prmax.iadmin.admin",
 		{
 			if (userpassword.length < 8 || this._has_lower_case(userpassword) == false || this._has_upper_case(userpassword) == false || this._has_number(userpassword) == false)
 			{
-				alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");	
+				alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");
 				this.savePasswordNode.cancel();
 				return;
 			}
@@ -822,8 +837,8 @@ dojo.declare("prmax.iadmin.admin",
 	{
 		this._extended_security = data.cust.extended_security;
 	},
-	
-	
+
+
 	_Logout:function()
 	{
 		if  ( confirm("Logout of Prmax?")==true)
@@ -887,6 +902,7 @@ dojo.declare("prmax.iadmin.admin",
 	_Add_User:function()
 	{
 		this.adduserctrl.Clear();
+		this.adduserctrl.set_has_external_level(this._customertypeid);
 		this.adduserctrl.icustomerid.set("value", this._customerid);
 		this.adduserctrl.extended_security.set("value", this._extended_security);
 		this.adduserdialog.show();
@@ -1107,6 +1123,8 @@ dojo.declare("prmax.iadmin.admin",
 	_LoadCustomer2Call:function ( response )
 	{
 		this._customerid = response.data.cust.customerid;
+		this._customertypeid = response.data.cust.customertypeid;
+
 
 		this._LoadCustomer( response ) ;
 		this._LoadTabs( this._customerid ) ;

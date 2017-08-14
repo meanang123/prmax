@@ -3753,7 +3753,9 @@ div.dijitTabDisabled,
     top: 22px;
     width: 273px !important;
     height: 56px !important;
-    background: white url(/static/images/pressdata/pressdata_logo.jpg) 5px center no-repeat;
+	background-size: 200px 56px;
+    background-image: url(/static/images/pressdata/pressdatalogo.png);
+	background-repeat: no-repeat;
 }
 #std_banner_control > div:first-child img { display: none }
 #dijit_layout_ContentPane_0 {

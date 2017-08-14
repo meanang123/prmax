@@ -591,4 +591,47 @@ ALTER TABLE userdata.contacthistory ADD COLUMN crm_subject character varying(255
 ALTER TABLE tg_user ADD COLUMN external_key character varying(20);
 ALTER TABLE tg_user ADD UNIQUE (customerid, external_key);
 
+CREATE OR REPLACE VIEW user_external_view AS
+SELECT u.user_id,
+ u.user_name,
+ u.email_address,
+ u.display_name,
+ u.projectname,
+ u.interface_font_size,
+ u.interface_font_family,
+ u.show_dialog_on_load,
+ u.showmenubartext,
+ u.autoselectfirstrecord,
+ u.isuseradmin,
+ u.usepartialmatch,
+ u.searchappend,
+ u.emailreplyaddress,
+ u.test_extensions,
+ u.stdview_sortorder,
+ u.canviewfinancial,
+ u.client_name,
+ u.issue_description,
+ u.external_key
+   FROM tg_user u;
 
+ALTER TABLE user_external_view OWNER TO postgres;
+GRANT ALL ON TABLE user_external_view TO postgres;
+GRANT SELECT ON TABLE user_external_view TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE user_external_view TO prmaxcontrol;
+
+
+CREATE TABLE userdata.contacthistoryresponses
+(
+   contacthistoryresponseid serial NOT NULL,
+   taken_by integer NOT NULL,
+   contacthistorystatusid integer NOT NULL,
+   response text,
+   taken timestamp without time zone,
+   contacthistoryid integer NOT NULL,
+   contacthistorytypeid integer NOT NULL,
+	PRIMARY KEY (contacthistoryresponseid),
+	FOREIGN KEY (taken_by) REFERENCES tg_user (user_id) ON UPDATE NO ACTION ON DELETE SET NULL,
+	FOREIGN KEY (contacthistorystatusid) REFERENCES internal.contacthistorystatus (contacthistorystatusid) ON UPDATE NO ACTION ON DELETE RESTRICT,
+	FOREIGN KEY (contacthistoryid) REFERENCES userdata.contacthistory (contacthistoryid) ON UPDATE NO ACTION ON DELETE CASCADE,
+	FOREIGN KEY (contacthistorytypeid) REFERENCES internal.contacthistorytypes (contacthistorytypeid) ON UPDATE NO ACTION ON DELETE RESTRICT
+) WITH (  OIDS = FALSE);

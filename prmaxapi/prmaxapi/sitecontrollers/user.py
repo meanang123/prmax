@@ -22,6 +22,11 @@ class TokenSchema(tgvalidators.Schema):
 	userid = tgvalidators.Int()
 	customertypeid = tgvalidators.Int()
 
+class Token2Schema(tgvalidators.Schema):
+	""" Token adding schema """
+	allow_extra_fields = True
+	customertypeid = tgvalidators.Int()
+
 class LoginSchema(tgvalidators.Schema):
 	""" Token adding schema """
 	userid = tgvalidators.Int()
@@ -37,6 +42,29 @@ class TokenController(OpenSecureController):
 	@validate(validators=TokenSchema())
 	def gettoken(self, *args, **kw):
 		""" add an entry into the research system for chnages """
+
+		data = LoginTokens.check_access(kw)
+		if data:
+			return dict(success="FA", data=data)
+
+		user = User.query.get(kw["userid"])
+		cust = Customer.query.get(user.customerid)
+		if cust.getConcurrentExeeded(kw["userid"]):
+			return dict(success="FA", message="Concurrent User Licence Exceeded")
+
+		return dict(success="OK", tokenid=LoginTokens.add_login(kw["userid"], config.get('prmaxapi.token_life')))
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=Token2Schema())
+	def get_external_token(self, *args, **kw):
+		""" add an entry into the research system for chnages """
+
+		userid = LoginTokens.get_from_external(kw)
+		if not userid:
+			return dict(success="FA", message="Invalid Key")
+		kw["userid"] = userid
 
 		data = LoginTokens.check_access(kw)
 		if data:

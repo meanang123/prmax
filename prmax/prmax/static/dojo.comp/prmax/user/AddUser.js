@@ -41,11 +41,11 @@ dojo.declare("prmax.user.AddUser",
 		{
 			if (userpassword.length < 8 || this._has_lower_case(userpassword) == false || this._has_upper_case(userpassword) == false || this._has_number(userpassword) == false)
 			{
-				alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");	
+				alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");
 				this.saveAddNode.cancel();
 				return;
 			}
-		}		
+		}
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
 			load: this._SavedCall,
@@ -72,9 +72,10 @@ dojo.declare("prmax.user.AddUser",
 	},
 	Clear:function()
 	{
-		this.email.set("value","");
-		this.displayname.set("value","");
-		this.password.set("value","");
+		this.email.set("value", "");
+		this.displayname.set("value", "");
+		this.password.set("value", "");
+		this.external_key.set("value", "");
 	},
 	_has_lower_case:function(str)
 	{
@@ -84,7 +85,7 @@ dojo.declare("prmax.user.AddUser",
 			c = str.charAt(i);
 			if (c == c.toLowerCase())
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -98,7 +99,7 @@ dojo.declare("prmax.user.AddUser",
 			c = str.charAt(i);
 			if (c == c.toUpperCase())
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
@@ -112,10 +113,24 @@ dojo.declare("prmax.user.AddUser",
 			c = str.charAt(i);
 			if (parseInt(c))
 			{
-				return true;			
+				return true;
 			}
 			i++;
 		}
 		return false;
-	},	
+	},
+	set_has_external_level:function(customertypeid)
+	{
+		// check external user id
+		if (customertypeid == 23)
+		{
+			dojo.removeClass(this.external_id_view,"prmaxhidden");
+			this.external_key.set("required", true);
+		}
+		else
+		{
+			dojo.addClass(this.external_id_view,"prmaxhidden");
+			this.external_key.set("required", false);
+		}
+	}
 });

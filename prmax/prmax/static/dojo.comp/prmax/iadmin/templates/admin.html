@@ -199,6 +199,7 @@
 											<tr><td class="prmaxrowtag" style="width:30%">User Admin</td><td><input type="checkbox" name="isuseradmin" dojoAttachPoint="isuseradmin" dojoType="dijit.form.CheckBox"></td></tr>
 											<tr><td class="prmaxrowtag" style="width:30%">No Direct Mail</td><td><input type="checkbox" name="nodirectmail" dojoAttachPoint="nodirectmail" dojoType="dijit.form.CheckBox"></td></tr>
 											<tr><td class="prmaxrowtag" style="width:30%">See Invoices</td><td><input type="checkbox" name="canviewfinancial" dojoAttachPoint="canviewfinancial" dojoType="dijit.form.CheckBox"></td></tr>
+											<tr dojoAttachPoint="external_id_view" class="prmaxhidden"><td class="prmaxrowtag" style="width:30%">External Id</td><td width="70%"><input class="prmaxinput" dojoAttachPoint="external_key" name="external_key" type="text" trim="true" required="false" dojoType="dijit.form.ValidationTextBox" ></td></tr>
 											<tr>
 												<td class="prmaxrowtag" align="left"><button dojoAttachEvent="onClick:_send_login_details" dojoType="dijit.form.Button" type="button" label="Send Login Details" class="prmaxbutton"></button></td>
 												<td class="prmaxrowtag" align="right"><button dojoAttachEvent="onClick:_UpdateUserDetails" iconClass="dijitPrmaxIcon dijitPrmaxUpdate" dojoAttachPoint="userdetailsNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." type="button" label="Change Details" class="prmaxbutton"></button></td></tr>

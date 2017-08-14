@@ -30,6 +30,8 @@ dojo.declare("prmax.customer.clients.view",
 	postCreate:function()
 	{
 		this.client_add_dialog.set("title", "Add New " + PRMAX.utils.settings.client_name);
+		dojo.attr(this.client_header_name,"innerHTML",PRMAX.utils.settings.client_name + "s");
+
 		this.view1["cells"][0][0].name = PRMAX.utils.settings.client_name + " Short Name";
 		this.grid.set("structure",this.view1 );
 		this.grid._setStore ( this.client_model ) ;
