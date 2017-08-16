@@ -66,6 +66,8 @@ dojo.declare("prcommon.crm.add",
 		this.contacthistorystatusid.store = this._contacthistorystatus;
 		this.contacthistorytypeid.store = this._contacthistorytypes;
 		this.issueid.store = this._issues;
+
+		var userdefine=false;
 		for ( var key in this._fields)
 		{
 			var keyid = this._fields[key];
@@ -74,9 +76,15 @@ dojo.declare("prcommon.crm.add",
 			{
 				dojo.removeClass(this["chud" + keyid + "_view"],"prmaxhidden");
 				dojo.attr(this["chud" + keyid +"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
+				userdefine=true;
 			}
 
 			this["chud"+keyid+"id"].store = this["_chud"+keyid];
+		}
+
+		if (userdefine==true)
+		{
+			dojo.removeClass(this["chud5_view"],"prmaxhidden");
 		}
 
 		this.clientid.set("store", this._clients);
@@ -97,7 +105,7 @@ dojo.declare("prcommon.crm.add",
 
 		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		this.new_issue_dlg.set("label",PRMAX.utils.settings.issue_description);
-		this.extraissues.set("displayselect","Other " + PRMAX.utils.settings.issue_description+"s");
+		this.extraissues.set("displaytitle","Other " + PRMAX.utils.settings.issue_description+"s");
 
 		this.inherited(arguments);
 	},
@@ -117,6 +125,8 @@ dojo.declare("prcommon.crm.add",
 
 		this.details.set("value","");
 		this.outcome.set("value","");
+		this.crm_response.set("value","");
+
 		this.follow_up_view_check.set("checked",false);
 		this.documentid.set("value",  "-1");
 	},
@@ -223,17 +233,6 @@ dojo.declare("prcommon.crm.add",
 	{
 		this.issueid.set("value", issue.issueid);
 	},
-	show_selection:function( isvisible )
-	{
-		if ( isvisible == true)
-		{
-			dojo.removeClass(this.select_view,"prmaxhidden");
-		}
-		else
-		{
-			dojo.addClass(this.select_view,"prmaxhidden");
-		}
-	},
 	_setDialogAttr:function( dialog )
 	{
 		this._dialog = dialog;
@@ -292,5 +291,11 @@ dojo.declare("prcommon.crm.add",
 	{
 		this.clientid.set("value", data.clientid );
 		this.client_add_dialog.hide();
+	},
+	resize:function()
+	{
+		//this.inherited(arguments);
+		this.form.resize({w:560, h:600});
+		this.scroll_box.resize({w:580, h:600});
 	}
 });

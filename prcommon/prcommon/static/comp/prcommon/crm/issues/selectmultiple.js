@@ -17,7 +17,7 @@ dojo.require("prcommon.crm.issues.add");
 
 // Main control
 dojo.declare("prcommon.crm.issues.selectmultiple",
-	[ prcommon.search.std_search, ttl.BaseWidget],
+	[ ttl.BaseWidget],
 	{
 		name:"",		// name used for a form integration
 		value:"",
@@ -25,7 +25,7 @@ dojo.declare("prcommon.crm.issues.selectmultiple",
 		displayselect:'Select',
 		show_header:false,
 		search : '',
-		size:'7',
+		size:'6',
 		selectonly:true,
 		startopen:true,
 		widgetsInTemplate: true,
@@ -46,18 +46,15 @@ dojo.declare("prcommon.crm.issues.selectmultiple",
 		},
 		postCreate:function()
 		{
+			this.open = true;
 			// key
 			dojo.connect(this.issue_list_select.domNode,"onkeyup" ,  dojo.hitch(this,this._issue_select));
 			dojo.connect(this.issue_list,"onchange" ,  dojo.hitch(this,this.issue_update_selection));
 			dojo.connect(this.issue_list,"ondblclick" ,  dojo.hitch(this,this.issue_select_dbl));
-			if (this.selectonly)
+			if (this.startopen == false)
 			{
-				this.countnode.domNode.style.display = "None";
-			}
-			if (this.startopen)
-			{
-				dojo.style(this.togglectrl,"display","none");
-				dojo.style(this.selectarea,"display","block");
+				this.open = false;
+				dojo.style(this.selectarea,"display","none");
 			}
 			this.inherited(arguments);
 		},
@@ -284,7 +281,10 @@ dojo.declare("prcommon.crm.issues.selectmultiple",
 		},
 		_toggle:function()
 		{
-			this.inherited(arguments);
+			this.open = !this.open;
+			dojo.style(this.selectarea,"display","none");
+			dojo.style(this.selectarea,"display",this.open?"block":"none");
+			this.toggleCtrl.src =  this.open?"/static/images/toclosed.gif":"/static/images/toopen.gif";
 		},
 		_other_issue_event:function( issue )
 		{
@@ -309,7 +309,7 @@ dojo.declare("prcommon.crm.issues.selectmultiple",
 		},
 		_setDisplaytitleAttr:function( displaytitle )
 		{
-			dojo.attr(this.issue_label_2,"innerHTML" , displaytitle );
+			//dojo.attr(this.issue_label_2,"innerHTML" , displaytitle );
 		}
 	}
 );

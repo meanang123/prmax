@@ -635,3 +635,9 @@ CREATE TABLE userdata.contacthistoryresponses
 	FOREIGN KEY (contacthistoryid) REFERENCES userdata.contacthistory (contacthistoryid) ON UPDATE NO ACTION ON DELETE CASCADE,
 	FOREIGN KEY (contacthistorytypeid) REFERENCES internal.contacthistorytypes (contacthistorytypeid) ON UPDATE NO ACTION ON DELETE RESTRICT
 ) WITH (  OIDS = FALSE);
+
+
+create function to_month(integer) returns varchar as
+$$
+	select to_char(to_timestamp(to_char($1, '999'), 'MM'), 'Mon');
+$$ language sql;

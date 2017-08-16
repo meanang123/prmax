@@ -873,7 +873,10 @@ ClippingsTypes.mapping = Table('clippingstype', metadata, autoload=True, schema=
 MediaAccessTypes.mapping = Table('mediaaccesstypes', metadata, autoload=True, schema='internal')
 TaskTypeStatus.mapping = Table('tasktypestatus', metadata, autoload=True, schema='internal')
 Publishers.mapping = Table('publishers', metadata, autoload = True, schema='internal')
-ServerTypes.mapping = Table('servertypes', metadata, autoload=True, schema='internal')
+try:
+	ServerTypes.mapping = Table('servertypes', metadata, autoload=True, schema='internal')
+except:
+	pass
 
 mapper(EmailSendTypes, EmailSendTypes.mapping)
 mapper(UnSubscribeReason, UnSubscribeReason.mapping)

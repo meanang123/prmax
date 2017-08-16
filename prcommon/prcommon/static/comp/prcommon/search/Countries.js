@@ -51,6 +51,10 @@ dojo.declare("prcommon.search.Countries",
 				this.AndOr.domNode.style.display ="None";
 				this.countNode.domNode.style.display ="None";
 				this.AndOrLabel.style.display ="None";
+				if (this.displaytitle == '')
+				{
+					dojo.addClass(this.top_panel,"prmaxhidden");
+				}
 			}
 			if (this.startopen)
 			{

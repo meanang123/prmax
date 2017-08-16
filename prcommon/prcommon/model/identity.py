@@ -256,8 +256,10 @@ class User(BaseSql):
 		   distributionistemplated=customer.distributionistemplated,
 		   uctid=self.customertypeid,
 		   has_ct=customer.has_clickthrought,
-		   extended_security = customer.extended_security,
-		   required_client = customer.required_client
+		   extended_security=customer.extended_security,
+		   required_client=customer.required_client,
+		   crm_outcome=customer.crm_outcome,
+		   crm_subject=customer.crm_subject
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
@@ -395,8 +397,9 @@ class User(BaseSql):
 			            display_name=kw['displayname'],
 			            password=kw['password'],
 			            customerid=kw.get("icustomerid", kw["customerid"]),
-			            force_change_pssw = True if kw['extended_security'] == 'true' else False,
-			            last_change_pssw = datetime.now() if kw['extended_security'] == 'true' else None
+			            force_change_pssw=True if kw['extended_security'] == 'true' else False,
+			            last_change_pssw=datetime.now() if kw['extended_security'] == 'true' else None,
+			            external_key=kw.get("external_key", None)
 			            )
 
 			session.add(user)
@@ -423,6 +426,7 @@ class User(BaseSql):
 			user.user_name = params['email']
 			user.email_address = params['email']
 			user.display_name = params['displayname']
+			external_key = params.get("external_key", None)
 			transaction.commit()
 		except:
 			try:
@@ -523,6 +527,7 @@ class User(BaseSql):
 			user.canviewfinancial = params["canviewfinancial"]
 			user.isuseradmin = params["isuseradmin"]
 			user.nodirectmail = params["nodirectmail"]
+			user.external_key = params.get("external_key", None)
 			transaction.commit()
 
 		except:
@@ -786,7 +791,6 @@ class User(BaseSql):
 		user = User.query.get(userid)
 		enc = TTLCoding()
 
-
 		return dict(
 		  email_address=user.email_address,
 		  display_name=user.display_name,
@@ -798,7 +802,8 @@ class User(BaseSql):
 		  updatum_pwd_display=enc.decode(user.updatum_password),
 		  user_id=user.user_id,
 		  hasmonitoring=user.hasmonitoring,
-		  invalid_login_tries=user.invalid_login_tries
+		  invalid_login_tries=user.invalid_login_tries,
+		  external_key=user.external_key
 		)
 
 
@@ -1313,8 +1318,8 @@ class Customer(BaseSql):
 	  TO_CHAR(c.created,'DD-MM-YY') AS created,
 	  ct.customertypename,
 	  advancefeatures,
-	  to_char((SELECT MAX(last_logged_in) FROM tg_user AS u WHERE u.customerid = c.customerid AND u.usertypeid = 1), 'DD-MM-YY') AS last_login_display,
-	 (SELECT MAX(last_logged_in) FROM tg_user AS u WHERE u.customerid = c.customerid AND u.usertypeid = 1) AS last_login_sort
+	  '' AS last_login_display,
+	 '' AS last_login_sort
 		FROM internal.customers AS c
 		JOIN internal.customerstatus AS cs ON cs.customerstatusid = c.customerstatusid
 	  JOIN internal.customertypes AS ct ON ct.customertypeid = c.customertypeid

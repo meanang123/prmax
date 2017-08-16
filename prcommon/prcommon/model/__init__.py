@@ -153,6 +153,7 @@ from prcommon.model.crm2.tasktypes import TaskType
 from prcommon.model.crm2.contacthistoryhistory import ContactHistoryHistory
 from prcommon.model.usergeneral import UserGeneral
 from prcommon.model.crm2.contacthistoryuserdefine import ContactHistoryUserDefine
+from prcommon.model.crm2.contacthistoryresponses import ContactHistoryResponses
 
 from prcommon.model.crm2.documentsgeneral import DocumentsGeneral
 from prcommon.model.crm2.briefingnotesstatus import BriefingNotesStatus

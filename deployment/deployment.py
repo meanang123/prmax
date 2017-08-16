@@ -72,7 +72,7 @@ def build_test_eggs():
         print "\Projects\\" + fd[0]
         with lcd("\Projects\\" + fd[0] ):
             print fd[1]
-            local('%s setup.py clean --all bdist_egg' % python_path , capture=True)
+            local('%s setup.py clean --all bdist_egg' % python_path , capture=False)
 
 def prepare_live_deploy():
     build_live_dojo()
