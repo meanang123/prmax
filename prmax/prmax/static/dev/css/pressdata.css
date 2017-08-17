@@ -2787,6 +2787,10 @@ div.dijitTabDisabled,
     background-color: red;
     !important color: white;
 }
+.claro .prmaxCompletedRow .dojoxGridRowTable tr {
+	background-color: grey;
+	!important color: white;
+}
 .claro .dojoxGridSortNode {
     background: url("images/header_shadow.png") #e5edf4 repeat-x bottom;
     text-decoration: none;

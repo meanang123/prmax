@@ -25,6 +25,7 @@ class TasksGeneral(object):
 		t.description,
 	  to_char(t.due_date,'DD-MM-YY') as due_date_display,
 	  ts.taskstatusdescription,
+	  ts.taskstatusid,
 	  u.display_name,
 	  CASE WHEN t.due_date IS NOT NULL AND t.due_date<=CURRENT_DATE AND t.taskstatusid IN (1) THEN true ELSE false END AS isoverdue,
 	  o.outletname,
@@ -116,16 +117,17 @@ class TasksGeneral(object):
 		tasktype = TaskType.query.get(params['tasktypeid'])
 		if tasktype.tasktypestatusid == 2:
 			params["tasktypeid"] = None
-			
+
 		try:
 			task = Task.query.get(params["taskid"])
-			contacthistory = ContactHistory.query.get(task.contacthistoryid)
 			task.taskstatusid = params["taskstatusid"]
 			task.due_date = params["due_date"]
 			task.userid = params["assigntoid"]
 			task.description = params["description"]
 			task.tasktypeid = params["tasktypeid"]
-			contacthistory.outcome = params["outcome"]
+			if task.contacthistoryid:
+				contacthistory = ContactHistory.query.get(task.contacthistoryid)
+				contacthistory.outcome = params["outcome"]
 			transaction.commit()
 		except:
 			transaction.rollback()

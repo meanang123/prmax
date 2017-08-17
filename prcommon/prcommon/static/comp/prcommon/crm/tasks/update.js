@@ -80,7 +80,7 @@ dojo.declare("prcommon.crm.tasks.update",
 			display = "none";
 		}
 
-		this.source_view.domNode.style.display = display;
+		this.source_view.controlButton.domNode.style.display = display;
 
 	},
 	_clear:function()

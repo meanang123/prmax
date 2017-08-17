@@ -30,7 +30,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 			{url:'/crm/tasks/list_tasktypes',
 			nocallback:true,
 			onError:ttl.utilities.globalerrorchecker
-			});				
+			});
 
 		this._tasktypestatus =  new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=tasktypestatus"});
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
@@ -40,7 +40,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 		dojo.subscribe(PRCOMMON.Events.Task_Add,dojo.hitch(this,this._add_task_event));
 		dojo.subscribe(PRCOMMON.Events.Task_Update,dojo.hitch(this,this._update_task_event));
 		dojo.subscribe("tasktype/update", dojo.hitch(this,this._update_tasktype_event));
-		dojo.subscribe("tasktype/add", dojo.hitch(this,this._add_tasktype_event));		
+		dojo.subscribe("tasktype/add", dojo.hitch(this,this._add_tasktype_event));
 
 		this._get_model_item_call = dojo.hitch ( this, this._get_model_item);
 	},
@@ -59,7 +59,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 		{name: 'Description',width: "400px",field:'tasktypedescription'},
 		{name: 'Status', width: "100px", field:'tasktypestatusdescription'}
 		]]
-	},	
+	},
 	postCreate:function()
 	{
 		this.viewer_grid.set("structure", this._view);
@@ -72,7 +72,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 		this.tasktype_grid.set("structure", this._view_tasktypes);
 		this.tasktype_grid._setStore(this._tasktype);
 		this.tasktype_grid.onRowClick = dojo.hitch(this,this.on_tasktype_select_row);
-		
+
 		this.taskstatusid.store = this._taskstatus;
 		this.taskstatusid.set("value",1);
 		this.ownerid.store = this._users;
@@ -89,6 +89,12 @@ dojo.declare("prcommon.crm.tasks.viewer",
 		if (row_data && row_data.i.isoverdue == true)
 		{
 			in_row.customClasses += " prmaxOverDueRow";
+			return ;
+		}
+
+		if (row_data && row_data.i.taskstatusid == 3)
+		{
+			in_row.customClasses += " prmaxCompletedRow";
 			return ;
 		}
 
@@ -149,7 +155,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 	{
 		this.borderControl.resize(arguments[0]);
 		this.inherited(arguments);
-	},	
+	},
 	_new_task:function()
 	{
 		this.newtaskctrl.load ( this.newtaskdlg) ;
@@ -193,7 +199,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 			this._tasktype.setValue(this.tmp_row, "tasktypedescription", tasktype.tasktypedescription, true );
 			this._tasktype.setValue(this.tmp_row, "tasktypestatusid", tasktype.tasktypestatusid, true );
 			this.tasktype_grid.setQuery({});
-		}	
+		}
 	},
 	_get_model_item:function()
 	{
@@ -209,7 +215,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 		dojo.addClass(this.newstasktypebtn.domNode, "prmaxhidden");
 		dojo.removeClass( this.newtaskbtn.domNode,"prmaxhidden");
 		dojo.removeClass( this.filterbtn.domNode,"prmaxhidden");
-		dojo.removeClass( this.tasktypebtn.domNode,"prmaxhidden");		
+		dojo.removeClass( this.tasktypebtn.domNode,"prmaxhidden");
 	},
 	_edit_tasktype:function()
 	{
@@ -231,6 +237,6 @@ dojo.declare("prcommon.crm.tasks.viewer",
 	{
 		this.newtasktypectrl.load ( this.newtasktypedlg) ;
 		this.newtasktypedlg.show();
-	},
-	
+	}
+
 });
