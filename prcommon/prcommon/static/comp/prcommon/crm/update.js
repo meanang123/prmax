@@ -20,9 +20,10 @@ dojo.declare("prcommon.crm.update",
 	widgetsInTemplate: true,
 	templatePath: dojo.moduleUrl( "prcommon.crm","templates/update.html"),
 	history_view:"/crm/history_view?contacthistoryhistoryid=${contacthistoryhistoryid}",
+	show_close:true,
 	constructor: function()
 	{
-	
+
 
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._contacthistorystatus = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=contacthistorystatus'});
@@ -61,6 +62,8 @@ dojo.declare("prcommon.crm.update",
 
 		dojo.subscribe(PRCOMMON.Events.Issue_Add, dojo.hitch(this, this._new_issue_event));
 		dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
+		dojo.subscribe(PRCOMMON.Events.Document_Add, dojo.hitch(this, this._add_event));
+
 
 	},
 	_fields:["1","2","3","4"],
@@ -87,7 +90,7 @@ dojo.declare("prcommon.crm.update",
 		{
 			dojo.removeClass(this.clientid,"prmaxrequired");
 			this.clientid.set("value",  "-1");
-		}		
+		}
 		this.documentid.set("store", this._documents);
 
 		this.history_grid.set("structure", this.view);
@@ -99,6 +102,7 @@ dojo.declare("prcommon.crm.update",
 		this.chud3id.store = this._chud3;
 		this.chud4id.store = this._chud4;
 
+		var userdefine=false;
 		for ( var key in this._fields)
 		{
 			var keyid = this._fields[key];
@@ -107,10 +111,26 @@ dojo.declare("prcommon.crm.update",
 			{
 				dojo.removeClass(this["chud" + keyid + "_view"],"prmaxhidden");
 				dojo.attr(this["chud" + keyid +"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
+				userdefine=true;
 			}
 
 			this["chud"+keyid+"id"].store = this["_chud"+keyid];
 		}
+
+		if (userdefine==true)
+		{
+			dojo.removeClass(this["chud5_view"],"prmaxhidden");
+			dojo.removeClass(this["chud6_view"],"prmaxhidden");
+		}
+
+		if ( this.show_close == false )
+		{
+			dojo.addClass(this.closebtn.domNode,"prmaxhidden");
+		}
+
+		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
+		this.new_issue_dlg.set("label",PRMAX.utils.settings.issue_description);
+		this.extraissues.set("displaytitle","Other " + PRMAX.utils.settings.issue_description+"s");
 
 		this.inherited(arguments);
 	},
@@ -145,18 +165,10 @@ dojo.declare("prcommon.crm.update",
 			this.clientid.set("value",response.data.ch.clientid);
 			this.documentid.set("value",response.data.ch.documentid);
 			this._document_data = response.data.document;
-			if (response.data.ch.documentid != null)
-			{
-				dojo.removeClass(this.download_ctrl.domNode,"prmaxhidden");
-			}
-			else
-			{
-				dojo.addClass(this.download_ctrl.domNode,"prmaxhidden");
-
-			}
 
 			this.details.set("value", response.data.ch.details);
 			this.outcome.set("value", response.data.ch.outcome);
+			this.crm_response.set("value", response.data.ch.crm_response);
 
 			for ( var key in this._fields)
 			{
@@ -181,9 +193,7 @@ dojo.declare("prcommon.crm.update",
 
 			this.display_view.selectChild(this.tabcont);
 			this.tabcont.selectChild(this.details_view);
-
 			this.history_grid.setQuery({contacthistoryid:response.data.ch.contacthistoryid});
-
 		}
 		else
 		{
@@ -276,7 +286,7 @@ dojo.declare("prcommon.crm.update",
 		if (actualsize)
 		{
 			this._tmp_size = new Object();
-			this._tmp_size.w = actualsize.w/2;
+			this._tmp_size.w = 580;
 			this._tmp_size.h = actualsize.h;
 		}
 	},
@@ -315,7 +325,28 @@ dojo.declare("prcommon.crm.update",
 	{
 		this.clientid.set("value", data.clientid );
 		this.client_add_dialog.hide();
-	}	
+	},
+	_issue_selected:function()
+	{
+		var issueid = this.issueid.get("value");
+
+		if (issueid != null && issueid != '' && issueid != '-1')
+		{
+			dojo.xhrPost(
+				ttl.utilities.makeParams({
+				load: this._issue_brief_call_back,
+				url:'/crm/issues/get_briefing_notes',
+				content:{issueid:issueid}}));
+		}
+	},
+		_new_document:function()
+	{
+		this.addctrl.show();
+	},
+	_add_event:function( document )
+	{
+		this.documentid.set( "value", document.documentid );
+	}
 });
 
 

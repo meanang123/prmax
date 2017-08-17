@@ -22,7 +22,10 @@
 						</table>
 					</form>
 				</div>
-				<div data-dojo-attach-point="source" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Source',style:'height:100%;width:100%;overflow :auto','class':'bordered scrollpanel'"></div>
+				<div data-dojo-attach-point="source_view" data-dojo-type="dijit.layout.StackContainer" data-dojo-props="title:'Engagement',style:'height:100%;width:100%;overflow :auto','class':'bordered scrollpanel'">
+					<div data-dojo-attach-point="source" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="style:'height:100%;width:580px;overflow :auto','class':'bordered scrollpanel'"></div>
+					<div data-dojo-attach-point="ch_update" data-dojo-type="prcommon.crm.update" data-dojo-props="show_close:false,style:'height:100%;width:100%;overflow :auto','class':'bordered scrollpanel'"></div>
+				</div>
 			</div>
 		</div>
 	</div>

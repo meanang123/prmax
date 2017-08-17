@@ -9,6 +9,8 @@
 //-----------------------------------------------------------------------------
 dojo.provide("prcommon.crm.tasks.update");
 
+dojo.require("prcommon.crm.update");
+
 dojo.declare("prcommon.crm.tasks.update",
 	[ ttl.BaseWidget ],
 	{
@@ -24,9 +26,9 @@ dojo.declare("prcommon.crm.tasks.update",
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/crm/tasks/customer_users"});
 		this._taskstatus = new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=taskstatus"});
 		this._tasktype = new dojo.data.ItemFileWriteStore ( { url:"/common/lookups_restricted?searchtype=tasktypes"});
-		
-		dojo.subscribe("tasktype/add", dojo.hitch(this,this._add_tasktype_event));		
-		dojo.subscribe("tasktype/update", dojo.hitch(this,this._update_tasktype_event));		
+
+		dojo.subscribe("tasktype/add", dojo.hitch(this,this._add_tasktype_event));
+		dojo.subscribe("tasktype/update", dojo.hitch(this,this._update_tasktype_event));
 
 	},
 	postCreate:function()
@@ -47,7 +49,19 @@ dojo.declare("prcommon.crm.tasks.update",
 			this.tasktypeid.set("value", response.data.tasktypeid);
 			this.due_date.set("value", ttl.utilities.fromObjectDate(response.data.due_date));
 			this.description.set("value", response.data.description);
-			this.source.set("href",dojo.string.substitute(this.history_view,{taskid:response.data.taskid}));
+			this._setup_view(response.data.contacthistoryid);
+			if (response.data.contacthistoryid != null)
+			{
+				this.ch_update.load(response.data.contacthistoryid);
+				this.source_view.selectChild(this.ch_update);
+				this.tabcont.selectChild(this.source_view);
+			}
+			else
+			{
+				this.source.set("href",dojo.string.substitute(this.history_view,{taskid:response.data.taskid}));
+				this.source_view.selectChild(this.source);
+				this.tabcont.selectChild(this.details);
+			}
 			this.contact.set("value", response.data.contactname);
 			this.outlet.set("value", response.data.outletname);
 			this.outcome.set("value", response.data.outcome);
@@ -57,10 +71,23 @@ dojo.declare("prcommon.crm.tasks.update",
 			alert("Problem Loading Task");
 		}
 	},
+	_setup_view:function(contacthistoryid)
+	{
+	var display = "";
+
+		if ( contacthistoryid == null )
+		{
+			display = "none";
+		}
+
+		this.source_view.domNode.style.display = display;
+
+	},
 	_clear:function()
 	{
 		this.display_view.selectChild(this.blank);
 		this.source.set("content","");
+		this.ch_update._clear();
 		this.updbtn.cancel();
 	},
 	clear:function()

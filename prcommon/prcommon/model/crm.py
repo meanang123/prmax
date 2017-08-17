@@ -284,7 +284,9 @@ class Task(BaseSql):
 	COALESCE(to_char((SELECT MAX(last_logged_in) FROM tg_user AS u WHERE u.customerid = c.customerid AND u.usertypeid = 1), 'DD/MM/YY'),'') as last_login_display,
 	t.subject,
 	ct.customertypename,
-	CASE WHEN t.created_date::date=CURRENT_DATE THEN true ELSE false END AS istoday
+	CASE WHEN t.created_date::date=CURRENT_DATE THEN true ELSE false END AS istoday,
+	t.contacthistoryid
+
 
 	FROM userdata.tasks AS t
 	JOIN internal.customers as c ON c.customerid = t.ref_customerid
@@ -293,7 +295,8 @@ class Task(BaseSql):
 	JOIN internal.taskstatus AS ts ON ts.taskstatusid = t.taskstatusid
 	JOIN internal.emailactionstatus AS es ON es.emailactionstatusid = c.emailactionstatusid
 	LEFT OUTER JOIN internal.tasktags AS tg ON tg.tasktagid = t.tasktagid
-	LEFT OUTER JOIN internal.customertypes AS ct ON ct.customertypeid = c.customertypeid"""
+	LEFT OUTER JOIN internal.customertypes AS ct ON ct.customertypeid = c.customertypeid
+	LEFT OUTER JOIN userdata.contacthistory AS ch on ch.contacthistoryid = t.contacthistoryid"""
 
 	List_View_Order = """
 	 ORDER BY %s %s
