@@ -1009,6 +1009,16 @@ select {
     color: #1c1c1c;
     padding-bottom:4px;
   }  
+  .news-content-cardiff .load-more-cardiff{
+    text-align: center;
+    font-size: 18px;
+    width: 990px;
+    }      
+    .news-content-cardiff .load-more-cardiff a{
+      text-decoration: none;
+      color: #AE1A2A;
+      }      
+  
 .empty-state {
   text-align: center;
   font-family: "Raleway", sans-serif;

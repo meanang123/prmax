@@ -29,7 +29,6 @@ fjs.parentNode.insertBefore(js, fjs);
 					%if result['seoimageid']:
 						<img style="float:left;margin:0px 20px 10px 0px;" alt="Image" src="${'/releases/images?imageid=%d' % result['seoimageid']}" height="${result['height']}px" width="${result['width']}px"></img>
 					%else:
-						<%namespace file="../../resulttrail.mak" import="create_trail"/>					
 						<img style="float:left" alt="No Image" src="/static/images/noimage.gif" height="100px" width="100px"></img>
 					%endif
 					<div class="news-title-newsroom"><a href="${result['link']}">${result['headline']}</a></div>
@@ -54,7 +53,12 @@ fjs.parentNode.insertBefore(js, fjs);
 				</div>			
 			</div>
 		</div>
+		<div class="load-more-cardiff">
+			<%namespace file="resulttrail_cardiff.mak" import="create_trail"/>
+			${create_trail( resultcount, criteria, offset)}		
+		</div>
 	</div>
+
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>
 </div>
 </body></html>

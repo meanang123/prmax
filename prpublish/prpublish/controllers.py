@@ -68,6 +68,22 @@ class Root(controllers.RootController):
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
+	@expose(template="prpublish.templates.newsroom.cardiff.main_page")
+	def search_results_cardiff(self, *args, **kw ):
+		""" search """
+		ret = page_settings_basic()
+		kw['cid'] = 2014
+		ret.update ( SEORelease.do_search( kw ))
+		return ret
+
+	@expose(template="prpublish.templates.newsroom.cardiff.main_page_welsh")
+	def search_results_welsh(self, *args, **kw ):
+		""" search """
+		ret = page_settings_basic()
+		kw['cid'] = 1966
+		ret.update ( SEORelease.do_search( kw ))
+		return ret
+
 	@expose(template="prpublish.templates.contactus")
 	def contactus(self, *args, **kw ):
 		""" Contact Us Page """
@@ -184,5 +200,19 @@ class Root(controllers.RootController):
 			else:
 				return view.render( ret, template = "prpublish.templates.main" )
 
+		if args and (args[0].lower() == 'search_results_cardiff' or args[0].lower() == 'search_results_welsh'):
+			ret = page_settings_basic()
+			clientid = request.headers.get("X-Custom-Forwarded-For", None)
+			if clientid == "2014": #Cardiff - english
+				ret['cid'] = 2014
+				ret.update ( SEORelease.do_search( ret ))
+				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page")
+			elif clientid == "1966": #Cardiff - welsh
+				ret['cid'] = 1966
+				ret.update ( SEORelease.do_search( ret ))
+				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page_welsh")
+			else:
+				return view.render( ret, template = "prpublish.templates.main" )
+	
 		return ""
 
