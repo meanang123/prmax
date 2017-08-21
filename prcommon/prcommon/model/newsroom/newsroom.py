@@ -56,6 +56,8 @@ class NewsRoom(object):
 	_standard_pages_search_cardiff_welsh = {
 	    "searchcardiff": "searchcardiff",
 	    "searchwelsh": "searchwelsh",
+	    "search_results_cardiff": "search_results_cardiff",
+	    "search_results_welsh": "search_results_welsh",
 	}
 
 	def __init__(self, customer, client, page = None, params = None):
