@@ -20,7 +20,8 @@ dojo.declare("prcommon.clippings.questions.selectquestion",
 	{
 	widgetsInTemplate: true,
 	templatePath: dojo.moduleUrl( "prcommon.clippings.questions","templates/selectquestion.html"),
-	publish_path:"",
+	publish_path:"/clippings/question/analysis",
+	globalonly:false,
 	constructor: function()
 	{
 		this._questions = new dojox.data.JsonRestStore( {target:"/clippings/questions/list_by_source", idAttribute:"questionid"});
@@ -30,6 +31,14 @@ dojo.declare("prcommon.clippings.questions.selectquestion",
 	{
 		this.questionid.set("store", this._questions);
 		this.inherited(arguments);
+		if (this.globalonly==true)
+		{
+			var query={globalonly:1};
+			this.savebtn.cancel();
+			this.questionid.set("query", query);
+			this.questionid.set("value", null);
+
+		}
 	},
 	load:function(clientid,issueid)
 	{
@@ -66,12 +75,23 @@ dojo.declare("prcommon.clippings.questions.selectquestion",
 	{
 		if ( response.success=="OK")
 		{
-			dojo.publish("/clippings/question/analysis", [response.data,this._clientid,this._issueid]);
+			dojo.publish(this.publish_path, [response.data,this._clientid,this._issueid]);
 		}
 		else
 		{
 			alert("Problem");
 		}
 		this.savebtn.cancel();
+	},
+	clear:function()
+	{
+		if (this.globalonly==true)
+		{
+			var query={globalonly:1};
+			this.savebtn.cancel();
+			this.questionid.set("query", query);
+			this.questionid.set("value", null);
+
+		}
 	}
 });

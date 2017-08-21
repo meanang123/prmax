@@ -33,7 +33,7 @@ dojo.declare("prcommon.crm.userdefined",
 	view: {
 		cells: [[
 		{name: 'Items',width: "auto",field:"description"},
-		{name: ' ',width:"20px",formatter:ttl.utilities.formatRowCtrl }
+		{name: ' ',width:"20px",formatter:ttl.utilities.format_row_ctrl }
 		]]
 	},
 	postCreate:function()

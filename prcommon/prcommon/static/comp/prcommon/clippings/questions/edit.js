@@ -56,9 +56,11 @@ dojo.declare("prcommon.clippings.questions.edit",
 		this.answer_grid["onRowClick"] = dojo.hitch(this, this._on_row_click );
 		this.default_answer_answerid.set("store", this._answers);
 
-		var tmp = dojo.attr(this.issue_label_1, "innerHTML").replace("Issue",PRMAX.utils.settings.issue_description);
-		dojo.attr(this.issue_label_1, "innerHTML", tmp );
+		dojo.attr(this.issue_label_1, "innerHTML", "&nbsp;"+ PRMAX.utils.settings.issue_description);
 		dojo.attr(this.issue_label_2, "innerHTML", PRMAX.utils.settings.issue_description);
+
+		dojo.attr(this.client_label_1, "innerHTML", "&nbsp;"+ PRMAX.utils.settings.client_name);
+		dojo.attr(this.client_label_2, "innerHTML", PRMAX.utils.settings.client_name);
 	},
 	_on_row_click:function(e)
 	{
@@ -107,7 +109,7 @@ dojo.declare("prcommon.clippings.questions.edit",
 	},
 	view: {
 		cells: [[
-		{name: ' ',width:"20px",formatter:ttl.utilities.formatRowCtrl },
+		{name: ' ',width:"20px",formatter:ttl.utilities.format_row_ctrl },
 		{name: 'Answer Text',width: "auto",field:"answertext"}
 		]]
 	},
@@ -429,5 +431,10 @@ dojo.declare("prcommon.clippings.questions.edit",
 			alert("Problem");
 		}
 		this.renameanswerbtn.cancel();
+	},
+	_close:function()
+	{
+		this.new_answer_dlg.hide();
+		this.rename_answer_dlg.hide();
 	}
 });

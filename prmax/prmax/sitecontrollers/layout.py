@@ -226,6 +226,7 @@ class LayoutController(SecureController):
 	  "clippings_view": "layout",  #clippins main view
 	  "questions_view": "layout",
 	  "distributiontemplate": "layout",
+	  "global_analysis_questions": "layout",
 
 	  # embedded version
 	  "ai_start_view":"layout", # ai

@@ -641,3 +641,9 @@ create function to_month(integer) returns varchar as
 $$
 	select to_char(to_timestamp(to_char($1, '999'), 'MM'), 'Mon');
 $$ language sql;
+
+ALTER TABLE userdata.clippingsanalysistemplate ADD COLUMN customerid integer;
+ALTER TABLE userdata.clippingsanalysistemplate ADD FOREIGN KEY (customerid) REFERENCES internal.customers (customerid) ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE userdata.clippingsanalysis ADD COLUMN customerid integer;
+ALTER TABLE userdata.clippingsanalysis ADD FOREIGN KEY (customerid) REFERENCES internal.customers (customerid) ON UPDATE NO ACTION ON DELETE CASCADE;

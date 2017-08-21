@@ -408,6 +408,9 @@ ttl.utilities.formatRowCtrlExists = function(inDatum)
 	}
 }
 
+ttl.utilities.format_row_ctrl = function(inDatum) {
+	return '<i class="fa fa-bars" ></i>';
+	}
 
 ttl.utilities.formatRowCtrlLarge = function(inDatum) {
 	return '<img height="20px" width="20px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrllarge.gif"></img>';

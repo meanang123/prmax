@@ -4,60 +4,68 @@
 			<div data-dojo-attach-point="page_start" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"common_prmax_layout"'>
 				<form data-dojo-attach-point="main_form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
 					<h1>Question Details</h1>
-					<label class="label_1">Name</label><input data-dojo-props='"class":"prmaxrequired",name:"questiontext",type:"text",maxlength:80,trim:true,required:true,style:"width:26em"' data-dojo-attach-point="questiontext" data-dojo-type="dijit.form.ValidationTextBox"/><br/><br/>
+					<hr/>
+					<label class="label_1">Name</label><input data-dojo-props='"class":"prmaxrequired",name:"questiontext",type:"text",maxlength:80,trim:true,required:true,style:"width:26em",invalidMessage:"Name cannot be Empty"' data-dojo-attach-point="questiontext" data-dojo-type="dijit.form.ValidationTextBox"/><br/><br/>
 					<label class="label_1"><input data-dojo-attach-point="question_is_text" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"questiontypeid","class":"prmaxdefault",checked:"checked",type:"radio",value:"3"'/>&nbsp;Text</label><br/>
 					<label class="label_1"><input data-dojo-attach-point="question_yes_no" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"questiontypeid","class":"prmaxdefault",type:"radio",value:"1"'/>&nbsp;Yes/No</label><br/>
 					<label class="label_1"><input data-dojo-attach-point="question_list" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"questiontypeid","class":"prmaxdefault",type:"radio",value:"2"'/>&nbsp;List</label><br/>
 					<label class="label_1"><input data-dojo-attach-point="question_multiple" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"questiontypeid","class":"prmaxdefault",type:"radio",value:"6"'/>&nbsp;Multiple</label><br/>
 					<label class="label_1"><input data-dojo-attach-point="question_numeric" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"questiontypeid","class":"prmaxdefault",type:"radio",value:"4"'/>&nbsp;Numeric</label><br/>
 					<label class="label_1"><input data-dojo-attach-point="question_currency" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"questiontypeid","class":"prmaxdefault",type:"radio",value:"5"'/>&nbsp;Currency</label><br/>
-					<br/><br/><br/><br/><br/><br/><br/><br/>
-					<button data-dojo-attach-event="onClick:_next_page_start_page" data-dojo-attach-point="_btn_start_page" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Next","class":"btnright "'></button><br/><br/>
+					<br/><br/><br/><br/><br/><br/><br/>
+					<hr/>
+					<button data-dojo-attach-event="onClick:_next_page_start_page" data-dojo-attach-point="_btn_start_page" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-2x fa-arrow-right",type:"button",label:"Next","class":"btnright "'></button><br/><br/>
 				</form>
 			</div>
 			<div data-dojo-attach-point="page_answers" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"common_prmax_layout"'>
 				<h1>Answers</h1>
-				<button data-dojo-attach-event="onClick:_add_answer" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New Answer","class":"btnright"'></button><br/>
+				<hr/>
+				<button data-dojo-attach-event="onClick:_add_answer" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-plus",type:"button",label:"New Answer","class":"btnright"'></button><br/>
 				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:350px;height:250px"'>
 					<div data-dojo-attach-point="answer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='rowsPerPage:30,style:"width:100%;height:100%;"'></div>
 				</div>
-				<br/><br/>
-				<button data-dojo-attach-event="onClick:_next_page_page_answers" data-dojo-attach-point="_btn_page_answers_prev" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Next","class":"btnright "'></button>
-				<button data-dojo-attach-event="onClick:_prev_page_page_answers" data-dojo-attach-point="_btn_page_answers_next" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Prev","class":"btnright "'></button><br/><br/>
+				<hr/>
+				<button data-dojo-attach-event="onClick:_next_page_page_answers" data-dojo-attach-point="_btn_page_answers_next" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-2x fa-arrow-right",type:"button",label:"Next","class":"btnright "'></button>
+				<button data-dojo-attach-event="onClick:_prev_page_page_answers" data-dojo-attach-point="_btn_page_answers_prev" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-2x fa-arrow-left",type:"button",label:"Prev","class":"btnright "'></button><br/><br/>
 			</div>
 			<div data-dojo-attach-point="page_restrictions" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"common_prmax_layout"'>
 				<h1>Restrict Scope</h1>
+				<hr/>
 				<form data-dojo-attach-point="restrict_form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
 					<div data-dojo-attach-point="restrict_global_label_view"><label class="label_2"><input data-dojo-attach-point="restrict_global" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"restrict","class":"prmaxdefault",checked:"checked",type:"radio",value:"1"' data-dojo-attach-event='onChange:_change_restrict_view'/>&nbsp;No Restriction</label><br/></div>
-					<div data-dojo-attach-point="restrict_client_label_view"><label class="label_2"><input data-dojo-attach-point="restrict_client" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"restrict","class":"prmaxdefault",type:"radio",value:"2"' data-dojo-attach-event='onChange:_change_restrict_view'/>&nbsp;Client</label><br/></div>
-					<div data-dojo-attach-point="restrict_campaign_label_view"><label data-dojo-attach-point="issue_label_1" class="label_2"><input data-dojo-attach-point="restrict_campaign" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"restrict","class":"prmaxdefault",type:"radio",value:"3"' data-dojo-attach-event='onChange:_change_restrict_view'/>&nbsp;Issue</label><br/><br/></div>
-					<div data-dojo-attach-point="restrict_client_view" class="prmaxhidden"><label class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select></div>
+					<div data-dojo-attach-point="restrict_client_label_view"><label class="label_2"><input data-dojo-attach-point="restrict_client" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"restrict","class":"prmaxdefault",type:"radio",value:"2",style:"float:left"' data-dojo-attach-event='onChange:_change_restrict_view'/><p data-dojo-attach-point="client_label_1" style="float:left">Client</p></label><br/></div>
+					<div data-dojo-attach-point="restrict_campaign_label_view"><label class="label_2"><input data-dojo-attach-point="restrict_campaign" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"restrict","class":"prmaxdefault",type:"radio",value:"3",style:"float:left"' data-dojo-attach-event='onChange:_change_restrict_view'/><p data-dojo-attach-point="issue_label_1" style="float:left">&nbsp;Issue</p></label><br/></div>
+					<div data-dojo-attach-point="restrict_client_view" class="prmaxhidden"><label class="label_1" data-dojo-attach-point="client_label_2">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select></div>
 					<div data-dojo-attach-point="restrict_issue_view" class="prmaxhidden"><label  data-dojo-attach-point="issue_label_2" class="label_1">Issue</label><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",required:false,invalidMessage:"Select",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid"></select></div>
-					<br/><br/><br/><br/><br/><br/><br/>
-					<button data-dojo-attach-event="onClick:_next_page_restrict" data-dojo-attach-point="_btn_page_restrict_prev" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Next","class":"btnright "'></button>
-					<button data-dojo-attach-event="onClick:_prev_page_restrict" data-dojo-attach-point="_btn_page_restrict_next" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Prev","class":"btnright "'></button><br/><br/>
+					<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+					<hr/>
+					<button data-dojo-attach-event="onClick:_next_page_restrict" data-dojo-attach-point="_btn_page_restrict_next" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-2x fa-arrow-right",type:"button",label:"Next","class":"btnright "'></button>
+					<button data-dojo-attach-event="onClick:_prev_page_restrict" data-dojo-attach-point="_btn_page_restrict_prev" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-2x fa-arrow-left",type:"button",label:"Prev","class":"btnright "'></button><br/><br/>
 				</form>
 			</div>
 			<div data-dojo-attach-point="page_default" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"common_prmax_layout"'>
 				<h1>Default Answer</h1>
+				<hr/>
 				<form data-dojo-attach-point="default_form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
 					<div data-dojo-attach-point="default_text_view" class="prmaxhidden"><label class="label_1">Text</label><input data-dojo-props='name:"default_answer_text",type:"text",maxlength:80,trim:true,style:"width:16em"' data-dojo-attach-point="default_answer_text" data-dojo-type="dijit.form.ValidationTextBox"/></div>
 					<div data-dojo-attach-point="default_list_view" class="prmaxhidden"><label class="label_1">List</label><select data-dojo-props='name:"default_answer_answerid",autoComplete:true,searchAttr:"answertext",required:false,invalidMessage:"Select",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="default_answer_answerid"></select></div>
 					<div data-dojo-attach-point="default_yes_no_view" class="prmaxhidden"><label class="label_1">Yes/No</label><input data-dojo-props='name:"default_answer_boolean",type:"checkbox"' data-dojo-attach-point="default_answer_boolean" data-dojo-type="dijit.form.CheckBox"/></div>
 					<div data-dojo-attach-point="default_numeric" class="prmaxhidden"><label class="label_1">Number</label><input data-dojo-props='name:"default_answer_number",type:"text",style:"width:7em",constraints:{min:0,max:999999999},value:"0"' data-dojo-attach-point="default_answer_number" data-dojo-type="dijit.form.NumberTextBox"/></div>
 					<div data-dojo-attach-point="default_currency_view" class="prmaxhidden"><label class="label_1">Currency</label><input data-dojo-props='name:"default_answer_currency",type:"text",style:"width:8em",constraints:{fractional:true,places:"0,2",min:0.00,max:999999.00},value:"0.00"' data-dojo-attach-point="default_answer_currency" data-dojo-type="dijit.form.CurrencyTextBox"/></div>
-					<br/><br/><br/><br/><br/><br/><br/>
-					<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving ...",label:"Save","class":"btnright "'></button>
-					<button data-dojo-attach-event="onClick:_prev_page_page_default" data-dojo-attach-point="_btn_page_page_default" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Prev","class":"btnright "'></button><br/><br/>
+					<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+					<hr/>
+					<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-2x fa-floppy-o",type:"button",busyLabel:"Please Wait Saving ...",label:"Save","class":"btnright "'></button>
+					<button data-dojo-attach-event="onClick:_prev_page_page_default" data-dojo-attach-point="_btn_page_page_default" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-2x fa-arrow-left",type:"button",label:"Prev","class":"btnright "'></button><br/><br/>
 				</form>
 			</div>
 		</div>
 	</div>
-	<div data-dojo-attach-point="new_answer_dlg" data-dojo-type="dijit.Dialog"  data-dojo-props='title:"New Answer",style:"width:500px;height:100px"'>
+	<div data-dojo-attach-point="new_answer_dlg" data-dojo-type="dijit.Dialog"  data-dojo-props='title:"New Answer",style:"width:500px;height:150px"'>
 		<form data-dojo-attach-point="add_answer_form" data-dojo-props='onsubmit:"return false","class":"common_prmax_layout"' data-dojo-type="dijit.form.Form">
 			<br/>
 			<label class="label_1">Text</label><input data-dojo-props='"class":"prmaxrequired",name:"answertext",type:"text",maxlength:80,trim:true,required:true,style:"width:20em"' data-dojo-attach-point="answertext" data-dojo-type="dijit.form.ValidationTextBox"/><br/><br/>
-			<button data-dojo-attach-event="onClick:_add_answer_add" data-dojo-attach-point="addanswerbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving ...",label:"Add","class":"btnright "'></button>
+			<button data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-times fa-2x",type:"button",label:"Close","class":"btnleft"' data-dojo-attach-event="onClick:_close"></button>
+			<button data-dojo-attach-event="onClick:_add_answer_add" data-dojo-attach-point="addanswerbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-2x fa-floppy-o",type:"button",busyLabel:"Please Wait Saving ...",label:"Add","class":"btnright "'></button>
 		</form>
 	</div>
 </div>

@@ -63,8 +63,6 @@ dojo.declare("prcommon.crm.viewer_only",
 	{
 		var row = this.view_grid.getItem(e.rowIndex);
 
-		console.log(row);
-
 		if ( row )
 			this.view_details.set("href",dojo.string.substitute(this.basic_details_page,{contacthistoryid:row.i.contacthistoryid}));
 
@@ -73,7 +71,6 @@ dojo.declare("prcommon.crm.viewer_only",
 	{
 		this._outletid = outletid;
 		this.view_grid.setQuery(ttl.utilities.getPreventCache({outletid:this._outletid}));
-		this.crm_add.show_selection(false);
 		this.crm_add.set("dialog",this.crm_dlg);
 		this.view_details.set("content","");
 	},
@@ -82,7 +79,6 @@ dojo.declare("prcommon.crm.viewer_only",
 		this._employeeid = employeeid;
 		this._outletid = (outletid ==-1)?null:outletid;
 		this.view_grid.setQuery( ttl.utilities.getPreventCache({employeeid:this._employeeid}));
-		this.crm_add.show_selection(false);
 		this.crm_add.set("dialog",this.crm_dlg);
 		this.view_details.set("content","");
 	},

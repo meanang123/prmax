@@ -27,6 +27,7 @@ dojo.declare("prcommon.clippings.questions.add",
 	widgetsInTemplate: true,
 	templatePath: dojo.moduleUrl( "prcommon.clippings.questions","templates/add.html"),
 	publish_path:"/clippings/question/global",
+	globalonly:false,
 	constructor: function()
 	{
 		this._save_call_back=dojo.hitch(this, this._save_call);
@@ -52,9 +53,18 @@ dojo.declare("prcommon.clippings.questions.add",
 		this.answer_grid["onRowClick"] = dojo.hitch(this, this._on_row_click );
 		this.default_answer_answerid.set("store", this._store);
 
-		var tmp = dojo.attr(this.issue_label_1, "innerHTML").replace("Issue",PRMAX.utils.settings.issue_description);
-		dojo.attr(this.issue_label_1, "innerHTML", tmp );
+		dojo.attr(this.issue_label_1, "innerHTML", "&nbsp;"+ PRMAX.utils.settings.issue_description);
 		dojo.attr(this.issue_label_2, "innerHTML", PRMAX.utils.settings.issue_description);
+
+		dojo.attr(this.client_label_1, "innerHTML", "&nbsp;"+ PRMAX.utils.settings.client_name);
+		dojo.attr(this.client_label_2, "innerHTML", PRMAX.utils.settings.client_name);
+
+		if (this.globalonly==true)
+		{
+			dojo.addClass(this.restrict_client_label_view,"prmaxhidden");
+			dojo.addClass(this.restrict_campaign_label_view,"prmaxhidden");
+			this.restrict_global.set("checked",true);
+		}
 	},
 	_on_row_click:function(e)
 	{
@@ -67,7 +77,7 @@ dojo.declare("prcommon.clippings.questions.add",
 	view: {
 		cells: [[
 		{name: 'Answer Text',width: "auto",field:"answertext"},
-		{name: ' ',width:"20px",formatter:ttl.utilities.formatRowCtrl }
+		{name: ' ',width:"20px",formatter:ttl.utilities.format_row_ctrl }
 		]]
 	},
 	clear:function()
@@ -80,6 +90,7 @@ dojo.declare("prcommon.clippings.questions.add",
 		this.answer_grid.setQuery(ttl.utilities.getPreventCache({}));
 		this.savebtn.cancel();
 		this.default_answer_answerid.set("store", this._store);
+		this.restrict_global.set("checked",true);
 
 		this.wizard_pages.selectChild(this.page_start);
 	},
@@ -334,5 +345,9 @@ dojo.declare("prcommon.clippings.questions.add",
 		this.addanswerbtn.cancel();
 		this.answertext.set("value","");
 		this._store.save();
+	},
+	_close:function()
+	{
+		this.new_answer_dlg.hide();
 	}
 });

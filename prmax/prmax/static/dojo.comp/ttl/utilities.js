@@ -389,6 +389,10 @@ ttl.utilities.formatRowCtrl = function(inDatum) {
 	return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/static/images/rowctrl.gif"></img>';
 	}
 
+ttl.utilities.format_row_ctrl = function(inDatum) {
+	return '<i class="fa fa-bars" style="color:red,height:10px;width:10px"></i>';
+	}
+
 ttl.utilities.formatRowCtrlLarge = function(inDatum) {
 	return '<img height="20px" width="20px" style="padding:0x;margin:0px" src="/static/images/rowctrllarge.gif"></img>';
 	}

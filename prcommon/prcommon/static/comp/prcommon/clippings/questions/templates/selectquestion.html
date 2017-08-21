@@ -3,8 +3,9 @@
 	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false","class":"common_prmax_layout"' data-dojo-type="dijit.form.Form">
 		<input data-dojo-props='type:"hidden",value:-1,name:"clientid"' data-dojo-attach-point="clientid" data-dojo-type="dijit.form.TextBox" />
 		<input data-dojo-props='type:"hidden",value:-1,name:"issueid"' data-dojo-attach-point="issueid" data-dojo-type="dijit.form.TextBox" />
+		<hr/>
 		<label>Select Question</label><select data-dojo-props='name:"questionid",autoComplete:true,searchAttr:"questiontext",labelType:"html",style:"width:8em"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="questionid"></select><br/>
-		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving ...",label:"Save","class":"btnright "'></button>
+		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-2x fa-floppy-o",type:"button",busyLabel:"Please Wait Saving ...",label:"Save","class":"btnright "'></button>
 	</form>
 </div>
 

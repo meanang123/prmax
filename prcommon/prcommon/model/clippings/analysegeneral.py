@@ -10,7 +10,7 @@
 from types import ListType
 import logging
 from turbogears.database import session
-from sqlalchemy import desc
+from sqlalchemy import desc, and_
 from prcommon.model.common import BaseSql
 from prcommon.model.clippings.clippingsanalysistemplate import ClippingsAnalysisTemplate
 from prcommon.model.clippings.clipping import Clipping
@@ -111,6 +111,36 @@ class AnalyseGeneral(object):
 		analysis = []
 		clip = Clipping.query.get(clippingid)
 
+		# global
+		headingadded = False
+
+		command = session.query(ClippingsAnalysisTemplate, Question).\
+			        join(Question, ClippingsAnalysisTemplate.questionid == Question.questionid).\
+			      filter(ClippingsAnalysisTemplate.clientid == None).\
+		          filter(ClippingsAnalysisTemplate.issueid == None).\
+		          filter(ClippingsAnalysisTemplate.customerid == clip.customerid).\
+			      order_by(ClippingsAnalysisTemplate.sortorder)
+
+		for row in command.all():
+			if headingadded is False:
+				analysis.append(AnalysisRowHeader("Global"))
+				headingadded = True
+
+			analysis.append(
+			    AnalysisRowView(row[1],
+			                    row[0],
+			                    session.query(ClippingAnalysis).\
+			                    filter(ClippingAnalysis.questionid == row[1].questionid).\
+			                    filter(ClippingAnalysis.clippingid == clippingid).\
+			                    filter(ClippingAnalysis.clientid == None).\
+			                    filter(ClippingAnalysis.issueid == None).\
+			                    filter(ClippingAnalysis.customerid == clip.customerid).\
+			                    all(),
+			                    session.query(QuestionAnswers).\
+			                    filter(QuestionAnswers.questionid == row[1].questionid).\
+			                    filter(QuestionAnswers.deleted == False).all()
+			                    ))
+
 		if clip.clientid:
 			headingadded = False
 
@@ -198,7 +228,8 @@ class AnalyseGeneral(object):
 					command = session.query(ClippingAnalysis).filter(ClippingAnalysis.questionid == clippingsanalysistemplate.questionid).\
 					  filter(ClippingAnalysis.clippingid == clip.clippingid).\
 					  filter(ClippingAnalysis.clientid == clippingsanalysistemplate.clientid).\
-					  filter(ClippingAnalysis.issueid == clippingsanalysistemplate.issueid)
+					  filter(ClippingAnalysis.issueid == clippingsanalysistemplate.issueid).\
+					  filter(ClippingAnalysis.customerid == clippingsanalysistemplate.customerid)
 
 					# multiple answers for the same question
 					if answer_answerid:
@@ -211,7 +242,8 @@ class AnalyseGeneral(object):
 						  questionid=clippingsanalysistemplate.questionid,
 						  clientid=clippingsanalysistemplate.clientid,
 						  issueid=clippingsanalysistemplate.issueid,
-						  answer_answerid=answer_answerid)
+						  answer_answerid=answer_answerid,
+						  customerid=params["customerid"])
 						session.add(answer)
 						session.flush()
 
@@ -280,6 +312,10 @@ class AnalyseGeneral(object):
 			if params["issueid"]:
 				command = command.filter(ClippingsAnalysisTemplate.issueid == params["issueid"])
 
+			if not params["clientid"] and  not params["issueid"]:
+				command = command.filter(and_(ClippingsAnalysisTemplate.issueid == None, ClippingsAnalysisTemplate.clientid == None))
+				command = command.filter(ClippingsAnalysisTemplate.customerid == params["customerid"])
+
 			sortorder = command.order_by(desc(ClippingsAnalysisTemplate.sortorder)).limit(1).scalar()
 			if not sortorder:
 				sortorder = 1
@@ -290,6 +326,7 @@ class AnalyseGeneral(object):
 				questionid=params["questionid"],
 				clientid=params["clientid"],
 				issueid=params["issueid"],
+			    customerid=params["customerid"],
 				sortorder=sortorder
 			)
 			session.add(cat)
@@ -304,6 +341,24 @@ class AnalyseGeneral(object):
 				pass
 			raise
 
+	@staticmethod
+	def delete_question_to_analysis(clippingsanalysistemplateid):
+		"remove a question from the global analysis"
+
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			clippingsanalysistemplate = ClippingsAnalysisTemplate.query.get(clippingsanalysistemplateid)
+			if clippingsanalysistemplate:
+				session.delete(clippingsanalysistemplate)
+
+			transaction.commit()
+		except:
+			LOGGER.exception("delete_question_to_analysis")
+			try:
+				transaction.rollback()
+			except:
+				pass
+			raise
 
 class AnalysisRowBase(object):
 	def __init__(self, _row_type=None):

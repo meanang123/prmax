@@ -47,7 +47,7 @@ dojo.declare("prcommon.clippings.viewer",
 	},
 	view1:{noscroll: false,
 		cells: [[
-			{name: ' ',styles: 'text-align: center;', width: "15px",formatter:ttl.utilities.formatRowCtrl},
+			{name: ' ',styles: 'text-align: center;', width: "15px",formatter:ttl.utilities.format_row_ctrl},
 			{name: 'Date',width: "50px",field:'clip_source_date_display'},
 			{name: 'Type', styles: 'text-align: center;', width: "30px", field:"clippingstypedescription", formatter:ttl.utilities.fonticon},
 			{name: 'Title',width: "250px",field:"clip_title"},

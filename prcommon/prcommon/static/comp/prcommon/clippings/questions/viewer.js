@@ -38,7 +38,7 @@ dojo.declare("prcommon.clippings.questions.viewer",
 	},
 	view1:{noscroll: false,
 		cells: [[
-			{name: ' ',styles: 'text-align: center;', width: "15px",formatter:ttl.utilities.formatRowCtrl},
+			{name: ' ',styles: 'text-align: center;', width: "15px",formatter:ttl.utilities.format_row_ctrl},
 			{name: 'Name',width: "250px",field:'questiontext'},
 			{name: 'Type',width: "100px",field:'questiondescription'},
 			{name: 'Scope',width: "100px",field:'scopetype'},
@@ -65,7 +65,7 @@ dojo.declare("prcommon.clippings.questions.viewer",
 				if (this._menu_item_deleted==null)
 				{
 					this._menu_item_deleted = new dijit.Menu();
-					this._menu_item_deleted.addChild(new dijit.MenuItem({label:"Restore", onClick:dojo.hitch(this,this._restore_question)}));
+					this._menu_item_deleted.addChild(new dijit.MenuItem({label:"Restore", iconClass:"fa fa-undo",onClick:dojo.hitch(this,this._restore_question)}));
 				}
 				this._menu_item_deleted._openMyself(e);
 			}
@@ -74,10 +74,11 @@ dojo.declare("prcommon.clippings.questions.viewer",
 				if (this._menu_item_std==null)
 				{
 					this._menu_item_std = new dijit.Menu();
-					this._menu_item_std.addChild(new dijit.MenuItem({label:"Remove", onClick:dojo.hitch(this,this._remove_question)}));
-					this._menu_item_std.addChild(new dijit.MenuItem({label:"Edit", onClick:dojo.hitch(this,this._edit_question)}));
+					this._menu_item_std.addChild(new dijit.MenuItem({label:"Remove", iconClass:"fa fa-trash",onClick:dojo.hitch(this,this._remove_question)}));
+					this._menu_item_std.addChild(new dijit.MenuItem({label:"Edit", iconClass:"fa fa-pencil-square-o", onClick:dojo.hitch(this,this._edit_question)}));
 				}
 				this._menu_item_std._openMyself(e);
+				console.log(this._menu_item_std);
 			}
 		}
 	},

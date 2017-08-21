@@ -5,7 +5,7 @@
 %if row.row_type == 2:
 <h1>${row.header}</h1>
 %else:
-<label class="label_tag label_size_2" style="margin:2px;text-align:right">${row.question.questiontext}</label>
+<label class="label_tag label_size_2" style="margin:2px;text-align:right">${row.question.questiontext}&nbsp;</label>
 %if row.question.questiontypeid == 1:
 	<input data-dojo-props='name:"an_${row.def_analysis.clippingsanalysistemplateid}",type:"checkbox",checked:"${row.get_answer()}",style:"margin:2px"' data-dojo-type="dijit/form/CheckBox"/>
 %elif row.question.questiontypeid == 2:

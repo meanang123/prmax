@@ -32,11 +32,12 @@ dojo.declare("prcommon.clippings.questions.analysis_viewer",
 		this._menu_item=null;
 		this._is_load=false;
 		dojo.subscribe("/clippings/question/analysis", dojo.hitch(this,this._new_question_event));
+		dojo.subscribe("/clippings/question/analysis/select", dojo.hitch(this, this._selected_question_event));
 		this._remove_question_call_back = dojo.hitch(this, this._remove_question_call);
 	},
 	view1:{noscroll: false,
 		cells: [[
-			{name: ' ',styles: 'text-align: center;', width: "15px",formatter:ttl.utilities.formatRowCtrl},
+			{name: ' ',styles: 'text-align: center;', width: "15px",formatter:ttl.utilities.format_row_ctrl},
 			{name: 'Name',width: "250px",field:'questiontext'},
 			{name: 'Type',width: "100px",field:'questiondescription'}
 			]]
@@ -125,5 +126,11 @@ dojo.declare("prcommon.clippings.questions.analysis_viewer",
 		}
 		this.add_new_question_dlg.hide();
 		this.select_question_dlg.hide();
+	},
+	_selected_question_event:function(question)
+	{
+		this._questions.newItem(question);
+		this.select_question_dlg.hide();
+
 	}
 });

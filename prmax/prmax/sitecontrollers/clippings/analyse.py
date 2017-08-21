@@ -14,7 +14,7 @@ from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrFormSchema, RestSchema, Int2Null
 from ttl.base import stdreturn
-from prcommon.model import AnalyseGeneral, ClippingsGeneral
+from prcommon.model import AnalyseGeneral, ClippingsGeneral, AnalyseGlobal
 
 class ClippingsAnalysisTemplateidSchema(PrFormSchema):
 	"schema"
@@ -96,4 +96,23 @@ class AnalyseController(SecureController):
 
 		return stdreturn(data=AnalyseGeneral.get_display_line(params["clippingsanalysistemplateid"]))
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ClippingsAnalysisTemplateidSchema(), state_factory=std_state_factory)
+	def delete_question_to_analysis(self, *args, **params):
+		""" remove from global anlsysis """
 
+		AnalyseGeneral.delete_question_to_analysis(params["clippingsanalysistemplateid"])
+
+		return stdreturn()
+
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def global_analysis(self, *args, **params):
+		""" list of question that are marked as global"""
+
+		return AnalyseGlobal.global_analysis(params)

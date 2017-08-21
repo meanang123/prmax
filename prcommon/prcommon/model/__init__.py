@@ -189,6 +189,7 @@ from prcommon.model.clippings.clippingordergeneral import ClippingsOrderGeneral
 from prcommon.model.clippings.clippinggeneral import ClippingsGeneral
 from prcommon.model.clippings.clippingscache import ClippingCache
 from prcommon.model.clippings.analysegeneral import AnalyseGeneral
+from prcommon.model.clippings.analyseglobal import AnalyseGlobal
 from prcommon.model.clippings.clippingstype import ClippingsType
 from prcommon.model.mediatoolkit.mediatoolkitaccess import MediaToolKitAccess
 from prcommon.model.madaptive.madaptiveaccess import MadaptiveAccess
@@ -251,5 +252,6 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "JournoRequestsGeneral", "ForwardCache", "ResearchDetailsDesk", "DistributionTemplates", "ClippingsCyberWatch",
            "OutletDeskGeneral", "GeneralDistributionTemplates", "DistributionTemplateTypes", "MediaToolKitAccess", "MadaptiveAccess",
            "CustomerAccessLog", "ClippingsChartGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
-           "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout"
+           "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
+           "AnalyseGlobal"
 					 ]

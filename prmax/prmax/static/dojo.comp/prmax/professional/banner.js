@@ -16,6 +16,7 @@ dojo.require("prmax.display.CommonBanner");
 dojo.require("prcommon.crm.tasks.viewer");
 dojo.require("prmax.pressrelease.distributiontemplate.viewer");
 dojo.require("prmax.prrequest.viewer");
+dojo.require("prcommon.clippings.questions.globalsetup");
 
 dojo.declare("prmax.professional.banner",
 	[ prmax.display.CommonBanner ],

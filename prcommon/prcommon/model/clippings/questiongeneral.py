@@ -36,7 +36,7 @@ class QuestionsGeneral(object):
     WHEN i.name IS NOT NULL THEN i.name
     END as scopename,
 	CASE
-    WHEN c.clientname IS NOT NULL THEN 'Client'
+    WHEN c.clientname IS NOT NULL THEN u.client_name
     WHEN i.name IS NOT NULL THEN u.issue_description END as scopetype,
 	CASE WHEN q.deleted=TRUE THEN 'Deleted' ELSE '' END as has_been_deleted
 
@@ -84,6 +84,11 @@ class QuestionsGeneral(object):
 			if params["questiontext"]:
 				params["questiontext"] = params["questiontext"].replace("*", "") + "%"
 			whereclause = BaseSql.addclause(whereclause, 'q.questiontext ILIKE :questiontext')
+
+		if "globalonly" in  params:
+			whereclause = BaseSql.addclause(whereclause, 'qs.questionid IS NULL')
+			whereclause = BaseSql.addclause(whereclause, 'q.questionid NOT IN (select questionid FROM userdata.clippingsanalysistemplate WHERE issueid IS NULL AND clientid IS NULL AND customerid = :customerid)')
+
 
 		return BaseSql.get_rest_page_base(
 		  params,
@@ -201,7 +206,8 @@ class QuestionsGeneral(object):
 		            questiondescription=questiontype.questiondescription,
 		            scopename=scopename,
 		            scopetype=scopetype,
-		            has_been_deleted=has_been_deleted)
+		            has_been_deleted=has_been_deleted,
+		            questionid=question.questionid)
 
 	@staticmethod
 	def remove_question(questionid):
