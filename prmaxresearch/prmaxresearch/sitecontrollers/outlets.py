@@ -467,6 +467,17 @@ class OutletController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
+	@validate(validators=OutletSchema(), state_factory=std_state_factory)
+	@identity.require(identity.in_group("dataadmin"))
+	def research_outlet_is_child(self, *args, **params):
+		""" """
+
+		ret = dict( is_child = Outlet.research_outlet_is_child(params),outletid = params['outletid'])
+		return ret
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
 	@validate(validators=PrMoveEmployeeFormSchema(), state_factory=std_state_factory)
 	@identity.require(identity.in_group("dataadmin"))
 	def research_copy_contact(self, *args, **params):
