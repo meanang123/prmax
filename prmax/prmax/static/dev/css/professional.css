@@ -4455,3 +4455,13 @@ text-align:center !important;
 width:100%  !important;
 font-weight:bold  !important;
 }
+
+
+.dijitTabButtonIcon
+{
+/*width:15px !important;
+height:15px !important;
+*/
+color:white !important;
+padding:1px !important;
+}

@@ -49,3 +49,11 @@ GRANT UPDATE ON SEQUENCE research.activitydetails_activitydetailid_seq TO prmaxq
 
 GRANT SELECT ON userdata.clientnewsroom TO prrelease;
 
+GRANT INSERT,UPDATE,SELECT,DELETE ON TABLE
+seoreleases.seocache,
+seoreleases.seocomplaints,
+seoreleases.seoimages,
+seoreleases.seorelease,
+seoreleases.seoreleasecategories,
+seoreleases.seoreleaseinterests  to prmax;
+

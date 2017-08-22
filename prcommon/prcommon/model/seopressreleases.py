@@ -736,7 +736,7 @@ class SEORelease(BaseSql):
 		fromdate = (datetime.date.today() - datetime.timedelta(days=params['days'])).strftime("%Y-%m-%d")
 		todate = datetime.date.today().strftime("%Y-%m-%d")
 
-		whereclause = """ WHERE seo.published BETWEEN '%s' AND '%s'""" %(fromdate, todate)
+		whereclause = """ WHERE seo.published::date BETWEEN '%s' AND '%s'""" %(fromdate, todate)
 
 		if customerid and customerid not in ("-1", "-2"):
 			whereclause = BaseSql.addclause(whereclause, "seo.customerid = :customerid")
