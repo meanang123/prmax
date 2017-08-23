@@ -29,14 +29,14 @@ class FeedController(controllers.RootController):
 		if len(argv) > 2:
 			clientid = argv[1]
 
-		params = {'customerid':customerid, 'export_type':export_type, 'clientid':clientid, 'days': 300,}
+		params = {'customerid':customerid, 'export_type':export_type, 'clientid':clientid, 'days':300,}
 		seoreleases = SEORelease.get_list(params)
 
 		if seoreleases == None:
 			return ""
 
 		if export_type == "json":
-			response.headers["Content-type"] =  "application/json;charset=utf-8"
+			response.headers["Content-type"] = "application/json;charset=utf-8"
 			seoreleases = json.dumps(seoreleases)
 			return seoreleases
 		elif  export_type == "rss":

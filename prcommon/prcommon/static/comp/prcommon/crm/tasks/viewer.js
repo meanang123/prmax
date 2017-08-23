@@ -237,6 +237,10 @@ dojo.declare("prcommon.crm.tasks.viewer",
 	{
 		this.newtasktypectrl.load ( this.newtasktypedlg) ;
 		this.newtasktypedlg.show();
+	},
+	refresh_view:function()
+	{
+
 	}
 
 });

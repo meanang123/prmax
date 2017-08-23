@@ -48,6 +48,7 @@ dojo.declare("prmax.professional.banner",
 		{
 			page = this.mainpanel.addPage ( args ) ;
 			ttl.utilities.resize ( page ) ;
+			dijit.byId("tasks_view_id").refresh_view();
 		}
 		else
 		{

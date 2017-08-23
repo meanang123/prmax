@@ -284,7 +284,7 @@ dojo.declare("prcommon.crm.issues.selectmultiple",
 			this.open = !this.open;
 			dojo.style(this.selectarea,"display","none");
 			dojo.style(this.selectarea,"display",this.open?"block":"none");
-			this.toggleCtrl.src =  this.open?"/static/images/toclosed.gif":"/static/images/toopen.gif";
+			this.togglectrl.src =  this.open?"/static/images/toclosed.gif":"/static/images/toopen.gif";
 		},
 		_other_issue_event:function( issue )
 		{
