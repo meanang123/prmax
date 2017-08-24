@@ -271,6 +271,8 @@ GRANT UPDATE ON TABLE customeremailserver_customeremailserverid_seq TO prmaxcont
 
 
 ALTER TABLE communications ADD COLUMN instagram character varying;
+INSERT INTO research.fields VALUES (72, 'Instagram');
+
 
 CREATE TABLE internal.emaillayout
 (
@@ -339,6 +341,8 @@ ALTER TABLE internal.emailfooter_emailfooterid_seq OWNER TO postgres;
 GRANT ALL ON TABLE internal.emailfooter_emailfooterid_seq TO postgres;
 GRANT UPDATE ON TABLE internal.emailfooter_emailfooterid_seq TO prmax;
 
+INSERT INTO internal.emailheader (emailheaderdescription) VALUES ('No Header');
+INSERT INTO internal.emailfooter (emailfooterdescription) VALUES ('No Footer');
 
 DROP VIEW research_external_data;
 
@@ -637,6 +641,19 @@ CREATE TABLE userdata.contacthistoryresponses
 ) WITH (  OIDS = FALSE);
 
 
+ALTER TABLE userdata.contacthistoryresponses ALTER COLUMN taken_by DROP NOT NULL;
+ALTER TABLE userdata.contacthistoryresponses ALTER COLUMN contacthistorytypeid DROP NOT NULL;
+
+ALTER TABLE userdata.contacthistoryresponses OWNER TO postgres;
+GRANT ALL ON TABLE userdata.contacthistoryresponses TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.contacthistoryresponses TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.contacthistoryresponses TO prmaxcontrol;
+ALTER TABLE userdata.contacthistoryresponses_contacthistoryresponseid_seq OWNER TO postgres;
+GRANT ALL ON TABLE userdata.contacthistoryresponses_contacthistoryresponseid_seq TO postgres;
+GRANT UPDATE ON TABLE userdata.contacthistoryresponses_contacthistoryresponseid_seq TO prmax;
+
+INSERT INTO internal.contacthistorytypes VALUES (7, 'Phone and email','t', null);
+
 create function to_month(integer) returns varchar as
 $$
 	select to_char(to_timestamp(to_char($1, '999'), 'MM'), 'Mon');
@@ -647,3 +664,9 @@ ALTER TABLE userdata.clippingsanalysistemplate ADD FOREIGN KEY (customerid) REFE
 
 ALTER TABLE userdata.clippingsanalysis ADD COLUMN customerid integer;
 ALTER TABLE userdata.clippingsanalysis ADD FOREIGN KEY (customerid) REFERENCES internal.customers (customerid) ON UPDATE NO ACTION ON DELETE CASCADE;
+
+
+ALTER TABLE userdata.client ADD COLUMN instagram character varying;
+ALTER TABLE seoreleases.seorelease ADD COLUMN instagram character varying;
+
+ALTER TABLE userdata.contacthistoryuserdefine ALTER COLUMN description TYPE varchar(90);
