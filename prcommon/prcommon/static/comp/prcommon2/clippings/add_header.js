@@ -33,7 +33,7 @@ define([
 		this._save_call_back = dojo.hitch(this,this._save_call);
 
 		this._emailheader = new ItemFileReadStore({ url:"/common/lookups?searchtype=emailheader"});
-//		this._customerid = PRMAX.utils.settings.cid;	
+		this._customerid = PRMAX.utils.settings.cid;	
 	},
 	postCreate:function()
 	{
@@ -43,7 +43,7 @@ define([
 	load:function ( dialog, customerid)
 	{
 		this._dialog = dialog;
-//		this.icustomerid.set("value", customerid);
+		this.icustomerid.set("value", customerid);
 	},
 	_save:function()
 	{
@@ -55,6 +55,7 @@ define([
 		}
 
 		var data = this.form.get("value");
+		data["customerid"] = this._customerid;
 
 		request.post("/emailheader/save",
 				utilities2.make_params({ data : data})).

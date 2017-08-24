@@ -100,62 +100,6 @@ class EmailQueue(BaseSql):
 			transaction.rollback()
 			raise
 
-
-	@classmethod
-	def send_email_clippings(cls, params):
-		""" send email with clippings"""
-
-		merge = MailMerge()
-		header = footer = headertext = footertext = ""
-		bodytext = "<br/>"
-		params2 = dict(params)
-
-		for row in session.query(Clipping.clip_source_date, Clipping.clip_title, Clipping.clip_abstract, Clipping.clip_link).\
-			join(ClippingSelection, Clipping.clippingid == ClippingSelection.clippingid).\
-			filter(ClippingSelection.userid == params['userid']):
-			params2['clip_title'] = row.clip_title
-			params2['clip_source_date'] = row.clip_source_date.strftime("%d/%m/%Y")
-			params2['clip_link'] = row.clip_link.replace(".", ".<span></span>").replace("//", "//<span></span>")
-			params2['clip_abstract'] = row.clip_abstract
-
-			if int(params['emaillayoutid']) == Constants.Email_Layout_Standard:
-				bodytext = bodytext + Constants.Email_Clippings_Body % params2
-
-		if 'emailheaderid' in params and params["emailheaderid"] != '':
-			header = EmailHeader.query.get(params['emailheaderid'])
-			headertext = "<p style='font-size:14px'>" + header.htmltext + "</p>"
-		if 'emailfooterid' in params and params["emailfooterid"] != '':
-			footer = EmailFooter.query.get(params['emailfooterid'])
-			footertext = "<p style='font-size:14px'>" + footer.htmltext + "</p>"
-
-		bodytext = merge.do_merge_test(headertext + bodytext + footertext)
-		if params['fromemailaddress']:
-			customeremailserver = CustomerEmailServer.query.get(params['fromemailaddress'])
-			fromemailaddress = customeremailserver.fromemailaddress
-
-#		email = EmailMessage(fromemailaddress,
-#	                         params['toemailaddress'],
-#	                         params['emailsubject'],
-#	                         bodytext,
-#	                          "text/html"
-#	                         )
-#		email.BuildMessageHtmlOnly()
-#		emailserver = SMTPSERVERBYTYPE[2](
-#		    username='stamatia.vatsi@prmax.co.uk',
-#	        password='!!!gsmatoyla')
-#		sender = 'stamatia.vatsi@prmax.co.uk'
-#		emailserver.send(email,sender)
-
-		EmailQueue.send_email_and_attachments(
-		    fromemailaddress,
-		    params['toemailaddress'],
-		    params['emailsubject'],
-		    bodytext,
-		    None,
-		    Constants.EmailQueueType_Internal,
-		    "text/html",
-		    Constants.Email_Html_Only)
-
 	@classmethod
 	def send_email_and_attachments(cls, fromemailaddress, toaddress,
 	              subject, body, files,
@@ -1379,7 +1323,9 @@ class EmailHeader(BaseSql):
 	@classmethod
 	def getLookUp(cls, params):
 		data = [dict(id=row.emailheaderid, name=row.emailheaderdescription)
-		        for row in session.query(EmailHeader).order_by(EmailHeader.emailheaderdescription).all()]
+		        for row in session.query(EmailHeader).\
+		        filter(or_(EmailHeader.customerid == int(params["customerid"]),EmailHeader.customerid == None)).\
+		        order_by(EmailHeader.emailheaderdescription).all()]
 		return data
 
 	@classmethod
@@ -1390,7 +1336,7 @@ class EmailHeader(BaseSql):
 			transaction = cls.sa_get_active_transaction()
 			emailheader = EmailHeader(
 			    emailheaderdescription=params["emailheaderdescription"],
-			    customerid=params.get("icustomerid", None),
+			    customerid=params.get("customerid", None),
 			    htmltext=params["htmltext"])
 			session.add(emailheader)
 			session.flush()
@@ -1414,7 +1360,9 @@ class EmailFooter(BaseSql):
 	@classmethod
 	def getLookUp(cls, params):
 		data = [dict(id=row.emailfooterid, name=row.emailfooterdescription)
-		        for row in session.query(EmailFooter).order_by(EmailFooter.emailfooterdescription).all()]
+		        for row in session.query(EmailFooter).\
+		        filter(or_(EmailFooter.customerid == int(params["customerid"]),EmailFooter.customerid == None)).\
+		        order_by(EmailFooter.emailfooterdescription).all()]
 		return data
 
 	@classmethod
@@ -1425,7 +1373,7 @@ class EmailFooter(BaseSql):
 			transaction = cls.sa_get_active_transaction()
 			emailfooter = EmailFooter(
 			    emailfooterdescription=params["emailfooterdescription"],
-			    customerid=params.get("icustomerid", None),
+			    customerid=params.get("customerid", None),
 			    htmltext=params["htmltext"])
 			session.add(emailfooter)
 			session.flush()

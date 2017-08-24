@@ -32,14 +32,15 @@ from prcommon.model.general.profilecache import ProfileCache
 from prcommon.model.clippings.clippingscache import ClippingCache
 from prcommon.model.clippings.output.clippingoutputpowerpoint import ClippingOutputPowerPoint
 from prcommon.model.outlets.emplsynchronisation import EmployeeSynchronise
-
+from prcommon.model.clippings.clippingselectionsender import ClippingSelectionSend
 # add function to process email
 
 PROCESSMAPPING = {
   Constants.Process_Outlet_Profile : ProfileCache,
   Constants.Process_Clipping_View : ClippingCache,
   Constants.Clipping_Output_Build_PowerPoint : ClippingOutputPowerPoint,
-  Constants.Process_Synchronisation : EmployeeSynchronise
+  Constants.Process_Synchronisation : EmployeeSynchronise,
+  Constants.Process_Clippings_Send_Selection_Report : ClippingSelectionSend
 }
 
 logging.basicConfig(level=logging.DEBUG)

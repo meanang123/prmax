@@ -77,7 +77,7 @@ define([
 		content['userid'] = this.userid;
  		this.sendbtn.makeBusy();
 
-		request.post('/clippings/send_clippings_email',
+		request.post('/clippings/emailsender/send_clippings_email',
 			utilities2.make_params({ data : content})).
 			then(this._send_call_back);
 

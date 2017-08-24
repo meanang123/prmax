@@ -524,6 +524,9 @@ class SEORelease(BaseSql):
 				if key == "b":
 					whereused += " AND seo.content_text ilike :b "
 
+				if key == "cid":
+					whereused += " AND seo.clientid  = :cid "	
+
 				if key == "search":
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 		else:

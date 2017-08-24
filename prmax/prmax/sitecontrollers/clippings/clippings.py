@@ -20,7 +20,10 @@ from prcommon.lib.common import add_config_details
 from prmax.sitecontrollers.clippings.questions import QuestionsController
 from prmax.sitecontrollers.clippings.analyse import AnalyseController
 from prmax.sitecontrollers.clippings.charting import ChartingController
+from prmax.sitecontrollers.clippings.clippingemailsend import ClippingSelectionSenderController
 from prmax.model import EmailTemplates, EmailQueue
+from prcommon.model.clippings.clippingselectionsender import ClippingSelectionSend
+from prcommon.model.queues import ProcessQueue
 
 class ClippingIdSchema(PrFormSchema):
 	"schema"
@@ -79,6 +82,7 @@ class ClippingsController(SecureController):
 	questions = QuestionsController()
 	analyse = AnalyseController()
 	charting = ChartingController()
+	emailsender = ClippingSelectionSenderController()
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -225,6 +229,6 @@ class ClippingsController(SecureController):
 	@exception_handler(pr_std_exception_handler)
 	def send_clippings_email(self, *args, **params):
 		""" send email with all selected clippings """
-		
+	
 		EmailQueue.send_email_clippings(params)
 		return stdreturn()

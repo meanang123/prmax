@@ -40,6 +40,7 @@ setup(
               "prservices.primport.southamerica.utils",
               "prservices.primport.nijgh",
               "prservices.primport.nijgh.utils",
+              "prservices.primport.ayrshire",
               "prservices.emplsynchronise",
               "prservices.unsubscribe",
               "prservices.bouncemails"
