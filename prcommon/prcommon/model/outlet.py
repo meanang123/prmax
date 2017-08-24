@@ -163,7 +163,7 @@ class Outlet(BaseSql):
 						           mobile=params['contact_mobile'],
 						           twitter = params['contact_twitter'],
 						           facebook = params['contact_facebook'],
-						           linkedin = params['contact_linkedin'],
+			                       linkedin = params['contact_linkedin'],
 						           webphone="")
 			session.add(p_com)
 			# add outlet
@@ -1008,6 +1008,17 @@ class Outlet(BaseSql):
 		return data
 
 
+	@classmethod
+	def research_outlet_is_child(cls, params):
+		""" Check if an outlet is series member """
+
+		parent = OutletProfile.query.get(params["outletid"])
+#		parent = session.query(OutletProfile).filter(OultetProfile.outletid == params["outletid"]).scalar()
+		is_child = False
+		if parent and parent.seriesparentid != None:
+			is_child = True
+		return is_child
+		    
 	@classmethod
 	def research_move_contact(cls, params):
 		""" This function moved a contact between outlets """
