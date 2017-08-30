@@ -1185,6 +1185,8 @@ class SEOSite(object):
 		doc = Document()
 		rss = doc.createElement('rss')
 		rss.setAttribute("version", "2.0")
+		rss.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/" )
+
 		doc.appendChild(rss)
 		channel = doc.createElement('channel')
 		rss.appendChild(channel)
