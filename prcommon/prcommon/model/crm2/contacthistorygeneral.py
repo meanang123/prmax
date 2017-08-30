@@ -34,7 +34,7 @@ class ContactHistoryGeneral():
 	to_char(ch.taken, 'DD/MM/YY') as taken,
 	to_char(ch.taken, 'DD/MM/YY') as taken_display,
 	to_char(ch.modified, 'DD/MM/YY') as modified,
-	ch.subject,
+	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	o.outletname,
@@ -83,7 +83,7 @@ class ContactHistoryGeneral():
 			params["subject"] = params["details"][:254]
 
 			if "employeeid" in params and params["employeeid"]:
-				params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid ==  params["employeeid"]).scalar()
+				params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid == params["employeeid"]).scalar()
 
 
 			if "contacthistoryid" in params:
@@ -134,7 +134,7 @@ class ContactHistoryGeneral():
 
 	List_View = """SELECT ch.contacthistoryid,
 	to_char(ch.taken, 'DD/MM/YY') as taken_display,
-	ch.subject,
+	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	o.outletname,
@@ -241,6 +241,7 @@ class ContactHistoryGeneral():
 
 			contacthistory.contacthistorytypeid = params["contacthistorytypeid"]
 			contacthistory.contacthistorystatusid = params["contacthistorystatusid"]
+			contacthistory.crm_subject = params["crm_subject"]
 			contacthistory.taken = params["taken"]
 			contacthistory.taken_by = params["taken_by"]
 			contacthistory.chud1id = params["chud1id"]
