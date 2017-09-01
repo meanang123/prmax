@@ -11,7 +11,7 @@
 			<tr><td align="right" class="prmaxrowlabel">Vat</td><td><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-props='type:"text",name:"vat",required:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:8em"' data-dojo-attach-point="vat"></input></td></tr>
 			<tr><td align="right" class="prmaxrowlabel" >Unpaid Amount</td><td><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-attach-point="unpaidamount" data-dojo-props='type:"text",name:"unpaidamount",required:true,style:"width:8em",constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}'></input></td></tr>
 			<tr><td align="right" class="prmaxrowlabel">Credit File (pdf)</td><td><input class="prmaxinput" type="file" data-dojo-attach-point="credit_file" name="credit_file" size="50"></input></td></tr>
-			<tr><td class="prmaxrowlabel" align="right" colspan="2" align="right"><button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-event="onClick:_Send">Enter Manual Credit Note</button></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" colspan="2" align="right"><button data-dojo-attach-point="okbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='busyLabel:"Please Wait Saving...",type:"button",iconClass:"fa fa-floppy-o fa-2x"' data-dojo-attach-event="onClick:_Send">Enter Manual Credit Note</button></td></tr>
 		</table>
 	</form>
 </div>

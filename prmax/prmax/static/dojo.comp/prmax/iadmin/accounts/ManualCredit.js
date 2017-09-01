@@ -44,6 +44,7 @@ dojo.declare("prmax.iadmin.accounts.ManualCredit",
 			this.amount.isValid() == false ||
 			this.unpaidamount.isValid() == false)
 		{
+			this.okbtn.cancel();
 			return false ;
 		}
 
@@ -51,18 +52,22 @@ dojo.declare("prmax.iadmin.accounts.ManualCredit",
 		if ( filename.indexOf(".pdf") == -1)
 		{
 			alert("This must be a pdf file");
+			this.okbtn.cancel();
 			return false ;
 		}
 
 		this.invoice_date2.set("value", this.credit_date.get("ValueISO"));
 
-		dojo.io.iframe.send(
+		if (confirm("Create Credit?") == true)
 		{
-			url: "/iadmin/add_manual_credit",
-			handleAs:"json",
+			dojo.io.iframe.send(
+			{
+				url: "/iadmin/add_manual_credit",
+				handleAs:"json",
 				load: this._AddCallBack,
 				form : this.form
-		});
+			});
+		}
 	},
 	setCustomer:function( cust , dialog )
 	{
@@ -73,6 +78,7 @@ dojo.declare("prmax.iadmin.accounts.ManualCredit",
 		this.vat.set("value",0.0);
 		this.unpaidamount.set("value",0.0);
 		dojo.attr(this.credit_file, "value","");
+		this.okbtn.cancel();
 
 		dojo.attr ( this.customername , "innerHTML" , cust.customername ) ;
 		this._dialog = dialog;
