@@ -183,7 +183,7 @@ class SearchSession(BaseSql):
 				cls.Delete(userid, searchtypeid, -1)
 				# append all the list in to the session
 				cls.sqlExecuteCommand(
-					text(SearchSession.SearchSession_Move_Get_Select),
+					text(SearchSession.SearchSession_Move),
 					dict(
 					    userid=userid,
 					    searchtypeid=searchtypeid,

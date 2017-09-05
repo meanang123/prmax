@@ -169,6 +169,7 @@ dojo.declare("prcommon.crm.update",
 			this.details.set("value", response.data.ch.details);
 			this.outcome.set("value", response.data.ch.outcome);
 			this.crm_response.set("value", response.data.ch.crm_response);
+			this.crm_subject.set("value", response.data.ch.crm_subject);
 
 			for ( var key in this._fields)
 			{

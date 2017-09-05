@@ -34,7 +34,7 @@ class ContactHistoryGeneral():
 	to_char(ch.taken, 'DD/MM/YY') as taken,
 	to_char(ch.taken, 'DD/MM/YY') as taken_display,
 	to_char(ch.modified, 'DD/MM/YY') as modified,
-	ch.subject,
+	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	o.outletname,
@@ -59,15 +59,15 @@ class ContactHistoryGeneral():
 	WHERE ch.contacthistoryid = :contacthistoryid"""
 
 	@staticmethod
-	def get_record(contacthistoryid, ashtml = False ) :
+	def get_record(contacthistoryid, ashtml=False):
 		""" Get a specific note record
 		convert cr to html if required """
-		data =  ContactHistory.sqlExecuteCommand (
+		data =  ContactHistory.sqlExecuteCommand(
 			text(ContactHistoryGeneral.List_View_Single),
-			dict ( contacthistoryid = contacthistoryid ),
+			dict ( contacthistoryid=contacthistoryid),
 			BaseSql.ResultAsEncodedDict)[0]
 		if ashtml:
-			data["details"] = data["details"].replace("\n","<br/>")
+			data["details"] = data["details"].replace("\n", "<br/>")
 		return data
 
 	@staticmethod
@@ -83,39 +83,37 @@ class ContactHistoryGeneral():
 			params["subject"] = params["details"][:254]
 
 			if "employeeid" in params and params["employeeid"]:
-				params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid ==  params["employeeid"]).scalar()
-
+				params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid == params["employeeid"]).scalar()
 
 			if "contacthistoryid" in params:
 				del params["contacthistoryid"]
 
-			contacthistory = ContactHistory ( **params )
+			contacthistory = ContactHistory(**params)
 			session.flush()
 			contacthistoryid = contacthistory.contacthistoryid
 			# now we need too handle issue
 			if params["issueid"]:
-				chi =  ContactHistoryIssues(contacthistoryid =  contacthistoryid,
-				                            issueid =  params["issueid"],
-				                            isprimary = True)
+				chi = ContactHistoryIssues(contacthistoryid=contacthistoryid,
+				                           issueid=params["issueid"],
+				                           isprimary=True)
 				session.add(chi)
 			if params["extraissues"] and params["extraissues"]["data"]:
 				for issueid in params["extraissues"]["data"]:
 					if issueid != params["issueid"]:
-						chi =  ContactHistoryIssues(contacthistoryid = contacthistoryid,
-						                            issueid =  issueid)
+						chi = ContactHistoryIssues(contacthistoryid=contacthistoryid,
+						                           issueid=issueid)
 						session.add(chi)
-
 
 			# add task ?
 			if params["follow_up_view_check"]:
 				task = Task(
-				  taskstatusid = Constants.TaskStatus_InProgress,
-				  due_date = params["follow_up_date"],
-				  userid = params["follow_up_ownerid"],
-				  description = params["details"][:255],
-				  tasktypeid = Constants.TaskType_Standard,
-				  ref_customerid = params["customerid"],
-				  contacthistoryid = contacthistory.contacthistoryid)
+				    taskstatusid=Constants.TaskStatus_InProgress,
+				    due_date=params["follow_up_date"],
+				    userid=params["follow_up_ownerid"],
+				    description=params["details"][:255],
+				    tasktypeid=Constants.TaskType_Standard,
+				    ref_customerid=params["customerid"],
+				    contacthistoryid=contacthistory.contacthistoryid)
 				session.add(task)
 				session.flush()
 				# linked task back to contact
@@ -134,7 +132,7 @@ class ContactHistoryGeneral():
 
 	List_View = """SELECT ch.contacthistoryid,
 	to_char(ch.taken, 'DD/MM/YY') as taken_display,
-	ch.subject,
+	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	o.outletname,
@@ -204,7 +202,7 @@ class ContactHistoryGeneral():
 		if params.get("sortfield") == "taken_display":
 			params["sortfield"] = "ch.taken"
 
-		return BaseSql.get_grid_page( params,
+		return BaseSql.get_grid_page(params,
 									'taken',
 									'contacthistoryid',
 									ContactHistoryGeneral.List_View + whereclause + BaseSql.Standard_View_Order,
@@ -224,9 +222,9 @@ class ContactHistoryGeneral():
 			   contacthistory.contacthistorystatusid != params["contacthistorystatusid"] or \
 			   contacthistory.taken != params["taken"] or \
 			   contacthistory.taken_by != params["taken_by"]:
-				session.add ( ContactHistoryHistory (
-				  from_notes = contacthistory.details,
-				  to_notes = params["details"],
+				session.add(ContactHistoryHistory(
+				    from_notes=contacthistory.details,
+				    to_notes=params["details"],
 				  contacthistoryid = contacthistory.contacthistoryid,
 				  userid = params["userid"],
 				  created = datetime.now()
@@ -241,6 +239,8 @@ class ContactHistoryGeneral():
 
 			contacthistory.contacthistorytypeid = params["contacthistorytypeid"]
 			contacthistory.contacthistorystatusid = params["contacthistorystatusid"]
+			contacthistory.crm_subject = params["crm_subject"]
+			contacthistory.crm_response = params["crm_response"]
 			contacthistory.taken = params["taken"]
 			contacthistory.taken_by = params["taken_by"]
 			contacthistory.chud1id = params["chud1id"]
@@ -455,8 +455,8 @@ class ContactHistoryGeneral():
 			for fieldid in  ("1", "2", "3", "4"):
 				if params["crm_user_define_" + fieldid] and params["crm_user_define_"+ fieldid + "_on"]:
 					setattr(customer, "crm_user_define_" + fieldid,params["crm_user_define_" + fieldid])
-			else:
-				setattr(customer, "c" + fieldid, None)
+				else:
+					setattr(customer, "c" + fieldid, None)
 
 			transaction.commit()
 		except:

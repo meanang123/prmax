@@ -525,7 +525,7 @@ class SEORelease(BaseSql):
 					whereused += " AND seo.content_text ilike :b "
 
 				if key == "cid":
-					whereused += " AND seo.clientid  = :cid "	
+					whereused += " AND seo.clientid  = :cid "
 
 				if key == "search":
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
@@ -1185,6 +1185,8 @@ class SEOSite(object):
 		doc = Document()
 		rss = doc.createElement('rss')
 		rss.setAttribute("version", "2.0")
+		rss.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/" )
+
 		doc.appendChild(rss)
 		channel = doc.createElement('channel')
 		rss.appendChild(channel)
@@ -1220,11 +1222,14 @@ class SEOSite(object):
 			tmp.appendChild(doc.createTextNode(str(seo['published_display'])))
 			item.appendChild(tmp)
 
-			html = SEORelease.get_for_display(seo["seoreleaseid"])['content']
-			item.appendChild(tmp)
-			tmp = doc.createElement('html')
-			tmp.appendChild(doc.createTextNode(unicode(html)))
-			item.appendChild(tmp)
+			try:
+				html = SEORelease.get_for_display(seo["seoreleaseid"])['content']
+				item.appendChild(tmp)
+				tmp = doc.createElement('content:encoded')
+				tmp.appendChild(doc.createTextNode(unicode(html)))
+				item.appendChild(tmp)
+			except:
+				LOG.exception("get_rss_limited_feed %d", seo["seoreleaseid"])
 
 
 
