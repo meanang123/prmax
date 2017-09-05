@@ -166,14 +166,7 @@ dojo.declare("prcommon.crm.add",
 			return ;
 		}
 
-		if ( this.details.get("value") == "")
-		{
-			this.savebtn.cancel();
-			alert("Empty note");
-			return ;
-		}
 		var content = this.form.get("value");
-
 		content["taken"] = ttl.utilities.toJsonDate ( this.taken.get("value"));
 		content["follow_up_date"] = ttl.utilities.toJsonDate ( this.follow_up_date.get("value"));
 
