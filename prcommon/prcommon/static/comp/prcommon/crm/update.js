@@ -222,12 +222,6 @@ dojo.declare("prcommon.crm.update",
 	},
 	_save:function()
 	{
-		if ( this.details.get("value") == "")
-		{
-			this.savebtn.cancel();
-			alert("Empty note");
-			return ;
-		}
 		var content = this.form.get("value");
 
 		content["taken"] = ttl.utilities.toJsonDate ( this.taken.get("value"));
