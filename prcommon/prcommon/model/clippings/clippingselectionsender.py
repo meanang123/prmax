@@ -57,10 +57,10 @@ class ClippingSelectionSend(object):
 
 		if 'emailheaderid' in params and params["emailheaderid"] != '':
 			header = EmailHeader.query.get(params['emailheaderid'])
-			headertext = "<p style='font-size:14px'>" + header.htmltext + "</p>"
+			headertext = "<p style='font-size:14px'>" + header.htmltext + "</p>" if header.htmltext else "<p></p>"
 		if 'emailfooterid' in params and params["emailfooterid"] != '':
 			footer = EmailFooter.query.get(params['emailfooterid'])
-			footertext = "<p style='font-size:14px'>" + footer.htmltext + "</p>"
+			footertext = "<p style='font-size:14px'>" + footer.htmltext + "</p>" if footer.htmltext else "<p></p>"
 
 		bodytext = merge.do_merge_test(headertext + bodytext + footertext)
 		if params['fromemailaddress']:
