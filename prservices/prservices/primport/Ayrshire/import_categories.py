@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""prexporter"""
+"""primporter"""
 #-----------------------------------------------------------------------------
 # Name:        import_contacthistory.py
 # Purpose:     
@@ -47,13 +47,16 @@ def _run():
 	if sourcedir == None:
 		print "Missing Source Directory"
 		return
+	
+	
 
 	workbook = xlrd.open_workbook(os.path.join(sourcedir, "contacthistory.xlsx"))
+
 	xls_sheet = workbook.sheet_by_name('categories')
 	xls_sheet_issues = workbook.sheet_by_name('issues')
 
 	session.begin()	
-	session.execute(text("UPDATE internal.customers SET crm_user_define_1 = 'Category' where customerid = 5636"), {}, Customer)		#live: customerid=5730, test: customerid=5636
+	session.execute(text("UPDATE internal.customers SET crm_user_define_1 = 'Category' where customerid = 5730"), {}, Customer)		#live: customerid=5730, test: customerid=5636
 
 	for rnum in range(1, xls_sheet.nrows):
 		
@@ -62,7 +65,7 @@ def _run():
 		userdefinefield =  ContactHistoryUserDefine(
 	        fieldid = 1,
 	        description = userdefinefield,
-	        customerid = 5636) #live: customerid=5730
+	        customerid = 5730) #live: customerid=5730
 		session.add(userdefinefield)
 		session.flush()
 
@@ -72,7 +75,7 @@ def _run():
 	xls_sheet_issues = workbook.sheet_by_name('issues')
 
 	session.begin()	
-	session.execute(text("UPDATE internal.customers SET crm_user_define_2 = 'Issue' where customerid = 5636"), {}, Customer)		#live: customerid=5730
+	session.execute(text("UPDATE internal.customers SET crm_user_define_2 = 'Issue' where customerid = 5730"), {}, Customer)		#live: customerid=5730
 
 	for rnum in range(2, xls_sheet_issues.nrows):
 		
@@ -81,7 +84,7 @@ def _run():
 		userdefinefield =  ContactHistoryUserDefine(
 	        fieldid = 2,
 	        description = userdefinefield_issue,
-	        customerid = 5636) #live: customerid=5730
+	        customerid = 5730) #live: customerid=5730
 		session.add(userdefinefield)
 		session.flush()
 

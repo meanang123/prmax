@@ -16,20 +16,16 @@ import sys
 from turbogears import database
 import xlrd
 import logging
-import simplejson
-from sqlalchemy.sql import text
 LOGGER = logging.getLogger("prcommon.model")
 from ttl.tg.config import read_config
-import datetime, dateutil
-
-import prcommon.Constants as Constants
+import dateutil
 
 # initiale interface to tg to get at data model
 read_config(os.getcwd(), None, None)
 # connect to database
 database.bind_meta_data()
 
-from prcommon.model import ContactHistoryUserDefine, Customer, Issue, Contact, ContactHistory, Outlet, ContactHistoryTypes, ContactHistoryResponses, Employee
+from prcommon.model import ContactHistoryUserDefine, Contact, ContactHistory, Outlet, ContactHistoryTypes, ContactHistoryResponses, Employee
 from turbogears.database import session
 
 OUTLETCOLUMN = 6
@@ -41,7 +37,7 @@ SUBJECTCOLUMN = 9
 CONTACTHISTORYTYPECOLUMN = 12
 OUTCOMECOLUMN = 13
 RESPONSECOLUMN = 11
-CUSTOMERID = 5636 #live: customerid=5730
+CUSTOMERID = 5730
 
 def _run():
 	""" run the application """
@@ -115,7 +111,9 @@ def _run():
 		    subject = xls_sheet.cell_value(rnum, SUBJECTCOLUMN),
 		    outcome = xls_sheet.cell_value(rnum, OUTCOMECOLUMN),
 		    contacthistorytypeid = chtype.contacthistorytypeid if chtype else None,
-		    chud1id = chud1.contacthistoryuserdefinid if chud1.contacthistoryuserdefinid else None
+		    chud1id = chud1.contacthistoryuserdefinid if chud1.contacthistoryuserdefinid else None,
+		    crm_response = response,
+		    crm_subject = xls_sheet.cell_value(rnum, SUBJECTCOLUMN)
 		)
 		session.add(contacthistory)
 		session.flush()

@@ -21,7 +21,21 @@ from sqlalchemy.sql import text
 LOGGER = logging.getLogger("prcommon.model")
 from ttl.tg.config import read_config
 import datetime, dateutil
-
+from prcommon.model.communications import Communication, Address
+from prcommon.model.contact import Contact
+from prcommon.model.outletprofile import  OutletProfile
+from prcommon.model.outlets.outletdesk import OutletDesk
+from prcommon.model.outletlanguages import OutletLanguages
+from prcommon.model.employee import Employee, EmployeeInterests, EmployeeInterestView, EmployeePrmaxRole
+from prcommon.model.interests import OutletInterestView
+from prcommon.model.indexer import IndexerQueue, StandardIndexerInternal
+from prcommon.model.searchsession import SearchSession
+from prcommon.model.lookups import PRmaxOutletTypes
+from prcommon.model.research import IgnorePrnOutlets, Activity, ActivityDetails, \
+     ResearchControRecord, ResearchDetails
+from prcommon.lib.caching import Invalidate_Cache_Object_Research
+from prcommon.model.list import ListMembers
+from prcommon.model.queues import ProcessQueue
 import prcommon.Constants as Constants
 
 # initiale interface to tg to get at data model
@@ -35,7 +49,7 @@ from turbogears.database import session
 CREATEDCOLUMN = 11
 NAMECOLUMN = 3
 ISSUESTATUSCOLUMN = 6
-CUSTOMERID = 5636 #live: customerid=5730
+CUSTOMERID = 5730 
 APPROVEDBYIDCOLUMN = 1
 
 
