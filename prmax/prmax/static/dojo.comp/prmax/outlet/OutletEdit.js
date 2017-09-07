@@ -193,9 +193,11 @@ dojo.declare("prmax.outlet.OutletEdit",
 		this.outlet_twitter.set("value","");
 		this.outlet_facebook.set("value","");
 		this.outlet_linkedin.set("value","");
+		this.outlet_instagram.set("value","");
 		this.contact_twitter.set("value","");
 		this.contact_facebook.set("value","");
 		this.contact_linkedin.set("value","");
+		this.contact_instagram.set("value","");
 
 	},
 	_Load:function(response)
@@ -220,6 +222,7 @@ dojo.declare("prmax.outlet.OutletEdit",
 		this.outlet_twitter.set("value", response.outlet.communications.twitter);
 		this.outlet_facebook.set("value", response.outlet.communications.facebook);
 		this.outlet_linkedin.set("value", response.outlet.communications.linkedin);
+		this.outlet_instagram.set("value", response.outlet.communications.instagram);
 
 		this.outlet_interest.set("value",response.outlet.interests);
 
@@ -241,6 +244,7 @@ dojo.declare("prmax.outlet.OutletEdit",
 		this.contact_twitter.set("value", response.primary.communications.twitter);
 		this.contact_facebook.set("value", response.primary.communications.facebook);
 		this.contact_linkedin.set("value", response.primary.communications.linkedin);
+		this.contact_instagram.set("value", response.primary.communications.instagram);
 
 		this.contact_interest.set("value",response.primary.interests);
 

@@ -110,3 +110,5 @@ Field_Outlet_Web_Source = 68
 Field_Outlet_Web_Dates = 69
 Field_Media_Access_Types = 70
 Field_Research_No_Sync = 71
+Field_Instagram	= 72
+

@@ -85,6 +85,7 @@ define([
 			this.linkedin.set("value",outlet.communications.linkedin);
 			this.twitter.set("value",outlet.communications.twitter);
 			this.facebook.set("value",outlet.communications.facebook);
+			this.instagram.set("value",outlet.communications.instagram);
 			this.blog.set("value",outlet.communications.blog);
 			this.prefix.set("value",contact.prefix);
 			this.firstname.set("value",contact.firstname);

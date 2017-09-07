@@ -110,7 +110,8 @@ class OutletDeskGeneral(object):
 				                      tel=params['tel'],
 				                      fax=params['fax'],
 				                      twitter=params['twitter'],
-				                      facebook=params['facebook'],
+			                          facebook=params['facebook'],
+			                          instagram=params['instagram'],
 				                      linkedin=params['linkedin'])
 			session.add(comms)
 
@@ -253,6 +254,7 @@ class OutletDeskGeneral(object):
 			comms.fax = params['fax']
 			comms.twitter = params['twitter']
 			comms.facebook = params['facebook']
+			comms.instagram = params['instagram']
 			comms.linkedin = params['linkedin']
 
 			researchoutletdesk = session.query(ResearchDetailsDesk).\

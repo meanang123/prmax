@@ -134,6 +134,7 @@ class Client(BaseSql):
 			client.linkedin = params["linkedin"]
 			client.facebook = params["facebook"]
 			client.twitter = params["twitter"]
+			client.instagram = params["instagram"]
 			newsroom = ClientNewsRoom.query.get(client.clientid)
 			# header logo changed
 			if params.get("headerimageleftid", "") in ("-1", "-2"):

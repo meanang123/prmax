@@ -60,6 +60,7 @@ define([
 		this.www_show.set("source",this.www);
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
+		this.instagram_show.set("source",this.instagram);
 
 		this.inherited(arguments);
 	},
@@ -120,6 +121,7 @@ define([
 			this.email.set("value", response.outlet.communications.email);
 			this.twitter.set("value", response.outlet.communications.twitter);
 			this.facebook.set("value", response.outlet.communications.facebook);
+			this.instagram.set("value", response.outlet.communications.instagram);
 			this.circulation.set("value", response.outlet.outlet.circulation);
 			this.frequency.set("value", response.outlet.outlet.frequencyid);
 			this.prmax_outlettypeid.set("value", response.outlet.outlet.prmax_outlettypeid);
@@ -160,6 +162,7 @@ define([
 		this.email.set("value", "");
 		this.twitter.set("value", "");
 		this.facebook.set("value", "");
+		this.instagram.set("value", "");
 		this.circulation.set("value", "");
 		this.frequency.set("value", "");
 		this.prmax_outlettypeid.set("value", "");

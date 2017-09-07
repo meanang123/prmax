@@ -21,7 +21,6 @@ from prcommon.model.communications import Communication, Address
 from prcommon.model.caching import CacheStore, CacheControl
 from prcommon.model.interests import EmployeeInterestView
 from prcommon.model.research import ResearchDetails
-
 from prcommon.model.research import Activity, ActivityDetails
 from ttl.dict import DictExt
 import prcommon.Constants as Constants
@@ -258,6 +257,7 @@ class Employee(BaseSql):
 								  mobile = params['mobile'],
 			            twitter = params["twitter"],
 			            facebook = params["facebook"],
+			            instagram = params["instagram"],
 			            linkedin = params["linkedin"])
 			session.add(comm)
 			session.flush()
@@ -324,6 +324,7 @@ class Employee(BaseSql):
 			comm.twitter = params['twitter']
 			comm.facebook = params['facebook']
 			comm.linkedin = params['linkedin']
+			comm.instagram = params['instagram']
 
 			cls._interests(params['employeeid'], params['customerid'], params['interests'], employee.outletid)
 
@@ -399,6 +400,7 @@ class Employee(BaseSql):
 			ActivityDetails.AddChange ( comm.twitter , params['twitter'] , activity.activityid , Constants.Field_Twitter)
 			ActivityDetails.AddChange ( comm.facebook , params['facebook'] , activity.activityid , Constants.Field_Facebook)
 			ActivityDetails.AddChange ( comm.linkedin , params['linkedin'] , activity.activityid , Constants.Field_LinkedIn)
+			ActivityDetails.AddChange ( comm.instagram , params['instagram'] , activity.activityid , Constants.Field_Instagram)
 
 			# update the the record
 			employee.job_title = params['job_title']
@@ -409,6 +411,7 @@ class Employee(BaseSql):
 			comm.twitter = params['twitter']
 			comm.facebook = params['facebook']
 			comm.linkedin = params['linkedin']
+			comm.instagram = params['instagram']
 			comm.mobile = params['mobile']
 			employee.outletdeskid = params["outletdeskid"]  if params["outletdeskid"] != -1 else None
 
@@ -538,11 +541,13 @@ class Employee(BaseSql):
 			ActivityDetails.AddChange ( comm.twitter , params['twitter'] , activity.activityid , Constants.Field_Twitter)
 			ActivityDetails.AddChange ( comm.facebook , params['facebook'] , activity.activityid , Constants.Field_Facebook)
 			ActivityDetails.AddChange ( comm.linkedin , params['linkedin'] , activity.activityid , Constants.Field_LinkedIn)
+			ActivityDetails.AddChange ( comm.instagram , params['instagram'] , activity.activityid , Constants.Field_Instagram)
 
 			# update the the record
 			comm.twitter = params['twitter']
 			comm.facebook = params['facebook']
 			comm.linkedin = params['linkedin']
+			comm.instagram = params['instagram']
 
 			CacheControl.Invalidate_Cache_Object_Research( params['employeeid'] , Constants.Cache_Employee_Objects )
 			ResearchDetails.set_research_modified(employee.outletid)
@@ -588,6 +593,7 @@ class Employee(BaseSql):
 			  twitter = params["twitter"],
 			  linkedin = params["linkedin"],
 			  facebook = params["facebook"],
+			  instagram = params["instagram"],
 			  addressid = addressid)
 			session.add(comm)
 			session.flush()
@@ -904,6 +910,7 @@ class EmployeeDisplay(BaseSql):
 		c.customerid as ccustomerid,
 	  c_e.twitter,
 	  c_e.linkedin,
+	  c_e.instagram,
 	  c_e.facebook
 	FROM employees as e
 		LEFT OUTER JOIN contacts as c ON c.contactid = e.contactid
@@ -985,6 +992,7 @@ class EmployeeDisplay(BaseSql):
 						  SELECT COUNT(*) as nbr
 						  FROM employees as e"""
 
+
 	@classmethod
 	def getDisplayPage( cls, params ):
 		""" getDisplayPage """
@@ -1005,8 +1013,6 @@ class EmployeeDisplay(BaseSql):
 					extrawhere += " AND "
 				extrawhere += " e.job_title ilike :job_title "
 				params["job_title"] = params["job_title"]
-
-
 
 			items = cls.sqlExecuteCommand (
 				text(EmployeeDisplay.EmployeeDisplay_ListData +\
@@ -1045,7 +1051,6 @@ class EmployeeDisplay(BaseSql):
 		  param["offset"],
 		  False
 		)
-
 
 	@classmethod
 	def getPageDisplayParams(cls, params):

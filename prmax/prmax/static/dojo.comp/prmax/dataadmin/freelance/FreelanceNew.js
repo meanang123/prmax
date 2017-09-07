@@ -85,6 +85,7 @@ dojo.declare("prmax.dataadmin.freelance.FreelanceNew",
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 
 	},
 	resize:function()

@@ -56,6 +56,7 @@ class QuestionnairesGeneral(object):
 	  Constants.Field_Facebook: "facebook",
 	  Constants.Field_Twitter: "twitter",
 	  Constants.Field_LinkedIn: "linkedin",
+	  Constants.Field_Instagram: "instagram",
 	  Constants.Field_Research_Surname: "research_surname",
 	  Constants.Field_Research_Firstname: "research_firstname",
 	  Constants.Field_Research_Prefix: "research_prefix",
@@ -158,7 +159,7 @@ class QuestionnairesGeneral(object):
 
 			deskname = desktel = deskfax = deskmobile = deskemail = ""
 			deskaddress1 = deskaddress2 = desktownname = deskcounty = deskpostcode = ""
-			desktwitter = deskfacebook = desklinkedin = ""
+			desktwitter = deskfacebook = desklinkedin = deskinstagram = ""
 
 			if researchitem.outletdeskid:
 				outletdesk = OutletDesk.query.get(researchitem.outletdeskid)
@@ -178,6 +179,7 @@ class QuestionnairesGeneral(object):
 				desktwitter = outletdeskcomms.twitter
 				deskfacebook = outletdeskcomms.facebook
 				desklinkedin = outletdeskcomms.linkedin
+				deskinstagram = outletdeskcomms.instagram
 				deskresearch = session.query(ResearchDetailsDesk).filter(ResearchDetailsDesk.outletdeskid == researchitem.outletdeskid).scalar()
 			else:
 				deskresearch = None
@@ -251,6 +253,7 @@ class QuestionnairesGeneral(object):
 				             twitter=communications.twitter,
 				             facebook=communications.facebook,
 				             linkedin=communications.linkedin,
+				             instagram=communications.instagram,
 				             outletpriceid=outletpriceid,
 				             editorialprofile=editorialprofile,
 				             readership=readership,
@@ -330,6 +333,8 @@ class QuestionnairesGeneral(object):
 						rdata["facebook"] = deskfacebook
 					if desklinkedin:
 						rdata["linkedin"] = desklinkedin
+					if deskinstagram:
+						rdata["instagram"] = deskinstagram
 
 				return rdata
 			else:
@@ -365,6 +370,7 @@ class QuestionnairesGeneral(object):
 				  "linkedin" : communications.linkedin,
 				  "twitter" : communications.twitter,
 				  "facebook" : communications.facebook,
+				  "instagram" : communications.instagram,
 				  "blog": communications.blog,
 					"familyname" : "",
 					"firstname": "",
@@ -429,6 +435,8 @@ class QuestionnairesGeneral(object):
 					outfields["facebook"] = deskfacebook
 				if desklinkedin:
 					outfields["linkedin"] = desklinkedin
+				if deskinstagram:
+					outfields["instagram"] = deskinstagram
 
 				# always from desk
 				outfields["email"] = deskemail
@@ -498,7 +506,8 @@ class QuestionnairesGeneral(object):
 				      mobile=outfields["mobile"],
 				      linkedin=outfields["linkedin"],
 					    twitter=outfields["twitter"],
-					    facebook=outfields["facebook"],
+			            facebook=outfields["facebook"],
+			            instagram=outfields["instagram"],
 				      blog=outfields["blog"]),
 					  outletprofile=dict(profile=profile,
 				                       seriesparentname=seriesparentname,
@@ -536,6 +545,7 @@ class QuestionnairesGeneral(object):
 	  ("twitter", Constants.Field_Twitter),
 	  ("facebook", Constants.Field_Facebook),
 	  ("linkedin", Constants.Field_LinkedIn),
+	  ("instagram", Constants.Field_Instagram),
 		("countryid", Constants.Field_CountryId)
 	)
 	FreelanceFields = (
@@ -553,6 +563,7 @@ class QuestionnairesGeneral(object):
 	  ("twitter", Constants.Field_Twitter),
 	  ("facebook", Constants.Field_Facebook),
 	  ("linkedin", Constants.Field_LinkedIn),
+	  ("instagram", Constants.Field_Instagram),
 		("countryid", Constants.Field_CountryId),
 	  ("familyname", Constants.Field_FamilyName),
 	  ("firstname", Constants.Field_Firstname),
@@ -572,7 +583,8 @@ class QuestionnairesGeneral(object):
 		  ("email", Constants.Field_Email),
 		  ("twitter", Constants.Field_Twitter),
 		  ("facebook", Constants.Field_Facebook),
-		  ("linkedin", Constants.Field_LinkedIn),
+	      ("linkedin", Constants.Field_LinkedIn),
+	      ("instagram", Constants.Field_Instagram),
 		  ("countryid", Constants.Field_CountryId)
 		)
 
@@ -831,6 +843,7 @@ class QuestionnairesGeneral(object):
 			ActivityDetails.AddChange(comm.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
 			ActivityDetails.AddChange(comm.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
 			ActivityDetails.AddChange(comm.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
+			ActivityDetails.AddChange(comm.instagram, params['instagram'], activity.activityid, Constants.Field_Instagram)
 
 			ActivityDetails.AddChange(profile.subtitle, params['subtitle'], activity.activityid, Constants.Field_Subtitle_name)
 			ActivityDetails.AddChange(profile.officialjournalof, params['officialjournalof'], activity.activityid, Constants.Field_Officejournalof)
@@ -859,6 +872,7 @@ class QuestionnairesGeneral(object):
 			comm.facebook = params['facebook']
 			comm.twitter = params['twitter']
 			comm.linkedin = params['linkedin']
+			comm.instagram = params['instagram']
 
 			profile.subtitle = params['subtitle']
 			profile.officialjournalof = params['officialjournalof']
@@ -1216,6 +1230,7 @@ class QuestionnairesGeneral(object):
 		  twitter="",
 		  facebook="",
 		  linkedin="",
+		  instagram="",
 		  address1="",
 		  address2="",
 		  county="",
@@ -1239,6 +1254,7 @@ class QuestionnairesGeneral(object):
 				fields["twitter"] = comm.twitter
 				fields["facebook"] = comm.facebook
 				fields["linkedin"] = comm.linkedin
+				fields["instagram"] = comm.instagram
 				if comm.addressid:
 					address = Address.query.get(comm.addressid)
 					fields["address1"] = address.address1
@@ -1283,6 +1299,8 @@ class QuestionnairesGeneral(object):
 					fields["facebook"] = change.value
 				elif change.fieldid == Constants.Field_LinkedIn:
 					fields["linkedin"] = change.value
+				elif change.fieldid == Constants.Field_Instagram:
+					fields["instagram"] = change.value
 				elif change.fieldid == Constants.Field_Address_1:
 					fields["address1"] = change.value
 				elif change.fieldid == Constants.Field_Address_2:
@@ -1321,6 +1339,7 @@ class QuestionnairesGeneral(object):
 	  ("twitter", Constants.Field_Twitter, cmp, None),
 	  ("facebook", Constants.Field_Facebook, cmp, None),
 	  ("linkedin", Constants.Field_LinkedIn, cmp, None),
+	  ("instagram", Constants.Field_Instagram, cmp, None),
 	  ("address1", Constants.Field_Address_1, cmp, None),
 	  ("address2", Constants.Field_Address_2, cmp, None),
 	  ("townname", Constants.Field_Address_Town, cmp, None),
@@ -1546,6 +1565,7 @@ class QuestionnairesGeneral(object):
 					comm.twitter = ""
 					comm.facebook = ""
 					comm.linkedin = ""
+					comm.instagram = ""
 					comm.blog = ""
 				employee.contactid = None
 
@@ -1735,6 +1755,7 @@ class QuestionnairesGeneral(object):
 			ActivityDetails.AddChange(comm.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
 			ActivityDetails.AddChange(comm.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
 			ActivityDetails.AddChange(comm.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
+			ActivityDetails.AddChange(comm.instagram, params['instagram'], activity.activityid, Constants.Field_Instagram)
 			ActivityDetails.AddChange(comm.blog, params['blog'], activity.activityid, Constants.Field_Blog)
 
 			comm.tel = params['tel']
@@ -1744,6 +1765,7 @@ class QuestionnairesGeneral(object):
 			comm.twitter = params["twitter"]
 			comm.facebook = params["facebook"]
 			comm.linkedin = params["linkedin"]
+			comm.instagram = params["instagram"]
 			comm.blog = params["blog"]
 
 			contact = Contact.query.get(employee.contactid)
@@ -1884,6 +1906,7 @@ class QuestionnairesGeneral(object):
 			ActivityDetails.AddChange(deskcomm.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
 			ActivityDetails.AddChange(deskcomm.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
 			ActivityDetails.AddChange(deskcomm.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
+			ActivityDetails.AddChange(deskcomm.instagram, params['instagram'], activity.activityid, Constants.Field_Instagram)
 
 			def set_value(desk, outlet, field, value):
 				setvalue = "" if value == getattr(outlet, field) else value
@@ -1895,6 +1918,7 @@ class QuestionnairesGeneral(object):
 			set_value(deskcomm, outletcomm, 'twitter', params['twitter'])
 			set_value(deskcomm, outletcomm, 'facebook', params['facebook'])
 			set_value(deskcomm, outletcomm, 'linkedin', params['linkedin'])
+			set_value(deskcomm, outletcomm, 'instagram', params['instagram'])
 
 			# check to see if we have an different address
 			if params['address1'] != outletaddress.address1 and params['address1']:

@@ -42,7 +42,7 @@
                         ${seorelease["seo"].tel}<br/>
                     % endif
                     % if seorelease["seo"].www:
-                        <a href='${correct_http_link(seorelease["seo"].www)}' rel="nofollow" target="_blank">${seorelease["seo"].www}</a><br/><br/>
+                        <a href='${correct_http_link(seorelease["seo"].www)}' rel="nofollow" target="_blank">Link</a><br/><br/>
                     % endif
                     % if seorelease["seo"].email:
                         <a href='/releases/epage?seoreleaseid=${seorelease["seo"].seoreleaseid}'>Email</a><br/>
@@ -55,6 +55,9 @@
                     % endif
                     % if seorelease["seo"].linkedin:
                         <a href='${correct_http_link(seorelease["seo"].linkedin)}' rel="nofollow" target="_blank">LinkedIn</a><br/>
+                    % endif
+                    % if seorelease["seo"].instagram:
+                        <a href='${correct_http_link(seorelease["seo"].instagram)}' rel="nofollow" target="_blank">Instagram</a><br/>
                     % endif
                 </div>
                 <div class="news-category">

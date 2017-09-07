@@ -102,6 +102,7 @@ CREATE VIEW Search_Results_View_Report  AS SELECT
 	get_override(ec_c.twitter,e_c.twitter,oc_oc.twitter,o_c.twitter) AS twitter,
 	get_override(ec_c.facebook,e_c.facebook,oc_oc.facebook,o_c.facebook) AS facebook,
 	get_override(ec_c.linkedin,e_c.linkedin,oc_oc.linkedin,o_c.linkedin) AS linkedin,
+	get_override(ec_c.instagram,e_c.instagram,oc_oc.instagram,o_c.instagram) AS instagram,
 	country.countryname,
 	o.profile_link_field as displaylink
 	FROM userdata.searchsession as s

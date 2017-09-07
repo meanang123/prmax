@@ -124,6 +124,7 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.twitter.set("value", data.twitter ) ;
 		this.facebook.set("value", data.facebook);
 		this.linkedin.set("value", data.linkedin);
+		this.instagram.set("value", data.instagram);
 		this.keywords.set("value",data.keywords);
 		this.seoimage.set("value", (data.seoimageid==null)?-1:data.seoimageid);
 	},
@@ -167,6 +168,7 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this.seocontent.set("value", "");
 		this.clientid.set("value",-1);
 		this.seoimage.set("value",-1);
@@ -207,6 +209,7 @@ dojo.declare("prmax.pressrelease.seo.edit",
 			this.twitter.set("value",response.data.twitter);
 			this.facebook.set("value",response.data.facebook);
 			this.linkedin.set("value",response.data.linkedin);
+			this.instagram.set("value",response.data.instagram);
 			this.companyname.set("value",response.data.clientname);
 		}
 	},

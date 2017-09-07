@@ -105,6 +105,7 @@ define([
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 	}
 });
 });

@@ -165,6 +165,7 @@ class OutletGeneral(object):
 			ActivityDetails.AddChange(comm.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
 			ActivityDetails.AddChange(comm.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
 			ActivityDetails.AddChange(comm.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
+			ActivityDetails.AddChange(comm.instagram, params['instagram'], activity.activityid, Constants.Field_Instagram)
 
 			# deal with profile
 			profile = OutletProfile.query.get(outlet.outletid)
@@ -224,6 +225,7 @@ class OutletGeneral(object):
 			comm.facebook = params['facebook']
 			comm.twitter = params['twitter']
 			comm.linkedin = params['linkedin']
+			comm.instagram = params['instagram']
 			# clear out the cache across all customers
 			Invalidate_Cache_Object_Research(Outlet,
 			                                 params["outletid"],

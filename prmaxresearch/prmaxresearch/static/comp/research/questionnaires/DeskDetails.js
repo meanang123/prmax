@@ -45,6 +45,7 @@ define([
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);	
 		this.linkedin_show.set("source",this.linkedin);
+		this.instagram_show.set("source",this.instagram);
 
 		this.inherited(arguments);
 	},
@@ -79,6 +80,7 @@ define([
 		this.twitter_modified.clear();
 		this.facebook_modified.clear();
 		this.linkedin_modified.clear();
+		this.instagram_modified.clear();
 	},
 	load:function( projectitem, outlet, user_changes)
 	{
@@ -114,6 +116,7 @@ define([
 		this.linkedin.set("value",outlet.desk.comms.linkedin);
 		this.twitter.set("value",outlet.desk.comms.twitter);
 		this.facebook.set("value",outlet.desk.comms.facebook);
+		this.instagram.set("value",outlet.desk.comms.instagram);
 		this.researchprojectitemid.set("value",projectitem.researchprojectitemid);
 
 
@@ -158,6 +161,9 @@ define([
 					break;
 				case 28: // linkedin
 					this.linkedin_modified.load(change_record.value, outlet.desk.comms.linkedin, this.linkedin);
+					break;
+				case 72: // instagram
+					this.instagram_modified.load(change_record.value, outlet.desk.comms.instagram, this.instagram);
 					break;
 				case 66: // deskname
 					this.deskname_modified.load(change_record.value, outlet.desk.desk.deskname, this.deskname);

@@ -115,6 +115,7 @@ define([
 		  this.twitter.set("value", response.data.twitter);
 		  this.facebook.set("value", response.data.facebook);
 		  this.linkedin.set("value", response.data.linkedin);
+		  this.instagram.set("value", response.data.instagram);
 			this.interests.set("value", response.data.interests);
 			domattr.set(this.interests_org,"innerHTML",response.data.interests_org);
 			this.typeid.set("value", response.data.typeid);
@@ -168,6 +169,7 @@ define([
 		this.twitter.set("value", "");
 		this.facebook.set("value", "");
 		this.linkedin.set("value", "");
+		this.instagram.set("value", "");
 		this.no_address.set("checked", false) ;
 		this._address_show_do ( false ) ;
 		this.address1.set("value","");

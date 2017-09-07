@@ -22,7 +22,7 @@
 			${client.tel}<br/>
 			% endif
 			% if client.www:
-			<a href='${correct_http_link(client.www)}' target="_blank">${client.www}</a><br/>
+			<a href='${correct_http_link(client.www)}' target="_blank">Link</a><br/>
 			% endif
 			% if client.email:
 			<a href='mailto:${client.email}'>Email</a><br/>
@@ -35,6 +35,9 @@
 			% endif
 			% if client.linkedin:
 			<a href='${correct_http_link(client.linkedin)}' target="_blank">LinkedIn</a><br/>
+			% endif
+			% if client.instagram:
+			<a href='${correct_http_link(client.instagram)}' target="_blank">Instagram</a><br/>
 			% endif
 			<br/><br/>
 			<div class="single-news-links">	

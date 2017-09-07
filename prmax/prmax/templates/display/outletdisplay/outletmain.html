@@ -41,6 +41,9 @@
 <span py:if="outlet.linkedin" py:strip="">
 	<tr><td class="prmaxrowtag">Linkedin</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.linkedin}" target="_newtab" py:content="outlet.linkedin"></a></td></tr>
 </span>
+<span py:if="outlet.instagram" py:strip="">
+	<tr><td class="prmaxrowtag">Instagram</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.instagram}" target="_newtab" py:content="outlet.instagram"></a></td></tr>
+</span>
 <span py:if="outlet.outlettypeid!=19" py:strip="">
 		<tr ><td class="prmaxrowtag">Primary Contact</td><td py:content="primary.contactname" class="${outlet.primaryflag and 'prmaxoverride' or 'prmaxrowdisplay'}"></td></tr>
 <span py:if="newprofile['circulation']" py:strip="">

@@ -53,6 +53,7 @@ define([
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
 		this.linkedin_show.set("source",this.linkedin);
+		this.instagram_show.set("source",this.instagram);
 		this.inherited(arguments);
 	},
 	_saved:function(response)
@@ -83,6 +84,7 @@ define([
 		this.twitter_modified.clear();
 		this.facebook_modified.clear();
 		this.linkedin_modified.clear();
+		this.instagram_modified.clear();
 		this.editorialprofile_modified.clear();
 		this.prefix_modified.clear();
 		this.firstname_modified.clear();
@@ -128,6 +130,7 @@ define([
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this.blog.set("value","");
 		this.sortname.set("value","");
 		domattr.set(this.interests_user,"innerHTML", "");
@@ -182,6 +185,7 @@ define([
 			this.twitter.set("value",data.outlet.communications.twitter);
 			this.facebook.set("value",data.outlet.communications.facebook);
 			this.linkedin.set("value",data.outlet.communications.linkedin);
+			this.instagram.set("value",data.outlet.communications.instagram);
 			this.blog.set("value",data.outlet.communications.blog);
 
 			this.outlet_research_ctrl.load( data.outlet.outlet.outletid,19 );
@@ -250,6 +254,9 @@ define([
 						break;
 					case 28: // linkedin
 						this.linkedin_modified.load(change_record.value, data.outlet.communications.linkedin, this.linkedin);
+						break;
+					case 72: // instagram
+						this.instagram_modified.load(change_record.value, data.outlet.communications.instagram, this.instagram);
 						break;
 					case 21: //prefix
 						this.prefix_modified.load(change_record.value, data.primary.contact.prefix, this.prefix);

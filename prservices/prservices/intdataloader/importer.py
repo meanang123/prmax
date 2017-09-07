@@ -562,7 +562,7 @@ class PRMaxImporter(object):
 			                       fax="",
 				                     mobile="",
 				                     webphone="",
-			                       twitter = "", facebook = "", linkedin = "")
+			                       twitter = "", facebook = "", linkedin = "", instagram = "")
 				session.add(com)
 				session.flush()
 

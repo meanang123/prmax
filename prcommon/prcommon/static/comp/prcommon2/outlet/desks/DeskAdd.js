@@ -145,6 +145,7 @@ define([
 		this.twitter.set("value", "");
 		this.facebook.set("value", "");
 		this.linkedin.set("value", "");
+		this.instagram.set("value", "");
 		this.research_surname.set("value","");
 		this.research_firstname.set("value","");
 		this.research_prefix.set("value","");
@@ -210,6 +211,7 @@ define([
 				this.twitter.set("value", response.data.outletdeskcomms.twitter);
 				this.facebook.set("value", response.data.outletdeskcomms.facebook);
 				this.linkedin.set("value", response.data.outletdeskcomms.linkedin);
+				this.instagram.set("value", response.data.outletdeskcomms.instagram);
 			}
 			else
 			{
@@ -219,6 +221,7 @@ define([
 				this.twitter.set("value", "");
 				this.facebook.set("value", "");
 				this.linkedin.set("value", "");
+				this.instagram.set("value", "");
 			}
 			if (response.data.deskaddress != null )
 			{

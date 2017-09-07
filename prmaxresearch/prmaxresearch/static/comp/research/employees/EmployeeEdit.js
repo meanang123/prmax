@@ -76,6 +76,7 @@ define([
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
 		this.linkedin_show.set("source",this.linkedin);	
+		this.instagram_show.set("source",this.instagram);	
 		this.inherited(arguments);
 	},
 	load:function( employeeid, outletid, sourceid )
@@ -116,6 +117,7 @@ define([
 		this.twitter.set("value", response.data.comm.twitter);
 		this.facebook.set("value", response.data.comm.facebook);
 		this.linkedin.set("value", response.data.comm.linkedin);
+		this.instagram.set("value", response.data.comm.instagram);
 		this.mobile.set("value", response.data.comm.mobile);
 		this.interests.set("value", response.data.interests);
 		this.profile.set("value", response.data.employee.profile);
@@ -214,6 +216,7 @@ define([
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this.jobroles.clear();
 		this.outletdeskid.set("value",-1);
 		this._desklist = null;

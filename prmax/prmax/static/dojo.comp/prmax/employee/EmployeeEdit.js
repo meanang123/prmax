@@ -104,6 +104,7 @@ dojo.declare("prmax.employee.EmployeeEdit",
 		this.twitter.set("value",response.data.comm.twitter);
 		this.facebook.set("value",response.data.comm.facebook);
 		this.linkedin.set("value",response.data.comm.linkedin);
+		this.instagram.set("value",response.data.comm.instagram);
 		this.interests.set("value",response.data.interests);
 		this.profile.set("value",response.data.employee.profile);
 		this.prefix.set("value",response.data.contact.prefix);
@@ -154,6 +155,7 @@ dojo.declare("prmax.employee.EmployeeEdit",
 		this.linkedin.set("value","");
 		this.twitter.set("value","");
 		this.facebook.set("value","");
+		this.instagram.set("value","");
 
 	},
 	_Close:function()

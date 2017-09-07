@@ -88,6 +88,7 @@ define([
 			this.linkedin.set("value",outlet.communications.linkedin);
 			this.twitter.set("value",outlet.communications.twitter);
 			this.facebook.set("value",outlet.communications.facebook);
+			this.instagram.set("value",outlet.communications.instagram);
 		}
 
 		this.questionnaireid.set("value",questionnaire.questionnaireid);

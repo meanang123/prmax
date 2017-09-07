@@ -74,6 +74,7 @@ define([
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
 		this.linkedin_show.set("source",this.linkedin);		
+		this.instagram_show.set("source",this.instagram);		
 		this.inherited(arguments);
 	},
 	_reset_fields:function()
@@ -86,6 +87,7 @@ define([
 		this.twitter_modified.clear();
 		this.facebook_modified.clear();
 		this.linkedin_modified.clear();
+		this.instagram_modified.clear();
 	},
 	load:function( data, user_changes )
 	{
@@ -105,6 +107,7 @@ define([
 			this.twitter.set("value", data.comm.twitter);
 			this.facebook.set("value", data.comm.facebook);
 			this.linkedin.set("value", data.comm.linkedin);
+			this.instagram.set("value", data.comm.instagram);
 			this.mobile.set("value", data.comm.mobile);
 			this.interests_org.set("value", data.interests);
 			domattr.set(this.interests,"innerHTML"," ");
@@ -186,6 +189,9 @@ define([
 					case 28: // linkedin
 						this.linkedin_modified.load(change_record.value, data.comm.linkedin, this.linkedin);
 						break;
+					case 72: // instagram
+						this.instagram_modified.load(change_record.value, data.comm.instagram, this.instagram);
+						break;
 					case 12: // address 1
 						var address1 = "";
 						this.address1_modified.load(change_record.value, data.address == null ? "" :data.address.address1, this.address1);
@@ -226,6 +232,7 @@ define([
 			this.twitter.set("value", data.twitter);
 			this.facebook.set("value", data.facebook);
 			this.linkedin.set("value", data.linkedin);
+			this.instagram.set("value", data.instagram);
 			this.mobile.set("value", data.mobile);
 			this.profile.set("value", "");
 			this.jobroles.set("value", null);
@@ -285,6 +292,7 @@ define([
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this.outletdeskid.set("value",-1);
 		this.interests_org.set("");
 		domattr.set(this.interests,"innerHTML","");

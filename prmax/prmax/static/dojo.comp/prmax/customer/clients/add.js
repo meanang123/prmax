@@ -168,7 +168,7 @@ dojo.declare("prmax.customer.clients.add",
 				this.twitter.set("value", client.twitter );
 				this.facebook.set("value", client.facebook );
 				this.linkedin.set("value", client.linkedin );
-				//this.instagram.set("value", client.instagram );
+				this.instagram.set("value", client.instagram );
 				this.has_news_room.set("checked", client.has_news_room);
 				if (newsroom)
 				{
@@ -218,7 +218,7 @@ dojo.declare("prmax.customer.clients.add",
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
-		//this.instagram.set("value","");
+		this.instagram.set("value","");
 		this.save.cancel();
 		this.clientid.set("value",-1);
 		this.news_room_root.set("value", "");

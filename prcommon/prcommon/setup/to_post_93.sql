@@ -177,6 +177,7 @@ CREATE VIEW ListMember_Ai_View AS SELECT
 	get_override(ecomm.twitter,comm.twitter,'','') AS contact_twitter,
 	get_override(ecomm.facebook,comm.facebook,'','') AS contact_facebook,
 	get_override(ecomm.linkedin,comm.linkedin,'','') AS contact_linkedin,
+	get_override(ecomm.instagram,comm.instagram,'','') AS contact_instagram,
 	o.profile
 
 FROM userdata.listmembers AS lm

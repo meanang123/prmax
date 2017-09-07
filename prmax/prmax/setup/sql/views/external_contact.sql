@@ -16,7 +16,8 @@ com.tel,
 com.email,
 com.fax,
 com.twitter,
-com.facebook
+com.facebook,
+com.instagram
 
 FROM tg_user AS u
 JOIN internal.researchexternalcontacts AS rxt ON rxt.researchexternalcontactid = u.researchexternalcontactid

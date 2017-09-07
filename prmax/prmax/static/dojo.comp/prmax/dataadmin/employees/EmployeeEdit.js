@@ -94,6 +94,7 @@ dojo.declare("prmax.dataadmin.employees.EmployeeEdit",
 		this.twitter.set("value",response.data.comm.twitter);
 		this.facebook.set("value",response.data.comm.facebook);
 		this.linkedin.set("value",response.data.comm.linkedin);
+		this.instagram.set("value",response.data.comm.instagram);
 		this.mobile.set("value",response.data.comm.mobile);
 		this.interests.set("value",response.data.interests);
 		this.profile.set("value",response.data.employee.profile);
@@ -186,6 +187,7 @@ dojo.declare("prmax.dataadmin.employees.EmployeeEdit",
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this.socialmediabtn.set("disabled", true ) ;
 		this.interestupdbtn.set("disabled", true ) ;
 	},
@@ -252,6 +254,7 @@ dojo.declare("prmax.dataadmin.employees.EmployeeEdit",
 	{
 		if ( this.twitter.isValid() == false ||
 				this.facebook.isValid() == false ||
+				this.instagram.isValid() == false ||
 				this.linkedin.isValid() == false )
 		{
 			alert("Invalid Data");

@@ -114,7 +114,8 @@ class SEORelease(BaseSql):
 									 email="",
 									 tel="",
 									 twitter="",
-									 facebook="",
+			                         facebook="",
+			                         instagram="",
 									 linkedin="",
 									 clientid=-1,
 									 content=content)
@@ -129,6 +130,7 @@ class SEORelease(BaseSql):
 				ret["twitter"] = client.twitter
 				ret["facebook"] = client.facebook
 				ret["linkedin"] = client.linkedin
+				ret["instagram"] = client.instagram
 		else:
 			ret = dict(emailtemplateid=seo.emailtemplateid,
 									 seoreleaseid=seo.seoreleaseid,
@@ -140,7 +142,8 @@ class SEORelease(BaseSql):
 									 email=seo.email,
 									 tel=seo.tel,
 									 twitter=seo.twitter,
-									 facebook=seo.facebook,
+			                         facebook=seo.facebook,
+			                         instagram=seo.instagram,
 									 linkedin=seo.linkedin,
 									 content=DBCompress.decode(seo.content),
 									 clientid=seo.clientid,
@@ -254,6 +257,7 @@ class SEORelease(BaseSql):
 		seo.tel = params["tel"]
 		seo.twitter = params["twitter"]
 		seo.facebook = params["facebook"]
+		seo.instagram= params["instagram"]
 		seo.linkedin = params["linkedin"]
 		clientid = params.get("clientid", None)
 		if clientid == -1:

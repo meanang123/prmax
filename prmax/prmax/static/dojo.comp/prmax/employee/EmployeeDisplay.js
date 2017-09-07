@@ -139,6 +139,16 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		{
 			dojo.addClass(this.employee_display_linkedin_row,"prmaxhidden");
 		}
+		if ( response.employee.instagram != null && response.employee.instagram.length > 0 )
+		{
+			dojo.attr(this.employee_display_instagram,"href",response.employee.instagram);
+			dojo.attr(this.employee_display_instagram,"innerHTML",response.employee.instagram);
+			dojo.removeClass(this.employee_display_instagram_row,"prmaxhidden");
+		}
+		else
+		{
+			dojo.addClass(this.employee_display_instagram_row,"prmaxhidden");
+		}
 
 		dojo.attr(this.employee_display_tel,"innerHTML",response.employee.tel);
 		dojo.attr(this.employee_display_fax,"innerHTML",response.employee.fax);
@@ -184,6 +194,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		"employee_display_twitter",
 		"employee_display_linkedin",
 		"employee_display_facebook",
+		"employee_display_instagram",
 		"employee_display_tel",
 		"employee_display_fax",
 		"employee_display_mobile",
@@ -206,6 +217,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		dojo.addClass(this.employee_display_twitter_row, "prmaxhidden" );
 		dojo.addClass(this.employee_display_facebook_row, "prmaxhidden" );
 		dojo.addClass(this.employee_display_linkedin_row,"prmaxhidden" );
+		dojo.addClass(this.employee_display_instagram_row,"prmaxhidden" );
 
 		dojo.removeClass(this.employee_display_tel,"prmaxoverride");
 		dojo.removeClass(this.employee_display_address,"prmaxoverride");

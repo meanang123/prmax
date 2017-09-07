@@ -88,6 +88,7 @@ dojo.declare("prmax.dataadmin.outlets.OutletNew",
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 
 		this.profile.set("value","");
 		this.saveBtn.cancel();

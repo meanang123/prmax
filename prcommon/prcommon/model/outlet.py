@@ -164,6 +164,7 @@ class Outlet(BaseSql):
 						           twitter = params['contact_twitter'],
 						           facebook = params['contact_facebook'],
 			                       linkedin = params['contact_linkedin'],
+			                       instagram = params['contact_instagram'],
 						           webphone="")
 			session.add(p_com)
 			# add outlet
@@ -183,6 +184,7 @@ class Outlet(BaseSql):
 						         webphone="",
 			               twitter = params['outlet_twitter'],
 			               facebook = params['outlet_facebook'],
+			               instagram = params['outlet_instagram'],
 			               linkedin = params['outlet_linkedin'])
 
 			session.add(com)
@@ -294,6 +296,7 @@ class Outlet(BaseSql):
 			comm.twitter = params['outlet_twitter']
 			comm.facebook = params['outlet_facebook']
 			comm.linkedin = params['outlet_linkedin']
+			comm.instagram = params['outlet_instagram']
 
 			address.address1 = params['address1']
 			address.address2 = params['address2']
@@ -331,6 +334,7 @@ class Outlet(BaseSql):
 			p_com.twitter = params['contact_twitter']
 			p_com.facebook = params['contact_facebook']
 			p_com.linkedin = params['contact_linkedin']
+			p_com.instagram = params['contact_instagram']
 
 			CacheControl.Invalidate_Cache_Object_Research( outlet.primaryemployeeid , Constants.Cache_Employee_Objects )
 
@@ -450,9 +454,11 @@ class Outlet(BaseSql):
 			ActivityDetails.AddChange ( comm.facebook , params['facebook'] , activity.activityid , Constants.Field_Facebook)
 			ActivityDetails.AddChange ( comm.twitter , params['twitter'] , activity.activityid , Constants.Field_Twitter)
 			ActivityDetails.AddChange ( comm.linkedin , params['linkedin'] , activity.activityid , Constants.Field_LinkedIn)
+			ActivityDetails.AddChange ( comm.instagram , params['instagram'] , activity.activityid , Constants.Field_Instagram)
 			comm.facebook = params['facebook']
 			comm.twitter = params['twitter']
 			comm.linkedin = params['linkedin']
+			comm.instagram = params['instagram']
 
 			Invalidate_Cache_Object_Research(cls, params["outletid"] , Constants.Cache_Outlet_Objects )
 
@@ -605,6 +611,7 @@ class Outlet(BaseSql):
 						         webphone="",
 			               twitter = params["twitter"],
 			               linkedin = params["linkedin"],
+			               instagram = params["instagram"],
 			               facebook = params["facebook"])
 			session.add(com)
 			session.flush()
@@ -1303,6 +1310,7 @@ class Freelance(BaseSql):
 			               twitter = params['twitter'],
 			               facebook = params['facebook'],
 			               linkedin = params['linkedin'],
+			               instagram = params['instagram'],
 						         webphone="")
 			session.add(com)
 			session.flush()
@@ -1369,6 +1377,7 @@ class Freelance(BaseSql):
 			comm.twitter = params['twitter']
 			comm.facebook = params['facebook']
 			comm.linkedin = params['linkedin']
+			comm.instagram = params['instagram']
 
 			contact.prefix = params['title']
 			contact.firstname = params['firstname']
@@ -1466,6 +1475,7 @@ class Freelance(BaseSql):
 			               twitter = params["twitter"],
 			               facebook = params["facebook"],
 			               linkedin = params["linkedin"],
+			               instagram = params["instagram"],
 						         webphone="")
 			session.add(com)
 			session.flush()
@@ -1553,6 +1563,7 @@ class Freelance(BaseSql):
 			ActivityDetails.AddChange ( comm.twitter , params['twitter'] , activity.activityid , Constants.Field_Twitter )
 			ActivityDetails.AddChange ( comm.facebook , params['facebook'] , activity.activityid , Constants.Field_Facebook )
 			ActivityDetails.AddChange ( comm.linkedin , params['linkedin'] , activity.activityid , Constants.Field_LinkedIn )
+			ActivityDetails.AddChange ( comm.instagram , params['instagram'] , activity.activityid , Constants.Field_Instagram )
 			ActivityDetails.AddChange ( comm.blog , params['blog'] , activity.activityid , Constants.Field_Blog )
 
 			comm.tel = params['tel']
@@ -1562,6 +1573,7 @@ class Freelance(BaseSql):
 			comm.twitter = params["twitter"]
 			comm.facebook = params["facebook"]
 			comm.linkedin = params["linkedin"]
+			comm.instagram = params["instagram"]
 			comm.blog = params["blog"]
 
 			if int(params["contactid"]) != employee.contactid:

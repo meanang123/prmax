@@ -12,6 +12,7 @@ from ttl.ttlmako import isnull
 <tr><td style="${style['plabel']}">Twitter:</td><td style="${style['p']}">${isnull(p['comm'].twitter)}</td></tr>
 <tr><td style="${style['plabel']}">Facebook:</td><td style="${style['p']}">${isnull(p['comm'].facebook)}</td></tr>
 <tr><td style="${style['plabel']}">LinkedIn:</td><td style="${style['p']}">${isnull(p['comm'].linkedin)}</td></tr>
+<tr><td style="${style['plabel']}">Instagram:</td><td style="${style['p']}">${isnull(p['comm'].instagram)}</td></tr>
 % if p['dinterests']:
 <tr><td colspan="2" style="${style['p']}"><span style="${style['plabel']}">Keywords:</span> ${p['dinterests']}</td></tr>
 % endif
@@ -31,6 +32,7 @@ from ttl.ttlmako import isnull
 <tr><td style="${style['plabel']}">Twitter:</td><td style="${style['p']}">${isnull(contact['comm'].twitter)}</td></tr>
 <tr><td style="${style['plabel']}">Facebook:</td><td style="${style['p']}">${isnull(contact['comm'].facebook)}</td></tr>
 <tr><td style="${style['plabel']}">LinkedIn:</td><td style="${style['p']}">${isnull(contact['comm'].linkedin)}</td></tr>
+<tr><td style="${style['plabel']}">Instagram:</td><td style="${style['p']}">${isnull(contact['comm'].instagram)}</td></tr>
 % if contact['dinterests']:
 <tr><td colspan="2" style="${style['p']}"><span style="${style['plabel']}">Keywords:</span> ${contact['dinterests']}</td></tr>
 %endif:

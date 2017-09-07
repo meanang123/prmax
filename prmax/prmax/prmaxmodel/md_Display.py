@@ -78,6 +78,7 @@ class OutletDisplay(BaseSql):
 	o.mp_sqcm,
 	c.twitter,
 	c.linkedin,
+	c.instagram,
 	c.facebook,
 	Web_To_Html_Link_address(c.blog) as blog
 	FROM outlets as o

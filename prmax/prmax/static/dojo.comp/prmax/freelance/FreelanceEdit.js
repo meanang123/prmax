@@ -71,6 +71,7 @@ dojo.declare("prmax.freelance.FreelanceEdit",
 		this.twitter.set("value", response.data.comm.twitter);
 		this.facebook.set("value", response.data.comm.facebook);
 		this.linkedin.set("value", response.data.comm.linkedin);
+		this.instagram.set("value", response.data.comm.instagram);
 		this.interests.set("value", response.data.interests);
 		this.profile.set("value", response.data.outlet.profile);
 
@@ -163,6 +164,7 @@ dojo.declare("prmax.freelance.FreelanceEdit",
 		this.twitter.set("value", "");
 		this.facebook.set("value", "");
 		this.linkedin.set("value", "");
+		this.instagram.set("value", "");
 		dojo.attr(this.headingNode,"innerHTML","Adding Freelance");
 	},
 	resize:function()

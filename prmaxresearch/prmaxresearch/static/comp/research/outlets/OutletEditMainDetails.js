@@ -82,6 +82,7 @@ define([
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
 		this.linkedin_show.set("source",this.linkedin);
+		this.instagram_show.set("source",this.instagram);
 
 		this.inherited(arguments)
 	},
@@ -131,6 +132,7 @@ define([
 		this.linkedin.set("value",outlet.communications.linkedin);
 		this.twitter.set("value",outlet.communications.twitter);
 		this.facebook.set("value",outlet.communications.facebook);
+		this.instagram.set("value",outlet.communications.instagram);
 
 		this.circulationsourceid.set("value", outlet.outlet.circulationsourceid );
 		this.circulationauditdateid.set("value",outlet.outlet.circulationauditdateid);
@@ -202,6 +204,7 @@ define([
 	{
 		if ( this.twitter.isValid() == false ||
 				this.facebook.isValid() == false ||
+				this.instagram.isValid() == false ||
 				this.linkedin.isValid() == false )
 		{
 			alert("Invalid Data");

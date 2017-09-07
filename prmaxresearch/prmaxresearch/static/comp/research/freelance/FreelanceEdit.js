@@ -57,6 +57,7 @@ define([
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
 		this.linkedin_show.set("source",this.linkedin);
+		this.instagram_show.set("source",this.instagram);
 		this.inherited(arguments);
 	},
 	_saved:function(response)
@@ -116,6 +117,7 @@ define([
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this.blog.set("value","");
 		this.prmax_outlettypeid.set("value",42);
 		this._clear_reason();
@@ -158,6 +160,7 @@ define([
 			this.twitter.set("value",data.comm.twitter);
 			this.facebook.set("value",data.comm.facebook);
 			this.linkedin.set("value",data.comm.linkedin);
+			this.instagram.set("value",data.comm.instagram);
 			this.blog.set("value",data.comm.blog);
 			this.prmax_outlettypeid.set("value",data.outlet.prmax_outlettypeid);
 

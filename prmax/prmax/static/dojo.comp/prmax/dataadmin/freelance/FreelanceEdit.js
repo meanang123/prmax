@@ -90,6 +90,7 @@ dojo.declare("prmax.dataadmin.freelance.FreelanceEdit",
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
+		this.instagram.set("value","");
 		this._ClearReason();
 	},
 	resize:function()
@@ -135,6 +136,7 @@ dojo.declare("prmax.dataadmin.freelance.FreelanceEdit",
 			this.twitter.set("value",data.comm.twitter);
 			this.facebook.set("value",data.comm.facebook);
 			this.linkedin.set("value",data.comm.linkedin);
+			this.instagram.set("value",data.comm.instagram);
 
 			this._ClearReason();
 			this.outlet_research_ctrl.Load( data.outlet.outletid,19 );

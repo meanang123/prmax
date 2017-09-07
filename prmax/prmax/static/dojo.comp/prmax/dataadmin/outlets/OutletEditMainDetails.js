@@ -77,6 +77,7 @@ dojo.declare("prmax.dataadmin.outlets.OutletEditMainDetails",
 		this.linkedin.set("value",outlet.communications.linkedin);
 		this.twitter.set("value",outlet.communications.twitter);
 		this.facebook.set("value",outlet.communications.facebook);
+		this.instagram.set("value",outlet.communications.instagram);
 
 		this.interests.set("value",outlet.interests ) ;
 		this.coverage.set("value",outlet.coverage ) ;
@@ -130,6 +131,7 @@ dojo.declare("prmax.dataadmin.outlets.OutletEditMainDetails",
 	{
 		if ( this.twitter.isValid() == false ||
 				this.facebook.isValid() == false ||
+				this.instagram.isValid() == false ||
 				this.linkedin.isValid() == false )
 		{
 			alert("Invalid Data");
