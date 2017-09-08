@@ -374,7 +374,7 @@ class EmailTemplates(BaseSql):
 			  previewaddress=user.emailreplyaddress,
 			  returnaddress=user.emailreplyaddress,
 			  seopressrelease=seopressrelease,
-			  client=params["clientid"]
+			  clientid=params["clientid"]
 			)
 			session.add(emailtemplate)
 			session.flush()
