@@ -77,6 +77,11 @@ class CrmHistorySchema(PrFormSchema):
 	"""schema """
 	contacthistoryhistoryid = validators.Int()
 
+class UpdateHistorySchema(PrFormSchema):
+	"""schema """
+	contacthistoryhistoryid = validators.Int()
+	contacthistoryid = validators.Int()
+	
 class CrmIdSchema(PrFormSchema):
 	"""schema """
 	contacthistoryid = validators.Int()
@@ -223,6 +228,17 @@ class CrmController(SecureController):
 
 		return stdreturn(data=ContactHistoryGeneral.get_edit(params["contacthistoryid"]))
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=CrmIdSchema(), state_factory=std_state_factory)
+	def update_response(self, *args, **params):
+		""" Update contact history response record """
+
+		chh = ContactHistoryGeneral.update_response( params )
+
+		return stdreturn(data = ContactHistoryHistory.query.get(chh.contacthistoryhistoryid))
+	
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)

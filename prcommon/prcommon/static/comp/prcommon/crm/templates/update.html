@@ -20,8 +20,11 @@
 						<select data-dojo-props='"class":"prmaxrequired",name:"contacthistorytypeid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Select",labelType:"html",style:"float:left;width:140px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="contacthistorytypeid"></select>
 						<label class="label_1" style="float:left">Status</label>
 						<select data-dojo-props='"class":"prmaxrequired",name:"contacthistorystatusid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Status",labelType:"html",style:"float:left;width:140px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="contacthistorystatusid"></select><br/>
-						<label class="label_1">Briefing Notes</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="details" data-dojo-props='name:"details",trim:true,required:false,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
+						<label class="label_1">Briefing Notes</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="details" data-dojo-props='name:"details",trim:true,required:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
 						<label class="label_1" data-dojo-attach-point="outcome_label_1">Outcome</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="outcome" data-dojo-props='name:"outcome",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
+
+						<button data-dojo-attach-event="onClick:_send_reply" data-dojo-attach-point="sendreplybtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Send Reply","class":"btnleft",iconClass:"fa fa-envelope-o"'></button><br />
+
 						<label class="label_1" >Response</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="crm_response" data-dojo-props='name:"crm_response",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
 						<label data-dojo-attach-point="client_label" class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><button data-dojo-attach-event="onClick:_new_client" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
 						<label class="label_1">Document</label><select data-dojo-props='name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select><button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
@@ -52,5 +55,8 @@
 	</div>
 	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="client_add_dialog" data-dojo-props='title:"Add New Client",style:"width:700px;height:600px"'>
 		<div data-dojo-type="prmax.customer.clients.add" data-dojo-attach-point="client_add_ctrl"></div>
+	</div>
+	<div data-dojo-attach-point="send_reply_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Send Reply", style:"width:550px;height:550px"'>
+		<div data-dojo-attach-point="send_reply_ctrl" data-dojo-type="prcommon.crm.responses.sendreply"></div>
 	</div>
 </div>

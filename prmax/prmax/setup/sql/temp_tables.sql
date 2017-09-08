@@ -670,3 +670,27 @@ ALTER TABLE userdata.client ADD COLUMN instagram character varying;
 ALTER TABLE seoreleases.seorelease ADD COLUMN instagram character varying;
 
 ALTER TABLE userdata.contacthistoryuserdefine ALTER COLUMN description TYPE varchar(90);
+
+INSERT INTO interests (interestname, interesttypeid, customerid, isroot) VALUES ('East Ayrshire Council', 1, 5730, 0);
+
+CREATE TABLE internal.contacthistoryhistorytypes
+(
+   contacthistoryhistorytypeid integer NOT NULL,
+   contacthistoryhistorytypedescription character varying NOT NULL,
+   CONSTRAINT pk_contacthistoryhistorytypeid PRIMARY KEY (contacthistoryhistorytypeid)
+) WITH (  OIDS = FALSE);
+
+ALTER TABLE internal.contacthistoryhistorytypes OWNER TO postgres;
+GRANT ALL ON TABLE internal.contacthistoryhistorytypes TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.contacthistoryhistorytypes TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.contacthistoryhistorytypes TO prmaxcontrol;
+
+INSERT INTO internal.contacthistoryhistorytypes VALUES (1, 'Change');
+INSERT INTO internal.contacthistoryhistorytypes VALUES (2, 'Response');
+
+ALTER TABLE userdata.contacthistoryhistory ADD COLUMN contacthistoryhistorytypeid integer NOT NULL DEFAULT 1;
+ALTER TABLE userdata.contacthistoryhistory ADD CONSTRAINT fk_contacthistoryhistorytypeid 
+FOREIGN KEY (contacthistoryhistorytypeid) REFERENCES internal.contacthistoryhistorytypes (contacthistoryhistorytypeid) MATCH SIMPLE
+ON UPDATE NO ACTION ON DELETE RESTRICT;
+
+UPDATE userdata.contacthistoryhistory set contacthistoryhistorytypeid = 1;

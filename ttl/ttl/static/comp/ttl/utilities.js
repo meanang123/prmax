@@ -443,6 +443,17 @@ ttl.utilities.toJsonDate = function( inDate)
 		return inDate.getFullYear() + "-" + (inDate.getMonth() + 1 )  + "-" + inDate.getDate();
 }
 
+ttl.utilities.toJsonDate2 = function( inDate)
+{
+	if ( inDate == null )
+		return "";
+	else
+		var y = inDate.getFullYear();
+		var m = inDate.getMonth() + 1;
+		var d = inDate.getDate();
+		return y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+}
+
 ttl.utilities.toJsonTime = function( inDate)
 {
 	if ( inDate == null )

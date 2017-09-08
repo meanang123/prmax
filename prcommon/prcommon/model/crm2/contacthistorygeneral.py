@@ -8,6 +8,8 @@
 # Created:     23/07/2014
 # Copyright:   (c) 2014
 #-----------------------------------------------------------------------------
+from datetime import datetime
+import logging
 from turbogears.database import session
 from sqlalchemy import text
 from prcommon.model.common import BaseSql
@@ -20,10 +22,14 @@ from prcommon.model.crm2.issues import Issue
 from prcommon.model.crm2.documents import Documents
 from prcommon.model.crm import Task
 from prcommon.model.crm2.contacthistoryuserdefine import ContactHistoryUserDefine
-from datetime import datetime
-from ttl.tg.validators import DateRangeResult
+from prcommon.model.customer.customeremailserver import CustomerEmailServer
+
 import prcommon.Constants as Constants
-import logging
+from ttl.tg.validators import DateRangeResult
+from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE
+from ttl.sqlalchemy.ttlcoding import CryptyInfo
+
+cryptengine = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
 
 class ContactHistoryGeneral():
@@ -227,7 +233,8 @@ class ContactHistoryGeneral():
 				    to_notes=params["details"],
 				  contacthistoryid = contacthistory.contacthistoryid,
 				  userid = params["userid"],
-				  created = datetime.now()
+				  created=datetime.now(),
+				  contacthistoryhistorytypeid=1 #Changed
 				))
 
 			if contacthistory.details != params["details"]:
@@ -350,6 +357,46 @@ class ContactHistoryGeneral():
 			raise
 
 	@staticmethod
+	def update_response(params):
+		""" update a response record """
+
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			ces = CustomerEmailServer.get(params['customeremailserverid'])
+			email = EmailMessage(ces.fromemailaddress,
+			                     params['toemailaddress'],
+			                     params['emailsubject'],
+			                     params['emailbody'],
+			                     "text/html"
+			                     )
+			email.BuildMessage()
+
+			if ces.servertypeid in SMTPSERVERBYTYPE:
+				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](
+				    username=cryptengine.aes_decrypt(ces.username),
+				    password=cryptengine.aes_decrypt(ces.password))
+				sender = ces.fromemailaddress
+
+				(error, statusid) = emailserver.send(email, sender)
+				if not statusid:
+					raise Exception("Problem Sending Email")				
+				else:
+					chh = ContactHistoryHistory(contacthistoryid=int(params['contacthistoryid']),
+					                            from_notes=params['toemailaddress'],
+					                            to_notes=params['emailbody'],
+					                            userid=int(params['userid']),
+					                            created=datetime.now(),
+					                            contacthistoryhistorytypeid=2) #Response
+					session.add(chh)
+					session.flush()
+					transaction.commit()
+					return chh
+		except:
+			transaction.rollback()
+			LOGGER.exception("ContactHistoryHistory update history")
+			raise
+
+	@staticmethod
 	def get_edit(contacthistoryid):
 		"""Contact Hisotry id"""
 
@@ -377,16 +424,18 @@ class ContactHistoryGeneral():
 
 	EMPTYGRID = dict (numRows = 0, items = [], identifier = 'contacthistoryid')
 
-	List_Chh_View =  """SELECT
+	List_Chh_View = """SELECT
 	chh.contacthistoryhistoryid,
 	to_char(chh.created, 'DD/MM/YY') AS created_display,
-	u.user_name
+	u.user_name,
+	chht.contacthistoryhistorytypedescription AS changetype
 	FROM userdata.contacthistoryhistory AS chh
+	JOIN internal.contacthistoryhistorytypes AS chht ON chh.contacthistoryhistorytypeid = chht.contacthistoryhistorytypeid
 	JOIN tg_user AS u ON u.user_id = chh.userid
 	%s %s
 	LIMIT :limit  OFFSET :offset"""
-	List_Chh_View_Count =  """SELECT COUNT(*) FROM userdata.contacthistoryhistory AS chh %s"""
-	EMPTYGRID_CHH = dict (numRows = 0, items = [], identifier = 'contacthistoryhistoryid')
+	List_Chh_View_Count = """SELECT COUNT(*) FROM userdata.contacthistoryhistory AS chh %s"""
+	EMPTYGRID_CHH = dict(numRows=0, items=[], identifier='contacthistoryhistoryid')
 
 	@staticmethod
 	def ch_history( params ) :

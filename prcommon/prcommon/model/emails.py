@@ -22,8 +22,9 @@ from datetime import datetime, date, timedelta
 from turbogears.database import metadata, mapper, session, config
 from sqlalchemy import Table, text, func, or_, and_
 from bs4 import BeautifulSoup
-from ttl.ttlemail import EmailMessage, SMTPServer, SMTPServer1to1, SMTPServerGMail, SMTPServerHotmail, SMTPServerYahoo, SMTPSERVERBYTYPE
+from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE
 from ttl.postgres import DBCompress
+from ttl.sqlalchemy.ttlcoding import CryptyInfo
 import ttl.Constants as ttlConstants
 from prcommon.model.common import BaseSql
 from prcommon.model.identity import User, Customer
@@ -37,10 +38,9 @@ from prcommon.Const.Email_Templates import Demo_Body, Demo_Subject
 from prcommon.lib.distribution import MailMerge
 import prcommon.Constants as Constants
 from prcommon.lib.bouncedemails import AnalysisMessage
-from prcommon.model.clippings.clipping import Clipping
-from prcommon.model.clippings.clippingselection import ClippingSelection
-from prcommon.model.customer.customeremailserver import CustomerEmailServer
 
+
+cryptengine = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
 
 class EmailQueue(BaseSql):
@@ -831,7 +831,7 @@ class EmailTemplates(BaseSql):
 				filter(EmailTemplates.customerid == cust.customerid).\
 				filter(or_(
 			        and_(func.DATE(EmailTemplates.embargo) == datetocheck, EmailTemplates.pressreleasestatusid != 1),\
-			        and_(func.DATE(EmailTemplates.embargo) == None, func.DATE(EmailTemplates.sent_time) == datetocheck),\
+			        and_(func.DATE(EmailTemplates.embargo) is None, func.DATE(EmailTemplates.sent_time) == datetocheck),\
 			        EmailTemplates.emailtemplateid == emailtemplate.emailtemplateid)).all()
 		else:
 			datetocheck = date.today()
@@ -931,7 +931,7 @@ class EmailTemplates(BaseSql):
 
 			if session.query(EmailTemplatesLinkThrough.emailtemplateslinkthroughid).\
 			   filter(EmailTemplatesLinkThrough.emailtemplateid == self.emailtemplateid).\
-			   filter(EmailTemplatesLinkThrough.url == link['href']).scalar() == None:
+			   filter(EmailTemplatesLinkThrough.url == link['href']).scalar() is None:
 				session.add(EmailTemplatesLinkThrough(
 				  emailtemplateid=self.emailtemplateid,
 				  url=link['href'],
@@ -951,7 +951,7 @@ class EmailTemplates(BaseSql):
 		""" send a test email """
 
 		email = EmailMessage(params['fromemailaddress'],
-		                      'support@prmax.co.uk',
+		                      'stamatia.vatsi@prmax.co.uk',
 		                      'Email Account Verification',
 		                      'The email account %s has been verified.' %(params['fromemailaddress']),
 		                      "text/html"
@@ -963,7 +963,7 @@ class EmailTemplates(BaseSql):
 				username=params["username"],
 				password=params["password"])
 			sender = 'stamatia.vatsi@gmail.com'
-			emailserver.send(email,sender)
+			emailserver.send(email, sender)
 
 
 class EmailTemplateList(BaseSql):
@@ -1324,7 +1324,7 @@ class EmailHeader(BaseSql):
 	def getLookUp(cls, params):
 		data = [dict(id=row.emailheaderid, name=row.emailheaderdescription)
 		        for row in session.query(EmailHeader).\
-		        filter(or_(EmailHeader.customerid == int(params["customerid"]),EmailHeader.customerid == None)).\
+		        filter(or_(EmailHeader.customerid == int(params["customerid"]), EmailHeader.customerid is None)).\
 		        order_by(EmailHeader.emailheaderdescription).all()]
 		return data
 
@@ -1350,7 +1350,7 @@ class EmailHeader(BaseSql):
 	@classmethod
 	def get(cls, emailheaderid):
 
-		return EmailHeader.query.get(emailheaderid);
+		return EmailHeader.query.get(emailheaderid)
 
 class EmailFooter(BaseSql):
 
@@ -1361,7 +1361,7 @@ class EmailFooter(BaseSql):
 	def getLookUp(cls, params):
 		data = [dict(id=row.emailfooterid, name=row.emailfooterdescription)
 		        for row in session.query(EmailFooter).\
-		        filter(or_(EmailFooter.customerid == int(params["customerid"]),EmailFooter.customerid == None)).\
+		        filter(or_(EmailFooter.customerid == int(params["customerid"]), EmailFooter.customerid is None)).\
 		        order_by(EmailFooter.emailfooterdescription).all()]
 		return data
 
@@ -1387,7 +1387,7 @@ class EmailFooter(BaseSql):
 	@classmethod
 	def get(cls, emailfooterid):
 
-		return EmailFooter.query.get(emailfooterid);
+		return EmailFooter.query.get(emailfooterid)
 
 class EmailLayout(BaseSql):
 
@@ -1421,7 +1421,7 @@ class EmailLayout(BaseSql):
 	@classmethod
 	def get(cls, emaillayoutid):
 
-		return EmailLayout.query.get(emaillayoutid);
+		return EmailLayout.query.get(emaillayoutid)
 
 
 

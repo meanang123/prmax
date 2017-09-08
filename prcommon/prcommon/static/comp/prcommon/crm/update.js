@@ -13,6 +13,7 @@ dojo.require("ttl.BaseWidget");
 dojo.require("prmax.search.PersonSelect");
 dojo.require("prcommon.crm.issues.selectmultiple");
 dojo.require("prcommon.crm.issues.add");
+dojo.require("prcommon.crm.responses.sendreply");
 
 dojo.declare("prcommon.crm.update",
 	[ ttl.BaseWidget ],
@@ -63,13 +64,14 @@ dojo.declare("prcommon.crm.update",
 		dojo.subscribe(PRCOMMON.Events.Issue_Add, dojo.hitch(this, this._new_issue_event));
 		dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
 		dojo.subscribe(PRCOMMON.Events.Document_Add, dojo.hitch(this, this._add_event));
-
+		dojo.subscribe("/crm/update_response", dojo.hitch(this, this._update_response_event));
 
 	},
 	_fields:["1","2","3","4"],
 	view:{
 		cells: [[
-			{name: 'Changed', width: "80px",field: 'created_display'},
+			{name: 'Changed', width: "65px",field: 'created_display'},
+			{name: 'Type', width: "65px",field: 'changetype'},
 			{name: 'User', width: "auto",field: 'user_name'}
 			]]
 	},
@@ -137,9 +139,7 @@ dojo.declare("prcommon.crm.update",
 	_on_select_row:function(e)
 	{
 		this._selected_row = this.history_grid.getItem(e.rowIndex);
-
 		this.history_view_ctrl.set("href",dojo.string.substitute(this.history_view,{contacthistoryhistoryid:this._selected_row.i.contacthistoryhistoryid}));
-
 	},
 	load:function(contacthistoryid)
 	{
@@ -205,6 +205,7 @@ dojo.declare("prcommon.crm.update",
 	{
 		this.clientid.set("value",-1);
 		this.documentid.set("value",-1);
+		this.history_view_ctrl.set("href",dojo.string.substitute(this.history_view,{contacthistoryhistoryid:-1}));
 
 		this.tabcont.selectChild(this.details_view);
 	},
@@ -222,6 +223,12 @@ dojo.declare("prcommon.crm.update",
 	},
 	_save:function()
 	{
+		if ( this.details.get("value") == "")
+		{
+			this.savebtn.cancel();
+			alert("Empty note");
+			return ;
+		}
 		var content = this.form.get("value");
 
 		content["taken"] = ttl.utilities.toJsonDate ( this.taken.get("value"));
@@ -341,7 +348,21 @@ dojo.declare("prcommon.crm.update",
 	_add_event:function( document )
 	{
 		this.documentid.set( "value", document.documentid );
-	}
+	},
+	_send_reply:function()
+	{
+//		this.send_reply_ctrl.clear();
+		this.send_reply_ctrl.set("dialog",this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value);
+		this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value);
+		this.send_reply_dlg.show();
+	},
+	
+	_update_response_event:function( response )
+	{
+		this.history_grid.setQuery({contacthistoryid:response.data.contacthistoryid});
+	},
+	
+	
 });
 
 

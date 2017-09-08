@@ -1,0 +1,32 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='"onSubmit":"return false", style:"margin:5px"'>
+		<table width="100%" class="prmaxtable" >
+			<tr><td align="right" width="15%" class="prmaxrowtag"><label>Subject</label></td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="emailsubject" data-dojo-props='placeHolder:"Enter Email Subject",required:true,name:"emailsubject",trim:true,type:"text",style:"width:400px"'></td></tr>
+			<tr><td align="right" width="15%" class="prmaxrowtag"><label>From</label></td><td><select data-dojo-props='name:"customeremailserverid",autoComplete:true,labelType:"html", style:"width:400px"' data-dojo-type="dijit.form.Select" data-dojo-attach-point="customeremailserverid" ></select></td>
+			<td><button data-dojo-attach-event="onClick:_add_server" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"'>Add</button><br/></td></tr>
+			<tr><td align="right" width="15%" class="prmaxrowtag"><label>To</label></td><td><span><select data-dojo-props='name:"toemailaddress",autoComplete:true,labelType:"html", style:"width:400px"' data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="toemailaddress" ></select></span>
+
+			<tr><td align="right" width="15%" class="prmaxrowtag"><label>Body</label></td><td><div data-dojo-type="dijit.Editor" data-dojo-attach-point="emailbody" data-dojo-props='name:"emailbody", style:"width:400px;height:350px;border:1px solid gray"'  extraPlugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:false},'fontSize','createLink','viewsource','preview','mergefields']"></div></td>
+			<td valign="top"><button data-dojo-attach-event="onClick:_LoadWord" data-dojo-attach-point="uploaddocbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-upload",type:"button","class":"prmaxdefault"' ></button><br/></td></tr>            
+																					
+			<tr><td colspan="3"><button data-dojo-attach-event="onClick:_send" data-dojo-attach-point="sendbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-envelope-o fa-2x",type:"button",busyLabel:"Please Wait Sending...",label:"Send","class":"btnright"'></button></td></tr>
+		</table></br></br>
+	</form>
+
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="add_server_dialog" data-dojo-props='title:"Add Email Server",style:"width:400px;height:260px"'>
+		<div data-dojo-type="prcommon.clippings.add_server" data-dojo-attach-point="add_server_ctrl"></div>
+	</div>
+	
+
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="upload_doc_dlg" data-dojo-props='title:"Upload document",style:"width:450px;height:260px"'>
+		<div data-dojo-type="prcommon.documents.upload" data-dojo-attach-point="upload_doc_ctrl"></div><br/>
+		<div data-dojo-attach-event="onClick:_close_dlg" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Close",style:"float:left;padding-right:20px"'></div>
+	</div>
+
+<!--
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Load Word Document"' data-dojo-attach-point="upload_doc_dlg">
+		<div data-dojo-attach-point="upload_doc_ctrl" data-dojo-type="prmax.email.loadworddocument" ></div>
+		<div data-dojo-attach-event="onClick:_close_dlg" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Close",style:"float:left;padding-right:20px"'></div>
+	</div>
+-->
+</div>
