@@ -35,6 +35,7 @@ class ClippingsOrderGeneral(object):
 	co.description,
 	cpl.clippingpriceserviceleveldescription,
 	co.keywords,
+	to_char(co.enddate,'YYYY-MM-DD') as enddate,
 	cp.nbrclips,
 	co.supplierreference,
 	cs.clippingsourcedescription,
@@ -267,6 +268,39 @@ class ClippingsOrderGeneral(object):
 			LOGGER.exception("reactivate_order")
 			transaction.rollback()
 			raise
+
+	@staticmethod
+	def update_expiry_date(params):
+		"Update expiry date for all order of a customer"
+
+		params['email'] = 'chris.g.hoy@gmail.com'
+
+		try:
+
+			transaction = BaseSql.sa_get_active_transaction()
+			
+			clippingsorders = session.query(ClippingsOrder).filter(ClippingsOrder.customerid == params['icustomerid']).all()
+			
+			for clippingsorder in clippingsorders:
+				clippingsorder.enddate = params['enddate'];
+
+				# log entry in financial audit
+				session.add(AuditTrail(
+					audittypeid=Constants.audit_trail_clipping_order_change,
+					audittext= "End: %s to %s for orderNo %s" % (clippingsorder.enddate.strftime("%d/%m/%y"), params['enddate'].strftime("%d/%m/%y"), clippingsorder.clippingsorderid),
+					userid=params["userid"],
+					customerid=clippingsorder.customerid))
+				session.flush()
+
+			transaction.commit()
+
+
+		except:
+			LOGGER.exception("update_expiry_date_order")
+			transaction.rollback()
+			raise
+
+
 
 	@staticmethod
 	def update(params):

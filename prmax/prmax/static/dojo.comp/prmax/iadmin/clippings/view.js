@@ -12,6 +12,7 @@ dojo.provide("prmax.iadmin.clippings.view");
 
 dojo.require("prmax.iadmin.clippings.add_order");
 dojo.require("prmax.iadmin.clippings.update_order");
+dojo.require("prmax.iadmin.clippings.update_expiry_date");
 
 dojo.require("dojox.data.JsonRestStore");
 
@@ -25,6 +26,7 @@ dojo.declare("prmax.iadmin.clippings.view",
 		this._get_model_item_call=dojo.hitch(this,this._get_model_item);
 		dojo.subscribe("/clippings/order/add",dojo.hitch(this,this._add_order_event));
 		dojo.subscribe("/clippings/order/upd",dojo.hitch(this,this._update_order_event));
+		dojo.subscribe("/clippings/order/update_expiry_date",dojo.hitch(this,this._update_expiry_date_event));
 
 		this._icustomerid = null;
 	},
@@ -33,8 +35,19 @@ dojo.declare("prmax.iadmin.clippings.view",
 		this.grid.set("structure",this.view1 );
 		this.grid._setStore ( this._clippings_orders_model ) ;
 		this.grid["onCellClick"] = dojo.hitch(this, this._on_cell_click_call);
+		this.grid.onStyleRow = dojo.hitch(this, this._on_style_row_call);
 
 		this.inherited(arguments);
+	},
+	_on_style_row_call:function(row)
+	{
+		var d = this._clippings_orders_model.getValue(this.grid.getItem(row.index), "enddate", null).split('-');
+		var dd = new Date(d[0], d[1]-1, d[2]);
+
+		if (dd < new Date() )
+		{
+			row.customClasses += " prmaxOverDueRow";
+		}
 	},
 	_on_cell_click_call:function ( e )
 	{
@@ -51,6 +64,7 @@ dojo.declare("prmax.iadmin.clippings.view",
 			{name: 'Price Level',width: "auto",field:"clippingpriceserviceleveldescription"},
 			{name: 'Keywords',width: "auto",field:"keywords"},
 			{name: 'Status',width: "auto",field:"clippingorderstatusdescription"},
+			{name: 'Expiry Date',width: "auto",field:"enddate"},
 			{name: ' ',width: "15px",styles: 'text-align: center;', width: "20px",formatter:ttl.utilities.formatRowCtrl}
 			]]
 	},
@@ -83,14 +97,28 @@ dojo.declare("prmax.iadmin.clippings.view",
 		this._clippings_orders_model.fetchItemByIdentity(item);
 		if (this.tmp_row)
 		{
-			this._clippings_orders_model.setValue(  this.tmp_row, "description" , order.description, true );
-			this._clippings_orders_model.setValue(  this.tmp_row, "nbrclips" , order.nbrclips, true );
-			this._clippings_orders_model.setValue(  this.tmp_row, "clippingpriceserviceleveldescription" , order.clippingpriceserviceleveldescription, true );
-			this._clippings_orders_model.setValue(  this.tmp_row, "keywords" , order.keywords, true );
+			this._clippings_orders_model.setValue(  this.tmp_row, "description", order.description, true );
+			this._clippings_orders_model.setValue(  this.tmp_row, "nbrclips", order.nbrclips, true );
+			this._clippings_orders_model.setValue(  this.tmp_row, "clippingpriceserviceleveldescription", order.clippingpriceserviceleveldescription, true );
+			this._clippings_orders_model.setValue(  this.tmp_row, "keywords", order.keywords, true );
+			this._clippings_orders_model.setValue(  this.tmp_row, "enddate", order.enddate, true );
+		}
+	},
+	_update_expiry_date_event:function(enddate)
+	{
+		for (var x =0; x <= this.grid._by_idx.length -1; x++ )
+		{
+			this._clippings_orders_model.setValue(  this.grid._by_idx[x].item, "enddate", enddate, true );	
 		}
 	},
 	_get_model_item:function()
 	{
 		this.tmp_row = arguments[0];
+	},
+	_update_expiry_date:function()
+	{
+		this.update_expiry_date_ctrl.clear();
+		this.update_expiry_date_ctrl.load(this.update_expiry_date_dialog, this._icustomerid);
+		this.update_expiry_date_dialog.show();
 	}
 });

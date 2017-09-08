@@ -49,6 +49,11 @@ class UpdateOrderSchema(PrFormSchema):
 	languages = JSONValidator()
 	clippingstypes = JSONValidator()
 
+class UpdateExpiryDateSchema(PrFormSchema):
+	"schema"
+	icustomerid = validators.Int()
+	enddate = ISODateValidator()
+
 class CancelOrderSchema(PrFormSchema):
 	"schema"
 	clippingsorderid = validators.Int()
@@ -102,6 +107,17 @@ class ClippingsController(SecureController):
 		ClippingsOrderGeneral.update(params)
 
 		return stdreturn(data=ClippingsOrderGeneral.get(params["clippingsorderid"]))
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=UpdateExpiryDateSchema(), state_factory=std_state_factory)
+	def update_expiry_date(self, *argv, **params):
+		""" Update """
+
+		ClippingsOrderGeneral.update_expiry_date(params)
+
+		return stdreturn()
 
 	@expose("json")
 	@error_handler(pr_std_error_handler)
