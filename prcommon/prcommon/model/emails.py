@@ -951,7 +951,7 @@ class EmailTemplates(BaseSql):
 		""" send a test email """
 
 		email = EmailMessage(params['fromemailaddress'],
-		                      'stamatia.vatsi@prmax.co.uk',
+		                      'support@prmax.co.uk',
 		                      'Email Account Verification',
 		                      'The email account %s has been verified.' %(params['fromemailaddress']),
 		                      "text/html"
