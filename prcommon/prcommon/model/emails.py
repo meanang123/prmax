@@ -962,7 +962,7 @@ class EmailTemplates(BaseSql):
 			emailserver = SMTPSERVERBYTYPE[int(params['host'])](
 				username=params["username"],
 				password=params["password"])
-			sender = 'stamatia.vatsi@gmail.com'
+			sender = params['fromemailaddress']
 			emailserver.send(email, sender)
 
 
