@@ -43,7 +43,7 @@ class PrEmailTemplateUpdateSchema(PrFormSchema):
 	embargo_date = ISODateValidator()
 	embargo_time = ISOTimeValidator()
 	emailsendtypeid = validators.Int(default=1)
-	clientid = Int2Null()
+#	clientid = Int2Null()
 	templateheaderid = Int2Null()
 	templatefooterid = Int2Null()
 
