@@ -20,7 +20,7 @@ import os
 
 # interface to the on-line databases
 live = dict( host = "89.16.167.250", base_url= "https://collateral.prmax.co.uk/collateral", version =5  )
-test = dict( host = "80.68.92.110", base_url= "https://test.prmax.co.uk/collateral", version = 5  )
+test = dict( host = "89.16.161.163", base_url= "https://test.prmax.co.uk/collateral", version = 5  )
 local_test = dict ( host = "localhost", base_url = "http://localhost/collateral", version = 5  )
 
 
