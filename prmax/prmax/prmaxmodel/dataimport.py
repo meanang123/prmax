@@ -47,21 +47,21 @@ class OutletFields(object):
 		self.primary_contact_com = dict(contact_tel="", contact_email="",
 		                             contact_fax="", contact_mobile="",
 		                             contact_twitter="", contact_linkedin="",
-		                             contact_facebook="",
+		                             contact_facebook="", contact_instagram="",
 		                             job_title="", profile="", tel="", fax="",
 		                             mobile="", sourcetypeid=Constants.Research_Source_Private)
 
 		self.outlet_address = dict(address1="", address2="", county="",
 		                             postcode="", townname="")
 		self.primary_com = dict(outlet_tel="", outlet_email="", outlet_fax="",
-		                          outlet_twitter="", outlet_facebook="", outlet_linkedin="")
+		                          outlet_twitter="", outlet_facebook="", outlet_instagram="", outlet_linkedin="")
 		self.outlet = dict(outlettypeid=45,
 		                     outlet_circulation=0, outletname="",
 		                     prmax_outlettypeid=45,
 		                     countryid=1, countryname="",
 		                     frequencyid=5, outlet_profile="", outlet_www="",
 		                     sourcetypeid=Constants.Research_Source_Private,
-		                     twitter="", facebook="", linkedin="")
+		                     twitter="", facebook="", instagram="", linkedin="")
 
 		self.employee = dict(contacttype="N", contactid=None,
 		                     contact_jobtitle="",
@@ -280,6 +280,7 @@ class DataImport(object):
 					fields["twitter"] = fields["contact_twitter"]
 					fields["linkedin"] = fields["contact_linkedin"]
 					fields["facebook"] = fields["contact_facebook"]
+					fields["instagram"] = fields["contact_instagram"]
 					if "contact_jobtitle" in fields and  fields["contact_jobtitle"]:
 						fields["job_title"] = fields["contact_jobtitle"]
 
