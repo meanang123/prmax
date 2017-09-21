@@ -36,7 +36,10 @@ dojo.declare("prmax.pressrelease.view",
 		this._WithDrawCallBack = dojo.hitch(this, this._WithDrawCall);
 		if (PRMAX.utils.settings.seo == true )
 			this.view["cells"][0][6] = {name: 'Seo Release', width: "60px", field:"seopressrelease_display"};
-
+		if (PRMAX.utils.settings.crm == true )
+		{
+			this.view["cells"][0].push({name: PRMAX.utils.settings.issue_description, width: "120px", field:"issuename"});
+		}
 		dojo.subscribe("/pr/rename", dojo.hitch(this, this._rename_event));
 	},
 	postCreate:function()

@@ -19,13 +19,23 @@ dojo.declare("prmax.pressrelease.newrelease",
 	{
 		this._SavedCall = dojo.hitch(this,this._Saved);
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
+		this._issues = new dojox.data.JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
+		this._change_client_enabled=true;
 	},
 	postCreate:function()
 	{
 		this.clientid.set("store", this._clients);
 		this.clientid.set("value",  "-1");
+		this.issueid.set("store", this._issues);
+		this.issueid.set("value", "-1" );
 
 		this.inherited(arguments);
+
+		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
+		dojo.attr(this.client_label_1, "innerHTML", PRMAX.utils.settings.client_name);
+
+		if (PRMAX.utils.settings.crm)
+			dojo.removeClass(this.issue_view,"prmaxhidden");
 	},
 	_Cancel:function()
 	{
@@ -75,7 +85,10 @@ dojo.declare("prmax.pressrelease.newrelease",
 	_Clear:function()
 	{
 		this.emailtemplatename.set("value",null);
+		this._change_client_enabled = false;
 		this.clientid.set("value",  "-1");
+		this.issueid.set("value",  "-1");
+		this._change_client_enabled = false;
 
 		this.saveNode.cancel();
 	},
@@ -88,5 +101,22 @@ dojo.declare("prmax.pressrelease.newrelease",
 	{
 		this.dlg.hide();
 		this._Clear();
+	},
+	_client_change:function()
+	{
+		if (PRMAX.utils.settings.crm)
+		{
+			var clientid = this.clientid.get("value");
+			if (clientid == undefined)
+				clientid = -1;
+
+			this.issueid.set("query",{ clientid: clientid});
+			if (this._change_client_enabled==true)
+			{
+				this.issueid.set("value",null);
+			}
+
+			this._change_client_enabled = true ;
+		}
 	}
 });

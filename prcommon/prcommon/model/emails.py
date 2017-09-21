@@ -260,10 +260,12 @@ class EmailTemplates(BaseSql):
 	seo.seoreleaseid,
 	cli.clientname,
 	et.pressreleasestatusid,
-	et.listid
+	et.listid,
+	issue.name AS issuename
 	FROM  userdata.emailtemplates AS et
 	LEFT OUTER JOIN seoreleases.seorelease AS seo ON seo.emailtemplateid = et.emailtemplateid
 	LEFT OUTER JOIN userdata.client AS cli ON cli.clientid = et.clientid
+	LEFT OUTER JOIN userdata.issues AS issue ON issue.issueid = et.issueid
 	WHERE et.customerid = :customerid """
 
 	List_Data_View_Sort = """
@@ -295,6 +297,8 @@ class EmailTemplates(BaseSql):
 			params['sortfield'] = 'et.embargo'
 		if params['sortfield'] == 'seopressrelease_display':
 			params['sortfield'] = 'seopressrelease'
+		if params['sortfield'] == 'issuename':
+			params['sortfield'] = 'UPPER(issue.name)'
 
 		if params.has_key("restrict"):
 			if params["restrict"].lower() == "display draft":
@@ -371,6 +375,7 @@ class EmailTemplates(BaseSql):
 			  customerid=params['customerid'],
 			  emailtemplatename=params['emailtemplatename'],
 			  emailtemplatecontent=DBCompress.encode2(params['emailtemplatecontent']),
+			  issueid=params["issueid"],
 			  previewaddress=user.emailreplyaddress,
 			  returnaddress=user.emailreplyaddress,
 			  seopressrelease=seopressrelease,
@@ -481,6 +486,9 @@ class EmailTemplates(BaseSql):
 			if "clientid" in params:
 				emailtemplate.clientid = params["clientid"]
 
+			if "issueid" in params:
+				emailtemplate.issueid = params["issueid"]
+
 			transaction.commit()
 
 		except:
@@ -540,23 +548,25 @@ class EmailTemplates(BaseSql):
 		obj = EmailTemplates.query.get(params["emailtemplateid"])
 		if obj:
 			dobject = dict(customerid=obj.customerid,
-					  emailtemplatename=obj.emailtemplatename,
-					  emailtemplateid=obj.emailtemplateid,
-			      subject=obj.subject,
-			      documentname=obj.documentname,
-			      previewaddress=obj.previewaddress,
-			      returnaddress=obj.returnaddress,
-			      listid=obj.listid,
-			      returnname=obj.returnname,
-			      emailsendtypeid=obj.emailsendtypeid,
-			      include_view_as_link=obj.include_view_as_link,
-			      embargo=True if obj.embargo else False,
-			      pull=False,
-			      seopressrelease=obj.seopressrelease,
-			      clientid=obj.clientid,
-			      clientname="",
-			      templatefooterid=obj.templatefooterid,
-			      templateheaderid=obj.templateheaderid)
+			               emailtemplatename=obj.emailtemplatename,
+			               emailtemplateid=obj.emailtemplateid,
+			               subject=obj.subject,
+			               documentname=obj.documentname,
+			               previewaddress=obj.previewaddress,
+			               returnaddress=obj.returnaddress,
+			               listid=obj.listid,
+			               returnname=obj.returnname,
+			               emailsendtypeid=obj.emailsendtypeid,
+			               include_view_as_link=obj.include_view_as_link,
+			               embargo=True if obj.embargo else False,
+			               pull=False,
+			               seopressrelease=obj.seopressrelease,
+			               clientid=obj.clientid,
+			               clientname="",
+			               issueid=obj.issueid,
+			               issuename="",
+			               templatefooterid=obj.templatefooterid,
+			               templateheaderid=obj.templateheaderid)
 			# can pull
 			if obj.pressreleasestatusid == 2 and obj.embargo and obj.embargo > datetime.now():
 				dobject["pull"] = True
@@ -574,6 +584,11 @@ class EmailTemplates(BaseSql):
 
 					client = Client.query.get(obj.clientid)
 					dobject["clientname"] = client.clientname
+
+				if obj.issueid:
+					from prcommon.model.crm2.issues import Issue
+					issue = Issue.query.get(obj.issueid)
+					dobject["clientname"] = issue.name
 		else:
 			dobject = dict()
 		return dobject

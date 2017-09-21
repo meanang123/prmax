@@ -66,6 +66,7 @@ class EmailTemplateAddSchema(PrFormSchema):
 	""" email templates"""
 	emailtemplatename = validators.String(not_empty=True)
 	clientid = Int2Null()
+	issueid = Int2Null()
 
 class PrEmailPreviewSchema(PrFormSchema):
 	""" Standard Schema for email templates"""

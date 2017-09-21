@@ -29,6 +29,7 @@ def execute_capture():
 	    join(Customer, Customer.customerid == ClippingsOrder.customerid).\
 	    filter(Customer.customerstatusid.in_((1, 2))).\
 	    filter(text("CURRENT_DATE BETWEEN clippingsorder.startdate AND clippingsorder.enddate")).\
+	    filter(ClippingsOrder.has_been_deleted == False).\
 	    order_by(Customer.customerid).all():
 		resultdata = None
 		try:

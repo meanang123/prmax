@@ -689,8 +689,12 @@ INSERT INTO internal.contacthistoryhistorytypes VALUES (1, 'Change');
 INSERT INTO internal.contacthistoryhistorytypes VALUES (2, 'Response');
 
 ALTER TABLE userdata.contacthistoryhistory ADD COLUMN contacthistoryhistorytypeid integer NOT NULL DEFAULT 1;
-ALTER TABLE userdata.contacthistoryhistory ADD CONSTRAINT fk_contacthistoryhistorytypeid 
+ALTER TABLE userdata.contacthistoryhistory ADD CONSTRAINT fk_contacthistoryhistorytypeid
 FOREIGN KEY (contacthistoryhistorytypeid) REFERENCES internal.contacthistoryhistorytypes (contacthistoryhistorytypeid) MATCH SIMPLE
 ON UPDATE NO ACTION ON DELETE RESTRICT;
 
 UPDATE userdata.contacthistoryhistory set contacthistoryhistorytypeid = 1;
+
+
+ALTER TABLE userdata.list ADD COLUMN issueid integer;
+ALTER TABLE userdata.list ADD FOREIGN KEY (issueid) REFERENCES userdata.issues (issueid) ON UPDATE NO ACTION ON DELETE SET NULL;
