@@ -214,6 +214,9 @@ class User(BaseSql):
 		if customer.is_monitoring_active() and self.hasmonitoring:
 			monitoring = True
 
+		client_name = self.client_name if self.client_name else "Client"
+		issue_description = self.issue_description if self.issue_description else "Issue"
+
 		data = dict(
 		  autoselectfirstrecord=self.autoselectfirstrecord,
 			 showmenubartext=self.showmenubartext,
@@ -237,7 +240,7 @@ class User(BaseSql):
 		   ismonitoringdemo=customer.ismonitoringdemo,
 		   groups=groups,
 		   countries=countries,
-		   client_name=self.client_name,
+		   client_name=client_name,
 		   cid=customer.customerid,
 		   has_news_rooms=customer.has_news_rooms,
 		   has_journorequests=customer.has_journorequests,
@@ -248,7 +251,7 @@ class User(BaseSql):
 		   crm_user_define_2=customer.crm_user_define_2,
 		   crm_user_define_3=customer.crm_user_define_3,
 		   crm_user_define_4=customer.crm_user_define_4,
-		   issue_description=self.issue_description,
+		   issue_description=issue_description,
 		   clippings=customer.has_clippings,
 		   no_distribution=customer.no_distribution,
 		   no_export=customer.no_export,
@@ -288,6 +291,9 @@ class User(BaseSql):
 		if customer.is_monitoring_active() and self.hasmonitoring:
 			monitoring = True
 
+		client_name = self.client_name if self.client_name else "Client"
+		issue_description = self.issue_description if self.issue_description else "Issue"
+
 		data = dict(
 		  autoselectfirstrecord=self.autoselectfirstrecord,
 			 showmenubartext=self.showmenubartext,
@@ -311,7 +317,7 @@ class User(BaseSql):
 		   ismonitoringdemo=customer.ismonitoringdemo,
 		   groups=groups,
 		   countries=countries,
-		   client_name=self.client_name,
+		   client_name=client_name,
 		   cid=customer.customerid,
 		   has_news_rooms=customer.has_news_rooms,
 		   has_journorequests=customer.has_journorequests,
@@ -322,7 +328,7 @@ class User(BaseSql):
 		   crm_user_define_2=customer.crm_user_define_2,
 		   crm_user_define_3=customer.crm_user_define_3,
 		   crm_user_define_4=customer.crm_user_define_4,
-		   issue_description=self.issue_description,
+		   issue_description=issue_description,
 		   clippings=customer.has_clippings,
 		   no_distribution=customer.no_distribution,
 		   no_export=customer.no_export,
