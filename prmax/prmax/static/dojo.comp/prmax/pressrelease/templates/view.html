@@ -3,15 +3,15 @@
 		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden","class":"searchresults"'>
 			<div style="height:40px;width:100%;overflow:hidden" class="searchresults">
 				<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop",style:"float:left;height:100%;width:150px"' >
-					<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="onClick:_AddDistributions" data-dojo-attach-point="addbutton" data-dojo-props='label:"New",iconClass:"fa fa-plus fa-3x",showLabel:true'></div>
+					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_AddDistributions" data-dojo-attach-point="addbutton" data-dojo-props='label:"New",iconClass:"fa fa-plus fa-3x",showLabel:true'></div>
 				</div>
 				<div style="float:left;height:100%;width:550px;padding-top:10px">
 					<table style="width:100%;border-style:collapsed" class="prmaxtable" cellpadding="0" cellspacing="0" >
-						<tr><td><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"All",autocomplete:false' data-dojo-attach-point="option" data-dojo-attach-point="onChange:_OptionChanged">
+						<tr><td><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"All",autocomplete:false' data-dojo-attach-point="option" data-dojo-attach-event="onChange:_OptionChanged">
 							<option>Display All</option><option>Display Draft</option><option>Display Sent</option></select></td>
-							<td data-dojo-attach-point="option2_label1" class="prmaxhidden">Sent in the Last</td><td data-dojo-attach-point="option2_label2" class="prmaxhidden" ><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"6 Months",autocomplete:false' data-dojo-attach-point="option2" data-dojo-attach-point="onChange:_OptionChanged">
+							<td data-dojo-attach-point="option2_label1" class="prmaxhidden">Sent in the Last</td><td data-dojo-attach-point="option2_label2" class="prmaxhidden" ><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"6 Months",autocomplete:false' data-dojo-attach-point="option2" data-dojo-attach-event="onChange:_OptionChanged">
 							<option>6 Months</option><option>Year</option><option>All</option></select></td>
-							<td data-dojo-attach-point="client_label">Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_change_client" ></select></td>
+							<td data-dojo-attach-point="client_label">Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"color:black"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_change_client" ></select></td>
 						</tr>
 					</table>
 				</div>
