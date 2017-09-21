@@ -313,21 +313,27 @@ class ClippingsGeneral(object):
 			raise
 
 	@staticmethod
-	def clear_user_selection(params):
+	def clear_user_selection(params, in_trans=False):
 		"""add clipping to user clipping selection"""
 
-		transaction = BaseSql.sa_get_active_transaction()
-
+		if not in_trans:
+			transaction = BaseSql.sa_get_active_transaction()
+		else:
+			transaction = None
 		try:
 			userclips = session.query(ClippingSelection).filter(ClippingSelection.userid == params['userid']).all()
-			for userclip in userclips:
-				session.delete(userclip)
+			if len(userclips) > 0:
+				for userclip in userclips:
+					session.delete(userclip)
+			if transaction:
+				transaction.commit()
 		except:
 			LOGGER.exception("clipping_user_selection_clear")
-			try:
-				transaction.rollback()
-			except:
-				pass
+			if transaction:
+				try:
+					transaction.rollback()
+				except:
+					pass
 			raise
 
 	@staticmethod
