@@ -51,6 +51,8 @@ from prmax.sitecontrollers.unsubscribe import UnsubscribeController
 from prmax.sitecontrollers.clippings.clippings import ClippingsController
 import prmax.Constants as Constants
 from prcommon.model import LoginTokens, CustomerGeneral, CustomerAccessLog
+from prcommon.model import ClippingsGeneral
+from prcommon.model.clippings.clippingselection import ClippingSelection
 from prcommon.sales.salesorderconformation import SendOrderConfirmationBuilder, UpgradeConfirmationBuilder
 from prcommon.sitecontrollers import QueryController
 from prcommon.sitecontrollers.languages import LanguageController
@@ -171,7 +173,9 @@ class Root(controllers.RootController):
 			customer = Customer.query.get(identity.current.user.customerid)
 			if user.invalid_login_tries >= 10:
 				raise redirect("/locked")			
-			User.reset_invalid_login_tries(user.user_id)
+			User.reset_invalid_login_tries(user.user_id, True)
+			#Clear current user ClippingSelection table
+			ClippingsGeneral.clear_user_selection({'userid':user.user_id}, True)
 			# check too see if a customer is a noninteractive on if so then LOGGER it out
 			if customer.isFinancialOnly():
 				identity.current.user.force_logout()
@@ -256,6 +260,8 @@ class Root(controllers.RootController):
 	def logout(self, *argv, **kw):
 		"common logout method"
 
+		#Clear current user ClippingSelection table
+		ClippingsGeneral.clear_user_selection({'userid':identity.current.user.user_id}, True)
 		# clear connections
 		try:
 			try:
@@ -307,15 +313,14 @@ class Root(controllers.RootController):
 			raise redirect('/login')
 
 		User.setLoggedIn(identity.current.user.user_id)
-		User.reset_invalid_login_tries(identity.current.user.user_id)
+		User.reset_invalid_login_tries(identity.current.user.user_id, True)
+		#Clear current user ClippingSelection table
+		ClippingsGeneral.clear_user_selection({'userid':identity.current.user.user_id}, True)
 		if identity.current.user.usertypeid != Constants.UserType_Support and identity.current.user.force_change_pssw == False:
 			session.add(CustomerAccessLog(customerid=identity.current.user.customerid,
 		                                  userid=identity.current.user.user_id,
 		                                  levelid=CustomerAccessLog.LOGGEDIN,
 		                                  username=identity.current.user.user_name))
-		
-			
-		
 		
 		# this is a financial only customer cannot be used for anything else
 		if cust.isFinancialOnly():

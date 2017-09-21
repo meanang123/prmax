@@ -703,20 +703,25 @@ class User(BaseSql):
 			LOGGER.exception("setLoggedIn", extra=dict(userid=userid))
 
 	@classmethod
-	def reset_invalid_login_tries(cls, userid):
-		transaction = cls.sa_get_active_transaction()
+	def reset_invalid_login_tries(cls, userid, in_trans=False):
+
+		if not in_trans:
+			transaction = cls.sa_get_active_transaction()
+		else:
+			transaction = None
 		try:
 			user = User.query.get(userid)
 			user.invalid_login_tries = 0
-			transaction.commit()
+			if transaction:
+				transaction.commit()
 		except:
-			try:
-				transaction.rollback()
-			except:
-				pass
 			LOGGER.exception("reset_invalid_login_tries")
+			if transaction:
+				try:
+					transaction.rollback()
+				except:
+					pass
 			raise
-
 
 	@classmethod
 	def setTriedToLogin(cls, sess):

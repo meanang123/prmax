@@ -39,13 +39,11 @@ define([
 	constructor: function()
 	{
 		this._clippings = new Observable(new JsonRest ({target:'/clippings/list_clippings', idProperty:'clippingid'}));
-//		this._selected_clippings = new Observable(new JsonRest ({target:'/clippings/list_selected_clippings', idProperty:'clippingid'}));
 		this._load_call_back = lang.hitch(this, this._load_call,"view");
 		this._load2_call_back = lang.hitch(this, this._load_call,"edit");
 		this._delete_call_back = lang.hitch(this, this._delete_call);
 		this._selection_call_back = lang.hitch(this, this._selection_call);
 		this._clear_selection_call_back = lang.hitch(this, this._clear_selection_call);
-		this._clear_selection2_call_back = lang.hitch(this, this._clear_selection2_call);
 		this._std_menu = null;
 		this._loaded=false;
 		this.selected_clippings = [];
@@ -55,7 +53,6 @@ define([
 		topic.subscribe("/clipping/private_add", lang.hitch(this, this._private_add_event));
 		topic.subscribe("/clipping/refresh_details", lang.hitch(this, this._section_view_event));
 		topic.subscribe("/clipping/deleted", lang.hitch(this, this._clipping_delete_event));
-
 	},
 	postCreate:function()
 	{
@@ -93,34 +90,20 @@ define([
 		this.clippings_grid.on("dgrid-refresh-complete", lang.hitch(this,this._first_clipping_call));
 
 		this.filter_view.set("Updateevent", lang.hitch(this, this._refresh_details_event));
-		
+
 		this.inherited(arguments);
 	},
 	_first_clipping_call:function(event)
 	{
-		this.event_first_clip = event;
-		request.post('/clippings/clear_user_selection',
-			utilities2.make_params({ data : {userid:this.userid}})).
-			then(this._clear_selection2_call_back);
-	},
-	_clear_selection2_call:function(response)
-	{
-		if (response.success=="OK")
+		if ( this._loaded == true )
+			return;
+		if (event.results.results && event.results.results[0].length>0)
 		{
-			if ( this._loaded == true )
-				return;
-			if (this.event_first_clip.results.results && this.event_first_clip.results.results[0].length>0)
-			{
-				var row = this.clippings_grid.row(this.event_first_clip.results.results[0][0]);
-				this.clippings_grid.select(row);
-				this._load_clipping(this.event_first_clip.results.results[0][0]);
-			}
-			this._loaded = true ;
+			var row = this.clippings_grid.row(event.results.results[0][0]);
+			this.clippings_grid.select(row);
+			this._load_clipping(event.results.results[0][0]);
 		}
-		else
-		{
-			alert("Problem");
-		}
+		this._loaded = true ;
 	},
 	_load_clipping:function(data)
 	{
@@ -140,7 +123,6 @@ define([
 			}
 			else
 			{
-//				this._selected_clippings.remove(this._row);
 				var index = this.selected_clippings.indexOf(this._row);
 				if (index > -1)
 				{
@@ -296,8 +278,9 @@ define([
 		this.extra_filter_par = extra_filter;
 		this._loaded = false;
 
-		this.clippings_grid.set("query", lang.mixin(this.filter_par,this.extra_filter_par));
-		this.clippings_view_ctrl.selectChild(this.blank_view);
+		request.post('/clippings/clear_user_selection',
+			utilities2.make_params({ data : {userid:this.userid}})).
+			then(this._clear_selection_call_back);
 	},
 	_clear_selection_call:function(response)
 	{
