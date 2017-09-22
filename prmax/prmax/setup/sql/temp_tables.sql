@@ -693,8 +693,18 @@ ALTER TABLE userdata.contacthistoryhistory ADD CONSTRAINT fk_contacthistoryhisto
 FOREIGN KEY (contacthistoryhistorytypeid) REFERENCES internal.contacthistoryhistorytypes (contacthistoryhistorytypeid) MATCH SIMPLE
 ON UPDATE NO ACTION ON DELETE RESTRICT;
 
-UPDATE userdata.contacthistoryhistory set contacthistoryhistorytypeid = 1;
-
+--UPDATE userdata.contacthistoryhistory set contacthistoryhistorytypeid = 1;
 
 ALTER TABLE userdata.list ADD COLUMN issueid integer;
 ALTER TABLE userdata.list ADD FOREIGN KEY (issueid) REFERENCES userdata.issues (issueid) ON UPDATE NO ACTION ON DELETE SET NULL;
+
+ALTER TABLE userdata.contacthistoryresponses ADD COLUMN send_by character varying;
+ALTER TABLE userdata.contacthistoryresponses ADD COLUMN toemailaddress character varying;
+ALTER TABLE userdata.contacthistoryhistory ALTER COLUMN userid DROP NOT NULL;
+ALTER TABLE userdata.contacthistoryhistory ADD COLUMN contacthistoryresponseid integer;
+ALTER TABLE userdata.contacthistoryhistory ADD CONSTRAINT fk_contacthistoryresponseid 
+FOREIGN KEY (contacthistoryresponseid) REFERENCES userdata.contacthistoryresponses (contacthistoryresponseid) MATCH SIMPLE
+ON UPDATE NO ACTION ON DELETE RESTRICT;
+
+ALTER TABLE queues.mswordqueue ADD COLUMN exclude_images boolean DEFAULT false;
+UPDATE queues.mswordqueue SET exclude_images = false;
