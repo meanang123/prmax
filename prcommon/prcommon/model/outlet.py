@@ -818,7 +818,8 @@ class Outlet(BaseSql):
 			researchdetails = ResearchDetails.query.get(outlet.researchdetailid)
 		else:
 			researchdetails = session.query(ResearchDetails).filter(ResearchDetails.outletid == outlet.outletid).scalar()
-			outlet.researchdetailid = researchdetails.researchdetailid
+			if researchdetails:
+				outlet.researchdetailid = researchdetails.researchdetailid
 
 		return dict (
 		    outlet = dict ( outlet = outlet ,
