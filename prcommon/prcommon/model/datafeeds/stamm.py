@@ -11,6 +11,7 @@
 #-----------------------------------------------------------------------------
 from turbogears.database import session
 from sqlalchemy.sql import text
+from sqlalchemy import or_
 from xml.sax import make_parser
 import codecs
 import os
@@ -247,6 +248,7 @@ class StammDbImport(object):
 		  webphone="",
 		  twitter="",
 		  facebook="",
+		  instagram="",
 		  linkedin="")
 		session.add(outlet_com)
 		session.flush()
@@ -373,6 +375,7 @@ class StammDbImport(object):
 		  webphone="",
 		  twitter="",
 		  facebook="",
+		  instagram="",
 		  linkedin="")
 		session.add(outlet_com)
 		session.flush()
@@ -477,6 +480,16 @@ class StammDbImport(object):
 			if employee.job_title == "No Contact" and employee.contactid is None:
 				continue
 			current_contacts[employee.sourcekey2] = employee
+
+		if not contacts:
+		# add dummy emplyee
+			tmp_emp = Employee(outletid=outlet.outletid,
+				               job_title="No Contact",
+				               sourcetypeid=Constants.Source_Type_Stamm,
+				               isprimary=1)
+			session.add(tmp_emp)
+			session.flush()
+			outlet.primaryemployeeid = tmp_emp.employeeid
 
 		for contactsource in contacts:
 			sourcekey2 = "%s:%s" % (publication["mediaid"], contactsource["id"])
@@ -653,14 +666,17 @@ class StammDbImport(object):
 				objectid=outlet.outletid))
 		# do deletes
 		for employee in current_contacts.values():
-			if employee.sourcekey2 not in new_contacts:
+			if not new_contacts:
+				session.execute(text("UPDATE outlets SET primaryemployeeid = :employeeid WHERE outletid = :outletid"),
+					            dict(employeeid=tmp_emp.employeeid, outletid=outlet.outletid), Employee)					
+				session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=employee.employeeid), Employee)
+			elif new_contacts and employee.sourcekey2 not in new_contacts:
 				if employee.employeeid == outlet.primaryemployeeid:
 					# we need to find a replacement here
 					session.execute(text("UPDATE outlets SET primaryemployeeid = :employeeid WHERE outletid = :outletid"),
-					                dict(employeeid=new_contacts.values()[0], outletid=outlet.outletid), Employee)
-
+						            dict(employeeid=new_contacts.values()[0], outletid=outlet.outletid), Employee)
+	
 					session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=employee.employeeid), Employee)
-
 
 	def _get_publisher(self, publication):
 		"Get create publisher"
@@ -673,8 +689,15 @@ class StammDbImport(object):
 
 			sourcekey = publishersource['org-ref'].strip()
 			publisher = session.query(Publisher).\
-			  filter(Publisher.sourcekey == sourcekey).\
-			  filter(Publisher.sourcetypeid == Constants.Source_Type_Stamm).scalar()
+		        filter(Publisher.publishername == publishername).\
+		        filter(Publisher.sourcetypeid == Constants.Source_Type_Stamm).scalar()
+			
+#			if len(publisher) > 1:
+#				for pub in publisher:
+#					if pub.sourcekey == sourcekey:
+#						publisher = pub
+#				
+#			    filter(or_(Publisher.publishername.ilike(publishername), Publisher.sourcekey == sourcekey)).\
 
 			if publisher:
 				publisher.publishername = publishername

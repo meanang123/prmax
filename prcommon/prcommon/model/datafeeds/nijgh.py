@@ -245,6 +245,7 @@ class NijghDbImport(object):
 		  webphone="",
 		  twitter="",
 		  facebook="",
+		  instagram="",
 		  linkedin="")
 		session.add(outlet_com)
 		session.flush()
@@ -336,8 +337,6 @@ class NijghDbImport(object):
 			outlet.frequencyid = None
 			outlet.circulation = None
 
-
-
 		# languages
 		if "languages" in publication:
 			for language in publication["languages"]:
@@ -366,7 +365,6 @@ class NijghDbImport(object):
 		  objecttypeid=Constants.Process_Outlet_Profile,
 		  objectid=outlet.outletid))
 
-
 	def _add_freelance_outlet(self, publication, contacts):
 		""" Add a Freelancer """
 		address = Address(
@@ -389,6 +387,7 @@ class NijghDbImport(object):
 		  mobile="",
 		  webphone="",
 		  twitter="",
+		  instagram="",
 		  facebook="",
 		  linkedin="")
 		session.add(outlet_com)
@@ -524,6 +523,18 @@ class NijghDbImport(object):
 		    filter(Employee.customerid == -1).all():
 			current_contacts[employee.sourcekey2] = employee
 
+		if not contacts:
+		# add dummy emplyee
+			tmp_emp = Employee(outletid=outlet.outletid,
+		                       job_title="No Contact",
+		                       sourcetypeid=Constants.Source_Type_Stamm,
+		                       isprimary=1)
+			session.add(tmp_emp)
+			session.flush()
+			outlet.primaryemployeeid = tmp_emp.employeeid
+
+
+		new_interests = {}
 		for contactsource in contacts:
 			sourcekey2 = "%s:%s:%s" % (publication["mediaid"], contactsource["id"], contactsource["job-role"])
 			contactid = self._get_contactid(contactsource)
@@ -560,7 +571,14 @@ class NijghDbImport(object):
 				comms.fax = fax if fax != outlet_com.fax else ""
 
 				employee.contactid = contactid
-				employee.job_title = contactsource.get("job-title", "")[:127]
+				job_title = contactsource.get("job-title", "")[:127]
+		
+				if job_title.startswith('"'):
+					job_title = contactsource["job-title"][2:]
+				job_code = job_title.lower()
+				if job_code in self._translations['job-title'].keys():
+					job_title = self._translations['job-title'][job_code][3]
+				employee.job_title = job_title
 
 				# chnage job roles
 				roles = {}
@@ -586,7 +604,6 @@ class NijghDbImport(object):
 			# out all other outlet stuff
 			# coverage classifications
 			interests = {}
-			new_interests = {}
 			for interest in session.query(OutletInterests).\
 			    filter(OutletInterests.outletid == outlet.outletid).\
 			    filter(OutletInterests.customerid == -1).all():
@@ -595,7 +612,7 @@ class NijghDbImport(object):
 			# add new
 			if publication['classification'][0] in self._translations['classification'].keys():
 				for interestid in self._translations['classification'][publication['classification'][0]][2]:
-					if interestid:
+					if interestid and interestid not in new_interests:
 						new_interests[interestid] = True
 						if interestid not in interests:
 							session.add(OutletInterests(
@@ -667,7 +684,11 @@ class NijghDbImport(object):
 				objectid=outlet.outletid))
 		# do deletes
 		for employee in current_contacts.values():
-			if employee.sourcekey2 not in new_contacts:
+			if not new_contacts:
+				session.execute(text("UPDATE outlets SET primaryemployeeid = :employeeid WHERE outletid = :outletid"),
+						        dict(employeeid=tmp_emp.employeeid, outletid=outlet.outletid), Employee)					
+				session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=employee.employeeid), Employee)
+			elif new_contacts and employee.sourcekey2 not in new_contacts:			
 				if employee.employeeid == outlet.primaryemployeeid:
 					# we need to find a replacement here
 					session.execute(text("UPDATE outlets SET primaryemployeeid = :employeeid WHERE outletid = :outletid"),
