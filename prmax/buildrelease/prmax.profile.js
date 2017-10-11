@@ -70,6 +70,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -594,6 +596,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -763,6 +767,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -932,6 +938,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -1114,6 +1122,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -1283,6 +1293,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -1452,6 +1464,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -1621,6 +1635,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -1789,6 +1805,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -1966,6 +1984,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -2144,6 +2164,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -2321,6 +2343,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",
@@ -2500,6 +2524,8 @@ dependencies ={
 			"prmax.collateral.add",
 			"prmax.collateral.adddialog",
 
+			"prcommon.crm.responses.viewer",
+			
 			"prmax.email.wordtohtml",
 
 			"prmax.display.Output",

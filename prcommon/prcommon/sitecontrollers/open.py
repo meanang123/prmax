@@ -19,7 +19,7 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
      UnSubscribeReason, ProspectRegion, GeographicalLookupTypes, ReasonCategories, ReasonCodes, Countries, OutletPrices, \
      ResearchFrequencies, PRMaxRoles, EmailSendTypes, Languages, Continents, ContactHistoryStatus,\
      ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, ServerTypes, \
-     ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes
+     ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes, Statements
 from prcommon.model.hostspf import Hostspf
 from prcommon.model.emails import EmailFooter, EmailHeader, EmailLayout
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
@@ -110,7 +110,8 @@ class OpenController(OpenSecureController):
 	              "customeremailserver": CustomerEmailServer,
 	              "emailheader": EmailHeader,
 	              "emailfooter": EmailFooter,
-	              "emaillayout": EmailLayout
+	              "emaillayout": EmailLayout,
+	              "statements": Statements
 		            }
 
 	_AddFilter = ("taskstatus", "users", "tasktype", "tasktags", "countrytypes", "seostatus", "newsfeedtypes", "customertypes",

@@ -41,6 +41,8 @@ class ClippingsGeneral(object):
 	ct.clippingstypedescription,
 	cto.clippingstonedescription,
 	ct.icon_name,
+	cl.clientname,
+	i.name as issuename,
 	CASE WHEN (csel.clippingid IS NULL) THEN false ELSE true END as selected
 
 	FROM userdata.clippings AS c
@@ -48,6 +50,9 @@ class ClippingsGeneral(object):
 	JOIN internal.clippingsource AS css ON css.clippingsourceid = c.clippingsourceid
 	JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
 	LEFT OUTER JOIN internal.clippingstone AS cto ON cto.clippingstoneid = c.clippingstoneid
+	LEFT OUTER JOIN userdata.client AS cl ON cl.clientid = c.clientid
+	LEFT OUTER JOIN userdata.clippingsissues AS ci ON ci.clippingid = c.clippingid
+	LEFT OUTER JOIN userdata.issues AS i ON i.issueid = ci.issueid
 	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid
 	LEFT OUTER JOIN userdata.clippingselection AS csel ON csel.clippingid = c.clippingid
 	LEFT OUTER JOIN tg_user ON tg_user.user_id = csel.userid

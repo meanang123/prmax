@@ -708,3 +708,47 @@ ON UPDATE NO ACTION ON DELETE RESTRICT;
 
 ALTER TABLE queues.mswordqueue ADD COLUMN exclude_images boolean DEFAULT false;
 UPDATE queues.mswordqueue SET exclude_images = false;
+
+INSERT INTO internal.emaillayout (emaillayoutid,emaillayoutdescription) VALUES (2, 'Group by client');
+
+CREATE TABLE userdata.statements
+(
+  statementid serial NOT NULL,
+  statementdescription character varying NOT NULL,
+  clientid integer,
+  issueid integer,
+  output text,
+  CONSTRAINT pk_statementid PRIMARY KEY (statementid),
+  CONSTRAINT fk_clientid FOREIGN KEY (clientid)
+      REFERENCES userdata.client (clientid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_issueid FOREIGN KEY (issueid)
+      REFERENCES userdata.issues (issueid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE userdata.statements OWNER TO postgres;
+GRANT ALL ON TABLE userdata.statements TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.statements TO prmax; 
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.statements TO prmaxcontrol; 
+ALTER TABLE userdata.statements_statementid_seq OWNER TO postgres;
+GRANT ALL ON TABLE userdata.statements_statementid_seq TO postgres;
+GRANT UPDATE ON TABLE userdata.statements_statementid_seq TO prmax;
+
+ALTER TABLE userdata.statements ADD COLUMN customerid integer NOT NULL;
+ALTER TABLE userdata.statements ADD CONSTRAINT fk_customerid FOREIGN KEY (customerid) REFERENCES internal.customers (customerid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+
+--ALTER TABLE communications ALTER COLUMN instagram TYPE character varying(200);
+--ALTER TABLE userdata.client ALTER COLUMN instagram TYPE character varying(200);
+--ALTER TABLE seoreleases.seorelease ALTER COLUMN instagram TYPE character varying(200);
+
+ALTER TABLE userdata.contacthistoryresponses ADD COLUMN statementid integer;
+ALTER TABLE userdata.contacthistoryresponses ADD CONSTRAINT fk_statementid FOREIGN KEY (statementid) REFERENCES userdata.statements (statementid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE tg_user ADD COLUMN ccaddresses character varying(255);
+
+INSERT INTO internal.reasoncategories VALUES (7, 'Delete Private');
+INSERT INTO internal.reasoncodes VALUES (28, 'Customer request', 7);

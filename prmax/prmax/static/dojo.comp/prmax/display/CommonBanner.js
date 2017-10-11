@@ -601,6 +601,27 @@ dojo.declare("prmax.display.CommonBanner",
 			this.mainpanel.showPage(page);
 		}
 	},
+	_statements:function()
+	{
+		this.loadLinks();
+		var args =
+			{
+				key:"statements.html",
+				href:"/layout/statements",
+				style:"width:100%;height:100%"
+			};
+
+		var page = this.mainpanel.getPage("statements.html");
+		if (page==null)
+		{
+			page = this.mainpanel.addPage ( args ) ;
+			ttl.utilities.resize ( page ) ;
+		}
+		else
+		{
+			this.mainpanel.showPage(page);
+		}
+	},
 	_show_crm_viewer:function()
 	{
 		this.loadLinks();

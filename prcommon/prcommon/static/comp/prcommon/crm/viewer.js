@@ -111,6 +111,7 @@ dojo.declare("prcommon.crm.viewer",
 	_execute_filter:function()
 	{
 		var filter = { drange: this.drange.get("value")};
+		this.filter = filter;
 
 		if ( arguments[0].subject.length > 0 )
 			filter["subject"] = arguments[0].subject;
@@ -154,15 +155,18 @@ dojo.declare("prcommon.crm.viewer",
 	{
 		this.filter_db.newItem( issue );
 	},
-	_update_crm_event:function( ch )
+	_update_crm_event:function( data )
 	{
 		this.tmp_row = null;
-		var item  = {identity:ch.contacthistoryid,
+		var item  = {identity:data.ch.contacthistoryid,
 					onItem:  this._get_model_item_call};
 			this.filter_db.fetchItemByIdentity(item);
 			if (this.tmp_row)
 			{
-				this.filter_db.setValue(  this.tmp_row, "subject" , ch.subject, true );
+				this.filter_db.setValue(  this.tmp_row, "subject" , data.ch.crm_subject, true );
+				this.filter_db.setValue(  this.tmp_row, "contacthistorystatusdescription" , data.status, true );
+				this.filter_db.setValue(  this.tmp_row, "display_name" , data.display_name, true );
+				this.filter_db.setValue(  this.tmp_row, "taken_display" , data.taken_date, true );
 			}
 	},
 	_get_model_item:function()

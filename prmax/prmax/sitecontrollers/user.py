@@ -83,6 +83,17 @@ class UserController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def preferences_cc_update(self, *args, **kw):
+		"""update the users cc addresses for engagements"""
+
+		Preferences.update_cc(kw)
+
+		return stdreturn(data = Preferences.get(kw['userid']))
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
 	@validate(validators=PreferenceInterfaceSchema(), state_factory=std_state_factory)
 	def preferences_itf_update(self, *args, **kw):
 		""" update the users iterface settings"""

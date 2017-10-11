@@ -344,6 +344,27 @@ class EmailController(SecureController):
 
 		return formreturn(data)
 
+	@expose("")
+	def wordtohtml_add_exclude_images(self, *args, **params):
+		""" return the template for an outlet based upont ht etype of outlet"""
+
+		state = std_state_factory()
+		params["customerid"] = state.customerid
+		params["userid"] = state.u.user_id
+		try:
+			if WordToHtml.is_word_file(params['wordtohtml_file']):
+				data = stdreturn(
+				    mswordqueueid=WordToHtml.add(params),
+				    data=dict(statusid=0))
+			else:
+				mswordqueueid = WordToHtml.add_as_html(params),
+				data = stdreturn(mswordqueueid=mswordqueueid,
+				                 data=dict(statusid=2))
+		except:
+			data = errorreturn(message="Problem Converting Document")
+
+		return formreturn(data)
+
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)

@@ -67,16 +67,18 @@ dojo.declare("prcommon.crm.viewer_only",
 			this.view_details.set("href",dojo.string.substitute(this.basic_details_page,{contacthistoryid:row.i.contacthistoryid}));
 
 	},
-	load_outlet:function(outletid)
+	load_outlet:function(outletid, outletname)
 	{
 		this._outletid = outletid;
+		this._outletname = outletname;
 		this.view_grid.setQuery(ttl.utilities.getPreventCache({outletid:this._outletid}));
 		this.crm_add.set("dialog",this.crm_dlg);
 		this.view_details.set("content","");
 	},
-	load_employee:function(employeeid,outletid)
+	load_employee:function(employeeid,contactname,outletid)
 	{
 		this._employeeid = employeeid;
+		this._contactname = contactname;
 		this._outletid = (outletid ==-1)?null:outletid;
 		this.view_grid.setQuery( ttl.utilities.getPreventCache({employeeid:this._employeeid}));
 		this.crm_add.set("dialog",this.crm_dlg);
@@ -86,7 +88,7 @@ dojo.declare("prcommon.crm.viewer_only",
 	{
 		this.crm_add.clear();
 		this.crm_add.set("dialog", this.crm_dlg);
-		this.crm_add.load(this._outletid, this._employeeid);
+		this.crm_add.load(this._outletid, this._outletname, this._employeeid, this._contactname);
 		this.crm_dlg.show();
 	},
 	refresh:function ( )

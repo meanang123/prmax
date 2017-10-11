@@ -19,7 +19,8 @@ from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, Int
 from ttl.base import stdreturn, duplicatereturn
 
 from prcommon.model import ContactHistory, PRNotesGeneral, ContactHistoryGeneral, TasksGeneral, ContactHistoryHistory, \
-     ContactHistoryUserDefine
+     ContactHistoryUserDefine, ContactHistoryResponses
+from prcommon.model.crm2.statements import Statements
 
 from prcommon.sitecontrollers.crm.issue import IssueController
 from prcommon.sitecontrollers.crm.tasks import TaskController
@@ -85,6 +86,12 @@ class UpdateHistorySchema(PrFormSchema):
 class CrmIdSchema(PrFormSchema):
 	"""schema """
 	contacthistoryid = validators.Int()
+
+class UpdateResponseSchema(PrFormSchema):
+	"""schema """
+	contacthistoryid = validators.Int()
+	exclude_images = BooleanValidator()
+	statementid = Int2Null()
 
 class PrUpdateSettingsSchema(PrFormSchema):
 		"""schema """
@@ -231,7 +238,7 @@ class CrmController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=CrmIdSchema(), state_factory=std_state_factory)
+	@validate(validators=UpdateResponseSchema(), state_factory=std_state_factory)
 	def update_response(self, *args, **params):
 		""" Update contact history response record """
 
@@ -260,8 +267,17 @@ class CrmController(SecureController):
 	@expose(template="mako:prmax.templates.display.ch_history")
 	@validate(validators=CrmHistorySchema(), state_factory=std_state_factory)
 	def history_view(self, *args, **params):
-
-		return dict(chh=ContactHistoryHistory.query.get(params["contacthistoryhistoryid"]))
+		
+		chh = ContactHistoryHistory.query.get(params["contacthistoryhistoryid"])
+		chres = {}
+		statementdescription = ''
+		if chh and chh.contacthistoryresponseid:
+			chres = ContactHistoryResponses.query.get(chh.contacthistoryresponseid)
+			if chres and chres.statementid:
+				st = Statements.query.get(chres.statementid)
+				statementdescription = st.statementdescription
+		
+		return dict(chh=chh, chres=chres, statementdescription = statementdescription)
 
 
 	@expose(template="mako:prmax.templates.display.basic_details_page")

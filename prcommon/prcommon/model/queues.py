@@ -40,6 +40,10 @@ class WordToHtml(BaseSql):
 			cleanuphtmltypeid = 1 if request.headers["User-Agent"].lower().find("msie") != -1 else 0
 
 		emailtemplateid = int(params["emailtemplateid"]) if params["emailtemplateid"] != "-1" else None
+		exclude_images = False
+		if 'exclude_images' in params and (params['exclude_images'] == 'true' or params['exclude_images'] == True):
+			exclude_images = True
+#		exclude_images = True if params['customerid'] == 5730 else False
 		transaction = cls.sa_get_active_transaction()
 		try:
 			word = WordToHtml(
@@ -49,7 +53,8 @@ class WordToHtml(BaseSql):
 			  userid=params["userid"],
 			  emailtemplateid=emailtemplateid,
 			  template="cgh",
-			  cleanuphtmltypeid=cleanuphtmltypeid
+			  cleanuphtmltypeid=cleanuphtmltypeid,
+			  exclude_images=exclude_images
 			)
 			session.add(word)
 			session.flush()
@@ -81,16 +86,35 @@ class WordToHtml(BaseSql):
 			cleanuphtmltypeid = 1 if request.headers["User-Agent"].lower().find("msie") != -1 else 0
 
 		emailtemplateid = int(params["emailtemplateid"]) if params["emailtemplateid"] != "-1" else None
+		exclude_images = False
+		if 'exclude_images' in params and (params['exclude_images'] == 'true' or params['exclude_images'] == True):
+			exclude_images = True		
 		transaction = cls.sa_get_active_transaction()
+		outdata = WordToHtml.get_text_as_html(data)
+		if exclude_images == True:
+			while outdata.find('<img') != -1:
+				img_start = outdata.find('<img')
+				img_end = outdata.find('>', img_start)
+				outdata = outdata[:img_start] + outdata[img_end+1:]
+		
+			#get links as text
+			while outdata.find('<a href') != -1:
+				link_start = outdata.find('<a href')
+				link_end = outdata.find('>', link_start)
+				a_tag = outdata.find('</a>', link_end)
+				link_text = outdata[link_end+1:a_tag].replace(".", ".<span></span>").replace("//", "//<span></span>")
+				outdata = outdata[:link_start] + link_text + outdata[a_tag+4:]
+			
 		try:
 			word = WordToHtml(
-			  outdata=DBCompress.b64encode(WordToHtml.get_text_as_html(data)),
+			  outdata=DBCompress.b64encode(outdata),
 			  orgfilename=os.path.split(fobj.filename.strip())[1],
 			  customerid=params["customerid"],
 			  userid=params["userid"],
 			  emailtemplateid=emailtemplateid,
 			  template="cgh",
 			  cleanuphtmltypeid=cleanuphtmltypeid,
+			  exclude_images = exclude_images,
 			  statusid=2
 			)
 			session.add(word)

@@ -69,13 +69,18 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		if (button.id==this.crmview.id && this.crm_loaded==false)
 		{
 			this.crm_loaded = true;
-			this.crmctrl.load_employee(this.employeeid,this.outletid);
+			this.crmctrl.load_employee(this.employeeid,this.contactname,this.outletid);
 		}
 	},
 	// Load employee details on the screen
-	LoadEmployee:function(employeeid)
+	LoadEmployee:function(employeeid,contactname)
 	{
 		this.employeeid = employeeid;
+		this.contactname = contactname;
+		if (this.contactname == undefined)
+		{
+			this.contactname = '';
+		}
 		if (this.employeeid==-1)
 		{
 			this.Clear();

@@ -12,6 +12,7 @@ dojo.declare("prmax.customer.Preferences",
 	{
 		this._SavePasswordSaveCall = dojo.hitch(this,this._SavePasswordSave);
 		this._SaveGeneralSaveCall = dojo.hitch(this,this._SaveGeneralSave);
+		this._SaveCCCallBack = dojo.hitch(this,this._SaveCCCall);
 		this._LoadCallBack = dojo.hitch(this,this._Load);
 		this._SaveItfCall = dojo.hitch(this,this._SaveItf);
 		this.store = new dojo.data.ItemFileReadStore ({ url:"/common/lookups?searchtype=sortorder"});
@@ -141,6 +142,8 @@ dojo.declare("prmax.customer.Preferences",
 		this.general_update.set("disabled",false);
 		this.pssw_update.set("disabled",false);
 		this.interface_upd.set("disabled",false);
+		
+		this.ccaddresses.set("value", response.data.control.ccaddresses);
 
 		this.preferences_view.selectChild(this.general);
 	},
@@ -165,6 +168,58 @@ dojo.declare("prmax.customer.Preferences",
 			url:'/user/preferences_general_update',
 			content: this.generalForm.get("value")
 			}));
+	},
+	_SaveCC:function()
+	{
+	
+		var emailaddresses = this.ccaddresses.get("value").split(',');
+		var validaddresses = true;
+		for (var i = 0; i <= emailaddresses.length-1; i++)
+		{
+			if  (emailaddresses[i].trim())
+			{
+				if (!this._validateEmail(emailaddresses[i]))
+				{
+					validaddresses = false;
+				}
+			}
+		}
+
+		if (!validaddresses)
+		{
+			alert('Please enter valid email addresses');
+			this.cc_update.cancel();
+			return ;
+		}
+		dojo.xhrPost(
+		ttl.utilities.makeParams({
+			load: this._SaveCCCallBack,
+			url:'/user/preferences_cc_update',
+			content: this.ccform.get("value")
+			}));
+			
+	},
+	_validateEmail:function(emailaddress)
+	{
+		var emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		if (!emailPattern.test(emailaddress))
+		{
+			return false;
+		}
+		return true;
+	},
+	_SaveCCCall:function(response)
+	{
+		if (response.success == 'OK')
+		{
+			alert('CC email addresses updated');
+			dojo.publish('/usersettings/ccaddresses', [response.data]);
+		}
+		else
+		{
+			alert("Problem updating CC email addresses");
+		}
+		this.cc_update.cancel();		
 	},
 	_SaveGeneralSave:function( response)
 	{

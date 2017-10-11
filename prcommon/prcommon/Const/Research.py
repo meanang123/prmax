@@ -32,7 +32,7 @@ Research_Reason_Delete = 3
 Research_Reason_Quest = 4
 Research_Reason_Move = 5
 Research_Reason_Copy = 6
-
+Reason_Delete_Private = 7
 
 Research_Source_Prn = 1
 Research_Source_Prmax  = 2

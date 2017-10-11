@@ -50,6 +50,15 @@
 					</div>
 				</form>
 			</div>
+			<div dojoType="dijit.layout.ContentPane" title="CC Addresses" dojoAttachPoint="ccaddress" style="width:532px">
+				<br/>
+				<form dojoAttachPoint="ccform" onsubmit="return false" dojoType="dijit.form.Form">
+					<table width="95%" class="prmaxtable" cellpadding="0" cellspacing="0" border="0">
+						<tr><td align="right" valign="top "class="prmaxrowtag">CC addresses:</td><td><input class="prmaxinput" dojoAttachPoint="ccaddresses" name="ccaddresses" maxlength="200" trim="true" dojoType="dijit.form.TextBox" style="width:100%"/></td></tr></br>
+						<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="fa fa-floppy-o fa-2x" dojoAttachPoint="cc_update" dojoAttachEvent="onClick:_SaveCC" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Update CC email addresses"></button></td></tr>
+					</table>
+				</form>
+			</div>
 		</div>
 		<div dojoType="dijit.layout.ContentPane" style="height:34px;padding-top:2px;padding-right:10px" region="bottom">
 			<button iconClass="fa fa-close fa-2x" style="float:right" type="button" class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close" label="Close"></button>

@@ -148,6 +148,24 @@ class Preferences(object):
 			raise
 
 	@classmethod
+	def update_cc(cls, kw):
+		""" update the users general settings"""
+		transaction = session.begin(subtransactions=True)
+		try:
+			user = User.query.get(kw['user_id'])
+			user.ccaddresses = kw['ccaddresses']
+			session.flush()
+			transaction.commit()
+		except:
+			try:
+				transaction.rollback()
+			except:
+				pass
+			log.exception("update_cc")
+			raise
+
+
+	@classmethod
 	def update_itf(cls, kw):
 		""" update the current users interface settings"""
 

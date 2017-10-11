@@ -219,6 +219,7 @@ class LayoutController(SecureController):
 	  "prrequest": "layout",  #pprrequests
 	  "clients":"layout", # client view
 	  "issues":"layout",  # issues view
+	  "statements":"layout",  # issues view
 	  "crm_view":"layout", # crm viewer
 	  "monitoring": "layout", # layout view
 	  "tasks": "layout", # task view

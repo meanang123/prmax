@@ -4,4 +4,4 @@
 # Purpose:	   not used see crm in common
 #-----------------------------------------------------------------------------
 
-from prcommon.model import ContactHistorySources, ContactHistory, Task
+from prcommon.model import ContactHistorySources, ContactHistory, Task, Statements

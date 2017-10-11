@@ -548,7 +548,7 @@ dojo.declare("prmax.display.StdViewCommon",
 			dojo.xhrPost(
 				ttl.utilities.makeParams({
 					load: dojo.hitch(this,this._DeletePrivateOutletResponseCall),
-					url:'/outlets/outlet_delete',
+					url:'/outlets/research_delete',
 					content:{outletid:this._context_row.i.outletid, statistics:true}
 			}));
 		}
@@ -558,6 +558,7 @@ dojo.declare("prmax.display.StdViewCommon",
 		console.log(response);
 		if (response.success=="OK")
 		{
+			alert(response.data.outlet.outletname + ' deleted succesfully');
 			dojo.publish(PRCOMMON.Events.Outlet_Deleted,[response.data]);
 			//this.setCount(response.data);
 		}

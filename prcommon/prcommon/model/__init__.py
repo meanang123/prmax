@@ -163,6 +163,7 @@ from prcommon.model.customer.unsubscribegeneral import UnsubscribeGeneral
 from prcommon.model.crm2.customersolidmedia import CustomerSolidMedia
 from prcommon.model.crm2.customersolidmediaprofiles import CustomerSolidMediaProfiles
 from prcommon.model.crm2.solidmediageneral import SolidMediaGeneral
+from prcommon.model.crm2.statements import Statements
 from prcommon.model.solidmedia.solidsearch import SolidSearch
 
 from prcommon.model.postgreslock import PostGresLockManager
@@ -253,5 +254,5 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "OutletDeskGeneral", "GeneralDistributionTemplates", "DistributionTemplateTypes", "MediaToolKitAccess", "MadaptiveAccess",
            "CustomerAccessLog", "ClippingsChartGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
            "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
-           "AnalyseGlobal"
+           "AnalyseGlobal", "Statements"
 					 ]

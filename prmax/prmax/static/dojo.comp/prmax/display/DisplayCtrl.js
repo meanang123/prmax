@@ -305,7 +305,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 
 			if (PRMAX.utils.settings.crm && this.crmctrl)
 			{
-				this.crmctrl.load_outlet(this.ctrldata.outletid);
+				this.crmctrl.load_outlet(this.ctrldata.outletid, this.ctrldata.outletname);
 			}
 
 			if (ttl.data.utilities.isIndividual(this.ctrldata.outlettypeid)===false)
@@ -376,12 +376,13 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		console.log("onSelectContactRow", e);
 		var rowData=this.contactgrid.getItem(e.rowIndex);
 		this.ctrldata.employeeid = rowData.i.employeeid;
+		this.ctrldata.contactname = rowData.i.contactname;
 		this.loadEmployee();
 		this.contactgrid.selection.clickSelectEvent(e);
 	},
 	loadEmployee:function()
 	{
-		this.contactdisplay.LoadEmployee(this.ctrldata.employeeid);
+		this.contactdisplay.LoadEmployee(this.ctrldata.employeeid, this.ctrldata.contactname);
 	},
 	_AddEmployee:function()
 	{

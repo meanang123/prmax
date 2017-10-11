@@ -42,7 +42,7 @@ from ttl.string import TranslateToHtmlEntities
 
 class EmailMessage:
 	def __init__(self, fromAddress, toAddress, Subject, Body,
-				       bodytype="text/plain", bounce= "support@prmax.co.uk",
+				       bodytype="text/plain", cc = None, bounce= "support@prmax.co.uk",
 	             replyTo= None,
 				       useUTF8 = False , senderaddress = None,
 				       sendAddress = None, mailedby = "prmax.co.uk"):
@@ -56,6 +56,7 @@ class EmailMessage:
 		self._mailedby = mailedby
 		self.fromAddress = fromAddress
 		self.sendAddress = sendAddress
+		self.cc = cc
 		self.replyTo = replyTo if replyTo else fromAddress
 		if senderaddress != None:
 			self.sender = senderaddress
@@ -235,6 +236,13 @@ class EmailMessage:
 		del self.mainMsg["To"]
 		self.mainMsg["To"] = self.bcc
 
+	def setCc( self ):
+		""" Chnage to end bcc"""
+
+		del self.mainMsg["To"]
+		self.mainMsg["To"] = self.cc
+
+
 	def serialise(self):
 		return self.mainMsg.as_string()
 
@@ -402,9 +410,9 @@ class SMTPServer(object):
 			addr = sender if sender else "feedback_all@prmax.co.uk"
 
 			self.open()
-
+			toAddress = message.toAddress
 			result = self._smtp.sendmail( addr,
-				                            message.toAddress,
+				                            toAddress,
 				                            message.serialise() )
 			if message.bcc:
 				message.setBcc()
@@ -482,14 +490,20 @@ class SMTPServerBase(object):
 			addr = sender if sender else message.fromAddress
 
 			self.open()
-
+			toAddress = message.toAddress.split(',')
 			result = self._smtp.sendmail(addr,
-		                               message.toAddress,
+		                               toAddress,
 		                               message.serialise())
 			if message.bcc:
 				message.setBcc()
 				self._smtp.sendmail(message.fromAddress,
 			                      message.bcc,
+			                      message.serialise())
+			if message.cc:
+				message.setCc()
+				cc = message.cc.split(',')
+				self._smtp.sendmail(message.fromAddress,
+			                      cc,
 			                      message.serialise())
 			self.close()
 
@@ -510,9 +524,9 @@ class SMTPServerBase(object):
 		try:
 
 			addr = sender if sender else message.fromAddress
-
+			toAddress = message.toAddress
 			result = self._smtp.sendmail(addr,
-					                           message.toAddress,
+					                           toAddress,
 					                           message.serialise())
 			if message.bcc:
 				message.setBcc()

@@ -216,6 +216,7 @@ class User(BaseSql):
 
 		client_name = self.client_name if self.client_name else "Client"
 		issue_description = self.issue_description if self.issue_description else "Issue"
+		user = session.query(User).filter(User.user_id == self.user_id).scalar()
 
 		data = dict(
 		  autoselectfirstrecord=self.autoselectfirstrecord,
@@ -262,7 +263,9 @@ class User(BaseSql):
 		   extended_security=customer.extended_security,
 		   required_client=customer.required_client,
 		   crm_outcome=customer.crm_outcome,
-		   crm_subject=customer.crm_subject
+		   crm_subject=customer.crm_subject,
+		   ccaddresses=user.ccaddresses
+		   
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
@@ -293,7 +296,8 @@ class User(BaseSql):
 
 		client_name = self.client_name if self.client_name else "Client"
 		issue_description = self.issue_description if self.issue_description else "Issue"
-
+		user = session.query(User).filter(User.user_id == self.user_id).scalar()
+		
 		data = dict(
 		  autoselectfirstrecord=self.autoselectfirstrecord,
 			 showmenubartext=self.showmenubartext,
@@ -337,7 +341,8 @@ class User(BaseSql):
 		   uctid=self.customertypeid,
 		   has_ct=customer.has_clickthrought,
 		   extended_security = customer.extended_security,
-		   required_client = customer.required_client
+		   required_client = customer.required_client,
+		   ccaddresses=user.ccaddresses
 		  )
 
 		return data

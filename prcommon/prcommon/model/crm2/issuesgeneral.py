@@ -51,7 +51,7 @@ class IssuesGeneral(object):
 
 		whereclause = BaseSql.addclause("", "i.customerid = :customerid")
 
-		if "all_issues"not in params:
+		if "all_issues" not in params:
 			whereclause = BaseSql.addclause(whereclause, "i.issuestatusid = 1")
 
 		if "name" in params:
@@ -61,7 +61,8 @@ class IssuesGeneral(object):
 
 		if "issuename" in params:
 			whereclause = BaseSql.addclause(whereclause, "i.name ilike :issuename")
-			params["issuename"] = "%" + params["issuename"] + "%"
+			if params['issuename']:
+				params["issuename"] = params["issuename"].replace("*", "%")
 
 		if "briefingnotesstatusid" in params:
 			whereclause = BaseSql.addclause(whereclause, "i.briefingnotesstatusid = :briefingnotesstatusid")

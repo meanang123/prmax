@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
-// Name:    ReportBuilder.js
+// Name:    emails.js
 // Author:  
 // Purpose:
-// Created: Sept 2016
+// Created: Sept 2017
 //
 // To do:
 //
@@ -39,12 +39,10 @@ define([
 	
 		this._send_call_back = lang.hitch(this, this._send_call);
 		this._customerid = PRMAX.utils.settings.cid;
-//		this._customeremailserver = new Observable (new MemoryStore({ target:"/customeremailserver/get_list", idProperty: "customeremailserverid"}));
 		this._customeremailserver =  new ItemFileWriteStore({ url:"/common/lookups?searchtype=customeremailserver"});
 		this._emailheader =  new ItemFileWriteStore({ url:"/common/lookups?searchtype=emailheader"});
 		this._emailfooter =  new ItemFileWriteStore({ url:"/common/lookups?searchtype=emailfooter"});
 		this._emaillayout =  new ItemFileWriteStore({ url:"/common/lookups?searchtype=emaillayout"});
-//memory store
 		topic.subscribe('customeremailserver/add', lang.hitch(this, this._add_customeremailserver_event));
 		topic.subscribe('/emailheader/add', lang.hitch(this, this._add_emailheader_event));
 		topic.subscribe('/emailfooter/add', lang.hitch(this, this._add_emailfooter_event));

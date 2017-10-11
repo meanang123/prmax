@@ -215,9 +215,13 @@ dojo.declare("prcommon.crm.add",
 		else
 			dojo.addClass(this.follow_up_view,"prmaxhidden");
 	},
-	load:function(outletid,employeeid,contactname,outletname)
+	load:function(outletid,outletname,employeeid,contactname)
 	{
-			dojo.attr(this.contact_display, "innerHTML", contactname);
+			dojo.attr(this.contact_display, "innerHTML", outletname);
+			if (contactname != undefined)
+			{
+				dojo.attr(this.contact_display, "innerHTML", contactname);
+			}
 			dojo.addClass(this.selectbtn.domNode,"prmaxhidden");
 			this.outletid.set("value",outletid);
 			this.employeeid.set("value",employeeid);

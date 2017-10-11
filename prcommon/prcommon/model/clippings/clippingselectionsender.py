@@ -17,6 +17,7 @@ from prcommon.model.clippings.clipping import Clipping
 from prcommon.model.clippings.clippingselection import ClippingSelection
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
 from prcommon.model.emails import EmailHeader, EmailFooter, EmailMessage
+from prcommon.model.client import Client
 from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
@@ -43,17 +44,38 @@ class ClippingSelectionSend(object):
 		header = footer = headertext = footertext = ""
 		bodytext = "<br/>"
 		params2 = dict(params)
+		clientname = ''
 
-		for row in session.query(Clipping.clip_source_date, Clipping.clip_title, Clipping.clip_abstract, Clipping.clip_link).\
-			join(ClippingSelection, Clipping.clippingid == ClippingSelection.clippingid).\
-			filter(ClippingSelection.userid == self._userid):
-			params2['clip_title'] = row.clip_title
-			params2['clip_source_date'] = row.clip_source_date.strftime("%d/%m/%Y")
-			params2['clip_link'] = row.clip_link.replace(".", ".<span></span>").replace("//", "//<span></span>")
-			params2['clip_abstract'] = row.clip_abstract
 
-			if int(params['emaillayoutid']) == Constants.Email_Layout_Standard:
+		if int(params['emaillayoutid']) == Constants.Email_Layout_Standard:
+			for row in session.query(Clipping.clip_source_date, Clipping.clip_title, Clipping.clip_abstract, Clipping.clip_link).\
+				join(ClippingSelection, Clipping.clippingid == ClippingSelection.clippingid).\
+				filter(ClippingSelection.userid == self._userid):
+				params2['clip_title'] = row.clip_title
+				params2['clip_source_date'] = row.clip_source_date.strftime("%d/%m/%Y")
+				params2['clip_link'] = row.clip_link.replace(".", ".<span></span>").replace("//", "//<span></span>")
+				params2['clip_abstract'] = row.clip_abstract
 				bodytext = bodytext + Constants.Email_Clippings_Body % params2
+
+		elif int(params['emaillayoutid']) == Constants.Email_Layout_ByClient:
+			for row in session.query(Clipping.clip_source_date, Clipping.clip_title, Clipping.clip_abstract, Clipping.clip_link, Clipping.clientid, Client.clientname).\
+				join(ClippingSelection, Clipping.clippingid == ClippingSelection.clippingid).\
+			    join(Client, Client.clientid == Clipping.clientid).\
+				filter(ClippingSelection.userid == self._userid).order_by(Clipping.clientid):
+				params2['clip_title'] = row.clip_title
+				params2['clip_source_date'] = row.clip_source_date.strftime("%d/%m/%Y")
+				params2['clip_link'] = row.clip_link.replace(".", ".<span></span>").replace("//", "//<span></span>")
+				params2['clip_abstract'] = row.clip_abstract
+
+				if (row.clientname != clientname):
+					clientname = row.clientname
+					client = '<p style="font-size:18px;font-weight:bold;color:brown;">'+ str(row.clientname) + '</p>'
+					bodytext = bodytext + client + Constants.Email_Clippings_Body % params2
+				else:
+					bodytext = bodytext + Constants.Email_Clippings_Body % params2
+					
+
+
 
 		if 'emailheaderid' in params and params["emailheaderid"] != '':
 			header = EmailHeader.query.get(params['emailheaderid'])

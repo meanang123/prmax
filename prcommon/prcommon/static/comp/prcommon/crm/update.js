@@ -246,8 +246,8 @@ dojo.declare("prcommon.crm.update",
 	{
 		if ( response.success == "OK")
 		{
-			dojo.publish("/crm/update_note", [response.data.ch]);
-			this._load_call(response);
+//			this._load_call(response);
+			dojo.publish("/crm/update_note", [response.data]);
 		}
 		else
 		{

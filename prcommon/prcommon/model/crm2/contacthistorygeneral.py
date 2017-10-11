@@ -13,17 +13,18 @@ import logging
 from turbogears.database import session
 from sqlalchemy import text
 from prcommon.model.common import BaseSql
-from prcommon.model.identity import Customer
+from prcommon.model.identity import Customer, User
 from prcommon.model.crm import ContactHistory
 from prcommon.model.employee import Employee
 from prcommon.model.crm2.contacthistoryissues import ContactHistoryIssues
 from prcommon.model.crm2.contacthistoryhistory import ContactHistoryHistory
+from prcommon.model.crm2.contacthistoryresponses import ContactHistoryResponses
 from prcommon.model.crm2.issues import Issue
 from prcommon.model.crm2.documents import Documents
 from prcommon.model.crm import Task
 from prcommon.model.crm2.contacthistoryuserdefine import ContactHistoryUserDefine
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
-
+from prcommon.model.lookups import ContactHistoryStatus
 import prcommon.Constants as Constants
 from ttl.tg.validators import DateRangeResult
 from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE
@@ -158,6 +159,7 @@ class ContactHistoryGeneral():
 	LEFT OUTER JOIN tg_user AS follow ON follow.user_id = ch.follow_up_ownerid"""
 	List_View_Count = """SELECT COUNT(*) FROM userdata.contacthistory AS ch %s"""
 
+
 	@staticmethod
 	def get_grid_page( params ) :
 		""" get alist of notes"""
@@ -242,7 +244,6 @@ class ContactHistoryGeneral():
 
 			contacthistory.details = params["details"]
 			contacthistory.outcome = params["outcome"]
-
 
 			contacthistory.contacthistorytypeid = params["contacthistorytypeid"]
 			contacthistory.contacthistorystatusid = params["contacthistorystatusid"]
@@ -367,7 +368,8 @@ class ContactHistoryGeneral():
 			                     params['toemailaddress'],
 			                     params['emailsubject'],
 			                     params['emailbody'],
-			                     "text/html"
+			                     "text/html",
+			                     params['ccemailaddresses']
 			                     )
 			email.BuildMessage()
 
@@ -381,14 +383,26 @@ class ContactHistoryGeneral():
 				if not statusid:
 					raise Exception("Problem Sending Email")				
 				else:
-					chh = ContactHistoryHistory(contacthistoryid=int(params['contacthistoryid']),
-					                            from_notes=params['toemailaddress'],
-					                            to_notes=params['emailbody'],
-					                            userid=int(params['userid']),
-					                            created=datetime.now(),
-					                            contacthistoryhistorytypeid=2) #Response
-					session.add(chh)
+					user = session.query(User).filter(User.user_id == int(params['userid'])).scalar()
+					chresp = ContactHistoryResponses(contacthistoryid=int(params['contacthistoryid']),
+					                                 contacthistorystatusid=1,
+					                                 response=params['emailbody'],
+					                                 taken=datetime.now(),
+					                                 contacthistorytypeid=3, #by email
+					                                 send_by=user.display_name,
+					                                 toemailaddress=params['toemailaddress'],
+					                                 statementid=params['statementid'])
+					session.add(chresp)
 					session.flush()
+
+					chh = ContactHistoryHistory(
+					    contacthistoryresponseid=chresp.contacthistoryresponseid,
+					    contacthistoryid=chresp.contacthistoryid,
+					    userid=int(params['userid']),
+						created=datetime.now(),
+						contacthistoryhistorytypeid=2) #Response
+					session.add(chh)
+					session.flush()					
 					transaction.commit()
 					return chh
 		except:
@@ -410,16 +424,19 @@ class ContactHistoryGeneral():
 		  join(ContactHistoryIssues, Issue.issueid == ContactHistoryIssues.issueid).\
 		  filter(ContactHistoryIssues.contacthistoryid == contacthistoryid).\
 		  filter (ContactHistoryIssues.isprimary == False).all()
-
 		if contacthistory.documentid:
 			document = Documents.query.get(contacthistory.documentid)
 		else:
 			document = None
-
+		status = session.query(ContactHistoryStatus).filter(ContactHistoryStatus.contacthistorystatusid == contacthistory.contacthistorystatusid).scalar()
+		display_name = session.query(User.display_name).filter(User.user_id == contacthistory.taken_by).scalar()
 		return dict(
 		  ch = contacthistory,
 		  chi = dict( primary = primary, si = issues),
+		  status = status.contacthistorystatusdescription,
+		  display_name = display_name,
 		  task = task,
+		  taken_date = datetime.strftime(contacthistory.taken, "%d/%m/%y"),
 		  document = document)
 
 	EMPTYGRID = dict (numRows = 0, items = [], identifier = 'contacthistoryid')
@@ -427,11 +444,11 @@ class ContactHistoryGeneral():
 	List_Chh_View = """SELECT
 	chh.contacthistoryhistoryid,
 	to_char(chh.created, 'DD/MM/YY') AS created_display,
-	u.user_name,
+	CASE WHEN (chh.userid IS NULL) THEN '' ELSE u.user_name END,
 	chht.contacthistoryhistorytypedescription AS changetype
 	FROM userdata.contacthistoryhistory AS chh
 	JOIN internal.contacthistoryhistorytypes AS chht ON chh.contacthistoryhistorytypeid = chht.contacthistoryhistorytypeid
-	JOIN tg_user AS u ON u.user_id = chh.userid
+	LEFT OUTER JOIN tg_user AS u ON u.user_id = chh.userid
 	%s %s
 	LIMIT :limit  OFFSET :offset"""
 	List_Chh_View_Count = """SELECT COUNT(*) FROM userdata.contacthistoryhistory AS chh %s"""

@@ -71,7 +71,8 @@ define([
 			{label: 'Title', className:"dgrid-column-title", field:"clip_title"},
 			{label: 'Outlet', className:"dgrid-column-companyname", field:"outletname"},
 			{label: 'Tone', className:"dgrid-column-status-small", field:"clippingstonedescription"},
-			{label: 'Source', className:"dgrid-column-status-small", field:"clippingsourcedescription"}
+			{label: 'Client', className:"dgrid-column-status", field:"clientname"},
+			{label: 'Issue', className:"dgrid-column-status", field:"issuename"}
 		];
 
 		this.clippings_grid = new Grid({

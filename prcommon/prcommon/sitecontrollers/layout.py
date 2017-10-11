@@ -103,6 +103,7 @@ class LayoutController(SecureController):
 	  "customer_financial":"layout", # customer invoice view
 	  "clients" : "layout", # client view
 	  "issues": "layout",  # issues view
+	  "statements": "layout",  # statements view
 
 		# search templates
 		"std_search_quick" : "search", # quick search form

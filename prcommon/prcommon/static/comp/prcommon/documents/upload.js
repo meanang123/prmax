@@ -1,8 +1,8 @@
 ////-----------------------------------------------------------------------------
-// Name:    prcommon.documents.add
-// Author:  Chris Hoy
+// Name:    prcommon.documents.upload
+// Author:  
 // Purpose:
-// Created: 18/09/2014
+// Created: Sept 2017
 //
 // To do:
 //
@@ -33,7 +33,6 @@ dojo.declare("prcommon.documents.upload",
 		this._ErrorCallBack = dojo.hitch(this,this._Error);
 
 		this._mswordqueueid = null;
-		this._parent_call_back = null;
 	},
 	Load:function ( dialog )
 	{
@@ -53,8 +52,6 @@ dojo.declare("prcommon.documents.upload",
 		{
 			if ( response.data.statusid == 2 )
 			{
-				//this._OnStatusCall ( response ) ;
-				//setTimeout(this._OnGetStatusCallBack,200);
 				this._mswordqueueid = response.mswordqueueid;
 				this._Wait();
 			}
@@ -98,18 +95,18 @@ dojo.declare("prcommon.documents.upload",
 
 		this.saveNode.set("disabled",true);
 		this.wordtohtml_cache.value = new Date().valueOf();
-
 		this.progressNode.style.display = "block";
 		this.downloadProgress.update({ maximum: this.maximum, progress:this._current });
 
 		dojo.io.iframe.send(
 		{
-			url: "/emails/wordtohtml_add",
+			url: "/emails/wordtohtml_add_exclude_images",
 			handleAs:"json",
 			load: this._AddedCallback,
 			form: this.wordtohtml_form,
 			error:this._ErrorCallBack
 		});
+	
 	},
 	_Error:function(response, ioArgs)
 	{

@@ -60,6 +60,7 @@ from prcommon.sitecontrollers.clippingstypes import ClippingsTypeController
 from prcommon.sitecontrollers.customeremailserver import CustomerEmailServerController
 from prcommon.sitecontrollers.emails import EmailFooterController, EmailHeaderController, EmailLayoutController
 from prcommon.sitecontrollers.search import SearchController as SearchController2
+from prcommon.sitecontrollers.crm.statements import StatementController
 from ttl.tg.validators import std_state_factory, PrFormSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler_text
 
@@ -111,6 +112,7 @@ class Root(controllers.RootController):
 	emailheader = EmailHeaderController()
 	emailfooter = EmailFooterController()
 	emaillayout = EmailLayoutController()
+	statement = StatementController()
 
 
 	@expose("")
