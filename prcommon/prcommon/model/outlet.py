@@ -738,18 +738,13 @@ class Outlet(BaseSql):
 			# outlet
 			outlet = Outlet.query.get(params['outletid'])
 			
-			actiontypeid=Constants.Research_Reason_Delete
-			
-			#Add activity when customer delete a private outlet
 			if "reaseoncodeid" not in params:
-				params['reasoncodeid'] = 28 
-				actiontypeid=Constants.Reason_Delete_Private
-
+				params['reasoncodeid'] = 28
 			activity = Activity(reasoncodeid=params["reasoncodeid"] ,
 			                    reason=params.get("reason", ""),
 			                    objecttypeid=Constants.Object_Type_Outlet,
 			                    objectid=outlet.outletid,
-			                    actiontypeid=actiontypeid,
+			                    actiontypeid=Constants.Research_Reason_Delete,
 			                    userid=params['userid'],
 			                    parentobjectid=outlet.outletid,
 			                    parentobjecttypeid=Constants.Object_Type_Outlet,

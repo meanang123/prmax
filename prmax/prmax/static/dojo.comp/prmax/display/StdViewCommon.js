@@ -548,7 +548,7 @@ dojo.declare("prmax.display.StdViewCommon",
 			dojo.xhrPost(
 				ttl.utilities.makeParams({
 					load: dojo.hitch(this,this._DeletePrivateOutletResponseCall),
-					url:'/outlets/research_delete',
+					url:'/outlets/outlet_delete',
 					content:{outletid:this._context_row.i.outletid, statistics:true}
 			}));
 		}
