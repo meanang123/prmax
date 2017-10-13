@@ -29,6 +29,12 @@ from ttl.ttlmako import isnull, text_html
 %if pr["issues"]:
 <label class="label_1 label_tag label_align_r">%ISSUENAME%</label><p>${pr['issues']}</p><br/>
 %endif
+%if pr["statement"]:
+<label class="label_1 label_tag label_align_r">Statement</label><p>${pr['statement'].statementdescription}</p><br/>
+%endif
+%if pr["prrelease"]:
+<label class="label_1 label_tag label_align_r">Release</label><p>${pr['prrelease'].emailtemplatename}</p><br/>
+%endif
 <br/>
 %if pr["clippings"].clippingsourceid == 1:
 <label class="label_1 label_tag label_align_r">Page</label><p class="content_width_1">${pr['clippings'].clip_source_page}</p>

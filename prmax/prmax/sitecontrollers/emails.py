@@ -528,4 +528,15 @@ class EmailController(SecureController):
 		return stdreturn()
 
 
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def templates_list_rest(self, *argv, **params):
+		""" returns a list of templates """
+
+		params["is_combo"] = True
+
+		return EmailTemplates.get_list_rest(params)
+
+
 

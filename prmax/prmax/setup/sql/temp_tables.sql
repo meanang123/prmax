@@ -702,7 +702,7 @@ ALTER TABLE userdata.contacthistoryresponses ADD COLUMN send_by character varyin
 ALTER TABLE userdata.contacthistoryresponses ADD COLUMN toemailaddress character varying;
 ALTER TABLE userdata.contacthistoryhistory ALTER COLUMN userid DROP NOT NULL;
 ALTER TABLE userdata.contacthistoryhistory ADD COLUMN contacthistoryresponseid integer;
-ALTER TABLE userdata.contacthistoryhistory ADD CONSTRAINT fk_contacthistoryresponseid 
+ALTER TABLE userdata.contacthistoryhistory ADD CONSTRAINT fk_contacthistoryresponseid
 FOREIGN KEY (contacthistoryresponseid) REFERENCES userdata.contacthistoryresponses (contacthistoryresponseid) MATCH SIMPLE
 ON UPDATE NO ACTION ON DELETE RESTRICT;
 
@@ -731,8 +731,8 @@ WITH (
 );
 ALTER TABLE userdata.statements OWNER TO postgres;
 GRANT ALL ON TABLE userdata.statements TO postgres;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.statements TO prmax; 
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.statements TO prmaxcontrol; 
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.statements TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.statements TO prmaxcontrol;
 ALTER TABLE userdata.statements_statementid_seq OWNER TO postgres;
 GRANT ALL ON TABLE userdata.statements_statementid_seq TO postgres;
 GRANT UPDATE ON TABLE userdata.statements_statementid_seq TO prmax;
@@ -752,3 +752,16 @@ ALTER TABLE tg_user ADD COLUMN ccaddresses character varying(255);
 
 INSERT INTO internal.reasoncategories VALUES (7, 'Delete Private');
 INSERT INTO internal.reasoncodes VALUES (28, 'Customer request', 7);
+
+
+-- link a clipping to release and statement
+
+ALTER TABLE userdata.clippings ADD COLUMN emailtemplateid integer;
+ALTER TABLE userdata.clippings ADD COLUMN listmemberid integer;
+ALTER TABLE userdata.clippings ADD COLUMN contacthistoryid integer;
+ALTER TABLE userdata.clippings ADD FOREIGN KEY (emailtemplateid) REFERENCES userdata.emailtemplates (emailtemplateid) ON UPDATE NO ACTION ON DELETE SET NULL;
+ALTER TABLE userdata.clippings ADD FOREIGN KEY (listmemberid) REFERENCES userdata.listmembers (listmemberid) ON UPDATE NO ACTION ON DELETE SET NULL;
+ALTER TABLE userdata.clippings ADD FOREIGN KEY (contacthistoryid) REFERENCES userdata.contacthistory (contacthistoryid) ON UPDATE NO ACTION ON DELETE SET NULL;
+ALTER TABLE userdata.clippings ADD COLUMN statementid integer;
+ALTER TABLE userdata.clippings ADD FOREIGN KEY (statementid) REFERENCES userdata.statements (statementid) ON UPDATE NO ACTION ON DELETE SET NULL;
+

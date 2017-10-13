@@ -159,6 +159,38 @@ define([
 		this.option.set("value", value.option);
 		this.from_date_box.set("value",value.from_date);
 		this.to_date_box.set("value",value.to_date);
+	},
+	_getFilterTextAttr:function()
+	{
+		var retvalue = "";
+		var tmp = parseInt(this.option.get("value"));
+		var option = 0;
+		for (var key in this._options.items)
+		{
+			if ( this._options.items[key].id[0] == tmp )
+			{
+				option = this._options.items[key].name[0];
+				break;
+			}
+		}
+
+		switch ( this.option.get("value"))
+		{
+		default:
+		case 0:
+			domclass.add(this.from_date_box.domNode,"prmaxhidden");
+			domclass.add(this.to_date_box.domNode,"prmaxhidden");
+			break;
+		case 1:
+		case 2:
+			domclass.remove(this.from_date_box.domNode,"prmaxhidden");
+			domclass.add(this.to_date_box.domNode,"prmaxhidden");
+			break;
+		case 3:
+			domclass.remove(this.from_date_box.domNode,"prmaxhidden");
+			domclass.remove(this.to_date_box.domNode,"prmaxhidden");
+			break;
+		}
 	}
 });
 });

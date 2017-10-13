@@ -24,11 +24,11 @@ define([
 	constructor: function()
 	{
 		this.start_settings();
-		this._clippingtypes = new ItemFileReadStore({ url:"/common/lookups?searchtype=clippingstypes&show_all=0"});
 		topic.subscribe("/clipping/refresh_filters", lang.hitch(this, this._refresh_filters));
 
 		this.dirty_filters = false;
 		this._update_event = null;
+		this._close_event= lang.hitch(this,this._close);
 	},
 	postCreate:function()
 	{
@@ -37,7 +37,11 @@ define([
 		this.date_search.set_range_to_last_30_days();
 		this.clientid.set("store", PRCOMMON.data.clients);
 		this.issueid.set("store", PRCOMMON.data.issues);
-		this.clippingstypeid.set("store",this._clippingtypes);
+		this.emailtemplateid.set("store", PRCOMMON.data.email_templates);
+		this.emailtemplateid.set("query", {restrict:"sent",include_no_select:1});
+		this.statementid.set("store", PRCOMMON.data.statements);
+
+		this.clippingstypeid.set("store", PRCOMMON.data._clippingtypes);
 		this.clippingstypeid.set("value", -1);
 
 		domattr.set(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
@@ -45,7 +49,15 @@ define([
 		if ( this.showextended == true)
 		{
 			domclass.remove(this.clippingstype_label,"prmaxhidden");
+			domclass.remove(this.clippingstype_label_2,"prmaxhidden");
 			domclass.remove(this.clippingstypeid.domNode,"prmaxhidden");
+		}
+
+		if (PRMAX.utils.settings.crm == true )
+		{
+			domclass.remove(this.statement_view_1,"prmaxhidden");
+			domclass.remove(this.statement_view_2,"prmaxhidden");
+			domclass.remove(this.statementid.domNode,"prmaxhidden");
 		}
 	},
 	_setUpdateeventAttr:function(updevent)
@@ -61,11 +73,18 @@ define([
 			return ;
 		}
 
+		setTimeout(this._close_event,300);
+		this._set_filter_text();
+
 		this.dirty_filters = true;
 		if (this._update_event != null)
 			this._update_event();
 
 		this.updbtn.cancel();
+	},
+	_close:function()
+	{
+		this.filter_dlg.hide();
 	},
 	_change_filter:function()
 	{
@@ -93,6 +112,9 @@ define([
 		this.issueid.set("value", value.issueid);
 		this.clippingstypeid.set("value", value.clippingstypeid);
 		this.tone_ctrl.set("value", value.tones);
+		this.emailtemplateid.set("value", value.emailtemplateid);
+		this.statementid.set("value", value.statementid);
+
 		if (value.daterestriction)
 		{
 			this.date_search.from_date_box.set("value", value.daterestriction);
@@ -101,7 +123,6 @@ define([
 		else
 		{
 			this.date_search.set("intvalue",value.int_drange);
-
 		}
 	},
 	_get_filters:function(active_only,is_internal)
@@ -129,6 +150,24 @@ define([
 			filter.issueid = issuevalue;
 		else if ( active_only == false )
 			filter.issueid = issuevalue;
+
+		var emailtemplatevalue = this.emailtemplateid.get("value");
+		if (emailtemplatevalue=="")
+			emailtemplatevalue = "-1";
+
+		if (active_only == true && emailtemplatevalue != "-1")
+			filter.emailtemplateid = emailtemplatevalue;
+		else if ( active_only == false )
+			filter.emailtemplateid = emailtemplatevalue;
+
+		var statementvalue = this.statementid.get("value");
+		if (statementvalue=="")
+			statementvalue = "-1";
+
+		if (active_only == true && statementvalue != "-1")
+			filter.statementid = statementvalue;
+		else if ( active_only == false )
+			filter.statementid = statementvalue;
 
 		if (this.showextended==true)
 		{
@@ -167,6 +206,43 @@ define([
 			PRCOMMON.data.clients = new JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 		if (PRCOMMON.data.issues==undefined)
 			PRCOMMON.data.issues = new JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
+		if (PRCOMMON.data.email_templates==undefined)
+			PRCOMMON.data.email_templates = new JsonRestStore({target:"/emails/templates_list_rest", idAttribute:"id"});
+		if (PRCOMMON.data.statements==undefined)
+			PRCOMMON.data.statements = new JsonRestStore({target:"/statement/statement_combo_rest", idAttribute:"id"});
+		if (PRCOMMON.data._clippingtypes==undefined)
+			PRCOMMON.data._clippingtypes = new ItemFileReadStore({ url:"/common/lookups?searchtype=clippingstypes&show_all=0"});
+
+	},
+	_show_extended:function()
+	{
+		this.filter_dlg.show();
+	},
+	_set_filter_text:function()
+	{
+		this.filter_text = "";
+
+		this._add_to_filter(this.clientid, PRMAX.utils.settings.client_name);
+		this._add_to_filter(this.issueid, PRMAX.utils.settings.issue_description);
+		this._add_to_filter(this.statementid, "Statement");
+		this._add_to_filter(this.emailtemplateid, "Release");
+		//tones, types
+		//Dates
+
+		if (this.filter_text.length==0)
+			this.filter_text = "No Filter Selected";
+
+		domattr.set(this.filter_details, "innerHTML", this.filter_text);
+	},
+	_add_to_filter:function(lookuplist, caption_text)
+	{
+		var tmp = lookuplist.get("displayedValue");
+		if ( tmp != "No Selection" && tmp != "" )
+		{
+			if (this.filter_text.length>0)
+				this.filter_text += " ; ";
+			this.filter_text += caption_text + " : " + tmp ;
+		}
 	}
 });
 });

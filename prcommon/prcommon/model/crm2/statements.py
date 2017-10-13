@@ -4,7 +4,7 @@
 # Name:        statement.py
 # Purpose:	   To control statements
 #
-# Author:      
+# Author:
 #
 # Created:    Sept 2017
 # RCS-ID:      $Id:  $
@@ -46,71 +46,71 @@ LOGGER = logging.getLogger("prcommon")
 
 
 class Statements(BaseSql):
-        """ Statements table"""
+	""" Statements table"""
 
-        List_Types = """SELECT statementdescription FROM userdata.statements ORDER BY statementdescription"""
+	List_Types = """SELECT statementdescription FROM userdata.statements ORDER BY statementdescription"""
 
-        @classmethod
-        def getLookUp(cls, params):
-                """ get a lookup list """
-                data = [dict(id=row.statementid, name=row.statementdescription) 
-                      for row in session.query(Statements).filter(Statements.customerid == params['customerid']).all()]
-                return data
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		data = [dict(id=row.statementid, name=row.statementdescription)
+				        for row in session.query(Statements).filter(Statements.customerid == params['customerid']).all()]
+		return data
 
-        @classmethod
-        def delete(cls, params):
-                """ delete a statement """
+	@classmethod
+	def delete(cls, params):
+		""" delete a statement """
 
-                try:
-                        transaction = cls.sa_get_active_transaction()
-                        statement = Statements.query.get(params["statementid"])
-                        session.delete(statement)
-                        transaction.commit()
-                except:
-                        LOGGER.exception("Statement_delete")
-                        transaction.rollback()
-                        raise
+		try:
+			transaction = cls.sa_get_active_transaction()
+			statement = Statements.query.get(params["statementid"])
+			session.delete(statement)
+			transaction.commit()
+		except:
+			LOGGER.exception("Statement_delete")
+			transaction.rollback()
+			raise
 
-        @classmethod
-        def add(cls, params):
-                """ add a new statement """
-                try:
-                        transaction = cls.sa_get_active_transaction()
-                        statement = Statements(
-                                statementdescription=params["statementdescription"],
-                                output=params["output"],
-                                customerid=params["customerid"],
-                                clientid=params["clientid"],
-                                issueid=params["issueid"])
-                        session.add(statement)
-                        session.flush()
-                        transaction.commit()
-                        return statement.statementid
-                except:
-                        LOGGER.exception("Statement_add")
-                        transaction.rollback()
-                        raise
+	@classmethod
+	def add(cls, params):
+		""" add a new statement """
+		try:
+			transaction = cls.sa_get_active_transaction()
+			statement = Statements(
+						    statementdescription=params["statementdescription"],
+						        output=params["output"],
+						        customerid=params["customerid"],
+						        clientid=params["clientid"],
+						        issueid=params["issueid"])
+			session.add(statement)
+			session.flush()
+			transaction.commit()
+			return statement.statementid
+		except:
+			LOGGER.exception("Statement_add")
+			transaction.rollback()
+			raise
 
-        @classmethod
-        def update(cls, params):
-                """ update a statement """
-                try:
-                        transaction = cls.sa_get_active_transaction()
-                        statementid = params["statementid"]
-                        statement = Statements.query.get(statementid)
-                        statement.statementdescription = params["statementdescription"]
-                        statement.clientid = params["clientid"]
-                        statement.issueid = params["issueid"]
-                        statement.output = params["output"]
+	@classmethod
+	def update(cls, params):
+		""" update a statement """
+		try:
+			transaction = cls.sa_get_active_transaction()
+			statementid = params["statementid"]
+			statement = Statements.query.get(statementid)
+			statement.statementdescription = params["statementdescription"]
+			statement.clientid = params["clientid"]
+			statement.issueid = params["issueid"]
+			statement.output = params["output"]
 
-                        transaction.commit()
-                        return statement.statementid
-                except:
-                        LOGGER.exception("Statement_update")
-                        transaction.rollback()
-                        raise
+			transaction.commit()
+			return statement.statementid
+		except:
+			LOGGER.exception("Statement_update")
+			transaction.rollback()
+			raise
 
-        ListData = """SELECT statementid, statementdescription, c.clientid, c.clientname, i.issueid, i.name as issuename, output
+	ListData = """SELECT statementid, statementdescription, c.clientid, c.clientname, i.issueid, i.name as issuename, output
         FROM userdata.statements AS s
         LEFT OUTER JOIN userdata.client AS c ON c.clientid = s.clientid
         LEFT OUTER JOIN userdata.issues AS i ON i.issueid = s.issueid
@@ -118,73 +118,120 @@ class Statements(BaseSql):
         ORDER BY  %s %s
         LIMIT :limit  OFFSET :offset """
 
-        ListDataCount = """SELECT COUNT(*) FROM userdata.statements WHERE customerid = :customerid"""
+	ListDataCount = """SELECT COUNT(*) FROM userdata.statements WHERE customerid = :customerid"""
 
 
-        ListDataEngagements = """SELECT statementid, crm_subject, chresp.contacthistoryid, chresp.contacthistoryresponseid, 
-        to_char(chresp.taken, 'DD/MM/YY') AS taken        
+	ListDataEngagements = """SELECT statementid, crm_subject, chresp.contacthistoryid, chresp.contacthistoryresponseid,
+        to_char(chresp.taken, 'DD/MM/YY') AS taken
         FROM userdata.contacthistoryresponses AS chresp
         JOIN userdata.contacthistory AS ch ON chresp.contacthistoryid = ch.contacthistoryid
         """
 
-        ListDataEngagementsCount = """
-        SELECT COUNT(*) 
+	ListDataEngagementsCount = """
+        SELECT COUNT(*)
         FROM userdata.contacthistoryresponses AS chresp
         JOIN userdata.contacthistory AS ch ON chresp.contacthistoryid = ch.contacthistoryid
         """
 
-        EMPTYGRID = dict (numRows = 0, items = [], identifier = 'statementid')			
+	EMPTYGRID = dict (numRows = 0, items = [], identifier = 'statementid')
 
-        @classmethod
-        def get_grid_page(cls, params):
-                """ get a page of statements"""
+	@classmethod
+	def get_grid_page(cls, params):
+		""" get a page of statements"""
 
-                params["sort"] = 'UPPER(statementdescription)'
+		params["sort"] = 'UPPER(statementdescription)'
 
-                return Statements.getGridPage(params,
-                                           'UPPER(statementdescription)',
-                                           'statementid',
-                                           Statements.ListData,
-                                           Statements.ListDataCount,
-                                           cls)
+		return Statements.getGridPage(params,
+				                              'UPPER(statementdescription)',
+				                           'statementid',
+				                           Statements.ListData,
+				                           Statements.ListDataCount,
+				                           cls)
 
-        @classmethod
-        def get_engagements_grid_page(cls, params):
-                """ get a page of engagements that have used in a specific statementid"""
+	@classmethod
+	def get_engagements_grid_page(cls, params):
+		""" get a page of engagements that have used in a specific statementid"""
 
-                params["sort"] = 'UPPER(crm_subject)'
-                
-                whereclause = ' WHERE statementid = %s ' % params['statementid']
+		params["sort"] = 'UPPER(crm_subject)'
 
-                return  Statements.getGridPage(params,
-                                           'UPPER(crm_subject)',
-                                           'contacthistoryresponseid',
-                                           Statements.ListDataEngagements + whereclause + BaseSql.Standard_View_Order,
-                                           Statements.ListDataEngagementsCount + whereclause,
-                                           cls)
+		whereclause = ' WHERE statementid = %s ' % params['statementid']
 
-        @classmethod
-        def get(cls, statementid):
-                """ get a statement"""
+		return  Statements.getGridPage(params,
+				                               'UPPER(crm_subject)',
+				                           'contacthistoryresponseid',
+				                           Statements.ListDataEngagements + whereclause + BaseSql.Standard_View_Order,
+				                           Statements.ListDataEngagementsCount + whereclause,
+				                           cls)
 
-                statement = Statements.query.get(statementid)
-                clientname = issuename = ''
-                if statement and statement.clientid:
-                        client = Client.query.get(statement.clientid)
-                        clientname = client.clientname
-                if statement and statement.issueid:
-                        issue = Issue.query.get(statement.issueid)
-                        issuename = issue.name
-                        
-                return dict(statementid = statementid,
-                            statementdescription=statement.statementdescription,
-                            clientid=statement.clientid if statement.clientid else None,
-                            clientname=clientname,
-                            issueid=statement.issueid if statement.issueid else None,
-                            issuename=issuename,
-                            output=statement.output)
+	@classmethod
+	def get(cls, statementid):
+		""" get a statement"""
 
-#        @classmethod
+		statement = Statements.query.get(statementid)
+		clientname = issuename = ''
+		if statement and statement.clientid:
+			client = Client.query.get(statement.clientid)
+			clientname = client.clientname
+		if statement and statement.issueid:
+			issue = Issue.query.get(statement.issueid)
+			issuename = issue.name
+
+		return dict(statementid = statementid,
+				            statementdescription=statement.statementdescription,
+				            clientid=statement.clientid if statement.clientid else None,
+				            clientname=clientname,
+				            issueid=statement.issueid if statement.issueid else None,
+				            issuename=issuename,
+				            output=statement.output)
+
+	@classmethod
+	def get_list_rest(cls, params):
+		""" list of statementf ro """
+
+		single = True if "id" in params else False
+
+		return cls.grid_to_rest(cls.combo(params),
+				                        params['offset'],
+				                        single)
+
+	_Single_Record = """SELECT statementid AS id,statementdescription FROM userdata.statements WHERE statementid = :id"""
+	_List_Combo = """SELECT statementid AS id,statementdescription FROM userdata.statements WHERE customerid = :customerid AND statementdescription ilike :statementdescription ORDER BY statementdescription"""
+
+	@classmethod
+	def combo(cls, params):
+		"""client conbo list """
+
+		if "id" in params:
+			if params["id"] == "-1":
+				command = None
+			else:
+				command = Statements._Single_Record
+		else:
+			command = Statements._List_Combo
+			if not "statementdescription" in params:
+				params["statementdescription"] = "%"
+			else:
+				if params["statementdescription"] == "*":
+					params["statementdescription"] = "%"
+				else:
+					params["statementdescription"] += "%"
+
+		if command:
+			items = cls.sqlExecuteCommand(
+			    text(command),
+			    params,
+			    BaseSql.ResultAsEncodedDict)
+		else:
+			items = []
+
+		if (not params.get("id", None) or params.get("id", "") in("-1", -1)):
+			items.insert(0, dict(id=-1, statementdescription="No Selection"))
+
+		return dict(
+		    identifier="id",
+		    numRows=len(items),
+		    items=items)
+	#        @classmethod
 #        def exists(cls, params):
 #                """ Check to see if a statement exists """
 #                if "statementdescription" in params:
@@ -192,6 +239,7 @@ class Statements(BaseSql):
 #                        tmp = result.fetchall()
 #                        return True if tmp else False
 #                return False
+
 
 #########################################################
 # load tables from db

@@ -4,7 +4,7 @@
 # Name:        statements.py
 # Purpose:
 #
-# Author:      
+# Author:
 # Created:     Sept 2017
 # Copyright:  (c) 2017
 
@@ -12,7 +12,7 @@
 from turbogears import expose, validate, validators, error_handler, exception_handler
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
-from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, ISODateValidatorNull, Int2Null
+from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, ISODateValidatorNull, Int2Null, RestSchema
 from ttl.base import stdreturn
 from prcommon.model import TasksGeneral, User, Statements
 from prcommon.model.crm2.tasktypes import TaskType
@@ -35,7 +35,7 @@ class StatementIdSchema(PrFormSchema):
 	"schema"
 
 	statementid = validators.Int()
-	
+
 class StatementSchema(PrFormSchema):
 	"schema"
 
@@ -43,7 +43,7 @@ class StatementSchema(PrFormSchema):
 	customerid = validators.Int()
 	clientid = Int2Null()
 	issueid = Int2Null()
-	
+
 
 class StatementController(SecureController):
 	""" Statement Interface """
@@ -82,11 +82,11 @@ class StatementController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=PrGridSchema(), state_factory=std_state_factory)	
+	@validate(validators=PrGridSchema(), state_factory=std_state_factory)
 	def statement_grid(self, *argv, **params):
 		""" return a page of statements for the grid"""
 
-		return Statements.get_grid_page(params)	
+		return Statements.get_grid_page(params)
 
 
 	@expose("json")
@@ -99,12 +99,12 @@ class StatementController(SecureController):
 		Statements.delete(params)
 
 		return stdreturn()
-	
+
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=PrGridSchema(), state_factory=std_state_factory)	
+	@validate(validators=PrGridSchema(), state_factory=std_state_factory)
 	def statement_engagements_grid(self, *argv, **params):
 		""" return a page of engagements for the grid"""
 
@@ -113,5 +113,15 @@ class StatementController(SecureController):
 		else:
 			params['statementid'] = int(params['statementid'])
 
-		return Statements.get_engagements_grid_page(params)	
-	
+		return Statements.get_engagements_grid_page(params)
+
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def statement_combo_rest(self, *argv, **params):
+		""" list of statementf for a combo box """
+
+		params["is_combo"] = True
+
+		return Statements.get_list_rest(params)

@@ -25,6 +25,8 @@ from prcommon.model.lookups import ClippingSource, ClippingsTone, ClippingsTypes
 from prcommon.model.clippings.clippingsissues import ClippingsIssues
 from prcommon.model.crm2.issues import Issue
 from prcommon.model.identity import User, Customer
+from prcommon.model.crm2.statements import Statements
+from prcommon.model.emails import EmailTemplates
 
 LOGGER = logging.getLogger("prcommon.model")
 
@@ -50,11 +52,14 @@ class ClippingCache(MakoBase):
 		issues = ",".join([issue[1].name for issue in session.query(ClippingsIssues, Issue).\
 		                   join(Issue, ClippingsIssues.issueid == Issue.issueid).\
 		                   filter(ClippingsIssues.clippingid == self._processrecord.objectid)])
-		
+
 		customer = Customer.query.get(clippings.customerid)
 		mediaaccesstypes = []
 		cmat = [ row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).\
 	             filter(CustomerMediaAccessTypes.customerid == customer.customerid).all()]
+
+		statement = Statements.query.get(clippings.statementid) if clippings.statementid else None
+		prrelease = EmailTemplates.query.get(clippings.emailtemplateid) if clippings.emailtemplateid else None
 
 		self._data["pr"] = dict(
 		  clippings=clippings,
@@ -66,8 +71,10 @@ class ClippingCache(MakoBase):
 		  clippingsource=ClippingSource.query.get(clippings.clippingsourceid),
 		  clippingstone=clippingstone,
 		  clippingstype=clippingstype,
-		  customer = customer,
-		  mediaaccesstype = cmat
+		  customer=customer,
+		  mediaaccesstype=cmat,
+		  prrelease=prrelease,
+		  statement=statement
 		)
 
 		# create html

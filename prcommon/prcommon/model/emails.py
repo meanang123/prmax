@@ -198,6 +198,7 @@ class EmailTemplates(BaseSql):
 	ListData = """ SELECT
 		t.emailtemplateid,
 	  t.emailtemplatename,
+	  t.emailtemplatename AS name,
 	  t.emailtemplateid AS id
 		FROM userdata.emailtemplates AS t
 		WHERE
@@ -229,10 +230,16 @@ class EmailTemplates(BaseSql):
 		if "include_sent" in params:
 			whereclause = ""
 
+		if params.get("restrict", "") == "sent":
+			whereclause = " AND pressreleasestatusid = 2 "
+			d_value = date.today()
+			d_value -= timedelta(days=182)
+			whereclause += (" AND sent_time > '%s'" % d_value.strftime("%Y-%m-%d"))
+
 		if "id" in params and params["id"] == "-1":
 			data = dict(identifier="emailtemplateid",
 			            numRows=1,
-			            items=[dict(id=-1, emailtemplateid=-1, emailtemplatename="No Press Release")])
+			            items=[dict(id=-1, emailtemplateid=-1, name="No Selection", emailtemplatename="No Selection")])
 		else:
 			data = BaseSql.getListPage(params,
 			                           'emailtemplatename',
@@ -243,12 +250,19 @@ class EmailTemplates(BaseSql):
 
 			if "include_no_select" in params and "id" not in params:
 				data['numRows'] += 1
-				data['items'].insert(0, dict(id=-1, emailtemplateid=-1, emailtemplatename="No Press Release"))
+				data['items'].insert(0, dict(id=-1, emailtemplateid=-1, name="No Selection", emailtemplatename="No Selection"))
 
 		if "is_combo" in params:
 			data["identifier"] = "id"
 
 		return data
+
+	@classmethod
+	def get_list_rest(cls, params):
+		""" as rest"""
+
+		single = True if "id" in params else False
+		return cls.grid_to_rest(cls.get_list(params), params["offset"], single)
 
 	# This is for the grid
 	List_Data_View = """SELECT et.emailtemplateid,et.emailtemplatename,pressreleasestatusid,

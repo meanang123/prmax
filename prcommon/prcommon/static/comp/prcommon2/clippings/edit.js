@@ -33,7 +33,9 @@ return declare("prcommon2.clippings.edit",
 	{
 		this._clients = new JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 		this._issues = new JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
-		this._clippingtones = new ItemFileReadStore({ url:"/common/lookups?searchtype=clippingtones"} );
+		this._liststore = new JsonRestStore({target:"/emails/templates_list_rest", idAttribute:"id"});
+		this._statement = new JsonRestStore({target:"/statement/statement_combo_rest", idAttribute:"id"});
+		this._clippingtones = new ItemFileReadStore({ url:"/common/lookups?searchtype=clippingtones"});
 
 		this._update_call_back = lang.hitch(this, this._update_call);
 		this._delete_call_back = lang.hitch(this, this._delete_call);
@@ -42,18 +44,28 @@ return declare("prcommon2.clippings.edit",
 	postCreate:function()
 	{
 		this.inherited(arguments);
+
 		this.clientid.set("store",this._clients);
 		this.issueid.set("store", this._issues);
 		this.clippingstoneid.set("store",this._clippingtones);
 
+		this.emailtemplateid.set("store", this._liststore);
+		this.emailtemplateid.set("query", {restrict:"sent",include_no_select:1});
+
+		this.statementid.set("store", this._statement);
+		this.statementid.set("query",{include_no_select:1});
+
 		domattr.set(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		domattr.set(this.client_label_1, "innerHTML", PRMAX.utils.settings.client_name);
+
 	},
 	clear:function()
 	{
 		this.clippingid.set("value",-1);
 		this.clientid.set("value", "-1" );
 		this.issueid.set("value", "-1" );
+		this.emailtemplateid.set("value","-1");
+		this.statementid.set("value","-1");
 		this.savebtn.cancel();
 	},
 	_save:function()
@@ -93,6 +105,8 @@ return declare("prcommon2.clippings.edit",
 		this.clippingstoneid.set("value", clipping.clippingstoneid);
 		this.outletid.set("value", clipping.outletid);
 		this.outletid.set("Displayvalue", clipping.outletname);
+		this.emailtemplateid.set("value", clipping.emailtemplateid);
+		this.statementid.set("value", clipping.statementid);
 
 	},
 	_delete:function()

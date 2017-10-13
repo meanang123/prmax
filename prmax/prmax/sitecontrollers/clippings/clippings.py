@@ -35,6 +35,8 @@ class ClippingUpdateSchema(PrFormSchema):
 	clientid = Int2Null()
 	issueid = Int2Null()
 	outletid = Int2Null()
+	emailtemplateid = Int2Null()
+	statementid = Int2Null()
 	clippingstoneid = validators.Int()
 
 class ClippingListSchema(RestSchema):
@@ -159,7 +161,7 @@ class ClippingsController(SecureController):
 			ClippingsGeneral.add_user_selection(params)
 		else:
 			ClippingsGeneral.delete_user_selection(params)
-		
+
 		return stdreturn()
 
 	@expose("json")
@@ -170,7 +172,7 @@ class ClippingsController(SecureController):
 		""" user clippings selection"""
 
 		ClippingsGeneral.clear_user_selection(params)
-		
+
 		return stdreturn()
 
 
@@ -229,6 +231,6 @@ class ClippingsController(SecureController):
 	@exception_handler(pr_std_exception_handler)
 	def send_clippings_email(self, *args, **params):
 		""" send email with all selected clippings """
-	
+
 		EmailQueue.send_email_clippings(params)
 		return stdreturn()

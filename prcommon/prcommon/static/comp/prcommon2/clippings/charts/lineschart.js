@@ -117,10 +117,17 @@ define([
     {
         //destroy chart and legend nodes and recreate legend node
         this.render_chart();
-        this._leg.destroy();
-        delete this._leg;
-        this._linesChart.destroy();
-        delete this._linesChart;
+        try
+        {
+        	this._leg.destroy();
+			delete this._leg;
+        	this._linesChart.destroy();
+        	delete this._linesChart;
+		}
+		catch(e)
+		{
+
+		}
         domclass.add(this.report_legend_view,"prmaxhidden");
         domclass.remove(this.chart_node_loading_no_data,"prmaxhidden");
         domclass.remove(this.chart_node_loading,"prmaxhidden");
@@ -181,14 +188,14 @@ define([
     _report:function()
     {
         var content = {};
-        var filters = this.filter_view._get_filters(false,true);	        
+        var filters = this.filter_view._get_filters(false,true);
         content['reportoutputtypeid'] = 0;
         content['reporttemplateid'] = 26;
         content['drange'] = filters.drange;
         content['tones'] = filters.tones;
         content['clientid'] = filters.clientid;
         content['issueid'] = filters.issueid;
-        
+
 
         this.report_dlg.show();
         this.report_node.SetCompleted(this._complete_call_back);
