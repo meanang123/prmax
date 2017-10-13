@@ -18,6 +18,7 @@ define([
 	"dojox/data/JsonRestStore",
 	"dojo/_base/lang",
 	"dojo/dom-attr",
+	"dojo/dom-class",
 	"dojo/data/ItemFileReadStore",
 	"dijit/form/FilteringSelect",
 	"dojox/form/BusyButton",
@@ -25,7 +26,7 @@ define([
 	"dijit/form/Form",
 	"dijit/form/RadioButton",
 	"prcommon2/outlet/OutletSelect"
-	], function(declare, BaseWidgetAMD, template, utilities2, topic, request, JsonRestStore, lang, domattr,ItemFileReadStore){
+	], function(declare, BaseWidgetAMD, template, utilities2, topic, request, JsonRestStore, lang, domattr, domclass, ItemFileReadStore){
 return declare("prcommon2.clippings.edit",
 	[BaseWidgetAMD],{
 	templateString: template,
@@ -54,6 +55,13 @@ return declare("prcommon2.clippings.edit",
 
 		this.statementid.set("store", this._statement);
 		this.statementid.set("query",{include_no_select:1});
+
+		if (PRMAX.utils.settings.crm == true )
+		{
+			domclass.remove(this.statement_1,"prmaxhidden");
+			domclass.remove(this.statementid.domNode,"prmaxhidden");
+
+		}
 
 		domattr.set(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		domattr.set(this.client_label_1, "innerHTML", PRMAX.utils.settings.client_name);

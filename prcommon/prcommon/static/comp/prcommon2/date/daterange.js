@@ -178,19 +178,17 @@ define([
 		{
 		default:
 		case 0:
-			domclass.add(this.from_date_box.domNode,"prmaxhidden");
-			domclass.add(this.to_date_box.domNode,"prmaxhidden");
 			break;
 		case 1:
 		case 2:
-			domclass.remove(this.from_date_box.domNode,"prmaxhidden");
-			domclass.add(this.to_date_box.domNode,"prmaxhidden");
+			retvalue = option + " - " + this.from_date_box.get("value").toDateString();
 			break;
 		case 3:
-			domclass.remove(this.from_date_box.domNode,"prmaxhidden");
-			domclass.remove(this.to_date_box.domNode,"prmaxhidden");
+			retvalue = option + " - " + this.from_date_box.get("value").toDateString() + " to " + this.to_date_box.get("value").toDateString();
 			break;
 		}
+
+		return retvalue;
 	}
 });
 });
