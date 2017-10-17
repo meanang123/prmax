@@ -602,7 +602,7 @@ class EmailTemplates(BaseSql):
 				if obj.issueid:
 					from prcommon.model.crm2.issues import Issue
 					issue = Issue.query.get(obj.issueid)
-					dobject["clientname"] = issue.name
+					dobject["issuename"] = issue.name
 		else:
 			dobject = dict()
 		return dobject
@@ -777,6 +777,7 @@ class EmailTemplates(BaseSql):
 			emailtemplate = EmailTemplates.query.get(params["emailtemplateid"])
 			emailtemplate.emailtemplatename = params["emailtemplatename"]
 			emailtemplate.clientid = params["clientid"]
+			emailtemplate.issueid = params["issueid"]
 
 			transaction.commit()
 		except:
