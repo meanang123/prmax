@@ -61,6 +61,7 @@ class EmailTemplateRenameSchema(PrFormSchema):
 	emailtemplateid = validators.Int()
 	emailtemplatename = validators.String(not_empty=True)
 	clientid = Int2Null()
+	issueid = Int2Null()
 
 class EmailTemplateAddSchema(PrFormSchema):
 	""" email templates"""

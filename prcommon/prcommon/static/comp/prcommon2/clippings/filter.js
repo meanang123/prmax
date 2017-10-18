@@ -224,10 +224,16 @@ define([
 
 		this._add_to_filter(this.clientid, PRMAX.utils.settings.client_name);
 		this._add_to_filter(this.issueid, PRMAX.utils.settings.issue_description);
-		this._add_to_filter(this.statementid, "Statement");
+		if (PRMAX.utils.settings.crm == true )
+			this._add_to_filter(this.statementid, "Statement");
 		this._add_to_filter(this.emailtemplateid, "Release");
-		//tones, types
-		//Dates
+		if ( this.showextended == true)
+			this._add_to_filter(this.clippingstypeid, "Type");
+		this._add_to_filter(this.tone_ctrl, "Tones");
+
+
+		this._add_to_filter_text(this.date_search.get("FilterText"),"Dates");
+		//tones
 
 		if (this.filter_text.length==0)
 			this.filter_text = "No Filter Selected";
@@ -237,12 +243,25 @@ define([
 	_add_to_filter:function(lookuplist, caption_text)
 	{
 		var tmp = lookuplist.get("displayedValue");
-		if ( tmp != "No Selection" && tmp != "" )
+		if ( tmp != "No Selection" && tmp != "" && tmp != "All Types")
 		{
 			if (this.filter_text.length>0)
 				this.filter_text += " ; ";
-			this.filter_text += caption_text + " : " + tmp ;
+			this.filter_text += this._get_caption_formatted(caption_text) + tmp ;
 		}
+	},
+	_add_to_filter_text:function(valuetext, caption_text)
+	{
+		if ( valuetext != "" )
+		{
+			if (this.filter_text.length>0)
+				this.filter_text += " ; ";
+			this.filter_text += this._get_caption_formatted(caption_text) + valuetext ;
+		}
+	},
+	_get_caption_formatted:function(caption_text)
+	{
+		return "<label style='font-weight:900'>" + caption_text + "</label>" + " : ";
 	}
 });
 });

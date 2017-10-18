@@ -148,6 +148,10 @@ define([
 			this._all_labels[key].set("checked",true);
 
 		this._getValueAttr();
+	},
+	_getDisplayedValueAttr:function()
+	{
+		return domattr.get(this.selected_tones,"innerHTML");
 	}
 });
 });

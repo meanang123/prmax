@@ -375,6 +375,7 @@ dojo.declare("prmax.pressrelease.view",
 	{
 		this.model.setValue(  this._row, "emailtemplatename" , emailtemplate.emailtemplatename , true );
 		this.model.setValue(  this._row, "clientname" , emailtemplate.clientname, true );
+		this.model.setValue(  this._row, "issuename" , emailtemplate.issuename, true );
 	},
 	_show_analysis:function()
 	{
