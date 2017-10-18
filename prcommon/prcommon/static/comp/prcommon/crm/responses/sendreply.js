@@ -49,10 +49,11 @@ dojo.declare("prcommon.crm.responses.sendreply",
 		this.customeremailserverid.set("store", this._customeremailserver);
 //		this.statementid.set("store", this._statements);
 	},
-	load:function(dialog, subject, contacthistoryid)
+	load:function(dialog, subject, contacthistoryid, contactemail)
 	{
 		this._dialog = dialog;	
 		this.emailsubject.set("value", subject);
+		this.toemailaddress.set("value", contactemail);
 		this._contacthistoryid = contacthistoryid;
 		this.emailbody.set("value", "");
 		this.ccemailaddresses.set("value", this.userccaddresses);

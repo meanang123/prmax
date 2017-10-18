@@ -142,6 +142,7 @@ class ContactHistoryGeneral():
 	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
+	com.email as contactemail,
 	o.outletname,
 	e.job_title,
 	COALESCE(o.outletname,cust.customername) AS source,
@@ -153,6 +154,7 @@ class ContactHistoryGeneral():
 	LEFT OUTER JOIN internal.contacthistorystatus as chstatus ON chstatus.contacthistorystatusid = ch.contacthistorystatusid
 	LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid
 	LEFT OUTER JOIN employees AS e ON e.employeeid = ch.employeeid
+	LEFT OUTER JOIN communications AS com ON com.communicationid = e.communicationid
 	LEFT OUTER JOIN contacts AS c ON c.contactid = COALESCE(ch.contactid,e.contactid)
 	LEFT OUTER JOIN internal.customers AS cust ON cust.customerid = ch.ref_customerid
 	LEFT OUTER JOIN tg_user AS taken ON taken.user_id = ch.taken_by

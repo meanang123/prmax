@@ -740,19 +740,10 @@ GRANT UPDATE ON TABLE userdata.statements_statementid_seq TO prmax;
 ALTER TABLE userdata.statements ADD COLUMN customerid integer NOT NULL;
 ALTER TABLE userdata.statements ADD CONSTRAINT fk_customerid FOREIGN KEY (customerid) REFERENCES internal.customers (customerid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 
-
---ALTER TABLE communications ALTER COLUMN instagram TYPE character varying(200);
---ALTER TABLE userdata.client ALTER COLUMN instagram TYPE character varying(200);
---ALTER TABLE seoreleases.seorelease ALTER COLUMN instagram TYPE character varying(200);
-
 ALTER TABLE userdata.contacthistoryresponses ADD COLUMN statementid integer;
 ALTER TABLE userdata.contacthistoryresponses ADD CONSTRAINT fk_statementid FOREIGN KEY (statementid) REFERENCES userdata.statements (statementid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
 
 ALTER TABLE tg_user ADD COLUMN ccaddresses character varying(255);
-
-INSERT INTO internal.reasoncategories VALUES (7, 'Delete Private');
-INSERT INTO internal.reasoncodes VALUES (28, 'Customer request', 7);
-
 
 -- link a clipping to release and statement
 
@@ -765,3 +756,4 @@ ALTER TABLE userdata.clippings ADD FOREIGN KEY (contacthistoryid) REFERENCES use
 ALTER TABLE userdata.clippings ADD COLUMN statementid integer;
 ALTER TABLE userdata.clippings ADD FOREIGN KEY (statementid) REFERENCES userdata.statements (statementid) ON UPDATE NO ACTION ON DELETE SET NULL;
 
+ALTER TABLE tg_user ADD COLUMN ccaddresses character varying(255);

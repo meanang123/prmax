@@ -34,6 +34,7 @@ dojo.declare("prcommon.crm.update",
 		this._error_call_back = dojo.hitch(this, this._error_call);
 		this._client_add_call_back = dojo.hitch(this, this._client_add_call);
 		this._tmp_size = null;
+		this._contactemail = '';
 
 		this._issues = new dojox.data.QueryReadStore (
 			{url:'/crm/issues/issues_list',
@@ -141,10 +142,11 @@ dojo.declare("prcommon.crm.update",
 		this._selected_row = this.history_grid.getItem(e.rowIndex);
 		this.history_view_ctrl.set("href",dojo.string.substitute(this.history_view,{contacthistoryhistoryid:this._selected_row.i.contacthistoryhistoryid}));
 	},
-	load:function(contacthistoryid)
+	load:function(contacthistoryid, contactemail)
 	{
 		this._clear();
 		this._contacthistoryid = contacthistoryid;
+		this._contactemail = contactemail;
 
 		dojo.xhrPost(
 					ttl.utilities.makeParams({
@@ -351,9 +353,8 @@ dojo.declare("prcommon.crm.update",
 	},
 	_send_reply:function()
 	{
-//		this.send_reply_ctrl.clear();
-		this.send_reply_ctrl.set("dialog",this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value);
-		this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value);
+		this.send_reply_ctrl.set("dialog",this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
+		this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
 		this.send_reply_dlg.show();
 	},
 	

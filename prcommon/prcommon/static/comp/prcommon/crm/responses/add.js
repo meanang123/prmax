@@ -124,7 +124,6 @@ dojo.declare("prcommon.crm.responses.add",
 	},
 	_LoadWord:function()
 	{
-//		this.upload_doc_ctrl.Clear();
 		this.upload_doc_dlg.show();
 	},	
 	_close_dlg:function()

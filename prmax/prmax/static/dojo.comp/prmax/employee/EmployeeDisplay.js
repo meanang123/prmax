@@ -11,8 +11,9 @@
 dojo.provide("prmax.employee.EmployeeDisplay");
 
 dojo.require("prcommon.display.panel");
-dojo.require("prcommon.twitter.twitterview");
+//dojo.require("prcommon.twitter.twitterview");
 dojo.require("prcommon.crm.viewer_only");
+dojo.require("prcommon.crm.responses.resend");
 
 dojo.declare("prmax.employee.EmployeeDisplay",
 	[ttl.BaseWidget],{
@@ -26,7 +27,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 	{
 		this._LoadCallBack = dojo.hitch(this,this._Load);
 		this.crm_loaded = false ;
-		this.twitter_loaded = false;
+		this.resend_loaded = false;
 		this.whereused_loaded = false ;
 		this._setstore = false;
 		dojo.subscribe(PRCOMMON.Events.Update_Notes, dojo.hitch(this,this._profile_refresh_event));
@@ -61,10 +62,10 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 			this.whereused_loaded = true;
 			this.whereused.setQuery( ttl.utilities.getPreventCache({employeeid:this.employeeid}));
 		}
-		if (button.id==this.twitterview.id && this.twitter_loaded==false)
+		if (button.id==this.resendview.id && this.resend_loaded==false)
 		{
-			this.twitterctrl.Load();
-			this.twitter_loaded = true ;
+			this.resendctrl.Load(this._contactemail);
+			this.resend_loaded = true ;
 		}
 		if (button.id==this.crmview.id && this.crm_loaded==false)
 		{
@@ -101,6 +102,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 	// Call back load date t o controls
 	_Load:function(response)
 	{
+		this._contactemail = response.employee.email;
 		this.tabControl.selectChild(this.maintab);
 		this.Clear();
 		dojo.attr(this.employee_display_contactname, "innerHTML", response.employee.contactname);
@@ -113,8 +115,8 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		{
 			dojo.attr(this.employee_display_twitter,"href",response.employee.twitter);
 			dojo.attr(this.employee_display_twitter,"innerHTML",response.employee.twitter);
-			this.twitterctrl.set("twittername",response.employee.twitter);
-			dojo.style(this.twitterview.controlButton.domNode,"display","");
+			this.resendctrl.set("toemailaddress",response.employee.twitter);
+			dojo.style(this.resendview.controlButton.domNode,"display","");
 			dojo.removeClass(this.employee_display_twitter_row,"prmaxhidden");
 		}
 		else

@@ -38,7 +38,10 @@ from prcommon.Const.Email_Templates import Demo_Body, Demo_Subject
 from prcommon.lib.distribution import MailMerge
 import prcommon.Constants as Constants
 from prcommon.lib.bouncedemails import AnalysisMessage
+from prcommon.model.customer.customeremailserver import CustomerEmailServer
+from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
+cryptengine = CryptyInfo(Constants.KEY1)
 
 cryptengine = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
@@ -262,6 +265,8 @@ class EmailTemplates(BaseSql):
 		""" as rest"""
 
 		single = True if "id" in params else False
+		params["restrict"] = "sent"
+		params["include_no_select"] = True
 		return cls.grid_to_rest(cls.get_list(params), params["offset"], single)
 
 	# This is for the grid
@@ -993,6 +998,36 @@ class EmailTemplates(BaseSql):
 				password=params["password"])
 			sender = params['fromemailaddress']
 			emailserver.send(email, sender)
+
+	@classmethod
+	def resend(cls, params):
+		"""  """
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			ces = CustomerEmailServer.get(params['customeremailserverid'])
+			emailtemplate = EmailTemplates.query.get(params['emailtemplateid'])
+
+			email = EmailMessage(ces.fromemailaddress,
+			                     params['toemailaddress'],
+			                     emailtemplate.subject,
+			                     DBCompress.decode(emailtemplate.emailtemplatecontent),
+			                     "text/html"
+			                     )
+			email.BuildMessage()
+
+			if ces.servertypeid in SMTPSERVERBYTYPE:
+				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](
+				    username=cryptengine.aes_decrypt(ces.username),
+				    password=cryptengine.aes_decrypt(ces.password))
+				sender = ces.fromemailaddress
+
+				(error, statusid) = emailserver.send(email, sender)
+				if not statusid:
+					raise Exception("Problem Sending Email")	
+		except:
+			transaction.rollback()
+			LOGGER.exception("resend emailtemplate")
+			raise
 
 
 class EmailTemplateList(BaseSql):

@@ -81,7 +81,7 @@ dojo.declare("prcommon.crm.viewer",
 	{
 		this._selected_row = this.viewer_grid.getItem(e.rowIndex);
 
-		this.update_crm_ctrl.load( this._selected_row.i.contacthistoryid);
+		this.update_crm_ctrl.load( this._selected_row.i.contacthistoryid, this._selected_row.i.contactemail);
 
 	},
 	_new_note:function()

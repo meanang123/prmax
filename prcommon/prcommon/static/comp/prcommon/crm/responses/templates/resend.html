@@ -1,0 +1,32 @@
+<div>
+    <div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-point='style:"width:100%;height:100%",gutters:false' >
+        <div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="resendview">
+            <form data-dojo-attach-point="resendForm" onsubmit="return false" data-dojo-type="dijit.form.Form" data-dojo-point='style:"margin:15px"'>
+                <table width="98%" class="prmaxtable" cellpadding="0" cellspacing="0" border="0">
+                    <tr><td >&nbsp;</td></tr>
+                    <tr><td></td><td><label><input data-dojo-attach-point="option0" data-dojo-attach-event="onClick:_option_changed" data-dojo-props='"class":"prmaxlabeltag",type:"radio",name:"option",value:"0",checked:"checked"' data-dojo-type="dijit.form.RadioButton" />Statement</label></td></tr>
+                    <tr><td></td><td><label><input data-dojo-attach-point="option1" data-dojo-attach-event="onClick:_option_changed" data-dojo-props='"class":"prmaxlabeltag",type:"radio",name:"option",value:"1"' data-dojo-type="dijit.form.RadioButton" />Press Release</label></td></tr>
+                    <tr><td >&nbsp;</td></tr>
+                    <tr><td align="right" width="15%" class="prmaxrowtag" data-dojo-attach-point="statement_label"><label>Statement</label></td>
+                        <td data-dojo-attach-point="statement_node"><span><select data-dojo-attach-point="statementid" data-dojo-props='searchAttr:"statementdescription", name:"statementid",autoComplete:true,labelType:"html", style:"width:300px", value:"-1"' data-dojo-type="dijit.form.FilteringSelect"></select></span>
+                            <span><button data-dojo-attach-event="onClick:_AddStatement" data-dojo-attach-point="addstatementbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Add</button><br/></span></td></tr>
+                    <tr><td align="right" width="15%" class="prmaxrowtag prmaxhidden" data-dojo-attach-point="emailtemplate_label"><label>Press Release</label></td>
+                        <td data-dojo-attach-point="emailtemplate_node" class="prmaxhidden"><select  data-dojo-attach-point="emailtemplateid" data-dojo-props='searchAttr:"emailtemplatename", name:"emailtemplateid", labelType:"html",style:"width:300px", value:"-1"' data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+                    <tr><td align="right" width="15%" class="prmaxrowtag"><label>From</label></td><td><span><select data-dojo-props='name:"customeremailserverid",autoComplete:true,labelType:"html", style:"width:300px",' data-dojo-type="dijit.form.Select" data-dojo-attach-point="customeremailserverid" ></select></span>
+                        <span><button data-dojo-attach-event="onClick:_add_server" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"'>Add</button><br/></span></td></tr>
+                    <tr><td align="right" width="15%" class="prmaxrowtag"><label>To</label></td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="toemailaddress" data-dojo-props='placeHolder:"Enter Email Address",required:true,name:"toemailaddress",trim:true,type:"text",style:"width:300px"'></td></tr>
+                    <tr><td align="left"><button class="prmaxbutton" data-dojo-attach-point="previewbtn" data-dojo-attach-event="onClick:_preview" data-dojo-type="dijit.form.Button">Preview</button></td>
+                    <td colspan="2" align="right"><button class="prmaxbutton" data-dojo-attach-point="resendbtn" data-dojo-attach-event="onClick:_resend" data-dojo-type="dijit.form.Button">Re-send</button></td></tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div data-dojo-type="dijit.Dialog" data-dojo-attach-point="add_server_dialog" data-dojo-props='title:"Add Email Server",style:"width:400px;height:260px"'>
+        <div data-dojo-type="prcommon.clippings.add_server" data-dojo-attach-point="add_server_ctrl"></div>
+    </div>
+    <div>
+        <div data-dojo-attach-point="add_statement_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Statement", style:"width:600px;height:500px"'>
+        <div data-dojo-attach-point="addstatementctrl" data-dojo-type="prcommon.crm.responses.add" style="width:600px;height:500px"></div>
+    </div>
+</div>

@@ -39,9 +39,12 @@ from ttl.PasswordGenerator import Pgenerate
 from ttl.postgres import DBCompress
 from ttl.ttldate import TtlDate, DateAddMonths
 from ttl.ttlmaths import toInt, from_int
+from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE
+from prcommon.model.customer.customeremailserver import CustomerEmailServer
+from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
 
-
+cryptengine = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon")
 
 
@@ -225,21 +228,42 @@ class Statements(BaseSql):
 			items = []
 
 		if (not params.get("id", None) or params.get("id", "") in("-1", -1)):
-			items.insert(0, dict(id=-1, statementdescription="No Selection"))
+			items.insert(0, dict(id=-1, statementid=-1, name="No Selection", statementdescription="No Selection"))
 
 		return dict(
 		    identifier="id",
 		    numRows=len(items),
 		    items=items)
-	#        @classmethod
-#        def exists(cls, params):
-#                """ Check to see if a statement exists """
-#                if "statementdescription" in params:
-#                        result = session.execute(text("SELECT statementdescription FROM userdata.statements WHERE statementdescription ILIKE :statementdescription"), params, cls)
-#                        tmp = result.fetchall()
-#                        return True if tmp else False
-#                return False
 
+	@classmethod
+	def resend(cls, params):
+		"""  """
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			ces = CustomerEmailServer.get(params['customeremailserverid'])
+			statement = Statements.query.get(params['statementid'])
+			
+			email = EmailMessage(ces.fromemailaddress,
+			                     params['toemailaddress'],
+			                     statement.statementdescription,
+			                     statement.output,
+			                     "text/html"
+			                     )
+			email.BuildMessage()
+
+			if ces.servertypeid in SMTPSERVERBYTYPE:
+				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](
+				    username=cryptengine.aes_decrypt(ces.username),
+				    password=cryptengine.aes_decrypt(ces.password))
+				sender = ces.fromemailaddress
+
+				(error, statusid) = emailserver.send(email, sender)
+				if not statusid:
+					raise Exception("Problem Sending Email")	
+		except:
+			transaction.rollback()
+			LOGGER.exception("resend statement")
+			raise
 
 #########################################################
 # load tables from db

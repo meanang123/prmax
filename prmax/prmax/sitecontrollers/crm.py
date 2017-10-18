@@ -19,7 +19,7 @@ from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, Int
 from ttl.base import stdreturn, duplicatereturn
 
 from prcommon.model import ContactHistory, PRNotesGeneral, ContactHistoryGeneral, TasksGeneral, ContactHistoryHistory, \
-     ContactHistoryUserDefine, ContactHistoryResponses
+     ContactHistoryUserDefine, ContactHistoryResponses, EmailTemplates
 from prcommon.model.crm2.statements import Statements
 
 from prcommon.sitecontrollers.crm.issue import IssueController
@@ -337,5 +337,20 @@ class CrmController(SecureController):
 		""" remove a field """
 
 		ContactHistoryGeneral.user_defined_delete(params)
+
+		return stdreturn()
+
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def resend(self, *args, **params):
+		""" remove a field """
+
+		if 'statementid' in params:
+			Statements.resend(params)
+		elif 'emailtemplateid' in params:
+			EmailTemplates.resend(params)
 
 		return stdreturn()
