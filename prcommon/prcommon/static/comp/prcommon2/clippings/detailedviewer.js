@@ -103,6 +103,7 @@ define([
 			var row = this.clippings_grid.row(event.results.results[0][0]);
 			this.clippings_grid.select(row);
 			this._load_clipping(event.results.results[0][0]);
+			this._row = row;
 		}
 		this._loaded = true ;
 	},

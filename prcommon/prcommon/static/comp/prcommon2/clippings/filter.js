@@ -59,6 +59,7 @@ define([
 			domclass.remove(this.statement_view_2,"prmaxhidden");
 			domclass.remove(this.statementid.domNode,"prmaxhidden");
 		}
+		this._set_filter_text();
 	},
 	_setUpdateeventAttr:function(updevent)
 	{
@@ -243,7 +244,7 @@ define([
 	_add_to_filter:function(lookuplist, caption_text)
 	{
 		var tmp = lookuplist.get("displayedValue");
-		if ( tmp != "No Selection" && tmp != "" && tmp != "All Types")
+		if ( tmp != "No Selection" && tmp != "" && tmp != "All Types" && tmp != null)
 		{
 			if (this.filter_text.length>0)
 				this.filter_text += " ; ";

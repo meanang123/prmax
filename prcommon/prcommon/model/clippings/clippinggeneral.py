@@ -15,6 +15,7 @@ from prcommon.model.outlet import Outlet
 from prcommon.model.lookups import ClippingStatus, ClippingSource, ClippingsTone
 from prcommon.model.common import BaseSql
 from prcommon.model.client import Client
+from prcommon.model.crm2.issues import Issue
 from prcommon.model.clippings.clippingsissues import ClippingsIssues
 from prcommon.model.clippings.clippingstype import ClippingsType
 from prcommon.model.clippings.clippingselection import ClippingSelection
@@ -269,6 +270,11 @@ class ClippingsGeneral(object):
 
 		clippingstype = ClippingsType.query.get(clipping.clippingstypeid)
 
+		clipissue = session.query(ClippingsIssues).filter(ClippingsIssues.clippingid == clipping.clippingid).scalar()
+		issuename = ""
+		if clipissue:
+			issuename = session.query(Issue.name).filter(Issue.issueid == clipissue.issueid).scalar()
+
 		return dict(
 		  clippingid=clipping.clippingid,
 		  clip_source_date_display=clipping.clip_source_date.strftime("%d/%m/%y"),
@@ -281,7 +287,8 @@ class ClippingsGeneral(object):
 		  clippingstonedescription=clippingstonedescription,
 		  icon_name=clippingstype.icon_name,
 		  statementid=clipping.statementid,
-		  emailtemplateid=clipping.emailtemplateid
+		  emailtemplateid=clipping.emailtemplateid,
+		  issuename=issuename
 		)
 
 	@staticmethod
@@ -368,10 +375,12 @@ class ClippingsGeneral(object):
 				clip_readership=params["clip_readership"],
 				clip_disrate=params["clip_disrate"],
 				clip_text=params["clip_text"],
-			  clip_title=params["clip_title"],
-			  clip_link=params.get("clip_link", None),
-			  clippingstypeid=params["clippingstypeid"],
-			  clippingstoneid=params["clippingstoneid"],
+			    clip_title=params["clip_title"],
+			    clip_link=params.get("clip_link", None),
+			    clippingstypeid=params["clippingstypeid"],
+			    clippingstoneid=params["clippingstoneid"],
+			    statementid=params["statementid"],
+			    emailtemplateid=params["emailtemplateid"],
 				clippingsourceid=Constants.Clipping_Source_Private)
 			session.add(clipping)
 			session.flush()
@@ -414,6 +423,8 @@ class ClippingsGeneral(object):
 			clipping.clip_disrate = params["clip_disrate"]
 			clipping.clip_text = params["clip_text"]
 			clipping.clip_title = params["clip_title"]
+			clipping.statementid = params["statementid"]
+			clipping.emailtemplateid = params["emailtemplateid"]
 
 			issue = session.query(ClippingsIssues).filter(ClippingsIssues.clippingid == clipping.clippingid).all()
 			# add
@@ -459,7 +470,7 @@ class ClippingsGeneral(object):
 		return dict(
 		  clippingid=clipping.clippingid,
 			outletid=clipping.outletid,
-		  outletname=outletname,
+		    outletname=outletname,
 			clientid=clipping.clientid,
 			clip_source_date=to_json_date(clipping.clip_source_date),
 			clip_abstract=clipping.clip_abstract,
@@ -470,8 +481,10 @@ class ClippingsGeneral(object):
 			clip_readership=clipping.clip_readership,
 			clip_disrate=from_int(clipping.clip_disrate),
 			clip_text=clipping.clip_text,
-		  clip_title=clipping.clip_title,
-		  issueid=issueid,
-		  clippingstypeid=clipping.clippingstypeid,
-		  clippingstoneid=clipping.clippingstoneid,
-		  clip_link=clipping.clip_link)
+		    clip_title=clipping.clip_title,
+		    issueid=issueid,
+		    clippingstypeid=clipping.clippingstypeid,
+		    clippingstoneid=clipping.clippingstoneid,
+		    clip_link=clipping.clip_link,
+		    statementid=clipping.statementid,
+		    emailtemplateid=clipping.emailtemplateid)

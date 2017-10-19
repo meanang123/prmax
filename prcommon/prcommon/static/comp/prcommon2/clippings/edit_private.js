@@ -42,6 +42,9 @@ return declare("prcommon2.clippings.edit_private",
 		this._issues = new JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
 		this._clippingtypes = new ItemFileReadStore({ url:"/common/lookups?searchtype=clippingstypes"});
 		this._clippingtones = new ItemFileReadStore({ url:"/common/lookups?searchtype=clippingtones"});
+		this._liststore = new JsonRestStore({target:"/emails/templates_list_rest", idAttribute:"id"});
+		this._statement = new JsonRestStore({target:"/statement/statement_combo_rest", idAttribute:"id"});
+
 
 		this._change_client_enabled=true;
 
@@ -61,6 +64,17 @@ return declare("prcommon2.clippings.edit_private",
 		domattr.set(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		domattr.set(this.client_label_1, "innerHTML", PRMAX.utils.settings.client_name);
 
+		this.emailtemplateid.set("store", this._liststore);
+		this.emailtemplateid.set("query", {restrict:"sent",include_no_select:1});
+
+		this.statementid.set("store", this._statement);
+		this.statementid.set("query",{include_no_select:1});
+
+		if (PRMAX.utils.settings.crm == true )
+		{
+			domclass.remove(this.statement_1,"prmaxhidden");
+			domclass.remove(this.statementid.domNode,"prmaxhidden");
+		}
 	},
 	_clear:function()
 	{
@@ -88,6 +102,9 @@ return declare("prcommon2.clippings.edit_private",
 		this.clippingstypeid.set("value", 3);
 		this.clippingstoneid.set("value",3);
 		this.clip_link.set("value", "");
+		this.emailtemplateid.set("value",null);
+		this.statementid.set("value", null);
+
 		domattr.set(this.heading_text,"innerHTML","Add Private Clipping");
 		domclass.add(this.deletebtn.domNode,"prmaxhidden");
 		domclass.remove(this.clearbtn.domNode,"prmaxhidden");
@@ -172,6 +189,8 @@ return declare("prcommon2.clippings.edit_private",
 				this.clippingstypeid.set("value", data.clippingstypeid);
 				this.clippingstoneid.set("value", data.clippingstoneid);
 				this.clip_link.set("value",data.clip_link);
+				this.statementid.set("value", data.statementid);
+				this.emailtemplateid.set("value", data.emailtemplateid);
 
 				this._do_swap_view(data.clippingstypeid);
 

@@ -41,6 +41,8 @@ return declare("prcommon2.clippings.edit",
 		this._update_call_back = lang.hitch(this, this._update_call);
 		this._delete_call_back = lang.hitch(this, this._delete_call);
 
+		this._change_client_enabled=true;
+
 	},
 	postCreate:function()
 	{
@@ -108,8 +110,10 @@ return declare("prcommon2.clippings.edit",
 		this.savebtn.cancel();
 		this.deletebtn.cancel();
 		this.clippingid.set("value",clipping.clippingid);
+		this._change_client_enabled = false;
 		this.clientid.set("value", clipping.clientid);
 		this.issueid.set("value", clipping.issueid);
+		this._change_client_enabled = true;
 		this.clippingstoneid.set("value", clipping.clippingstoneid);
 		this.outletid.set("value", clipping.outletid);
 		this.outletid.set("Displayvalue", clipping.outletname);
@@ -143,6 +147,20 @@ return declare("prcommon2.clippings.edit",
 		}
 
 		this.deletebtn.cancel();
+	},
+		_client_change:function()
+	{
+		var clientid = this.clientid.get("value");
+		if (clientid == undefined)
+			clientid = -1;
+
+		this.issueid.set("query",{ clientid: clientid});
+		if (this._change_client_enabled==true)
+		{
+			this.issueid.set("value",null);
+		}
+
+		this._change_client_enabled = true ;
 	}
 });
 });

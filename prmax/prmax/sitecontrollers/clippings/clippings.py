@@ -47,7 +47,6 @@ class ClippingListSchema(RestSchema):
 
 class ClippingPrivateAddSchema(PrFormSchema):
 	clippingid = validators.Int()
-	outletid = validators.Int()
 	clip_source_date = ISODateValidator()
 	clip_article_size = validators.Int()
 	clip_words = validators.Int()
@@ -58,10 +57,13 @@ class ClippingPrivateAddSchema(PrFormSchema):
 	issueid = Int2Null()
 	clippingstypeid = Int2Null()
 	clippingstoneid = Int2Null()
+	statementid = Int2Null()
+	emailtemplateid = Int2Null()
+	outletid = Int2Null()
 
 class ClippingPrivateUpdateSchema(PrFormSchema):
 	clippingid = validators.Int()
-	outletid = validators.Int()
+	outletid = Int2Null()
 	clip_source_date = ISODateValidator()
 	clip_article_size = validators.Int()
 	clip_words = validators.Int()
@@ -70,6 +72,8 @@ class ClippingPrivateUpdateSchema(PrFormSchema):
 	clip_disrate = FloatToIntValidator()
 	clientid = Int2Null()
 	issueid = Int2Null()
+	statementid = Int2Null()
+	emailtemplateid = Int2Null()
 
 class ClippingStartFrame(PrFormSchema):
 	as_frame = Int2Null()
