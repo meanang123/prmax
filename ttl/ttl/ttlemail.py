@@ -546,7 +546,7 @@ class SMTPServerBase(object):
 class SMTPServerGMail(SMTPServerBase):
 	""" handle and send an email to any server
 	"""
-	def __init__(self, username=None, password=None):
+	def __init__(self, username=None, password=None, host=None):
 		"settings"
 
 		SMTPServerBase.__init__(self,
@@ -561,7 +561,7 @@ class SMTPServerGMail(SMTPServerBase):
 class SMTPServerYahoo(SMTPServerBase):
 	""" handle and send an email to any server
 	"""
-	def __init__(self, username, password):
+	def __init__(self, username, password, host=None):
 		"settings"
 
 		SMTPServerBase.__init__(self,
@@ -576,7 +576,7 @@ class SMTPServerYahoo(SMTPServerBase):
 class SMTPServerHotmail(SMTPServerBase):
 	""" handle hot mail
 	"""
-	def __init__(self, username, password):
+	def __init__(self, username, password, host=None):
 		"settings"
 
 		SMTPServerBase.__init__(self,
@@ -591,7 +591,7 @@ class SMTPServerHotmail(SMTPServerBase):
 class SMTPServer1to1(SMTPServerBase):
 	""" handle hot mail
 	"""
-	def __init__(self, username, password):
+	def __init__(self, username, password, host=None):
 		"settings"
 
 		SMTPServerBase.__init__(self,
@@ -604,10 +604,28 @@ class SMTPServer1to1(SMTPServerBase):
 		                        limit=300,
 		                        starttls=True)
 
+class SMTPExchange(SMTPServerBase):
+	""" handle hot mail
+	"""
+	def __init__(self, username, password, host):
+		"settings"
+
+		SMTPServerBase.__init__(self,
+		                        host=host,
+		                        port=25,
+		                        https=True,
+		                        authorise=True,
+		                        username=username,
+		                        password=password,
+		                        limit=300,
+		                        starttls=True)
+
+
 SMTPSERVERBYTYPE = {2: SMTPServerGMail,
                     3: SMTPServerYahoo,
                     4: SMTPServerHotmail,
-                    5: SMTPServer1to1,}
+                    5: SMTPServer1to1,
+                    6: SMTPExchange}
 
 class STMPUsage(object):
 	def __init__(self, limit):

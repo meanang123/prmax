@@ -1,27 +1,27 @@
 <div>
     <form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='"onSubmit":"return false"'>
-        <input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="customerid" data-dojo-props='"class":"prmaxhidden", name:"customerid",type:"text"'/>
-        <table width="100%" class="prmaxtable" >
-            <tr><td align="right"  width="30%" class="prmaxrowtag">From:</td><td><input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="fromemailaddress" data-dojo-props='name:"fromemailaddress",type:"text"'></td></tr>
-
-            <tr><td align="right" width="30%" class="prmaxrowtag">Server Type:</td><td><select data-dojo-props='name:"servertypeid",autoComplete:true,labelType:"html",style:"width:15em"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="servertypeid"></select></td></tr><br/>
-            <tr><td align="right" width="30%" class="prmaxrowtag">Username:</td><td><input data-dojo-props='"class":"prmaxinput",regExpGen:dojox.validate.regexp.emailAddress,trim:true,name:"username",type:"text"' data-dojo-attach-point="username" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
-
-
-            <tr ><td colspan="2">
-                <div data-dojo-type="dojox.form.PasswordValidator" name="password" class="prmaxrowtag" data-dojo-attach-point="password">
-                    <table class="prmaxtable" width="100%" >
-                        <tr><td align="right" width="30%" class="prmaxrowtag">Password:</td><td><input class="prmaxrequired" type="password" pwType="new" /></td></tr>
-                        <tr><td align="right" width="30%" class="prmaxrowtag" >Verify:</td><td><input class="prmaxrequired" type="password" pwType="verify" /></td></tr>
-                    </table>
-                </div>
-            </td></tr>
-
-            <tr><td class="prmaxrowtag" colspan="2" align="left"><button data-dojo-attach-event="onClick:_send_test" data-dojo-attach-point="sendtestbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait...",label:"Set Test Email","class":"btnright"'></button></td></tr>
-            <tr><td class="prmaxrowtag" colspan="2" align="right"><button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright"'></button></td></tr>
-
-        </table></br></br>
-    </form></br></br>
-    
+        <input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="customerid" data-dojo-props='"class":"prmaxhidden", name:"customerid",type:"text"'/>
+        <table width="100%" class="prmaxtable">
+            <tr><td align="right"  width="30%" class="prmaxrowtag">From:</td><td><input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="fromemailaddress" data-dojo-props='pattern:dojox.validate.regexp.emailAddress,required:true,name:"fromemailaddress",type:"text",style:"width:24em",placeHolder:"Email address of Sender"'></td></tr>
+            <tr><td align="right" width="30%" class="prmaxrowtag">Server Type:</td><td><select data-dojo-props='name:"servertypeid",autoComplete:true,labelType:"html",style:"width:10em"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="servertypeid" data-dojo-attach-event="onChange:_server_type"></select></td></tr>
+            <tr><td align="right" width="30%" class="prmaxrowtag">Username:</td><td><input data-dojo-props='"class":"prmaxinput",trim:true,name:"username",type:"text",required:true,placeHolder:"Email server login name"' data-dojo-attach-point="username" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
+			<tr data-dojo-attach-point="url_view" class="prmaxhidden"><td align="right" width="30%" class="prmaxrowtag">Host:</td><td><input data-dojo-props='"class":"prmaxinput",pattern:dojox.validate.regexp.url,trim:true,name:"host",type:"text",required:false' data-dojo-attach-point="host" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
+            <tr>
+				<td colspan="2">
+					<div data-dojo-type="dojox.form.PasswordValidator" name="password" class="prmaxrowtag" data-dojo-attach-point="password">
+						<table class="prmaxtable" width="100%" >
+                        	<tr><td align="right" width="31%" class="prmaxrowtag">Password:</td><td><input class="prmaxrequired" type="password" pwType="new" /></td></tr>
+							<tr><td align="right" width="31%" class="prmaxrowtag" >Verify:</td><td><input class="prmaxrequired" type="password" pwType="verify" /></td></tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			<tr><td><br/></td></tr>
+            <tr>
+				<td class="prmaxrowtag" align="left"><button data-dojo-attach-event="onClick:_send_test" data-dojo-attach-point="sendtestbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait...",label:"Send Test Email",iconClass:"fa fa-paper-plane fa-2x"'></button></td>
+            	<td class="prmaxrowtag" colspan="2" align="right"><button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Save",iconClass:"fa fa-floppy-o fa-2x"'></button></td>
+            </tr>
+        </table>
+    </form>
 </div>
 

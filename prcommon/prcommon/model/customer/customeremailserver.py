@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------------
 # Name:        customeremailserver.py
 # Purpose:
-# Author:      
+# Author:
 # Created:     July 2017
 # Copyright:   (c) 2017
 #-----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class CustomerEmailServer(BaseSql):
 	@staticmethod
 	def get_list(cls, params):
 		""" list of email servers for a customer """
-		
+
 		def _convert(data):
 			""""local convert"""
 			return dict(
@@ -47,7 +47,7 @@ class CustomerEmailServer(BaseSql):
 		         filter(CustomerEmailServer.customerid == params['customerid']). \
 		         order_by( CustomerEmailServer.fromemailaddress).all()]
 
-	
+
 	@classmethod
 	def add(cls, params):
 		""" add a new fromemailaddress record """
@@ -58,6 +58,7 @@ class CustomerEmailServer(BaseSql):
 		        fromemailaddress=params["fromemailaddress"],
 		        customerid=params["customerid"],
 		        servertypeid=params["servertypeid"],
+			    host=params["host"],
 		        username=cryptengine.aes_encrypt(params["username"]),
 		        password=cryptengine.aes_encrypt(params["password"]))
 			session.add(customeremailserver)
@@ -71,15 +72,15 @@ class CustomerEmailServer(BaseSql):
 
 	@classmethod
 	def get(cls, customeremailserverid):
-		
+
 		return CustomerEmailServer.query.get(customeremailserverid);
-		
+
 #			customeremailaddress = session.query(CustomerEmailServer).\
 #			    filter(CustomerEmailServer.customerid == customeremailserver.customerid). \
 #			    filter(CustomerEmailServer.fromemailaddress == customeremailserver.fromemailaddress).scalar()
-#			return dict(customeremailserver=customeremailserver)		
+#			return dict(customeremailserver=customeremailserver)
 
-	
+
 CustomerEmailServer.mapping = Table('customeremailserver', metadata, autoload=True, schema="public")
 
 mapper(CustomerEmailServer, CustomerEmailServer.mapping)

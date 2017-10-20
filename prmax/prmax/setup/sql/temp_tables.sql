@@ -757,3 +757,7 @@ ALTER TABLE userdata.clippings ADD COLUMN statementid integer;
 ALTER TABLE userdata.clippings ADD FOREIGN KEY (statementid) REFERENCES userdata.statements (statementid) ON UPDATE NO ACTION ON DELETE SET NULL;
 
 ALTER TABLE tg_user ADD COLUMN ccaddresses character varying(255);
+
+ALTER TABLE customeremailserver ADD COLUMN host character varying;
+
+INSERT INTO internal.servertypes(servertypeid, servertypename) VALUES (6, 'Exchange Server');

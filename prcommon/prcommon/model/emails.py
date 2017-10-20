@@ -39,11 +39,8 @@ from prcommon.lib.distribution import MailMerge
 import prcommon.Constants as Constants
 from prcommon.lib.bouncedemails import AnalysisMessage
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
-from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
-cryptengine = CryptyInfo(Constants.KEY1)
-
-cryptengine = CryptyInfo(Constants.KEY1)
+CRYPTENGINE = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
 
 class EmailQueue(BaseSql):
@@ -985,46 +982,48 @@ class EmailTemplates(BaseSql):
 	def test_email_server(cls, params):
 		""" send a test email """
 
-		email = EmailMessage(params['fromemailaddress'],
-		                      'support@prmax.co.uk',
-		                      'Email Account Verification',
-		                      'The email account %s has been verified.' %(params['fromemailaddress']),
-		                      "text/html"
-							 )
-		email.BuildMessage()
+		emailmessaage = EmailMessage(params['fromemailaddress'],
+		                             'support@prmax.co.uk',
+		                             'Email Account Verification',
+		                             'The email account %s has been verified.' %(params['fromemailaddress']),
+		                             "text/html"
+		                             )
+		emailmessaage.BuildMessage()
 
 		if int(params['host']) in SMTPSERVERBYTYPE:
 			emailserver = SMTPSERVERBYTYPE[int(params['host'])](
 				username=params["username"],
-				password=params["password"])
+				password=params["password"],
+			    host=params["hostname"])
 			sender = params['fromemailaddress']
-			emailserver.send(email, sender)
+			emailserver.send(emailmessaage, sender)
 
 	@classmethod
 	def resend(cls, params):
-		"""  """
+		"""  Resent an press release"""
 		transaction = BaseSql.sa_get_active_transaction()
 		try:
 			ces = CustomerEmailServer.get(params['customeremailserverid'])
 			emailtemplate = EmailTemplates.query.get(params['emailtemplateid'])
 
-			email = EmailMessage(ces.fromemailaddress,
+			emailmessaage = EmailMessage(ces.fromemailaddress,
 			                     params['toemailaddress'],
 			                     emailtemplate.subject,
 			                     DBCompress.decode(emailtemplate.emailtemplatecontent),
 			                     "text/html"
 			                     )
-			email.BuildMessage()
+			emailmessaage.BuildMessage()
 
 			if ces.servertypeid in SMTPSERVERBYTYPE:
 				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](
-				    username=cryptengine.aes_decrypt(ces.username),
-				    password=cryptengine.aes_decrypt(ces.password))
+				    username=CRYPTENGINE.aes_decrypt(ces.username),
+				    password=CRYPTENGINE.aes_decrypt(ces.password),
+				    host=ces.host)
 				sender = ces.fromemailaddress
 
-				(error, statusid) = emailserver.send(email, sender)
+				(error, statusid) = emailserver.send(emailmessaage, sender)
 				if not statusid:
-					raise Exception("Problem Sending Email")	
+					raise Exception("Problem Sending Email")
 		except:
 			transaction.rollback()
 			LOGGER.exception("resend emailtemplate")
