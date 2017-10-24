@@ -38,7 +38,7 @@
 	</script>
 	<script type="text/javascript" src="/dojo1/dojo/dojo.js?version=${prmax['dojoversion']}"></script>
 % else:
-	<script type="text/javascript" src="/dojo1/dojo/dojo.js?version=${prmax['dojoversion']}" data-dojo-config="isDebug:false, parseOnLoad:false, async:true, cacheBust:true"></script>
+	<script type="text/javascript" src="/dojo1/dojo/dojo.js?version=${prmax['dojoversion']}" data-dojo-config="locale:'en-gb',isDebug:false, parseOnLoad:false, async:true, cacheBust:true"></script>
 % endif
 	<script type="text/javascript" >
 	PRMAX = {};
