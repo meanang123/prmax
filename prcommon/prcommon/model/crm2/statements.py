@@ -44,7 +44,7 @@ from prcommon.model.customer.customeremailserver import CustomerEmailServer
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
 
-cryptengine = CryptyInfo(Constants.KEY1)
+CRYPTENGINE = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon")
 
 
@@ -253,8 +253,9 @@ class Statements(BaseSql):
 
 			if ces.servertypeid in SMTPSERVERBYTYPE:
 				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](
-				    username=cryptengine.aes_decrypt(ces.username),
-				    password=cryptengine.aes_decrypt(ces.password))
+				    username=CRYPTENGINE.aes_decrypt(ces.username),
+				    password=CRYPTENGINE.aes_decrypt(ces.password),
+					host=ces.host)
 				sender = ces.fromemailaddress
 
 				(error, statusid) = emailserver.send(email, sender)

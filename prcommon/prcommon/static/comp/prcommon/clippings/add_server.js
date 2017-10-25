@@ -73,13 +73,21 @@ dojo.declare("prcommon.clippings.add_server",
 	_send_test:function()
 	{
 
+		if (ttl.utilities.formValidator( this.form ) == false )
+		{
+			alert("Please Enter Details");
+			this.sendtestbtn.cancel();
+			return false;
+		}
+		
 		var data = {};
 		data['customerid'] = this._customerid;
 		data['fromemailaddress'] = this.fromemailaddress.get("value");
 		data['host'] = this.servertypeid.get("value");
-		data['hostname'] = this.servertypeid.get("name");
+//		data['hostname'] = this.servertypeid.get("name");
 		data['username'] = this.username.get("value");
 		data['password'] = this.password.value;
+		data['hostname'] = this.host.get("value");
 
 		dojo.xhrPost(
 					ttl.utilities.makeParams({
@@ -102,6 +110,24 @@ dojo.declare("prcommon.clippings.add_server",
 		}
 		this.sendtestbtn.cancel();
 	},	
-	
+	_server_type:function()
+	{
+		this._change_view();
+	},
+	_change_view:function()
+	{
+		var sid = parseInt(this.servertypeid.get("value"));
+
+		if (sid == 6)
+		{
+			dojo.removeClass(this.url_view,"prmaxhidden");
+			this.host.set("required",true);
+		}
+		else
+		{
+			dojo.addClass(this.url_view,"prmaxhidden");
+			this.host.set("required",false);
+		}
+	}	
 	
 });

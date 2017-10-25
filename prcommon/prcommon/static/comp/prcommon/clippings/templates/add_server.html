@@ -1,12 +1,11 @@
 <div>
-
     <form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='"onSubmit":"return false"'>
-        <input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="customerid" data-dojo-props='"class":"prmaxhidden", name:"customerid",type:"text"'/>
+        <input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="customerid" data-dojo-props='"class":"prmaxhidden", name:"customerid",type:"text"'/>
         <table width="100%" class="prmaxtable" >
             <tr><td align="right"  width="30%" class="prmaxrowtag">From:</td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="fromemailaddress" data-dojo-props='name:"fromemailaddress",type:"text"'></td></tr>
-
-            <tr><td align="right" width="30%" class="prmaxrowtag">Server Type:</td><td><select data-dojo-props='name:"servertypeid",autoComplete:true,labelType:"html",style:"width:15em"' data-dojo-type="dijit.form.Select" data-dojo-attach-point="servertypeid"></select></td></tr><br/>
-            <tr><td align="right" width="30%" class="prmaxrowtag">Username:</td><td><input data-dojo-props='"class":"prmaxinput",regExpGen:dojox.validate.regexp.emailAddress,trim:true,name:"username",type:"text"' data-dojo-attach-point="username" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
+            <tr><td align="right" width="30%" class="prmaxrowtag">Server Type:</td><td><select data-dojo-props='name:"servertypeid",autoComplete:true,labelType:"html",style:"width:15em"' data-dojo-type="dijit.form.Select" data-dojo-attach-point="servertypeid" data-dojo-attach-event="onChange:_server_type"></select></td></tr><br/>
+            <tr><td align="right" width="30%" class="prmaxrowtag">Username:</td><td><input data-dojo-props='"class":"prmaxinput",trim:true,name:"username",type:"text",required:true,placeHolder:"Email server login name"' data-dojo-attach-point="username" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
+            <tr data-dojo-attach-point="url_view" class="prmaxhidden"><td align="right" width="30%" class="prmaxrowtag">Host:</td><td><input data-dojo-props='"class":"prmaxinput",pattern:dojox.validate.regexp.url,trim:true,name:"host",type:"text",required:false' data-dojo-attach-point="host" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
 
             <tr ><td colspan="2">
                 <div data-dojo-type="dojox.form.PasswordValidator" name="password" class="prmaxrowtag" data-dojo-attach-point="password">

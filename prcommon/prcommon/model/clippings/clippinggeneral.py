@@ -252,7 +252,7 @@ class ClippingsGeneral(object):
 			outletname = ""
 		clippingstatus = ClippingStatus.query.get(clipping.clippingsstatusid)
 		if clipping.clientid:
-			clientname = session.query(Client).filter(Client.clientid == clipping.clientid).scalar()
+			clientname = session.query(Client.clientname).filter(Client.clientid == clipping.clientid).scalar()
 		else:
 			clientname = ""
 

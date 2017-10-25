@@ -21,7 +21,7 @@ from prcommon.model.client import Client
 from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
-cryptengine = CryptyInfo(Constants.KEY1)
+CRYPTENGINE  = CryptyInfo(Constants.KEY1)
 
 LOGGER = logging.getLogger("prcommon")
 
@@ -100,8 +100,9 @@ class ClippingSelectionSend(object):
 	
 			if int(servertype) in SMTPSERVERBYTYPE:
 				emailserver = SMTPSERVERBYTYPE[int(customeremailserver.servertypeid)](
-					username=cryptengine.aes_decrypt(customeremailserver.username),
-					password=cryptengine.aes_decrypt(customeremailserver.password))
+				    username=CRYPTENGINE.aes_decrypt(customeremailserver.username),
+				    password=CRYPTENGINE.aes_decrypt(customeremailserver.password),
+					host=customeremailserver.host)
 				sender = fromemailaddress
 				emailserver.send(email, sender)
 

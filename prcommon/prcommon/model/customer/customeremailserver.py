@@ -17,7 +17,7 @@ import prcommon.Constants as Constants
 import logging
 LOG = logging.getLogger("prcommon")
 
-cryptengine = CryptyInfo(Constants.KEY1)
+CRYPTENGINE = CryptyInfo(Constants.KEY1)
 
 class CustomerEmailServer(BaseSql):
 	""" customeremailserver table"""
@@ -59,8 +59,8 @@ class CustomerEmailServer(BaseSql):
 		        customerid=params["customerid"],
 		        servertypeid=params["servertypeid"],
 			    host=params["host"],
-		        username=cryptengine.aes_encrypt(params["username"]),
-		        password=cryptengine.aes_encrypt(params["password"]))
+		        username=CRYPTENGINE.aes_encrypt(params["username"]),
+		        password=CRYPTENGINE.aes_encrypt(params["password"]))
 			session.add(customeremailserver)
 			session.flush()
 			transaction.commit()

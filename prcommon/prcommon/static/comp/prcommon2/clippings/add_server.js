@@ -90,7 +90,7 @@ define([
 		data['customerid'] = this._customerid;
 		data['fromemailaddress'] = this.fromemailaddress.get("value");
 		data['host'] = this.servertypeid.get("value");
-		data['hostname'] = this.servertypeid.get("name");
+//		data['hostname'] = this.servertypeid.get("name");
 		data['username'] = this.username.get("value");
 		data['password'] = this.password.get("value");
 		data['hostname'] = this.host.get("value");
