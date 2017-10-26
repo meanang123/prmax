@@ -1,0 +1,62 @@
+<div class="stdbanner background_color" >
+	<div style="height:54px;width:250px;float:left" class="background_color"></div>
+	<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop adapt_toolbar",style:"height:84px;width:62%;float:left;padding:0px;margin:0px;overflow:hidden"'>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_start_up" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-home fa-2x"></i><p>Home</p></span></span>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_ShowSearchStd" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-search fa-2x"></i><p>Search</p></span></span>
+		</div>
+		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-bar-chart fa-2x"></i><p>Results</p></span></span>
+			<div data-dojo-type="dijit.Menu">
+			    <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Outlets"' data-dojo-attach-event="onClick:_ShowResultList" ></div>
+			    <div data-dojo-attach-point="advance_view" data-dojo-type="dijit.MenuItem" data-dojo-props='"class":"prmaxhidden",label:"Features"' data-dojo-attach-event="onClick:_ShowAdvanceResult" ></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_crm_viewer" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-user fa-2x"></i><p>Engagements</p></span></span>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:ShowListsPage" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-list-ul fa-2x"></i><p>Lists</p></span></span>
+		</div>
+		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='showLabel:true' data-dojo-attach-point="distribution_menu" >
+			<span><span class="main_menu_button"><i class="fa fa-share-square-o fa-2x"></i><p>Distribute</p></span></span>
+			<div data-dojo-type="dijit.Menu">
+			    <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"New"' data-dojo-attach-event="onClick:ShowNewPressRelease" ></div>
+			    <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Drafts"' data-dojo-attach-event="onClick:ShowExistingPressRelease" ></div>
+					<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Sent"' data-dojo-attach-event="onClick:ShowSentDistributions" ></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-lock fa-2x"></i><p>Private</p></span></span>
+			<div data-dojo-type="dijit.Menu">
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"New Outlet"' data-dojo-attach-event="onClick:_Outlet" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"New Freelance"' data-dojo-attach-event="onClick:_Freelance" ></div>
+				<div data-dojo-type="dijit.MenuSeparator" ></div>
+				<div data-dojo-attach-point="tag_menu" data-dojo-type="dijit.MenuItem" data-dojo-props='"class":"prmaxhidden",label:"Tags"' data-dojo-attach-event="onClick:_Tags" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Collateral"' data-dojo-attach-event="onClick:_Collateral" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Exclusions"' data-dojo-attach-event="onClick:_ExclusionList" ></div>
+				<div data-dojo-attach-point="clients" data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Clients"' data-dojo-attach-event="onClick:_Clients" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Issues"' data-dojo-attach-event="onClick:_issues" data-dojo-attach-point="banner_issue_label"></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Statements"' data-dojo-attach-event="onClick:_statements"></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Questions"' data-dojo-attach-event="onClick:_question"></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Global Analysis"' data-dojo-attach-event="onClick:_global_analysis_questions"></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Documents"' data-dojo-attach-event="onClick:_show_documents_view" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Release Templates","class":"prmaxhidden"' data-dojo-attach-event="onClick:_release_templates" data-dojo-attach-point="distribution_template_menu"></div>
+				<div data-dojo-type="dijit.MenuSeparator" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"User Preferences"' data-dojo-attach-event="onClick:_Preferences" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Account Details"' data-dojo-attach-event="onClick:_Customers" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='"disabled":"disabled",label:"User Admin"' data-dojo-attach-event="onClick:_UserAdmin" data-dojo-attach-point="useradmin" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='"disabled":"disabled",label:"Financial"' data-dojo-attach-event="onClick:_Financial" data-dojo-attach-point="financial" ></div>
+				<div data-dojo-type="dijit.MenuSeparator" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"PRRequests"' data-dojo-attach-event="onClick:_pprrequest"></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Help" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-question fa-2x"></i><p>Help</p></span></span>
+		</div>
+	</div>
+	<div data-dojo-props='style:"background-color:#3397B9"' data-dojo-type="prmax.pressrelease.newrelease" data-dojo-attach-point="newrelease"></div>
+	<div data-dojo-type="prmax.pressrelease.selectrelease" data-dojo-attach-point="selectrelease"></div>
+</div>

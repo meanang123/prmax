@@ -156,12 +156,13 @@ CustomerType_Professional = 20
 CustomerType_LevelCert 	 	= 21
 CustomerType_StereoTribes = 22
 CustomerType_PressData = 23
+CustomerType_PressDataOffice = 24
 
 Customer_Has_Private_Data = (
   CustomerType_PRmax, CustomerType_NewsLive, CustomerType_Updatum,   CustomerType_Fens, CustomerType_KantarMedia, \
-  CustomerType_BlueBoo, CustomerType_PressData)
+  CustomerType_BlueBoo, CustomerType_PressData, CustomerType_PressDataOffice)
 
-Customer_Token_Login = (CustomerType_AIMedia, CustomerType_KantarMedia, CustomerType_StereoTribes, CustomerType_PressData)
+Customer_Token_Login = (CustomerType_AIMedia, CustomerType_KantarMedia, CustomerType_StereoTribes, CustomerType_PressData, CustomerType_PressDataOffice)
 
 
 Customer_Is_Partner = (CustomerType_AIMedia, CustomerType_NewsLive,

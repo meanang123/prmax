@@ -761,3 +761,7 @@ ALTER TABLE tg_user ADD COLUMN ccaddresses character varying(255);
 ALTER TABLE customeremailserver ADD COLUMN host character varying;
 
 INSERT INTO internal.servertypes(servertypeid, servertypename) VALUES (6, 'Exchange Server');
+
+INSERT INTO internal.customersources( customersourceid, customersourcedescription) VALUES(14,'PressData');
+INSERT INTO internal.customertypes(customertypeid,customertypename,customersourceid) VALUES(24,'PressData Office',14);
+UPDATE internal.customertypes SET customersourceid = 14 WHERE  customertypeid = 23 ;

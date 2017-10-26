@@ -265,7 +265,7 @@ class User(BaseSql):
 		   crm_outcome=customer.crm_outcome,
 		   crm_subject=customer.crm_subject,
 		   ccaddresses=user.ccaddresses
-		   
+
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
@@ -297,7 +297,7 @@ class User(BaseSql):
 		client_name = self.client_name if self.client_name else "Client"
 		issue_description = self.issue_description if self.issue_description else "Issue"
 		user = session.query(User).filter(User.user_id == self.user_id).scalar()
-		
+
 		data = dict(
 		  autoselectfirstrecord=self.autoselectfirstrecord,
 			 showmenubartext=self.showmenubartext,
@@ -2233,6 +2233,7 @@ class Customer(BaseSql):
 	  Constants.CustomerType_LevelCert: 'prmax.templates.start_levelcert',
 	  Constants.CustomerType_StereoTribes: 'prmax.templates.start_stereotribes',
 	  Constants.CustomerType_PressData: 'prmax.templates.start_pressdata',
+	  Constants.CustomerType_PressDataOffice: 'prmax.templates.start_pressdataoffice',
 	}
 
 	def get_start_point(self):
