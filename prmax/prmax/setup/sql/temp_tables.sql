@@ -765,3 +765,6 @@ INSERT INTO internal.servertypes(servertypeid, servertypename) VALUES (6, 'Excha
 INSERT INTO internal.customersources( customersourceid, customersourcedescription) VALUES(14,'PressData');
 INSERT INTO internal.customertypes(customertypeid,customertypename,customersourceid) VALUES(24,'PressData Office',14);
 UPDATE internal.customertypes SET customersourceid = 14 WHERE  customertypeid = 23 ;
+
+ALTER TABLE userdata.statements ADD COLUMN created date NOT NULL DEFAULT CURRENT_DATE;
+
