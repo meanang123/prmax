@@ -360,6 +360,28 @@ class Contact(BaseSql):
 			LOGGER.exception("research_contact_delete")
 			raise
 
+
+	@classmethod
+	def research_merge_contacts(cls, params):
+		"""Merge contacts and delete the source contact"""
+
+		transaction = cls.sa_get_active_transaction()
+		try:
+			contact = Contact.query.get(params["contactid"])
+			sourcecontact = Contact.query.get(params['sourcecontactid'])
+
+			session.execute(text("UPDATE employees SET contactid = :contactid WHERE contactid = :sourcecontactid" ), params, Contact)
+			session.execute(text("UPDATE userdata.contacthistory SET contactid = :contactid WHERE contactid = :sourcecontactid" ), params, Contact)
+			session.execute(text("DELETE from contacts WHERE contactid = :sourcecontactid" ), params, Contact)
+
+			transaction.commit()
+			session.expunge_all()
+
+		except:
+			LOGGER.exception("research_merge_contacts")
+			transaction.rollback()
+			raise
+
 	@classmethod
 	def getContactExt( cls, contactid ) :
 		""" get the extended details of a contact """
@@ -474,6 +496,7 @@ class Contact(BaseSql):
 	LEFT OUTER JOIN internal.countries AS c ON c.countryid = o.countryid
 
 	WHERE  e.contactid = :contactid AND e.customerid=-1
+	AND e.sourcetypeid in (1,2,3)
 	ORDER BY %s %s
 	LIMIT :count OFFSET :start"""
 

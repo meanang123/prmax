@@ -62,10 +62,9 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 			this.whereused_loaded = true;
 			this.whereused.setQuery( ttl.utilities.getPreventCache({employeeid:this.employeeid}));
 		}
-		if (button.id==this.resendview.id && this.resend_loaded==false)
+		if (button.id==this.resendview.id)
 		{
 			this.resendctrl.Load(this._contactemail);
-			this.resend_loaded = true ;
 		}
 		if (button.id==this.crmview.id && this.crm_loaded==false)
 		{
@@ -115,8 +114,6 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		{
 			dojo.attr(this.employee_display_twitter,"href",response.employee.twitter);
 			dojo.attr(this.employee_display_twitter,"innerHTML",response.employee.twitter);
-			this.resendctrl.set("toemailaddress",response.employee.twitter);
-			dojo.style(this.resendview.controlButton.domNode,"display","");
 			dojo.removeClass(this.employee_display_twitter_row,"prmaxhidden");
 		}
 		else

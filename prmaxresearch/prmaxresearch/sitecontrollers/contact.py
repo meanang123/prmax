@@ -141,3 +141,16 @@ class ContactController(SecureController):
 		Contact.research_delete(params)
 
 		return stdreturn(contact=contact)
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrContactFormSchema(), state_factory=std_state_factory)
+	@identity.require(identity.in_group("dataadmin"))
+	def research_merge(self, *argv, **params):
+		""" merge contacts"""
+
+		params['customerid'] = -1
+		Contact.research_merge_contacts(params)
+
+		return stdreturn(contact=Contact.getContactExt(int(params['contactid'])))

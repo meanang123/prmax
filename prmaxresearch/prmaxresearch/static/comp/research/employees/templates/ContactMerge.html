@@ -1,0 +1,14 @@
+<div>
+	<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" onsubmit="return false;">
+		<table style="width:100%" class="prmaxtable" cellspacing="0" cellpadding="0">
+
+			<tr><td class="prmaxrowtag">Source</td><td>
+				<select data-dojo-attach-point="contactlist" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"newcontactid",autoComplete:false,searchAttr:"contactname",labelAttr:"contactname",pageSize:20,labelType:"html",	style:"width:20em"'></select></td></tr>
+			<tr><td width="110px" class="prmaxrowtag">Destination</td><td data-dojo-attach-point="destination_details"></td></tr>
+			<tr><td><br/></td></tr>
+			<tr>
+				<td ><button data-dojo-props='type:"button", label:"Close"' data-dojo-attach-event="onClick:_do_close" data-dojo-type="dijit/form/Button"></button></td>
+				<td align="right" ><button data-dojo-attach-point="mergebtn" data-dojo-props='type:"submit", label:"Merge Contacts",busyLabel:"Please Wait ..."' data-dojo-attach-event="onClick:_do_merge" data-dojo-type="dojox/form/BusyButton"></button></td></tr>
+		</table>
+	</form>
+</div>

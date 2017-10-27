@@ -43,7 +43,8 @@ define([
 	"research/outlets/OutletDesks",
 	"research/outlets/OutletMoveContact",
 	"research/outlets/OutletCopyContact",
-	"research/employees/EmployeeMerge"
+	"research/employees/EmployeeMerge",
+	"research/employees/ContactMerge",
 	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, request, utilities2, json, ItemFileReadStore,lang,topic, domattr, domclass){
  return declare("research.outlets.OutletEdit",
 	[BaseWidgetAMD,BorderContainer],{

@@ -31,8 +31,9 @@ define([
 	"dojox/data/JsonRestStore",
 	"dijit/form/RadioButton",
 	"dijit/form/FilteringSelect",
-	"research/employees/PersonNew"
-	
+	"research/employees/PersonNew",
+	"research/employees/PersonEdit",
+	"research/employees/ContactMerge",
 	], function(declare, BaseWidgetAMD, template, json, request, utilities2, JsonRest, Observable, lang, topic, Grid, domattr, domclass ){
  return declare("prcommon2.contact.ConctactSelect",
 	[BaseWidgetAMD],{
@@ -46,11 +47,17 @@ define([
 		this._selected_call_back = null;
 
 		this.model = new Observable( new JsonRest( {target:'/research/admin/contacts/research_contactlist', idProperty:"contactid"}));
+		this.people_employee_model = new JsonRest({target:'/research/admin/contacts/research_contact_employee', idProperty:"employeesid"});
+
+		topic.subscribe(PRCOMMON.Events.Person_Added,lang.hitch(this, this._add_event));
+		topic.subscribe(PRCOMMON.Events.Person_Delete, lang.hitch(this,this._person_delete_event));
+		topic.subscribe('contacts/merge_contact', lang.hitch(this,this._person_merge_event));
 	},
 	postCreate:function()
 	{
 		var cells =
 		[
+			{label: " ", className:"grid-field-icon-view",formatter:utilities2.format_row_ctrl},
 			{label: 'Id',className:"dgrid-column-nbr-right", field:"contactid"},
 			{label: 'Contact',className:"standard", field:"contactname"},
 			{label: 'Source',className:"dgrid-column-status-small", field:"sourcename"}
@@ -63,14 +70,13 @@ define([
 		});
 
 		this.people_grid_view.set("content", this.people_grid);
-		this.people_grid.on("dgrid-select", dojo.hitch(this,this._on_cell_call));
+		this.people_grid.on(".dgrid-cell:click", lang.hitch(this,this._on_cell_call));
 
 		this.inherited(arguments);
 	},
 	_setValueAttr:function( value)
 	{
 		this._contactid = value ;
-		this._set_view();
 	},
 	_setDisplayvalueAttr:function( value)
 	{
@@ -93,7 +99,6 @@ define([
 	{
 		this._contactid = null;
 		domattr.set(this.display,"innerHTML","");
-		this._set_view();
 	},
 	_close:function()
 	{
@@ -109,23 +114,59 @@ define([
 			query["contactid"] = this.filter_personid.get("value");
 
 		this.people_grid.set("query", query);
-		
-		throw "N" ;
+		this.searchbutton.cancel();
 	},
 	_on_cell_call:function (e )
 	{
-		var contact = e.rows[0].data;
-		if ( contact && this._selected_call_back)
+		var cell = this.people_grid.cell(e);
+		this._contact = cell.row.data;
+		if (cell.column.id == 0)
 		{
-			this._selected_call_back(contact);
-			this.select_dlg.hide();
-			this._set_view();
+			this.person_edit_ctrl.load( this.person_edit_dlg, this._contact.contactid, this._contact.contactname);
+			this.person_edit_dlg.show();
+		}
+		else
+		{
+			if ( this._contact && this._selected_call_back)
+			{
+				this._selected_call_back(this._contact);
+				this.select_dlg.hide();
+			}
 		}
 	},
 	_setCallbackAttr:function(func)
 	{
 		this._selected_call_back = func;
-	}
+	},
+	_add_contact:function( )
+	{
+		this.person_add_ctrl.clear();
+		this.person_add_dlg.show();
+	},
+	_add_event:function ( contact )
+	{
+		this.model.add(contact);
+		this.person_add_dlg.hide();
+	},
+	_close_person_info:function()
+	{
+		this.person_info_dlg.hide();
+	},
+	_delete_contact:function()
+	{
+		this.person_delete_ctrl.load( this._contact.contactid, this._contact.contactname );
+		this.person_delete_dlg.show();
+	},
+	_person_delete_event:function ( contact )
+	{
+		this.model.remove ( contact.contactid);
+		this._search();
+	},
+	_person_merge_event:function ( contact )
+	{
+		this.model.remove ( contact.sourcecontactid);
+		this._search();
+	},
 });
 });
 

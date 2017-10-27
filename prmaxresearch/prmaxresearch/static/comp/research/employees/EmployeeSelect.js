@@ -24,7 +24,8 @@ define([
 	"dijit/form/FilteringSelect",
 	"dijit/form/Button",
 	"research/employees/PersonNew",
-	"prcommon2/contact/ContactSelect"
+	"prcommon2/contact/ContactSelect",
+	"research/employees/ContactMerge",
 	], function(declare, BaseWidgetAMD, template, request, utilities2, json, lang, topic, JsonRestStore, Observable, domattr ,domclass){
  return declare("research.employees.EmployeeSelect",
 	[BaseWidgetAMD],{
@@ -44,9 +45,7 @@ define([
 		this.contactlist.set("store",this.contactstore );
 		domattr.set(this.nocontactlabel,'for',this.nocontactnode.id);
 		domattr.set(this.selectcontactlabel, 'for', this.selectcontactnode.id);
-		this.addcontactcontrol.set("callback", lang.hitch(this, this._update_after_add ));
 		this.selectContactId.set("callback", lang.hitch(this, this._selected_from_extended));
-		this.addcontactcontrol.disabled( true );
 		if ( this.mustexists==true )
 		{
 			domclass.add(this.select_view,"prmaxhidden");
@@ -54,11 +53,6 @@ define([
 			domclass.add(this.displayname_ctrl,"prmaxhidden");
 			domclass.add(this.contactlist.domNode,"prmaxrequired");
 		}
-
-		if (this.nonew == true )
-			domclass.add(this.newbutton.domNode,"prmaxhidden");
-
-
 		if ( this.required == true )
 		{
 			domclass.add(this.contactlist.domNode,"prmaxrequired");
@@ -124,7 +118,6 @@ define([
 	{
 		this.contactlist.set("value",null);
 		this._shopadd = false;
-		this._add_contact_show();
 	},
 	_contact_mode_no_contact:function()
 	{
@@ -146,27 +139,8 @@ define([
 
 		this.contactlist.set("disabled" , mode);
 		this._shopadd = false;
-		this._add_contact_show( );
 	},
-	_add_contact_show:function( )
-	{
-		if (this._shopadd == false )
-		{
-			domclass.remove(this.addcontactform, "prmaxvisible");
-			domclass.add(this.addcontactform, "prmaxhidden");
-			this.addcontactcontrol.disabled( true );
-			 this._shopadd = true;
-		}
-		else
-		{
-			domclass.remove(this.addcontactform, "prmaxhidden");
-			domclass.add(this.addcontactform, "prmaxvisible");
-			this.addcontactcontrol.disabled( false );
-			this.addcontactcontrol.focus();
-			 this._shopadd = false;
-		}
-	},
-	_update_after_add:function(  contact )
+	_update_after_add:function(contact)
 	{
 		this.contactlist.set("value",contact.contactid);
 		this._shopadd = false;
@@ -175,6 +149,6 @@ define([
 	_selected_from_extended:function(contact)
 	{
 		this.contactlist.set("value",contact.contactid);
-	}
+	},
 });
 });

@@ -31,7 +31,9 @@
 							<tr><td align="right" class="prmaxrowtag">Surname</td><td><input data-dojo-attach-point="familyname" data-dojo-props='"class":"prmaxrequired", name:"familyname", type:"text", trim:true, required:"true",style:"width: 12em"' data-dojo-type="dijit/form/ValidationTextBox" ></input></td></tr>
 							<tr><td align="right" class="prmaxrowtag">Middle</td><td><input data-dojo-attach-point="middlename" data-dojo-props='name:"middlename", type:"text", trim:true,style:"width: 12em"' data-dojo-type="dijit/form/ValidationTextBox" ></input></td></tr>
 							<tr><td align="right" class="prmaxrowtag" >Reason Code</td><td ><select data-dojo-attach-point="reasoncodeid" data-dojo-props='searchAtt:"name",labelType:"html",style:"width:98%","class":"prmaxrequired",name:"reasoncodeid"' data-dojo-type ="dijit/form/FilteringSelect" /></td></tr>
-							<tr><td align="left" ><button data-dojo-attach-point="deletebtn" data-dojo-attach-event="onClick:_delete_contact" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Delete"'></button></td><td align="right" valign="bottom" ><button data-dojo-attach-event="onClick:_update_contact" data-dojo-attach-point="updatenode" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Update"' data-dojo-type="dojox/form/BusyButton" ></button></td></tr>
+							<tr><td align="left" ><button data-dojo-attach-point="deletebtn" data-dojo-attach-event="onClick:_delete_contact" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Delete"'></button></td>
+								<td align="right" valign="bottom" ><button data-dojo-attach-event="onClick:_update_contact" data-dojo-attach-point="updatenode" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Update"' data-dojo-type="dojox/form/BusyButton" ></button></td>
+								<td align="right" valign="bottom" ><button data-dojo-attach-event="onClick:_merge_contact" data-dojo-attach-point="mergenode" data-dojo-props='type:"button",label:"Merge"' data-dojo-type="dijit/form/Button" ></button></td></tr>
 						</table>
 					</form>
 				</div>
@@ -45,6 +47,9 @@
 	</div>
 	<div data-dojo-attach-point="person_delete_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Delete Person"'>
 		<div data-dojo-attach-point="person_delete_ctrl" data-dojo-type="research/employees/PersonDelete" style="width:400px;height:200px"></div>
+	</div>
+	<div data-dojo-attach-point="contact_merge_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title :"Merge selected Contact to"'>
+		<div data-dojo-attach-point="contact_merge_ctrl" data-dojo-type="research/employees/ContactMerge"></div>
 	</div>
 </div>
 

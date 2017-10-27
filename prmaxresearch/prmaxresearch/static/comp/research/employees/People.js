@@ -36,7 +36,8 @@ define([
 	"dijit/form/Form",
 	"research/employees/PersonNew",
 	"research/employees/PersonDelete",
-	"research/audit/AuditViewer"
+	"research/audit/AuditViewer",
+	"research/employees/ContactMerge",
 	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Cache, Observable, Memory, request, utilities2, json,  lang, topic, domattr, domclass ){
  return declare("research.employees.People",
 	[BaseWidgetAMD,BorderContainer],{
@@ -54,6 +55,8 @@ define([
 		topic.subscribe(PRCOMMON.Events.Person_Added, lang.hitch(this,this._person_add_event));
 		topic.subscribe(PRCOMMON.Events.Person_Update, lang.hitch(this,this._person_update_event));
 		topic.subscribe(PRCOMMON.Events.Person_Delete, lang.hitch(this,this._person_delete_event));
+		topic.subscribe('contacts/merge_contact', lang.hitch(this,this._contact_merge_event));
+
 	},
 	postCreate:function()
 	{
@@ -199,7 +202,17 @@ define([
 	{
 		this.person_delete_ctrl.load( this._row.contactid, this._row.contactname );
 		this.person_delete_dlg.show();
-	}
+	},
+	_merge_contact:function()
+	{
+		this.contact_merge_ctrl.load(this._row.contactid,this._row.contactname,this.contact_merge_dlg);
+	},
+	_contact_merge_event:function(contact)
+	{
+		this._store.remove ( contact.sourcecontactid);
+		this.people_details_employee_grid.set( "query", {contactid:this._row.contactid});
+		this.audit_ctrl.load(this._row.contactid);
+	},
 });
 });
 
