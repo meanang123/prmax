@@ -312,7 +312,7 @@ class WorkerController(threading.Thread):
 					email.BuildMessageHtmlOnly()
 				else:
 					email.BuildMessage()
-				
+
 				if is_valid_email_domain and has_privatekey:
 					dom = record['returnaddress'].split("@")[1].lower()
 					sig = dkim.sign(
@@ -400,14 +400,15 @@ class WorkerController(threading.Thread):
 					log.exception("Id = %d", record["listmemberdistributionid"])
 
 			log.info("Processed %d, Thread: %d", record["listmemberdistributionid"], thread.get_ident())
+			gc.collect()
+			db.Close()
+			dbCache.Close()
+
 			try:
 				del email
 				del record
 			except:
 				pass
-			gc.collect()
-			db.Close()
-			dbCache.Close()
 
 class DistController(threading.Thread):
 	""" Access the database and capture any distributions not sent
