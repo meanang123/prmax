@@ -12,7 +12,6 @@ dojo.provide("prmax.display.DisplayCtrl");
 
 dojo.require("prcommon.advance.listview");
 dojo.require("dojox.collections.Dictionary");
-dojo.require("prcommon.twitter.twitterview");
 dojo.require("prcommon.contacthistory.edit");
 dojo.require("prcommon.crm.viewer_only");
 
@@ -49,7 +48,6 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		this.mainViewButton = null;
 		this.loaded_advance = false;
 		this.loaded_contacts = false ;
-		this.twitter_loaded = false;
 		this.movetab = true ;
 		// Context specific
 		this._context = new dojox.collections.Dictionary();
@@ -95,11 +93,6 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		{
 			this.loaded_advance = true;
 			this.advancectrl.Load( this.ctrldata.outletid ) ;
-		}
-		if (button.id == this.twitterview.id && this.twitter_loaded===false)
-		{
-			this.twitterctrl.Load();
-			this.twitter_loaded = true;
 		}
 		if (button.id==this.contactView.id && dojo.isIE==8 && this.iefix == false )
 		{
@@ -358,9 +351,6 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 
 		this.loaded_contacts = false;
 		this.loaded_advance = false;
-		this.twitter_loaded = false;
-		dojo.style(this.twitterview.controlButton.domNode, "display", "none");
-		this.twitterctrl.Clear();
 		this.contactgrid.selection.clear();
 		this.ctrldata.Clear();
 		this.showOptionsTabs(this.ctrldata);
@@ -679,19 +669,6 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 	},
 	_check_outlet_call:function ( response )
 	{
-		if ( response.twitter != null && response.twitter != undefined && response.twitter.length>0 )
-		{
-			this.twitterctrl.set("twittername", response.twitter ) ;
-			dojo.style(this.twitterview.controlButton.domNode, "display", "");
-		}
-		else
-		{
-			dojo.style(this.twitterview.controlButton.domNode, "display", "none");
-			if ( this.tabControl.selectedChildWidget == this.twitterview )
-			{
-				this.ViewChangedEvent();
-			}
-		}
 		if ( response.has_advancefeatures != null && response.has_advancefeatures != undefined)
 		{
 			if (PRMAX.utils.settings.advancefeatures)
