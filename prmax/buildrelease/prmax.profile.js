@@ -164,7 +164,12 @@ dependencies ={
 			"prcommon.documents.view",
 			"prcommon.clippings.viewer",
 
-			"prmax.pressrelease.distributiontemplate.viewer"
+			"prmax.pressrelease.distributiontemplate.viewer",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
+
 			]
 			},
 		{

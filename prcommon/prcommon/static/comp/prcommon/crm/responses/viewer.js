@@ -22,6 +22,8 @@ dojo.require("dojox.form.BusyButton");
 dojo.require("dijit.form.Button");
 dojo.require("prcommon.data.QueryWriteStore");
 dojo.require("prcommon.documents.upload");
+dojo.require("prcommon.crm.responses.add");
+
 
 dojo.declare("prcommon.crm.responses.viewer",
 	[ ttl.BaseWidget ],
@@ -45,25 +47,25 @@ dojo.declare("prcommon.crm.responses.viewer",
 				urlPreventCache:true
 			});
 
-		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});		
+		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 		this._issues = new dojox.data.JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
 		this._UpdateStatementCallBack = dojo.hitch(this,this._UpdateStatementCall);
 		this._DeleteStatementCallBack = dojo.hitch(this,this._DeleteStatementCall);
-		dojo.subscribe(PRCOMMON.Events.Word_Html_Data, dojo.hitch(this,this._word_html_data_event));			
+		dojo.subscribe(PRCOMMON.Events.Word_Html_Data, dojo.hitch(this,this._word_html_data_event));
 		dojo.subscribe('/statement/add',  dojo.hitch(this, this._AddStatementEvent));
 	},
 	postCreate:function()
 	{
 		this.icustomerid = PRMAX.utils.settings.cid;
-		this.upload_doc_ctrl.Load(this.upload_doc_dlg);	
-		
+		this.upload_doc_ctrl.Load(this.upload_doc_dlg);
+
 		this.grid.set("structure",this.view);
 		this.grid._setStore(this.model);
 		this.grid['onCellClick'] = dojo.hitch(this,this._onCellClick);
 
 		this.engagements_grid.set("structure", this.engagement_view);
 		this.engagements_grid._setStore(this.engagement_model);
-		
+
 		this.clientid.store = this._clients;
 		this.clientid.set("value",-1);
 		this.issueid.store = this._issues;
@@ -85,7 +87,7 @@ dojo.declare("prcommon.crm.responses.viewer",
 	engagement_view: {
 		cells: [[
 		{name: 'Subject',width: "200px",field:"crm_subject"},
-		{name: 'Date',width: "200px",field:"taken"}		
+		{name: 'Date',width: "200px",field:"taken"}
 		]]
 	},
 	_onCellClick:function ( e )
@@ -96,8 +98,8 @@ dojo.declare("prcommon.crm.responses.viewer",
 
 //		this.engagements_grid.set("structure", this.engagement_view);
 //		this.engagements_grid._setStore(this.engagement_model);
-		
-		this._ShowDetails();		
+
+		this._ShowDetails();
 	},
 	_ShowDetails:function()
 	{
@@ -108,14 +110,14 @@ dojo.declare("prcommon.crm.responses.viewer",
 		this.clientid.set("value", this._row.i.clientid);
 		this.issueid.set("value", this._row.i.issueid);
 		this.output.set("value", this._row.i.output);
-		
+
 		this.engagements_grid.setQuery({statementid:this._row.i.statementid});
 	},
 	_AddStatement:function()
 	{
 		this.addstatementctrl.Load(this.add_statement_dlg);
-		this.add_statement_dlg.show();	
-		
+		this.add_statement_dlg.show();
+
 	},
 	_AddStatementEvent:function(statement)
 	{
@@ -176,7 +178,7 @@ dojo.declare("prcommon.crm.responses.viewer",
 				ttl.utilities.makeParams({
 					load: dojo.hitch(this,this._DeleteStatementCallBack),
 					url:"/statement/statement_delete",
-					content: content}));				
+					content: content}));
 		}
 	},
 	_DeleteStatementCall:function(response)
@@ -190,7 +192,7 @@ dojo.declare("prcommon.crm.responses.viewer",
 		{
 			alert("Problem Deleting Selected Statement");
 		}
-	},	
+	},
 	_LoadWord:function()
 	{
 		this.upload_doc_dlg.show();
@@ -198,7 +200,7 @@ dojo.declare("prcommon.crm.responses.viewer",
 	_close_dlg:function()
 	{
 		this.upload_doc_ctrl.Clear();
-		this.upload_doc_dlg.hide();	
+		this.upload_doc_dlg.hide();
 	},
 	_upload_doc:function()
 	{
@@ -207,7 +209,7 @@ dojo.declare("prcommon.crm.responses.viewer",
 	_word_html_data_event:function(html)
 	{
 		this.output.set("value", html.html) ;
-	},		
+	},
 });
 
 
