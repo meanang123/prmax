@@ -250,7 +250,7 @@ class SEORelease(BaseSql):
 
 		# at this point do atransfer of the actual detail
 		seo.headline = params["headline"]
-		seo.synopsis = params["synopsis"]
+		seo.synopsis = params["synopsis"][:254]
 		seo.companyname = params["companyname"]
 		seo.www = params["www"]
 		seo.email = params["email"]
@@ -425,7 +425,7 @@ class SEORelease(BaseSql):
 			            headline=seo.headline,
 			            published_display=datetime.date.today().strftime("%d-%m-%y"))
 		except:
-			LOG.exception("SEOPressRelease_save")
+			LOG.exception("SEOPressRelease_save_and_publish")
 			transaction.rollback()
 			raise
 

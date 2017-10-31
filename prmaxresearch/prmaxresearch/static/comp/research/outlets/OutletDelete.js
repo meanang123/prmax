@@ -29,6 +29,7 @@ define([
 	constructor: function()
 	{
 			this._delete_call_back = lang.hitch(this, this._delete_call );
+			this._error_call_back = lang.hitch(this, this._error_call);
 		},
 		postCreate:function()
 		{
@@ -47,7 +48,7 @@ define([
 				if ( confirm("Delete Outlet are you sure?"))
 				{
 					request.post('/research/admin/outlets/research_delete',
-						utilities2.make_params({data:this.form.get("value")})). then
+						utilities2.make_params({data:this.form.get("value"),timeout:90000})).then
 						(this._delete_call_back);
 				}
 			}
@@ -65,6 +66,8 @@ define([
 			{
 				alert ( "Problem Deleteing Contact" ) ;
 			}
+
+			this.delete_btn.cancel();
 		},
 		// styandard clear function
 		clear:function()
@@ -72,6 +75,7 @@ define([
 			this.outletid.set("value", -1 ) ;
 			this.reasoncodes.set("value",null);
 			domattr.set(this.heading,"innerHTML" , "" ) ;
+			this.delete_btn.cancel();
 		},
 		load:function( outletid, outletname, dialog)
 		{
@@ -79,7 +83,12 @@ define([
 			domattr.set(this.heading,"innerHTML" , outletname ) ;
 			this.reasoncodes.set("value", null);
 			this._dialog = dialog;
-		}
+		},
+		_error_call:function()
+		{
+			alert("Taking time to delete please wait ");
+			this.delete_btn.cancel();
+		},
 });
 });
 

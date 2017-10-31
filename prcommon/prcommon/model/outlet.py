@@ -737,9 +737,10 @@ class Outlet(BaseSql):
 		try:
 			# outlet
 			outlet = Outlet.query.get(params['outletid'])
-			
-			if "reaseoncodeid" not in params:
+
+			if "reasoncodeid" not in params:
 				params['reasoncodeid'] = 28
+
 			activity = Activity(reasoncodeid=params["reasoncodeid"] ,
 			                    reason=params.get("reason", ""),
 			                    objecttypeid=Constants.Object_Type_Outlet,
@@ -759,7 +760,10 @@ class Outlet(BaseSql):
 					objecttypeid=Constants.Process_Outlet_Profile,
 					objectid=profile.seriesparentid))
 
+
 			session.execute(text(Outlet.Delete_Outlet), params, cls)
+
+			print "completed"
 
 			transaction.commit()
 		except:
@@ -1028,7 +1032,7 @@ class Outlet(BaseSql):
 		if parent and parent.seriesparentid != None:
 			is_child = True
 		return is_child
-		    
+
 	@classmethod
 	def research_move_contact(cls, params):
 		""" This function moved a contact between outlets """
