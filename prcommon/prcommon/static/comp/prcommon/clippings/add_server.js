@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Name:    ReportBuilder.js
-// Author:  
+// Author:
 // Purpose:
 // Created: Sept 2016
 //
@@ -11,6 +11,7 @@
 dojo.provide("prcommon.clippings.add_server");
 
 dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("dojox.form.PasswordValidator");
 
 dojo.declare("prcommon.clippings.add_server",
 	[ ttl.BaseWidget ],
@@ -23,12 +24,12 @@ dojo.declare("prcommon.clippings.add_server",
 		this._send_test_call_back = dojo.hitch(this,this._send_test_call);
 
 		this._servertypes = new dojo.data.ItemFileWriteStore({ url:"/common/lookups?searchtype=servertypes"});
-		this._customerid = PRMAX.utils.settings.cid;	
+		this._customerid = PRMAX.utils.settings.cid;
 	},
 	postCreate:function()
 	{
 		this.inherited(arguments);
-		this.servertypeid.store = this._servertypes;		
+		this.servertypeid.store = this._servertypes;
 	},
 	load:function ( dialog, customerid)
 	{
@@ -53,7 +54,7 @@ dojo.declare("prcommon.clippings.add_server",
 						url:"/customeremailserver/add" ,
 						content: data
 						}));
-						
+
 	},
 	_save_call:function ( response )
 	{
@@ -69,7 +70,7 @@ dojo.declare("prcommon.clippings.add_server",
 			alert("Problem Adding Email Server");
 		}
 		this.savebtn.cancel();
-	},	
+	},
 	_send_test:function()
 	{
 
@@ -79,7 +80,7 @@ dojo.declare("prcommon.clippings.add_server",
 			this.sendtestbtn.cancel();
 			return false;
 		}
-		
+
 		var data = {};
 		data['customerid'] = this._customerid;
 		data['fromemailaddress'] = this.fromemailaddress.get("value");
@@ -95,7 +96,7 @@ dojo.declare("prcommon.clippings.add_server",
 						url:"/emails/email_test_server" ,
 						content: data
 						}));
-						
+
 	},
 	_send_test_call:function ( response )
 	{
@@ -109,7 +110,7 @@ dojo.declare("prcommon.clippings.add_server",
 			alert("Problem Sending Test Email");
 		}
 		this.sendtestbtn.cancel();
-	},	
+	},
 	_server_type:function()
 	{
 		this._change_view();
@@ -128,6 +129,6 @@ dojo.declare("prcommon.clippings.add_server",
 			dojo.addClass(this.url_view,"prmaxhidden");
 			this.host.set("required",false);
 		}
-	}	
-	
+	}
+
 });
