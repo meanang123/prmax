@@ -42,11 +42,10 @@ from ttl.string import TranslateToHtmlEntities
 
 class EmailMessage:
 	def __init__(self, fromAddress, toAddress, Subject, Body,
-				       bodytype="text/plain", cc = None, bounce= "support@prmax.co.uk",
+				       bodytype="text/plain", bounce= "support@prmax.co.uk",
 	             replyTo= None,
 				       useUTF8 = False , senderaddress = None,
 				       sendAddress = None, mailedby = "prmax.co.uk"):
-
 		#toAddress = "pr@kinton.biz"
 
 		self.toAddress = toAddress
@@ -56,7 +55,6 @@ class EmailMessage:
 		self._mailedby = mailedby
 		self.fromAddress = fromAddress
 		self.sendAddress = sendAddress
-		self.cc = cc
 		self.replyTo = replyTo if replyTo else fromAddress
 		if senderaddress != None:
 			self.sender = senderaddress

@@ -370,10 +370,10 @@ class ContactHistoryGeneral():
 			                     params['toemailaddress'],
 			                     params['emailsubject'],
 			                     params['emailbody'],
-			                     "text/html",
-			                     params['ccemailaddresses']
+			                     "text/html"
 			                     )
 			email.BuildMessage()
+			email.cc = params['ccemailaddresses']
 
 			if ces.servertypeid in SMTPSERVERBYTYPE:
 				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](
