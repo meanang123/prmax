@@ -517,7 +517,11 @@ dependencies ={
 				"prmax.ai.banner",
 				"prmax.ai.stdview",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
 
 			]
 		},
@@ -688,7 +692,11 @@ dependencies ={
 			"prmax.blueboo.banner",
 			"prmax.blueboo.stdview",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
 
 			]
 		},
@@ -1905,7 +1913,11 @@ dependencies ={
 			"prmax.deperslijst.stdview",
 			"prmax.deperslijst.startup",
 
-			"prcommon.clippings.viewer"
+			"prcommon.clippings.viewer",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
 
 			]
 		},
@@ -2085,7 +2097,11 @@ dependencies ={
 
 			"prcommon.clippings.viewer",
 
-			"prmax.pressrelease.distributiontemplate.viewer"
+			"prmax.pressrelease.distributiontemplate.viewer",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
 
 			]
 		},
@@ -2265,7 +2281,11 @@ dependencies ={
 
 			"prcommon.clippings.viewer",
 
-			"prmax.pressrelease.distributiontemplate.viewer"
+			"prmax.pressrelease.distributiontemplate.viewer",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
 			]
 		},
 // pressdata
@@ -2445,8 +2465,11 @@ dependencies ={
 
 			"prcommon.clippings.viewer",
 
-			"prmax.pressrelease.distributiontemplate.viewer"
+			"prmax.pressrelease.distributiontemplate.viewer",
 
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
 			]
 		},
 // pressdata office
@@ -2626,7 +2649,11 @@ dependencies ={
 
 			"prcommon.clippings.viewer",
 
-			"prmax.pressrelease.distributiontemplate.viewer"
+			"prmax.pressrelease.distributiontemplate.viewer",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view"
 
 			]
 		},

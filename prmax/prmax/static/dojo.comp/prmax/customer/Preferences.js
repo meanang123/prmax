@@ -2,6 +2,7 @@ dojo.provide("prmax.customer.Preferences");
 
 dojo.require("ttl.BaseWidget");
 dojo.require("prcommon.search.Countries");
+dojo.require("dojox.form.PasswordValidator");
 
 dojo.declare("prmax.customer.Preferences",
 	[ ttl.BaseWidget ],{
@@ -142,7 +143,7 @@ dojo.declare("prmax.customer.Preferences",
 		this.general_update.set("disabled",false);
 		this.pssw_update.set("disabled",false);
 		this.interface_upd.set("disabled",false);
-		
+
 		this.ccaddresses.set("value", response.data.control.ccaddresses);
 
 		this.preferences_view.selectChild(this.general);
@@ -171,7 +172,7 @@ dojo.declare("prmax.customer.Preferences",
 	},
 	_SaveCC:function()
 	{
-	
+
 		var emailaddresses = this.ccaddresses.get("value").split(',');
 		var validaddresses = true;
 		for (var i = 0; i <= emailaddresses.length-1; i++)
@@ -197,7 +198,7 @@ dojo.declare("prmax.customer.Preferences",
 			url:'/user/preferences_cc_update',
 			content: this.ccform.get("value")
 			}));
-			
+
 	},
 	_validateEmail:function(emailaddress)
 	{
@@ -219,7 +220,7 @@ dojo.declare("prmax.customer.Preferences",
 		{
 			alert("Problem updating CC email addresses");
 		}
-		this.cc_update.cancel();		
+		this.cc_update.cancel();
 	},
 	_SaveGeneralSave:function( response)
 	{
