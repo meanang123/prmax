@@ -14,6 +14,8 @@ dojo.require("dijit._Templated");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 
+dojo.require("dojox.form.PasswordValidator");
+
 dojo.declare("prmax.user.UserAdmin",
 	[dijit._Widget, dijit._Templated, dijit._Container],
 	{
