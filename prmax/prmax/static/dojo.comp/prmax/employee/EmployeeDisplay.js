@@ -51,6 +51,8 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 
 		if (this.crmview && this.crmview.controlButton)
 			this.crmview.controlButton.domNode.style.display = (PRMAX.utils.settings.crm)?"":"none";
+		if (this.resendview && this.resendview.controlButton)
+			this.resendview.controlButton.domNode.style.display = (PRMAX.utils.settings.crm)?"":"none";
 
 	},
 	onSelectTab:function(button)
