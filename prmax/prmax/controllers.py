@@ -125,7 +125,7 @@ class Root(controllers.RootController):
 
 	@expose(template="prmax.templates.locked")
 	def locked(self, *args, **kw):
-		
+
 		template = "prmax.templates.locked"
 		fields = addConfigDetails(
 		  dict(message='You have been locked. Please contact the system administrator',
@@ -134,7 +134,7 @@ class Root(controllers.RootController):
 		       )
 		)
 		return view.render(fields, template=template)
-	
+
 
 	@expose("")
 	def index(self, *args, **kw):
@@ -165,7 +165,7 @@ class Root(controllers.RootController):
 				user.invalid_login_tries += 1
 				if user.invalid_login_tries >= 10:
 					raise redirect("/locked")
-		
+
 		msg = None
 		if not identity.current.anonymous \
 			and identity.was_login_attempted() \
@@ -174,7 +174,7 @@ class Root(controllers.RootController):
 			user = User.by_user_name(request.body_params['user_name'])
 			customer = Customer.query.get(identity.current.user.customerid)
 			if user.invalid_login_tries >= 10:
-				raise redirect("/locked")			
+				raise redirect("/locked")
 			User.reset_invalid_login_tries(user.user_id, True)
 			#Clear current user ClippingSelection table
 			ClippingsGeneral.clear_user_selection({'userid':user.user_id}, True)
@@ -263,7 +263,8 @@ class Root(controllers.RootController):
 		"common logout method"
 
 		#Clear current user ClippingSelection table
-		ClippingsGeneral.clear_user_selection({'userid':identity.current.user.user_id}, True)
+		if identity.current.user:
+			ClippingsGeneral.clear_user_selection({'userid':identity.current.user.user_id}, True)
 		# clear connections
 		try:
 			try:
@@ -288,7 +289,7 @@ class Root(controllers.RootController):
 	def start(self, *args, **kw):
 		"""This is the standard page for application starts
 		"""
-		
+
 		kw['message1'] = 'Please enter a new password'
 		kw['message2'] = ''
 		if 'pssw_name' in kw and 'pssw_conf' in kw:
@@ -306,11 +307,11 @@ class Root(controllers.RootController):
 		cust = Customer.query.get(identity.current.user.customerextid)
 		org_template = template = cust.get_start_point()
 		if identity.current.user.force_change_pssw:
-			template = 'prmax.templates.eadmin/change_password'		
+			template = 'prmax.templates.eadmin/change_password'
 		if cust.extended_security == True:
 			startdate = datetime.now() - timedelta(days = 60)
 			if startdate >= identity.current.user.last_change_pssw:
-				template = 'prmax.templates.eadmin/change_password'	
+				template = 'prmax.templates.eadmin/change_password'
 		if identity.current.user.invalid_login_tries >= 10:
 			raise redirect('/login')
 
@@ -323,7 +324,7 @@ class Root(controllers.RootController):
 		                                  userid=identity.current.user.user_id,
 		                                  levelid=CustomerAccessLog.LOGGEDIN,
 		                                  username=identity.current.user.user_name))
-		
+
 		# this is a financial only customer cannot be used for anything else
 		if cust.isFinancialOnly():
 			raise redirect("/login")

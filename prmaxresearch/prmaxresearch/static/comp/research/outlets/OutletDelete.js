@@ -47,6 +47,7 @@ define([
 			{
 				if ( confirm("Delete Outlet are you sure?"))
 				{
+					this.delete_btn.makeBusy();
 					request.post('/research/admin/outlets/research_delete',
 						utilities2.make_params({data:this.form.get("value"),timeout:90000})).then
 						(this._delete_call_back);

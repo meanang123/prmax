@@ -92,6 +92,7 @@ define([
 	_search:function()
 	{
 		this._do_search();
+		this.searchbutton.makeBusy();
 	},
 	_load_call:function( response )
 	{
