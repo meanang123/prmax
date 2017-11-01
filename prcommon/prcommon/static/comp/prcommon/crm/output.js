@@ -33,10 +33,18 @@ dojo.declare("prcommon.crm.output",
 		this.output_style.set("value", 21 );
 		this.clientid.set("store",this._clients);
 		this.clientid.set("value",-1);		
+		dojo.addClass(this.excel.domNode, "prmaxhidden");
+		dojo.addClass(this.excel_label, "prmaxhidden");
 	},
 	_do_report:function()
 	{
 		var content = this.form_output.get("value");
+
+		if (this.output_style == 32 && this.drange.option.get("value") == "0")
+		{
+			alert('Please enter a range date');
+			return false;
+		}
 
 		dojo.addClass(this.reportbtn.domNode,"prmaxhidden");
 		this.reportnode.SetCompleted(this._complete_call_back);
@@ -72,12 +80,30 @@ dojo.declare("prcommon.crm.output",
 		{
 			dojo.addClass(this.csv.domNode, "prmaxhidden");
 			dojo.addClass(this.csv_label, "prmaxhidden");
+			dojo.addClass(this.excel.domNode, "prmaxhidden");
+			dojo.addClass(this.excel_label, "prmaxhidden");
+			dojo.removeClass(this.clientid.domNode, "prmaxhidden");
+			dojo.removeClass(this.client_label, "prmaxhidden");
 			this.pdf.set("checked", true);
+		}
+		else if (this.output_style == 32)
+		{
+			dojo.addClass(this.csv.domNode, "prmaxhidden");
+			dojo.addClass(this.csv_label, "prmaxhidden");
+			dojo.removeClass(this.excel.domNode, "prmaxhidden");
+			dojo.removeClass(this.excel_label, "prmaxhidden");
+			dojo.addClass(this.clientid.domNode, "prmaxhidden");
+			dojo.addClass(this.client_label, "prmaxhidden");
+			this.excel.set("checked", true);
 		}
 		else
 		{
 			dojo.removeClass(this.csv.domNode, "prmaxhidden");
 			dojo.removeClass(this.csv_label, "prmaxhidden");
+			dojo.addClass(this.excel.domNode, "prmaxhidden");
+			dojo.addClass(this.excel_label, "prmaxhidden");
+			dojo.removeClass(this.clientid.domNode, "prmaxhidden");
+			dojo.removeClass(this.client_label, "prmaxhidden");
 		}
 	}
 });

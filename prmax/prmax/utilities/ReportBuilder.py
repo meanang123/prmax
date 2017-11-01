@@ -22,6 +22,9 @@ from ttl.decorators import synchronized
 from ttl.postgres  import DBConnect, DBCompress
 import prmax.utilities.ReportExtensions as ReportExtensions
 import prmax.Constants as Constants
+import xlrd
+import xlwt
+import xlsxwriter
 import csv
 import cPickle
 import platform
@@ -102,7 +105,7 @@ class ReportController(object):
 		self._debug = debug
 		self.used = 0
 
-	__sql_report_data = """SELECT reportid FROM queues.reports WHERE reportstatusid IN (0) AND reporttemplateid IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,30,31) LIMIT 10"""
+	__sql_report_data = """SELECT reportid FROM queues.reports WHERE reportstatusid IN (0) AND reporttemplateid IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,30,31,32) LIMIT 10"""
 	__sql_report_status = """UPDATE queues.reports SET reportstatusid = 1 WHERE reportid = %(reportid)s"""
 	__sql_report_time = """UPDATE internal.prmaxcontrol SET report_time  = %(reporttime)s"""
 
@@ -300,6 +303,24 @@ class ReportBuilder(object):
 		# label outlput
 		if self._report.reportoutputtypeid in Constants.Phase_4_is_label:
 			self._labels()
+
+		# pdf or excel
+		if self._report.reportoutputtypeid in Constants.Phase_5_is_excel:
+			if self._extension and getattr(self._extension, "run", None) != None:
+				comm = self._db.getCursor(no_stop = False)
+				try:
+					self._extension.comm = comm
+					self._extension.run(self._data, self._finaloutput)
+					self._db.commitTransaction(comm)
+				except Exception:
+					self._db.rollbackTransaction(comm)
+					raise
+			self._finaloutput.flush()
+			if self._debug:
+				toutput = file( os.path.normpath(os.path.join(
+			        self._temppath, "%d.xls" % self._reportid)), "wb")
+				toutput.write(self._finaloutput.getvalue())
+				toutput.close()
 
 	def _labels(self):
 		""" Do Labels """

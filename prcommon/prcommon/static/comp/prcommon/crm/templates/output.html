@@ -2,17 +2,17 @@
 <span class="common_prmax_layout"><br/>
 	<form data-dojo-attach-point="form_output" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
 
-		<label class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid"></select><br/></br>
-
-		<label class="label_1">Date Range</label><div data-dojo-type="prcommon.date.daterange" data-dojo-attach-point="drange" data-dojo-props='value:"",name:"drange"'></div><br/><br/>
+		<label class="label_1">Output Style</label><select data-dojo-attach-point="output_style" data-dojo-attach-event="onChange:_get_style"data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='name:"reporttemplateid","class":"prmaxrequired",autoComplete:true,searchAttr:"reporttemplatename",labelAttr:"reporttemplatename",required:true,invalidMessage:"Please select label format",labelType:"html"'></select><br/><br/>
 		<label class="label_1">Output Format</label>
 		<label data-dojo-attach-point="pdf_label">Pdf&nbsp;<input data-dojo-attach-point="pdf" data-dojo-props="name:'reportoutputtypeid',value:'0',type:'radio',checked:true" data-dojo-type="dijit.form.RadioButton"></label>
-		<label data-dojo-attach-point="csv_label">Csv&nbsp;<input data-dojo-attach-point="csv" data-dojo-props="name:'reportoutputtypeid',value:'2',type:'radio'" data-dojo-type="dijit.form.RadioButton"></label><br/>
-		<label class="label_1">Output Style</label><select data-dojo-attach-point="output_style" data-dojo-attach-event="onChange:_get_style"data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='name:"reporttemplateid","class":"prmaxrequired",autoComplete:true,searchAttr:"reporttemplatename",labelAttr:"reporttemplatename",required:true,invalidMessage:"Please select label format",labelType:"html"'></select><br/>
-		<br/><br/>
+		<label data-dojo-attach-point="csv_label">Csv&nbsp;<input data-dojo-attach-point="csv" data-dojo-props="name:'reportoutputtypeid',value:'2',type:'radio'" data-dojo-type="dijit.form.RadioButton"></label>
+		<label data-dojo-attach-point="excel_label">Excel&nbsp;<input data-dojo-attach-point="excel" data-dojo-props="name:'reportoutputtypeid',value:'4',type:'radio'" data-dojo-type="dijit.form.RadioButton"></label><br/><br/>
+		<label class="label_1">Date Range</label><div data-dojo-type="prcommon.date.daterange" data-dojo-attach-point="drange" data-dojo-props='value:"",name:"drange"'></div><br/><br/>
+		<label class="label_1" data-dojo-attach-point="client_label">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid"></select><br/></br>
+
 		<div data-dojo-type="prmax.common.ReportBuilder" data-dojo-attach-point="reportnode" data-dojo-props='style:"display:none"'></div>
 		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft prmaxhidden"'></button>
-		<button data-dojo-attach-event="onClick:_do_report" data-dojo-attach-point="reportbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Generate","class":"btnright"' data-dojo-attach-event="onClick:_generate"></button>
+		<button data-dojo-attach-event="onClick:_do_report" data-dojo-attach-point="reportbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Generate","class":"btnright"'></button>
 		<br/>
 	</form>
 </span>

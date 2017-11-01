@@ -127,6 +127,8 @@ class ReportController(SecureController):
 					raise redirect(prefix + '/viewhtml', reportid=params['reportid'])
 				if report.reportoutputtypeid == Constants.Report_Output_csv:
 					raise redirect(prefix + '/viewcsv', reportid=params['reportid'])
+				if report.reportoutputtypeid == Constants.Report_Output_excel:
+					raise redirect(prefix + '/viewexcel', reportid=params['reportid'])
 		else:
 			pass
 		return ""
@@ -171,6 +173,27 @@ class ReportController(SecureController):
 					"inline; filename=%s" % report.getFileName()
 			response.headers["Content-Length"] = len(reportoutput)
 			response.headers["Content-type"] = "text/csv;charset=iso-8859-1"
+			response.headers['Cache-Control'] = 'max-age=100'
+			return reportoutput
+
+		return ""
+
+	@expose(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ReportIdSchema(), state_factory=std_state_factory)
+	def viewexcel(self, *args, **params):
+		""" view a specific excel report """
+
+		# load report record, attachment
+		report = Report.query.get(params['reportid'])
+		if report and report.reportoutputtypeid == Constants.Report_Output_excel and \
+		   (report.customerid == params['customerid'] or report.customerid == -1):
+			reportoutput = report.fixedOutput()
+			response.headers["Content-disposition"] = \
+			    "inline; filename=%s" % report.getFileName()
+			response.headers["Content-Length"] = len(reportoutput)
+			response.headers["Content-type"] = "vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 			response.headers['Cache-Control'] = 'max-age=100'
 			return reportoutput
 
