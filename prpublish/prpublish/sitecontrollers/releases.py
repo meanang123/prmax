@@ -52,7 +52,7 @@ class ReleasesController(controllers.RootController):
 					#get details
 					seorelease = SEORelease.get_for_display(emailtemplateid)
 					if seorelease == None:
-						return ""
+						return "Page Not Found"
 				except:
 					pass
 

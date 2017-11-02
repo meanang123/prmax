@@ -47,7 +47,7 @@ class SEORelease(BaseSql):
 		""" get all the details need to create a display publish page """
 
 		seo = SEORelease.query.get(seoreleaseid)
-		if seo.seostatusid != Constants.SEO_Live:
+		if not seo or seo.seostatusid != Constants.SEO_Live:
 			return None
 
 		content = DBCompress.decode(seo.content)
