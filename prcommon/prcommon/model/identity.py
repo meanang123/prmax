@@ -2229,7 +2229,7 @@ class Customer(BaseSql):
 	  Constants.CustomerType_SolididMedia: 'prmax.templates.solidmedia',
 	  Constants.CustomerType_DePerslijst: 'prmax.templates.deperslijst',
 	  Constants.CustomerType_MyNewsdesk: 'prmax.templates.mynewsdesk',
-	  Constants.CustomerType_Professional: 'prmax.templates.professional',
+	  Constants.CustomerType_PrmaxPressOffice: 'prmax.templates.professional',
 	  Constants.CustomerType_LevelCert: 'prmax.templates.start_levelcert',
 	  Constants.CustomerType_StereoTribes: 'prmax.templates.start_stereotribes',
 	  Constants.CustomerType_PressData: 'prmax.templates.start_pressdata',

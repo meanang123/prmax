@@ -152,7 +152,7 @@ CustomerType_IPCB					= 16
 CustomerType_SolididMedia	= 17
 CustomerType_DePerslijst	= 18
 CustomerType_MyNewsdesk		= 19
-CustomerType_Professional = 20
+CustomerType_PrmaxPressOffice = 20
 CustomerType_LevelCert 	 	= 21
 CustomerType_StereoTribes = 22
 CustomerType_PressData = 23
@@ -160,7 +160,7 @@ CustomerType_PressDataOffice = 24
 
 Customer_Has_Private_Data = (
   CustomerType_PRmax, CustomerType_NewsLive, CustomerType_Updatum,   CustomerType_Fens, CustomerType_KantarMedia, \
-  CustomerType_BlueBoo, CustomerType_PressData, CustomerType_PressDataOffice)
+  CustomerType_BlueBoo, CustomerType_PressDataOffice, CustomerType_PrmaxPressOffice)
 
 Customer_Token_Login = (CustomerType_AIMedia, CustomerType_KantarMedia, CustomerType_StereoTribes, CustomerType_PressData, CustomerType_PressDataOffice)
 
