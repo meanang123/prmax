@@ -82,7 +82,7 @@ define([
 	_show_details_function:function(command)
 	{
 		if (command =="show")
-		{	
+		{
 			this.selectdetails_dlg.show();
 //			this.selectdetails_ctrl.load(this.outletid);
 		}
@@ -98,13 +98,13 @@ define([
 			outletid = response.outlet.outlet.outletid;
 			sourcetypeid = response.outlet.outlet.sourcetypeid;
 			prmax_grouptypeid = "";
-//			this.selectdetails_ctrl.set("outletid", outletid);		
+//			this.selectdetails_ctrl.set("outletid", outletid);
 			if (response.outlet.outlet.outlettypeid == 19)
 			{
 				prmax_grouptypeid = "freelance";
 			};
-			
-			topic.publish("LoadParentOutlet", outletid, prmax_grouptypeid, sourcetypeid);		
+
+			topic.publish("LoadParentOutlet", outletid, prmax_grouptypeid, sourcetypeid);
 		}
 		this.refresh();
 		this.searchbutton.cancel();
@@ -167,7 +167,7 @@ define([
 	},
 	_select:function()
 	{
-		this.select_dlg.startup();
+		//this.select_dlg.startup();
 		this.select_dlg.show();
 	},
 	clear:function()
@@ -240,10 +240,13 @@ define([
 	{
 
 		var cell = this.searchgrid.cell(e);
-		
+
+		if ( cell.row == null || cell.row == undefined )
+			return;
+
 		this._row = cell.row.data;
 		this._outletid = this._row.outletid;
-		if ( cell.column.id  == 5)	
+		if ( cell.column.id  == 5)
 		{
 			this.selectdetails_dlg.startup();
 			this.selectdetails_dlg.show();
@@ -255,13 +258,12 @@ define([
 			this.select_dlg.hide();
 			this._set_view();
 		}
-		
+
 //		this._outletid = e.rows[0].data.outletid;
 //		domattr.set(this.display,"innerHTML",e.rows[0].data.outletname);
 //		this.select_dlg.hide();
 //		this._set_view();
 	}
-	
-	
+
 });
 });

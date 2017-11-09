@@ -19,11 +19,12 @@ define([
 	"dojo/store/Observable",
 	"ttl/store/JsonRest",
 	"dojox/data/JsonRestStore",
+	"dijit/layout/ContentPane",
 	"dijit/form/FilteringSelect",
 	"prcommon2/outlet/OutletSelect"
-	], function(declare, BaseWidgetAMD, template, request, utilities2, lang, ItemFileReadStore,Observable,JsonRest,JsonRestStore){
+	], function(declare, BaseWidgetAMD, template, request, utilities2, lang, ItemFileReadStore,Observable,JsonRest,JsonRestStore,ContentPane){
 return declare("research.clippings.mbrain_outlets",
-	[BaseWidgetAMD],{
+	[BaseWidgetAMD,ContentPane],{
 	templateString: template,
 	constructor: function()
 	{
