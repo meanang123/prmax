@@ -17,13 +17,14 @@ define([
 	"dojo/json",
 	"dojo/data/ItemFileReadStore",
 	"dojo/topic",
+	"dojo/dom-class",
 	"dijit/form/TextBox",
 	"dijit/form/CheckBox",
 	"dijit/form/Button",
 	"dijit/form/ValidationTextBox",
 	"dijit/form/Form",
 	"prcommon2/interests/Interests"
-	], function(declare, BaseWidgetAMD, template, request, utilities2, json,ItemFileReadStore, topic ){
+	], function(declare, BaseWidgetAMD, template, request, utilities2, json,ItemFileReadStore, topic, domclass ){
  return declare("prcommon2.geographical.GeographicalEdit",
 	[BaseWidgetAMD],{
 	templateString:template,
@@ -367,7 +368,7 @@ define([
 			this._clear_transfer_selection_box();
 			this._transfer_selection_options();
 
-			dojo.addClass(this.show_transfer,"prmaxhidden");
+			domclass.add(this.show_transfer,"prmaxhidden");
 
 			this.geographicalname.focus();
 
@@ -482,9 +483,9 @@ define([
 			var v = this.geographicallookuptypeid.get("value");
 
 				if ( v == 1 )
-					dojo.addClass( this.child_view ,"prmaxhidden");
+					domclass.add( this.child_view ,"prmaxhidden");
 				else
-					dojo.removeClass( this.child_view ,"prmaxhidden");
+					domclass.remove( this.child_view ,"prmaxhidden");
 		},
 		// Child Buttons
 		_child_select_all:function()
