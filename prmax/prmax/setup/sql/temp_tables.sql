@@ -21,3 +21,7 @@ CREATE INDEX fki_cs_outletid ON clippingstore(outletid);
 
 
 INSERT INTO internal.reporttemplates VALUES (32, -1, 'Statistics Report', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'StatisticsReport');
+
+UPDATE communications SET instagram = '' WHERE instagram is null;
+UPDATE userdata.client SET instagram = '' WHERE instagram is null;
+UPDATE seoreleases.seorelease SET instagram = '' WHERE instagram is null;
