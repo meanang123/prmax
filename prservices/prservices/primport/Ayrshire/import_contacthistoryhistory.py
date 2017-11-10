@@ -91,7 +91,7 @@ def _run():
 						contacthistoryid=r.contacthistoryid,
 						to_notes=r.response,
 						from_issues=xls_sheet.cell_value(rnum, SENDBYCOLUMN).strip(),
-						created=datetime.datetime.now() - datetime.timedelta(days=30),
+						created=datetime.datetime.now() - datetime.timedelta(days=90),
 						contacthistoryhistorytypeid=2)
 						
 						session.add(chh)
@@ -105,7 +105,7 @@ def _run():
 				contacthistoryid=res[0].contacthistoryid,
 				to_notes=res[0].response,
 				from_issues=xls_sheet.cell_value(rnum, SENDBYCOLUMN).strip(),
-				created=datetime.datetime.now() - datetime.timedelta(days=30),
+				created=datetime.datetime.now() - datetime.timedelta(days=90),
 				contacthistoryhistorytypeid=2)
 				
 				session.add(chh)

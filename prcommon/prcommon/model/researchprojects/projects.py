@@ -397,7 +397,7 @@ class ResearchProjectItems(BaseSql):
 				rcr = ResearchControRecord.query.filter_by(
 				  objectid=rpi.outletid,
 				  objecttypeid=Constants.Object_Type_Outlet).one()
-				rcr.last_research_completed_date = datetime.datetime.now()
+				rcr.last_research_date = datetime.datetime.now()
 				research = session.query(ResearchDetails).filter(ResearchDetails.outletid == rpi.outletid).scalar()
 				if research:
 					research.last_research_date = datetime.date.today()
@@ -427,7 +427,7 @@ class ResearchProjectItems(BaseSql):
 			rcr = ResearchControRecord.query.filter_by(
 			  objectid=rpi.outletid,
 			  objecttypeid=Constants.Object_Type_Outlet).one()
-			rcr.last_research_completed_date = datetime.datetime.now()
+			rcr.last_research_date = datetime.datetime.now()
 			research = session.query(ResearchDetails).filter(ResearchDetails.outletid == rpi.outletid).scalar()
 			if research:
 				research.last_research_date = datetime.date.today()

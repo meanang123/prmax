@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Name:    OutletEdit.js
+// Name:    OutletUpdate.js
 // Author:  Chris Hoy
 // Purpose:
 // Created: 28/06/2008
@@ -54,6 +54,7 @@ define([
 		topic.subscribe(PRCOMMON.Events.Employee_Quest_Add, lang.hitch(this, this._employee_add_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Add, lang.hitch(this, this._employee_add_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Quest_Updated, lang.hitch(this, this._employee_update_event));
+		topic.subscribe('/emp/set_primary', lang.hitch(this, this._employee_set_primary_event));
 		topic.subscribe("/quest/emp_del", lang.hitch(this, this._employee_delete_event));
 		this._row_data = null;
 		this.std_menu = null;
@@ -254,7 +255,7 @@ define([
 		else
 			this.std_menu._openMyself(e);
 	},
-		_add_employee:function()
+	_add_employee:function()
 	{
 		this._row_data = null;
 		this.employee_change_ctrl.set("dialog", this.employee_change_dlg );
@@ -271,6 +272,11 @@ define([
 		this.employee_set_primary_ctrl.load (  this._row_data.objectid ,   this._row_data.contactname, this._row_data.job_title, this.employee_set_primary_dlg) ;
 		this.employee_set_primary_dlg.show();
 	},
+	_employee_set_primary_event:function()
+	{
+		//we want to see the updates and the new menu for both new primary employee and old primary employee 
+		this.grid.set("query", {researchprojectitemid: this._researchprojectitemid});
+	},	
 });
 });
 

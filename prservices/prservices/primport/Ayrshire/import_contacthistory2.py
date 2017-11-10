@@ -136,7 +136,7 @@ def _run():
 				contacthistoryid=response.contacthistoryid,
 				to_notes=response.response,
 				from_issues=xls_sheet.cell_value(rnum, SENDBYCOLUMN).strip(),
-				created=datetime.datetime.now() - datetime.timedelta(days=30),
+				created=datetime.datetime.now() - datetime.timedelta(days=90),
 				contacthistoryhistorytypeid=2)
 
 

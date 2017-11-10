@@ -541,9 +541,6 @@ class ResearchDetails(BaseSql):
 		if research and research.last_research_changed_date:
 			last_research_changed_date = research.last_research_changed_date.strftime("%d-%m-%y")
 
-		if research and research.last_research_date:
-			last_research_completed = to_json_date(research.last_research_date)
-
 		if research and research.last_customer_questionaire_action:
 			last_customer_questionaire_action = research.last_customer_questionaire_action.strftime("%d-%m-%y")
 

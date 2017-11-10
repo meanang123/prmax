@@ -66,7 +66,7 @@ define([
 			{
 				alert("Outlet Primary Contact Changed");
 				this.clear();
-				topic.publish(PRCOMMON.Events.Employee_Updated);
+				topic.publish('/emp/set_primary');
 				this._dialog.hide();
 
 			}

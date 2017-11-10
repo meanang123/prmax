@@ -61,6 +61,7 @@ define([
 		topic.subscribe(PRCOMMON.Events.Employee_Deleted, lang.hitch(this,this._employee_deleted_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Add, lang.hitch(this,this._employee_add_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Updated, lang.hitch(this,this._employee_update_event));
+		topic.subscribe("/emp/set_primary", lang.hitch(this, this._employee_set_primary_event));
 		topic.subscribe("/coding/update", lang.hitch(this, this._outlet_update_event));
 		topic.subscribe("/employee/delete_request", lang.hitch(this, this._employee_deleted_request_event));
 
@@ -364,6 +365,11 @@ define([
 		{
 			domclass.add(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
 		}
+	},
+	_employee_set_primary_event:function()
+	{
+		this.outlet_contact_no_edit_grid.set("query", {outletid: this._outletid});
+		this.outlet_contact_grid.set("query", {outletid: this._outletid, extended:1});
 	}
 });
 });
