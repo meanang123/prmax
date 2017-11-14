@@ -51,7 +51,9 @@ define([
 
 		topic.subscribe(PRCOMMON.Events.Person_Added,lang.hitch(this, this._add_event));
 		topic.subscribe(PRCOMMON.Events.Person_Delete, lang.hitch(this,this._person_delete_event));
+		topic.subscribe(PRCOMMON.Events.Person_Update, lang.hitch(this,this._person_update_event));
 		topic.subscribe('contacts/merge_contact', lang.hitch(this,this._person_merge_event));
+		
 	},
 	postCreate:function()
 	{
@@ -160,12 +162,14 @@ define([
 	_person_delete_event:function ( contact )
 	{
 		this.model.remove ( contact.contactid);
-		this._search();
 	},
 	_person_merge_event:function ( contact )
 	{
 		this.model.remove ( contact.sourcecontactid);
-		this._search();
+	},
+	_person_update_event:function ( contact )
+	{
+		this.model.put( contact);
 	},
 });
 });
