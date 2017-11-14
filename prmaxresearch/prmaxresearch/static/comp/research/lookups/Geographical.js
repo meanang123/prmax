@@ -32,6 +32,7 @@ define([
 	"dijit/layout/StackContainer",
 	"prcommon2/interests/Interests",
 	"prcommon2/geographical/GeographicalEdit",
+	"dijit/layout/TabContainer"
 	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, request, utilities2, json, ItemFileReadStore ){
  return declare("research.lookup.Geographical",
 	[BaseWidgetAMD, BorderContainer],{
@@ -65,7 +66,8 @@ define([
 			columns: cells,
 			selectionMode: "single",
 			store: this._store,
-			query:{}
+			query:{},
+			sort: [{ attribute: "geographicalname", descending: false }]
 		})
 
 		this.geographical_grid.on("dgrid-select", dojo.hitch(this,this._on_geographical_grid_call));
