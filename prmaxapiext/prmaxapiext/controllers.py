@@ -9,15 +9,11 @@ from turbogears import controllers
 from turbogears.database import get_engine, create_session
 get_engine()
 create_session()
-from prmaxapi.sitecontrollers.lists import ListController
-from prmaxapi.sitecontrollers.user import TokenController
+from prmaxapiext.sitecontrollers.search import SearchController
 from prcommon.sitecontrollers import OpenController
-from prmaxapi.sitecontrollers.usersession import SessionController
 
 
 class Root(controllers.RootController):
     """The root controller of the application."""
-    user = TokenController()
-    lists = ListController()
+    search = SearchController()
     lookups = OpenController()
-    session = SessionController()

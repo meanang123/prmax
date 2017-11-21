@@ -1,0 +1,6 @@
+include start-prmaxapiext.py
+include *.cfg
+include prmaxapiext/config/*.cfg
+recursive-include prmaxapiext/templates *.html
+recursive-include prmaxapiext/templates *.kid
+recursive-include prmaxapiext/static *

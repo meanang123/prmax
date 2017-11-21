@@ -78,14 +78,13 @@ class TokenController(OpenSecureController):
 		return dict(success="OK", tokenid=LoginTokens.add_login(kw["userid"], config.get('prmaxapi.token_life')))
 
 
-	@expose("json")
-	@error_handler(pr_form_error_handler)
-	@exception_handler(pr_std_exception_handler)
-	@validate(validators=LoginSchema())
-	def login_api(self, *args, **kw):
-		""" Login to the api
-		return the active token
-		"""
+
+
+
+
+
+
+
 
 
 

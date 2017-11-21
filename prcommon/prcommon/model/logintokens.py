@@ -11,11 +11,13 @@
 
 #-----------------------------------------------------------------------------
 import datetime
+from datetime import timedelta
 import logging
 from turbogears.database import  metadata, mapper, session
+from turbogears import visit
 from sqlalchemy import Table
 from prcommon.model.common import BaseSql
-from prcommon.model.identity import User, Customer
+from prcommon.model.identity import User, Customer, VisitIdentity, Visit
 from prcommon.model.admin import CustomerExternal
 import prcommon.Constants as Constants
 
@@ -105,6 +107,103 @@ class LoginTokens(BaseSql):
 			return user[0].user_id
 
 		return None
+
+	@staticmethod
+	def check_session_access(params):
+		"""checks that the userid has permission to login """
+		#  genral check
+		try:
+			if params["customertypeid"] not in Constants.Customer_Token_Login:
+				return(2, "Invalid Account Information")
+
+			# user check
+			user = User.query.get(params["userid"])
+			if not user:
+				return (1, "Missing User")
+
+			# customer check
+			cust = Customer.query.get(user.customerid)
+			if cust.customertypeid not in Constants.Customer_Token_Login:
+				return(2, "Invalid Account Information")
+
+			# licence expired to disabled
+			if cust.has_expired():
+				return(3, "Licence Expired")
+
+			if cust.customerstatusid != Constants.Customer_Active:
+				return(4, "Account Inactive")
+
+		except:
+			LOGGER.exception("check_access")
+			return (5, "Problem")
+
+	@staticmethod
+	def check_able_to_login_in(params):
+		"""Check to see if the licence concurrent user has been exceeded"""
+
+		retvalue = None
+
+		user = User.query.get(params["userid"])
+		cust = Customer.query.get(user.customerid)
+
+		# check already logged in?
+		# if so take over issue new login token later - here we just need to remove existing ones
+
+		# check number of concurrent connections
+		# if too many either return error or logout a connections
+
+		return retvalue
+
+	@staticmethod
+	def active_users(params):
+		"""List of active users base on either userid or customerid"""
+
+		returvalue = []
+
+		# collect list of active uses
+
+		return returvalue
+
+	@staticmethod
+	def get_active_session(userid, token_life=5):
+		"""get a valid visitor key for TG """
+
+		user = User.query.get(userid)
+
+		# create visit session
+		# attach session to user
+		visittool = visit.VisitTool()
+		visit_key = visittool._generate_key()
+
+		# this in theory should be new every time but it's better to check
+		link = session.query(VisitIdentity).filter_by(visit_key=visit_key)
+		# link to current user
+		if link.count() == 0:
+			link = VisitIdentity(visit_key=visit_key, user_id=user.user_id)
+			session.add(link)
+		else:
+			link.one()
+			link.user_id = user.user_id
+
+		vobject = Visit(
+		    visit_key=visit_key,
+		  expiry=datetime.now() + timedelta(seconds=token_life))
+		session.add(vobject)
+		session.flush()
+
+		return visit_key
+
+	@staticmethod
+	def close_session(params):
+		"""Close a session either with tokenid or userid"""
+
+		if "usersessionid" in params:
+			pass
+
+		if "userid" in params:
+			pass
+
+
 
 LoginTokens.mapping = Table('logins_tokens', metadata, autoload=True)
 mapper(LoginTokens, LoginTokens.mapping)

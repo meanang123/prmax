@@ -136,7 +136,6 @@ from prcommon.model.prrequestgeneral import PRRequestGeneral
 
 from prcommon.model.crmgeneral import PRNotesGeneral
 
-from prcommon.model.apis.usersession import ApiUserSession
 from prcommon.model.apis.search import ApiSearch
 from prcommon.model.apis.lookups import ApiLookups
 
@@ -241,7 +240,7 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "OutletToOutlets", "ProfileCache", "ProjectGeneral", "OutletProfile", "EmployeePrmaxRole", "QuestionnairesGeneral",
            "ResearchProjectChanges", "ProjectEmails", "EmailSendTypes", "OutletDesk", "StandardIndexerInternal",
            "OutletLanguages", "Subject", "SubjectInterest", "CustomerPrmaxDataSets", "Continents", "PRNotesGeneral",
-           "CustomerGeneral", "ApiUserSession", "PRRequest", "PRRequestGeneral", "IssueStatus", "Issue", "IssuesGeneral",
+           "CustomerGeneral", "PRRequest", "PRRequestGeneral", "IssueStatus", "Issue", "IssuesGeneral",
            "ContactHistoryTypes", "ContactHistoryStatus", "UserGeneral", "ContactHistoryIssues", "ContactHistoryGeneral",
            "TasksGeneral", "IssueHistory", "ContactHistoryHistory", "ContactHistoryUserDefine", "DocumentsGeneral",
            "UnsubscribeGeneral", "CustomerSolidMedia", "CustomerSolidMediaProfiles", "SolidMediaGeneral", "SolidSearch",
