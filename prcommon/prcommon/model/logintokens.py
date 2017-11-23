@@ -187,7 +187,8 @@ class LoginTokens(BaseSql):
 
 		vobject = Visit(
 		    visit_key=visit_key,
-		  expiry=datetime.now() + timedelta(seconds=token_life))
+		    expiry=datetime.datetime.now() + timedelta(seconds=token_life),
+		    created=datetime.datetime.now())
 		session.add(vobject)
 		session.flush()
 
