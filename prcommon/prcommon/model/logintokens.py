@@ -103,6 +103,12 @@ class LoginTokens(BaseSql):
 		    join(Customer, Customer.customerid == User.customerid).\
 		    filter(User.external_key == params["external_key"]).\
 		    filter(Customer.customertypeid == params["customertypeid"]).all()
+		if not user and params["customertypeid"] == 23:
+			params["customertypeid"] = 24
+			user = session.query(User).\
+			    join(Customer, Customer.customerid == User.customerid).\
+			    filter(User.external_key == params["external_key"]).\
+			    filter(Customer.customertypeid == params["customertypeid"]).all()
 		if user:
 			return user[0].user_id
 
