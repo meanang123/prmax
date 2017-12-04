@@ -392,7 +392,7 @@ dojo.declare("prmax.iadmin.admin",
 		this.clippings.load(response.data.cust.customerid, response.data.cust.end_date);
 
 		// check external user id
-		if (response.data.cust.customertypeid == 23)
+		if (response.data.cust.customertypeid == 23 || response.data.cust.customertypeid == 24)
 		{
 			dojo.removeClass(this.external_id_view,"prmaxhidden");
 			this.external_key.set("required", true);

@@ -122,7 +122,7 @@ dojo.declare("prmax.user.AddUser",
 	set_has_external_level:function(customertypeid)
 	{
 		// check external user id
-		if (customertypeid == 23)
+		if (customertypeid == 23 | customertypeid == 24)
 		{
 			dojo.removeClass(this.external_id_view,"prmaxhidden");
 			this.external_key.set("required", true);
