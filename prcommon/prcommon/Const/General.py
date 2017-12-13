@@ -43,7 +43,7 @@ Payment_Line = "£%.2f paid by %s - thanks"
 Payment_Line2 = "£%.2f paid for %s - thanks"
 Payment_Line3 = "Payment received on %s – thank you"
 
-Payment_Line_dd = "Your direct debit payment will be deducted on, or shortly after %s"
+Payment_Line_dd = "The monthly direct debit payment for your annual subscription will be deducted on, or shortly after %s"
 
 # This is for P3P security and setting cookies in a iframe ask for by ai media
 # Link is http://adamyoung.net/IE-Blocking-iFrame-Cookies

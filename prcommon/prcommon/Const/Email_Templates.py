@@ -61,7 +61,7 @@ Invoice_Monthly_Body = """
 
 Invoice_Monthly_DD = """
 <p>Dear PRmax Customer,</p>
-<p>Thank you for your monthly payment. It will be collected by Direct Debit and full details are shown in the attached invoice.</p>
+<p>Thank you for this months payment for your annual subscription. It will be collected by Direct Debit and full details are shown in the attached invoice.</p>
 <p>If you have any questions, please call accounts on 01582 380194 or email us on <a href="mailto:accounts@prmax.co.uk">accounts@prmax.co.uk</a>.</p>
 <br />
 <p>Best regards,</p>
