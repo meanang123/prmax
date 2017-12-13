@@ -214,6 +214,7 @@ dojo.declare("prmax.customer.Preferences",
 		if (response.success == 'OK')
 		{
 			alert('CC email addresses updated');
+			PRMAX.utils.settings.ccaddresses = this.ccaddresses.get("value");
 			dojo.publish('/usersettings/ccaddresses', [response.data]);
 		}
 		else

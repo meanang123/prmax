@@ -24,8 +24,11 @@ dojo.declare("prcommon.crm.responses.resend",
 		this._EmailTemplateCallBack = dojo.hitch(this, this._EmailTemplateCall);
 	
 		this._customerid = PRMAX.utils.settings.cid;
+		this.userccaddresses = PRMAX.utils.settings.ccaddresses;
 		this._customeremailserver =  new prcommon.data.QueryWriteStore({ url:"/common/lookups?searchtype=customeremailserver"});
-		dojo.subscribe('/statement/add',  dojo.hitch(this, this._AddStatementEvent));		
+		dojo.subscribe('/statement/add',  dojo.hitch(this, this._AddStatementEvent));
+		dojo.subscribe('/usersettings/ccaddresses', dojo.hitch(this,this._get_ccaddresses_event));
+		dojo.subscribe('customeremailserver/add', dojo.hitch(this, this._add_customeremailserver_event));
 
 		this._statements = new dojox.data.JsonRestStore( {target:"/statement/statement_combo_rest", idAttribute:"id"});
 		this._emailtemplates = new dojox.data.JsonRestStore( {target:"/emails/templates_list_rest", idAttribute:"id"});
@@ -88,6 +91,7 @@ dojo.declare("prcommon.crm.responses.resend",
 		this.toemailaddress.set("value", contactemail);	
 		this.statementid.set("value", -1);
 		this.emailtemplateid.set("value", -1);
+		this.ccemailaddresses.set("value", this.userccaddresses);
 	},
 	_add_server:function()
 	{
@@ -114,6 +118,19 @@ dojo.declare("prcommon.crm.responses.resend",
 		this._statements.newItem(statement);
 		this.statementid.set("value", statement.statementid);		
 	},	
+	_get_ccaddresses_event:function(data)
+	{
+		this.userccaddresses = data.control.ccaddresses;
+		this.ccemailaddresses.set("value", this.userccaddresses);
+	},
+	_add_customeremailserver_event:function(data)
+	{
+		var servertype = {};
+		servertype.id = data.customeremailserverid;
+		servertype.name = data.fromemailaddress;
+		this._customeremailserver.newItem(servertype);
+		this.customeremailserverid.set("value", data.customeremailserverid);
+	},
 	_option_changed:function()	{
 		if (this.option0.get("checked"))
 		{
