@@ -42,40 +42,99 @@ class EmployeeSynchronise(object):
 		
 	def start_one_off(self, parentoutletid):
 		""" Run synchronisation for one outlet """
+		exists = True
 		childoutlets = session.query(OutletProfile).\
 		    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 		    filter(OutletProfile.seriesparentid != None).\
 		    filter(ResearchDetails.no_sync == False ).\
 		    filter(OutletProfile.seriesparentid == parentoutletid).all()
 		
+		if len(childoutlets)>0:
+			exists = True
+			start = 0
+			stop = len(childoutlets)
+
+		while exists == True:
+			for child in childoutlets[start:stop]:
+				more_children = session.query(OutletProfile).\
+					join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+					filter(OutletProfile.seriesparentid != None).\
+					filter(ResearchDetails.no_sync == False ).\
+					filter(OutletProfile.seriesparentid == child.outletid).all()
+				if len(more_children) > 0:
+					childoutlets.extend(more_children)
+			if len(childoutlets) == stop:
+				exists = False
+			else:
+				start = stop
+				stop = len(childoutlets)
+
 		if childoutlets:
 			for childoutlet in childoutlets:
 				self._childoutlet = childoutlet
 				self.synchronise_employees()
 				
 	def start_service(self):
-		childoutlets = session.query(OutletProfile).\
+		#get all outlets that has parent
+		all_childoutlets = session.query(OutletProfile).\
 			    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 			    filter(OutletProfile.seriesparentid != None).\
-			    filter(ResearchDetails.no_sync == False ).all()
-		
+			    filter(ResearchDetails.no_sync == False).all()
+#		        filter(OutletProfile.outletid.in_((130637,130636,130675,71453))).all()
 		results = []
-		if childoutlets:
-			for childoutlet in childoutlets:
-				self._childoutlet = childoutlet
-				parent_allow_sync = session.query(OutletProfile).\
-					join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
-					filter(OutletProfile.outletid == childoutlet.seriesparentid).\
-					filter(ResearchDetails.no_sync == False).scalar()
-				if (parent_allow_sync):
-					resultdata = None
-					try:
-						resultdata = self.synchronise_employees()
-						if resultdata:
-							results.append()
-					except Exception, ex:
-						results.append(str(ex))
-			print results
+
+		all_children = []
+		all_parents = []
+		for c in all_childoutlets:
+			all_children.append(c.outletid)
+			all_parents.append(c.seriesparentid)
+
+		#from the children outlet get only those that are not parents to any other
+		bottom_children = session.query(OutletProfile).\
+	            join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+	            filter(OutletProfile.seriesparentid != None).\
+	            filter(ResearchDetails.no_sync == False).\
+				filter(OutletProfile.outletid.in_(all_children)).\
+			    filter(OutletProfile.outletid.notin_(all_parents)).all()
+
+		childoutlets = []
+		done = []
+
+		for child in bottom_children:
+			exists = True
+			child_series = []
+			child_series.append(child)
+			#we use the done to have all outlets that have already are in the list of those that would be synchronised (to avoid duplicates)
+			done.append(child.outletid)
+			while exists == True:
+				series = session.query(OutletProfile).\
+			        join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+			        filter(OutletProfile.outletid == child_series[0].seriesparentid).\
+			        filter(OutletProfile.outletid.in_(all_children)).scalar()
+				if series and series.outletid not in done:
+					done.append(series.outletid)
+					#insert in the start of the list so as to be first that would be synchronised.
+					child_series.insert(0,series)
+				else:
+					exists = False
+
+			childoutlets.extend(child_series)
+
+		for childoutlet in childoutlets:
+			self._childoutlet = childoutlet
+			parent_allow_sync = session.query(OutletProfile).\
+		        join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
+		        filter(OutletProfile.outletid == childoutlet.seriesparentid).\
+		        filter(ResearchDetails.no_sync == False).scalar()
+			if (parent_allow_sync):
+				resultdata = None
+				try:
+					resultdata = self.synchronise_employees()
+					if resultdata:
+						results.append()
+				except Exception, ex:
+					results.append(str(ex))
+		print results
 				
 				
 	def synchronise_employees(self):
