@@ -1013,6 +1013,7 @@ class EmailTemplates(BaseSql):
 			                     "text/html"
 			                     )
 			emailmessaage.BuildMessage()
+			emailmessaage.cc = params['ccemailaddresses']			
 
 			if ces.servertypeid in SMTPSERVERBYTYPE:
 				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](

@@ -55,6 +55,7 @@ dojo.declare("prcommon.crm.responses.resend",
 		var content = {};
 		content['customeremailserverid'] = this.customeremailserverid.get("value");
 		content['toemailaddress'] = this.toemailaddress.get("value");
+		content['ccemailaddresses'] = this.ccemailaddresses.get("value");
 		
 		if ( this.option0.get("checked"))
 		{
