@@ -31,7 +31,7 @@ fjs.parentNode.insertBefore(js, fjs);
 					%else:
 						<img style="float:left" alt="No Image" src="/static/images/noimage.gif" height="100px" width="100px"></img>
 					%endif
-					<div class="news-title-newsroom"><a href="${result['link']}">${result['headline']}</a></div>
+					<div class="news-title-newsroom">${result['published_display2']} - <a href="${result['link']}">${result['headline']}</a></div>
 					<div class="newsroom-synopsis">${result['synopsis'].replace("\n"," ").replace("  "," ")}</div>
 				% endfor
 			%endif

@@ -430,7 +430,7 @@ class SEORelease(BaseSql):
 			raise
 
 	_Release_List_Date = """SELECT seo.synopsis,'/releases/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
-	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
+	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
 	_Release_List_Date_Cardiff = """SELECT seo.synopsis,
@@ -439,11 +439,11 @@ class SEORelease(BaseSql):
 	WHEN seo.clientid = 1966 THEN '/releases/w/'||seo.seoreleaseid||'.html'
 	END as link,
 	seo.headline, seo.seoimageid,
-	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
+	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
 	_Release_List_Date_Welsh = """SELECT seo.synopsis,'/releases/w/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
-	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display
+	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
 
