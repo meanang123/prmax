@@ -11,7 +11,7 @@
 
 #-----------------------------------------------------------------------------
 from turbogears.database import metadata, mapper, session
-from sqlalchemy import Table, Column, Integer, DateTime
+from sqlalchemy import Table, Column, Integer, DateTime, not_
 from turbogears import identity
 from prcommon.model import AuditTrail, Terms, NbrOfLogins, Address, \
      UserView, Customer, CustomerView, User, UserDefaultCountries, Countries
@@ -28,13 +28,19 @@ class Preferences(object):
 	def get(cls, user_id):
 		""" get items"""
 		user = User.query.get(user_id)
-		return dict (control=user.get_settings(),
-		             user = UserView.query.get(user_id),
-		             countries  = [ dict( countryid = country.countryid,
-		                                  countryname  = country.countryname)
+		control = user.get_settings()
+		countries = []
+		for country in control['countries']:
+			countries.append(country['countryid'])
+
+		return dict (control=control,
+		          user = UserView.query.get(user_id),
+		          countries  = [ dict( countryid = country.countryid,
+		                               countryname  = country.countryname)
 		              for user,country in session.query(UserDefaultCountries, Countries).
 		              filter(UserDefaultCountries.countryid == Countries.countryid).
-		              filter(UserDefaultCountries.userid == user_id).all()])
+		              filter(UserDefaultCountries.userid == user_id).
+		              filter(not_(UserDefaultCountries.countryid.in_(countries))).all()])
 
 	@classmethod
 	def update_projectname(cls, kw):
