@@ -1,7 +1,6 @@
 <div>
 	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",gutters:false' >
 		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", style:"height:42px;width:100%;overflow:hidden", "class":"std_menu_view"'>
-
 			<div style="height:38px;width:100%;overflow:hidden" class="std_menu_view">
 				<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop", style:"float:left:height:94%;width:400px"' >
 					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_AddStatement" data-dojo-attach-point="addbutton" data-dojo-props='label:"New Statement", iconClass:"fa fa-plus fa-3x",showLabel:true'></div>
@@ -13,9 +12,7 @@
 			<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ }, rowsPerPage:30' ></div>
 		</div>
 		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:50%;height:100%", region:"right", splitter:true'>
-
 			<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props="region:'center',splitter:true,'class':'bordered'">
-
 				<div data-dojo-attach-point="details"  data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Edit',style:'height:100%;width:500px;overflow :auto','class':'bordered scrollpane',selected:'selected'">
 					<span class="common_prmax_layout">
 			
@@ -45,19 +42,16 @@
 				<div data-dojo-attach-point="engagements"  data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Engagements',style:'height:100%;width:500px;overflow :auto','class':'bordered scrollpane'">
 					<div data-dojo-attach-point="engagements_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ }, rowsPerPage:30' ></div>
 				</div>
-			
-			
+				<div data-dojo-attach-point="clippings" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="title:'Clips',style:'height:100%;width:500px;overflow:auto','class':'bordered scrollpane'">
+					<div data-dojo-attach-point="clippings_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ }, rowsPerPage:30, region:"center"' ></div>
+					<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="clippings_view" data-dojo-props='region:"bottom",style:"width:100%;height:50%",splitter:true' >
+						<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="blank_view" data-dojo-props='style:"width:100%;height:100%"'></div>
+						<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="clipping_view" data-dojo-props='style:"width:100%;height:100%"'></div>
+					</div>							
+				</div>
 			</div>
-			
-			
-			
-			
-			
-			
-			
 		</div>
 	</div>
-
 	<div>
 		<div data-dojo-attach-point="add_statement_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Statement", style:"width:600px;height:500px"'>
 		<div data-dojo-attach-point="addstatementctrl" data-dojo-type="prcommon.crm.responses.add" style="width:600px;height:500px"></div>
@@ -67,3 +61,5 @@
 		<div data-dojo-attach-event="onClick:_close_dlg" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Close",style:"float:left;padding-right:20px"'></div>
 	</div>		
 </div>
+
+

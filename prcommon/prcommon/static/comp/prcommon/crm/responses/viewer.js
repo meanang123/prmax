@@ -24,10 +24,11 @@ dojo.require("prcommon.data.QueryWriteStore");
 dojo.require("prcommon.documents.upload");
 dojo.require("prcommon.crm.responses.add");
 
-
 dojo.declare("prcommon.crm.responses.viewer",
 	[ ttl.BaseWidget ],
 	{
+	widgetsInTemplate: true,
+	basic_details_page:"/clippings/display_page?clippingid=${clippingid}",	
 	templatePath: dojo.moduleUrl( "prcommon.crm.responses","templates/viewer.html"),
 	constructor: function()
 	{
@@ -47,10 +48,19 @@ dojo.declare("prcommon.crm.responses.viewer",
 				urlPreventCache:true
 			});
 
+		this.clipping_model = new prcommon.data.QueryWriteStore (
+			{url:'/statement/statement_clippings_grid',
+				onError:ttl.utilities.globalerrorchecker,
+				clearOnClose:true,
+				nocallback:true,
+				urlPreventCache:true
+			});
+
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 		this._issues = new dojox.data.JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
 		this._UpdateStatementCallBack = dojo.hitch(this,this._UpdateStatementCall);
 		this._DeleteStatementCallBack = dojo.hitch(this,this._DeleteStatementCall);
+		this._load_call_back = dojo.hitch(this, this._load_call);
 		dojo.subscribe(PRCOMMON.Events.Word_Html_Data, dojo.hitch(this,this._word_html_data_event));
 		dojo.subscribe('/statement/add',  dojo.hitch(this, this._AddStatementEvent));
 	},
@@ -65,6 +75,10 @@ dojo.declare("prcommon.crm.responses.viewer",
 
 		this.engagements_grid.set("structure", this.engagement_view);
 		this.engagements_grid._setStore(this.engagement_model);
+
+		this.clippings_grid.set("structure", this.clip_view);
+		this.clippings_grid._setStore(this.clipping_model);
+		this.clippings_grid["onRowClick"] = dojo.hitch(this, this._on_row_click );
 
 		this.clientid.store = this._clients;
 		this.clientid.set("value",-1);
@@ -81,15 +95,24 @@ dojo.declare("prcommon.crm.responses.viewer",
 		cells: [[
 		{name: 'Description',width: "200px",field:"statementdescription"},
 		{name: 'Client',width: "200px",field:"clientname"},
-		{name: 'Issue',width: "auto",field:"issuename"}
+		{name: 'Issue',width: "auto",field:"issuename"},
+		{name: 'Created date',width: "auto",field:"created"}
 		]]
 	},
 	engagement_view: {
 		cells: [[
-		{name: 'Subject',width: "200px",field:"crm_subject"},
-		{name: 'Date',width: "200px",field:"taken"}
+		{name: 'Outlet',width: "200px",field:"outletname"},
+		{name: 'Contact',width: "200px",field:"contactname"},
+		{name: 'Date',width: "auto",field:"taken"}
 		]]
 	},
+	clip_view: {
+		cells: [[
+		{name: 'Outlet',width: "200px",field:"outletname"},
+		{name: 'Date',width: "auto",field:"sourcedate"}
+		]]
+	},
+
 	_onCellClick:function ( e )
 	{
 		this._row = this.grid.getItem(e.rowIndex);
@@ -101,6 +124,24 @@ dojo.declare("prcommon.crm.responses.viewer",
 
 		this._ShowDetails();
 	},
+	_on_row_click:function(event)
+	{
+		var row = this.clippings_grid.getItem(event.rowIndex);
+		if ( row )
+		{
+			this._row = row;
+			dojo.xhrPost(
+				ttl.utilities.makeParams({
+				load: this._load_call_back,
+				url:'/clippings/get_for_edit',
+				content: {clippingid:row.i.clippingid}}));
+		}
+	},	
+	_load_call:function(response)
+	{
+		this.clipping_view.set("href",dojo.string.substitute(this.basic_details_page,{clippingid:response.data.clippingid}));
+		this.clippings_view.selectChild(this.clipping_view);
+	},	
 	_ShowDetails:function()
 	{
 		dojo.removeClass(this.display_pane,"prmaxhidden");
@@ -112,6 +153,8 @@ dojo.declare("prcommon.crm.responses.viewer",
 		this.output.set("value", this._row.i.output);
 
 		this.engagements_grid.setQuery({statementid:this._row.i.statementid});
+		this.clippings_grid.setQuery({statementid:this._row.i.statementid});
+		this.clippings_view.selectChild(this.blank_view);
 	},
 	_AddStatement:function()
 	{

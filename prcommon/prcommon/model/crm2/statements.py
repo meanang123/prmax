@@ -113,7 +113,8 @@ class Statements(BaseSql):
 			transaction.rollback()
 			raise
 
-	ListData = """SELECT statementid, statementdescription, c.clientid, c.clientname, i.issueid, i.name as issuename, output
+	ListData = """SELECT statementid, statementdescription, c.clientid, c.clientname, i.issueid, i.name as issuename, output, 
+	to_char(s.created,'DD/MM/YYYY') AS created
         FROM userdata.statements AS s
         LEFT OUTER JOIN userdata.client AS c ON c.clientid = s.clientid
         LEFT OUTER JOIN userdata.issues AS i ON i.issueid = s.issueid
@@ -124,10 +125,14 @@ class Statements(BaseSql):
 	ListDataCount = """SELECT COUNT(*) FROM userdata.statements WHERE customerid = :customerid"""
 
 
-	ListDataEngagements = """SELECT statementid, crm_subject, chresp.contacthistoryid, chresp.contacthistoryresponseid,
+	ListDataEngagements = """SELECT chresp.contacthistoryresponseid, statementid, crm_subject, chresp.contacthistoryid, chresp.contacthistoryresponseid, outletname,
+	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
         to_char(chresp.taken, 'DD/MM/YY') AS taken
         FROM userdata.contacthistoryresponses AS chresp
         JOIN userdata.contacthistory AS ch ON chresp.contacthistoryid = ch.contacthistoryid
+	LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid
+	LEFT OUTER JOIN employees AS e ON ch.employeeid = e.employeeid
+	LEFT OUTER JOIN contacts AS c ON c.contactid = e.contactid
         """
 
 	ListDataEngagementsCount = """
@@ -136,16 +141,29 @@ class Statements(BaseSql):
         JOIN userdata.contacthistory AS ch ON chresp.contacthistoryid = ch.contacthistoryid
         """
 
+	ListDataClippings = """SELECT clip.clippingid, statementid, outletname,
+        to_char(clip.clip_source_date, 'DD/MM/YY') AS sourcedate
+        FROM userdata.clippings AS clip
+	    LEFT OUTER JOIN outlets AS o ON o.outletid = clip.outletid
+        """
+
+	ListDataClippingsCount = """
+        SELECT COUNT(*)
+        FROM userdata.clippings AS clip
+        """
+
 	EMPTYGRID = dict (numRows = 0, items = [], identifier = 'statementid')
 
 	@classmethod
 	def get_grid_page(cls, params):
 		""" get a page of statements"""
 
-		params["sort"] = 'UPPER(statementdescription)'
+		if "sortfield" not in params or params.get("sortfield") == "":
+			params["sortfield"] = "s.created"
+			params['direction'] = "DESC"
 
 		return Statements.getGridPage(params,
-				                              'UPPER(statementdescription)',
+				                           'created',
 				                           'statementid',
 				                           Statements.ListData,
 				                           Statements.ListDataCount,
@@ -155,16 +173,36 @@ class Statements(BaseSql):
 	def get_engagements_grid_page(cls, params):
 		""" get a page of engagements that have used in a specific statementid"""
 
-		params["sort"] = 'UPPER(crm_subject)'
+		if "sortfield" not in params or params.get("sortfield") == "":
+			params["sortfield"] = "chresp.taken"
+			params['direction'] = "DESC"
 
 		whereclause = ' WHERE statementid = %s ' % params['statementid']
 
 		return  Statements.getGridPage(params,
-				                               'UPPER(crm_subject)',
+		                                   'taken',
 				                           'contacthistoryresponseid',
 				                           Statements.ListDataEngagements + whereclause + BaseSql.Standard_View_Order,
 				                           Statements.ListDataEngagementsCount + whereclause,
 				                           cls)
+
+	@classmethod
+	def get_clippings_grid_page(cls, params):
+		""" get a page of engagements that have used in a specific statementid"""
+
+		if "sortfield" not in params or params.get("sortfield") == "":
+			params["sortfield"] = "clip.clip_source_date"
+			params['direction'] = "DESC"
+
+		whereclause = ' WHERE statementid = %s ' % params['statementid']
+
+		return  Statements.getGridPage(params,
+		                                   'clip_source_date',
+				                           'clippingid',
+				                           Statements.ListDataClippings + whereclause + BaseSql.Standard_View_Order,
+				                           Statements.ListDataClippingsCount + whereclause,
+				                           cls)
+
 
 	@classmethod
 	def get(cls, statementid):

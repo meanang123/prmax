@@ -115,6 +115,19 @@ class StatementController(SecureController):
 
 		return Statements.get_engagements_grid_page(params)
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrGridSchema(), state_factory=std_state_factory)
+	def statement_clippings_grid(self, *argv, **params):
+		""" return a page of clippings for the grid"""
+
+		if 'statementid' not in params:
+			return Statements.EMPTYGRID
+		else:
+			params['statementid'] = int(params['statementid'])
+
+		return Statements.get_clippings_grid_page(params)
 
 	@expose("json")
 	@exception_handler(pr_std_exception_handler)
