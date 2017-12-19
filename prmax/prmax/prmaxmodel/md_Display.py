@@ -56,9 +56,25 @@ class OutletDisplay(BaseSql):
 	o.outlettypeid,
 	addr_co.countryname,
 	CASE WHEN a_oc.address1 IS NULL THEN
-	AddressFull(a_o.address1,a_o.address2,a_o.county,a_o.postcode,town.geographicalname,a_o.townname,'')
+	    CASE WHEN (o.sourcetypeid = 5 OR o.sourcetypeid = 6) THEN
+	        CASE WHEN a_o.county = a_o.townname THEN
+	            AddressFull(a_o.address1,a_o.address2,a_o.townname,'',town.geographicalname,a_o.postcode,'')
+	        ELSE
+	            AddressFull(a_o.address1,a_o.address2,a_o.townname,a_o.county,town.geographicalname,a_o.postcode,'')
+	        END
+	    ELSE
+	        AddressFull(a_o.address1,a_o.address2,a_o.county,a_o.postcode,town.geographicalname,a_o.townname,'')
+	    END
 	ELSE
-	AddressFull(a_oc.address1,a_oc.address2,a_oc.county,a_oc.postcode,a_octown.geographicalname,a_oc.townname,'')
+	    CASE WHEN (o.sourcetypeid = 5 OR o.sourcetypeid = 6) THEN
+	        CASE WHEN a_oc.county = a_oc.townname THEN
+	            AddressFull(a_oc.address1,a_oc.address2,a_oc.townname,'',a_octown.geographicalname,a_oc.postcode,'')
+	        ELSE
+	            AddressFull(a_oc.address1,a_oc.address2,a_oc.townname,a_oc.county,a_octown.geographicalname,a_oc.postcode,'')
+	        END
+	    ELSE
+	        AddressFull(a_oc.address1,a_oc.address2,a_oc.county,a_oc.postcode,a_octown.geographicalname,a_oc.townname,'')
+	    END
 	END as address,
 	CASE WHEN a_oc.address1 IS NULL THEN  false ELSE true END as addressflag,
 	ot.outlettypename,ii.industryname,f.frequencyname,rf.regionalfocusname,o.circulation,
@@ -232,9 +248,11 @@ class OutletDisplay(BaseSql):
 		else:
 			retdata["frequency"] = ""
 
-		if outlet.outletpriceid:
+		if outlet.outletpriceid and outlet.outletpriceid != 1:
 			outletprice = OutletPrices.query.get(outlet.outletpriceid)
 			retdata["costfield"] = outletprice.outletpricedescription
+		else:
+			retdata["costfield"] = ""
 
 		# series parent
 		if outletprofile and outletprofile.seriesparentid:

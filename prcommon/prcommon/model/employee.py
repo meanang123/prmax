@@ -894,12 +894,28 @@ class EmployeeDisplay(BaseSql):
 		get_override(c_ce.fax,c_e.fax,o_c_c.fax,o_c.fax) as fax,
 		get_overrideflag(c_ce.fax,c_e.fax) as faxflag,
 		get_override(c_ce.mobile,c_e.mobile,o_c_c.mobile,o_c.mobile) as mobile,
-		get_overrideflag(c_ce.mobile,c_e.mobile) as mobileflag,
-		CASE WHEN a_ec.address1 IS NULL THEN
-	    	CASE WHEN a_e.address1 IS NULL OR LENGTH(a_e.address1)=0 THEN
-	        	AddressFull(a_o.address1,a_o.address2,a_o.county,a_o.postcode,a_otown.geographicalname,a_o.townname,'')
+	    get_overrideflag(c_ce.mobile,c_e.mobile) as mobileflag,
+	    CASE WHEN a_ec.address1 IS NULL THEN
+	        CASE WHEN a_e.address1 IS NULL OR LENGTH(a_e.address1)=0 THEN
+	            CASE WHEN (o.sourcetypeid = 5 OR o.sourcetypeid = 6) THEN
+	                CASE WHEN a_o.county = a_o.townname THEN
+	                    AddressFull(a_o.address1,a_o.address2,a_o.townname,'',a_otown.geographicalname,a_o.postcode,'')
+	                ELSE
+	                    AddressFull(a_o.address1,a_o.address2,a_o.townname,a_o.county,a_otown.geographicalname,a_o.postcode,'')
+	                END
+	            ELSE
+	                AddressFull(a_o.address1,a_o.address2,a_o.county,a_o.postcode,a_otown.geographicalname,a_o.townname,'')
+	            END
 	        ELSE
-	        	AddressFull(a_e.address1,a_e.address2,a_e.county,a_e.postcode,town.geographicalname,a_e.townname,'')
+	            CASE WHEN (o.sourcetypeid = 5 OR o.sourcetypeid = 6) THEN
+	                CASE WHEN a_e.county = a_e.townname THEN
+	                    AddressFull(a_e.address1,a_e.address2,a_e.townname,'',town.geographicalname,a_e.postcode,'')
+	                ELSE
+	                    AddressFull(a_e.address1,a_e.address2,a_e.townname,a_e.county,town.geographicalname,a_e.postcode,'')
+	                END
+	            ELSE
+	                AddressFull(a_e.address1,a_e.address2,a_e.postcode,a_e.county,town.geographicalname,a_e.townname,'')
+	            END
 	        END
 		ELSE
 			AddressFull(a_ec.address1,a_ec.address2,a_ec.county,a_ec.postcode,a_ectown.geographicalname,a_ec.townname,'')
