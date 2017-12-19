@@ -542,7 +542,7 @@ class ListMembers(BaseSql):
 				direction = "DESC"
 			sortfield = kw["sort"].replace("-","")
 			if sortfield == "contactname":
-				sortfield = "UPPER(lm.familyname)"
+				sortfield = "UPPER(lm.familyname) %order%, UPPER(lm.firstname) %order%"
 			for data in ListMembers.SortFields.values():
 				if data.startswith(sortfield):
 					sortfield = data
