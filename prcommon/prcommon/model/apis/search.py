@@ -25,6 +25,7 @@ class ApiSearch(object):
 	def results_view(params):
 		"""Get a list of results"""
 
+	
 		params["apiview"] = True
 
 		return SearchSession.getDisplayPage(params)
@@ -45,7 +46,19 @@ class ApiSearch(object):
 
 		data = ApiSearching.do_search(DictExt(params))
 
-		return dict(total=data['total'])
+		return dict(results=data)
+
+	@staticmethod
+	def do_clear_session(params):
+		"""do clear api session """
+
+		return SearchSession.ClearSession(user_id)
+
+	@staticmethod
+	def result_stats(params):
+		
+		return params
+
 
 
 	SEARCH_TYPE_KEY = "search_type"

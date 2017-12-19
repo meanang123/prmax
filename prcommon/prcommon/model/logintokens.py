@@ -14,6 +14,7 @@ import datetime
 from datetime import timedelta
 import logging
 from turbogears.database import  metadata, mapper, session
+from sqlalchemy.sql import text
 from turbogears import visit
 from sqlalchemy import Table
 from prcommon.model.common import BaseSql
@@ -119,7 +120,7 @@ class LoginTokens(BaseSql):
 		"""checks that the userid has permission to login """
 		#  genral check
 		try:
-			if params["customertypeid"] not in Constants.Customer_Token_Login:
+			if "customertypeid" in params and params["customertypeid"] not in Constants.Customer_Token_Login:
 				return(2, "Invalid Account Information")
 
 			# user check
@@ -164,11 +165,17 @@ class LoginTokens(BaseSql):
 	def active_users(params):
 		"""List of active users base on either userid or customerid"""
 
-		returvalue = []
-
 		# collect list of active uses
+		retvalue = []
 
-		return returvalue
+		if "userid" in params and params['userid'] != None:
+			customerid = session.query(User.customerid).filter(User.user_id== params['userid']).scalar()
+			params['customerid'] = customerid
+
+		if "customerid" in params:
+			retvalue = [row.user_id for row in session.query(User.user_id).filter(User.customerid==params['customerid']).all()]
+
+		return retvalue
 
 	@staticmethod
 	def get_active_session(userid, token_life=5):
@@ -204,11 +211,18 @@ class LoginTokens(BaseSql):
 	def close_session(params):
 		"""Close a session either with tokenid or userid"""
 
+
 		if "usersessionid" in params:
-			pass
+			userid = session.query(VisitIdentity.user_id).filter(VisitIdentity.visit_key == params['usersessionid']).scalar()
+			params['userid'] = userid
 
 		if "userid" in params:
-			pass
+			visits = session.query(VisitIdentity.visit_key).filter(VisitIdentity.user_id==params['userid']).all()
+			for visit in visits:
+				session.execute(text('DELETE from visit_identity WHERE visit_key = :visit_key'), {'visit_key': visit.visit_key}, VisitIdentity)
+				session.execute(text('DELETE from visit WHERE visit_key = :visit_key'), {'visit_key': visit.visit_key}, VisitIdentity)
+				session.flush()
+		session.commit()
 
 
 

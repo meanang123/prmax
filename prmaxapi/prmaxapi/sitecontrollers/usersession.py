@@ -27,10 +27,11 @@ class LogoutSchema(tgvalidators.Schema):
 	""" Token adding schema """
 	allow_extra_fields = True
 	userid = tgvalidators.Int2Null()
-	usersessionid = tgvalidators.Int2Null()
+#	usersessionid = tgvalidators.Int2Null()
 
 class ActiveUsersSchema(tgvalidators.Schema):
 	""" List of active users for customer"""
+	allow_extra_fields = True
 	customerid = tgvalidators.Int2Null()
 	userid = tgvalidators.Int2Null()
 

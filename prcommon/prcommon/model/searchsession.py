@@ -58,6 +58,22 @@ class SearchSession(BaseSql):
 											deleteoptions=deleteoptions),
 									   _rowcount,
 									   True)
+
+	@classmethod
+	def ClearSession(cls, userid):
+		""" Clear user session"""
+
+		def _rowcount(result):
+			"internal"
+			return result.rowcount
+
+		return cls.sqlExecuteCommand(text(SearchSession.SearchSession_Delete),
+	                                   dict(userid=userid,
+	                                        searchtypeid=searchtypeid,
+	                                        deleteoptions=deleteoptions),
+	                                   _rowcount,
+	                                   True)
+
 	@classmethod
 	def getCount(cls, params):
 		""" get count info about session """

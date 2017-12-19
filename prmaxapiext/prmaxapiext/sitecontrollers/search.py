@@ -47,6 +47,16 @@ class SearchController(SecureController):
 		"""
 		return ApiSearch.results_view(params)
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=SearchSchema(), state_factory=tgvalidators.std_state_factory)
+	def do_clear_session(self, *args, **params):
+		""" do the search """
+
+		data = ApiSearch.do_search(params)
+
+		return stdreturn(data=data)
 
 	#@expose('json')
 	#@exception_handler(pr_std_exception_handler)
