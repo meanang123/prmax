@@ -863,6 +863,9 @@ class Employee(BaseSql):
 				# need to delete duplicate entries from list
 				pass
 
+			#update contacthistory
+			session.execute(text("UPDATE userdata.contacthistory SET employeeid = :newemployeeid WHERE employeeid = :employeeid" ), params, Contact)
+
 			# delete employee
 			#session.execute(text(Employee.Delete_Employee), params, Employee)
 			session.execute(text("SELECT employee_research_force_delete(:employeeid)"), params, Employee)
