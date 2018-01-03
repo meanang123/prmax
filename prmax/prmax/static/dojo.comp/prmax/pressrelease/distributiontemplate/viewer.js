@@ -102,7 +102,7 @@ dojo.declare("prmax.pressrelease.distributiontemplate.viewer",
 	},
 	_add_template_header:function()
 	{
-		this.add_template_dlg.set("title","Header Footer");
+		this.add_template_dlg.set("title","Add Header");
 		this.add_template_ctrl.load(this._show_add_call_back,1);
 		this._show_add_call("show");
 	}
