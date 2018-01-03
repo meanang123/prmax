@@ -18,6 +18,7 @@ class WordToHtml:
 	__Command = r"c:\Program Files\Zapadoo\WordCleaner4\WordCleaner4.exe"
 	__Command2 = r"C:\Program Files (x86)\Zapadoo\WordCleaner4\WordCleaner4.exe"
 	__Command_V5 = r"C:\Program Files (x86)\WordCleaner5\WordCleaner5.exe"
+	__Command_V7 = r"C:\Program Files (x86)\WordCleaner7\WordCleaner7.exe"
 
 	_DefaultTemplate = "cgh"
 
@@ -52,6 +53,8 @@ class WordToHtml:
 			command = WordToHtml.__Command
 			if not os.path.exists ( WordToHtml.__Command ):
 				command = WordToHtml.__Command2
+		elif self._version == 7:
+			command = WordToHtml.__Command_V7
 		else:
 			command = WordToHtml.__Command_V5
 
@@ -80,5 +83,5 @@ class WordToHtml:
 		return html
 
 
-#a = WordToHtml ( file(r"d:\downloads\Word doc for Nick (4) (1).doc","rb").read(),"tmp.doc",ConvertWordToHtml._DefaultTemplate)
+#a = WordToHtml ( file(r"C:\Users\Chris\Documents\PPR\Close Day Update.docx","rb").read(), 1, "tmp.doc", "Convert to HTML5", r"c:\temp\prmaxpic", 7)
 #a.run()

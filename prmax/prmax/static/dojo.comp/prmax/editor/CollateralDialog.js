@@ -7,6 +7,7 @@ dojo.require("dijit.TooltipDialog");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dojo.string");
+dojo.provide("prmax.collateral.adddialog");
 
 dojo.declare("prmax.editor._CollateralButton",
 	[dijit._Widget, dijit._Templated],{
@@ -35,6 +36,7 @@ dojo.declare("prmax.editor._CollateralButton",
 			"<label class='dijitLeft dijitInline' for='${selectId}'>${label}</label>" +
 			"<input dojoType='dijit.form.FilteringSelect' required=false labelType=html labelAttr=collateralcode searchAttr=collateralcode " +
 					"tabIndex='-1' id='${selectId}' dojoAttachPoint='select' value='' style='width:150px'/>" +
+		'<input class="dijitLeft dijitInline" id="${add_dialog_btn}" dojoType="dijit.form.ToggleButton" iconClass="fa fa-plus" showLabel="false" label="Add Collateral" dojoAttachPoint="add_btn">'+
 		"</span>",
 
 	// restrict list
@@ -47,6 +49,7 @@ dojo.declare("prmax.editor._CollateralButton",
 		this.label = "Collateral";
 		this.id = dijit.getUniqueId(this.declaredClass.replace(/\./g,"_"));
 		this.selectId = this.id + "_select";
+		this.add_dialog_btn = this.id + "+add_btn";
 
 		this.inherited(arguments);
 	},
@@ -64,6 +67,11 @@ dojo.declare("prmax.editor._CollateralButton",
 
 		this.select.set("value", "", false);
 		this.disabled = this.select.get("disabled");
+	},
+	_add_collateral_event:function(collateral)
+	{
+		this.add_dialog.hide();
+		this.select.set("value", collateral.collateralid);
 	},
 
 /*	_setValueAttr: function(value, priorityChange){
@@ -173,6 +181,11 @@ dojo.declare("prmax.editor.CollateralDialog", dijit._editor._Plugin,{
 
 		this.button = new prmax.editor._CollateralButton(params);
 
+		this.connect(this.button.add_btn,"onChange",function()
+		{
+			this.button.add_dialog.show();
+		});
+
 		// Reflect changes to the drop down in the editor
 		this.connect(this.button.select, "onChange", function(choice){
 			// User invoked change, since all internal updates set priorityChange to false and will
@@ -195,7 +208,7 @@ dojo.declare("prmax.editor.CollateralDialog", dijit._editor._Plugin,{
 			if ( ext == '.jpg' || ext == '.gif'|| ext == '.bmp' || ext == ".tif" || ext == ".tiff" || ext == '.jpeg')
 			{
 			var embedded = true ;
-				if ( confirm ( "Add as a link rather than embedded image?"))
+				if ( confirm ( "To add as a link press OK\nTo Add as an image press Cancel?"))
 					embedded = false;
 
 				if ( embedded )
@@ -209,6 +222,10 @@ dojo.declare("prmax.editor.CollateralDialog", dijit._editor._Plugin,{
 			this.button.select.set("value","");
 
 		});
+		this.button.add_dialog = new prmax.collateral.adddialog(params);
+
+		dojo.subscribe(PRCOMMON.Events.Collateral_Add , dojo.hitch(this.button, this.button._add_collateral_event));
+
 	},
 
 	updateState: function(){

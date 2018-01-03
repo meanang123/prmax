@@ -185,12 +185,14 @@ class LayoutController(SecureController):
 	def std_view_lists(self, *args, **params):
 		""" returns the standard view needs to check if customer is a demo """
 
-		if params.get("selectedview", "") == "distributions":
+		customer = Customer.query.get(params["customerid"])
+		if params.get("selectedview", "") == "distributions" or \
+		   customer.customertypeid in (Constants.CustomerType_PrmaxPressOffice, Constants.CustomerType_PressDataOffice):
 			params["startup_standing"] = ""
-			params["startup_distributions"] = "selected"
+			params["startup_distributions"] = 'selected:"selected"'
 			params["startup_mode"] = params.get("startup_mode", "All")
 		else:
-			params["startup_standing"] = "selected"
+			params["startup_standing"] = 'selected:"selected"'
 			params["startup_distributions"] = ""
 			params["startup_mode"] = "All"
 

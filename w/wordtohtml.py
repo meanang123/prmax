@@ -19,10 +19,9 @@ from ttl.msword.AnalyseHtmlWordDocument import AnalyseHtmlWordDocument, \
 import os
 
 # interface to the on-line databases
-live = dict( host = "89.16.167.250", base_url= "https://collateral.prmax.co.uk/collateral", version =5  )
-test = dict( host = "89.16.161.163", base_url= "https://test.prmax.co.uk/collateral", version = 5  )
-local_test = dict ( host = "localhost", base_url = "http://localhost/collateral", version = 5  )
-
+live = dict(host="89.16.167.250", base_url="https://collateral.prmax.co.uk/collateral", version=5)
+test = dict(host="89.16.161.163", base_url="https://test.prmax.co.uk/collateral", version=7)
+local_test = dict ( host = "localhost", base_url = "http://localhost/collateral", version=7)
 
 class WordToHtmlController(object):
 	"""  Word controller """
@@ -74,14 +73,14 @@ class WordToHtmlController(object):
 								html = _engine.getFixUpHtmlForIE()
 							else:
 								html = _engine._getData()
-							
+
 							if row[7] == True:
 								#remove images
 								while html.find('<img') != -1:
 									img_start = html.find('<img')
 									img_end = html.find('>', img_start)
 									html = html[:img_start] + html[img_end+1:]
-								
+
 								#get links as text
 								while html.find('<a href') != -1:
 									link_start = html.find('<a href')
@@ -89,7 +88,7 @@ class WordToHtmlController(object):
 									a_tag = html.find('</a>', link_end)
 									link_text = html[link_end+1:a_tag].replace(".", ".<span></span>").replace("//", "//<span></span>")
 									html = html[:link_start] + link_text + html[a_tag+4:]
-								
+
 							css = CSSHtmlconvertor( html,
 										self._working ,
 										row[0] )
@@ -98,7 +97,8 @@ class WordToHtmlController(object):
 
 							fin_html = _CleanUp(fin_html)
 
-							fin_html = fin_html[fin_html.find('css"&gt;')+len('css"&gt;'):]
+							if self._version != 7:
+								fin_html = fin_html[fin_html.find('css"&gt;')+len('css"&gt;'):]
 
 
 							#capture all images in document
@@ -186,10 +186,13 @@ def _CleanUp( instring ):
 	outstring = outstring.replace('\xe2\x80\x9c', '"')
 	outstring = outstring.replace('\xe2\x80\x93', "-")
 	outstring = outstring.replace('\u017d','&reg;')
+	outstring = outstring.replace('\n\r', '')
+	outstring = outstring.replace('\n', '')
+
 
 	return outstring
 
-def _LocalRun(host = "localhost", base_url = "http://localhost/collateral", version = 4 ):
+def _LocalRun(host = "localhost", base_url = "http://localhost/collateral", version = 7 ):
 	wordhtmlCtrl = WordToHtmlController( host,
 	                                     base_url ,
 	                                     version )

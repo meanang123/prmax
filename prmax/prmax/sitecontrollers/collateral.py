@@ -107,6 +107,9 @@ class ICollateralController(SecureController):
 	def collateral_list(self, *argv, **params):
 		""" return a page of collateral for the grid"""
 
+		if "id" in params and  not "collateralid" in params:
+			params["collateralid"] = params["id"]
+
 		return Collateral.get_list_page(params)
 
 class EmailReadController(controllers.Controller):

@@ -225,7 +225,7 @@ dojo.declare("prmax.pressrelease.view",
 	},
 	_OptionChanged:function()
 	{
-		this.refresh();
+		//this.refresh();
 		if ( this.option.get("value") == "Display Sent")
 		{
 			dojo.removeClass(this.option2_label1,"prmaxhidden");
@@ -380,5 +380,26 @@ dojo.declare("prmax.pressrelease.view",
 	_show_analysis:function()
 	{
 		this.controls2.selectChild ( this.analysis_view );
+	},
+	_execute_filter:function()
+	{
+		var data = {
+			restrict:this.option.get("value"),
+			timerestriction: this.option2.get("value"),
+			clientid : this.clientid.get("value")
+		};
+
+		var tmp = this.namefilter.get("value");
+
+		if (tmp.length)
+			data["emailtemplatename"] = tmp;
+
+		this.grid.setQuery(ttl.utilities.getPreventCache(data));
+	},
+	_clear_filter:function()
+	{
+		this.clientid.set("value",-1);
+		this.option.set("value","Display All");
+		this.namefilter.set("value","");
 	}
 });

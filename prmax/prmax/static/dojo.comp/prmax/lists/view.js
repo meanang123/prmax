@@ -17,9 +17,9 @@ dojo.require("prmax.pressrelease.seo.view");
 dojo.declare("prmax.lists.view", [ttl.BaseWidget], {
 	widgetsInTemplate: true,
 	templatePath: dojo.moduleUrl( "prmax.lists","templates/view.html"),
-	startup_standing : "selected",
+	startup_standing : 'selected:"selected"',
 	startup_distributions: "",
-	startup_mode:"Display All",
+	startup_mode:'"Display All"',
 	refresh:function( showviewname , startup )
 	{
 		this._ShowView( showviewname ) ;
@@ -38,16 +38,16 @@ dojo.declare("prmax.lists.view", [ttl.BaseWidget], {
 		// If advance add extra tab
 		if (PRMAX.utils.settings.advancefeatures)
 		{
-			var pane = new dijit.layout.BorderContainer({ dojoAttachPoint:"advance_view", style:"width:100%;height:100%",title:"Features" }) ;
-			this.advance = new prcommon.advance.listsview({dojoAttachPoint:"advance", region:"center"});
+			var pane = new dijit.layout.BorderContainer({ "data-dojo-attach-point":"advance_view", style:"width:100%;height:100%",title:"Features" }) ;
+			this.advance = new prcommon.advance.listsview({"data-dojo-attach-point":"advance", region:"center"});
 
 			pane.addChild(this.advance);
 			this.tabCtrl.addChild(pane);
 		}
 		if (PRMAX.utils.settings.seo && PRMAX.utils.settings.no_distribution==false)
 		{
-			var pane = new dijit.layout.BorderContainer({ dojoAttachPoint:"seo_view", style:"width:100%;height:100%",title:"SEO" }) ;
-			this.seo_pane = new prmax.pressrelease.seo.view({dojoAttachPoint:"seo", region:"center"})
+			var pane = new dijit.layout.BorderContainer({ "data-dojo-attach-point":"seo_view", style:"width:100%;height:100%",title:"SEO" }) ;
+			this.seo_pane = new prmax.pressrelease.seo.view({"data-dojo-attach-point":"seo", region:"center"})
 
 			pane.addChild(this.seo_pane);
 			this.tabCtrl.addChild(pane);

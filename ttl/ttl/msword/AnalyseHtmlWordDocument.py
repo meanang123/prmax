@@ -166,19 +166,22 @@ class CSSHtmlconvertor(object):
 						r['style'] = str(p2)
 						del ( r['class'] )
 				else:
-					p2 = defaulttype.mixin (r['style'])
-					r['style'] = str(p2)
-					del p2
+					if defaulttype:
+						p2 = defaulttype.mixin (r['style'])
+						r['style'] = str(p2)
+						del p2
 			elif r.has_key('class'):
 				classname = r["class"].lower()
 				if self._styles.has_key ( classname ) :
 					r['style'] = str(self._styles[classname])
 					del ( r['class'] )
 				else:
-					r['style'] = str(defaulttype)
+					if defaulttype:
+						r['style'] = str(defaulttype)
 
 			else:
-				r['style'] = str(defaulttype)
+				if defaulttype:
+					r['style'] = str(defaulttype)
 
 
 

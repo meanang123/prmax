@@ -122,7 +122,7 @@ class ClippingsGeneral(object):
 			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date BETWEEN :start_of_period AND :today_date')
 
 		if "textid" in params:
-			whereclause = BaseSql.addclause(whereclause, 'c.clip_text ILIKE :textid')
+			whereclause = BaseSql.addclause(whereclause, '(c.clip_text ILIKE :textid OR c.clip_title ILIKE :textid)')
 			params["textid"] = "%" + params["textid"] + "%"
 
 		if "clippingstypedescription" in params:
