@@ -131,7 +131,7 @@ LEFT OUTER JOIN seoreleases.seorelease AS seo ON seo.emailtemplateid = et.emailt
 LEFT OUTER JOIN internal.customers AS c ON c.customerid = et.customerid
 LEFT OUTER JOIN userdata.emailserver AS es ON es.emailserverid = c.emailserverid
 LEFT OUTER JOIN userdata.distributiontemplates AS dtf ON dtf.distributiontemplateid = et.templatefooterid
-LEFT OUTER JOIN userdata.distributiontemplates AS dth ON dtf.distributiontemplateid = et.templateheaderid
+LEFT OUTER JOIN userdata.distributiontemplates AS dth ON dth.distributiontemplateid = et.templateheaderid
 
 WHERE lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
 
@@ -246,9 +246,9 @@ class WorkerController(threading.Thread):
 
 				header = footer = ""
 				if record["footercontent"]:
-					footer = "<br/>" + DBCompress.decode(record['footer'])
+					footer = "<br/>" + DBCompress.decode(record['footercontent'])
 				if record["headercontent"]:
-					header = DBCompress.decode(record['header']) + "<br/>"
+					header = DBCompress.decode(record['headercontent']) + "<br/>"
 
 				sourcebody = DBCompress.decode(record['emailtemplatecontent'])
 				# at this point we need to do click throught management

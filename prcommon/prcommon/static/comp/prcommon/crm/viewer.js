@@ -163,7 +163,11 @@ dojo.declare("prcommon.crm.viewer",
 			this.filter_db.fetchItemByIdentity(item);
 			if (this.tmp_row)
 			{
-				this.filter_db.setValue(  this.tmp_row, "subject" , data.ch.crm_subject, true );
+				var crm_subject = data.ch.crm_subject;
+				if (crm_subject.length == 0)
+					crm_subject = data.ch.subject;
+
+				this.filter_db.setValue(  this.tmp_row, "subject" , crm_subject, true );
 				this.filter_db.setValue(  this.tmp_row, "contacthistorystatusdescription" , data.status, true );
 				this.filter_db.setValue(  this.tmp_row, "display_name" , data.display_name, true );
 				this.filter_db.setValue(  this.tmp_row, "taken_display" , data.taken_date, true );

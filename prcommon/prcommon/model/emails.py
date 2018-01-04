@@ -509,6 +509,12 @@ class EmailTemplates(BaseSql):
 			if "issueid" in params:
 				emailtemplate.issueid = params["issueid"]
 
+			if "templateheaderid" in params:
+				emailtemplate.templateheaderid = params["templateheaderid"]
+
+			if "templatefooterid" in params:
+				emailtemplate.templatefooterid = params["templatefooterid"]
+
 			transaction.commit()
 
 		except:
