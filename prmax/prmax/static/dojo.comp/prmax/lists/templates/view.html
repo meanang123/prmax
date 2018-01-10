@@ -1,11 +1,11 @@
 <div>
-	<div dojoAttachPoint="borderCtrl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%"  >
-		<div dojoAttachPoint="tabCtrl" dojotype="dijit.layout.TabContainer" region="center" >
-			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="Media" dojoAttachPoint="standingtab_view" ${startup_standing} >
-				<div dojoAttachPoint="standing" dojotype="prmax.lists.standinglist" region="center" style="width:100%;height:100%"></div>
+	<div data-dojo-attach-point="borderCtrl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%"'>
+		<div data-dojo-attach-point="tabCtrl" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"center"'>
+			<div data-dojo-type="dijit.layout.BorderContainer" style="width:100%;height:100%" data-dojo-attach-point="standingtab_view" data-dojo-props='title:"Media",${startup_standing}' >
+				<div data-dojo-attach-point="standing" data-dojo-type="prmax.lists.standinglist" data-dojo-props='region:"center",style:"width:100%;height:100%"'></div>
 			</div>
-			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="Distributions" dojoAttachPoint="distributionstab_view" ${startup_distributions} >
-				<div dojoAttachPoint="distribution" dojotype="prmax.pressrelease.view" region="center" display="Distribution Lists" startup_mode="${startup_mode}"></div>
+			<div data-dojo-type="dijit.layout.BorderContainer" style="width:100%;height:100%" data-dojo-attach-point="distributionstab_view" data-dojo-props='title:"Distributions",${startup_distributions}' >
+				<div data-dojo-attach-point="distribution" data-dojo-type="prmax.pressrelease.view" data-dojo-props='region:"center",display:"Distribution Lists",startup_mode:"${startup_mode}"'></div>
 			</div>
 		</div>
 	</div>

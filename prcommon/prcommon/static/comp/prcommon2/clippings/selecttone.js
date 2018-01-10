@@ -149,9 +149,20 @@ define([
 
 		this._getValueAttr();
 	},
+	clear:function()
+	{
+		for ( var key in this._all_labels)
+			this._all_labels[key].set("checked",true);
+
+		this._getValueAttr();
+	},
 	_getDisplayedValueAttr:function()
 	{
 		return domattr.get(this.selected_tones,"innerHTML");
+	},
+	_close_pop_up:function()
+	{
+		this._close_tooltip();
 	}
 });
 });

@@ -115,6 +115,7 @@ define([
 		this.tone_ctrl.set("value", value.tones);
 		this.emailtemplateid.set("value", value.emailtemplateid);
 		this.statementid.set("value", value.statementid);
+		this.textid.set("value", value.textid);
 
 		if (value.daterestriction)
 		{
@@ -184,6 +185,11 @@ define([
 			filter.int_drange = this.date_search.get_physical_values();
 		}
 
+		if (active_only == true && this.textid.get("value").length>0)
+		{
+			filter.textid = this.textid.get("value")
+		}
+
 		return filter;
 	},
 	update_complete:function()
@@ -232,7 +238,7 @@ define([
 			this._add_to_filter(this.clippingstypeid, "Type");
 		this._add_to_filter(this.tone_ctrl, "Tones");
 
-
+		this._add_to_filter_text(this.textid.get("value"),"Clip Text")
 		this._add_to_filter_text(this.date_search.get("FilterText"),"Dates");
 		//tones
 
@@ -263,6 +269,18 @@ define([
 	_get_caption_formatted:function(caption_text)
 	{
 		return "<label style='font-weight:900'>" + caption_text + "</label>" + " : ";
+	},
+	_clear:function()
+	{
+			this.clientid.set("value",null);
+			this.issueid.set("value",null);
+			this.date_search.clear();
+			this.tone_ctrl.clear();
+			this.textid.set("value","");
+			this.clippingstypeid.set("value",-1);
+			this.emailtemplateid.set("value",null);
+			this.statementid.set("value",null)
+
 	}
 });
 });

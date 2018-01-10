@@ -405,6 +405,17 @@ dojo.declare("prmax.pressrelease.sendrelease",
 					this.templateheaderid.set("value", response.data.templateheaderid==null?"-1":response.data.templateheaderid);
 					this.templatefooterid.set("value", response.data.templatefooterid==null?"-1":response.data.templatefooterid);
 
+					if (PRMAX.utils.settings.distributionistemplated == true)
+					{
+						if (response.data.templateheaderid!=null || response.data.templatefooterid != null)
+							this.usetemplates.set("checked",true);
+						else if (response.data.templateheaderid==null || response.data.templatefooterid==null)
+							this.usetemplates.set("checked",false);
+					}
+					else
+					{
+						this.usetemplates.set("checked",false);
+					}
 					this.emailtemplatecontent.set("value", response.data.emailtemplatecontent);
 				}
 				catch (e) { alert(e);}
@@ -482,7 +493,10 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			}
 
 			var content = { emailtemplatename:data,
-							emailtemplatecontent: this.emailtemplatecontent.get("value")};
+							emailtemplatecontent: this.emailtemplatecontent.get("value"),
+							templateheaderid:this.templateheaderid.get("value"),
+							templatefooterid:this.templatefooterid.get("value")
+							};
 			dojo.xhrPost(
 				ttl.utilities.makeParams(
 				{

@@ -1,39 +1,28 @@
 <div>
-	<div dojoAttachPoint="borderCtrl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" >
-		<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:44px" class="std_menu_view">
+	<div data-dojo-attach-point="borderCtrl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%"' >
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"width:100%;height:44px","class":"std_menu_view"'>
 			<div style="height:44px;width:100%;overflow:hidden;padding:0px;margin:0px" class="std_menu_view">
-				<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="prmaxrowdisplaylarge" dojoAttachPoint="displayNode"></div>
-					<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:83%" >
-						<div dojoAttachEvent="onClick:_New" dojoType="dijit.form.Button" dojoAttachPoint="svl_new" iconClass="fa fa-plus fa-3x" showLabel="false">New</div>
-						<div dojoAttachEvent="onClick:_Delete" dojoType="dijit.form.Button" dojoAttachPoint="svl_delete" iconClass="fa fa-trash fa-3x" disabled="disabled"  showLabel="false">Delete</div>
-						<div dojoAttachEvent="onClick:_Open" dojoType="dijit.form.Button" dojoAttachPoint="svl_open"  iconClass="fa fa-folder-open fa-3x" disabled="disabled"   showLabel="false">Open</div>
-						<div dojoType="dijit.form.DropDownButton"  iconClass="fa fa-print fa-3x" showLabel="false">
-							<span>Report</span>
-							<div dojoType="dijit.Menu" >
-								<div class="prmaxhidden" dojoType="dijit.MenuItem" label="Full Report" dojoAttachPoint="svl_reports_full"></div>
-								<div dojoType="dijit.MenuItem" label="Print Index" dojoAttachPoint="svl_reports_summary"></div>
+				<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="prmaxrowdisplaylarge" data-dojo-attach-point="displayNode"></div>
+					<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop",style:"float:left;height:100%;width:83%"' >
+						<div data-dojo-attach-event="onClick:_New" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_new" data-dojo-props='iconClass:"fa fa-plus fa-3x",showLabel:false,label:"New"'></div>
+						<div data-dojo-attach-event="onClick:_Delete" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_delete" data-dojo-props='iconClass:"fa fa-trash fa-3x",disabled:"disabled",showLabel:false,label:"Delete"'></div>
+						<div data-dojo-attach-event="onClick:_Open" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_open" data-dojo-props='iconClass:"fa fa-folder-open fa-3x",disabled:"disabled",showLabel:false,label:"Open"'></div>
+						<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"fa fa-print fa-3x",showLabel:false,label:"Report"'>
+							<div data-dojo-type="dijit.Menu" >
+								<div data-dojo-type="dijit.MenuItem" data-dojo-props='"class":"prmaxhidden",label:"Full Report"' data-dojo-attach-point="svl_reports_full"></div>
+								<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Print Index"' data-dojo-attach-point="svl_reports_summary"></div>
 							</div>
 						</div>
-						<div  class="prmaxhidden" dojoType="dijit.form.DropDownButton"   dojoAttachPoint="menu_filter" iconClass="fa fa-filter fa-2x" showLabel="false">
-							<span>Filter By</span>
-							<div dojoType="dijit.TooltipDialog" dojoAttachPoint="svl_project_filter_dialog" title="Enter Project filter">
+						<div data-dojo-type="dijit.form.DropDownButton" data-dojo-attach-point="menu_filter" data-dojo-props='iconClass:"fa fa-filter fa-3x",showLabel:false,label:"Filter By"'>
+							<div data-dojo-type="dijit.TooltipDialog" data-dojo-attach-event="execute:_execute_filter">
 								<table>
+									<tr><td>List Name</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="listnamefilter" data-dojo-props='name:"listnamefilter"'/></td></tr>
+									<tr><td data-dojo-attach-point="client_filter_name">Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="filter_clientid" ></select></td></tr>
+
+									<tr><td><br/><br/></td></tr>
 									<tr>
-										<td><label for="user">Projects</label></td>
-										<td>
-											<select name="projectid"
-											dojoAttachPoint = "svl_project_filter_project_list"
-											 autoComplete="true"
-											 searchAttr="projectname"
-											 labelAttr="projectname"
-											 dojoType="dijit.form.FilteringSelect"
-											 pageSize="20"
-											 labelType="html">
-											 </select>
-										</td></tr>
-									<tr>
-										<td align="left"><button dojoAttachPoint="svl_project_filter_clear" dojoType="dijit.form.Button" type="button" >Clear Filter by</button></td>
-										<td align="right"><button dojoType="dijit.form.Button" type="submit" name="submit">Filter by</button></td>
+										<td align="left"><button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_clear_filter" data-dojo-props='iconClass:"fa fa-eraser fa-2x",type:"button"' >Clear Filter by</button></td>
+										<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit",iconClass:"fa fa-filter fa-2x"'>Filter by</button></td>
 									</tr>
 								</table>
 							</div>
@@ -41,65 +30,65 @@
 					</div>
 				</div>
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%; " splitter="true" >
-			<div dojoAttachPoint="listGrid" dojoType="dojox.grid.DataGrid" query="{ }" rowsPerPage="50" style="width:100%;height:100%" ></div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"left",style:"width:50%;",splitter:true' >
+			<div data-dojo-attach-point="listGrid" data-dojo-type="dojox.grid.DataGrid" query="{ }" rowsPerPage="50" style="width:100%;height:100%" ></div>
 		</div>
-		<div dojoType="dijit.layout.ContentPane" stlye="height:100%width:50%" region="center" >
-			<div dojoType="dijit.TitlePane" title="List Info" dojoAttachPoint="list_info_pane" style="width: 100%" class="prmaxhidden">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='stlye:"height:100%width:50%",region:"center"' >
+			<div data-dojo-type="dijit.TitlePane" title="List Info" data-dojo-attach-point="list_info_pane" data-dojo-props='style:"width:100%","class":"prmaxhidden"'>
 				<table width="100%" style="border-collapse:collapse" cellspacing="0" cellpadding="0">
-					<tr><td width="20%">Name:</td><td width="70%"><span dojoAttachPoint="svl_name_field"></span></td><td width="90px" rowspan="5"><div style="width:120px;height:130px;padding-right:10px;padding-bottom:3px">
-						<div dojoAttachEvent="onClick:_DeleteSingle" disabled="disabled" dojoType="dijit.form.Button" dojoAttachPoint="svl_list_delete" ><div style="width:98px" class="prmaxbutton">Delete</div></div>
-						<div dojoAttachEvent="onClick:_Rename" disabled="disabled" dojoType="dijit.form.Button" dojoAttachPoint="svl_list_rename" ><div style="width:98px" class="prmaxbutton">Rename</div></div>
-						<div dojoAttachEvent="onClick:_OpenSingle" disabled="disabled" dojoType="dijit.form.Button" dojoAttachPoint="svl_list_open"><div style="width:98px" class="prmaxbutton">Open</div></div>
+					<tr><td width="20%">Name:</td><td width="70%"><span data-dojo-attach-point="svl_name_field"></span></td><td width="90px" rowspan="5"><div style="width:120px;height:130px;padding-right:10px;padding-bottom:3px">
+						<div data-dojo-attach-event="onClick:_DeleteSingle" data-dojo-props='disabled:"disabled"' data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_list_delete" ><div style="width:98px" class="prmaxbutton">Delete</div></div>
+						<div data-dojo-attach-event="onClick:_Rename" data-dojo-props='disabled:"disabled"' data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_list_rename" ><div style="width:98px" class="prmaxbutton">Rename</div></div>
+						<div data-dojo-attach-event="onClick:_OpenSingle" data-dojo-props='disabled:"disabled"' data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_list_open"><div style="width:98px" class="prmaxbutton">Open</div></div>
 						</div>
 					</td></tr>
-					<tr><td>Nbr Entries:</td><td><span dojoAttachPoint="svl_count_field"></span></td></tr>
+					<tr><td>Nbr Entries:</td><td><span data-dojo-attach-point="svl_count_field"></span></td></tr>
 					<tr><td colspan="3">&nbsp;</td></tr>
 					<tr><td colspan="3">&nbsp;</td></tr>
 				</table>
 			</div>
-			<div dojoType="dijit.TitlePane" title="Projects" dojoAttachPoint="list_projects_pane" style="width: 100%" class="prmaxhidden">
+			<div data-dojo-type="dijit.TitlePane" data-dojo-attach-point="list_projects_pane" data-dojo-props='style:"width: 100%","class":"prmaxhidden",title:"Projects"'>
 				<table width="100%" style="border-collapse:collapse" cellspacing="0" cellpadding="0">
 					<tr>
-						<td width="55%"><select  dojoAttachPoint="svl_projects_listofprojects" style="width:100%" size="10" class="lists" multiple="multiple" ></select>&nbsp;</td>
+						<td width="55%"><select data-dojo-attach-point="svl_projects_listofprojects" style="width:100%" size="10" class="lists" multiple="multiple" ></select>&nbsp;</td>
 						<td valign="top">
-						<div dojoAttachEvent="onClick:_AddProjectToList" disabled="disabled" style="width:150px" dojoType="dijit.form.Button" dojoAttachPoint="svl_projects_add"  > <div style="width:9em" class="prmaxbutton">Add To Projects</div></div>
-						<div dojoAttachEvent="onClick:_DeleteProjectFromList" disabled="disabled" style="width:150px" dojoType="dijit.form.Button" dojoAttachPoint="svl_projects_delete" ><div style="width:9em" class="prmaxbutton">Delete from Projects</div></div>
-						<div dojoAttachEvent="onClick:_AddProject" disabled="disabled" style="width:150px" dojoType="dijit.form.Button" dojoAttachPoint="svl_projects_new" ><div style="width:9em" class="prmaxbutton">Add New Project</div></div>
+						<div data-dojo-attach-event="onClick:_AddProjectToList" disabled="disabled" style="width:150px" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_projects_add"  > <div style="width:9em" class="prmaxbutton">Add To Projects</div></div>
+						<div data-dojo-attach-event="onClick:_DeleteProjectFromList" disabled="disabled" style="width:150px" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_projects_delete" ><div style="width:9em" class="prmaxbutton">Delete from Projects</div></div>
+						<div data-dojo-attach-event="onClick:_AddProject" disabled="disabled" style="width:150px" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_projects_new" ><div style="width:9em" class="prmaxbutton">Add New Project</div></div>
 						</td></tr>
 				</table>
 			</div>
 		</div>
 	</div>
-	<div dojoType="dijit.Dialog" title="Enter New Project" dojoAttachPoint="svl_project_new_dlg" style="display:none">
-		<form dojoAttachPoint="svl_project_add_form" dojoType="dijit.form.Form" onsubmit="return false">
+	<div data-dojo-type="dijit.Dialog" title="Enter New Project" data-dojo-attach-point="svl_project_new_dlg" data-dojo-props='style:"display:none"'>
+		<form data-dojo-attach-point="svl_project_add_form" data-dojo-type="dijit.form.Form" data-dojo-props='onsubmit:"return false"'>
 		<table>
 			<tr>
-				<td><label >Name</label></td>
-				<td><input dojoType="dijit.form.ValidationTextBox" dojoAttachPoint="svl_project_add_name" name="projectname" required="true" trim="true" maxlength="80" promptMessage="Enter new projects name" type="text"/></td>
+				<td><label>Name</label></td>
+				<td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="svl_project_add_name" data-dojo-props='name:"projectname",required:true,trim:true,maxlength:"80",promptMessage:"Enter new projects name",type:"text"'/></td>
 			</tr>
 			<tr>
 				<td align="left">
-					<button dojoAttachEvent="onClick:_CancelProjectDlg" dojoType="dijit.form.Button" dojoAttachPoint="svl_project_add_cancel" type="button" >Cancel</button></td>
+					<button data-dojo-attach-event="onClick:_CancelProjectDlg" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_project_add_cancel" type="button" >Cancel</button></td>
 				<td align="right">
-					<button dojoAttachEvent="onClick:_AddProjectButton" dojoType="dojox.form.BusyButton" type="button" dojoAttachPoint="svl_project_add_ok" >Add Project</button></td>
+					<button data-dojo-attach-event="onClick:_AddProjectButton" data-dojo-type="dojox.form.BusyButton" type="button" data-dojo-attach-point="svl_project_add_ok" >Add Project</button></td>
 			</tr>
 		</table></form>
 	</div>
-	<div dojoType="dijit.Dialog" title="Add List to Existing Project" dojoAttachPoint="svl_list_proj_dlg" style="display:none">
-		<form dojoAttachPoint="svl_list_proj_dlg_form" dojoType="dijit.form.Form" onsubmit="return false">
+	<div data-dojo-type="dijit.Dialog" title="Add List to Existing Project" data-dojo-attach-point="svl_list_proj_dlg" style="display:none">
+		<form data-dojo-attach-point="svl_list_proj_dlg_form" data-dojo-type="dijit.form.Form" onsubmit="return false">
 		<table>
 			<tr>
 				<td><label >Projects</label></td>
-				<td><div dojoType="dijit.form.ComboBox" dojoAttachPoint="svl_list_proj_dlg_list" labelAttr="projectname" searchAttr="projectname"  pageSize="10" autoComplete="false"></div></td>
+				<td><div data-dojo-type="dijit.form.ComboBox" data-dojo-attach-point="svl_list_proj_dlg_list" labelAttr="projectname" searchAttr="projectname"  pageSize="10" autoComplete="false"></div></td>
 			</tr>
 			<tr>
 				<td align="left">
-					<button dojoAttachEvent="onClick:_CancelAddPrjDlg" dojoType="dijit.form.Button" dojoAttachPoint="svl_list_proj_dlg_cancel" type="button" >Cancel</button></td>
+					<button data-dojo-attach-event="onClick:_CancelAddPrjDlg" data-dojo-type="dijit.form.Button" data-dojo-attach-point="svl_list_proj_dlg_cancel" type="button" >Cancel</button></td>
 				<td align="right">
-					<button dojoAttachEvent="onClick:_AddExistingToList" dojoType="dojox.form.BusyButton" type="button" dojoAttachPoint="svl_list_proj_dlg_ok" >Add List to Project</button></td>
+					<button data-dojo-attach-event="onClick:_AddExistingToList" data-dojo-type="dojox.form.BusyButton" type="button" data-dojo-attach-point="svl_list_proj_dlg_ok" >Add List to Project</button></td>
 			</tr>
 		</table></form>
 	</div>
-	<div dojoType="prmax.lists.NewListDlg" dojoAttachPoint="svl_list_new_dlg" ></div>
+	<div data-dojo-type="prmax.lists.NewListDlg" data-dojo-attach-point="svl_list_new_dlg" ></div>
 </div>

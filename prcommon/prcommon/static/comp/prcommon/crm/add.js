@@ -55,8 +55,6 @@ dojo.declare("prcommon.crm.add",
 		dojo.subscribe(PRCOMMON.Events.Issue_Add, dojo.hitch(this, this._new_issue_event));
 		dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
 		dojo.subscribe(PRCOMMON.Events.Document_Add, dojo.hitch(this, this._add_event));
-
-
 	},
 	_fields:["1","2","3","4"],
 	postCreate:function()
@@ -106,6 +104,14 @@ dojo.declare("prcommon.crm.add",
 		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		this.new_issue_dlg.set("label",PRMAX.utils.settings.issue_description);
 		this.extraissues.set("displaytitle","Other " + PRMAX.utils.settings.issue_description+"s");
+		if (PRMAX.utils.settings.crm_subject.length>0)
+		{
+			dojo.attr(this.subject_label_1,"innerHTML",PRMAX.utils.settings.crm_subject);
+		}
+		if (PRMAX.utils.settings.crm_outcome.length>0)
+		{
+			dojo.attr(this.outcome_label_1,"innerHTML",PRMAX.utils.settings.crm_outcome);
+		}
 
 		this.inherited(arguments);
 	},

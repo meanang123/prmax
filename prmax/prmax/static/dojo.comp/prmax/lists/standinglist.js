@@ -10,6 +10,8 @@
 
 dojo.provide("prmax.lists.standinglist");
 
+dojo.require("dojox.data.JsonRestStore");
+
 dojo.declare("prmax.lists.standinglist", [ttl.BaseWidget], {
 	widgetsInTemplate: true,
 	listtypeid:1,
@@ -18,12 +20,6 @@ dojo.declare("prmax.lists.standinglist", [ttl.BaseWidget], {
 	templatePath: dojo.moduleUrl( "prmax.lists","templates/standinglist.html"),
 	constructor: function() {
 		this.layoutListList=[ this.view1];
-		this.projectList= new dojox.data.QueryReadStore (
-			{url:'/projects/list',
-			onError:ttl.utilities.globalerrorchecker,
-			clearOnClose:true,
-			urlPreventCache:true
-		});
 
 		this.listid = -1;
 		this.projectid = -1;
@@ -45,6 +41,8 @@ dojo.declare("prmax.lists.standinglist", [ttl.BaseWidget], {
 
 		this._store_loaded = false ;
 
+		this._client = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"clientid"});
+
 	},
 	postCreate:function()
 	{
@@ -63,7 +61,10 @@ dojo.declare("prmax.lists.standinglist", [ttl.BaseWidget], {
 		this.listGrid.onCellClick = dojo.hitch(this,this.onCellClick);
 		this.listGrid.onCellDblClick = dojo.hitch(this,this._OnRowDblClick);
 
-		this.svl_project_filter_project_list.store = this.projectList;
+		this.filter_clientid.set("store", this._client);
+		this.filter_clientid.set("value", -1);
+		dojo.attr(this.client_filter_name,"innerHTML", PRMAX.utils.settings.client_name +"s" );
+
 
 		dojo.connect(this.svl_project_filter_dialog,"execute",dojo.hitch(this,this._ProjectFilter));
 		dojo.connect(this.svl_project_add_form,"onSubmit",dojo.hitch(this,this._ProjectSubmit));
@@ -109,19 +110,10 @@ dojo.declare("prmax.lists.standinglist", [ttl.BaseWidget], {
 	},
 	_ClearFilter:function()
 	{
-		this.svl_project_filter_project_list.set("value",null);
-		this.projectid = -1;
 		this.refresh();
 	},
 	_ProjectFilter:function()
 	{
-		console.log(arguments);
-		console.log(arguments[0].projectid,this.projectid);
-		if (arguments[0].projectid != this.projectid )
-		{
-			this.projectid = arguments[0].projectid;
-			this.refresh();
-		}
 	},
 	_ReportStart:function()
 	{
@@ -636,5 +628,24 @@ dojo.declare("prmax.lists.standinglist", [ttl.BaseWidget], {
 		{
 			alert("Problem Refreshing List");
 		}
+	},
+	_execute_filter:function()
+	{
+
+		var q_com = {};
+
+		if (arguments[0].listnamefilter)
+			q_com["listname_filter"] = arguments[0].listnamefilter;
+
+		if (arguments[0].clientid != "-1")
+			q_com["clientid"] = arguments[0].clientid;
+
+		this.listGrid.setQuery( q_com );
+
+	},
+	_clear_filter:function()
+	{
+		this.listnamefilter.set("value","");
+		this.clientid.set("value",-1)
 	}
 });

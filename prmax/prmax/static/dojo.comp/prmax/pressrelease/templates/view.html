@@ -1,25 +1,36 @@
 <div>
 	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%"' >
-		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden","class":"searchresults"'>
-			<div style="height:40px;width:100%;overflow:hidden" class="searchresults">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden","class":"std_menu_view"'>
+			<div style="height:40px;width:100%;overflow:hidden" class="std_menu_view">
 				<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop",style:"float:left;height:100%;width:150px"' >
-					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_AddDistributions" data-dojo-attach-point="addbutton" data-dojo-props='label:"New",iconClass:"fa fa-plus fa-3x",showLabel:true'></div>
-				</div>
-				<div style="float:left;height:100%;width:550px;padding-top:10px">
-					<table style="width:100%;border-style:collapsed" class="prmaxtable" cellpadding="0" cellspacing="0" >
-						<tr><td><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"All",autocomplete:false' data-dojo-attach-point="option" data-dojo-attach-event="onChange:_OptionChanged">
-							<option>Display All</option><option>Display Draft</option><option>Display Sent</option></select></td>
-							<td data-dojo-attach-point="option2_label1" class="prmaxhidden">Sent in the Last</td><td data-dojo-attach-point="option2_label2" class="prmaxhidden" ><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"6 Months",autocomplete:false' data-dojo-attach-point="option2" data-dojo-attach-event="onChange:_OptionChanged">
-							<option>6 Months</option><option>Year</option><option>All</option></select></td>
-							<td data-dojo-attach-point="client_label">Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"color:black"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_change_client" ></select></td>
-						</tr>
-					</table>
+					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_AddDistributions" data-dojo-attach-point="addbutton" data-dojo-props='label:"New",iconClass:"fa fa-plus fa-3x",showLabel:false'></div>
+					<div data-dojo-type="dijit.form.DropDownButton" data-dojo-attach-point="menu_filter" data-dojo-props='iconClass:"fa fa-filter fa-3x",showLabel:false,label:"Filter By"'>
+						<div data-dojo-type="dijit.TooltipDialog" data-dojo-attach-event="execute:_execute_filter" data-dojo-props='style:"width:500px"'>
+							<table border="0" cellspacing="1" cellpadding="1" width="100%">
+								<tr><td class="prmaxlabeltag">Name</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="namefilter" data-dojo-props='name:"namefilter"'/></td></tr>
+								<tr><td class="prmaxlabeltag">Sent</td>
+									<td><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"All",autocomplete:false' data-dojo-attach-point="option" data-dojo-attach-event="onChange:_OptionChanged">
+										<option>Display All</option>
+										<option>Display Draft</option>
+										<option>Display Sent</option>
+										</select></td>
+									<td data-dojo-attach-point="option2_label1" class="prmaxhidden">Sent in the Last</td><td data-dojo-attach-point="option2_label2" class="prmaxhidden" ><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"6 Months",autocomplete:false' data-dojo-attach-point="option2" data-dojo-attach-event="onChange:_OptionChanged"><option>6 Months</option><option>Year</option><option>All</option></select></td></tr>
+								<tr><td data-dojo-attach-point="client_label">Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"color:black"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid"></select></td></tr>
+								<tr><td><br/><br/></td></tr>
+								<tr>
+									<td align="left" colspan="2"><button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_clear_filter" data-dojo-props='iconClass:"fa fa-eraser fa-2x",type:"button"' >Clear Filter by</button></td>
+									<td>&nbsp;</td>
+									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit",iconClass:"fa fa-filter fa-2x"'>Filter by</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'>
 			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%"' >
-				<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30,region:"left",style:"width:40%;height:100%"'></div>
+				<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30,region:"left",style:"width:40%;height:100%",sortFields:[{attribute:"display_sent_time",descending:true}]'></div>
 					<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="controls" data-dojo-props='region:"center",doLayout:true,splitter:true'>
 						<div data-dojo-attach-point="blank_view" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"blank",selected:"selected"'></div>
 						<div data-dojo-attach-point="main_view" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"main",style:"width:100%;height:100%"'>

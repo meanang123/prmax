@@ -142,6 +142,7 @@ define([
 	{
 		this._end_date = new Date();
 		this.option.set("value", 3);
+		this.default_value = 3;
 		this._start_date.setDate (this._end_date.getDate() - 30);
 		this.from_date_box.set("value", this._start_date);
 		this.to_date_box.set("value", this._end_date);

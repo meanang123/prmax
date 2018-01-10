@@ -10,15 +10,14 @@
 # Copyright:   (c) 2008
 
 #-----------------------------------------------------------------------------
-from turbogears.database import metadata, mapper, session
-from sqlalchemy import Table, Column, Integer, DateTime, not_
-from turbogears import identity
-from prcommon.model import AuditTrail, Terms, NbrOfLogins, Address, \
-     UserView, Customer, CustomerView, User, UserDefaultCountries, Countries
+import logging
 from datetime import datetime
 
-import logging
-log = logging.getLogger("prmax.model")
+from turbogears.database import session
+from sqlalchemy import not_
+from prcommon.model import UserView, Customer, User, UserDefaultCountries, Countries, BaseSql
+
+LOGGER = logging.getLogger("prmax.model")
 
 #########################################################
 class Preferences(object):
@@ -28,27 +27,30 @@ class Preferences(object):
 	def get(cls, user_id):
 		""" get items"""
 		user = User.query.get(user_id)
+		customer = Customer.query.get(user.customerid)
+
 		control = user.get_settings()
 		countries = []
 		for country in control['countries']:
 			countries.append(country['countryid'])
 
-		return dict (control=control,
-		          user = UserView.query.get(user_id),
-		          countries  = [ dict( countryid = country.countryid,
-		                               countryname  = country.countryname)
-		              for user,country in session.query(UserDefaultCountries, Countries).
-		              filter(UserDefaultCountries.countryid == Countries.countryid).
-		              filter(UserDefaultCountries.userid == user_id).
-		              filter(not_(UserDefaultCountries.countryid.in_(countries))).all()])
+		return dict(control=control,
+		            user=UserView.query.get(user_id),
+		            countries=[dict(countryid=country.countryid,
+		                            countryname=country.countryname)
+		                       for user, country in session.query(UserDefaultCountries, Countries).
+		                       filter(UserDefaultCountries.countryid == Countries.countryid).
+		                       filter(UserDefaultCountries.userid == user_id).
+		                       filter(not_(UserDefaultCountries.countryid.in_(countries))).all()],
+		            customer=dict(crm_subject=customer.crm_subject, crm_outcome=customer.crm_outcome))
 
 	@classmethod
-	def update_projectname(cls, kw):
+	def update_projectname(cls, params):
 		""" update the customer project name settings"""
 		transaction = session.begin(subtransactions=True)
 		try:
-			user = User.query.get(kw['user_id'])
-			user.projectname = kw.get("projectname")
+			user = User.query.get(params['user_id'])
+			user.projectname = params.get("projectname")
 			session.flush()
 			transaction.commit()
 		except Exception, ex:
@@ -56,7 +58,7 @@ class Preferences(object):
 				transaction.rollback()
 			except:
 				pass
-			log.exception(ex)
+			LOGGER.exception(ex)
 			raise ex
 
 	@classmethod
@@ -71,22 +73,22 @@ class Preferences(object):
 				has_upper = True
 			if psw[i].isdigit():
 				has_digit = True
-		if len(psw)>=8 and has_lower and has_upper and has_digit:
+		if len(psw) >= 8 and has_lower and has_upper and has_digit:
 			return True
 		return False
 
 	@classmethod
-	def update_password(cls, kw):
+	def update_password(cls, params):
 		""" Update the current users passsword"""
 		transaction = session.begin(subtransactions=True)
 		try:
-			user = User.query.get(kw['user_id'])
+			user = User.query.get(params['user_id'])
 			customer = Customer.query.get(user.customerid)
 			valid_password = True
 			if customer and customer.extended_security == True:
-				valid_password = Preferences.is_valid_password(kw.get("pssw_name"))
+				valid_password = Preferences.is_valid_password(params.get("pssw_name"))
 			if valid_password:
-				user.password = kw.get("pssw_name")
+				user.password = params.get("pssw_name")
 				user.last_change_pssw = datetime.today()
 				user.force_change_pssw = False
 				session.flush()
@@ -96,53 +98,59 @@ class Preferences(object):
 				transaction.rollback()
 			except:
 				pass
-			log.exception(ex)
+			LOGGER.exception(ex)
 			raise ex
 
 	@staticmethod
-	def _get_field( f , kw ) :
+	def _get_field(field, params):
 		""" get a field """
-		value = kw.get(f, False)
+		value = params.get(field, False)
 		if value == "1":
 			value = True
 		return value
 
-	_general_check_fields = ("autoselectfirstrecord", "usepartialmatch",
-	                         "searchappend" )
+	_general_check_fields = ("autoselectfirstrecord", "usepartialmatch", "searchappend")
 
 	@classmethod
-	def update_general(cls, kw):
+	def update_general(cls, params):
 		""" update the users general settings"""
-		for f in Preferences._general_check_fields:
-			kw[f] = Preferences._get_field ( f, kw)
+		for field in Preferences._general_check_fields:
+			params[field] = Preferences._get_field(field, params)
 
-		transaction = session.begin(subtransactions=True)
+		transaction = BaseSql.sa_get_active_transaction()
 		try:
-			user = User.query.get(kw['user_id'])
-			user.display_name = kw['displayname']
-			user.email_address = kw['email']
-			user.autoselectfirstrecord = kw["autoselectfirstrecord"]
-			user.usepartialmatch = kw["usepartialmatch"]
-			user.searchappend = kw["searchappend"]
-			user.emailreplyaddress = kw["emailreplyaddress"]
-			user.stdview_sortorder =  kw["stdview_sortorder"]
-			user.client_name = kw["client_name"]
-			user.issue_description =  kw["issue_description"]
+			user = User.query.get(params['user_id'])
+			user.display_name = params['displayname']
+			user.email_address = params['email']
+			user.autoselectfirstrecord = params["autoselectfirstrecord"]
+			user.usepartialmatch = params["usepartialmatch"]
+			user.searchappend = params["searchappend"]
+			user.emailreplyaddress = params["emailreplyaddress"]
+			user.stdview_sortorder = params["stdview_sortorder"]
+			user.client_name = params["client_name"]
+			user.issue_description = params["issue_description"]
+
+
+			# customer level
+			customer = Customer.query.get(params["customerid"])
+			if customer.crm:
+				customer.crm_subject = params["crm_subject"]
+				customer.crm_outcome = params["crm_outcome"]
 
 			session.flush()
 
 			#need to add/delete the user_countries
-			dbExists = {}
-			for row in session.query(UserDefaultCountries).filter(UserDefaultCountries.userid == kw["userid"]).all():
-				dbExists[row.countryid] = row
-			for r in kw["user_countries"] if kw["user_countries"] else [] :
-				if dbExists.has_key(r):
-					dbExists.pop ( r )
+			db_exists = {}
+			for row in session.query(UserDefaultCountries).filter(UserDefaultCountries.userid == params["userid"]).all():
+				db_exists[row.countryid] = row
+			for row2 in params["user_countries"] if params["user_countries"] else []:
+				if db_exists.has_key(row2):
+					db_exists.pop(row2)
 				else:
-					session.add ( UserDefaultCountries ( userid = kw["userid"],
-					                                     countryid = r ))
-			for d in dbExists.values():
-				session.delete ( d )
+					session.add(UserDefaultCountries(userid=params["userid"],
+					                                 countryid=row2))
+			for drow in db_exists.values():
+				session.delete(drow)
 
 			transaction.commit()
 		except:
@@ -150,16 +158,16 @@ class Preferences(object):
 				transaction.rollback()
 			except:
 				pass
-			log.exception("update_general")
+			LOGGER.exception("update_general")
 			raise
 
 	@classmethod
-	def update_cc(cls, kw):
+	def update_cc(cls, params):
 		""" update the users general settings"""
 		transaction = session.begin(subtransactions=True)
 		try:
-			user = User.query.get(kw['user_id'])
-			user.ccaddresses = kw['ccaddresses']
+			user = User.query.get(params['user_id'])
+			user.ccaddresses = params['ccaddresses']
 			session.flush()
 			transaction.commit()
 		except:
@@ -167,19 +175,19 @@ class Preferences(object):
 				transaction.rollback()
 			except:
 				pass
-			log.exception("update_cc")
+			LOGGER.exception("update_cc")
 			raise
 
 
 	@classmethod
-	def update_itf(cls, kw):
+	def update_itf(cls, params):
 		""" update the current users interface settings"""
 
-		transaction = session.begin(subtransactions = True)
+		transaction = session.begin(subtransactions=True)
 		try:
-			user = User.query.get(kw['user_id'])
-			user.interface_font_size = kw['interface_font_size']
-			user.showmenubartext = True if kw.get("showmenubartext","0") == "1" else False
+			user = User.query.get(params['user_id'])
+			user.interface_font_size = params['interface_font_size']
+			user.showmenubartext = True if params.get("showmenubartext", "0") == "1" else False
 			session.flush()
 			transaction.commit()
 		except Exception, ex:
@@ -187,17 +195,17 @@ class Preferences(object):
 				transaction.rollback()
 			except:
 				pass
-			log.exception(ex)
+			LOGGER.exception(ex)
 			raise ex
 
 	@classmethod
-	def update_show_startup(cls, kw):
+	def update_show_startup(cls, params):
 		""" update the current users startup dialog oprtion"""
 
-		transaction = session.begin(subtransactions = True)
+		transaction = session.begin(subtransactions=True)
 		try:
-			user = User.query.get(kw['user_id'])
-			user.show_dialog_on_load = True if kw['show_dialog_on_load'] == "on" else False
+			user = User.query.get(params['user_id'])
+			user.show_dialog_on_load = True if params['show_dialog_on_load'] == "on" else False
 			session.flush()
 			transaction.commit()
 		except Exception, ex:
@@ -205,5 +213,5 @@ class Preferences(object):
 				transaction.rollback()
 			except:
 				pass
-			log.exception(ex)
+			LOGGER.exception(ex)
 			raise ex

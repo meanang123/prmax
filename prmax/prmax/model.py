@@ -9,9 +9,9 @@ from prmaxmodel.md_Lookups import CustomerStatus, Frequencies, \
 	 OutletSearchType, PRmaxOutletTypes, SortOrder, \
      CustomerPaymentTypes, PaymentMethods
 
-from prmaxmodel.md_Identity import Preferences, CustomerView
+from prmaxmodel.md_Identity import Preferences
 from prcommon.model import Visit, VisitIdentity, User, Group, \
-     Permission, Customer, PRMaxAdmin
+     Permission, Customer, PRMaxAdmin, CustomerView
 
 from prmaxmodel.admin import CustomerExternal, PaymentSystem, \
 	 PrmaxCustomerInfo, DemoRequests

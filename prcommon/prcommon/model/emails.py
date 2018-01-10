@@ -355,6 +355,10 @@ class EmailTemplates(BaseSql):
 			params["clientid"] = int(params["clientid"])
 			whereclause += " AND et.clientid = :clientid"
 
+		if "emailtemplatename" in params:
+			whereclause += " AND et.emailtemplatename ILIKE :emailtemplatename"
+			params["emailtemplatename"] = "%" + params["emailtemplatename"] + "%"
+
 		return BaseSql.getGridPage(
 		  params,
 		  'UPPER(emailtemplatename)',
@@ -507,6 +511,12 @@ class EmailTemplates(BaseSql):
 
 			if "issueid" in params:
 				emailtemplate.issueid = params["issueid"]
+
+			if "templateheaderid" in params:
+				emailtemplate.templateheaderid = params["templateheaderid"]
+
+			if "templatefooterid" in params:
+				emailtemplate.templatefooterid = params["templatefooterid"]
 
 			transaction.commit()
 
@@ -1041,7 +1051,7 @@ class EmailTemplates(BaseSql):
 			                     "text/html"
 			                     )
 			emailmessaage.BuildMessage()
-			emailmessaage.cc = params['ccemailaddresses']			
+			emailmessaage.cc = params['ccemailaddresses']
 
 			if ces.servertypeid in SMTPSERVERBYTYPE:
 				emailserver = SMTPSERVERBYTYPE[ces.servertypeid](
