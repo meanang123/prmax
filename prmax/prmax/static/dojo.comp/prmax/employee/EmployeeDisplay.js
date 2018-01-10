@@ -65,7 +65,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		}
 		if (button.id==this.resendview.id)
 		{
-			this.resendctrl.Load(this._contactemail);
+			this.resendctrl.Load(this._contactemail, this.employeeid);
 		}
 		if (button.id==this.crmview.id && this.crm_loaded==false)
 		{

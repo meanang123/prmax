@@ -64,6 +64,23 @@ class ClippingsGeneral(object):
 	JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
 	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
 
+	List_Emailtemplate_Data = """SELECT
+	c.clippingid,
+	to_char(c.clip_source_date,'DD/MM/YY') as clip_source_date_display,
+	c.clip_title,
+	o.outletname,
+	cl.clientname,
+	i.name as issuename
+
+	FROM userdata.clippings AS c
+	LEFT OUTER JOIN userdata.client AS cl ON cl.clientid = c.clientid
+	LEFT OUTER JOIN userdata.clippingsissues AS ci ON ci.clippingid = c.clippingid
+	LEFT OUTER JOIN userdata.issues AS i ON i.issueid = ci.issueid
+	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid
+	"""
+
+	List_Emailtemplate_Data_Count = """SELECT COUNT(*) FROM userdata.clippings AS c
+	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
 
 	@staticmethod
 	def list_clippings(params):
@@ -142,13 +159,31 @@ class ClippingsGeneral(object):
 			params['sortfield'] = 'c.clip_source_date'
 			params['direction'] = 'DESC'
 
-
 		return BaseSql.get_rest_page_base(
 		  params,
 		  'clippingid',
 		  'clip_source_date',
 		  ClippingsGeneral.List_Customer_Data + whereclause + BaseSql.Standard_View_Order,
 		  ClippingsGeneral.List_Customer_Data_Count + whereclause,
+		  Clipping)
+
+	@staticmethod
+	def list_clippings_emailtemplate(params):
+		"""list of clippings linked with a press release"""
+
+		whereclause = ''
+		
+		if "emailtemplateid" in params:
+			whereclause = BaseSql.addclause(whereclause, 'c.emailtemplateid=:emailtemplateid')
+		if "customerid" in params:
+			whereclause = BaseSql.addclause(whereclause, 'c.customerid=:customerid')
+
+		return BaseSql.getGridPage(
+		  params,
+		  'clip_source_date',
+		  'clippingid',
+		  ClippingsGeneral.List_Emailtemplate_Data + whereclause + BaseSql.Standard_View_Order,
+		  ClippingsGeneral.List_Emailtemplate_Data_Count + whereclause,
 		  Clipping)
 
 	@staticmethod

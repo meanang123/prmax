@@ -12,7 +12,7 @@
 from turbogears import expose, validate, validators, error_handler, exception_handler
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler, pr_std_exception_handler_text
 from ttl.tg.controllers import SecureController
-from ttl.tg.validators import std_state_factory, PrFormSchema, RestSchema, DateRangeValidator, BooleanValidator, Int2Null, \
+from ttl.tg.validators import std_state_factory, PrGridSchema, PrFormSchema, RestSchema, DateRangeValidator, BooleanValidator, Int2Null, \
      ISODateValidator, FloatToIntValidator, ListofIntsValidator
 from ttl.base import stdreturn
 from prcommon.model import ClippingsGeneral, ClippingCache, User
@@ -44,6 +44,10 @@ class ClippingListSchema(RestSchema):
 	drange = DateRangeValidator()
 	unprocessed = BooleanValidator()
 	tones = ListofIntsValidator()
+
+class ClippingEmailtemplateListSchema(RestSchema):
+	"schema"
+	emailtemplateid = validators.Int()
 
 class ClippingPrivateAddSchema(PrFormSchema):
 	clippingid = validators.Int()
@@ -102,6 +106,14 @@ class ClippingsController(SecureController):
 
 		return ClippingsGeneral.list_clippings(params)
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrGridSchema(), state_factory=std_state_factory)
+	def list_clippings_emailtemplate(self, *args, **params):
+		""" list of clips linked with a press release"""
+
+		return ClippingsGeneral.list_clippings_emailtemplate(params)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

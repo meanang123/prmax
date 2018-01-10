@@ -21,14 +21,12 @@
 			
 							<form data-dojo-attach-point="update_form" data-dojo-props='"class":"prmaxdefault", onsubmit:"return false"' data-dojo-type="dijit.form.Form">
 								<input data-dojo-attach-point="statementid" data-dojo-props='name:"statementid", type:"hidden", value:"-1"' data-dojo-type="dijit.form.TextBox" >
-								<table class="prmaxtable" width="500px" >
+								<table class="prmaxtable" width="700px" >
 									<tr><td colspan="2" align="center" class="prmaxrowdisplaylarge" > Statement Details</td></tr>
-									<tr><td class="prmaxrowtag" >Description</td><td class="prmaxrowdisplay" width="76%"><input data-dojo-props='invalidMessage:"Description field must be filled in", style:"width:98%", "class":"prmaxrequired", name:"statementdescription", type:"text", maxlength:80, trim:true, required:true' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="statementdescription"/></td></tr>
-									<tr><td class="prmaxrowtag" >Client</td><td class="prmaxrowdisplay" width="76%" ><select data-dojo-attach-point="clientid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"clientid", searchAttr:"clientname", labelType:"html", style:"width:98%" '/></td></tr>
-									
-									<tr><td class="prmaxrowtag" >Issue</td><td class="prmaxrowdisplay" width="76%"><select data-dojo-attach-point="issueid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"issueid", searchAttr:"name", labelType:"html", style:"width:98%" '/></td></tr>
-								
-									<tr><td class="prmaxrowtag" >Output</td><td class="prmaxrowdisplay" width="76%"><div data-dojo-type="dijit.Editor" data-dojo-attach-point="output" data-dojo-props='name:"output",style:"border:1px solid gray"'  extraPlugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:false},'fontSize','createLink','viewsource','preview','mergefields']"></div></td>
+									<tr><td class="prmaxrowtag" >Description</td><td class="prmaxrowdisplay" width="86%"><input data-dojo-props='invalidMessage:"Description field must be filled in", style:"width:98%", "class":"prmaxrequired", name:"statementdescription", type:"text", maxlength:80, trim:true, required:true' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="statementdescription"/></td></tr>
+									<tr><td class="prmaxrowtag" >Client</td><td class="prmaxrowdisplay" width="86%" ><select data-dojo-attach-point="clientid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"clientid", searchAttr:"clientname", labelType:"html", style:"width:98%" '/></td></tr>
+									<tr><td class="prmaxrowtag" >Issue</td><td class="prmaxrowdisplay" width="86%"><select data-dojo-attach-point="issueid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"issueid", searchAttr:"name", labelType:"html", style:"width:98%" '/></td></tr>
+									<tr><td class="prmaxrowtag" >Output</td><td class="prmaxrowdisplay" width="86%"><div data-dojo-type="dijit.Editor" data-dojo-attach-point="output" data-dojo-props='name:"output",style:"border:1px solid gray"'  extraPlugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:false},'fontSize','createLink','viewsource','preview','mergefields']"></div></td>
 										<td valign="top"><button data-dojo-attach-event="onClick:_LoadWord" data-dojo-attach-point="uploaddocbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-upload",type:"button","class":"prmaxdefault", title:"Upload document"'></button><br/></td>						
 									</tr>
 									<tr><td colspan = "2" align="right"><button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Update", busyLabel:"Please Wait Updating" ' data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_Update" data-dojo-attach-point="update_form_btn"></button></td></tr>

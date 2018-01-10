@@ -10,6 +10,8 @@
 dojo.provide("prcommon.crm.responses.resend");
 
 dojo.require("prcommon.clippings.add_server");
+dojo.require("prcommon.crm.responses.update");
+dojo.require("prmax.pressrelease.update");
 
 dojo.declare("prcommon.crm.responses.resend",
 	[ ttl.BaseWidget ],
@@ -21,6 +23,7 @@ dojo.declare("prcommon.crm.responses.resend",
 	
 		this._ResendCallback = dojo.hitch ( this, this._ResendCall ) ;
 		this._StatementCallBack = dojo.hitch(this, this._StatementCall);
+		this._UpdateStatementCallBack = dojo.hitch(this, this._UpdateStatementCall);
 		this._EmailTemplateCallBack = dojo.hitch(this, this._EmailTemplateCall);
 	
 		this._customerid = PRMAX.utils.settings.cid;
@@ -56,6 +59,7 @@ dojo.declare("prcommon.crm.responses.resend",
 		content['customeremailserverid'] = this.customeremailserverid.get("value");
 		content['toemailaddress'] = this.toemailaddress.get("value");
 		content['ccemailaddresses'] = this.ccemailaddresses.get("value");
+		content['employeeid'] = this._employeeid;
 		
 		if ( this.option0.get("checked"))
 		{
@@ -87,12 +91,13 @@ dojo.declare("prcommon.crm.responses.resend",
 	{
 	
 	},
-	Load:function(contactemail)
+	Load:function(contactemail, employeeid)
 	{
 		this.toemailaddress.set("value", contactemail);	
 		this.statementid.set("value", -1);
 		this.emailtemplateid.set("value", -1);
 		this.ccemailaddresses.set("value", this.userccaddresses);
+		this._employeeid = employeeid;
 	},
 	_add_server:function()
 	{
@@ -207,6 +212,31 @@ dojo.declare("prcommon.crm.responses.resend",
 			win.document.close();
 		}
 	},	
+	_edit:function()
+	{
+		if ( this.option0.get("checked"))
+		{
+			this._edit_statement();
+		}
+		if ( this.option1.get("checked"))
+		{
+			this._edit_emailtemplate();
+		}
+	},
+	_edit_statement:function(id)
+	{
+	
+		this.update_statement_dlg.show();
+		this.updatestatementctrl.Load(this.update_statement_dlg,  this.statementid.get("value"));	
+
+	},
+	_edit_emailtemplate:function(id)
+	{
+	
+		this.update_emailtemplate_dlg.show();
+		this.updateemailtemplatectrl.Load(this.update_emailtemplate_dlg, this.emailtemplateid.get("value"));	
+
+	},
 
 });
 

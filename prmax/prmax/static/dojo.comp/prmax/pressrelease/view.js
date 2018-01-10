@@ -27,6 +27,7 @@ dojo.declare("prmax.pressrelease.view",
 	{
 		this.model = new prcommon.data.QueryWriteStore ( {url:'/emails/templates_list_grid', nocallback:true} );
 		this.model2 = new prcommon.data.QueryWriteStore ( {url:'/emails/distribution_view'} );
+		this.model_clips = new prcommon.data.QueryWriteStore ( {url:'/clippings/list_clippings_emailtemplate'} );
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 
 		this._DeleteReleaseCallBack = dojo.hitch ( this, this._DeleteReleaseCall ) ;
@@ -49,6 +50,7 @@ dojo.declare("prmax.pressrelease.view",
 
 		this.grid.set("structure",this.view);
 		this.grid2.set("structure",this.view2);
+		this.grid_clips.set("structure",this.view_clips);
 
 		this.grid['onStyleRow'] = dojo.hitch(this,this._OnStyleRow);
 		this.grid['onCellClick'] = dojo.hitch(this,this.onCellClick);
@@ -56,6 +58,7 @@ dojo.declare("prmax.pressrelease.view",
 
 		this.grid._setStore(this.model);
 		this.grid2._setStore(this.model2);
+		this.grid_clips._setStore(this.model_clips);
 		this.clientid.set("store", this._clients);
 		this.clientid.set("value",-1);
 
@@ -129,11 +132,13 @@ dojo.declare("prmax.pressrelease.view",
 			dojo.removeClass(this.show_list.domNode,"prmaxhidden");
 			dojo.removeClass(this.show_email.domNode,"prmaxhidden");
 			dojo.removeClass(this.refresh_show_list.domNode,"prmaxhidden");
+			dojo.removeClass(this.show_clippings.domNode,"prmaxhidden");
 			if (PRMAX.utils.settings.has_ct == true )
 				dojo.removeClass(this.show_analysis.domNode,"prmaxhidden");
 
 			dojo.attr(this.listname_display, "innerHTML" , this._row.i.emailtemplatename ) ;
 			this.grid2.setQuery( ttl.utilities.getPreventCache({emailtemplateid: response.data.emailtemplateid}));
+			this.grid_clips.setQuery( ttl.utilities.getPreventCache({emailtemplateid: response.data.emailtemplateid}));
 
 			this.controls.selectChild ( this.main_view ) ;
 			this.controls2.selectChild ( this.grid2 );
@@ -209,6 +214,15 @@ dojo.declare("prmax.pressrelease.view",
 		{name: 'Email',width: "150px",field:"emailaddress"},
 		{name: 'Status',width: "60px",field:"status"},
 		{name: ' ',width: "2em",field:"hasmsg", formatter:ttl.utilities.genericView}
+		]]
+	},
+	view_clips: { //this is for the clippings
+		cells: [[
+		{name: 'Date',width: "60px",field:"clip_source_date_display"},
+		{name: 'Title',width: "300px",field:"clip_title"},
+		{name: 'Outlet',width: "120px",field:"outletname"},
+		{name: 'Client',width: "120px",field:"clientname"},
+		{name: 'Issue',width: "120px",field:"issuename"}
 		]]
 	},
 	resize:function()
@@ -380,5 +394,14 @@ dojo.declare("prmax.pressrelease.view",
 	_show_analysis:function()
 	{
 		this.controls2.selectChild ( this.analysis_view );
-	}
+	},
+	_Show_Clippings:function()
+	{
+
+	},
+	_Show_Clippings:function()
+	{
+		this.controls2.selectChild ( this.grid_clips );
+	},
+	
 });

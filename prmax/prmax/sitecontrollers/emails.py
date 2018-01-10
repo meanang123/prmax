@@ -47,6 +47,13 @@ class PrEmailTemplateUpdateSchema(PrFormSchema):
 	templateheaderid = Int2Null()
 	templatefooterid = Int2Null()
 
+class PrEmailtemplateUpdateTextSchema(PrFormSchema):
+	""" Standard Schema for email templates"""
+	emailtemplateid = validators.Int()
+	delete_collateral = BooleanValidator()
+	clientid = Int2Null()
+	issueid = Int2Null()
+
 class PrListIdSchema(PrFormSchema):
 	""" Standard Schema for email templates"""
 	listid = validators.Int()
@@ -183,6 +190,17 @@ class EmailController(SecureController):
 		""" update a specific email template """
 
 		EmailTemplates.update(params)
+
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrEmailtemplateUpdateTextSchema(), state_factory=std_state_factory)
+	def templates_update_text(self, *args, **params):
+		""" update a specific email template """
+
+		EmailTemplates.update_text(params)
 
 		return stdreturn()
 

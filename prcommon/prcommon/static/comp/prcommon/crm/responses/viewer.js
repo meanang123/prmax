@@ -23,6 +23,7 @@ dojo.require("dijit.form.Button");
 dojo.require("prcommon.data.QueryWriteStore");
 dojo.require("prcommon.documents.upload");
 dojo.require("prcommon.crm.responses.add");
+dojo.require("prcommon.crm.responses.update");
 
 dojo.declare("prcommon.crm.responses.viewer",
 	[ ttl.BaseWidget ],

@@ -28,7 +28,7 @@ from ttl.sqlalchemy.ttlcoding import CryptyInfo
 import ttl.Constants as ttlConstants
 from prcommon.model.common import BaseSql
 from prcommon.model.identity import User, Customer
-from prcommon.model.list import List
+from prcommon.model.list import List, ListMembers
 from prcommon.model.lookups import Selection
 from prcommon.model.searchsession import SearchSession
 from prcommon.model.collateral import ECollateral, Collateral
@@ -39,6 +39,9 @@ from prcommon.lib.distribution import MailMerge
 import prcommon.Constants as Constants
 from prcommon.lib.bouncedemails import AnalysisMessage
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
+from prcommon.model.contact import Contact
+from prcommon.model.employee import Employee
+from prcommon.model.outlet import Outlet
 
 CRYPTENGINE = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
@@ -511,6 +514,31 @@ class EmailTemplates(BaseSql):
 			LOGGER.exception("EmailTemplate_update")
 			transaction.rollback()
 			raise
+
+	@classmethod
+	def update_text(cls, params):
+		""" update the content of a template """
+
+		transaction = cls.sa_get_active_transaction()
+
+		try:
+			# create control record
+			emailtemplate = EmailTemplates.query.get(params['emailtemplateid'])
+			emailtemplate.emailtemplatename = params['emailtemplatename']
+			emailtemplate.emailtemplatecontent = DBCompress.encode2(params['emailtemplatecontent'])
+			if "clientid" in params:
+				emailtemplate.clientid = params["clientid"]
+
+			if "issueid" in params:
+				emailtemplate.issueid = params["issueid"]
+
+			transaction.commit()
+
+		except:
+			LOGGER.exception("EmailTemplateText_update")
+			transaction.rollback()
+			raise
+
 
 	@classmethod
 	def update_content(cls, params):
@@ -1025,6 +1053,38 @@ class EmailTemplates(BaseSql):
 				(error, statusid) = emailserver.send(emailmessaage, sender)
 				if not statusid:
 					raise Exception("Problem Sending Email")
+				else:
+					employee = Employee.query.get(params['employeeid'])
+					outlet = Outlet.query.get(employee.outletid)
+					contact = Contact.query.get(employee.contactid)					
+
+					listmember = session.query(ListMembers).filter(ListMembers.listid == emailtemplate.listid).filter(ListMembers.outletid == employee.outletid).filter(ListMembers.employeeid == employee.employeeid).scalar()
+					if not listmember:
+						lm = ListMembers(
+							listid = emailtemplate.listid,
+							outletid = employee.outletid,
+							employeeid = employee.employeeid
+						)
+						session.add(lm)
+						session.flush()
+					
+						lmd = ListMemberDistribution(
+						    listmemberid = lm.listmemberid,
+							listid = emailtemplate.listid,
+						    job_title = employee.job_title,
+						    familyname = contact.familyname,
+						    firstname = contact.firstname,
+						    prefix = contact.prefix,
+						    suffix = contact.suffix,
+						    outletname = outlet.outletname,
+						    emailaddress = params['toemailaddress'],
+						    emailstatusid = 0 #delivered
+						)
+						session.add(lmd)
+						session.flush()
+
+						session.commit()
+					
 		except:
 			transaction.rollback()
 			LOGGER.exception("resend emailtemplate")
