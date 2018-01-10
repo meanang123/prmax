@@ -32,7 +32,7 @@ dojo.declare("prcommon.crm.output",
 		this.output_style.set("store", this._output_styles);
 		this.output_style.set("value", 21 );
 		this.clientid.set("store",this._clients);
-		this.clientid.set("value",-1);		
+		this.clientid.set("value",-1);
 		dojo.addClass(this.excel.domNode, "prmaxhidden");
 		dojo.addClass(this.excel_label, "prmaxhidden");
 	},
@@ -59,11 +59,16 @@ dojo.declare("prcommon.crm.output",
 	_setDialogAttr:function(dialog)
 	{
 		this._dialog = dialog;
+		if ( this._dialog != null)
+		{
+		dojo.removeClass(this.closebtn.domNode,"prmaxhidden");
+		}
 	},
 	_close:function()
 	{
 		if ( this._dialog)
 		{
+			this.reportnode.Stop();
 			this._dialog.hide();
 			this.clear();
 		}
@@ -76,7 +81,7 @@ dojo.declare("prcommon.crm.output",
 	},
 	_get_style:function()
 	{
-		if (this.output_style == 31)	
+		if (this.output_style == 31)
 		{
 			dojo.addClass(this.csv.domNode, "prmaxhidden");
 			dojo.addClass(this.csv_label, "prmaxhidden");

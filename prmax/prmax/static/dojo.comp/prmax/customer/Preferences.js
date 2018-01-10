@@ -137,8 +137,8 @@ dojo.declare("prmax.customer.Preferences",
 		this.client_name.set("value",response.data.user.client_name);
 		this.issue_description.set("value",response.data.user.issue_description);
 
-		this.crm_outcome.set("value",response.data.user.crm_outcome);
-		this.crm_outcome.set("value",response.data.user.crm_outcome);
+		this.crm_outcome.set("value",response.data.customer.crm_outcome);
+		this.crm_subject.set("value",response.data.customer.crm_subject);
 
 		this.general_update.set("disabled",false);
 		this.pssw_update.set("disabled",false);
@@ -233,7 +233,9 @@ dojo.declare("prmax.customer.Preferences",
 			PRMAX.utils.settings.emailreplyaddress = this.emailreplyaddress.get("value");
 			PRMAX.utils.settings.stdview_sortorder = this.stdview_sortorder.get("value");
 			PRMAX.utils.settings.client_name = this.client_name.get("value");
-			PRMAX.utils.settings.issue_description=this.issue_description.get("value");
+			PRMAX.utils.settings.issue_description = this.issue_description.get("value");
+			PRMAX.utils.settings.crm_outcome = this.crm_outcome.get("value");
+			PRMAX.utils.settings.crm_subject = this.crm_subject.get("value");
 
 			alert("Settings Saved");
 		}

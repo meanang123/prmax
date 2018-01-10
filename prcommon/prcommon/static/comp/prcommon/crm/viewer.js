@@ -38,7 +38,7 @@ dojo.declare("prcommon.crm.viewer",
 		dojo.subscribe("/crm/newnote", dojo.hitch(this, this._new_crm_event));
 		dojo.subscribe("/crm/update_note", dojo.hitch(this, this._update_crm_event));
 		dojo.subscribe("/crm/update_note_close", dojo.hitch(this, this._close_update_crm_event));
-
+		dojo.subscribe("/crm/delete_note", dojo.hitch(this, this._deleted_crm_event));
 
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._contacthistorystatus = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=contacthistorystatus&nofilter=1'});
@@ -48,7 +48,9 @@ dojo.declare("prcommon.crm.viewer",
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 
 	},
-	view:{
+	postCreate:function()
+	{
+		var view = {
 		cells: [[
 			{name: 'Date',width: "60px",field:'taken_display'},
 			{name: 'Subject',width: "auto",field:'subject'},
@@ -57,10 +59,15 @@ dojo.declare("prcommon.crm.viewer",
 			{name: 'User',width: "120px",field:'display_name'},
 			{name: 'Status',width: "120px",field:'contacthistorystatusdescription'}
 			]]
-	},
-	postCreate:function()
-	{
-		this.viewer_grid.set("structure", this.view);
+			};
+
+		if (PRMAX.utils.settings.crm_subject.length>0)
+		{
+			view["cells"][0][1]["name"] = PRMAX.utils.settings.crm_subject;
+			dojo.attr(this.subject_label_1,"innerHTML", PRMAX.utils.settings.crm_subject);
+		}
+
+		this.viewer_grid.set("structure", view);
 		this.viewer_grid._setStore(this.filter_db);
 		this.viewer_grid.onRowClick = dojo.hitch(this, this.on_select_row);
 
@@ -151,15 +158,15 @@ dojo.declare("prcommon.crm.viewer",
 		this.output_ctrl.set("dialog", this.output_dlg);
 		this.output_dlg.show();
 	},
-	_new_crm_event:function( issue )
+	_new_crm_event:function(issue)
 	{
-		this.filter_db.newItem( issue );
+		this.filter_db.newItem(issue);
 	},
-	_update_crm_event:function( data )
+	_update_crm_event:function(data)
 	{
 		this.tmp_row = null;
 		var item  = {identity:data.ch.contacthistoryid,
-					onItem:  this._get_model_item_call};
+					onItem:this._get_model_item_call};
 			this.filter_db.fetchItemByIdentity(item);
 			if (this.tmp_row)
 			{
@@ -167,10 +174,10 @@ dojo.declare("prcommon.crm.viewer",
 				if (crm_subject.length == 0)
 					crm_subject = data.ch.subject;
 
-				this.filter_db.setValue(  this.tmp_row, "subject" , crm_subject, true );
-				this.filter_db.setValue(  this.tmp_row, "contacthistorystatusdescription" , data.status, true );
-				this.filter_db.setValue(  this.tmp_row, "display_name" , data.display_name, true );
-				this.filter_db.setValue(  this.tmp_row, "taken_display" , data.taken_date, true );
+				this.filter_db.setValue(this.tmp_row, "subject" , crm_subject, true );
+				this.filter_db.setValue(this.tmp_row, "contacthistorystatusdescription" , data.status, true);
+				this.filter_db.setValue(this.tmp_row, "display_name" , data.display_name, true);
+				this.filter_db.setValue(this.tmp_row, "taken_display" , data.taken_date, true);
 			}
 	},
 	_get_model_item:function()
@@ -188,6 +195,12 @@ dojo.declare("prcommon.crm.viewer",
 	_close_update_crm_event:function()
 	{
 		this.update_crm_ctrl.clear();
+	},
+	_deleted_crm_event:function(contacthistoryid)
+	{
+		this.update_crm_ctrl.clear();
+		this.filter_db.deleteItem(this._selected_row);
+		this._selected_row = null;
 	}
 });
 

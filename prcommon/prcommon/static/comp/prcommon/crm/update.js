@@ -31,6 +31,7 @@ dojo.declare("prcommon.crm.update",
 		this._contacthistorytypes = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=prmaxcontacthistorytypes'});
 		this._load_call_back = dojo.hitch(this, this._load_call);
 		this._save_call_back = dojo.hitch(this, this._save_call);
+		this._delete_call_back = dojo.hitch(this, this._delete_call);
 		this._error_call_back = dojo.hitch(this, this._error_call);
 		this._client_add_call_back = dojo.hitch(this, this._client_add_call);
 		this._tmp_size = null;
@@ -134,6 +135,15 @@ dojo.declare("prcommon.crm.update",
 		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		this.new_issue_dlg.set("label",PRMAX.utils.settings.issue_description);
 		this.extraissues.set("displaytitle","Other " + PRMAX.utils.settings.issue_description+"s");
+		if (PRMAX.utils.settings.crm_subject.length>0)
+		{
+			dojo.attr(this.subject_label_1,"innerHTML",PRMAX.utils.settings.crm_subject);
+		}
+		if (PRMAX.utils.settings.crm_outcome.length>0)
+		{
+			dojo.attr(this.outcome_label_1,"innerHTML",PRMAX.utils.settings.crm_outcome);
+		}
+
 
 		this.inherited(arguments);
 	},
@@ -284,6 +294,7 @@ dojo.declare("prcommon.crm.update",
 	{
 		ttl.utilities.xhrPostError(response, ioArgs);
 		this.savebtn.cancel();
+		this.deletebtn.cancel();
 	},
 	_setTmpsizeAttr:function(actualsize)
 	{
@@ -357,13 +368,40 @@ dojo.declare("prcommon.crm.update",
 		this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
 		this.send_reply_dlg.show();
 	},
-	
 	_update_response_event:function( response )
 	{
 		this.history_grid.setQuery({contacthistoryid:response.data.contacthistoryid});
 	},
-	
-	
+	_delete:function()
+	{
+
+		if (confirm("Delete Engagement?"))
+		{
+		dojo.xhrPost(
+			ttl.utilities.makeParams({
+			load: this._delete_call_back,
+			error: this._error_call_back,
+			url:'/crm/deletenote',
+			content:{contacthistoryid: this._contacthistoryid}}));
+		}
+		else
+		{
+			this.deletebtn.cancel();
+		}
+	},
+	_delete_call:function(response)
+	{
+		if ( response.success=="OK")
+		{
+			dojo.publish("/crm/delete_note", [this._contacthistoryid]);
+		}
+		else
+		{
+			alert("Problem Deleting Engagment");
+		}
+
+		this.deletebtn.cancel();
+	}
 });
 
 
