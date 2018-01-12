@@ -20,6 +20,7 @@ function DisplayObject()
 	this.listid = -1;
 	this.listname = "";
 	this.displaylink = null;
+	this.email = "";
 }
 
 DisplayObject.prototype.Clear=function()
@@ -38,6 +39,7 @@ DisplayObject.prototype.Clear=function()
 	this.listid = -1;
 	this.listname = "";
 	this.displaylink = null;
+	this.email = "";
 
 };
 
@@ -57,6 +59,7 @@ DisplayObject.prototype.Set=function(obj)
 	this.listid = obj.listid||-1;
 	this.listname = obj.listname||"";
 	this.displaylink = obj.displaylink||null;
+	this.email = obj.email||"";
 
 };
 

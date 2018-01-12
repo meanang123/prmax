@@ -435,14 +435,6 @@ dojo.declare("prmax.pressrelease.view",
 	},
 	_Show_Clippings:function()
 	{
-
-	},
-	_Show_Clippings:function()
-	{
-		this.controls2.selectChild ( this.grid_clips );
-	},
-	_Show_Clippings:function()
-	{
 		this.controls2.selectChild ( this.grid_clips );
 	},
 	_execute_filter:function()

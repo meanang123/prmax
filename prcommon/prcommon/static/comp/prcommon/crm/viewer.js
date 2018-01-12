@@ -178,6 +178,8 @@ dojo.declare("prcommon.crm.viewer",
 				this.filter_db.setValue(this.tmp_row, "contacthistorystatusdescription" , data.status, true);
 				this.filter_db.setValue(this.tmp_row, "display_name" , data.display_name, true);
 				this.filter_db.setValue(this.tmp_row, "taken_display" , data.taken_date, true);
+				this.filter_db.setValue(this.tmp_row, "outletname" , data.outlet.outletname, true);
+				this.filter_db.setValue(this.tmp_row, "contactname" , data.contactname, true);
 			}
 	},
 	_get_model_item:function()

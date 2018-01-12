@@ -34,6 +34,7 @@ dojo.declare("prcommon.crm.update",
 		this._delete_call_back = dojo.hitch(this, this._delete_call);
 		this._error_call_back = dojo.hitch(this, this._error_call);
 		this._client_add_call_back = dojo.hitch(this, this._client_add_call);
+		this._on_select_contact_call_back = dojo.hitch(this,this._on_select_contact);
 		this._tmp_size = null;
 		this._contactemail = '';
 
@@ -170,6 +171,10 @@ dojo.declare("prcommon.crm.update",
 		if ( response.success=="OK")
 		{
 			this.contacthistoryid.set("value", response.data.ch.contacthistoryid);
+			
+			dojo.attr(this.contact_display,"innerHTML",response.data.contactname);
+			
+			
 			this.taken.set("value", ttl.utilities.fromJsonDate( response.data.ch.taken) );
 			this.taken_by.set("value",response.data.ch.taken_by);
 			this.contacthistorystatusid.set("value", response.data.ch.contacthistorystatusid);
@@ -401,7 +406,23 @@ dojo.declare("prcommon.crm.update",
 		}
 
 		this.deletebtn.cancel();
-	}
+	},
+	_on_select_contact:function(employeeid,outletid,contactname,outletname)
+	{
+		this.outletid.set("value",outletid);
+		this.employeeid.set("value",employeeid);
+
+		var display = contactname;
+		if (outletname != "")
+		{
+			display +=" (" + outletname + ")";
+		}
+		dojo.attr(this.contact_display,"innerHTML",display);
+	},
+	_select_contact:function()
+	{
+		this.person_select_dlg.start_search(this._on_select_contact_call_back);
+	},	
 });
 
 

@@ -14,6 +14,7 @@ dojo.require("prcommon.advance.listview");
 dojo.require("dojox.collections.Dictionary");
 dojo.require("prcommon.contacthistory.edit");
 dojo.require("prcommon.crm.viewer_only");
+dojo.require("prcommon.crm.responses.resend");
 
 dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, dijit._Container], {
 	// need to check that the patther is correct
@@ -136,6 +137,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		this.profileTabButton = this.profileView.controlButton;
 		this.advanceTabButton = this.advanceView.controlButton;
 		this.crmTabButton = this.crmView.controlButton;
+		this.freelancerContactTabButton = this.resendView.controlButton;
 
 	},
 	// cell selected select
@@ -232,6 +234,11 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		if (this.crmTabButton)
 			this.crmTabButton.domNode.style.display = (PRMAX.utils.settings.crm)?display:"none";
 
+		if (this.freelancerContactTabButton)
+		{
+			this.freelancerContactTabButton.domNode.style.display = (ttl.data.utilities.isIndividual( control.outlettypeid ))?display:"none";
+		}
+
 		this.advanceTabButton.domNode.style.display = (PRMAX.utils.settings.advancefeatures) ? display:"none";
 
 		// always hide the contacts tab for individuals
@@ -241,9 +248,11 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		this.contactsTabButton.domNode.style.display=display;
 
 		// force display of correct tab if current tab is about to be hidden
-		if (ttl.data.utilities.isIndividual( control.outlettypeid )===true &&
+		if ((ttl.data.utilities.isIndividual( control.outlettypeid )===true &&
 			(this.tabControl.selectedChildWidget==this.extendedtabControl||
-			this.tabControl.selectedChildWidget==this.contactView))
+			this.tabControl.selectedChildWidget==this.contactView))||
+			(ttl.data.utilities.isIndividual( control.outlettypeid )===false &&
+			this.tabControl.selectedChildWidget==this.resendView))
 			{
 				this.tabControl.selectChild(this.mainView);
 			}
@@ -315,6 +324,9 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 				} catch(e) {}
 
 				this.loadEmployee();
+			}
+			else {
+				this.resendctrl.Load(obj.email, obj.employeeid);
 			}
 		}
 		else if ( this.ctrldata.advancefeatureid != obj.advancefeatureid && obj != null && obj.advancefeatureid != -1 && PRMAX.utils.settings.advancefeatures)

@@ -15,9 +15,13 @@
 				<div data-dojo-attach-point="crmView" data-dojo-type="dijit.layout.BorderContainer", data-dojo-props='title:"Engagement",preload:true,"class":"prmaxhidden" '>
 					<div data-dojo-attach-point="crmctrl" data-dojo-type="prcommon.crm.viewer_only" data-dojo-props='region:"center",mode:"outlet"'></div>
 				</div>
+				<div data-dojo-attach-point="resendView" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Contact",preload:true'>
+					<div data-dojo-attach-point="resendctrl" data-dojo-type="prcommon.crm.responses.resend" data-dojo-props='region:"center"'></div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div dojoType="prcommon.contacthistory.edit"></div>
+
 </div>
 
