@@ -1040,14 +1040,25 @@ class EmailTemplates(BaseSql):
 	def resend(cls, params):
 		"""  Resent an press release"""
 		transaction = BaseSql.sa_get_active_transaction()
+		merge = MailMerge()
 		try:
 			ces = CustomerEmailServer.get(params['customeremailserverid'])
 			emailtemplate = EmailTemplates.query.get(params['emailtemplateid'])
+			bodytext = DBCompress.decode(emailtemplate.emailtemplatecontent)
+			employee = Employee.query.get(params['employeeid'])
+			outlet = Outlet.query.get(employee.outletid)
+			contact = Contact.query.get(employee.contactid)	
+			record = dict(job_title = employee.job_title, 
+			              firstname = contact.firstname,
+			              prefix = contact.prefix,
+			              familyname = contact.familyname
+			              )
+			body = merge.do_merge_fields(record, bodytext)
 
 			emailmessaage = EmailMessage(ces.fromemailaddress,
 			                     params['toemailaddress'],
 			                     emailtemplate.subject,
-			                     DBCompress.decode(emailtemplate.emailtemplatecontent),
+			                     body,
 			                     "text/html"
 			                     )
 			emailmessaage.BuildMessage()
@@ -1064,10 +1075,6 @@ class EmailTemplates(BaseSql):
 				if not statusid:
 					raise Exception("Problem Sending Email")
 				else:
-					employee = Employee.query.get(params['employeeid'])
-					outlet = Outlet.query.get(employee.outletid)
-					contact = Contact.query.get(employee.contactid)					
-
 					listmember = session.query(ListMembers).filter(ListMembers.listid == emailtemplate.listid).filter(ListMembers.outletid == employee.outletid).filter(ListMembers.employeeid == employee.employeeid).scalar()
 					if not listmember:
 						lm = ListMembers(

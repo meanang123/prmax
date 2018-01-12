@@ -248,9 +248,11 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		this.contactsTabButton.domNode.style.display=display;
 
 		// force display of correct tab if current tab is about to be hidden
-		if (ttl.data.utilities.isIndividual( control.outlettypeid )===true &&
+		if ((ttl.data.utilities.isIndividual( control.outlettypeid )===true &&
 			(this.tabControl.selectedChildWidget==this.extendedtabControl||
-			this.tabControl.selectedChildWidget==this.contactView))
+			this.tabControl.selectedChildWidget==this.contactView))||
+			(ttl.data.utilities.isIndividual( control.outlettypeid )===false &&
+			this.tabControl.selectedChildWidget==this.resendView))
 			{
 				this.tabControl.selectChild(this.mainView);
 			}

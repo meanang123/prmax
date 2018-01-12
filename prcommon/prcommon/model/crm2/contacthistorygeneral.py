@@ -16,6 +16,8 @@ from prcommon.model.common import BaseSql
 from prcommon.model.identity import Customer, User
 from prcommon.model.crm import ContactHistory
 from prcommon.model.employee import Employee
+from prcommon.model.contact	import Contact
+from prcommon.model.outlet	import Outlet
 from prcommon.model.crm2.contacthistoryissues import ContactHistoryIssues
 from prcommon.model.crm2.contacthistoryhistory import ContactHistoryHistory
 from prcommon.model.crm2.contacthistoryresponses import ContactHistoryResponses
@@ -227,6 +229,13 @@ class ContactHistoryGeneral():
 		try:
 			contacthistory = ContactHistory.query.get(params["contacthistoryid"])
 
+			for field in ("employeeid", "outletid"):
+				if not params[field] or params[field] == "-1" or params[field] == -1:
+					params[field] = None
+
+			if "employeeid" in params and params["employeeid"]:
+				params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid == params["employeeid"]).scalar()
+				
 			if params["details"] != contacthistory.details or\
 			   contacthistory.contacthistorytypeid != params["contacthistorytypeid"] or\
 			   contacthistory.contacthistorystatusid != params["contacthistorystatusid"] or \
@@ -246,7 +255,7 @@ class ContactHistoryGeneral():
 
 			contacthistory.details = params["details"]
 			contacthistory.outcome = params["outcome"]
-
+			
 			contacthistory.contacthistorytypeid = params["contacthistorytypeid"]
 			contacthistory.contacthistorystatusid = params["contacthistorystatusid"]
 			contacthistory.crm_subject = params["crm_subject"]
@@ -258,6 +267,8 @@ class ContactHistoryGeneral():
 			contacthistory.chud3id = params["chud3id"]
 			contacthistory.chud4id = params["chud4id"]
 
+			contacthistory.outletid = params["outletid"]
+			contacthistory.employeeid = params["employeeid"]
 			contacthistory.clientid = params["clientid"]
 			contacthistory.documentid = params["documentid"]
 
@@ -418,6 +429,15 @@ class ContactHistoryGeneral():
 		"""Contact Hisotry id"""
 
 		contacthistory = ContactHistory.query.get(contacthistoryid)
+		contact = employee = outlet = contactname = None
+		if contacthistory.employeeid:
+			employee = Employee.query.get(contacthistory.employeeid)
+			if employee:
+				contact = Contact.query.get(employee.contactid)
+				outlet = Outlet.query.get(employee.outletid)
+				if contact:
+					contactname = Contact.getName(contact)
+#		display_contact
 		task = Task.query.get(contacthistory.taskid) if contacthistory.taskid else None
 		primary = session.query(Issue).\
 		  join(ContactHistoryIssues, Issue.issueid == ContactHistoryIssues.issueid).\
@@ -440,6 +460,10 @@ class ContactHistoryGeneral():
 		  display_name = display_name,
 		  task = task,
 		  taken_date = datetime.strftime(contacthistory.taken, "%d/%m/%y"),
+		  contact = contact,
+		  outlet = outlet,
+		  employee = employee,
+		  contactname = contactname,
 		  document = document)
 
 	EMPTYGRID = dict (numRows = 0, items = [], identifier = 'contacthistoryid')
