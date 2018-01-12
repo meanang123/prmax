@@ -129,7 +129,7 @@ dojo.declare("prmax.pressrelease.view",
 	{
 		if ( response.success == "OK" )
 		{
-			dojo.removeClass(this.show_list.domNode,"prmaxhidden");
+			this._list_view = true;
 			dojo.removeClass(this.show_email.domNode,"prmaxhidden");
 			dojo.removeClass(this.refresh_show_list.domNode,"prmaxhidden");
 			dojo.removeClass(this.show_clippings.domNode,"prmaxhidden");
@@ -279,15 +279,32 @@ dojo.declare("prmax.pressrelease.view",
 	},
 	_Show_List:function()
 	{
-		this.controls2.selectChild ( this.grid2 );
+		this._list_view = true;
+		this.controls2.selectChild(this.grid2);
+		this._swap_view();
+	},
+	_Show_Email:function()
+	{
+		this._list_view = false;
+		this.controls2.selectChild(this.sent_view);
+		this._swap_view();
+	},
+	_swap_view:function()
+	{
+		if (this._list_view == true)
+		{
+			dojo.addClass(this.show_list.domNode,"prmaxhidden");
+			dojo.removeClass(this.show_email.domNode,"prmaxhidden");
+		}
+		else
+		{
+			dojo.removeClass(this.show_list.domNode,"prmaxhidden");
+			dojo.addClass(this.show_email.domNode,"prmaxhidden");
+		}
 	},
 	_Refresh_Show_List:function()
 	{
 		this.grid2.setQuery( ttl.utilities.getPreventCache({emailtemplateid: this._row.i.emailtemplateid}));
-	},
-	_Show_Email:function()
-	{
-		this.controls2.selectChild ( this.sent_view );
 	},
 	_Pull_Release:function()
 	{
