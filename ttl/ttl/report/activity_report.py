@@ -165,7 +165,7 @@ class ActivityPDF(object):
 
 			self.parent.logo_and_header(canvas, doc)
 
-	def __init__(self, page_header, rows_eng, total_eng, completed_eng,inprogress_eng, rows_clip, total_clip, rows_rel, total_rel):
+	def __init__(self, page_header, engagement_label, rows_eng, total_eng, completed_eng,inprogress_eng, rows_clip, total_clip, rows_rel, total_rel):
 		"""
 		"""
 		self.report = cStringIO.StringIO()
@@ -187,6 +187,7 @@ class ActivityPDF(object):
 		self.objects = []
 		self.page_count = 1
 		self.total_page_count = 0
+		self._engagement_label = engagement_label[0][0]
 		self._rows_eng = rows_eng
 		self._total_eng = total_eng
 		self._completed_eng = completed_eng
@@ -220,7 +221,7 @@ class ActivityPDF(object):
 		# do the header:
 		self.new_page()
 
-		header1_line1 = [((Paragraph("<b>Engagements</b>", HEADING_STYLE_LEFT),),(''),(''))]
+		header1_line1 = [((Paragraph("<b>%ss</b>" %self._engagement_label, HEADING_STYLE_LEFT),),(''),(''))]
 		header1_line2 = [((''),(Paragraph("<b>" + str(self._total_eng[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp Enquiries</b>", DATA_STYLE_RIGHT)))]
 		header1_line3 = [((''),(Paragraph("<b>" + str(self._inprogress_eng[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp In Progress</b>", DATA_STYLE_RIGHT)))]
 		header1_line4 = [((''),(Paragraph("<b>" + str(self._completed_eng[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp Completed</b>", DATA_STYLE_RIGHT)))]

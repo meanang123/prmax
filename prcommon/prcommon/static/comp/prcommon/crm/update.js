@@ -171,9 +171,12 @@ dojo.declare("prcommon.crm.update",
 		if ( response.success=="OK")
 		{
 			this.contacthistoryid.set("value", response.data.ch.contacthistoryid);
-			
-			dojo.attr(this.contact_display,"innerHTML",response.data.contactname);
-			
+			var display = response.data.contactname;
+			if (response.data.outlet.outletname != "")
+			{
+				display +=" (" + response.data.outlet.outletname + ")";
+			}
+			dojo.attr(this.contact_display,"innerHTML",display);
 			
 			this.taken.set("value", ttl.utilities.fromJsonDate( response.data.ch.taken) );
 			this.taken_by.set("value",response.data.ch.taken_by);
@@ -380,7 +383,7 @@ dojo.declare("prcommon.crm.update",
 	_delete:function()
 	{
 
-		if (confirm("Delete Engagement?"))
+		if (confirm("Delete " + PRMAX.utils.settings.crm_engagement + "?"))
 		{
 		dojo.xhrPost(
 			ttl.utilities.makeParams({

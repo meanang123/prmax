@@ -105,6 +105,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		this._contactemail = response.employee.email;
 		this.tabControl.selectChild(this.maintab);
 		this.Clear();
+		this.crmview.set("title", PRMAX.utils.settings.crm_engagement);
 		dojo.attr(this.employee_display_contactname, "innerHTML", response.employee.contactname);
 		dojo.attr(this.employee_display_job_title,"innerHTML",response.employee.job_title);
 		dojo.attr(this.employee_display_address,"innerHTML",response.employee.address);

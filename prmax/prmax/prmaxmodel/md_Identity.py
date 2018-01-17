@@ -42,7 +42,7 @@ class Preferences(object):
 		                       filter(UserDefaultCountries.countryid == Countries.countryid).
 		                       filter(UserDefaultCountries.userid == user_id).
 		                       filter(not_(UserDefaultCountries.countryid.in_(countries))).all()],
-		            customer=dict(crm_subject=customer.crm_subject, crm_outcome=customer.crm_outcome))
+		            customer=dict(crm_subject=customer.crm_subject, crm_outcome=customer.crm_outcome, crm_engagement=customer.crm_engagement))
 
 	@classmethod
 	def update_projectname(cls, params):
@@ -136,6 +136,7 @@ class Preferences(object):
 			if customer.crm:
 				customer.crm_subject = params["crm_subject"]
 				customer.crm_outcome = params["crm_outcome"]
+				customer.crm_engagement = params["crm_engagement"]
 
 			session.flush()
 

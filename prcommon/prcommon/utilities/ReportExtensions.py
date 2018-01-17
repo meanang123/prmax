@@ -681,6 +681,8 @@ class ReportEngagments(ReportCommon):
 
 		whereclause = """WHERE ch.ref_customerid = %(icustomerid)s"""
 
+		engagement_label = """SELECT crm_engagement FROM internal.customers WHERE customerid = %(icustomerid)s"""
+
 		params = dict(icustomerid = self._reportoptions["customerid"])
 
 		drange = simplejson.loads(self._reportoptions["drange"])
@@ -713,13 +715,14 @@ class ReportEngagments(ReportCommon):
 				issues[result["issue"]]["engagement"].append(result)
 		else:
 			results = db_connect.executeAll(data_command + " " + whereclause, params, is_dict)
+		results_eng_label = db_connect.executeAll(engagement_label, params, False)
 
-		return dict ( results = results )
+		return dict ( results = results, engagement_label = results_eng_label )
 
 	def run( self, data , output ) :
 		"run engagemnt report"
 
-		report = EngagementPDF( self._reportoptions,  data["results"])
+		report = EngagementPDF( self._reportoptions,  data["results"], data['engagement_label'])
 
 		output.write(report.stream())
 

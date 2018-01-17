@@ -112,3 +112,6 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE listmember_view TO prmaxcontrol;
 delete from cache.cachestore;
 
 ALTER TABLE tg_user DROP CONSTRAINT tg_user_email_address_key;
+
+ALTER TABLE internal.customers ADD COLUMN crm_engagement character varying(45) NOT NULL DEFAULT 'Engagement';
+UPDATE internal.customers SET crm_engagement = 'Engagement';

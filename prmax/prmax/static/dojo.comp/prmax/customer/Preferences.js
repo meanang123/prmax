@@ -30,6 +30,7 @@ dojo.declare("prmax.customer.Preferences",
 			dojo.removeClass(this.crm_view_1,"prmaxhidden");
 			dojo.removeClass(this.crm_view_2,"prmaxhidden");
 			dojo.removeClass(this.crm_view_3,"prmaxhidden");
+			dojo.removeClass(this.crm_view_4,"prmaxhidden");
 		}
 
 		this.Load();
@@ -139,6 +140,7 @@ dojo.declare("prmax.customer.Preferences",
 
 		this.crm_outcome.set("value",response.data.customer.crm_outcome);
 		this.crm_subject.set("value",response.data.customer.crm_subject);
+		this.crm_engagement.set("value",response.data.customer.crm_engagement);
 
 		this.general_update.set("disabled",false);
 		this.pssw_update.set("disabled",false);
@@ -236,6 +238,9 @@ dojo.declare("prmax.customer.Preferences",
 			PRMAX.utils.settings.issue_description = this.issue_description.get("value");
 			PRMAX.utils.settings.crm_outcome = this.crm_outcome.get("value");
 			PRMAX.utils.settings.crm_subject = this.crm_subject.get("value");
+			PRMAX.utils.settings.crm_engagement = this.crm_engagement.get("value");
+
+			dojo.publish('/update/engagement_label');
 
 			alert("Settings Saved");
 		}
