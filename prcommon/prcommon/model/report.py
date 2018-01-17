@@ -114,7 +114,12 @@ class Report(BaseSql):
 
 class ReportTemplate(BaseSql):
 	""" report templates """
-	List_Std = """SELECT reporttemplateid,reporttemplatename
+	List_Std = """SELECT reporttemplateid,
+	CASE
+	WHEN (reporttemplateid = 21) THEN (SELECT crm_engagement||'s' FROM internal.customers where customerid = :customerid)
+	WHEN (reporttemplateid = 22) THEN (SELECT crm_engagement||'s By Issue' FROM internal.customers where customerid = :customerid)
+	ELSE reporttemplatename
+	END as reporttemplatename
 	FROM internal.reporttemplates as r
 	WHERE
 		(r.customerid=-1 OR r.customerid = :customerid) AND

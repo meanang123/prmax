@@ -80,7 +80,7 @@ class EngagementPDF(object):
 		canvas.setFont(FONT_TYPE_BOLD, 14)
 		x_centre=doc.width/2.0 + 1.5*cm
 		ypos=ypos + 0.75*cm
-		canvas.drawCentredString(x_centre, ypos, "Engagment Report")
+		canvas.drawCentredString(x_centre, ypos, '%ss Report' %self._engagement_label)
 
 
 		canvas.setFont(FONT_TYPE, 8)
@@ -106,7 +106,7 @@ class EngagementPDF(object):
 			frametop_height = 1.5*cm
 
 
-			PageTemplate.__init__(self, "EngamentPDFTemplate",
+			PageTemplate.__init__(self, "EngagementPDFTemplate",
 			                      [
 			                        Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height-frametop_height, 6, 6, 6, 6, None, showframes),
 			                      ])
@@ -116,7 +116,7 @@ class EngagementPDF(object):
 
 			self.parent.logo_and_header(canvas, doc)
 
-	def __init__(self, page_header, rows):
+	def __init__(self, page_header, rows, engagement_label):
 		"""
 		"""
 		self.report = cStringIO.StringIO()
@@ -139,6 +139,7 @@ class EngagementPDF(object):
 		self.page_count = 1
 		self.total_page_count = 0
 		self._rows = rows
+		self._engagement_label = engagement_label[0][0]
 
 	def write(self, filename):
 		"write"
@@ -163,7 +164,7 @@ class EngagementPDF(object):
 			for row in self._rows:
 				issuename = row["issue"] if row["issue"] else "No Issue"
 				self.append(Paragraph("Issues: " +  row["issue"], HEADING_STYLE))
-				self.append(Paragraph("Engagements:", HEADING_STYLE2))
+				self.append(Paragraph("%s:" %self._engagement_label, HEADING_STYLE2))
 				for engagement in row["engagement"]:
 					self.append(Paragraph("&nbsp;", FOOTER))
 					self._do_engagement(engagement, DETAILS_LEFT_2)

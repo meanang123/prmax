@@ -30,7 +30,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		this.whereused_loaded = false ;
 		this._setstore = false;
 		dojo.subscribe(PRCOMMON.Events.Update_Notes, dojo.hitch(this,this._profile_refresh_event));
-
+		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
 	},
 	postCreate:function()
 	{
@@ -105,6 +105,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		this._contactemail = response.employee.email;
 		this.tabControl.selectChild(this.maintab);
 		this.Clear();
+		this.crmview.set("title", PRMAX.utils.settings.crm_engagement);
 		dojo.attr(this.employee_display_contactname, "innerHTML", response.employee.contactname);
 		dojo.attr(this.employee_display_job_title,"innerHTML",response.employee.job_title);
 		dojo.attr(this.employee_display_address,"innerHTML",response.employee.address);
@@ -183,6 +184,10 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		if (response.employee.faxflag)
 			dojo.toggleClass(this.employee_display_fax,"prmaxoverride",true);
 
+	},
+	_UpdateEngagementLabelEvent:function()
+	{
+		this.crmview.set("title", PRMAX.utils.settings.crm_engagement);
 	},
 	LoadWhereUsed:function(employeeid)
 	{

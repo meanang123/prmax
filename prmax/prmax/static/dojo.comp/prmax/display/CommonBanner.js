@@ -33,6 +33,8 @@ dojo.declare("prmax.display.CommonBanner",
 		this.largeDialog = new prmax.DlgCtrl2("width:710px;height:565px;");
 		dojo.subscribe(PRCOMMON.Events.Dialog_Close, dojo.hitch(this,this._DialogCloseEvent));
 		dojo.subscribe(PRCOMMON.Events.PressReleaseStart, dojo.hitch(this,this._StartPressEvent));
+		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
+
 	},
 	postCreate:function()
 	{
@@ -90,7 +92,10 @@ dojo.declare("prmax.display.CommonBanner",
 		{
 			dojo.removeClass(this.clippings.domNode,"prmaxhidden");
 		}
-
+		if (this.engbtn)
+		{
+			dojo.attr(this.engbtn, 'label', '<span><span class="main_menu_button"><i class="fa fa-user fa-2x"></i><p>'+PRMAX.utils.settings.crm_engagement+'s</p></span></span>');
+		}
 		this.inherited(arguments);
 	},
 	loadLinks:function()
@@ -470,6 +475,10 @@ dojo.declare("prmax.display.CommonBanner",
 	_StartPressEvent: function ( release )
 	{
 		this.ShowEmailPanel(release);
+	},
+	_UpdateEngagementLabelEvent:function()
+	{
+		dojo.attr(this.engbtn, 'label', '<span><span class="main_menu_button"><i class="fa fa-user fa-2x"></i><p>'+PRMAX.utils.settings.crm_engagement+'s</p></span></span>');
 	},
 	ShowExistingPressRelease:function()
 	{

@@ -486,8 +486,8 @@ class StatisticsExcel(object):
 		used_last = self._results['clip_proactive_total_last'][0]['count']+self._results['clip_reactive_total_last'][0]['count']
 		used_current = self._results['clip_proactive_total_current'][0]['count']+self._results['clip_reactive_total_current'][0]['count']
 
-		total_used_last = self._fix_total(issued_last, issued_current)
-		total_used_current = self._fix_total(used_last, used_current)
+		total_used_last = self._fix_total(issued_last, used_last)
+		total_used_current = self._fix_total(issued_current, used_current)
 
 		return dict(total_used_last = total_used_last, total_used_current = total_used_current)
 

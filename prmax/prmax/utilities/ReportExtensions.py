@@ -684,6 +684,8 @@ class ReportEngagments(ReportCommon):
 
 		whereclause = """WHERE ch.ref_customerid = %(icustomerid)s"""
 
+		engagement_label = """SELECT crm_engagement FROM internal.customers WHERE customerid = %(icustomerid)s"""
+
 		params = dict(icustomerid = self._reportoptions["customerid"])
 		params['clientid'] = self._reportoptions["clientid"]
 		if params['clientid'] != -1 and params['clientid'] != '-1':
@@ -720,13 +722,14 @@ class ReportEngagments(ReportCommon):
 				issues[result["issue"]]["engagement"].append(result)
 		else:
 			results = db_connect.executeAll(data_command + " " + whereclause, params, is_dict)
+		results_eng_label = db_connect.executeAll(engagement_label, params, False)
 
-		return dict ( results = results )
+		return dict ( results = results, engagement_label = results_eng_label )
 
 	def run( self, data , output ) :
 		"run engagemnt report"
 
-		report = EngagementPDF( self._reportoptions,  data["results"])
+		report = EngagementPDF( self._reportoptions,  data["results"], data['engagement_label'])
 
 		output.write(report.stream())
 
@@ -793,6 +796,8 @@ class ActivityReport(ReportCommon):
 		andclause_clip = ""
 		andclause_rel = ""
 		
+		engagement_label = """SELECT crm_engagement FROM internal.customers WHERE customerid = %(icustomerid)s"""
+
 		params = dict(icustomerid = self._reportoptions["customerid"])
 		params['clientid'] = self._reportoptions["clientid"]
 		if params['clientid'] != -1 and params['clientid'] != '-1':
@@ -833,8 +838,10 @@ class ActivityReport(ReportCommon):
 		results_total_clip = db_connect.executeAll(total_clip + whereclause_clip + andclause_clip, params, False)
 		results_rel = db_connect.executeAll(releases + whereclause_rel + andclause_rel, params, is_dict)
 		results_total_rel = db_connect.executeAll(total_rel + whereclause_rel + andclause_rel, params, False)
+		results_eng_label = db_connect.executeAll(engagement_label, params, False)
 
 		data = dict(
+		    engagement_label = results_eng_label,
 			results_eng = results_eng, 
 			total_eng = results_total_eng, 
 			completed_eng = results_completed_eng, 
@@ -849,7 +856,7 @@ class ActivityReport(ReportCommon):
 	def run( self, data , output ) :
 		"run daily report"
 
-		report = ActivityPDF( self._reportoptions,  data["results_eng"], data["total_eng"], data["completed_eng"], data["inprogress_eng"], data["results_clip"], data["total_clip"], data["results_rel"], data["total_rel"])
+		report = ActivityPDF( self._reportoptions,  data['engagement_label'], data["results_eng"], data["total_eng"], data["completed_eng"], data["inprogress_eng"], data["results_clip"], data["total_clip"], data["results_rel"], data["total_rel"])
 
 		output.write(report.stream())
 

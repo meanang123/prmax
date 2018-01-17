@@ -95,6 +95,7 @@ dojo.declare("prcommon.crm.viewer",
 	{
 		this.crm_add.set("dialog",this.crm_dlg);
 		this.crm_add.clear();
+		this.crm_dlg.set("title", "<p><i class=\"fa fa-user\"></i>&nbsp;New " + PRMAX.utils.settings.crm_engagement + "</p>");
 		this.crm_dlg.show();
 	},
 	refresh:function ( )

@@ -264,6 +264,7 @@ class User(BaseSql):
 		   required_client=customer.required_client,
 		   crm_outcome=customer.crm_outcome,
 		   crm_subject=customer.crm_subject,
+		   crm_engagement=customer.crm_engagement,
 		   ccaddresses=user.ccaddresses
 
 		  )
@@ -342,6 +343,9 @@ class User(BaseSql):
 		   has_ct=customer.has_clickthrought,
 		   extended_security = customer.extended_security,
 		   required_client = customer.required_client,
+		   crm_outcome=customer.crm_outcome,
+		   crm_subject=customer.crm_subject,
+		   crm_engagement=customer.crm_engagement,
 		   ccaddresses=user.ccaddresses
 		  )
 

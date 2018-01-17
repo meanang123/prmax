@@ -78,6 +78,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		dojo.subscribe(PRCOMMON.Events.Display_Load, dojo.hitch(this,this.LoadEvent));
 		dojo.subscribe(PRCOMMON.Events.Display_ReLoad, dojo.hitch(this,this.RefreshEvent));
 		dojo.subscribe(PRCOMMON.Events.Update_Notes, dojo.hitch(this,this._profile_refresh_event));
+		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
 
 		this.iefix = false;
 	},
@@ -136,9 +137,16 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		this.contactsTabButton = this.contactView.controlButton;
 		this.profileTabButton = this.profileView.controlButton;
 		this.advanceTabButton = this.advanceView.controlButton;
+		this.crmView.set("title", PRMAX.utils.settings.crm_engagement);
 		this.crmTabButton = this.crmView.controlButton;
+		this.crmTabButton.set('label', PRMAX.utils.settings.crm_engagement);
 		this.freelancerContactTabButton = this.resendView.controlButton;
 
+	},
+	_UpdateEngagementLabelEvent:function()
+	{
+		this.crmView.set("title", PRMAX.utils.settings.crm_engagement);
+		this.crmTabButton.set('label', PRMAX.utils.settings.crm_engagement);
 	},
 	// cell selected select
 	onCellClick : function(e) {
