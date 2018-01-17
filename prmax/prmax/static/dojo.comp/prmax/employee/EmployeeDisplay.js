@@ -30,7 +30,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		this.whereused_loaded = false ;
 		this._setstore = false;
 		dojo.subscribe(PRCOMMON.Events.Update_Notes, dojo.hitch(this,this._profile_refresh_event));
-
+		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
 	},
 	postCreate:function()
 	{
@@ -184,6 +184,10 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		if (response.employee.faxflag)
 			dojo.toggleClass(this.employee_display_fax,"prmaxoverride",true);
 
+	},
+	_UpdateEngagementLabelEvent:function()
+	{
+		this.crmview.set("title", PRMAX.utils.settings.crm_engagement);
 	},
 	LoadWhereUsed:function(employeeid)
 	{
