@@ -51,13 +51,14 @@ class Search(BaseSql):
 		Constants.outlet_profile: "SearchOutletProfileCount",
 		Constants.outlet_coverage: "SearchCoverageAllCount",
 		Constants.freelance_profile:"SearchFreelanceProfileCount",
-	  Constants.quick_search_email:"SearchQuickEmailCount",
-	  Constants.quick_search_tel:"SearchQuickTelCount",
-	  Constants.advance_outletname:"SearchAdvanceOutletNameCount",
-	  Constants.advance_pub_date:"SearchAdvancePubDateCount",
-	  Constants.advance_outlettypeid:"SearchAdvanceMediaChannelCount",
-	  Constants.advance_search_name_outletid:"SearchOutletAdvanceCount",
-	  Constants.quick_search_countryid: "SearchQuickCountryCount",
+	    Constants.quick_search_email:"SearchQuickEmailCount",
+	    Constants.quick_search_tel:"SearchQuickTelCount",
+	    Constants.advance_outletname:"SearchAdvanceOutletNameCount",
+	    Constants.advance_pub_date:"SearchAdvancePubDateCount",
+	    Constants.advance_outlettypeid:"SearchAdvanceMediaChannelCount",
+	    Constants.advance_search_name_outletid:"SearchOutletAdvanceCount",
+	    Constants.quick_search_countryid: "SearchQuickCountryCount",
+	    Constants.employee_contact_ext_employeeid: "SearchEmployeeContactExtCount",
 	}
 
 	Search_Count_Single = """SELECT IFNULL(SUM(si.nbr),0) as nbr from userdata.setindex as si WHERE ( si.customerid=-1 OR customerid = :customerid) AND keytypeid = :keytypeid AND keyname = :keyname AND prmaxdatasetid in ( SELECT prmaxdatasetid FROM internal.customerprmaxdatasets WHERE customerid = :customerid)"""
@@ -79,9 +80,9 @@ class Search(BaseSql):
 			command = Search.Search_Count_List % ",".join(
 				[ "'%d'"%f for f in kw.keyname])
 		elif kw.keytypeid in Search._countproc:
-			if kw.keytypeid in (Constants.quick_search_interests,):
+			if kw.keytypeid in (Constants.quick_search_interests, ):
 				kw.data = ",".join([str(r) for r in kw.keyname['data']])
-			elif kw.keytypeid in (Constants.outlet_coverage,):
+			elif kw.keytypeid in (Constants.outlet_coverage, Constants.employee_contact_ext_employeeid):
 				kw.data = DBCompress.encode2 ( kw.keyname )
 			elif kw.keytypeid in Constants.isEmailAddress or \
 			     kw.keytypeid in Constants.isTelNumber or \
@@ -334,6 +335,7 @@ class Searching(BaseSql):
 
 	_employee_kw = (
 		('employee_searchname',Constants.employee_contact_employeeid,_convertdatalower, None, True ),
+	    ('employee_searchname_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
 		('employee_interests',Constants.employee_employeeid_interestid,_convertdata, None, False ),
 		('employee_outlettypes', Constants.employee_prmaxoutlettypeid,_covertdata_or_logic, None, False ),
 	  ('employee_roles', Constants.employee_job_role,_convertdata, None, False ),

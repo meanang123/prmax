@@ -73,6 +73,7 @@ function _LoadDojoOntoStartPage(dojopath,dojoversion, options )
 		dojo.require("prcommon.data.DataStores");
 
 		dojo.require("prcommon.interests.Interests");
+		dojo.require("prmax.search.person");
 
 		dojo.require("prcommon.advance.stdview");
 		dojo.require("prcommon.date.DateSearchExtended");

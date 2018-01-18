@@ -134,6 +134,8 @@ def doIndexGroup(SD, plpy, extended, logic, indexs, customerid):
 		rowPrivate = plpy.execute(private_plan, [customerid, row[1], _formatword(row[0]), customerid])
 		dprivate = dpublic = None
 
+		controlSettings.doDebug("Row =" + str(row))
+
 		controlSettings.doDebug("Prob =" + str(extended))
 
 		dprivate = None

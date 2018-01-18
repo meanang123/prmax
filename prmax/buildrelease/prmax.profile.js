@@ -85,6 +85,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -369,6 +370,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.customer.InternalAddCustomer",
 
@@ -483,6 +485,7 @@ dependencies ={
 				"prcommon.data.QueryWriteStore",
 
 				"prcommon.interests.Interests",
+				"prmax.search.person",
 
 				"prmax.common.ReportBuilder",
 				"prmax.common.SelectOptions",
@@ -619,6 +622,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -794,6 +798,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -965,6 +970,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -1149,6 +1155,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -1320,6 +1327,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -1491,6 +1499,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -1662,6 +1671,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -1832,6 +1842,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -2015,6 +2026,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -2199,6 +2211,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -2382,6 +2395,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -2566,6 +2580,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",
@@ -2751,6 +2766,7 @@ dependencies ={
 			"prcommon.data.DataStores",
 
 			"prcommon.interests.Interests",
+			"prmax.search.person",
 
 			"prmax.editor.CollateralDialog",
 			"prmax.editor.TtlImgLinkDialog",

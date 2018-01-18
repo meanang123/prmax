@@ -330,11 +330,11 @@ dojo.declare("prmax.search.SearchCtrl", null, {
 		//	dijit.byId("search_total_count").set("value",response.count);
 	},
 	startup_fields : {"std_search_quick":"std_search_quick_outletname",
-								 "std_search_outlet":"std_search_outlet_outlet_name",
-								 "std_search_mps":"std_search_mps_name",
-								 "std_search_freelance":"std_search_freelance_name",
-								 "std_search_employee":"std_search_employee_name"
-								 },
+		"std_search_outlet":"std_search_outlet_outlet_name",
+		"std_search_mps":"std_search_mps_name",
+		"std_search_freelance":"std_search_freelance_name",
+		"std_search_employee":"std_search_employee_name_ext"
+	},
 	onSelectTab:function(button)
 	{
 		if (this.startup_fields[button.id] !== null && this.startup_fields[button.id] != undefined )

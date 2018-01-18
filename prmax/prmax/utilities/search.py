@@ -17,7 +17,6 @@ from ttl.plpython import DBCompress, CustomType
 from prmax.utilities.postgres import PostGresControl
 from types import StringType, ListType
 
-
 _CirulationRange = (
 	(1, '1-500', 1, 500),
 	(2, '501-2500', 501, 2500),
@@ -136,7 +135,10 @@ def doIndexGroup ( SD, plpy, extended, logic, indexs, customerid):
 		rowPrivate =  plpy.execute(private_plan, [ customerid, row[1], _formatword(row[0]), customerid])
 		dprivate = dpublic = None
 
-		controlSettings.doDebug("Prob =" + str(extended))
+		controlSettings.doDebug("Extended =" + str(extended))
+		controlSettings.doDebug("Row =" + str(row))
+		controlSettings.doDebug("Row =" + str(row))
+		controlSettings.doDebug("Row =" + str(row))
 
 		dprivate = None
 		dpublic = None
@@ -709,5 +711,47 @@ def doQuickCountry(SD, plpy, customerid, data ):
 			entry.index.union_update(indextmp.index)
 
 	controlSettings.doDebug("postrow")
+
+	return entry
+
+
+def SearchEmployeeContactExt(SD, plpy, customerid, data, byemployeeid):
+	""" do employee email """
+	if SD.has_key("search_employee_contact_ext_plan"):
+		plan = SD['search_employee_contact_ext_plan']
+	else:
+		plan = plpy.prepare("""SELECT e.employeeid,e.outletid
+		FROM employees AS e
+		JOIN outlets as o on e.outletid = o.outletid
+		JOIN contacts AS c ON c.contactid = e.contactid
+		LEFT OUTER JOIN employeecustomers as ec ON ec.customerid = $1 AND ec.employeeid = e.employeeid
+		LEFT OUTER JOIN communications as ecc ON ecc.communicationid = ec.communicationid
+		WHERE
+			o.outlettypeid NOT IN ( 19, 41 ) AND
+			(
+		  (e.customerid=-1 AND o.countryid IN (SELECT pc.countryid
+		  		FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+		      WHERE cpd.customerid = $1))
+		      OR e.customerid=$1) AND
+		      c.familyname ILIKE $2 AND
+		      c.firstname ILIKE $3""", ["int", "text", "text"])
+		SD['search_employee_contact_ext_plan'] = plan
+
+	#controlSettings = PostGresControl(plpy)
+	#controlSettings.doDebug(data)
+
+	obj = DBCompress.decode(data)
+
+	entry = IndexEntry()
+	if byemployeeid:
+		keyfield = "employeeid"
+	else:
+		keyfield = "outletid"
+
+	if obj["data"]["firstname"]:
+		for row in plpy.execute(plan, [ customerid, obj["data"]["surname"] + "%", obj["data"]["firstname"] + "%"]):
+			entry.index.add(row[keyfield])
+	else:
+		entry = doIndexGroup(SD,plpy, True, Constants.Search_Or, [(obj["data"]["surname"].lower(), Constants.employee_contact_employeeid), ],customerid)
 
 	return entry

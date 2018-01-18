@@ -53,6 +53,7 @@ dojo.require("prcommon.data.QueryWriteStore");
 dojo.require("prcommon.data.DataStores");
 
 dojo.require("prcommon.interests.Interests");
+dojo.require("prmax.search.person");
 
 dojo.require("prmax.employee.EmployeeSelect");
 

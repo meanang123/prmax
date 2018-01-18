@@ -28,30 +28,30 @@ UPDATE seoreleases.seorelease SET instagram = '' WHERE instagram is null;
 
 
 ALTER TABLE internal.sortorder ALTER sortorderfieldname TYPE character varying (55);
-UPDATE internal.sortorder 
+UPDATE internal.sortorder
    SET sortorderfieldname = 'UPPER(familyname) %order%, UPPER(firstname) %order%'
  WHERE sortorderid = 2;
 
 DROP VIEW search_results_view_standard;
-CREATE OR REPLACE VIEW search_results_view_standard AS 
+CREATE OR REPLACE VIEW search_results_view_standard AS
  SELECT s.sessionsearchid, s.selected, json_encode(
         CASE
             WHEN o.outlettypeid = 19 THEN ''::character varying
             WHEN o.prmax_outlettypeid = ANY (ARRAY[50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]) THEN ''::character varying
             ELSE o.outletname
-        END::text) AS outletname, 
+        END::text) AS outletname,
         CASE
             WHEN s.outletdeskid IS NULL AND e.contactid IS NOT NULL THEN json_encode(contactname(c.prefix::text, c.firstname::text, c.middlename::text, c.familyname::text, c.suffix::text))
             ELSE ''::text
-        END AS contactname, s.outletid, 
+        END AS contactname, s.outletid,
         CASE
             WHEN s.employeeid IS NULL THEN o.primaryemployeeid
             ELSE s.employeeid
-        END AS employeeid, o.customerid, o.outlettypeid, 
+        END AS employeeid, o.customerid, o.outlettypeid,
         CASE
             WHEN e.customerid = (-1) THEN 0
             ELSE 1
-        END AS employee_private, s.appended, e.customerid AS ecustomerid, 
+        END AS employee_private, s.appended, e.customerid AS ecustomerid,
         CASE
             WHEN oc.primaryemployeeid IS NOT NULL AND (s.employeeid = oc.primaryemployeeid OR s.employeeid IS NULL) THEN true
             ELSE false
@@ -77,21 +77,21 @@ GRANT SELECT ON TABLE search_results_view_standard TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE search_results_view_standard TO prmaxcontrol;
 
 DROP VIEW listmember_view;
-CREATE OR REPLACE VIEW listmember_view AS 
+CREATE OR REPLACE VIEW listmember_view AS
  SELECT lm.listmemberid, lm.listid, json_encode(
         CASE
             WHEN o.outlettypeid = 19 THEN ''::character varying
             WHEN o.prmax_outlettypeid = ANY (ARRAY[50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]) THEN ''::character varying
             ELSE o.outletname
-        END::text) AS outletname, json_encode(contactname(c.prefix::text, c.firstname::text, c.middlename::text, c.familyname::text, c.suffix::text)) AS contactname, lm.outletid, 
+        END::text) AS outletname, json_encode(contactname(c.prefix::text, c.firstname::text, c.middlename::text, c.familyname::text, c.suffix::text)) AS contactname, lm.outletid,
         CASE
             WHEN lm.employeeid IS NULL THEN o.primaryemployeeid
             ELSE lm.employeeid
-        END AS employeeid, o.customerid, o.outlettypeid, 
+        END AS employeeid, o.customerid, o.outlettypeid,
         CASE
             WHEN e.customerid = (-1) THEN 0
             ELSE 1
-        END AS employee_private, e.customerid AS ecustomerid, 
+        END AS employee_private, e.customerid AS ecustomerid,
         CASE
             WHEN oc.primaryemployeeid IS NOT NULL AND (lm.employeeid = oc.primaryemployeeid OR lm.employeeid IS NULL) THEN true
             ELSE false
@@ -115,3 +115,36 @@ ALTER TABLE tg_user DROP CONSTRAINT tg_user_email_address_key;
 
 ALTER TABLE internal.customers ADD COLUMN crm_engagement character varying(45) NOT NULL DEFAULT 'Engagement';
 UPDATE internal.customers SET crm_engagement = 'Engagement';
+
+CREATE OR REPLACE FUNCTION SearchEmployeeContactExt(
+    customerid INTEGER ,
+    data text,
+    byemployeeid boolean,
+    logic integer
+    )
+  RETURNS bytea
+  AS $$
+
+    from ttl.plpython import DBCompress
+    from prmax.utilities.search import SearchEmployeeContactExt
+
+    return DBCompress.encode(SearchEmployeeContactExt(SD, plpy,customerid,data,byemployeeid))
+
+$$ LANGUAGE plpythonu;
+
+
+CREATE OR REPLACE FUNCTION SearchEmployeeContactExtCount(
+    customerid INTEGER ,
+    data text,
+    byemployeeid boolean,
+    logic integer
+    )
+  RETURNS int
+  AS $$
+
+    from prmax.utilities.search import SearchEmployeeContactExt
+
+    return len(SearchEmployeeContactExt(SD, plpy,customerid,data,byemployeeid))
+
+$$ LANGUAGE plpythonu;
+

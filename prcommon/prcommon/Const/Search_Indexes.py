@@ -27,6 +27,7 @@ employee_outletid_interestid = 8
 employee_contactfull_employeeid = 22
 employee_outletid_countryid = 27
 employee_countryid = 131
+employee_contact_ext_employeeid = 133
 
 # freelance index
 freelance_employeeid_interestid = 14
@@ -80,17 +81,18 @@ advance_search_name_outletid = 128
 seo_categories = 129
 seo_keywords = 130
 
-# next id 133
+# next id 134
 
-HIGHEST_INDEX_ID = 131
+HIGHEST_INDEX_ID = 133
 
 isListOfKeys = ( outlet_interest, outlet_searchtypeid, outlet_circulationid,
 				 outlet_searchtypeid, employee_employeeid_interestid,
 				 freelance_employeeid_interestid,mp_employeeid_interestid,
 				 quick_search_interests,outlet_coverage, outlet_outlettypeid,
-         outlet_job_role, employee_job_role, employee_prmaxoutlettypeid,
-         advance_pub_date, advance_interest, advance_outlettypeid,
-         outlet_countryid, employee_outletid_countryid, freelance_countryid, freelance_employeeid_countryid, employee_countryid)
+                 outlet_job_role, employee_job_role, employee_prmaxoutlettypeid,
+                 advance_pub_date, advance_interest, advance_outlettypeid,
+                 outlet_countryid, employee_outletid_countryid, freelance_countryid, freelance_employeeid_countryid, employee_countryid,
+                 employee_contact_ext_employeeid)
 
 Search_Data_IsOutlet = (outlet_name, outlet_statusid, outlet_frequencyid,
 	outlet_circulationid, outlet_searchtypeid, outlet_interest,
@@ -100,10 +102,10 @@ Search_Data_IsOutlet = (outlet_name, outlet_statusid, outlet_frequencyid,
 	outlet_email, outlet_profile,outlet_outlettypeid, outlet_countryid, freelance_countryid)
 
 Search_Extended_Data = (outlet_interest, employee_employeeid_interestid,
-							freelance_employeeid_interestid, mp_employeeid_interestid,
-              outlet_outlettypeid, outlet_job_role, employee_job_role,
-              employee_prmaxoutlettypeid, advance_interest,
-              employee_outletid_countryid, outlet_countryid,freelance_countryid, freelance_employeeid_countryid,employee_countryid )
+                        freelance_employeeid_interestid, mp_employeeid_interestid,
+                        outlet_outlettypeid, outlet_job_role, employee_job_role,
+                        employee_prmaxoutlettypeid, advance_interest,
+                        employee_outletid_countryid, outlet_countryid,freelance_countryid, freelance_employeeid_countryid,employee_countryid )
 
 isEmailAddress = ( employee_email, outlet_email, freelance_email,quick_search_email)
 isTelNumber = (freelance_tel, employee_tel, outlet_tel,quick_search_tel)
