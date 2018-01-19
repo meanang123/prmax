@@ -681,7 +681,7 @@ class ReportEngagments(ReportCommon):
 
 		whereclause = """WHERE ch.ref_customerid = %(icustomerid)s"""
 
-		engagement_label = """SELECT crm_engagement FROM internal.customers WHERE customerid = %(icustomerid)s"""
+		engagement_label = """SELECT crm_engagement, crm_engagement_plural FROM internal.customers WHERE customerid = %(icustomerid)s"""
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
 

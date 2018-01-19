@@ -265,6 +265,7 @@ class User(BaseSql):
 		   crm_outcome=customer.crm_outcome,
 		   crm_subject=customer.crm_subject,
 		   crm_engagement=customer.crm_engagement,
+		   crm_engagement_plural=customer.crm_engagement_plural,
 		   ccaddresses=user.ccaddresses
 
 		  )
@@ -346,6 +347,7 @@ class User(BaseSql):
 		   crm_outcome=customer.crm_outcome,
 		   crm_subject=customer.crm_subject,
 		   crm_engagement=customer.crm_engagement,
+		   crm_engagement_plural=customer.crm_engagement_plural,
 		   ccaddresses=user.ccaddresses
 		  )
 

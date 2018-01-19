@@ -80,7 +80,7 @@ class EngagementPDF(object):
 		canvas.setFont(FONT_TYPE_BOLD, 14)
 		x_centre=doc.width/2.0 + 1.5*cm
 		ypos=ypos + 0.75*cm
-		canvas.drawCentredString(x_centre, ypos, '%ss Report' %self._engagement_label)
+		canvas.drawCentredString(x_centre, ypos, '%s Report' %self._engagement_label_plural)
 
 
 		canvas.setFont(FONT_TYPE, 8)
@@ -127,8 +127,8 @@ class EngagementPDF(object):
 						bottomMargin = 1.5*cm,
 		        author = "Prmax",
 						pageCompression = 1,
-						title = "Engagements"
-						)
+						title = engagement_label[0]['crm_engagement']
+		                )
 
 		for ptclass in (self.EngagementPDFTemplate,):
 			ptobj = ptclass(self, page_header)
@@ -139,7 +139,8 @@ class EngagementPDF(object):
 		self.page_count = 1
 		self.total_page_count = 0
 		self._rows = rows
-		self._engagement_label = engagement_label[0][0]
+		self._engagement_label = engagement_label[0]['crm_engagement']
+		self._engagement_label_plural = engagement_label[0]['crm_engagement_plural']
 
 	def write(self, filename):
 		"write"

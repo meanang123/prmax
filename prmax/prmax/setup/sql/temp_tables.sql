@@ -148,3 +148,5 @@ CREATE OR REPLACE FUNCTION SearchEmployeeContactExtCount(
 
 $$ LANGUAGE plpythonu;
 
+ALTER TABLE internal.customers ADD COLUMN crm_engagement_plural character varying(45) NOT NULL DEFAULT 'Engagements';
+UPDATE internal.customers SET crm_engagement_plural = 'Engagements';

@@ -684,7 +684,7 @@ class ReportEngagments(ReportCommon):
 
 		whereclause = """WHERE ch.ref_customerid = %(icustomerid)s"""
 
-		engagement_label = """SELECT crm_engagement FROM internal.customers WHERE customerid = %(icustomerid)s"""
+		engagement_label = """SELECT crm_engagement, crm_engagement_plural FROM internal.customers WHERE customerid = %(icustomerid)s"""
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
 		params['clientid'] = self._reportoptions["clientid"]
@@ -722,7 +722,7 @@ class ReportEngagments(ReportCommon):
 				issues[result["issue"]]["engagement"].append(result)
 		else:
 			results = db_connect.executeAll(data_command + " " + whereclause, params, is_dict)
-		results_eng_label = db_connect.executeAll(engagement_label, params, False)
+		results_eng_label = db_connect.executeAll(engagement_label, params, is_dict)
 
 		return dict ( results = results, engagement_label = results_eng_label )
 
@@ -796,7 +796,7 @@ class ActivityReport(ReportCommon):
 		andclause_clip = ""
 		andclause_rel = ""
 		
-		engagement_label = """SELECT crm_engagement FROM internal.customers WHERE customerid = %(icustomerid)s"""
+		engagement_label = """SELECT crm_engagement, crm_engagement_plural FROM internal.customers WHERE customerid = %(icustomerid)s"""
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
 		params['clientid'] = self._reportoptions["clientid"]
@@ -838,7 +838,7 @@ class ActivityReport(ReportCommon):
 		results_total_clip = db_connect.executeAll(total_clip + whereclause_clip + andclause_clip, params, False)
 		results_rel = db_connect.executeAll(releases + whereclause_rel + andclause_rel, params, is_dict)
 		results_total_rel = db_connect.executeAll(total_rel + whereclause_rel + andclause_rel, params, False)
-		results_eng_label = db_connect.executeAll(engagement_label, params, False)
+		results_eng_label = db_connect.executeAll(engagement_label, params, is_dict)
 
 		data = dict(
 		    engagement_label = results_eng_label,
@@ -1051,6 +1051,8 @@ class StatisticsReport(ReportCommon):
 		clippings_by_client = """SELECT clientid, count(*)
 		FROM userdata.clippings AS clip"""
 
+		engagement_label = """SELECT crm_engagement, crm_engagement_plural FROM internal.customers WHERE customerid = %(icustomerid)s"""
+
 		whereclause_eng = whereclause_eng_total_current = whereclause_eng_total_last = """ WHERE ch.customerid = %(icustomerid)s """
 		whereclause_rel = whereclause_rel_total_current = whereclause_rel_total_last = """ WHERE et.customerid = %(icustomerid)s """
 		whereclause_stat = whereclause_stat_total_current = whereclause_stat_total_last = """ WHERE st.customerid = %(icustomerid)s """
@@ -1139,6 +1141,8 @@ class StatisticsReport(ReportCommon):
 		results_clip_reactive_total_current = db_connect.executeAll(clippings + whereclause_clip_reactive_total_current, params, is_dict)
 		results_clip_reactive_total_last = db_connect.executeAll(clippings + whereclause_clip_reactive_total_last, params, is_dict)
 
+		results_eng_label = db_connect.executeAll(engagement_label, params, is_dict)
+		
 		data = dict(
 			eng = results_eng,
 			eng_by_client = results_eng_by_client,
@@ -1161,7 +1165,8 @@ class StatisticsReport(ReportCommon):
 		    clip_proactive_total_last = results_clip_proactive_total_last,
 		    clip_reactive_total_current = results_clip_reactive_total_current,
 		    clip_reactive_total_last = results_clip_reactive_total_last,
-		    display_date = params['display_date'] if 'display_date' in params else ''
+		    display_date = params['display_date'] if 'display_date' in params else '',
+		    engagement_label = results_eng_label
 		)
 		return dict(results = data)
 

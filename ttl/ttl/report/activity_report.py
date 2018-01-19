@@ -187,7 +187,8 @@ class ActivityPDF(object):
 		self.objects = []
 		self.page_count = 1
 		self.total_page_count = 0
-		self._engagement_label = engagement_label[0][0]
+		self._engagement_label = engagement_label[0]['crm_engagement']
+		self._engagement_label_plural = engagement_label[0]['crm_engagement_plural']
 		self._rows_eng = rows_eng
 		self._total_eng = total_eng
 		self._completed_eng = completed_eng
@@ -221,8 +222,8 @@ class ActivityPDF(object):
 		# do the header:
 		self.new_page()
 
-		header1_line1 = [((Paragraph("<b>%ss</b>" %self._engagement_label, HEADING_STYLE_LEFT),),(''),(''))]
-		header1_line2 = [((''),(Paragraph("<b>" + str(self._total_eng[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp Enquiries</b>", DATA_STYLE_RIGHT)))]
+		header1_line1 = [((Paragraph("<b>%s</b>" %self._engagement_label_plural, HEADING_STYLE_LEFT),),(''),(''))]
+		header1_line2 = [((''),(Paragraph("<b>" + str(self._total_eng[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp %s</b>" %self._engagement_label_plural, DATA_STYLE_RIGHT)))]
 		header1_line3 = [((''),(Paragraph("<b>" + str(self._inprogress_eng[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp In Progress</b>", DATA_STYLE_RIGHT)))]
 		header1_line4 = [((''),(Paragraph("<b>" + str(self._completed_eng[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp Completed</b>", DATA_STYLE_RIGHT)))]
 		self.append(Table(header1_line1,self.col_widths,self.row_heights,TABLE_HEADER,repeatRows=1))

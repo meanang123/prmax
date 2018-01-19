@@ -200,6 +200,8 @@ class StatisticsPDF(object):
 		self._results_clip_reactive_total_current = results['clip_reactive_total_current']
 		self._results_clip_reactive_total_last = results['clip_reactive_total_last']
 		self._display_date = results['display_date']
+		self._engagement_label = results['engagement_label'][0]['crm_engagement']
+		self._engagement_label_plural = results['engagement_label'][0]['crm_engagement_plural']
 
 		col_width =self.document.width/10
 		self.col_widths_dates = (col_width*2.5,col_width*4,col_width*2.5)
@@ -236,7 +238,7 @@ class StatisticsPDF(object):
 		self.append(Spacer(10, 20))	
 
 		header1_line1 = [((Paragraph("<b>Departments</b>", DATA_STYLE_CENTER),),\
-		                  (Paragraph("<b>Number of press Enquiries</b>", DATA_STYLE_CENTER),),\
+		                  (Paragraph("<b>Number of press %s</b>" %self._engagement_label_plural, DATA_STYLE_CENTER),),\
 		                  (Paragraph("<b>Number of releases & statements issued</b>", DATA_STYLE_CENTER),),\
 		                  (Paragraph("<b>Total number used</b>", DATA_STYLE_CENTER),),\
 		                  (Paragraph("<b>%used</b>", DATA_STYLE_CENTER)))]
@@ -262,7 +264,7 @@ class StatisticsPDF(object):
 		                  (Paragraph("<b>Current Year</b>", DATA_STYLE_CENTER),),\
 		                  (Paragraph("<b>Varience</b>", DATA_STYLE_CENTER)))]
 		self.append(Table(header2_line1,self.col_widths3,self.row_heights,TABLE_HEADER,repeatRows=1))
-		header2_line2 = [((Paragraph("<b>Total No Press Enquiries</b>", DATA_STYLE_CENTER),),\
+		header2_line2 = [((Paragraph("<b>Total No Press %s</b>" %self._engagement_label_plural, DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_eng_total_last[0]['count']), DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_eng_total_current[0]['count']), DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_eng_total_current[0]['count'] - self._results_eng_total_last[0]['count']), DATA_STYLE_CENTER)))]
@@ -418,7 +420,7 @@ class StatisticsExcel(object):
 
 		self._row = 0
 		header_dates = ""
-		header1_relations = ["Departments","Number of Press Enquiries"]#, "Number of releases & statements issued", "Total number used", "% used"]
+		header1_relations = ["Departments","Number of Press %s" %self._results['engagement_label'][0]['crm_engagement_plural']]#, "Number of releases & statements issued", "Total number used", "% used"]
 		header2_relations = ["","", "Proactive", "Reactive", "Proactive", "Reactive", "Proactive", "Reactive"]
 		header1_totals = ["Media Totals", "Previous Year", "Current Year", "Variance"]
 		
@@ -460,7 +462,7 @@ class StatisticsExcel(object):
 		wb.close()	
 
 	def _print_eng_totals(self):
-		self._sheet.write(self._row, 0, 'Total No Press Enquiries')
+		self._sheet.write(self._row, 0, 'Total No Press %s' %self._results['engagement_label'][0]['crm_engagement_plural'])
 		self._sheet.write(self._row, 1, self._results['eng_total_last'][0]['count'])
 		self._sheet.write(self._row, 2, self._results['eng_total_current'][0]['count'])
 		self._sheet.write(self._row, 3, self._results['eng_total_current'][0]['count'] - self._results['eng_total_last'][0]['count'])
