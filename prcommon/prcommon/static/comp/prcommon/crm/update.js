@@ -172,12 +172,12 @@ dojo.declare("prcommon.crm.update",
 		{
 			this.contacthistoryid.set("value", response.data.ch.contacthistoryid);
 			var display = response.data.contactname;
-			if (response.data.outlet.outletname != "")
+			if (response.data.outlet != null && response.data.outlet.outletname != "")
 			{
 				display +=" (" + response.data.outlet.outletname + ")";
 			}
 			dojo.attr(this.contact_display,"innerHTML",display);
-			
+
 			this.taken.set("value", ttl.utilities.fromJsonDate( response.data.ch.taken) );
 			this.taken_by.set("value",response.data.ch.taken_by);
 			this.contacthistorystatusid.set("value", response.data.ch.contacthistorystatusid);
@@ -425,7 +425,7 @@ dojo.declare("prcommon.crm.update",
 	_select_contact:function()
 	{
 		this.person_select_dlg.start_search(this._on_select_contact_call_back);
-	},	
+	},
 });
 
 
