@@ -315,6 +315,7 @@ class ApiSearching(object):
 
 	_employee_kw = (
 		('employee_searchname', Constants.employee_contact_employeeid, _convertdatalower, None, True),
+	    ('employee_searchname_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
 		('employee_interests', Constants.employee_employeeid_interestid, _convertdata, None, False),
 		('employee_outlettypes', Constants.employee_prmaxoutlettypeid, _covertdata_or_logic, None, False),
 	  ('employee_roles', Constants.employee_job_role, _convertdata, None, False),

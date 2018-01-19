@@ -107,6 +107,7 @@ dojo.declare("prmax.search.person",
 					data = dojo.toJson(obj);
 
 				this.value = data;
+				this._enable_controls();
 				return data ;
 			}
 		},
@@ -116,11 +117,11 @@ dojo.declare("prmax.search.person",
 
 			if (data.length>0)
 			{
-				this.data_firstname.set("value", "");
 				this.data_firstname.set("disabled", false);
 			}
 			else
 			{
+				this.data_firstname.set("value", "");
 				this.data_firstname.set("disabled", true);
 			}
 		}

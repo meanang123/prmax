@@ -354,8 +354,8 @@ dojo.declare("prmax.search.SearchCtrl", null, {
 			dijit.byId("std_search_outlet_outlet_name").focus();
 			console.log("focus here 2");
 			break;
-		case "std_search_employee_name":
-			dijit.byId("std_search_outlet_outlet_name").focus();
+		case "std_search_employee":
+			dijit.byId("std_search_employee_name_ext").focus();
 			break;
 		case "std_search_freelance":
 			dijit.byId("std_search_freelance_name").focus();
