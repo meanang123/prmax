@@ -29,7 +29,7 @@ from prcommon.model import DataFeedsGeneral
 def _run():
 	""" run the application """
 	
-	options, dummy = getopt.getopt(sys.argv[1:], "", ["sourcedir=", "check", "remove_old=", "update"])
+	options, dummy = getopt.getopt(sys.argv[1:], "", ["sourcedir=", "check", "remove_old=", "update", "sourcetypeid="])
 	sourcedir = None
 	check = None
 	update = None
@@ -45,6 +45,8 @@ def _run():
 			remove_old = int(params)
 		if option in ("--update"):
 			update = True
+		if option in ("--sourcetypeid"):
+			sourcetypeid = int(params)
 
  	if sourcedir == None:
 		print "Missing Source Directory"
@@ -52,6 +54,9 @@ def _run():
 
 	if remove_old:
 		DataFeedsGeneral.do_delete_old_data(remove_old)
+	elif sourcetypeid:
+		DataFeedsGeneral.do_delete_old_sourcetypeid(sourcetypeid)
+
 	else:
 		importer = USADataImport(sourcedir, check)
 		if update:

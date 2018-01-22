@@ -45,27 +45,95 @@ def _run():
 		print "Missing Source Directory"
 		return
 
-	# languages
-	inserts = []
-	workbook = xlrd.open_workbook(os.path.join(sourcedir, "stamm_languages.xlsx"))
-	xls_sheet = workbook.sheet_by_name('languages2')
-	for rnum in xrange(1, xls_sheet.nrows):
-		sourcetext = xls_sheet.cell_value(rnum, 0).encode('utf-8')
-		des_text = xls_sheet.cell_value(rnum, 1).strip()
-		english = xls_sheet.cell_value(rnum, 1).strip()
-		translation = int(xls_sheet.cell_value(rnum, 2))
+	inserts_priority_jobtitles = []
+	workbook_pjobtitles = xlrd.open_workbook(os.path.join(sourcedir, "priority_jobtitles.xlsx"))
+	xls_sheet_pjobtitles = workbook_pjobtitles.sheet_by_name('jobtitles')
+	for rnum in xrange(1, xls_sheet_pjobtitles.nrows):
+		sourcetext = xls_sheet_pjobtitles.cell_value(rnum, 2).strip()
+		translation = int(xls_sheet_pjobtitles.cell_value(rnum, 1))
+		english = xls_sheet_pjobtitles.cell_value(rnum, 0).strip()
 
-		inserts.append({"fieldname": "language",
-	                    "sourcetext": sourcetext,
-	                    "sourcetypeid" : Constants.Source_Type_Stamm,
-	                    "translation" : translation,
-	                    "english" : english,
-	                    })
-
-	if inserts:
+		inserts_priority_jobtitles.append({"fieldname": "priority-jobtitles",
+		                            "sourcetext": sourcetext,
+		                            "sourcetypeid" : Constants.Source_Type_Stamm,
+		                            "translation" : translation,
+		                            "english" : english
+		                            })
+	if inserts_priority_jobtitles:
 		session.begin()
-		session.execute(DataSourceTranslations.mapping.insert(), inserts)
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_priority_jobtitles)
 		session.commit()
+
+	inserts_languages = []
+	workbook_languages = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
+	xls_sheet_languages = workbook_languages.sheet_by_name('languages')
+	for rnum in xrange(1, 48):
+		if type(xls_sheet_languages.cell_value(rnum, 0)) is float:
+			sourcetext = str(int(xls_sheet_languages.cell_value(rnum, 0))).strip()
+		else:
+			sourcetext = xls_sheet_languages.cell_value(rnum, 0).strip()
+		#sourcetext = xls_sheet_frequencies.cell_value(rnum, 0)
+		translation = int(xls_sheet_languages.cell_value(rnum, 1))
+		english = xls_sheet_languages.cell_value(rnum, 2).lower().strip()
+
+		inserts_languages.append({"fieldname": "language",
+		                            "sourcetext": sourcetext,
+		                            "sourcetypeid" : Constants.Source_Type_Stamm,
+		                            "translation" : translation,
+		                            "english" : english
+		                            })
+	if inserts_languages:
+		session.begin()
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_languages)
+		session.commit()
+
+
+	inserts_frequencies = []
+	workbook_frequencies = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
+	xls_sheet_frequencies = workbook_frequencies.sheet_by_name('frequency')
+	for rnum in xrange(1, xls_sheet_frequencies.nrows):
+		if type(xls_sheet_frequencies.cell_value(rnum, 0)) is float:
+			sourcetext = str(int(xls_sheet_frequencies.cell_value(rnum, 0))).strip()
+		else:
+			sourcetext = str(xls_sheet_frequencies.cell_value(rnum, 0)).strip()
+		#sourcetext = xls_sheet_frequencies.cell_value(rnum, 0)
+		translation = int(xls_sheet_frequencies.cell_value(rnum, 1))
+		english = xls_sheet_frequencies.cell_value(rnum, 2).lower().strip()
+
+		inserts_frequencies.append({"fieldname": "frequency-type",
+		                            "sourcetext": sourcetext,
+		                            "sourcetypeid" : Constants.Source_Type_Stamm,
+		                            "translation" : translation,
+		                            "english" : english
+		                            })
+	if inserts_frequencies:
+		session.begin()
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_frequencies)
+		session.commit()
+
+	inserts_circulationsources = []
+	workbook_circulation = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
+	xls_sheet_circulation = workbook_circulation.sheet_by_name('circulation')
+	for rnum in xrange(1, xls_sheet_circulation.nrows):
+		if type(xls_sheet_circulation.cell_value(rnum, 0)) is float:
+			sourcetext = str(int(xls_sheet_circulation.cell_value(rnum, 0))).strip()
+		else:
+			sourcetext = xls_sheet_circulation.cell_value(rnum, 0).strip()
+		#sourcetext = xls_sheet_circulation.cell_value(rnum, 0)
+		translation = int(xls_sheet_circulation.cell_value(rnum, 1))
+		english = xls_sheet_circulation.cell_value(rnum, 2).lower().strip()
+
+		inserts_circulationsources.append({"fieldname": "circulationsource",
+	                                "sourcetext": sourcetext,
+	                                "sourcetypeid" : Constants.Source_Type_Stamm,
+	                                "translation" : translation,
+	                                "english" : english
+	                                })
+	if inserts_circulationsources:
+		session.begin()
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_circulationsources)
+		session.commit()
+
 
 
 	# media channels
@@ -124,41 +192,47 @@ def _run():
 		session.execute(DataSourceTranslations.mapping.insert(), inserts)
 		session.commit()
 
+
 	# job roles
 	inserts = []
 	workbook = xlrd.open_workbook(os.path.join(sourcedir, "Ressort_Art.xlsx"))
 	xls_sheet = workbook.sheet_by_name('Ressort_Art')
 	for rnum in xrange(1, xls_sheet.nrows):
-		sourcetext = str(int(xls_sheet.cell_value(rnum, 0)))
+		sourcetext = xls_sheet.cell_value(rnum, 0)
+		if type(sourcetext) is float:
+			sourcetext = str(int(sourcetext)).strip()
+		else:
+			sourcetext = sourcetext.encode('utf8').strip()
+
 		des_text = xls_sheet.cell_value(rnum, 5).strip()
 		english = xls_sheet.cell_value(rnum, 3).strip()
 		jobrole = session.query(PRMaxRoles).\
-		  filter(PRMaxRoles.prmaxrole.ilike(des_text)).\
-		  filter(PRMaxRoles.visible == True).scalar()
+	        filter(PRMaxRoles.prmaxrole.ilike(des_text)).\
+	        filter(PRMaxRoles.visible == True).scalar()
 		prmaxroleid = simplejson.dumps([jobrole.prmaxroleid, ] if jobrole else [])
 		keywords = []
-		for interestname in xls_sheet.cell_value(rnum, 6).strip().split(","):
-			interestname = interestname.strip()
-			if interestname == "NA":
-				continue
-			interestid = session.query(Interests.interestid).\
-			  filter(Interests.interestname.ilike(interestname)).\
-			  filter(Interests.customerid == -1).scalar()
-			if interestid:
-				keywords.append(interestid)
-			else:
-				interests = session.query(Interests).filter(Interests.interestname.ilike(interestname)).all()
-				if interests:
-					interests[0].customerid = -1
-					keywords.append(interests[0].interestid)
-				else:
-					print interestname
-		keywords = simplejson.dumps(keywords)
+#		for interestname in xls_sheet.cell_value(rnum, 6).strip().split(","):
+#			interestname = interestname.strip()
+#			if interestname == "NA":
+#				continue
+#			interestid = session.query(Interests.interestid).\
+#		        filter(Interests.interestname.ilike(interestname)).\
+#		        filter(Interests.customerid == -1).scalar()
+#			if interestid:
+#				keywords.append(interestid)
+#			else:
+#				interests = session.query(Interests).filter(Interests.interestname.ilike(interestname)).all()
+#				if interests:
+#					interests[0].customerid = -1
+#					keywords.append(interests[0].interestid)
+#				else:
+#					print interestname
+#		keywords = simplejson.dumps(keywords)
 
 		tmp = session.query(DataSourceTranslations).\
-		  filter(DataSourceTranslations.sourcetypeid == Constants.Source_Type_Stamm).\
-		  filter(DataSourceTranslations.fieldname == "jobtitle-areainterest").\
-		  filter(DataSourceTranslations.sourcetext == sourcetext).scalar()
+	        filter(DataSourceTranslations.sourcetypeid == Constants.Source_Type_Stamm).\
+	        filter(DataSourceTranslations.fieldname == "jobtitle-areainterest").\
+	        filter(DataSourceTranslations.sourcetext == sourcetext).scalar()
 		if tmp:
 			if prmaxroleid != tmp.translation or english != tmp.english or keywords != tmp.extended_translation:
 				session.begin()
@@ -168,21 +242,17 @@ def _run():
 				session.commit()
 		else:
 			inserts.append({"fieldname": "jobtitle-areainterest",
-			                "sourcetext": sourcetext,
-			                "sourcetypeid" : Constants.Source_Type_Stamm,
-			                "translation" : prmaxroleid,
-			                "english" : english,
-			                "extended_translation" : keywords,
-			                })
+		                    "sourcetext": sourcetext,
+		                    "sourcetypeid" : Constants.Source_Type_Stamm,
+		                    "translation" : prmaxroleid,
+		                    "english" : english,
+		                    "extended_translation" : keywords,
+		                    })
 
 	if inserts:
 		session.begin()
 		session.execute(DataSourceTranslations.mapping.insert(), inserts)
 		session.commit()
-
-
-
-
 
 if __name__ == '__main__':
 	_run()

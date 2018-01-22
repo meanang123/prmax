@@ -64,6 +64,9 @@ class StammXmlProcesser(BaseContent):
 		             "circulation-source", "circulation-audit-period", "free", "interest-words", "media-type", "organisation-type"):
 			self._data = self._db_interface.do_translation(name, self._data)
 
+		if name == "job-title" and self._db_interface._check==True:
+			self._db_interface.do_translation(name, self._data)
+
 		datatype = type(self._level.get(name, None))
 		if datatype == ListType:
 			self._level[name].append(self._data)
@@ -188,23 +191,38 @@ class StammDbImport(object):
 		if not self._check:
 			session.begin()
 			if  publication["command"] in ("Change", "Add"):
-				if publication["type"] not in ("Publication", "Organisation", "Freelance"):
+				if publication["type"] not in ("Publication", "Organisation", "Freelance", "Freelancer"):
 					print publication["type"]
+#				else:
+#					with open('StammOutlets.txt', 'a') as f:
+#						f.write('%s \n' %publication["mediaid"])
 				outlet = session.query(Outlet).\
 				  filter(Outlet.sourcetypeid == Constants.Source_Type_Stamm).\
 				  filter(Outlet.sourcekey == publication["mediaid"]).scalar()
 				if outlet:
-					# update
+#					print outlet.outletid
+#					with open('StammExistingOutlets.txt', 'a') as f:
+#						f.write(str('%s \n' %outlet.outletid))
+				# update
 					if publication["type"] in ("Publication", "Organisation"):
 						self._update_outlet(outlet, publication, contacts)
-					if publication["type"] in ("Freelance", ):
+					if publication["type"] in ("Freelance", "Freelancer" ):
 						self._update_freelance_outlet(outlet, publication, contacts)
 				else:
-					# insert
+				# insert
 					if publication["type"] in ("Publication", "Organisation"):
 						self._add_outlet(publication, contacts)
-					if publication["type"] in ("Freelance", ):
-						self._add_freelance_outlet(publication, contacts)
+					if publication["type"] in ("Freelance", "Freelancer"):
+						self._add_freelance_outlet(publication, contacts[0]['contact'])
+			# delete
+			elif  publication["command"] in ("Delete"):
+				if publication["type"] not in ("Publication", "Organisation", "Freelance", "Freelancer"):
+					print publication["type"]
+				outlet = session.query(Outlet).\
+			      filter(Outlet.sourcetypeid == Constants.Source_Type_Stamm).\
+			      filter(Outlet.sourcekey == publication["mediaid"]).scalar()
+				if outlet:
+					self._delete_outlet(outlet)
 			else:
 				print publication["command"], publication["type"]
 
@@ -223,6 +241,11 @@ class StammDbImport(object):
 		actual_name = actual_name.strip()
 
 		return actual_name[:119]
+
+	def _delete_outlet(self, outlet):
+		""" Add a publication """
+
+		session.execute(text("SELECT outlet_delete(:outletid)"), {'outletid': outlet.outletid}, Outlet)
 
 
 	def _add_outlet(self, publication, contacts):
@@ -334,9 +357,12 @@ class StammDbImport(object):
 
 		# profile
 		editorialprofile = ""
-		for memo in publication["memos"]:
-			if memo['memo-type'] == 'Profile':
-				editorialprofile += memo['memo-text']
+		if "menmos" in publication:
+			for memo in publication["memos"]:
+				if memo['memo-type'] == 'Profile':
+					editorialprofile += memo['memo-text']
+		if 'launch-date' in publication:
+			editorialprofile += " - launch %s" % publication['launch-date']
 
 		outletprofile = OutletProfile(
 		  outletid=outlet.outletid,
@@ -354,13 +380,14 @@ class StammDbImport(object):
 
 	def _add_freelance_outlet(self, publication, contacts):
 		""" Add a Freelancer """
+
 		address = Address(
-		  address1=publication["address"]["address1"],
-		  address2=publication["address"]["address2"],
-		  address3=publication["address"]["address3"],
-		  county=publication["address"]["state"],
-		  townname=publication["address"]["town"],
-		  postcode=publication["address"]["postcode"],
+		  address1=contacts["address"]["address1"],
+		  address2=contacts["address"]["address2"],
+		  address3=contacts["address"]["address3"],
+		  county=contacts["address"]["state"],
+		  townname=contacts["address"]["town"],
+		  postcode=contacts["address"]["postcode"],
 		  countryid=publication["country"],
 		  addresstypeid=Address.editorialAddress)
 		session.add(address)
@@ -368,9 +395,9 @@ class StammDbImport(object):
 
 		outlet_com = Communication(
 		  addressid=address.addressid,
-		  tel=self.to_tel_number(publication.get("tel-no", None)),
-		  email=publication.get("email-address", ""),
-		  fax=self.to_tel_number(publication.get("fax-no", None)),
+		  tel=self.to_tel_number(contacts.get("tel-no", None)),
+		  email=contacts.get("email-address", ""),
+		  fax=self.to_tel_number(contacts.get("fax-no", None)),
 		  mobile="",
 		  webphone="",
 		  twitter="",
@@ -380,31 +407,47 @@ class StammDbImport(object):
 		session.add(outlet_com)
 		session.flush()
 
-		outlettypeid = self.to_outlettype(publication)
+		outlettypeid = Constants.Outlet_Type_Freelance
 		outletsearchtypeid = PRmaxOutletTypes.query.get(outlettypeid).outletsearchtypeid
 
+		contactsource={}
+		contactsource['contact']={}
+		contactsource['contact']['title'] = contacts['title']
+		contactsource['contact']['first-name'] = contacts['first-name']
+		contactsource['contact']['surname'] = contacts['surname']
+		contactid = self._get_contactid(contactsource)
+
+		if contactid:
+			p_contact = Contact.query.get(contactid)
+		else:
+			p_contact = Contact (prefix = contacts['title'],
+			                 firstname = contacts['first-name'],
+			                 familyname = contacts['surname'],
+			                 sourcetypeid = Constants.Source_Type_Stamm)
+			session.add(p_contact)
+
+
+
 		outlet = Outlet(
-		  outletname=self._create_outlet_name(publication),
-		  sortname=publication["sort-title"].lower()[:119],
+		  outletname=p_contact.getName(),
+		  sortname="",
 		  addressid=address.addressid,
 		  communicationid=outlet_com.communicationid,
 		  customerid=-1,
-		  outlettypeid=Constants.Outlet_Type_Freelance,
+		  outlettypeid=outlettypeid,
 		  prmax_outlettypeid=outlettypeid,
-		  www=publication.get("www-address", "")[:119],
+		  www=contacts.get("www-address", "")[:119],
 		  statusid=Outlet.Live,
 		  outletsearchtypeid=outletsearchtypeid,
 		  sourcetypeid=Constants.Source_Type_Stamm,
 		  sourcekey=publication["mediaid"],
 		  countryid=publication["country"],
-		  outletpriceid=publication.get('free', 1)
+		  outletpriceid=contacts.get('free', 1)
 		)
 		session.add(outlet)
 		session.flush()
 
-		for contactsource in contacts:
-			contactid = self._get_contactid(contactsource)
-			self._add_employee(contactid, contactsource, outlet, outlet_com)
+		self._add_employee(p_contact.contactid, contacts, outlet, outlet_com)
 
 		# out all other outlet stuff
 		# coverage classifications
@@ -427,9 +470,12 @@ class StammDbImport(object):
 
 		# profile
 		editorialprofile = ""
-		for memo in publication["memos"]:
-			if memo['memo-type'] == 'Profile':
-				editorialprofile += memo['memo-text']
+		if "memos" in publication:
+			for memo in publication["memos"]:
+				if memo['memo-type'] == 'Profile':
+					editorialprofile += memo['memo-text']
+		if 'launch-date' in publication:
+			editorialprofile += " - launch %s" % publication['launch-date']
 
 		outletprofile = OutletProfile(
 		  outletid=outlet.outletid,
@@ -462,27 +508,34 @@ class StammDbImport(object):
 		address.postcode = publication["address"]["postcode"]
 		address.countryid = publication["country"]
 
-		outlettypeid = self.to_outlettype(publication)
-		outletsearchtypeid = PRmaxOutletTypes.query.get(outlettypeid).outletsearchtypeid
+		updated_outlettypeid = self.to_outlettype(publication, 'update')
+#		outlettypeid = self.to_outlettype(publication)
+		if updated_outlettypeid != -1:
+			outlettypeid = updated_outlettypeid
+			outletsearchtypeid = PRmaxOutletTypes.query.get(outlettypeid).outletsearchtypeid
+			outlet.prmax_outlettypeid = outlettypeid
+			outlet.outletsearchtypeid = outletsearchtypeid
+
 		outlet.outletname = self._create_outlet_name(publication)
 		outlet.sortname = publication["sort-title"].lower()[:119]
-		outlet.prmax_outlettypeid = outlettypeid
 		outlet.www = publication.get("www-address", "")[:119]
-		outlet.outletsearchtypeid = outletsearchtypeid
 		outlet.countryid = publication["country"]
 		outlet.outletpriceid = publication.get('free', 1)
 
 		current_contacts = {}
 		new_contacts = {}
+		new_languages = {}
+
 		for employee in session.query(Employee).\
 		    filter(Employee.outletid == outlet.outletid).\
 		    filter(Employee.customerid == -1).all():
 			if employee.job_title == "No Contact" and employee.contactid is None:
-				continue
+				employee.sourcekey2 = "%s:%s" % (publication["mediaid"], '-1')
+#				continue
 			current_contacts[employee.sourcekey2] = employee
 
 		if not contacts:
-		# add dummy emplyee
+		# add dummy employee
 			tmp_emp = Employee(outletid=outlet.outletid,
 				               job_title="No Contact",
 				               sourcetypeid=Constants.Source_Type_Stamm,
@@ -499,6 +552,8 @@ class StammDbImport(object):
 			  filter(Employee.sourcetypeid == Constants.Source_Type_Stamm).\
 			  filter(Employee.sourcekey2 == sourcekey2).scalar()
 			if not employee:
+#				if -1 in current_contacts:
+#					session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=current_contacts[-1].employeeid), Employee)
 				new_contacts[sourcekey2] = self._add_employee(contactid, contactsource, outlet, outlet_com)
 			else:
 				new_contacts[sourcekey2] = employee.employeeid
@@ -527,7 +582,18 @@ class StammDbImport(object):
 				employee.contactid = contactid
 				employee.job_title = contactsource.get("job-title", "")[:127]
 
-				# chnage job roles
+				if not outlet.primaryemployeeid:
+					outlet.primaryemployeeid = employee.employeeid
+				existing_primary_jobtitle = session.query(Employee.job_title).\
+					filter(Employee.employeeid == outlet.primaryemployeeid).scalar()
+
+				if (existing_primary_jobtitle.lower() not in self._translations['priority-jobtitles'] and employee.job_title.lower() in self._translations['priority-jobtitles']) \
+				   or (existing_primary_jobtitle.lower() in self._translations['priority-jobtitles'] \
+					   and employee.job_title.lower() in self._translations['priority-jobtitles'] \
+					   and int(self._translations['priority-jobtitles'][employee.job_title.lower()][0]) < int(self._translations['priority-jobtitles'][existing_primary_jobtitle.lower()][0])):
+					outlet.primaryemployeeid = employee.employeeid
+
+				# change job roles
 				roles = {}
 				rolekeywords = {}
 				for role in session.query(EmployeePrmaxRole).filter(EmployeePrmaxRole.employeeid == employee.employeeid).all():
@@ -632,11 +698,11 @@ class StammDbImport(object):
 			for language in session.query(OutletLanguages).filter(OutletLanguages.outletid == outlet.outletid).all():
 				current_languages[language.languageid] = language
 
-			new_languages = {}
-			if "languages"in publication:
+#			new_languages = {}
+			if "languages" in publication:
 				done_lan = {}
 				for language in publication["languages"]:
-					if language['language']:
+					if language['language'] and int(language['language']) not in new_languages:
 						languageid = int(language['language'])
 						new_languages[languageid] = True
 						if languageid not in current_languages and language["language"] not in done_lan:
@@ -652,9 +718,12 @@ class StammDbImport(object):
 
 			# profile
 			editorialprofile = ""
-			for memo in publication["memos"]:
-				if memo['memo-type'] == 'Profile':
-					editorialprofile += memo['memo-text']
+			if "memos" in publication:
+				for memo in publication["memos"]:
+					if memo['memo-type'] == 'Profile':
+						editorialprofile += memo['memo-text']
+			if 'launch-date' in publication:
+				editorialprofile += " - launch %s" % publication['launch-date']
 
 			outletprofile = OutletProfile.query.get(outlet.outletid)
 			outletprofile.circulationnotes = circulationnotes
@@ -676,7 +745,7 @@ class StammDbImport(object):
 					session.execute(text("UPDATE outlets SET primaryemployeeid = :employeeid WHERE outletid = :outletid"),
 						            dict(employeeid=new_contacts.values()[0], outletid=outlet.outletid), Employee)
 	
-					session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=employee.employeeid), Employee)
+				session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=employee.employeeid), Employee)
 
 	def _get_publisher(self, publication):
 		"Get create publisher"
@@ -722,7 +791,8 @@ class StammDbImport(object):
 		return publisherid
 
 
-	def to_outlettype(self, publication):
+	def to_outlettype(self, publication, mode='new'):
+#	def to_outlettype(self, publication):
 		"""return type"""
 
 		data = publication.get("classification", [])
@@ -730,8 +800,13 @@ class StammDbImport(object):
 			data = data[0]
 
 		trans = self.do_translation("classification", data, True)
-		if not trans:
-			return 1
+#		if not trans:
+#			return 1
+
+		if not trans and mode == 'update':
+			return -1
+		elif not trans and mode == 'new':
+			return 45
 
 		if  trans[0]:
 			return int(trans[0])
@@ -767,8 +842,10 @@ class StammDbImport(object):
 
 		number = ""
 		if phone:
-			for element in ('dialling-info', 'area-code', 'local-number'):
-				number += phone.get(element, "")
+			number = '+%s %s %s' %(phone.get('dialling-info',""), phone.get('area-code',""), phone.get('local-number',""))
+
+#			for element in ('dialling-info', 'area-code', 'local-number'):
+#				number += phone.get(element, "")
 
 		return number
 
@@ -854,6 +931,7 @@ class StammDbImport(object):
 			filter(Contact.familyname == contact["contact"]["surname"]).\
 			filter(Contact.firstname == contact["contact"]["first-name"]).\
 			filter(Contact.sourcetypeid == Constants.Source_Type_Stamm).scalar()
+#		    filter(Contact.sourcekey2 == contact['contactid'].scalar()
 		if contact_record:
 			return contact_record.contactid
 
@@ -889,17 +967,26 @@ class StammDbImport(object):
 		employee = Employee(
 			outletid=outlet.outletid,
 			contactid=contactid,
-			job_title=contactsource.get("job-title", "")[:127],
+			job_title="Freelance" if contactsource.get("freelancer", "") == "Yes" else contactsource.get("job-title", "")[:127],
 			customerid=-1,
 			communicationid=contact_com.communicationid,
 			sourcetypeid=Constants.Source_Type_Stamm,
-			sourcekey2="%s:%s" % (outlet.sourcekey, contactsource["id"]))
+			sourcekey2="%s:%s" % (outlet.sourcekey, contactsource["id"] if "id" in contactsource else outlet.sourcekey))
 
 		session.add(employee)
 		session.flush()
 
 		if not outlet.primaryemployeeid:
 			outlet.primaryemployeeid = employee.employeeid
+		existing_primary_jobtitle = session.query(Employee.job_title).\
+		    filter(Employee.employeeid == outlet.primaryemployeeid).scalar()
+
+		if (existing_primary_jobtitle.lower() not in self._translations['priority-jobtitles'] and employee.job_title.lower() in self._translations['priority-jobtitles']) \
+		   or (existing_primary_jobtitle.lower() in self._translations['priority-jobtitles'] \
+		       and employee.job_title.lower() in self._translations['priority-jobtitles'] \
+		       and int(self._translations['priority-jobtitles'][employee.job_title.lower()][0]) > int(self._translations['priority-jobtitles'][existing_primary_jobtitle.lower()][0])):
+			outlet.primaryemployeeid = employee.employeeid
+
 
 		# add job roles
 		for prmaxroleid in contactsource.get("jobtitle-areainterest", []):
