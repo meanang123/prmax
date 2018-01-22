@@ -234,8 +234,11 @@ class ContactHistoryGeneral():
 					params[field] = None
 
 			if "employeeid" in params and params["employeeid"]:
-				params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid == params["employeeid"]).scalar()
-				
+				if "outletid" not in params:
+					params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid == params["employeeid"]).scalar()
+				params['employeeid'] = int(params['employeeid'])
+			params['outletid'] = int(params['outletid'])
+
 			if params["details"] != contacthistory.details or\
 			   contacthistory.contacthistorytypeid != params["contacthistorytypeid"] or\
 			   contacthistory.contacthistorystatusid != params["contacthistorystatusid"] or \

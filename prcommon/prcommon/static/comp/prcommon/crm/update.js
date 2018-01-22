@@ -172,6 +172,22 @@ dojo.declare("prcommon.crm.update",
 		{
 			this.contacthistoryid.set("value", response.data.ch.contacthistoryid);
 			var display = response.data.contactname;
+			if (response.data.outlet == null || response.data.outlet.outletid == "")
+			{
+				this.outletid = -1;
+			}
+			else
+			{
+				this.outletid = response.data.outlet.outletid;
+			}
+			if (response.data.employee == null || response.data.employee.employeeid == "")
+			{
+				this.employeeid = -1;
+			}
+			else
+			{
+				this.employeeid = response.data.employee.employeeid;
+			}
 			if (response.data.outlet != null && response.data.outlet.outletname != "")
 			{
 				display +=" (" + response.data.outlet.outletname + ")";
@@ -253,6 +269,8 @@ dojo.declare("prcommon.crm.update",
 
 		content["taken"] = ttl.utilities.toJsonDate ( this.taken.get("value"));
 		content["follow_up_date"] = ttl.utilities.toJsonDate ( this.follow_up_date.get("value"));
+		content['outletid'] = this.outletid;
+		content['employeeid'] = this.employeeid;
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
@@ -267,11 +285,12 @@ dojo.declare("prcommon.crm.update",
 		if ( response.success == "OK")
 		{
 //			this._load_call(response);
+			alert(PRMAX.utils.settings.crm_engagement + " changed");
 			dojo.publish("/crm/update_note", [response.data]);
 		}
 		else
 		{
-			alert("Problem updating note");
+			alert("Problem updating " + PRMAX.utils.settings.crm_engagement);
 		}
 
 		this.savebtn.cancel();
@@ -405,15 +424,15 @@ dojo.declare("prcommon.crm.update",
 		}
 		else
 		{
-			alert("Problem Deleting Engagment");
+			alert("Problem Deleting " + PRMAX.utils.settings.crm_engagement);
 		}
 
 		this.deletebtn.cancel();
 	},
 	_on_select_contact:function(employeeid,outletid,contactname,outletname)
 	{
-		this.outletid.set("value",outletid);
-		this.employeeid.set("value",employeeid);
+		this.outletid = outletid;
+		this.employeeid = employeeid;
 
 		var display = contactname;
 		if (outletname != "")
