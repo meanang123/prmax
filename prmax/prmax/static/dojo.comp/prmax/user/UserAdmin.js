@@ -44,6 +44,8 @@ dojo.declare("prmax.user.UserAdmin",
 		this._DeletedCall = dojo.hitch(this, this._Deleted );
 		this._PasswordResetCall = dojo.hitch(this, this._PasswordReset );
 		this._getModelItemCall = dojo.hitch(this, this._getModelItem );
+
+		this.extended_security = PRMAX.utils.settings.extended_security;
 	},
 	_view:{noscroll: false,
 			cells: [[
@@ -75,7 +77,7 @@ dojo.declare("prmax.user.UserAdmin",
 		this.saveAddNode.cancel();
 		this.email.set("value",null);
 		this.displayname.set("value",null);
-		this.password.set("value",null);
+		this.password_add.set("value",null);
 		this.adddialog.show();
 		this.email.focus();
 	},
@@ -83,7 +85,7 @@ dojo.declare("prmax.user.UserAdmin",
 	{
 		this.adddialog.hide();
 	},
-    _AddUser:function()
+	_AddUser:function()
 	{
 		if ( ttl.utilities.formValidator(this.addform)==false)
 		{
@@ -91,11 +93,24 @@ dojo.declare("prmax.user.UserAdmin",
 			this.saveAddNode.cancel();
 			return;
 		}
+		var newuserpassword = this.password_add.value;
+		if (this.extended_security)
+		{
+			if (newuserpassword.length < 8 || this._has_lower_case(newuserpassword) == false || this._has_upper_case(newuserpassword) == false || this._has_number(newuserpassword) == false)
+			{
+				alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");
+				this.saveAddNode.cancel();
+				return;
+			}
+		}
+		var content = this.addform.get("value");
+		content['password'] = this.password_add.value;
+		content['extended_security'] = this.extended_security;
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
 			load: this._SavedCall,
 			url:'/user/add',
-			content: this.addform.get("value")}));
+			content: content}));
 	},
 	_Saved:function( response )
 	{
@@ -145,7 +160,20 @@ dojo.declare("prmax.user.UserAdmin",
 
 		if (confirm("Update Password?")== true )
 		{
+
+			var updateuserpassword = this.password.value;
+			if (this.extended_security)
+			{
+				if (updateuserpassword.length < 8 || this._has_lower_case(updateuserpassword) == false || this._has_upper_case(updateuserpassword) == false || this._has_number(updateuserpassword) == false)
+				{
+					alert("Please enter a valid password: minimum length 8 characters, at least one character upper case, one character lower case and one digit");
+					this.resetPasswordNode.cancel();
+					return;
+				}
+			}
+
 			var content = this.resetform.get("value");
+			content['extended_security'] = this.extended_security;
 
 			content["iuserid"] = this.row.user_id;
 			content["password"] = this.password.value;
@@ -199,7 +227,7 @@ dojo.declare("prmax.user.UserAdmin",
 	},
 	_DeleteUser:function()
 	{
-		if (confirm("Delete user" + this.row.display_name + "?" )== true )
+		if (confirm("Delete user " + this.row.display_name + "?" )== true )
 		{
 			dojo.xhrPost(
 				ttl.utilities.makeParams({
@@ -222,8 +250,8 @@ dojo.declare("prmax.user.UserAdmin",
 			this.modelUserList.fetchItemByIdentity(item);
 			if (this.tmp_row)
 			{
-				this.modelUserList.setValue(  this.tmp_row, "display_name" , data.display_name, true );
-				this.modelUserList.setValue(  this.tmp_row, "user_name" , data.user_name, true );
+				this.modelUserList.setValue(  this.tmp_row, "display_name" , response.data.display_name, true );
+				this.modelUserList.setValue(  this.tmp_row, "user_name" , response.data.user_name, true );
 			}
 		}
 		else
@@ -269,5 +297,47 @@ dojo.declare("prmax.user.UserAdmin",
 	{
 		this._hidePanel();
 		this.usergrid.setQuery(ttl.utilities.getPreventCache({}));
-	}
+	},
+	_has_lower_case:function(str)
+	{
+		var i = 0;
+		while (i <= str.length )
+		{
+			c = str.charAt(i);
+			if (c == c.toLowerCase())
+			{
+				return true;
+			}
+			i++;
+		}
+		return false;
+	},
+	_has_upper_case:function(str)
+	{
+		var i = 0;
+		while (i <= str.length )
+		{
+			c = str.charAt(i);
+			if (c == c.toUpperCase())
+			{
+				return true;
+			}
+			i++;
+		}
+		return false;
+	},
+	_has_number:function(str)
+	{
+		var i = 0;
+		while (i <= str.length )
+		{
+			c = str.charAt(i);
+			if (parseInt(c))
+			{
+				return true;
+			}
+			i++;
+		}
+		return false;
+	},
 });
