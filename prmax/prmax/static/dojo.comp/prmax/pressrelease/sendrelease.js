@@ -444,7 +444,9 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		_Word_Html_Data_Event:function(html)
 		{
 			if (html.sourcename == "sendrelease")
+			{
 				this.emailtemplatecontent.set("value", html.html) ;
+			}
 		},
 		Load:function( emailtemplateid )
 		{

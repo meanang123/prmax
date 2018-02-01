@@ -9,7 +9,7 @@
 
 			<tr><td align="right" width="15%" class="prmaxrowtag"><label>Body</label></td><td><div data-dojo-type="dijit.Editor" data-dojo-attach-point="emailbody" data-dojo-props='name:"emailbody",style:"width:400px;height:350px;border:1px solid gray"'  extraPlugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:false},'fontSize','createLink','viewsource','preview','mergefields']"></div></td>
 				<td valign="top">
-					<span><button data-dojo-attach-event="onClick:_LoadWord" data-dojo-attach-point="uploaddocbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-upload",type:"button","class":"prmaxdefault", title:"Upload document"' ></button><br/><br/></span>
+					<span><button data-dojo-attach-event="onClick:_LoadWord" data-dojo-attach-point="uploaddocbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-upload",type:"button","class":"prmaxdefault", title:"Upload document", sourcename:"sendreply"' ></button><br/><br/></span>
 					<span><button data-dojo-attach-event="onClick:_SearchStatement" data-dojo-attach-point="searchstatementbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-search",type:"button","class":"prmaxdefault", title:"Search Statement"' ></button><br/><br/></span>
 					<span><button data-dojo-attach-event="onClick:_AddStatement" data-dojo-attach-point="addstatementbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-floppy-o",type:"button","class":"prmaxdefault", title:"Add Statement"' ></button><br/><br/></span>
 				</td>
@@ -21,7 +21,7 @@
 		<div data-dojo-type="prcommon.clippings.add_server" data-dojo-attach-point="add_server_ctrl"></div>
 	</div>
 	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="upload_doc_dlg" data-dojo-props='title:"Upload document",style:"width:450px;height:260px"'>
-		<div data-dojo-type="prcommon.documents.upload" data-dojo-attach-point="upload_doc_ctrl"></div><br/>
+		<div data-dojo-type="prcommon.documents.upload" data-dojo-attach-point="upload_doc_ctrl" data-dojo-props='sourcename:"sendreply"'></div><br/>
 		<div data-dojo-attach-event="onClick:_close_dlg" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Close",style:"float:left;padding-right:20px"'></div>
 	</div>
 	<div>

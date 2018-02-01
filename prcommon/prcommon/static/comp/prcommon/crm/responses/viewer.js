@@ -86,6 +86,7 @@ dojo.declare("prcommon.crm.responses.viewer",
 		this.issueid.store = this._issues;
 		this.issueid.set("value",-1);
 		this.tabcont.selectChild(this.details);
+		this.engagements.set("title", PRMAX.utils.settings.crm_engagement_plural);
 	},
 	_OnStyleRow:function(inRow)
 	{
@@ -252,7 +253,10 @@ dojo.declare("prcommon.crm.responses.viewer",
 	},
 	_word_html_data_event:function(html)
 	{
-		this.output.set("value", html.html) ;
+		if (html.sourcename == "response")
+		{
+			this.output.set("value", html.html);
+		}
 	},
 });
 

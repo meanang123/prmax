@@ -137,8 +137,10 @@ dojo.declare("prcommon.crm.responses.add",
 	},
 	_word_html_data_event:function(html)
 	{
-		if (html.sourcename == "sendrelease")
-			this.output.set("value", html.html) ;
+		if (html.sourcename == "response_add")
+		{
+			this.output.set("value", html.html);
+		}
 	},
 	_Close:function()
 	{

@@ -136,7 +136,10 @@ dojo.declare("prmax.pressrelease.update",
 	},
 	_word_html_data_event:function(html)
 	{
-		this.output.set("value", html.html) ;
+		if (html.sourcename == "pressrelease_update")
+		{
+			this.output.set("value", html.html) ;
+		}
 	},		
 	_Close:function ( )
 	{

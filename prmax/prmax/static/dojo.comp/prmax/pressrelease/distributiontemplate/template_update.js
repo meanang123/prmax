@@ -126,7 +126,9 @@ dojo.declare("prmax.pressrelease.distributiontemplate.template_update",
 	_word_html_data_event:function(html)
 	{
 		if (html.sourcename == "template_update")
+		{
 			this.emailtemplatecontent.set("value", html.html) ;
+		}
 	}
 });
 

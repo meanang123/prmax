@@ -22,7 +22,7 @@ dojo.declare("prcommon.documents.upload",
 	[ ttl.BaseWidget ],
 	{
 	widgetsInTemplate: true,
-	sourcename:"doc_upload",
+	sourcename:"response",
 	templatePath: dojo.moduleUrl( "prcommon.documents","templates/upload.html"),
 	constructor: function()
 	{

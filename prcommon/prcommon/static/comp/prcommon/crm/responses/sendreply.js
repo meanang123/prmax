@@ -83,7 +83,10 @@ dojo.declare("prcommon.crm.responses.sendreply",
 	},	
 	_word_html_data_event:function(html)
 	{
-		this.emailbody.set("value", html.html) ;
+		if (html.sourcename == "sendreply")
+		{
+			this.emailbody.set("value", html.html);
+		}
 	},	
 	_get_statement_event:function(data)
 	{
