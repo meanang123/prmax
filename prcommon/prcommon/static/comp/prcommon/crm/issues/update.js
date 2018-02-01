@@ -24,6 +24,8 @@ dojo.declare("prcommon.crm.issues.update",
 		this._update_call_back = dojo.hitch( this, this._update_call);
 		this._load_call_back = dojo.hitch( this, this._load_call);
 		this._load_briefing_call_back = dojo.hitch(this, this._load_briefing_call);
+		this._delete_issue_call_back = dojo.hitch(this, this._delete_issue_call);
+		this._error_call_back = dojo.hitch ( this, this._error_call );
 
 		this._documents = new dojox.data.JsonRestStore( {target:"/crm/documents/rest_combo", idAttribute:"id"});
 		this._briefingnotesstatus = new dojo.data.ItemFileReadStore ( { url:"/common/lookups_restricted?searchtype=briefingnotesstatus"});
@@ -241,6 +243,35 @@ dojo.declare("prcommon.crm.issues.update",
 			dojo.style(this.briefingnotes.domNode,"backgroundColor","transparent");
 			dojo.style(this.notes_frame,"backgroundColor","transparent");
 		}
+	},
+	_delete_issue:function()
+	{
+		dojo.xhrPost(
+					ttl.utilities.makeParams({
+						load: this._delete_issue_call_back,
+						error: this._error_call_back,
+						url:"/crm/issues/archive" ,
+						content: {issueid : this._issueid}
+						}));
+	},
+	_delete_issue_call:function(response)
+	{
+		if ( response.success=="OK")
+		{
+
+		}
+		else
+		{
+			alert("Problem");
+		}
+
+		this.deletebtn.cancel();
+
+	},
+	_error_call:function(response, ioArgs)
+	{
+		this.deletebtn.cancel();
+		ttl.utilities.xhrPostError(response,ioArgs);
 	}
 });
 

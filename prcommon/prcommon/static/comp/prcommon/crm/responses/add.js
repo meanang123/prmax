@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Name:    prcommon.crm.responses.add.js
-// Author:  
+// Author:
 // Purpose:
 // Created: Sept 2017
 //
@@ -32,14 +32,14 @@ dojo.declare("prcommon.crm.responses.add",
 		this._issues_data = new dojox.data.JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
 		this._mode = '';
 		this._output = '';
-		dojo.subscribe(PRCOMMON.Events.Word_Html_Data, dojo.hitch(this,this._word_html_data_event));	
-		
+		dojo.subscribe(PRCOMMON.Events.Word_Html_Data, dojo.hitch(this,this._word_html_data_event));
+
 		this.inherited(arguments);
 	},
 	postCreate:function()
 	{
 		this.icustomerid = PRMAX.utils.settings.cid;
-		this.upload_doc_ctrl.Load(this.upload_doc_dlg);	
+		this.upload_doc_ctrl.Load(this.upload_doc_dlg);
 		this.clientid.store = this._client_data;
 		this.clientid.set("value",-1);
 		this.issueid.store = this._issues_data;
@@ -50,15 +50,15 @@ dojo.declare("prcommon.crm.responses.add",
 	Load:function(dialog, mode, output)
 	{
 		this._dialog = dialog;
-		if (mode != undefined && mode != null) 
+		if (mode != undefined && mode != null)
 		{
 			this._mode = mode;
 		};
-		if (output != undefined && output != null) 
+		if (output != undefined && output != null)
 		{
 			this._output = output;
 		};
-		
+
 		if (this._mode == "save")
 		{
 			dojo.addClass(this.output_node, "prmaxhidden");
@@ -68,7 +68,7 @@ dojo.declare("prcommon.crm.responses.add",
 	_Clear:function()
 	{
 		this.statementdescription.set("value","");
-		this.output.set("value", "");		
+		this.output.set("value", "");
 		this.clientid.set("value", "-1" );
 		this.issueid.set("value", "-1" );
 		this.saveNode.set("disabled",false);
@@ -104,9 +104,9 @@ dojo.declare("prcommon.crm.responses.add",
 		var content = this.statement_form.get("value") ;
 		if (this._output)
 		{
-			content['output'] = this._output;		
+			content['output'] = this._output;
 		}
-	
+
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
 			load: this._AddedCallback,
@@ -125,11 +125,11 @@ dojo.declare("prcommon.crm.responses.add",
 	_LoadWord:function()
 	{
 		this.upload_doc_dlg.show();
-	},	
+	},
 	_close_dlg:function()
 	{
 		this.upload_doc_ctrl.Clear();
-		this.upload_doc_dlg.hide();	
+		this.upload_doc_dlg.hide();
 	},
 	_upload_doc:function()
 	{
@@ -137,13 +137,14 @@ dojo.declare("prcommon.crm.responses.add",
 	},
 	_word_html_data_event:function(html)
 	{
-		this.output.set("value", html.html) ;
-	},		
-	_Close:function ( )
+		if (html.sourcename == "sendrelease")
+			this.output.set("value", html.html) ;
+	},
+	_Close:function()
 	{
 		this.upload_doc_ctrl.Clear();
 		this.upload_doc_dlg.hide();
 		this._dialog.hide();
-	},	
+	},
 
 });

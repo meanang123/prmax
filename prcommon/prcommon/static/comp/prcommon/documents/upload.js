@@ -1,6 +1,6 @@
 ////-----------------------------------------------------------------------------
 // Name:    prcommon.documents.upload
-// Author:  
+// Author:
 // Purpose:
 // Created: Sept 2017
 //
@@ -22,6 +22,7 @@ dojo.declare("prcommon.documents.upload",
 	[ ttl.BaseWidget ],
 	{
 	widgetsInTemplate: true,
+	sourcename:"doc_upload",
 	templatePath: dojo.moduleUrl( "prcommon.documents","templates/upload.html"),
 	constructor: function()
 	{
@@ -106,7 +107,7 @@ dojo.declare("prcommon.documents.upload",
 			form: this.wordtohtml_form,
 			error:this._ErrorCallBack
 		});
-	
+
 	},
 	_Error:function(response, ioArgs)
 	{
@@ -143,7 +144,7 @@ dojo.declare("prcommon.documents.upload",
 			{
 				try
 				{
-					dojo.publish(PRCOMMON.Events.Word_Html_Data, [{html:response.data.html}]);
+					dojo.publish(PRCOMMON.Events.Word_Html_Data, [{html:response.data.html, sourcename: this.sourcename}]);
 				}
 				catch ( e )  { }
 				alert("Upload Completed");
