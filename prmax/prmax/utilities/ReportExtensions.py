@@ -29,6 +29,7 @@ from ttl.report.clippings_piechart_report import ClippingsPieChartPDF
 from ttl.report.clippings_lineschart_report import ClippingsLinesChartPDF
 from ttl.report.partners_list_report import PartnersListPDF
 from ttl.report.statistics_report import StatisticsPDF, StatisticsExcel
+from ttl.report.activitylog_report import ActivityLogPDF, ActivityLogExcel
 from ttl.report.pdf_fields import *
 from datetime import date
 from prcommon.Const.Email_Templates import *
@@ -1177,5 +1178,97 @@ class StatisticsReport(ReportCommon):
 			report = StatisticsExcel( self._reportoptions, data['results'])
 		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
 			report = StatisticsPDF( self._reportoptions, data['results'])
+
+		output.write(report.stream())
+
+class ActivityLogReport(ReportCommon):
+	"""Statistics Report"""
+
+	def __init__(self, reportoptions, parent):
+		ReportCommon.__init__ (self, reportoptions, parent )
+#		self._byissue = False
+		self._byclient = False
+
+	def load_data(self, db_connect ):
+		"Load Data"
+
+		data_command = """SELECT to_char(a.activitydate, 'DD/MM/YYYY HH24:MI:SS') as activitydate, a.description, at.actiontypedescription,
+			CASE
+				WHEN (a.objecttypeid = 1) THEN (SELECT crm_engagement FROM internal.customers where customerid = %(customerid)s)
+				ELSE (SELECT aot.activityobjecttypedescription FROM internal.activityobjecttypes as aot where a.objecttypeid = aot.activityobjecttypeid)
+			END as type, u.user_name, c.customername
+			FROM userdata.activity AS a
+		    JOIN internal.customers AS c ON c.customerid = a.customerid
+			JOIN tg_user AS u ON u.user_id = a.userid
+			JOIN internal.actiontypes AS at ON at.actiontypeid = a.actiontypeid"""
+
+		username = """SELECT user_name FROM tg_user WHERE user_id = %(user)s"""
+		objecttype = """SELECT
+			CASE
+				WHEN (activityobjecttypeid = 1) THEN (SELECT crm_engagement FROM internal.customers where customerid = %(customerid)s)
+				ELSE activityobjecttypedescription
+			END as type
+		    FROM internal.activityobjecttypes
+		    WHERE activityobjecttypeid = %(objecttype)s"""
+
+		whereclause = ''
+		orderbyclause = ' ORDER BY a.activitydate ASC'
+
+		params = dict(customerid = self._reportoptions["customerid"])
+		is_dict = False if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv else True
+
+		if "user" in self._reportoptions and self._reportoptions['user'] != '' \
+		   and self._reportoptions['user'] is not None \
+		   and self._reportoptions['user'] != -1 \
+		   and self._reportoptions['user'] != '-1':
+			whereclause = BaseSql.addclause(whereclause, 'a.userid=%(user)s')
+			params['user'] = int(self._reportoptions['user'])
+			username = db_connect.executeAll(username, params, True)
+			params['username'] = username[0]['user_name']
+		if "objecttype" in self._reportoptions and self._reportoptions['objecttype'] != '' \
+	       and self._reportoptions['objecttype'] is not None \
+	       and self._reportoptions['objecttype'] != -1 \
+	       and self._reportoptions['objecttype'] != '-1':
+			whereclause = BaseSql.addclause(whereclause, 'a.objecttypeid=%(objecttype)s')
+			params['objecttype'] = int(self._reportoptions['objecttype'])
+			typedescription = db_connect.executeAll(objecttype, params, True)
+			params['typedescription'] = typedescription[0]['type']
+
+		drange = simplejson.loads(self._reportoptions["drange"])
+		option = TTLConstants.CONVERT_TYPES[drange["option"]]
+		if option == TTLConstants.BEFORE:
+			params["to_date"] = drange["from_date"]
+		elif option == TTLConstants.AFTER:
+			# After
+			params["from_date"] = drange["from_date"]
+		elif option == TTLConstants.BETWEEN:
+			# ABetween
+			params["from_date"] = drange["from_date"]
+			params["to_date"] = drange["to_date"]
+
+		results_data = db_connect.executeAll(data_command + whereclause + orderbyclause, params, is_dict)
+		if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv:
+			results_data.insert(0, ('Date', 'Description', 'Action', 'Type', 'User', 'Customer'))
+
+		if 'from_date' not in params:
+			params['from_date'] = 'Start'
+		else:
+			params['from_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['from_date'], "%Y-%m-%d"), "%d/%m/%Y")
+		if 'to_date' not in params:
+			params['to_date'] = datetime.datetime.now().strftime('%d/%m/%Y')
+		else:
+			params['to_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['to_date'], "%Y-%m-%d"), "%d/%m/%Y")
+		dates = dict(from_date=params['from_date'], to_date=params['to_date'])
+		criteria = dict(dates = dates, user = params.get('username', None), objecttype = params.get('typedescription', None))
+
+		return dict(results = results_data, dates = dates, criteria = criteria)
+
+	def run( self, data , output ) :
+		"run daily report"
+
+		if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
+			report = ActivityLogExcel( self._reportoptions, data['results'], data['dates'], data['criteria'])
+		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
+			report = ActivityLogPDF( self._reportoptions, data['results'], data['dates'], data['criteria'])
 
 		output.write(report.stream())

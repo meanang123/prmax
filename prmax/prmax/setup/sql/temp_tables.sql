@@ -129,3 +129,69 @@ $$ LANGUAGE plpythonu;
 
 ALTER TABLE internal.customers ADD COLUMN crm_engagement_plural character varying(45) NOT NULL DEFAULT 'Engagements';
 UPDATE internal.customers SET crm_engagement_plural = 'Engagements';
+
+
+CREATE TABLE internal.activityobjecttypes
+(
+  activityobjecttypeid integer NOT NULL,
+  activityobjecttypedescription character varying(255) NOT NULL,
+  CONSTRAINT pk_activityobjecttype PRIMARY KEY (activityobjecttypeid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.activityobjecttypes OWNER TO postgres;
+GRANT ALL ON TABLE internal.activityobjecttypes TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.activityobjecttypes TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.activityobjecttypes TO prmaxcontrol;
+
+CREATE TABLE userdata.activity
+(
+  activityid serial NOT NULL,
+  customerid integer NOT NULL,
+  userid integer NOT NULL,
+  activitydate timestamp with time zone DEFAULT now(),
+  objectid integer NOT NULL,
+  objecttypeid integer NOT NULL,
+  actiontypeid integer NOT NULL,
+  description character varying(255),
+  extendeddetails bytea,
+
+  CONSTRAINT pk_activity PRIMARY KEY (activityid),
+  CONSTRAINT fk_customerid FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_userid FOREIGN KEY (userid)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_actiontypeid FOREIGN KEY (actiontypeid)
+      REFERENCES internal.actiontypes (actiontypeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_objecttypeid FOREIGN KEY (objecttypeid)
+      REFERENCES internal.activityobjecttypes (activityobjecttypeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE userdata.activity OWNER TO postgres;
+GRANT ALL ON TABLE userdata.activity TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.activity TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.activity TO prmaxcontrol;
+GRANT ALL ON TABLE userdata.activity_activityid_seq TO postgres;
+GRANT UPDATE ON TABLE userdata.activity_activityid_seq TO prmax;
+GRANT UPDATE ON TABLE userdata.activity_activityid_seq TO prmaxcontrol;
+
+INSERT INTO internal.activityobjecttypes VALUES (1, 'Engagement');
+INSERT INTO internal.activityobjecttypes VALUES (2, 'Clipping');
+INSERT INTO internal.activityobjecttypes VALUES (3, 'Issue');
+
+INSERT INTO internal.reportsource VALUES (15, 'Activity Log');
+
+INSERT INTO internal.reporttemplates VALUES
+(33, -1, 'Activity Log Report',
+'<queries><query type="CUSTOM"></query></queries>',
+'', 15, 'ActivityLogReport');
+
+

@@ -20,6 +20,7 @@ from prcommon.model.clippings.clippingsissues import ClippingsIssues
 from prcommon.model.clippings.clippingstype import ClippingsType
 from prcommon.model.clippings.clippingselection import ClippingSelection
 from prcommon.model.queues import ProcessQueue
+from prcommon.model.customer.activity import Activity
 import prcommon.Constants as Constants
 from ttl.tg.validators import DateRangeResult
 from ttl.ttldate import to_json_date
@@ -265,6 +266,17 @@ class ClippingsGeneral(object):
 		try:
 			clipping = Clipping.query.get(params["clippingid"])
 			if clipping:
+				activity = Activity(
+					customerid=params['customerid'],
+					userid=params['user_id'],
+					objectid=clipping.clippingid,
+					objecttypeid=2, #clipping
+					actiontypeid=3, #delete
+					description=clipping.clip_title
+				)
+				session.add(activity)
+				session.flush()
+
 				session.delete(clipping)
 
 			transaction.commit()

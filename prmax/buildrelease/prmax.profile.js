@@ -65,6 +65,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -603,6 +604,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -779,6 +781,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -951,6 +954,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -1136,6 +1140,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -1308,6 +1313,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -1480,6 +1486,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -1652,6 +1659,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -1823,6 +1831,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -2007,6 +2016,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -2192,6 +2202,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -2376,6 +2387,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -2561,6 +2573,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",
@@ -2747,6 +2760,7 @@ dependencies ={
 			"prmax.customer.Preferences",
 
 			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
 
 			"prmax.collateral.view",
 			"prmax.collateral.add",

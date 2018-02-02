@@ -105,7 +105,7 @@ class ReportController(object):
 		self._debug = debug
 		self.used = 0
 
-	__sql_report_data = """SELECT reportid FROM queues.reports WHERE reportstatusid IN (0) AND reporttemplateid IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,30,31,32) LIMIT 10"""
+	__sql_report_data = """SELECT reportid FROM queues.reports WHERE reportstatusid IN (0) AND reporttemplateid IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,30,31,32,33) LIMIT 10"""
 	__sql_report_status = """UPDATE queues.reports SET reportstatusid = 1 WHERE reportid = %(reportid)s"""
 	__sql_report_time = """UPDATE internal.prmaxcontrol SET report_time  = %(reporttime)s"""
 

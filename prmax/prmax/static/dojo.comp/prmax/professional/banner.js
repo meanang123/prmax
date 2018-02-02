@@ -14,6 +14,7 @@ dojo.require("prmax.search.SearchCtrl");
 dojo.require("prmax.DlgCtrl2");
 dojo.require("prmax.display.CommonBanner");
 dojo.require("prcommon.crm.tasks.viewer");
+dojo.require("prmax.customer.activity.viewer");
 dojo.require("prmax.pressrelease.distributiontemplate.viewer");
 dojo.require("prmax.prrequest.viewer");
 dojo.require("prcommon.clippings.questions.globalsetup");

@@ -233,6 +233,7 @@ class LayoutController(SecureController):
 	  "questions_view": "layout",
 	  "distributiontemplate": "layout",
 	  "global_analysis_questions": "layout",
+	  "activity": "layout",
 
 	  # embedded version
 	  "ai_start_view":"layout", # ai

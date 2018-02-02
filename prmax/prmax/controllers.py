@@ -49,6 +49,8 @@ from prmax.sitecontrollers.partners.partners import PartnersController
 from prmax.sitecontrollers.pprrequest import PRRequestController
 from prmax.sitecontrollers.unsubscribe import UnsubscribeController
 from prmax.sitecontrollers.clippings.clippings import ClippingsController
+#from prcommon.sitecontrollers.research import ResearchController
+
 import prmax.Constants as Constants
 from prcommon.model import LoginTokens, CustomerGeneral, CustomerAccessLog
 from prcommon.model import ClippingsGeneral
@@ -61,6 +63,7 @@ from prcommon.sitecontrollers.customeremailserver import CustomerEmailServerCont
 from prcommon.sitecontrollers.emails import EmailFooterController, EmailHeaderController, EmailLayoutController
 from prcommon.sitecontrollers.search import SearchController as SearchController2
 from prcommon.sitecontrollers.crm.statements import StatementController
+from prcommon.sitecontrollers.activity import ActivityController
 from ttl.tg.validators import std_state_factory, PrFormSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler_text
 
@@ -113,6 +116,7 @@ class Root(controllers.RootController):
 	emailfooter = EmailFooterController()
 	emaillayout = EmailLayoutController()
 	statement = StatementController()
+	activity = ActivityController()
 
 
 	@expose("")

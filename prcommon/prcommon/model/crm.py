@@ -17,6 +17,7 @@ from turbogears.database import metadata, mapper, session
 from sqlalchemy import Table, text
 from prcommon.model import BaseSql
 from prcommon.model.identity import Group, Customer
+from prcommon.model.customer.activity import Activity
 from datetime import datetime
 from ttl.ttldate import to_json_date
 
@@ -147,6 +148,18 @@ class ContactHistory(BaseSql):
 		try:
 			#contacthistoryid
 			ch = ContactHistory.query.get(params["contacthistoryid"])
+			if ch:
+				activity = Activity(
+					customerid=params['customerid'],
+					userid=params['user_id'],
+					objectid=ch.contacthistoryid,
+				    objecttypeid=1, #engagement
+				    actiontypeid=3, #delete
+				    description=ch.subject
+				)
+				session.add(activity)
+				session.flush()
+
 			session.delete(ch)
 			transaction.commit()
 		except:
