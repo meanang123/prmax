@@ -9,9 +9,8 @@
 
 						<input data-dojo-props='name:"outletid",type:"hidden",value:"-1"' data-dojo-attach-point="outletid"  data-dojo-type="dijit.form.TextBox" />
 						<input data-dojo-props='name:"employeeid",type:"hidden",value:"-1"' data-dojo-attach-point="employeeid"  data-dojo-type="dijit.form.TextBox" />
-						<button data-dojo-attach-event="onClick:_select_contact" data-dojo-attach-point="selectbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Contact","class":"btnleft",iconClass:"fa fa-user",style:"padding:2px;margin:0px"'></button>
-						<p data-dojo-attach-point="contact_display" style="float:left;width:450px;height:18px;padding:0px;margin:0px;border:1px solid black">&nbsp;</p><br/>
-
+						
+						<label data-dojo-attach-point="contact_label" class="label_1">Contact</label><div data-dojo-props='name:"contact",placeHolder:"Select contact",required:false,style:"width:388px"' data-dojo-type="prmax.search.PersonSelect2" data-dojo-attach-point="contact"></div><br/><br/>
 						
 						<label class="label_1">Date</label><input data-dojo-props='type:"text",name:"taken",required:"true","class":"input_field input_date"' data-dojo-attach-point="taken" data-dojo-type="dijit.form.DateTextBox" ><label>Taken By</label><select data-dojo-props='name:"taken_by","class":"prmaxrequired",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Taken By",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="taken_by"></select><br/>
 						<div class="prmaxhidden" data-dojo-attach-point="chud1_view" style="width:290px;padding-top:2px;float:left"><label data-dojo-attach-point="chud1_label" class="label_1">User Defined 1</label><select data-dojo-props='name:"chud1id",autoComplete:true,searchAttr:"description",required:false,invalidMessage:"User Defined",labelType:"html",style:"width:140px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="chud1id"></select></div>
@@ -22,7 +21,7 @@
 						<div class="prmaxhidden" data-dojo-attach-point="chud5_view"><br/></div>
 						<label class="label_1" data-dojo-attach-point="issue_label_1">Primary Issue</label><select data-dojo-props='"class":"prmaxrequired",name:"issueid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Select",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid" data-dojo-attach-event="onChange:_issue_selected"></select>
 						<button data-dojo-attach-event="onClick:_new_issue" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
-						<label data-dojo-attach-point="subject_label_1" class="label_1">Subject</label><input data-dojo-props='type:"text",name:"crm_subject",style:"width:450px;margin-bottom:2px"' data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="crm_subject" /><br/>
+						<label data-dojo-attach-point="subject_label_1" class="label_1">Subject</label><input data-dojo-props='type:"text",name:"crm_subject",style:"width:388px;margin-bottom:2px"' data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="crm_subject" /><br/>
 						<label class="label_1">Call Type</label>
 						<select data-dojo-props='"class":"prmaxrequired",name:"contacthistorytypeid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Select",labelType:"html",style:"float:left;width:140px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="contacthistorytypeid"></select>
 						<label class="label_1" style="float:left">Status</label>
@@ -70,4 +69,5 @@
 	<div data-dojo-attach-point="send_reply_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Send Reply", style:"width:550px;height:550px"'>
 		<div data-dojo-attach-point="send_reply_ctrl" data-dojo-type="prcommon.crm.responses.sendreply"></div>
 	</div>
+
 </div>

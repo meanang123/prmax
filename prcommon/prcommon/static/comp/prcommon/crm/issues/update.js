@@ -77,6 +77,7 @@ dojo.declare("prcommon.crm.issues.update",
 		this.clientid.set("store", this._clients);
 		this.clientid.set("value",  "-1");
 
+		this.engagements.set("title", PRMAX.utils.settings.crm_engagement_plural);
 
 		this.inherited(arguments);
 	},

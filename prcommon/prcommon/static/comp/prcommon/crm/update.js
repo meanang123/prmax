@@ -11,6 +11,8 @@ dojo.provide("prcommon.crm.update");
 
 dojo.require("ttl.BaseWidget");
 dojo.require("prmax.search.PersonSelect");
+dojo.require("prmax.search.PersonSelect2");
+dojo.require("prmax.search.PersonSelectDetails");
 dojo.require("prcommon.crm.issues.selectmultiple");
 dojo.require("prcommon.crm.issues.add");
 dojo.require("prcommon.crm.responses.sendreply");
@@ -24,7 +26,6 @@ dojo.declare("prcommon.crm.update",
 	show_close:true,
 	constructor: function()
 	{
-
 
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._contacthistorystatus = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=contacthistorystatus'});
@@ -68,7 +69,7 @@ dojo.declare("prcommon.crm.update",
 		dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
 		dojo.subscribe(PRCOMMON.Events.Document_Add, dojo.hitch(this, this._add_event));
 		dojo.subscribe("/crm/update_response", dojo.hitch(this, this._update_response_event));
-
+		dojo.subscribe("/crm/update_person", dojo.hitch(this, this._update_person_event));
 	},
 	_fields:["1","2","3","4"],
 	view:{
@@ -174,26 +175,32 @@ dojo.declare("prcommon.crm.update",
 			var display = response.data.contactname;
 			if (response.data.outlet == null || response.data.outlet.outletid == "")
 			{
-				this.outletid = -1;
+				this.outletid.set("value", -1);
 			}
 			else
 			{
-				this.outletid = response.data.outlet.outletid;
+				this.outletid.set("value", response.data.outlet.outletid);
+				this.contact.outletid.set("value", response.data.outlet.outletid);
 			}
 			if (response.data.employee == null || response.data.employee.employeeid == "")
 			{
-				this.employeeid = -1;
+				this.employeeid.set("value", -1);
 			}
 			else
 			{
-				this.employeeid = response.data.employee.employeeid;
+				this.employeeid.set("value", response.data.employee.employeeid);
+				this.contact.employeeid.set("value", response.data.employee.employeeid);
 			}
-			if (response.data.outlet != null && response.data.outlet.outletname != "")
+			if (response.data.outlet != null && response.data.outlet.outletname != "" && display != null && display != "")
 			{
 				display +=" (" + response.data.outlet.outletname + ")";
 			}
-			dojo.attr(this.contact_display,"innerHTML",display);
-
+			if (response.data.contact)
+			{
+				this.contact.set("value", response.data.contact.contactid);
+			}
+			this.contact.set("Displayvalue", display);
+			
 			this.taken.set("value", ttl.utilities.fromJsonDate( response.data.ch.taken) );
 			this.taken_by.set("value",response.data.ch.taken_by);
 			this.contacthistorystatusid.set("value", response.data.ch.contacthistorystatusid);
@@ -269,8 +276,8 @@ dojo.declare("prcommon.crm.update",
 
 		content["taken"] = ttl.utilities.toJsonDate ( this.taken.get("value"));
 		content["follow_up_date"] = ttl.utilities.toJsonDate ( this.follow_up_date.get("value"));
-		content['outletid'] = this.outletid;
-		content['employeeid'] = this.employeeid;
+		content['outletid'] = this.outletid.value;
+		content['employeeid'] = this.employeeid.value;
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
@@ -401,7 +408,7 @@ dojo.declare("prcommon.crm.update",
 	},
 	_delete:function()
 	{
-
+		
 		if (confirm("Delete " + PRMAX.utils.settings.crm_engagement + "?"))
 		{
 		dojo.xhrPost(
@@ -431,8 +438,8 @@ dojo.declare("prcommon.crm.update",
 	},
 	_on_select_contact:function(employeeid,outletid,contactname,outletname)
 	{
-		this.outletid = outletid;
-		this.employeeid = employeeid;
+		this.outletid.set("value", outletid);
+		this.employeeid.set("value", employeeid);
 
 		var display = contactname;
 		if (outletname != "")
@@ -445,6 +452,11 @@ dojo.declare("prcommon.crm.update",
 	{
 		this.person_select_dlg.start_search(this._on_select_contact_call_back);
 	},
+	_update_person_event:function(response)
+	{
+		this.outletid.set("value", response.outletid);
+		this.employeeid.set("value", response.employeeid);
+	}
 });
 
 

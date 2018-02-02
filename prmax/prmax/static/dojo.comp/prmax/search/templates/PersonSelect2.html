@@ -1,0 +1,13 @@
+<div class="dijit dijitReset dijitInline dijitLeft dijitTextBox dijitValidationContainer dijitInputField dijitTextBox">
+	<input data-dojo-props='name:"outletid",type:"hidden",value:"-1"' data-dojo-attach-point="outletid"  data-dojo-type="dijit.form.TextBox" />
+	<input data-dojo-props='name:"employeeid",type:"hidden",value:"-1"' data-dojo-attach-point="employeeid"  data-dojo-type="dijit.form.TextBox" />
+	<p style="float:left;position:relative;top:3px;white-space: nowrap;overflow:hidden;width:75%" class="PlaceHolder dijitReset" data-dojo-attach-point="contact_display"></p>
+	<button data-dojo-attach-event="onClick:_select_contact" data-dojo-type="dijit.form.Button" data-dojo-attach-point="selectbtn" data-dojo-props='type:"button",label:"Select a contact",style:"float:right;padding:0px;margin:0px",iconClass:"fa fa-search fa-fw",showLabel: false, "class":"dijitReset"'></button>
+	<button data-dojo-attach-point="clearbtn" data-dojo-attach-event="onClick:_clear" data-dojo-type="dijit.form.Button" data-dojo-props='style:"float:right;padding:0px;margin:0px",type:"button",label:"Clear current selection","class":"prmaxhidden dijitReset",iconClass:"fa fa-eraser fa-fw",showLabel: false'></button>
+	<button data-dojo-attach-point="infobtn" data-dojo-attach-event="onClick:_load_contact_details" data-dojo-type="dijit.form.Button" data-dojo-props='style:"float:right;padding:0px;padding-top:0px;padding-bottom:0px;margin:0px",type:"button",label:"Show contact details","class":"prmaxhidden dijitReset",iconClass:"fa fa-info fa-fw",showLabel: false'></button>
+	<div data-dojo-attach-point="person_select_dlg" data-dojo-type="prmax.search.PersonSelect"></div>
+	<div data-dojo-attach-point="selectdetails_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Contact Details",style:"width:600px;height:450px"'>
+		<div data-dojo-attach-point="selectdetails_ctrl" data-dojo-type="prmax.search.PersonSelectDetails" data-dojo-props='style:"width:590px;height:430px"'></div>
+	</div>		
+</div>
+

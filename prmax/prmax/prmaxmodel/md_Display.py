@@ -60,7 +60,7 @@ class OutletDisplay(BaseSql):
 	        CASE WHEN a_o.county = a_o.townname THEN
 	            AddressFull(a_o.address1,a_o.address2,a_o.townname,'',town.geographicalname,a_o.postcode,'')
 	        ELSE
-	            AddressFull(a_o.address1,a_o.address2,a_o.townname,a_o.county,town.geographicalname,a_o.postcode,'')
+	            AddressFull(a_o.address1,a_o.address2,a_o.townname,'',town.geographicalname,a_o.postcode,'')
 	        END
 	    ELSE
 	        AddressFull(a_o.address1,a_o.address2,a_o.county,a_o.postcode,town.geographicalname,a_o.townname,'')
@@ -70,7 +70,7 @@ class OutletDisplay(BaseSql):
 	        CASE WHEN a_oc.county = a_oc.townname THEN
 	            AddressFull(a_oc.address1,a_oc.address2,a_oc.townname,'',a_octown.geographicalname,a_oc.postcode,'')
 	        ELSE
-	            AddressFull(a_oc.address1,a_oc.address2,a_oc.townname,a_oc.county,a_octown.geographicalname,a_oc.postcode,'')
+	            AddressFull(a_oc.address1,a_oc.address2,a_oc.townname,'',a_octown.geographicalname,a_oc.postcode,'')
 	        END
 	    ELSE
 	        AddressFull(a_oc.address1,a_oc.address2,a_oc.county,a_oc.postcode,a_octown.geographicalname,a_oc.townname,'')

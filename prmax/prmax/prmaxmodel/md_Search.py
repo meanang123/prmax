@@ -306,6 +306,7 @@ class Searching(BaseSql):
 
 	_quick_kw = (
 		('quick_contact', Constants.employee_contactfull_employeeid, _convertdatalower, Constants.Search_Data_Employee,True),
+	    ('quick_contact_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
 		('quick_types', Constants.outlet_searchtypeid, _covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_outlettypes', Constants.outlet_outlettypeid,_covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_interests',"SearchInterestsAll", _listostring, Constants.Search_Data_Employee, False ),

@@ -11,6 +11,7 @@ dojo.provide("prcommon.crm.add");
 
 dojo.require("ttl.BaseWidget");
 dojo.require("prmax.search.PersonSelect");
+dojo.require("prmax.search.PersonSelect2");
 dojo.require("prcommon.crm.issues.selectmultiple");
 dojo.require("prcommon.crm.issues.add");
 dojo.require("dijit.Dialog");
@@ -55,6 +56,7 @@ dojo.declare("prcommon.crm.add",
 		dojo.subscribe(PRCOMMON.Events.Issue_Add, dojo.hitch(this, this._new_issue_event));
 		dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
 		dojo.subscribe(PRCOMMON.Events.Document_Add, dojo.hitch(this, this._add_event));
+		dojo.subscribe("/crm/update_person", dojo.hitch(this, this._update_person_event));
 	},
 	_fields:["1","2","3","4"],
 	postCreate:function()
@@ -140,7 +142,7 @@ dojo.declare("prcommon.crm.add",
 	{
 		this.employeeid.set("value","-1");
 		this.outletid.set("value","-1");
-		dojo.attr(this.contact_display,"innerHTML","");
+		this.contact.set("Displayvalue", "");
 	},
 	clear:function()
 	{
@@ -165,23 +167,17 @@ dojo.declare("prcommon.crm.add",
 	},
 	_save:function()
 	{
-		if ( this.employeeid.get("value") == "-1")
-		{
-			this.savebtn.cancel();
-			alert("No Contact Selected");
-			return ;
-		}
-
 		var content = this.form.get("value");
 		content["taken"] = ttl.utilities.toJsonDate ( this.taken.get("value"));
 		content["follow_up_date"] = ttl.utilities.toJsonDate ( this.follow_up_date.get("value"));
+		content['outletid'] = this.outletid.value;
+		content['employeeid'] = this.employeeid.value;
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
 			load: this._save_call_back,
 			url:'/crm/add_note',
 			content:content}));
-
 	},
 	_save_call:function( response )
 	{
@@ -297,8 +293,12 @@ dojo.declare("prcommon.crm.add",
 	},
 	resize:function()
 	{
-		//this.inherited(arguments);
-		this.form.resize({w:560, h:600});
-		this.scroll_box.resize({w:580, h:600});
+		this.form.resize({w:600, h:600});
+		this.scroll_box.resize({w:600, h:600});
+	},
+	_update_person_event:function(response)
+	{
+		this.outletid.set("value", response.outletid);
+		this.employeeid.set("value", response.employeeid);
 	}
 });

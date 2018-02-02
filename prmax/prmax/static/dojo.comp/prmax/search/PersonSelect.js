@@ -11,10 +11,11 @@
 dojo.provide("prmax.search.PersonSelect");
 
 dojo.require("ttl.BaseWidget");
+dojo.require("ttl.utilities");
 dojo.require("dijit.Dialog");
 dojo.require("ttl.Form");
 dojo.require("prmax.search.standard");
-
+dojo.require("prmax.search.person");
 dojo.require("prcommon.crm.add");
 
 dojo.declare("prmax.search.PersonSelect",
@@ -45,7 +46,7 @@ dojo.declare("prmax.search.PersonSelect",
 
 		content["mode"] = 1 ;
 		content['search_partial'] = 2;
-		content['searchtypeid']=7
+		content['searchtypeid']=7;
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
@@ -60,7 +61,8 @@ dojo.declare("prmax.search.PersonSelect",
 	view:{
 		cells: [[
 			{name: 'Outlet',width: "auto",field:'outletname'},
-			{name: 'Contact',width: "auto",field:'contactname'}
+			{name: 'Contact',width: "auto",field:'contactname'},
+			{name: ' ',width: "15px",field:'',formatter:ttl.utilities.formatRowCtrl}
 			]]
 	},
 	postCreate:function()
@@ -79,14 +81,23 @@ dojo.declare("prmax.search.PersonSelect",
 
 		if ( this._row)
 		{
-			this.on_select_func(this._row.i.employeeid,this._row.i.outletid, this._row.i.contactname, this._row.i.outletname );
-			this.search_people_dlg.hide();
-		}
+			if (e.cellIndex == 2)
+			{
+				this.selectdetails_ctrl.set("dialog",this._row.i.employeeid);
+				this.selectdetails_ctrl.load(this.selectdetails_dlg,this._row.i.employeeid);
+				this.selectdetails_dlg.show();
+			}
+			else
+			{	
+				this.on_select_func(this._row.i.employeeid,this._row.i.outletid, this._row.i.contactname, this._row.i.outletname );
+				this.search_people_dlg.hide();
+			}
+		}		
 	},
 	_clear:function()
 	{
-		this.std_search_outlet_contact_name.clear();
-		this.std_search_outlet_outlet_name.clear();
+		this.std_search_employee_name_ext.Clear();
+		this.std_search_outlet_outlet_name.Clear();
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({

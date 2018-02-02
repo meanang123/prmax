@@ -97,6 +97,7 @@ dojo.declare("prcommon.crm.viewer",
 		this.crm_add.clear();
 		this.crm_dlg.set("title", "<p><i class=\"fa fa-user\"></i>&nbsp;New " + PRMAX.utils.settings.crm_engagement + "</p>");
 		this.crm_dlg.show();
+		this.crm_dlg.resize();
 	},
 	refresh:function ( )
 	{
@@ -174,12 +175,18 @@ dojo.declare("prcommon.crm.viewer",
 				var crm_subject = data.ch.crm_subject;
 				if (crm_subject.length == 0)
 					crm_subject = data.ch.subject;
+				var outletname = '';
+				if (data.outlet)
+					outletname = data.outlet.outletname;
+//				var contactname = data.contactname;
+//				if (data.outlet)
+//					outletname = data.outlet.outletname;
 
 				this.filter_db.setValue(this.tmp_row, "subject" , crm_subject, true );
 				this.filter_db.setValue(this.tmp_row, "contacthistorystatusdescription" , data.status, true);
 				this.filter_db.setValue(this.tmp_row, "display_name" , data.display_name, true);
 				this.filter_db.setValue(this.tmp_row, "taken_display" , data.taken_date, true);
-				this.filter_db.setValue(this.tmp_row, "outletname" , data.outlet.outletname, true);
+				this.filter_db.setValue(this.tmp_row, "outletname" , outletname, true);
 				this.filter_db.setValue(this.tmp_row, "contactname" , data.contactname, true);
 			}
 	},

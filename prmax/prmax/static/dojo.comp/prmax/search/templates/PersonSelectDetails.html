@@ -1,0 +1,68 @@
+<div>
+		<div data-dojo-attach-point="details" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:100%;height:80%",title:"Contact Details","class":"scrollpanel"'>
+			<table cellspacing="0" cellpadding="1" width="99%" style="margin:10px">
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Contact Name</td>
+					<td><input data-dojo-props='name:"contactname",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="contactname" data-dojo-type="dijit.form.TextBox"/></td>
+				</tr>
+				
+				<tr><td align="right" class="prmaxrowtag" width="20%">Web</td>
+					<td>
+						<span><input data-dojo-props='name:"www",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="www" data-dojo-type="dijit.form.TextBox"/></span>
+						<span><div data-dojo-attach-point="www_show" data-dojo-type="prcommon.web.WebButton" data-dojo-props='"class":"prmaxhidden"'></div></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Tel</td>
+					<td><input data-dojo-props='name:"tel",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="tel" data-dojo-type="dijit.form.TextBox"/></td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Mobile</td>
+					<td><input data-dojo-props='name:"mobile",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="mobile" data-dojo-type="dijit.form.TextBox"/></td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Fax</td>
+					<td><input data-dojo-props='name:"fax",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="fax" data-dojo-type="dijit.form.TextBox"/></td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Email</td>
+					<td><input data-dojo-props='name:"email",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="email" data-dojo-type="dijit.form.TextBox"/></td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Twitter</td>
+					<td>
+						<span><input data-dojo-props='name:"twitter",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="twitter" data-dojo-type="dijit.form.TextBox"/></span>
+						<span><div data-dojo-attach-point="twitter_show" data-dojo-type="prcommon.web.WebButton" data-dojo-props='"class":"prmaxhidden"'></div></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Facebook</td>
+					<td>
+						<span><input data-dojo-props='name:"facebook",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="facebook" data-dojo-type="dijit.form.TextBox"/></span>
+						<span><div data-dojo-attach-point="facebook_show" data-dojo-type="prcommon.web.WebButton" data-dojo-props='"class":"prmaxhidden"'></div></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Linkedin</td>
+					<td>
+						<span><input data-dojo-props='name:"linkedin",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="linkedin" data-dojo-type="dijit.form.TextBox"/></span>
+						<span><div data-dojo-attach-point="linkedin_show" data-dojo-type="prcommon.web.WebButton" data-dojo-props='"class":"prmaxhidden"'></div></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" class="prmaxrowtag" width="20%">Instagram</td>
+					<td>
+						<span><input data-dojo-props='name:"instagram",type:"text",style:"width:400px;background-color:white;color:black",readOnly:"readonly"' data-dojo-attach-point="instagram" data-dojo-type="dijit.form.TextBox"/></span>
+						<span><div data-dojo-attach-point="instagram_show" data-dojo-type="prcommon.web.WebButton" data-dojo-props='"class":"prmaxhidden"'></div></span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:100%;height:20%",region:"bottom"'>
+		<table cellspacing="0" cellpadding="1" width="99%">
+			<tr>
+				<td width="33%" align="left" data-dojo-attach-point="close_button"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft",iconClass:"fa fa-close fa-2x"' data-dojo-attach-event="onClick:_close"></button></td>
+			</tr>
+		</table>
+	</div>
+</div>

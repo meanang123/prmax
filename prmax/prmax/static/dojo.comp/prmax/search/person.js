@@ -57,12 +57,13 @@ dojo.declare("prmax.search.person",
 		{
 			this._Get(this._get_data());
 		},
-		// styandard clear function
+		// standard clear function
 		Clear:function()
 		{
 			this.data_surname.set("value","");
 			this.data_firstname.set("value","");
 			this._value="";
+			this._setdisplay(this._value);
 			this._enable_controls();
 			this.inherited(arguments);
 		},

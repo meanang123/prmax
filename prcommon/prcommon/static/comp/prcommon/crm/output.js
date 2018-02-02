@@ -23,6 +23,7 @@ dojo.declare("prcommon.crm.output",
 		this._complete_call_back = dojo.hitch(this, this._complete_call);
 		this._output_styles = new dojo.data.ItemFileReadStore( { url:"/reports/reporttemplates?reportsourceid=9"});
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
+		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
 
 	},
 	postCreate:function()
@@ -110,7 +111,11 @@ dojo.declare("prcommon.crm.output",
 			dojo.removeClass(this.clientid.domNode, "prmaxhidden");
 			dojo.removeClass(this.client_label, "prmaxhidden");
 		}
-	}
+	},
+	_UpdateEngagementLabelEvent:function()
+	{
+		this._output_styles = new dojo.data.ItemFileReadStore( { url:"/reports/reporttemplates?reportsourceid=9"});
+	},
 });
 
 

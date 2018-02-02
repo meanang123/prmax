@@ -679,7 +679,8 @@ class Employee(BaseSql):
 		address = None
 		if comm.addressid > 0 :
 			address = Address.query.get(comm.addressid)
-
+		contact = Contact.query.get(employee.contactid)
+		contactname = Contact.getName(contact)
 		# job roles
 		jobroles = session.query(EmployeeRoleView).\
 		  filter( EmployeeRoleView.employeeid == params["employeeid"]).all()
@@ -688,6 +689,8 @@ class Employee(BaseSql):
 		  employeeid = params['employeeid'],
 		  employee = employee,
 		  comm = comm,
+		  outlet = outlet,
+		  contactname = contactname,
 		  address = address,
 		  jobroles = jobroles,
 		  interests = dict(data = session.query(EmployeeInterestView).filter_by(
@@ -904,7 +907,7 @@ class EmployeeDisplay(BaseSql):
 	                CASE WHEN a_o.county = a_o.townname THEN
 	                    AddressFull(a_o.address1,a_o.address2,a_o.townname,'',a_otown.geographicalname,a_o.postcode,'')
 	                ELSE
-	                    AddressFull(a_o.address1,a_o.address2,a_o.townname,a_o.county,a_otown.geographicalname,a_o.postcode,'')
+	                    AddressFull(a_o.address1,a_o.address2,a_o.townname,'',a_otown.geographicalname,a_o.postcode,'')
 	                END
 	            ELSE
 	                AddressFull(a_o.address1,a_o.address2,a_o.county,a_o.postcode,a_otown.geographicalname,a_o.townname,'')
@@ -914,7 +917,7 @@ class EmployeeDisplay(BaseSql):
 	                CASE WHEN a_e.county = a_e.townname THEN
 	                    AddressFull(a_e.address1,a_e.address2,a_e.townname,'',town.geographicalname,a_e.postcode,'')
 	                ELSE
-	                    AddressFull(a_e.address1,a_e.address2,a_e.townname,a_e.county,town.geographicalname,a_e.postcode,'')
+	                    AddressFull(a_e.address1,a_e.address2,a_e.townname,'',town.geographicalname,a_e.postcode,'')
 	                END
 	            ELSE
 	                AddressFull(a_e.address1,a_e.address2,a_e.postcode,a_e.county,town.geographicalname,a_e.townname,'')

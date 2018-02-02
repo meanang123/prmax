@@ -229,9 +229,9 @@ class ContactHistoryGeneral():
 		try:
 			contacthistory = ContactHistory.query.get(params["contacthistoryid"])
 
-			for field in ("employeeid", "outletid"):
-				if not params[field] or params[field] == "-1" or params[field] == -1:
-					params[field] = None
+#			for field in ("employeeid", "outletid"):
+#				if not params[field] or params[field] == "-1" or params[field] == -1:
+#					params[field] = None
 
 			if "employeeid" in params and params["employeeid"]:
 				if "outletid" not in params:
@@ -270,8 +270,8 @@ class ContactHistoryGeneral():
 			contacthistory.chud3id = params["chud3id"]
 			contacthistory.chud4id = params["chud4id"]
 
-			contacthistory.outletid = params["outletid"]
-			contacthistory.employeeid = params["employeeid"]
+			contacthistory.outletid = params["outletid"] if params['outletid'] != -1 else None
+			contacthistory.employeeid = params["employeeid"] if params['employeeid'] != -1 else None
 			contacthistory.clientid = params["clientid"]
 			contacthistory.documentid = params["documentid"]
 
@@ -433,11 +433,15 @@ class ContactHistoryGeneral():
 
 		contacthistory = ContactHistory.query.get(contacthistoryid)
 		contact = employee = outlet = contactname = None
-		if contacthistory.employeeid:
+		if contacthistory.outletid:
+			outlet = Outlet.query.get(contacthistory.outletid)
+		if contacthistory.contactid:
+			contact = Contact.query.get(contacthistory.contactid)
+			contactname = Contact.getName(contact)
+		elif contacthistory.employeeid:
 			employee = Employee.query.get(contacthistory.employeeid)
 			if employee:
 				contact = Contact.query.get(employee.contactid)
-				outlet = Outlet.query.get(employee.outletid)
 				if contact:
 					contactname = Contact.getName(contact)
 #		display_contact
