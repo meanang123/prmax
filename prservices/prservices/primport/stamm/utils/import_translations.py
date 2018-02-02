@@ -123,7 +123,7 @@ def _run():
 		translation = int(xls_sheet_circulation.cell_value(rnum, 1))
 		english = xls_sheet_circulation.cell_value(rnum, 2).lower().strip()
 
-		inserts_circulationsources.append({"fieldname": "circulationsource",
+		inserts_circulationsources.append({"fieldname": "circulation-source",
 	                                "sourcetext": sourcetext,
 	                                "sourcetypeid" : Constants.Source_Type_Stamm,
 	                                "translation" : translation,
@@ -133,8 +133,6 @@ def _run():
 		session.begin()
 		session.execute(DataSourceTranslations.mapping.insert(), inserts_circulationsources)
 		session.commit()
-
-
 
 	# media channels
 	inserts = []
