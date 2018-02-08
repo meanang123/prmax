@@ -485,6 +485,7 @@ class ResearchProjectChanges(BaseSql):
 	  JOIN outlets AS o ON o.outletid = e.outletid
 		LEFT OUTER JOIN contacts AS c ON e.contactid = c.contactid
 	  WHERE researchprojectitemid =:researchprojectitemid AND chi.actiontypeid = 3
+	  AND e.outletid = (select outletid FROM research.researchprojectitem WHERE researchprojectitemid =:researchprojectitemid LIMIT 1)
 	UNION
 	SELECT
 		'E' || e.employeeid AS keyid,
