@@ -389,7 +389,11 @@ class Outlet(BaseSql):
 	def do_outlet_interests(cls, outlet, activity, params ):
 		"""Update the outlet interest """
 		# interest changed
-		dbinterest = session.query(OutletInterests).filter_by(
+		if outlet.prmax_outlettypeid == 42:
+			dbinterest = session.query(EmployeeInterests).filter_by(
+				employeeid = outlet.primaryemployeeid)
+		else:
+			dbinterest = session.query(OutletInterests).filter_by(
 				outletid = outlet.outletid)
 		dbinterest2 = []
 		interests  = params['interests'] if params['interests'] else []
@@ -402,10 +406,16 @@ class Outlet(BaseSql):
 		# do adds
 		for interestid in interests:
 			if not interestid in dbinterest2:
-				interest = OutletInterests(
-						outletid = outlet.outletid,
-				    interestid = interestid)
-				ActivityDetails.AddAdd ( interestid , activity.activityid , Constants.Field_Interest )
+				if outlet.prmax_outlettypeid == 42: #if it is freelancer add the keywords to outlet's primary employee
+					interest = EmployeeInterests(
+						    employeeid = outlet.primaryemployeeid,
+						interestid = interestid)
+					ActivityDetails.AddAdd ( interestid , activity.activityid , Constants.Field_Interest )
+				else:
+					interest = OutletInterests(
+						    outletid = outlet.outletid,
+						interestid = interestid)
+					ActivityDetails.AddAdd ( interestid , activity.activityid , Constants.Field_Interest )
 				session.add(interest)
 
 	@classmethod
@@ -1117,12 +1127,15 @@ class Outlet(BaseSql):
 			session.add ( activity )
 
 			# change outletid
+			ResearchDetails.set_research_modified(employee.outletid)#matoyla
+
 			employee.sourcetypeid = Constants.Research_Source_Prmax
 			employee.sourcekey = employee.employeeid
 			employee.outletid = params["outletid"]
 			if params["outletdeskid"] >  0:
 				employee.outletdeskid = params["outletdeskid"]
 
+			
 			# now fixup lists move all entries in lists
 			if is_primary_move:
 				# no we need to delete the duplicates

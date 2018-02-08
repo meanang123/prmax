@@ -416,8 +416,8 @@ class QuestionnairesGeneral(object):
 
 				# override interests
 				if outlet.is_freelance():
-					tmp = ", ".join([row.interestname for row in session.query(OutletInterestView).filter_by(
-					  outletid=outlet.outletid,
+					tmp = ", ".join([row.interestname for row in session.query(EmployeeInterestView).filter_by(
+					  employeeid=outlet.primaryemployeeid,
 					  interesttypeid=Constants.Interest_Type_Standard).all()])
 					if tmp:
 						outfields["interests_org"] = tmp

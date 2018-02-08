@@ -50,7 +50,7 @@ define([
 	},
 	postCreate:function()
 	{
-		this.prmax_outlettypeid.set("store",PRCOMMON.utils.stores.OutletTypes());
+		this.prmax_outlettypeid.set("store",PRCOMMON.utils.stores.OutletTypes_noFreelancer());
 
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Add_Codes());
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);

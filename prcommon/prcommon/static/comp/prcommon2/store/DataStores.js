@@ -16,6 +16,7 @@ define([
 	constructor: function()
 	{
 		this._prmaxoutlettypes = new ItemFileReadStore({ url:"/common/lookups?searchtype=prmaxoutlettypes"} );
+		this._prmaxoutlettypes_noFreelancer = new ItemFileReadStore({ url:"/common/lookups?searchtype=prmaxoutlettypes&nofreelancer=1"} );
 		this._frequencies = new ItemFileReadStore(	{ url:"/common/lookups?searchtype=frequencies"} );
 		this._reasoncode_data_upd = new ItemFileReadStore ({ url:"/common/lookups?searchtype=reasoncodes&reasoncategoryid=2"});
 		this._reasoncode_data_add = new ItemFileReadStore ({ url:"/common/lookups?searchtype=reasoncodes&reasoncategoryid=1"});
@@ -58,6 +59,10 @@ define([
 	OutletTypes:function()
 	{
 		return this._prmaxoutlettypes;
+	},
+	OutletTypes_noFreelancer:function()
+	{
+		return this._prmaxoutlettypes_noFreelancer;
 	},
 	Frequency:function()
 	{

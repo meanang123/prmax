@@ -126,8 +126,12 @@ class PRmaxOutletTypes(BaseSql):
 			""""local convert"""
 			return [dict(id=row.prmax_outlettypeid, name=row.prmax_outlettypename, grouptypeid=row.prmax_outletgroupid)
 					for row in data.fetchall()]
-		return cls.sqlExecuteCommand(text(PRmaxOutletTypes.List_Types), params, _convert)
+		data = cls.sqlExecuteCommand(text(PRmaxOutletTypes.List_Types), params, _convert)
 
+		if "nofreelancer" in params:
+			data = [data for data in data if data.get('id') != 42]
+
+		return data
 
 class AdvanceFeaturesStatus(BaseSql):
 	""" All the researcg status for advance features """
