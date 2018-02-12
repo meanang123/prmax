@@ -9,17 +9,16 @@
 # Created:     14/4/2014
 # Copyright:   (c) 2014
 #-----------------------------------------------------------------------------
-from turbogears.database import session
-from sqlalchemy.sql import text
-from sqlalchemy import or_
 from xml.sax import make_parser
 import codecs
 import os
 import logging
 from cStringIO import StringIO
-LOG = logging.getLogger("prmax")
 from types import ListType, DictionaryType
 import simplejson
+from turbogears.database import session
+from sqlalchemy.sql import text
+LOG = logging.getLogger("prmax")
 
 from prcommon.model import Countries, DataSourceTranslations
 from prcommon.model.datafeeds.xmlbase import XMLBaseImport, BaseContent
@@ -64,7 +63,7 @@ class StammXmlProcesser(BaseContent):
 		             "circulation-source", "circulation-audit-period", "free", "interest-words", "media-type", "organisation-type"):
 			self._data = self._db_interface.do_translation(name, self._data)
 
-		if name == "job-title" and self._db_interface._check==True:
+		if name == "job-title" and self._db_interface._check is True:
 			self._db_interface.do_translation(name, self._data)
 
 		datatype = type(self._level.get(name, None))
@@ -193,21 +192,15 @@ class StammDbImport(object):
 			if  publication["command"] in ("Change", "Add"):
 				if publication["type"] not in ("Publication", "Organisation", "Freelance", "Freelancer"):
 					print publication["type"]
-#				else:
-#					with open('StammOutlets.txt', 'a') as f:
-#						f.write('%s \n' %publication["mediaid"])
 				outlet = session.query(Outlet).\
 				  filter(Outlet.sourcetypeid == Constants.Source_Type_Stamm).\
 				  filter(Outlet.sourcekey == publication["mediaid"]).scalar()
 				if outlet:
-#					print outlet.outletid
-#					with open('StammExistingOutlets.txt', 'a') as f:
-#						f.write(str('%s \n' %outlet.outletid))
 				# update
 					if publication["type"] in ("Publication", "Organisation"):
 						self._update_outlet(outlet, publication, contacts)
-					if publication["type"] in ("Freelance", "Freelancer" ):
-						self._update_freelance_outlet(outlet, publication, contacts)
+					if publication["type"] in ("Freelance", "Freelancer"):
+						self._update_freelance_outlet(outlet, publication, contacts[0]['contact'])
 				else:
 				# insert
 					if publication["type"] in ("Publication", "Organisation"):
@@ -215,7 +208,7 @@ class StammDbImport(object):
 					if publication["type"] in ("Freelance", "Freelancer"):
 						self._add_freelance_outlet(publication, contacts[0]['contact'])
 			# delete
-			elif  publication["command"] in ("Delete"):
+			elif  publication["command"] == "Delete":
 				if publication["type"] not in ("Publication", "Organisation", "Freelance", "Freelancer"):
 					print publication["type"]
 				outlet = session.query(Outlet).\
@@ -362,7 +355,7 @@ class StammDbImport(object):
 				if memo['memo-type'] == 'Profile':
 					editorialprofile += memo['memo-text']
 		if 'launch-date' in publication:
-			editorialprofile += " - launch %s" % publication['launch-date']
+			editorialprofile += " - Launched %s" % publication['launch-date']
 
 		outletprofile = OutletProfile(
 		  outletid=outlet.outletid,
@@ -376,7 +369,6 @@ class StammDbImport(object):
 		session.add(ProcessQueue(
 		  objecttypeid=Constants.Process_Outlet_Profile,
 		  objectid=outlet.outletid))
-
 
 	def _add_freelance_outlet(self, publication, contacts):
 		""" Add a Freelancer """
@@ -410,8 +402,8 @@ class StammDbImport(object):
 		outlettypeid = Constants.Outlet_Type_Freelance
 		outletsearchtypeid = PRmaxOutletTypes.query.get(outlettypeid).outletsearchtypeid
 
-		contactsource={}
-		contactsource['contact']={}
+		contactsource = {}
+		contactsource['contact'] = {}
 		contactsource['contact']['title'] = contacts['title']
 		contactsource['contact']['first-name'] = contacts['first-name']
 		contactsource['contact']['surname'] = contacts['surname']
@@ -420,13 +412,11 @@ class StammDbImport(object):
 		if contactid:
 			p_contact = Contact.query.get(contactid)
 		else:
-			p_contact = Contact (prefix = contacts['title'],
-			                 firstname = contacts['first-name'],
-			                 familyname = contacts['surname'],
-			                 sourcetypeid = Constants.Source_Type_Stamm)
+			p_contact = Contact(prefix=contacts['title'],
+			                 firstname=contacts['first-name'],
+			                 familyname=contacts['surname'],
+			                 sourcetypeid=Constants.Source_Type_Stamm)
 			session.add(p_contact)
-
-
 
 		outlet = Outlet(
 		  outletname=p_contact.getName(),
@@ -451,11 +441,11 @@ class StammDbImport(object):
 
 		# out all other outlet stuff
 		# coverage classifications
-		for interestid in self._get_interest_outlet(publication):
-			if interestid:
-				session.add(OutletInterests(
-				  outletid=outlet.outletid,
-				  interestid=interestid))
+#		for interestid in self._get_interest_outlet(publication):
+#			if interestid:
+#				session.add(EmployeeInterests(
+#				  employeeid=outlet.primaryemployeeid,
+#				  interestid=interestid))
 
 		# handle circulation
 
@@ -475,7 +465,7 @@ class StammDbImport(object):
 				if memo['memo-type'] == 'Profile':
 					editorialprofile += memo['memo-text']
 		if 'launch-date' in publication:
-			editorialprofile += " - launch %s" % publication['launch-date']
+			editorialprofile += " - Launched %s" % publication['launch-date']
 
 		outletprofile = OutletProfile(
 		  outletid=outlet.outletid,
@@ -489,6 +479,140 @@ class StammDbImport(object):
 		session.add(ProcessQueue(
 		  objecttypeid=Constants.Process_Outlet_Profile,
 		  objectid=outlet.outletid))
+
+	def _update_freelance_outlet(self, outlet, publication, contacts):
+		""" Update a Freelancer """
+
+
+		outlet_com = Communication.query.get(outlet.communicationid)
+		employee = Employee.query.get(outlet.primaryemployeeid)
+		contact = Contact.query.get(employee.contactid)
+
+		outlet_com.tel = self.to_tel_number(contacts.get("tel-no", None))
+		outlet_com.email = contacts.get("email-address", "")
+		outlet_com.fax = self.to_tel_number(contacts.get("fax-no", None))
+
+		address = Address.query.get(outlet_com.addressid)
+		address.address1 = contacts["address"]["address1"]
+		address.address2 = contacts["address"]["address2"]
+		address.address3 = contacts["address"]["address3"]
+		address.county = contacts["address"]["state"]
+		address.townname = contacts["address"]["town"]
+		address.postcode = contacts["address"]["postcode"]
+		address.countryid = publication["country"]
+
+		contact.prefix = contacts['title']
+		contact.firstname = contacts['first-name']
+		contact.familyname = contacts['surname']
+
+		outlettypeid = Constants.Outlet_Type_Freelance
+		outletsearchtypeid = PRmaxOutletTypes.query.get(outlettypeid).outletsearchtypeid
+
+		outlet.outletname=contact.getName(),
+		outlet.sortname="",
+		www=contacts.get("www-address", "")[:119],
+		countryid=publication["country"],
+		outletpriceid=contacts.get('free', 1)
+
+		dbroles = session.query(EmployeePrmaxRole).filter_by(
+	        employeeid = outlet.primaryemployeeid)
+		dbroles2 = []
+		roles  = self._get_keywords_jobroles(contacts)
+		
+		for role in dbroles:
+			dbroles2.append(role.prmaxroleid)
+			if not role.prmaxroleid in dbroles:
+				session.delete(role)		
+
+		# add job roles
+		for prmaxroleid in contacts.get("jobtitle-areainterest", []):
+			if prmaxroleid:
+				trans = self.do_translation("jobtitle-areainterest", str(prmaxroleid), True)
+				if trans and trans[0]:
+					session.add(EmployeePrmaxRole(
+						employeeid=employee.employeeid,
+						outletid=employee.outletid,
+						prmaxroleid=trans[0][0]))
+					session.flush()
+
+		# add keywords for job roles
+		keywords_done = {}
+		for interestid in self._get_keywords_jobroles(contacts):
+			keyword_exists = session.query(EmployeeInterests).\
+			    filter(EmployeeInterests.employeeid == employee.employeeid).\
+			    filter(EmployeeInterests.outletid == employee.outletid).\
+			    filter(EmployeeInterests.customerid == employee.customerid).\
+			    filter(EmployeeInterests.interestid == interestid).all()
+			if keyword_exists:
+				keywords_done[interestid] = True
+			if interestid and interestid not in keywords_done:
+				keywords_done[interestid] = True
+				session.add(EmployeeInterests(
+				    employeeid=employee.employeeid,
+				    outletid=outlet.outletid,
+				    interestid=interestid,
+				    customerid=employee.customerid,
+				    interesttypeid=Constants.Interest_Type_Standard))
+				session.flush()
+				
+
+		
+		
+		# do deletes
+#		for outletinterest in dbinterest:
+#			dbinterest2.append(outletinterest.interestid)
+#			if not outletinterest.interestid in interests:
+#				session.delete(outletinterest)
+#
+#		for interestid in interests:
+#			if not interestid in dbinterest2:
+#				interest = EmployeeInterests(
+#			        employeeid = outlet.primaryemployeeid,
+#			        interestid = interestid,
+#			        outletid = outlet.outletid,
+#			        customerid = outlet.customerid)
+#				session.add(interest)
+#
+#		session.flush()
+
+		current_languages = {}
+		for language in session.query(OutletLanguages).filter(OutletLanguages.outletid == outlet.outletid).all():
+			current_languages[language.languageid] = language
+
+#		new_languages = {}
+		if "languages" in publication:
+			done_lan = {}
+			for language in publication["languages"]:
+				if language['language'] and int(language['language']) not in new_languages:
+					languageid = int(language['language'])
+					new_languages[languageid] = True
+					if languageid not in current_languages and language["language"] not in done_lan:
+						done_lan[language['language']] = True
+						session.add(OutletLanguages(
+					        outletid=outlet.outletid,
+					        isprefered=1 if language.get('main-language', 'No') == 'Yes' else 0,
+					        languageid=languageid))
+
+		for language in current_languages.values():
+			if language.languageid not in new_languages:
+				session.delete(language)
+
+		# profile
+		editorialprofile = ""
+		if "memos" in publication:
+			for memo in publication["memos"]:
+				if memo['memo-type'] == 'Profile':
+					editorialprofile += memo['memo-text']
+		if 'launch-date' in publication:
+			editorialprofile += " - Launched %s" % publication['launch-date']
+
+		outletprofile = OutletProfile.query.get(outlet.outletid)
+		outletprofile.editorialprofile = editorialprofile
+		session.add(outletprofile)
+
+		session.add(ProcessQueue(
+	        objecttypeid=Constants.Process_Outlet_Profile,
+	        objectid=outlet.outletid))
 
 	def _update_outlet(self, outlet, publication, contacts):
 		""" Update an outlet  """
@@ -617,8 +741,7 @@ class StammDbImport(object):
 									outletid=employee.outletid,
 									prmaxroleid=trans[0][0]))
 								session.flush()
-							
-				
+
 				# add role keywords
 				keywords_done = {}
 				for interestid in self._get_keywords_jobroles(contactsource):
@@ -628,7 +751,7 @@ class StammDbImport(object):
 						filter(EmployeeInterests.customerid == employee.customerid).\
 						filter(EmployeeInterests.interestid == interestid).all()
 					if keyword_exists:
-						keywords_done[interestid] = True					
+						keywords_done[interestid] = True
 					if interestid and interestid not in keywords_done and interestid not in rolekeywords:
 						keywords_done[interestid] = True
 						session.add(EmployeeInterests(
@@ -636,21 +759,21 @@ class StammDbImport(object):
 					        outletid=outlet.outletid,
 					        interestid=interestid,
 					        customerid=employee.customerid,
-					        interesttypeid = Constants.Interest_Type_Standard))
+					        interesttypeid=Constants.Interest_Type_Standard))
 						session.flush()
-						
+
 				# do deletes
 				for role in roles.values():
 					if role.prmaxroleid not in new_roles:
 						session.delete(role)
 						session.flush()
-						
+
 				#delete role interests
 				for rolekeyword in rolekeywords.values():
 					if rolekeyword.interestid not in new_keywords:
 						session.delete(rolekeyword)
 						session.flush()
-				
+
 			# out all other outlet stuff
 			# coverage classifications
 			interests = {}
@@ -723,7 +846,7 @@ class StammDbImport(object):
 					if memo['memo-type'] == 'Profile':
 						editorialprofile += memo['memo-text']
 			if 'launch-date' in publication:
-				editorialprofile += " - launch %s" % publication['launch-date']
+				editorialprofile += " - Launched %s" % publication['launch-date']
 
 			outletprofile = OutletProfile.query.get(outlet.outletid)
 			outletprofile.circulationnotes = circulationnotes
@@ -737,14 +860,14 @@ class StammDbImport(object):
 		for employee in current_contacts.values():
 			if not new_contacts:
 				session.execute(text("UPDATE outlets SET primaryemployeeid = :employeeid WHERE outletid = :outletid"),
-					            dict(employeeid=tmp_emp.employeeid, outletid=outlet.outletid), Employee)					
+					            dict(employeeid=tmp_emp.employeeid, outletid=outlet.outletid), Employee)
 				session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=employee.employeeid), Employee)
 			elif new_contacts and employee.sourcekey2 not in new_contacts:
 				if employee.employeeid == outlet.primaryemployeeid:
 					# we need to find a replacement here
 					session.execute(text("UPDATE outlets SET primaryemployeeid = :employeeid WHERE outletid = :outletid"),
 						            dict(employeeid=new_contacts.values()[0], outletid=outlet.outletid), Employee)
-	
+
 				session.execute(text("SELECT employee_research_force_delete(employeeid) FROM employees WHERE employeeid =:employeeid"), dict(employeeid=employee.employeeid), Employee)
 
 	def _get_publisher(self, publication):
@@ -760,12 +883,11 @@ class StammDbImport(object):
 			publisher = session.query(Publisher).\
 		        filter(Publisher.publishername == publishername).\
 		        filter(Publisher.sourcetypeid == Constants.Source_Type_Stamm).scalar()
-			
+
 #			if len(publisher) > 1:
 #				for pub in publisher:
 #					if pub.sourcekey == sourcekey:
 #						publisher = pub
-#				
 #			    filter(or_(Publisher.publishername.ilike(publishername), Publisher.sourcekey == sourcekey)).\
 
 			if publisher:
@@ -835,14 +957,12 @@ class StammDbImport(object):
 
 		return [int(interestid) for interestid in interests]
 
-
-
 	def to_tel_number(self, phone):
 		"""build a phone number"""
 
 		number = ""
 		if phone:
-			number = '+%s %s %s' %(phone.get('dialling-info',""), phone.get('area-code',""), phone.get('local-number',""))
+			number = '+%s %s %s' %(phone.get('dialling-info', ""), phone.get('area-code', ""), phone.get('local-number', ""))
 
 #			for element in ('dialling-info', 'area-code', 'local-number'):
 #				number += phone.get(element, "")
@@ -874,6 +994,7 @@ class StammDbImport(object):
 				if row.fieldname.strip() == "jobtitle-areainterest":
 					translation = simplejson.loads(row.translation)
 				self._translations[row.fieldname.strip()][row.sourcetext.lower().strip()] = (translation, extended_function, extra)
+		print 'test'
 
 	def do_translation(self, typeid, indata, extended=False):
 		"do translation "
@@ -998,7 +1119,7 @@ class StammDbImport(object):
 						outletid=employee.outletid,
 						prmaxroleid=trans[0][0]))
 					session.flush()
-					
+
 		# add keywords for job roles
 		keywords_done = {}
 		for interestid in self._get_keywords_jobroles(contactsource):
@@ -1016,12 +1137,11 @@ class StammDbImport(object):
 				    outletid=outlet.outletid,
 				    interestid=interestid,
 				    customerid=employee.customerid,
-				    interesttypeid = Constants.Interest_Type_Standard))
+				    interesttypeid=Constants.Interest_Type_Standard))
 				session.flush()
-				
+
 		return employee.employeeid
-			
-			
+
 class StammImportFile(XMLBaseImport):
 	"""Basic framework for importing 3rdpart data from waymaker xml"""
 	def __init__(self, filename, _db_interface):
