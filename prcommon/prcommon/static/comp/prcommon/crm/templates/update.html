@@ -30,8 +30,10 @@
 						<label class="label_1" data-dojo-attach-point="outcome_label_1">Outcome</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="outcome" data-dojo-props='name:"outcome",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
 
 						<button data-dojo-attach-event="onClick:_send_reply" data-dojo-attach-point="sendreplybtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Send Reply","class":"btnleft",iconClass:"fa fa-envelope-o"'></button><br />
-
-						<label class="label_1" >Response</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="crm_response" data-dojo-props='name:"crm_response",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
+						<label class="label_1" >Response</label></br>
+						<div><span class="stdframe" style="height:90px;width:90%;float:left"><textarea data-dojo-attach-point="crm_response" data-dojo-props='name:"crm_response",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></span>
+							<span style="width:5%;float:left"><button data-dojo-attach-event="onClick:_expand_response" data-dojo-attach-point="expandresponsebtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-expand",showLabel: false, type:"button", label:"Expand Response"'></button></span>
+						</div></br>
 						<label data-dojo-attach-point="client_label" class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><button data-dojo-attach-event="onClick:_new_client" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
 						<label class="label_1">Document</label><select data-dojo-props='name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select><button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
 						<label class="label_1">Follow Up<input data-dojo-props='"class":"prmaxdefault",type:"checkbox",name:"follow_up_view_check"' data-dojo-attach-point="follow_up_view_check" data-dojo-type="dijit.form.CheckBox" data-dojo-attach-event="onClick:_follow_up_view_change"/></label><br/>
@@ -69,5 +71,7 @@
 	<div data-dojo-attach-point="send_reply_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Send Reply", style:"width:550px;height:550px"'>
 		<div data-dojo-attach-point="send_reply_ctrl" data-dojo-type="prcommon.crm.responses.sendreply"></div>
 	</div>
-
+	<div data-dojo-attach-point="text_view_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add Notes"'>
+		<div data-dojo-attach-point="text_view_ctrl" data-dojo-type="prcommon.common.ExpandedText" data-dojo-props='style:"width:600px;height:500px"'></div>
+	</div>
 </div>

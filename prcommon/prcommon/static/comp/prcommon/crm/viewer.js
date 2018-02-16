@@ -115,6 +115,7 @@ dojo.declare("prcommon.crm.viewer",
 		this.filter_followup_by.set("value", null);
 		this.filter_issueid.set("value", null);
 		this.filter_subject.set("value", "");
+		this.filter_response.set("value", "");
 		this.clientid.set("value",null);
 	},
 	_execute_filter:function()
@@ -124,6 +125,9 @@ dojo.declare("prcommon.crm.viewer",
 
 		if ( arguments[0].subject.length > 0 )
 			filter["subject"] = arguments[0].subject;
+
+		if ( arguments[0].response.length > 0 )
+			filter["response"] = arguments[0].response;
 
 		if ( arguments[0].contacthistorystatusid.length > 0 &&
 					arguments[0].contacthistorystatusid != "" &&

@@ -16,6 +16,7 @@ dojo.require("prmax.search.PersonSelectDetails");
 dojo.require("prcommon.crm.issues.selectmultiple");
 dojo.require("prcommon.crm.issues.add");
 dojo.require("prcommon.crm.responses.sendreply");
+dojo.require("prcommon.common.ExpandedText");
 
 dojo.declare("prcommon.crm.update",
 	[ ttl.BaseWidget ],
@@ -456,6 +457,10 @@ dojo.declare("prcommon.crm.update",
 	{
 		this.outletid.set("value", response.outletid);
 		this.employeeid.set("value", response.employeeid);
+	},
+	_expand_response:function()
+	{
+		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, "Response");
 	}
 });
 

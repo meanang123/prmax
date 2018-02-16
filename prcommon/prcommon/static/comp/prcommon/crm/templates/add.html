@@ -24,7 +24,11 @@
 		<select data-dojo-props='"class":"prmaxrequired",name:"contacthistorystatusid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Status",labelType:"html",style:"float:left;width:140px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="contacthistorystatusid"></select><br/>
 		<label class="label_1">Briefing Notes</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="details" data-dojo-props='name:"details",trim:true,required:false,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
 		<label class="label_1" data-dojo-attach-point="outcome_label_1">Outcome</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="outcome" data-dojo-props='name:"outcome",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
-		<label class="label_1" >Response</label><div class="stdframe" style="height:50px;width:95%"><textarea data-dojo-attach-point="crm_response" data-dojo-props='name:"crm_response",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></div>
+
+		<label class="label_1" >Response</label></br>
+		<div><span class="stdframe" style="height:90px;width:90%;float:left"><textarea data-dojo-attach-point="crm_response" data-dojo-props='name:"crm_response",trim:true,style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea" ></textarea></span>
+			<span style="width:5%;float:left"><button data-dojo-attach-event="onClick:_expand_response" data-dojo-attach-point="expandresponsebtn" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Expand Response",iconClass:"fa fa-expand",showLabel: false, type:"button"'></button></span>
+		</div></br>
 		<label data-dojo-attach-point="client_label" class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><button data-dojo-attach-event="onClick:_new_client" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
 		<label class="label_1">Document</label><select data-dojo-props='name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select><button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
 		<label class="label_1">Follow Up<input data-dojo-props='"class":"prmaxdefault",type:"checkbox",name:"follow_up_view_check"' data-dojo-attach-point="follow_up_view_check" data-dojo-type="dijit.form.CheckBox" data-dojo-attach-event="onClick:_follow_up_view_change"/></label><br/>
@@ -35,7 +39,8 @@
 			<select data-dojo-props='"class":"prmaxrequired",name:"follow_up_ownerid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Follow Up Only",labelType:"html",style:"width:140px;float:left"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="follow_up_ownerid"></select><br/>
 		</div>
 		<div data-dojo-type="prcommon.crm.issues.selectmultiple" data-dojo-props='style:"width:96%",displaytitle:"Other Issues",displayselect:"",name:"extraissues",startopen:false' data-dojo-attach-point="extraissues"></div>
-		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft prmaxhidden"'></button><button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='style:"padding-right:18px",type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright",iconClass:"fa fa-floppy-o fa-2x"'></button>
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft prmaxhidden"'></button>
+		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='style:"padding-right:18px",type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright",iconClass:"fa fa-floppy-o fa-2x"'></button>
 	</form>
 	<div data-dojo-attach-point="person_select_dlg" data-dojo-type="prmax.search.PersonSelect"></div>
 	<div data-dojo-attach-point="new_issue_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Issue"'>
@@ -45,5 +50,8 @@
 <div data-dojo-attach-point="addctrl" data-dojo-type="prcommon.documents.adddialog"></div>
 <div data-dojo-type="dijit.Dialog" data-dojo-attach-point="client_add_dialog" data-dojo-props='title:"Add New Client",style:"width:700px;height:600px"'>
 	<div data-dojo-type="prmax.customer.clients.add" data-dojo-attach-point="client_add_ctrl"></div>
+</div>
+<div data-dojo-attach-point="text_view_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add Notes"'>
+	<div data-dojo-attach-point="text_view_ctrl" data-dojo-type="prcommon.common.ExpandedText" data-dojo-props='style:"width:600px;height:500px"'></div>
 </div>
 </div>

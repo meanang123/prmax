@@ -186,6 +186,10 @@ class ContactHistoryGeneral():
 			whereclause = BaseSql.addclause(whereclause, "ch.subject ilike :subject")
 			params["subject"] = "%" +  params["subject"] +  "%"
 
+		if "response" in params:
+			whereclause = BaseSql.addclause(whereclause, "ch.crm_response ilike :response")
+			params["response"] = "%" +  params["response"] +  "%"
+
 		if "sort" in params and params["sort"] == "taken_display":
 			params["sort"] = "ch.taken"
 
