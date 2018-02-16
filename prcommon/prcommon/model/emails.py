@@ -42,6 +42,7 @@ from prcommon.model.customer.customeremailserver import CustomerEmailServer
 from prcommon.model.contact import Contact
 from prcommon.model.employee import Employee
 from prcommon.model.outlet import Outlet
+from prcommon.model.customer.activity import Activity
 
 CRYPTENGINE = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
@@ -879,6 +880,17 @@ class EmailTemplates(BaseSql):
 			if customer.has_clickthrought:
 				emailtemplate.setup_clickthrought()
 
+			activity = Activity(
+		        customerid=customer.customerid,
+		        userid=params['user_id'],
+		        objectid=emailtemplate.emailtemplateid,
+		        objecttypeid=4, #distribution
+		        actiontypeid=7, #re-send
+		        description=emailtemplate.subject
+		    )
+			session.add(activity)
+			session.flush()
+
 			transaction.commit()
 		except:
 			LOGGER.exception("EmailTemplate_markassent")
@@ -1047,13 +1059,17 @@ class EmailTemplates(BaseSql):
 			bodytext = DBCompress.decode(emailtemplate.emailtemplatecontent)
 			employee = Employee.query.get(params['employeeid'])
 			outlet = Outlet.query.get(employee.outletid)
-			contact = Contact.query.get(employee.contactid)	
-			record = dict(job_title = employee.job_title, 
-			              firstname = contact.firstname,
-			              prefix = contact.prefix,
-			              familyname = contact.familyname
-			              )
-			body = merge.do_merge_fields(record, bodytext)
+			body = bodytext
+			familyname = firstname = prefix = suffix = ""
+			if employee and employee.contactid:
+				contact = Contact.query.get(employee.contactid)
+				suffix = contact.suffix
+				record = dict(job_title = employee.job_title,
+					          firstname = contact.firstname,
+					          prefix = contact.prefix,
+					          familyname = contact.familyname
+					          )
+				body = merge.do_merge_fields(record, bodytext)
 
 			emailmessaage = EmailMessage(ces.fromemailaddress,
 			                     params['toemailaddress'],
@@ -1075,7 +1091,10 @@ class EmailTemplates(BaseSql):
 				if not statusid:
 					raise Exception("Problem Sending Email")
 				else:
-					listmember = session.query(ListMembers).filter(ListMembers.listid == emailtemplate.listid).filter(ListMembers.outletid == employee.outletid).filter(ListMembers.employeeid == employee.employeeid).scalar()
+					listmember = session.query(ListMembers).\
+					    filter(ListMembers.listid == emailtemplate.listid).\
+					    filter(ListMembers.outletid == employee.outletid).\
+					    filter(ListMembers.employeeid == employee.employeeid).scalar()
 					if not listmember:
 						lm = ListMembers(
 							listid = emailtemplate.listid,
@@ -1089,15 +1108,26 @@ class EmailTemplates(BaseSql):
 						    listmemberid = lm.listmemberid,
 							listid = emailtemplate.listid,
 						    job_title = employee.job_title,
-						    familyname = contact.familyname,
-						    firstname = contact.firstname,
-						    prefix = contact.prefix,
-						    suffix = contact.suffix,
+						    familyname = familyname,
+						    firstname = firstname,
+						    prefix = prefix,
+						    suffix = suffix,
 						    outletname = outlet.outletname,
 						    emailaddress = params['toemailaddress'],
 						    emailstatusid = 0 #delivered
 						)
 						session.add(lmd)
+						session.flush()
+
+						activity = Activity(
+							customerid=ces.customerid,
+							userid=params['user_id'],
+							objectid=emailtemplate.emailtemplateid,
+							objecttypeid=4, #distribution
+							actiontypeid=8, #re-send
+							description=emailtemplate.subject
+						)
+						session.add(activity)
 						session.flush()
 
 						session.commit()

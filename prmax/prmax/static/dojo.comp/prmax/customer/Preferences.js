@@ -142,6 +142,8 @@ dojo.declare("prmax.customer.Preferences",
 		this.crm_subject.set("value",response.data.customer.crm_subject);
 		this.crm_engagement.set("value",response.data.customer.crm_engagement);
 		this.crm_engagement_plural.set("value",response.data.customer.crm_engagement_plural);
+		this.distribution_description.set("value",response.data.customer.distribution_description);
+		this.distribution_description_plural.set("value",response.data.customer.distribution_description_plural);
 
 		this.general_update.set("disabled",false);
 		this.pssw_update.set("disabled",false);
@@ -241,8 +243,10 @@ dojo.declare("prmax.customer.Preferences",
 			PRMAX.utils.settings.crm_subject = this.crm_subject.get("value");
 			PRMAX.utils.settings.crm_engagement = this.crm_engagement.get("value");
 			PRMAX.utils.settings.crm_engagement_plural = this.crm_engagement_plural.get("value");
-
+			PRMAX.utils.settings.distribution_description = this.distribution_description.get("value");
+			PRMAX.utils.settings.distribution_description_plural = this.distribution_description_plural.get("value");
 			dojo.publish('/update/engagement_label');
+			dojo.publish('/update/distribution_label');
 
 			alert("Settings Saved");
 		}

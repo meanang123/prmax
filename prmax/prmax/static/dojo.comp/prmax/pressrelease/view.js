@@ -42,10 +42,15 @@ dojo.declare("prmax.pressrelease.view",
 			this.view["cells"][0].push({name: PRMAX.utils.settings.issue_description, width: "120px", field:"issuename"});
 		}
 		dojo.subscribe("/pr/rename", dojo.hitch(this, this._rename_event));
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 	},
 	postCreate:function()
 	{
 		dojo.attr(this.client_label,"innerHTML", PRMAX.utils.settings.client_name );
+		dojo.attr(this.rename_dialog, "title", "Rename " + PRMAX.utils.settings.distribution_description );
+		dojo.attr(this.duplcatedlg, "title", "Duplicate " + PRMAX.utils.settings.distribution_description );
+		dojo.attr(this.show_list, "label", PRMAX.utils.settings.distribution_description);
+
 		this.view["cells"][0][5]["name"] = PRMAX.utils.settings.client_name;
 
 		this.grid.set("structure",this.view);
@@ -457,5 +462,11 @@ dojo.declare("prmax.pressrelease.view",
 		this.clientid.set("value",-1);
 		this.option.set("value","Display All");
 		this.namefilter.set("value","");
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.rename_dialog, "title", "Rename " + PRMAX.utils.settings.distribution_description );
+		dojo.attr(this.duplcatedlg, "title", "Duplicate " + PRMAX.utils.settings.distribution_description );
+		dojo.attr(this.show_list, "label", PRMAX.utils.settings.distribution_description);
 	}
 });

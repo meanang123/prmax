@@ -93,12 +93,12 @@ dojo.declare("prmax.pressrelease.seo.view",
 		}
 		else
 		{
-			alert("Problem deleting SEO release");
+			alert("Problem deleting SEO " + PRMAX.utils.settings.distribution_description);
 		}
 	},
 	_Delete:function()
 	{
-		if ( confirm("Delete the Seo Release"))
+		if ( confirm("Delete the Seo " +PRMAX.utils.settings.distribution_description));
 		{
 			dojo.xhrPost(
 				ttl.utilities.makeParams({

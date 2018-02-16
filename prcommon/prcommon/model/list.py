@@ -15,7 +15,7 @@
 
 #-----------------------------------------------------------------------------
 from turbogears.database import  metadata, mapper, session
-from sqlalchemy import Table,  func, text
+from sqlalchemy import Table,  func, text, not_
 from prcommon.model.common import BaseSql
 from prcommon.model.lookups import SortOrder
 import prcommon.Constants as Constants
@@ -508,7 +508,7 @@ class ListMembers(BaseSql):
 
 	SortFields = None
 	View_Data = """SELECT lm.*,
-	get_override(occ_c.email, e_c.email,oc_c.email, o_c.email) as email
+	get_override(occ_c.email, e_c.email,oc_c.email, o_c.email) as email, false as selected
 	FROM ListMember_View as lm
 	JOIN userdata.list as l ON lm.listid = l.listid
 	JOIN outlets AS o ON lm.outletid = o.outletid
@@ -607,6 +607,31 @@ class ListMembers(BaseSql):
 			LOGGER.exception("listmember_delete")
 			transaction.rollback()
 			raise
+
+	@classmethod
+	def delete_selected(cls, kw):
+		""" delete all selected members from the list """
+
+		transaction = BaseSql.sa_get_active_transaction()
+		if 'option' in kw:
+			if kw['option'] == 0 or kw['option'] == '0':
+				listmembers = kw['selected_listmemberids']
+			else:
+				listmembers = session.query(ListMembers.listmemberid).\
+				    filter(ListMembers.listid == kw['listid']).\
+				    filter(not_(ListMembers.listmemberid.in_(kw['selected_listmemberids']))).all()
+		for listmemberid in listmembers:
+			try:
+				lm = ListMembers.query.get(listmemberid)
+				if lm :
+					session.delete(lm)
+			except:
+				LOGGER.exception("listmember_delete")
+				try:
+					transaction.rollback()
+				except:
+					pass
+				raise
 
 class ExclusionList(BaseSql):
 	""" entry that the user doen't when too sent too """

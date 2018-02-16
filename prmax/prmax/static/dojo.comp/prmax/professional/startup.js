@@ -18,9 +18,15 @@ dojo.declare("prmax.professional.startup",
 	{
 		widgetsInTemplate: true,
 		templatePath: dojo.moduleUrl( "prmax.professional","templates/startup.html"),
+		constructor: function()
+		{
+			dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
+		},
 		postCreate:function()
 		{
 			dojo.attr(this.issue_label,"label", PRMAX.utils.settings.issue_description);
+			dojo.attr(this.distribution_label,"innerHTML", PRMAX.utils.settings.distribution_description_plural);
+
 			this.inherited(arguments);
 
 			if (PRMAX.utils.settings.crm)
@@ -32,6 +38,10 @@ dojo.declare("prmax.professional.startup",
 			{
 				dojo.style(this.clippings_view,"display","block");
 			}
+		},
+		_UpdateDistributionLabelEvent:function()
+		{
+			dojo.attr(this.distribution_label,"innerHTML", PRMAX.utils.settings.distribution_description_plural);
 		},
 		_issues:function()
 		{

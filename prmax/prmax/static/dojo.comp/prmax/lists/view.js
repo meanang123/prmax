@@ -52,7 +52,7 @@ dojo.declare("prmax.lists.view", [ttl.BaseWidget], {
 			pane.addChild(this.seo_pane);
 			this.tabCtrl.addChild(pane);
 		}
-
+		dojo.attr(this.distributionstab_view, 'title', PRMAX.utils.settings.distribution_description_plural);
 		this.inherited(arguments);
 	},
 	startup:function()

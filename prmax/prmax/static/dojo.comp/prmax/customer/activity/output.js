@@ -24,6 +24,7 @@ dojo.declare("prmax.customer.activity.output",
 
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._objecttypes = new dojo.data.ItemFileReadStore ( { url:"/activity/objecttype_list"});
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 	},
 	postCreate:function()
 	{
@@ -78,6 +79,10 @@ dojo.declare("prmax.customer.activity.output",
 		this.reportnode.Stop();
 		dojo.removeClass(this.reportbtn.domNode,"prmaxhidden");
 	},	
+	_UpdateDistributionLabelEvent:function()
+	{
+		this._objecttypes = new dojo.data.ItemFileReadStore ( { url:"/activity/objecttype_list"});
+	},
 });
 
 

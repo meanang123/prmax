@@ -266,8 +266,9 @@ class User(BaseSql):
 		   crm_subject=customer.crm_subject,
 		   crm_engagement=customer.crm_engagement,
 		   crm_engagement_plural=customer.crm_engagement_plural,
+		   distribution_description=customer.distribution_description,
+		   distribution_description_plural=customer.distribution_description_plural,
 		   ccaddresses=user.ccaddresses
-
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
@@ -348,6 +349,8 @@ class User(BaseSql):
 		   crm_subject=customer.crm_subject,
 		   crm_engagement=customer.crm_engagement,
 		   crm_engagement_plural=customer.crm_engagement_plural,
+		   distribution_description=customer.distribution_description,
+		   distribution_description_plural=customer.distribution_description_plural,
 		   ccaddresses=user.ccaddresses
 		  )
 

@@ -5,7 +5,7 @@
 				<input data-dojo-props='type:"hidden",name:"emailtemplatecontent",value:""' data-dojo-type="dijit.form.TextBox"/>
 				<table class="prmaxtable" cellpadding="0" cellspacing ="0" border="0" width="100%">
 					<tr>
-						<td class="prmaxlabeltag" >Distribution Name</label></td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="emailtemplatename" data-dojo-props='name:"emailtemplatename",required:true,trim:true,maxLength:45,promptMessage:"Enter Distribution name",type:"text"' ></td>
+						<td class="prmaxlabeltag" data-dojo-attach-point="distr_label">Distribution Name</label></td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="emailtemplatename" data-dojo-props='name:"emailtemplatename",required:true,trim:true,maxLength:45,promptMessage:"Enter Distribution name",type:"text"' ></td>
 						<tr><td class="prmaxlabeltag" data-dojo-attach-point="client_label_1" >Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_client_change" ></select></td></tr>
 						<tr class="prmaxhidden" data-dojo-attach-point="issue_view" ><td class="prmaxlabeltag" data-dojo-attach-point="issue_label_1">Issue</td><td><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid" ></select></td></tr>
 					</tr>

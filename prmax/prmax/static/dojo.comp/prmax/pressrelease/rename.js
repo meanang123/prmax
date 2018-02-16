@@ -23,12 +23,15 @@ dojo.declare("prmax.pressrelease.rename",
 
 		this._change_client_enabled = true;
 
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 	},
 	postCreate:function()
 	{
 
 		dojo.attr(this.client_label,"innerHTML", PRMAX.utils.settings.client_name );
 		dojo.attr(this.issue_label, "innerHTML", PRMAX.utils.settings.issue_description);
+		dojo.attr(this.distribution_label, "innerHTML", PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.rename_btn, "label", PRMAX.utils.settings.distribution_description);
 
 		this.clientid.set("store", this._clients);
 		this.clientid.set("value",-1);
@@ -39,6 +42,11 @@ dojo.declare("prmax.pressrelease.rename",
 			dojo.removeClass(this.issue_view,"prmaxhidden");
 
 		this.inherited(arguments);
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.distribution_label, "innerHTML", PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.rename_btn, "label", PRMAX.utils.settings.distribution_description);
 	},
 	_cancelRename:function()
 	{
@@ -94,6 +102,7 @@ dojo.declare("prmax.pressrelease.rename",
 	{
 		this._dialog = dialog;
 		this.rename_btn.cancel();
+		dojo.attr(this.rename_btn, 'label', 'Rename '+ PRMAX.utils.settings.distribution_description);
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({

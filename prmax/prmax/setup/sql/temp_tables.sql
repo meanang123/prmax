@@ -186,6 +186,7 @@ GRANT UPDATE ON TABLE userdata.activity_activityid_seq TO prmaxcontrol;
 INSERT INTO internal.activityobjecttypes VALUES (1, 'Engagement');
 INSERT INTO internal.activityobjecttypes VALUES (2, 'Clipping');
 INSERT INTO internal.activityobjecttypes VALUES (3, 'Issue');
+INSERT INTO internal.activityobjecttypes VALUES (4, 'Distribution');
 
 INSERT INTO internal.reportsource VALUES (15, 'Activity Log');
 
@@ -194,4 +195,11 @@ INSERT INTO internal.reporttemplates VALUES
 '<queries><query type="CUSTOM"></query></queries>',
 '', 15, 'ActivityLogReport');
 
+ALTER TABLE internal.customers ADD COLUMN distribution_description character varying(45) NOT NULL DEFAULT 'Distribution';
+UPDATE internal.customers SET distribution_description = 'Distribution';
 
+ALTER TABLE internal.customers ADD COLUMN distribution_description_plural character varying(45) NOT NULL DEFAULT 'Distributions';
+UPDATE internal.customers SET distribution_description_plural = 'Distributions';
+
+INSERT INTO internal.actiontypes VALUES (7, 'Send');
+INSERT INTO internal.actiontypes VALUES (8, 'Resend');

@@ -28,6 +28,8 @@ dojo.declare("prmax.email.wordtohtml",
 			this._ErrorCallBack = dojo.hitch(this,this._Error);
 
 			this._mswordqueueid = null;
+
+			dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 		},
 		Load:function (subject, documentname, emailtemplateid )
 		{
@@ -205,6 +207,17 @@ dojo.declare("prmax.email.wordtohtml",
 			{
 				this.subject.set("maxLength",255);
 			}
+
+			dojo.attr(this.subject_label, 'innerHTML', PRMAX.utils.settings.distribution_description + ' Title/Subject');
+			dojo.attr(this.uploadrelease_mgs, 'innerHTML',  'Please enter the Title of your ' + PRMAX.utils.settings.distribution_description + ' (which will become the Subject for the email as seen by Journalists).');
+			dojo.attr(this.doc_label, 'innerHTML', PRMAX.utils.settings.distribution_description + ' Document');
+
+		},
+		_UpdateDistributionLabelEvent:function()
+		{
+			dojo.attr(this.subject_label, 'innerHTML', PRMAX.utils.settings.distribution_description + ' Title/Subject');
+			dojo.attr(this.uploadrelease_mgs, 'innerHTML',  'Please enter the Title of your ' + PRMAX.utils.settings.distribution_description + ' (which will become the Subject for the email as seen by Journalists).');
+			dojo.attr(this.doc_label, 'innerHTML', PRMAX.utils.settings.distribution_description + ' Document');
 		}
 	}
 );

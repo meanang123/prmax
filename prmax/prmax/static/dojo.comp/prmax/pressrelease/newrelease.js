@@ -21,6 +21,7 @@ dojo.declare("prmax.pressrelease.newrelease",
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
 		this._issues = new dojox.data.JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
 		this._change_client_enabled=true;
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 	},
 	postCreate:function()
 	{
@@ -34,8 +35,16 @@ dojo.declare("prmax.pressrelease.newrelease",
 		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		dojo.attr(this.client_label_1, "innerHTML", PRMAX.utils.settings.client_name);
 
+		dojo.attr(this.distr_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.dlg, 'title', 'Enter ' + PRMAX.utils.settings.distribution_description + ' Name');
+
 		if (PRMAX.utils.settings.crm)
 			dojo.removeClass(this.issue_view,"prmaxhidden");
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.distr_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.dlg, 'title', 'Enter ' + PRMAX.utils.settings.distribution_description + ' Name');
 	},
 	_Cancel:function()
 	{

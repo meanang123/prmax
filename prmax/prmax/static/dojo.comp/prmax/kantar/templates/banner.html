@@ -24,7 +24,7 @@
 				<div dojoType="dijit.MenuItem" label="New Freelance" dojoAttachEvent="onClick:_Freelance" ></div>
 				<div dojoAttachPoint="tag_menu" class="prmaxhidden" dojoType="dijit.MenuItem" label="Tags" dojoAttachEvent="onClick:_Tags" ></div>
 				<div dojoType="dijit.MenuItem" label="Collateral" dojoAttachEvent="onClick:_Collateral" ></div>
-				<div dojoType="dijit.MenuItem" label="Distributions" dojoAttachEvent="onClick:_Distribute" ></div>
+				<div data-dojo-attach-point="distr_menuitem" data-dojo-type="dijit.MenuItem"  data-dojo-props='label:"Distributions"' data-dojo-attach-event="onClick:_Distribute" ></div>
 				<div data-dojo-attach-point="clients" data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Clients"' data-dojo-attach-event="onClick:_Clients" ></div>
 				<div dojoAttachPoint="project_menu" class="prmaxhidden"  dojoType="dijit.MenuItem" label="Projects" dojoAttachEvent="onClick:_Projects" ></div>
 			</div>

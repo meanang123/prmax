@@ -31,6 +31,7 @@ dojo.declare("prmax.customer.activity.viewer",
 		
 		this._Client_Added_Call_Back = dojo.hitch ( this, this._Client_Added_Call);
 		this._Client_Update_Call_Back = dojo.hitch ( this, this._Client_Update_Call);
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 
 	},
 	postCreate:function()
@@ -88,5 +89,8 @@ dojo.declare("prmax.customer.activity.viewer",
 		this.filter_objecttypes.set("value", null);
 		this.drange.set("value", null);
 	},	
-	
+	_UpdateDistributionLabelEvent:function()
+	{
+		this._objecttypes = new dojo.data.ItemFileReadStore ( { url:"/activity/objecttype_list"});
+	},
 });

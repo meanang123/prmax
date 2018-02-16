@@ -34,6 +34,7 @@ dojo.declare("prmax.display.CommonBanner",
 		dojo.subscribe(PRCOMMON.Events.Dialog_Close, dojo.hitch(this,this._DialogCloseEvent));
 		dojo.subscribe(PRCOMMON.Events.PressReleaseStart, dojo.hitch(this,this._StartPressEvent));
 		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 
 	},
 	postCreate:function()
@@ -96,6 +97,10 @@ dojo.declare("prmax.display.CommonBanner",
 		{
 			dojo.attr(this.engbtn, 'label', '<span><span class="main_menu_button"><i class="fa fa-user fa-2x"></i><p>'+PRMAX.utils.settings.crm_engagement_plural+'</p></span></span>');
 		}
+
+		dojo.attr(this.distribution_menu, 'label', '<span><span class="main_menu_button"><i class="fa fa-share-square-o fa-2x"></i><p>'+PRMAX.utils.settings.distribution_description_plural+'</p></span></span>');
+		dojo.attr(this.distr_menuitem.containerNode, 'innerHTML', PRMAX.utils.settings.distribution_description_plural);
+
 		this.inherited(arguments);
 	},
 	loadLinks:function()
@@ -479,6 +484,10 @@ dojo.declare("prmax.display.CommonBanner",
 	_UpdateEngagementLabelEvent:function()
 	{
 		dojo.attr(this.engbtn, 'label', '<span><span class="main_menu_button"><i class="fa fa-user fa-2x"></i><p>'+PRMAX.utils.settings.crm_engagement_plural+'</p></span></span>');
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.distribution_menu, 'label', '<span><span class="main_menu_button"><i class="fa fa-share-square-o fa-2x"></i><p>'+PRMAX.utils.settings.distribution_description_plural+'</p></span></span>');
 	},
 	ShowExistingPressRelease:function()
 	{

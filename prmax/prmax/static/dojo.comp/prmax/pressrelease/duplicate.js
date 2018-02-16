@@ -22,8 +22,15 @@ dojo.declare("prmax.pressrelease.Duplicate",
 	},
 	postCreate:function()
 	{
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 		dojo.connect(this.form,"onSubmit",dojo.hitch(this,this._SubmitAdd));
+		dojo.attr(this.distr_label, "innerHTML", "New " + PRMAX.utils.settings.distribution_description + " Name");
+
 		this.inherited(arguments);
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.distr_label, "innerHTML", "New " + PRMAX.utils.settings.distribution_description + " Name");
 	},
 	Load:function( dlg , tmp_emailtemplateid)
 	{

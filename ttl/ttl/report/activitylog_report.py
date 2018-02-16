@@ -144,7 +144,7 @@ class ActivityLogPDF(object):
 
 		col_width =self.document.width/10
 		self.col_widths1 = self.document.width
-		self.col_widths2 = (col_width*1.8,col_width*3.5,col_width*0.7,col_width*1.1,col_width*2.9)
+		self.col_widths2 = (col_width*1.8,col_width*3.4,col_width*0.8,col_width*1.1,col_width*2.9)
 		self.row_heights = None #When it is None it makes the calculation of height automatic
 
 	def write(self, filename):

@@ -21,6 +21,7 @@ dojo.require("prmax.pressrelease.attachments");
 dojo.require("prmax.pressrelease.seo.edit");
 
 dojo.require("prmax.pressrelease.distributiontemplate.template_add");
+dojo.require("prmax.pressrelease.removelistmembers");
 
 dojo.declare("prmax.pressrelease.sendrelease",
 	[ ttl.BaseWidget ],
@@ -51,6 +52,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 
 			this.select_menu = null;
 			this.selected_menu = null;
+			this.selected_listmembers = [];
 
 			this._modified = false;
 			this._releasesent = false ;
@@ -87,6 +89,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			this._emailsendtypes =  new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=emailsendtypes"});
 
 			dojo.subscribe(PRCOMMON.Events.Word_Html_Data, dojo.hitch(this,this._Word_Html_Data_Event));
+			dojo.subscribe("/distribution/listmembers_remove", dojo.hitch(this,this._Remove_Selected_ListMembers_Event));
+			dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 
 			this._Load_Page_Loaded_2 = false;
 		},
@@ -133,6 +137,67 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			this._show_add_footer_call_back = dojo.hitch(this, this._show_add_call, this.templatefooterid);
 			this._show_add_header_call_back = dojo.hitch(this, this._show_add_call, this.templateheaderid);
 
+			dojo.attr(this.usetemplates, 'label', 'Use ' + PRMAX.utils.settings.distribution_description + ' Templates');
+			dojo.attr(this.step1_label, 'innerHTML', 'Upload Your ' + PRMAX.utils.settings.distribution_description);
+			dojo.attr(this.step3_label, 'innerHTML', 'Modify ' + PRMAX.utils.settings.distribution_description + ' Lists');
+			dojo.attr(this.step4_label, 'innerHTML', 'Send ' + PRMAX.utils.settings.distribution_description);
+			dojo.attr(this.sendemail_label, 'innerHTML', 'Send Email ' + PRMAX.utils.settings.distribution_description);
+			dojo.attr(this.sendpreview_distrtext, 'innerHTML', 'In the top box enter the email address you wish this '
+				+ PRMAX.utils.settings.distribution_description.toLowerCase()
+				+ ' to come from.<br/>In the bottom box enter an email address if you wish to send yourself or someone else a preview proof copy of this ' 
+				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
+			dojo.attr(this.sendpreview_distrtext2, 'innerHTML', 'Enter an email address here if you wish to send yourself or someone else a preview proof copy of this ' 
+				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
+
+			dojo.attr(this.step5_mgs, 'innerHTML', 'You have successfully distributed your ' + PRMAX.utils.settings.distribution_description.toLowerCase());
+			dojo.attr(this.hasseopressrelease, 'label', '<p class="stepdetails">Publish SEO ' + PRMAX.utils.settings.distribution_description + '</p>');
+			dojo.attr(this.seo_not_avaliable.domNode, 'innerHTML', '<p><b>Why add an SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() + '?</b></p>'
+				+'<p>You have an interesting story, you have written a great ' + PRMAX.utils.settings.distribution_description + ' and you have targeted all the right media!</p>'
+				+'<p>But how do you reach a wider audience? How do you get your story to appear on the major News Websites and key search engines such as Google, Yahoo and Bing?</p>'
+				+'<p>How do you attain the absolute maximum number of opportunities for Journalists, News Organisations and News Consumers to see your story?</p>'
+				+'<p><b>SEO is the answer!</b></p>'
+				+'<p>SEO ' + PRMAX.utils.settings.distribution_description_plural.toLowerCase() + ' are just like a standard ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+' but optimised for the web with the addition of Keyword Tags and published in a specific way to achieve the greatest possible visibility in the Search Engines.</p>'
+				+'<p>If you are sending out a ' + PRMAX.utils.settings.distribution_description.toLowerCase() + ', it makes sense to get the most out of it. Add the SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+' and instantly enhance your story’s potential audience, your search engine rankings and brand visibility in a single stroke.</p>'
+				+'<p>In typical <b>PRmax</b> style you can add videos and images to your ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+' at no extra cost, your ' + PRMAX.utils.settings.distribution_description
+				+' will immediately be published on PRnewslink, the Journalist and Newsroom specific online wire service and will start hitting all the major Search Engines in minutes.</p>'
+				+'<p>But most importantly and again, in typical PRmax style, SEO ' + PRMAX.utils.settings.distribution_description_plural + ' are Free.</p>'
+				+'<p>To starting using the PRmax SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() + " service tick the box next to 'Publish SEO " + PRMAX.utils.settings.distribution_description + "' above.</p>"
+			);
+		},
+		_UpdateDistributionLabelEvent:function()
+		{
+			dojo.attr(this.usetemplates, 'label', 'Use ' + PRMAX.utils.settings.distribution_description + ' Templates');
+			dojo.attr(this.step1_label, 'innerHTML', 'Upload Your ' + PRMAX.utils.settings.distribution_description);
+			dojo.attr(this.step3_label, 'innerHTML', 'Modify ' + PRMAX.utils.settings.distribution_description + ' Lists');
+			dojo.attr(this.step4_label, 'innerHTML', 'Send ' + PRMAX.utils.settings.distribution_description);
+			dojo.attr(this.sendemail_label, 'innerHTML', 'Send Email ' + PRMAX.utils.settings.distribution_description);
+			dojo.attr(this.sendpreview_distrtext, 'innerHTML', 'In the top box enter the email address you wish this '
+				+ PRMAX.utils.settings.distribution_description.toLowerCase()
+				+ ' to come from.<br/>In the bottom box enter an email address if you wish to send yourself or someone else a preview proof copy of this '
+				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
+			dojo.attr(this.sendpreview_distrtext2, 'innerHTML', 'Enter an email address here if you wish to send yourself or someone else a preview proof copy of this ' 
+				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
+
+			dojo.attr(this.step5_mgs, 'innerHTML', 'You have successfully distributed your ' + PRMAX.utils.settings.distribution_description.toLowerCase());
+			dojo.attr(this.hasseopressrelease, 'label', '<p class="stepdetails">Publish SEO ' + PRMAX.utils.settings.distribution_description + '</p>');
+			dojo.attr(this.seo_not_avaliable.domNode, 'innerHTML', '<p><b>Why add an SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() + '?</b></p>'
+				+'<p>You have an interesting story, you have written a great ' + PRMAX.utils.settings.distribution_description + ' and you have targeted all the right media!</p>'
+				+'<p>But how do you reach a wider audience? How do you get your story to appear on the major News Websites and key search engines such as Google, Yahoo and Bing?</p>'
+				+'<p>How do you attain the absolute maximum number of opportunities for Journalists, News Organisations and News Consumers to see your story?</p>'
+				+'<p><b>SEO is the answer!</b></p>'
+				+'<p>SEO ' + PRMAX.utils.settings.distribution_description_plural.toLowerCase() + ' are just like a standard ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+' but optimised for the web with the addition of Keyword Tags and published in a specific way to achieve the greatest possible visibility in the Search Engines.</p>'
+				+'<p>If you are sending out a ' + PRMAX.utils.settings.distribution_description.toLowerCase() + ', it makes sense to get the most out of it. Add the SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+' and instantly enhance your story’s potential audience, your search engine rankings and brand visibility in a single stroke.</p>'
+				+'<p>In typical <b>PRmax</b> style you can add videos and images to your ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+' at no extra cost, your ' + PRMAX.utils.settings.distribution_description
+				+' will immediately be published on PRnewslink, the Journalist and Newsroom specific online wire service and will start hitting all the major Search Engines in minutes.</p>'
+				+'<p>But most importantly and again, in typical PRmax style, SEO ' + PRMAX.utils.settings.distribution_description_plural + ' are Free.</p>'
+				+'<p>To starting using the PRmax SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() + " service tick the box next to 'Publish SEO " + PRMAX.utils.settings.distribution_description + "' above.</p>"
+			);
 		},
 		_OnStyleRow:function (inRow )
 		{
@@ -161,11 +226,38 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		},
 		_OnCellClickListItems:function( e )
 		{
-			if ( e.cellIndex == 1 )
+			if (e.cellIndex == 0)
+			{
+				this._deleteRow = this.listitemsgrid.getItem(e.rowIndex);
+				var selected = !this._deleteRow.i.selected;
+				this.list_model.setValue(this._deleteRow, "selected", !this._deleteRow.i.selected, true);
+
+				if (this._deleteRow.i.selected == true)
+				{
+					this.selected_listmembers.push(this._deleteRow);
+				}
+				else
+				{
+					var index = this.selected_listmembers.indexOf(this._deleteRow);
+					if (index > -1)
+					{
+						this.selected_listmembers.splice(index, 1);
+					}
+				}
+				if (this.selected_listmembers.length > 0)
+				{
+					dojo.removeClass(this.removeselectedbtn.domNode, "prmaxhidden");
+				}
+				else
+				{
+					dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
+				}
+			}
+			else if ( e.cellIndex == 1 )
 			{
 				this._deleteRow = this.listitemsgrid.getItem(e.rowIndex);
 
-				if ( confirm ("Remove from Distribution?"))
+				if ( confirm ("Remove from " + PRMAX.utils.settings.distribution_description + "?"))
 				{
 					dojo.xhrPost(
 						ttl.utilities.makeParams(
@@ -181,7 +273,6 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				var row = this.listitemsgrid.getItem(e.rowIndex);
 				this._Show_Outlet_Details ( row.i.outletid );
 			}
-
 		},
 		_Delete_Member_Call:function ( response )
 		{
@@ -189,7 +280,6 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			{
 				this.list_model.deleteItem ( this._deleteRow ) ;
 				this._Show_Outlet_Details ( );
-
 			}
 		},
 		_Show_Outlet_Details:function ( outletid )
@@ -341,7 +431,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		},
 		view_members:{noscroll: false,
 			cells: [[
-				{name: ' ',width: "13px",styles: 'text-align: center;', width: "20px",formatter:ttl.utilities.formatRowCtrl},
+				{name: ' ',width: "13px",styles: 'text-align: center;',field:'selected', formatter:ttl.utilities.formatButtonCell},
 				{name: ' ',width: "13px",styles: 'text-align: center;', width: "20px",formatter:ttl.utilities.deleteRowCtrl},
 				{name: ' ',width: "6px",styles: 'text-align: center;', width: "6px",field:'prmax_outletgroupid',formatter:ttl.utilities.outletType},//type: dojox.grid.cells.Bool},
 				{name: 'Outlet',width: "250px",field:'outletname'},
@@ -383,6 +473,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 					this.selectgrid.setQuery( ttl.utilities.getPreventCache({emailtemplateid:this.emailtemplateid}));
 					this.selectedgrid.setQuery( ttl.utilities.getPreventCache({emailtemplateid:this.emailtemplateid}));
 					this.listitemsgrid.setQuery( ttl.utilities.getPreventCache({}));
+					this.selected_listmembers = [];
+					dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
 
 					this.attachments.Load(this.emailtemplateid);
 					// Load
@@ -538,7 +630,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 
 				if ( this._releasesent == true )
 				{
-					alert("Release Already Sent");
+					alert(PRMAX.utils.settings.distribution_description + " Already Sent");
 					return;
 				}
 
@@ -785,7 +877,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				var emailtemplatecontent = this.emailtemplatecontent.get("value");
 
 				if ( subject.length == 0 ) {
-					alert ("No Release Title/Subject Specified");
+					alert ("No " + PRMAX.utils.settings.distribution_description + " Title/Subject Specified");
 					return false;
 				}
 
@@ -794,7 +886,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 
 				if (emailtemplatecontent.length == 0 )
 				{
-					alert("No Release Details Specfied");
+					alert("No " + PRMAX.utils.settings.distribution_description + " Details Specfied");
 					this.emailtemplatecontent.focus();
 					return false;
 				}
@@ -880,6 +972,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				else
 				{
 					this.listitemsgrid.setQuery( ttl.utilities.getPreventCache({listid:this.listid}));
+					this.selected_listmembers = [];
+					dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
 					this.expo_pane.selectChild(this.modify_lists_view);
 					this.step_3_next_btn.cancel();
 				}
@@ -890,6 +984,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			if ( response.success == "OK" )
 			{
 				this.listitemsgrid.setQuery( ttl.utilities.getPreventCache({listid:this.listid}));
+				this.selected_listmembers = [];
+				dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
 				this.expo_pane.selectChild(this.modify_lists_view);
 				this.step_3_next_btn.cancel();
 				this._SelectFirstEntry();
@@ -934,6 +1030,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				this.listid = response.listid;
 				this._modified = false;
 				this.listitemsgrid.setQuery( ttl.utilities.getPreventCache({listid:this.listid}));
+				this.selected_listmembers = [];
+				dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
 				this.expo_pane.selectChild(this.modify_lists_view);
 				this._SelectFirstEntry();
 			}
@@ -949,6 +1047,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			{
 				this._modified = false;
 				this.listitemsgrid.setQuery( ttl.utilities.getPreventCache({listid:this.listid}));
+				this.selected_listmembers = [];
+				dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
 				this.expo_pane.selectChild(this.modify_lists_view);
 			}
 			else
@@ -1028,7 +1128,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				}
 				if ( response.data.nbr > 1500 )
 				{
-					alert("To avoid being seen as spam each Distribution is limited to less than 1500 contacts");
+					alert("To avoid being seen as spam each " + PRMAX.utils.settings.distribution_description + " is limited to less than 1500 contacts");
 					return;
 				}
 				dojo.attr(this.nbrtobesent,"innerHTML", response.data.nbr);
@@ -1077,7 +1177,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		},
 		_ClearRelease:function()
 		{
-			if ( confirm("Clear release Details"))
+			if ( confirm("Clear " + PRMAX.utils.settings.distribution_description +" Details?"))
 			{
 				this.emailtemplatecontent.set("value", "");
 			}
@@ -1085,9 +1185,9 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		_Updated2:function(response)
 		{
 			if ( response.success=="OK")
-				alert("Release Updated");
+				alert(PRMAX.utils.settings.distribution_description +" Updated");
 			else
-				alert("Problem Updating Release");
+				alert("Problem Updating " + PRMAX.utils.settings.distribution_description);
 		},
 		_SaveChanges:function()
 		{
@@ -1212,6 +1312,29 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			dojo.style(this.template_selection_view.domNode, 'height','40px');
 		}
 		this.left_zone.resize();
+	},
+	_remove_selected_listmembers:function()
+	{
+		this.remove_listmembers_ctrl.clear();
+		this.remove_listmembers_ctrl.load(this.remove_listmembers_dlg, this.selected_listmembers, this.listid);
+
+		this.remove_listmembers_dlg.show();
+	},
+	_Remove_Selected_ListMembers_Event:function(option)
+	{
+		if (option == 0 || option == '0')
+		{
+			for (var i=0; i<this.selected_listmembers.length; i++)
+			{
+				this.list_model.deleteItem( this.selected_listmembers[i] );
+			}
+		}
+		else
+		{
+			this.listitemsgrid.setQuery( ttl.utilities.getPreventCache({listid:this.listid}));
+		}
+		this.selected_listmembers = [];
+		dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
 	}
 });
 

@@ -191,6 +191,8 @@ class InvoicePDF(object):
 		self._custvatno = page_header.get("vatnumber","")
 		self._purchase_order = page_header.get("purchase_order","")
 		self._show_bank = page_header.get("show_bank",False)
+		self._distribution_label = page_header.get("distribution_description")
+		self._distribution_label_plural = page_header.get("distribution_description_plural")
 
 		self.report=cStringIO.StringIO()
 
@@ -286,7 +288,7 @@ class InvoicePDF(object):
 				if "updatumcost" in self.page_header:
 					data.append ( (Paragraph("Monitoring",DETAILS_RIGHT),Paragraph(self.page_header["updatumcost"],DETAILS_RIGHT),))
 				if "seocost" in  self.page_header:
-					data.append ( (Paragraph("SEO Press Release",DETAILS_RIGHT),Paragraph(self.page_header["seocost"],DETAILS_RIGHT),))
+					data.append ( (Paragraph("SEO %s" %self._distribution_label,DETAILS_RIGHT),Paragraph(self.page_header["seocost"],DETAILS_RIGHT),))
 				if "intcost" in  self.page_header:
 					data.append ( (Paragraph("International",DETAILS_RIGHT),Paragraph(self.page_header["intcost"],DETAILS_RIGHT),))
 				if "clippingscost" in  self.page_header:
@@ -347,7 +349,7 @@ class InvoicePDF(object):
 		self.objects.append(NextPageTemplate('SEOInvoicePDFTemplate'))
 		self.objects.append(PageBreak())
 		self._do_common_header()
-		self.append(Paragraph("SEO Press Release Breakdown",HEADING_STYLE2))
+		self.append(Paragraph("SEO %s Breakdown" %self._distribution_label,HEADING_STYLE2))
 		self.append ( Spacer(10,10))
 
 	def _do_seo_lines(self):

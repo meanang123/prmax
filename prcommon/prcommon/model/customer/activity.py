@@ -24,6 +24,8 @@ class Activity(BaseSql):
 	ListData = """SELECT a.activityid, a.description, to_char(a.activitydate, 'DD/MM/YYYY HH24:MI:SS') as activitydate, u.user_name, at.actiontypedescription,
 	CASE
 		WHEN (a.objecttypeid = 1) THEN (SELECT crm_engagement FROM internal.customers where customerid = :customerid)
+		WHEN (a.objecttypeid = 3) THEN (SELECT issue_description FROM tg_user where user_id = :user_id)
+		WHEN (a.objecttypeid = 4) THEN (SELECT distribution_description FROM internal.customers where customerid = :customerid)
 	    ELSE (SELECT aot.activityobjecttypedescription FROM internal.activityobjecttypes as aot where a.objecttypeid = aot.activityobjecttypeid)
 	END as type
 	FROM userdata.activity AS a
@@ -35,6 +37,8 @@ class Activity(BaseSql):
 	ListData_ObjectTypes = """SELECT aot.activityobjecttypeid AS id,
 	CASE
 		WHEN (aot.activityobjecttypeid = 1) THEN (SELECT crm_engagement FROM internal.customers AS c WHERE c.customerid = :customerid)
+		WHEN (aot.activityobjecttypeid = 3) THEN (SELECT issue_description FROM tg_user AS u WHERE u.user_id = :user_id)
+		WHEN (aot.activityobjecttypeid = 4) THEN (SELECT distribution_description FROM internal.customers AS c WHERE c.customerid = :customerid)
 	    ELSE (aot.activityobjecttypedescription )
 	END AS name
 	FROM internal.activityobjecttypes AS aot"""

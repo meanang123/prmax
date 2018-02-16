@@ -12,6 +12,8 @@ dojo.declare("prmax.display.startup.plugins.distribution",
 	{
 		this._liststore = new dojox.data.JsonRestStore( {target:"/emails/rest_distributions", idAttribute:"emailtemplateid"});
 		this._client = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"clientid"});
+
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 	},
 	view: {
 		cells: [[
@@ -32,9 +34,15 @@ dojo.declare("prmax.display.startup.plugins.distribution",
 
 		this.clientid.set("value", -1);
 
+		dojo.attr(this.portlet, 'title', PRMAX.utils.settings.distribution_description_plural);
+
 		this.borderCtrl.resize( {w:400, h:this.height});
 
 		this.inherited(arguments);
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.portlet, 'title', PRMAX.utils.settings.distribution_description_plural);
 	},
 	startup:function()
 	{

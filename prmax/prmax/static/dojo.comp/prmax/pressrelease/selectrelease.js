@@ -23,12 +23,22 @@ dojo.declare("prmax.pressrelease.selectrelease",
 			clearOnClose:true,
 			urlPreventCache:true
 		});
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 	},
 	postCreate:function()
 	{
 		this.template.store = this.model;
+		dojo.attr(this.distrbtn, 'label', 'New ' + PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.distr_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.dlg, 'title', 'Select ' + PRMAX.utils.settings.distribution_description);
 
 		this.inherited(arguments);
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.distrbtn, 'label', 'New ' + PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.distr_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.dlg, 'title', 'Select ' + PRMAX.utils.settings.distribution_description);
 	},
 	_Cancel:function()
 	{

@@ -200,8 +200,10 @@ class StatisticsPDF(object):
 		self._results_clip_reactive_total_current = results['clip_reactive_total_current']
 		self._results_clip_reactive_total_last = results['clip_reactive_total_last']
 		self._display_date = results['display_date']
-		self._engagement_label = results['engagement_label'][0]['crm_engagement']
-		self._engagement_label_plural = results['engagement_label'][0]['crm_engagement_plural']
+		self._engagement_label = results['labels'][0]['crm_engagement']
+		self._engagement_label_plural = results['labels'][0]['crm_engagement_plural']
+		self._distribution_label = results['labels'][0]['distribution_description']
+		self._distribution_label_plural = results['labels'][0]['distribution_description_plural']
 
 		col_width =self.document.width/10
 		self.col_widths_dates = (col_width*2.5,col_width*4,col_width*2.5)
@@ -239,7 +241,7 @@ class StatisticsPDF(object):
 
 		header1_line1 = [((Paragraph("<b>Departments</b>", DATA_STYLE_CENTER),),\
 		                  (Paragraph("<b>Number of press %s</b>" %self._engagement_label_plural, DATA_STYLE_CENTER),),\
-		                  (Paragraph("<b>Number of releases & statements issued</b>", DATA_STYLE_CENTER),),\
+		                  (Paragraph("<b>Number of %s & statements issued</b>" %self._distribution_label.lower(), DATA_STYLE_CENTER),),\
 		                  (Paragraph("<b>Total number used</b>", DATA_STYLE_CENTER),),\
 		                  (Paragraph("<b>%used</b>", DATA_STYLE_CENTER)))]
 		self.append(Table(header1_line1,self.col_widths,self.row_heights,TABLE_HEADER,repeatRows=1))
@@ -269,12 +271,12 @@ class StatisticsPDF(object):
 		                  (Paragraph(str(self._results_eng_total_current[0]['count']), DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_eng_total_current[0]['count'] - self._results_eng_total_last[0]['count']), DATA_STYLE_CENTER)))]
 		self.append(Table(header2_line2,self.col_widths3,self.row_heights,TABLE_HEADER,repeatRows=1))
-		header2_line3 = [((Paragraph("<b>Total No Releases/Statements issued</b>", DATA_STYLE_CENTER),),\
+		header2_line3 = [((Paragraph("<b>Total No %s/Statements issued</b>" %self._distribution_label_plural, DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_stat_total_last[0]['count']+self._results_rel_total_last[0]['count']), DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_stat_total_current[0]['count']+self._results_rel_total_current[0]['count']), DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_stat_total_current[0]['count']+self._results_rel_total_current[0]['count'] - self._results_stat_total_last[0]['count'] - self._results_rel_total_last[0]['count']), DATA_STYLE_CENTER)))]
 		self.append(Table(header2_line3,self.col_widths3,self.row_heights,TABLE_HEADER,repeatRows=1))
-		header2_line4 = [((Paragraph("<b>Total No Releases/Statements used</b>", DATA_STYLE_CENTER),),\
+		header2_line4 = [((Paragraph("<b>Total No %s/Statements used</b>" %self._distribution_label_plural, DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_clip_proactive_total_last[0]['count']+self._results_clip_reactive_total_last[0]['count']), DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_clip_proactive_total_current[0]['count']+self._results_clip_reactive_total_current[0]['count']), DATA_STYLE_CENTER),),\
 		                  (Paragraph(str(self._results_clip_proactive_total_current[0]['count']+self._results_clip_reactive_total_current[0]['count'] - self._results_clip_proactive_total_last[0]['count'] - self._results_clip_reactive_total_last[0]['count']), DATA_STYLE_CENTER)))]
@@ -420,7 +422,7 @@ class StatisticsExcel(object):
 
 		self._row = 0
 		header_dates = ""
-		header1_relations = ["Departments","Number of Press %s" %self._results['engagement_label'][0]['crm_engagement_plural']]#, "Number of releases & statements issued", "Total number used", "% used"]
+		header1_relations = ["Departments","Number of Press %s" %self._results['labels'][0]['crm_engagement_plural']]#, "Number of releases & statements issued", "Total number used", "% used"]
 		header2_relations = ["","", "Proactive", "Reactive", "Proactive", "Reactive", "Proactive", "Reactive"]
 		header1_totals = ["Media Totals", "Previous Year", "Current Year", "Variance"]
 		
@@ -443,7 +445,7 @@ class StatisticsExcel(object):
 
 		self._get_headers(header1_relations, merge_format)
 
-		self._sheet.merge_range('C3:D3', 'Number of releases & statements issued', merge_format)
+		self._sheet.merge_range('C3:D3', 'Number of %s & statements issued' %self._results['labels'][0]['distribution_description_plural'].lower(), merge_format)
 		self._sheet.merge_range('E3:F3', 'Total number used', merge_format)
 		self._sheet.merge_range('G3:H3', '% used', merge_format)
 
@@ -462,21 +464,21 @@ class StatisticsExcel(object):
 		wb.close()	
 
 	def _print_eng_totals(self):
-		self._sheet.write(self._row, 0, 'Total No Press %s' %self._results['engagement_label'][0]['crm_engagement_plural'])
+		self._sheet.write(self._row, 0, 'Total No Press %s' %self._results['labels'][0]['crm_engagement_plural'])
 		self._sheet.write(self._row, 1, self._results['eng_total_last'][0]['count'])
 		self._sheet.write(self._row, 2, self._results['eng_total_current'][0]['count'])
 		self._sheet.write(self._row, 3, self._results['eng_total_current'][0]['count'] - self._results['eng_total_last'][0]['count'])
 		self._row += 1
 		
 	def _print_issued_totals(self):
-		self._sheet.write(self._row, 0, 'Total No Releases/Statements Issued')
+		self._sheet.write(self._row, 0, 'Total No %s/Statements Issued' %self._results['labels'][0]['distribution_description_plural'])
 		self._sheet.write(self._row, 1, self._results['stat_total_last'][0]['count'] + self._results['rel_total_last'][0]['count'])
 		self._sheet.write(self._row, 2, self._results['stat_total_current'][0]['count'] + self._results['rel_total_current'][0]['count'])
 		self._sheet.write(self._row, 3, self._results['stat_total_current'][0]['count'] + self._results['rel_total_current'][0]['count'] - self._results['stat_total_last'][0]['count'] - self._results['rel_total_last'][0]['count'])
 		self._row += 1
 		
 	def _print_used_totals(self):
-		self._sheet.write(self._row, 0, 'Total No Releases/Statements Used')
+		self._sheet.write(self._row, 0, 'Total No %s/Statements Used' %self._results['labels'][0]['distribution_description_plural'])
 		self._sheet.write(self._row, 1, self._results['clip_proactive_total_last'][0]['count'] + self._results['clip_reactive_total_last'][0]['count'])
 		self._sheet.write(self._row, 2, self._results['clip_proactive_total_current'][0]['count'] + self._results['clip_reactive_total_current'][0]['count'])
 		self._sheet.write(self._row, 3, self._results['clip_proactive_total_current'][0]['count'] + self._results['clip_reactive_total_current'][0]['count'] - self._results['clip_proactive_total_last'][0]['count'] - self._results['clip_reactive_total_last'][0]['count'])

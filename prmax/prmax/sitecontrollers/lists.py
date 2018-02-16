@@ -75,6 +75,11 @@ class ListMemberSchema(PrFormSchema):
 	""" """
 	listmemberid = validators.Int()
 
+class ListSelectedSchema(PrFormSchema):
+	""" Selected list members sechema"""
+	listid = validators.Int()
+	selected_listmemberids = tgvalidators.JSONValidatorListInt()
+
 
 #########################################################
 ## controlllers
@@ -359,6 +364,15 @@ class ListController(SecureController):
 		return dict ( success="OK" , data = ListMembers.delete ( params ) )
 
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ListSelectedSchema(), state_factory=std_state_factory)
+	def list_member_delete_selected(self, *argv, **params):
+		""" Delete all selected members from the list """
+
+		ListMembers.delete_selected(params)
+		return stdreturn()
 
 
 

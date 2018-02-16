@@ -25,17 +25,17 @@ dojo.declare("prcommon.crm.responses.resend",
 		this._StatementCallBack = dojo.hitch(this, this._StatementCall);
 		this._UpdateStatementCallBack = dojo.hitch(this, this._UpdateStatementCall);
 		this._EmailTemplateCallBack = dojo.hitch(this, this._EmailTemplateCall);
-	
+
 		this._customerid = PRMAX.utils.settings.cid;
 		this.userccaddresses = PRMAX.utils.settings.ccaddresses;
 		this._customeremailserver =  new prcommon.data.QueryWriteStore({ url:"/common/lookups?searchtype=customeremailserver"});
 		dojo.subscribe('/statement/add',  dojo.hitch(this, this._AddStatementEvent));
 		dojo.subscribe('/usersettings/ccaddresses', dojo.hitch(this,this._get_ccaddresses_event));
 		dojo.subscribe('customeremailserver/add', dojo.hitch(this, this._add_customeremailserver_event));
+		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
 
 		this._statements = new dojox.data.JsonRestStore( {target:"/statement/statement_combo_rest", idAttribute:"id"});
 		this._emailtemplates = new dojox.data.JsonRestStore( {target:"/emails/templates_list_rest", idAttribute:"id"});
-		
 	},
 	postCreate:function()
 	{
@@ -43,8 +43,15 @@ dojo.declare("prcommon.crm.responses.resend",
 		this.statementid.set("store", this._statements);		
 		this.emailtemplateid.set("store", this._emailtemplates);
 		this.statementid.set("value", -1);
+		dojo.attr(this.distr_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.emailtemplate_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
 
 		this.inherited(arguments);		
+	},
+	_UpdateDistributionLabelEvent:function()
+	{
+		dojo.attr(this.distr_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
+		dojo.attr(this.emailtemplate_label, 'innerHTML', PRMAX.utils.settings.distribution_description);
 	},
 	_resend:function()
 	{

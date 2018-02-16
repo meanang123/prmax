@@ -361,7 +361,7 @@ class ClippingsGeneral(object):
 
 	@staticmethod
 	def delete_user_selection(params):
-		"""add clipping to user clipping selection"""
+		"""delete clipping from user clipping selection"""
 
 		transaction = BaseSql.sa_get_active_transaction()
 

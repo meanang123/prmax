@@ -147,8 +147,8 @@ class QuestionnaireBuilder ( object ) :
 					pcname = ProductionCompany.query.get(outletprofile.productioncompanyid).productioncompanyname
 				if outlet.frequencyid:
 					frequencyname = Frequencies.query.get(outlet.frequencyid).frequencyname
-				if outlet.frequencyid:
-					pricename = OutletPrices.query.get(outlet.frequencyid).outletpricedescription
+				if outlet.outletpriceid:
+					pricename = OutletPrices.query.get(outlet.outletpriceid).outletpricedescription
 				if outlet.publisherid:
 					publishername = Publisher.query.get(outlet.publisherid).publishername
 

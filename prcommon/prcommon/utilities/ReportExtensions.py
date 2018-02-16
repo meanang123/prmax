@@ -289,7 +289,8 @@ class InvoiceReport(ReportCommon):
 		params = dict(customerid = self._reportoptions['customerid'])
 		self.comm.execute( """SELECT customerid, contactname, contactjobtitle, customername, a.address1, a.address2, a.townname, a.county, a.postcode,
 		pc.cost, pc.vat,pc.total,logins, t.termname,c.countryid, co.countryname, vc.rate, c.vatnumber, c.purchase_order,
-		pc.advancecost, pc.advancevat, pc.advancetotal, pc.crmcost, pc.crmvat, pc.crmtotal, c.advancefeatures , c.crm,c.is_bundle,c.has_bundled_invoice
+		pc.advancecost, pc.advancevat, pc.advancetotal, pc.crmcost, pc.crmvat, pc.crmtotal, c.advancefeatures , c.crm,c.is_bundle,c.has_bundled_invoice,
+		c.distribution_description, c.distribution_description_plural
 
 		FROM internal.customers as c
 		JOIN addresses as a ON a.addressid = c.addressid
@@ -345,6 +346,8 @@ class InvoiceReport(ReportCommon):
 		purchase_order = self._reportoptions.get("purchase_order", details[18])
 
 		params = dict ( accnbr = str(details[0]),
+				        distribution_description = details[29],
+				        distribution_description_plural = details[30],
 						invoicedate = invoicedate,
 						nameaddress = address,
 						licencedetails = licencedetails,

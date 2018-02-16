@@ -1126,9 +1126,6 @@ class Outlet(BaseSql):
 			                )
 			session.add ( activity )
 
-			# change outletid
-			ResearchDetails.set_research_modified(employee.outletid)#matoyla
-
 			employee.sourcetypeid = Constants.Research_Source_Prmax
 			employee.sourcekey = employee.employeeid
 			employee.outletid = params["outletid"]

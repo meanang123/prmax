@@ -165,7 +165,7 @@ class ActivityPDF(object):
 
 			self.parent.logo_and_header(canvas, doc)
 
-	def __init__(self, page_header, engagement_label, rows_eng, total_eng, completed_eng,inprogress_eng, rows_clip, total_clip, rows_rel, total_rel):
+	def __init__(self, page_header, labels, rows_eng, total_eng, completed_eng,inprogress_eng, rows_clip, total_clip, rows_rel, total_rel):
 		"""
 		"""
 		self.report = cStringIO.StringIO()
@@ -187,8 +187,10 @@ class ActivityPDF(object):
 		self.objects = []
 		self.page_count = 1
 		self.total_page_count = 0
-		self._engagement_label = engagement_label[0]['crm_engagement']
-		self._engagement_label_plural = engagement_label[0]['crm_engagement_plural']
+		self._engagement_label = labels[0]['crm_engagement']
+		self._engagement_label_plural = labels[0]['crm_engagement_plural']
+		self._distribution_label = labels[0]['distribution_description']
+		self._distribution_label_plural = labels[0]['distribution_description_plural']
 		self._rows_eng = rows_eng
 		self._total_eng = total_eng
 		self._completed_eng = completed_eng
@@ -249,8 +251,8 @@ class ActivityPDF(object):
 			self.append(Paragraph("&nbsp;", FOOTER))
 
 		self.append(Spacer(10, 20))
-		headerrel_line1 = [((Paragraph("<b>Releases</b>", HEADING_STYLE_LEFT),),(''),(''))]
-		headerrel_line2 = [((''),(Paragraph("<b>" + str(self._total_rel[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp Releases</b>", DATA_STYLE_RIGHT)))]
+		headerrel_line1 = [((Paragraph("<b>%s</b>" %self._distribution_label_plural, HEADING_STYLE_LEFT),),(''),(''))]
+		headerrel_line2 = [((''),(Paragraph("<b>" + str(self._total_rel[0][0]) + "</b>", DATA_STYLE_RIGHT),),(Paragraph("<b>&nbsp %s</b>" %self._distribution_label_plural, DATA_STYLE_RIGHT)))]
 		self.append(Table(headerrel_line1,self.col_widths,self.row_heights,TABLE_HEADER,repeatRows=1))
 		self.append(Table(headerrel_line2,self.col_widths,self.row_heights,TABLE_HEADER,repeatRows=1))
 		self.append(Spacer(10, 20))			
