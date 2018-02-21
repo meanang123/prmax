@@ -119,6 +119,17 @@ class IssueController(SecureController):
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
 	@validate(validators=IssueIdSchema(), state_factory=std_state_factory)
+	def delete(self, *args, **params):
+		""" archive issue """
+
+		IssuesGeneral.delete(params)
+
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=IssueIdSchema(), state_factory=std_state_factory)
 	def unarchive(self, *args, **params):
 		""" archive issue """
 

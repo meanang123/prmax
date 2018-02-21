@@ -203,3 +203,8 @@ UPDATE internal.customers SET distribution_description_plural = 'Distributions';
 
 INSERT INTO internal.actiontypes VALUES (7, 'Send');
 INSERT INTO internal.actiontypes VALUES (8, 'Resend');
+
+
+ALTER TABLE userdata.collateral ADD COLUMN automated_source boolean NOT NULL DEFAULT false;
+UPDATE userdata.collateral SET automated_source = true WHERE SUBSTRING(collateralname,1,1) IN ('0','1','2','3','4','5','6','7','8','9' ) ;
+

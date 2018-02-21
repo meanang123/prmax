@@ -99,7 +99,8 @@ dojo.declare("prmax.display.CommonBanner",
 		}
 
 		dojo.attr(this.distribution_menu, 'label', '<span><span class="main_menu_button"><i class="fa fa-share-square-o fa-2x"></i><p>'+PRMAX.utils.settings.distribution_description_plural+'</p></span></span>');
-		dojo.attr(this.distr_menuitem.containerNode, 'innerHTML', PRMAX.utils.settings.distribution_description_plural);
+		if (this.distr_menuitem != undefined)
+			dojo.attr(this.distr_menuitem.containerNode, 'innerHTML', PRMAX.utils.settings.distribution_description_plural);
 
 		this.inherited(arguments);
 	},
@@ -808,5 +809,5 @@ dojo.declare("prmax.display.CommonBanner",
 			this.mainpanel.showPage(page);
 		}
 	},
-	
+
 });

@@ -6,6 +6,19 @@
 				<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop", style:"float:left:height:94%;width:400px"' >
 					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_AddCollateral" data-dojo-attach-point="addbutton" data-dojo-props='label:"New Collateral", iconClass:"fa fa-plus fa-3x",showLabel:false'></div>
 					<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="deletebutton" data-dojo-attach-event="onClick:_delete"  data-dojo-props='label:"Delete Collateral", iconClass:"fa fa-trash fa-3x",showLabel:false'></div>
+					<div data-dojo-type="dijit.form.DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter",showLabel:false'>
+						<div data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Filter By"' data-dojo-attach-event="execute:_filter">
+							<br/>
+							<table>
+								<tr><td><label>Ignore Automatically Loaded</label></td><td><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="ignore_automated" data-dojo-props='type:"checkbox",name:"ignore_automated",checked:false,value:"1"' ></td></tr>
+								<tr><td><br/></td></tr>
+								<tr>
+									<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",iconClass:"fa fa-eraser fa-2x"' >Clear Filter by</button></td>
+									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit",iconClass:"fa fa-filter fa-2x"'>Filter by</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

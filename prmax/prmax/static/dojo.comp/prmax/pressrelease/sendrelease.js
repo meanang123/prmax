@@ -144,9 +144,9 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			dojo.attr(this.sendemail_label, 'innerHTML', 'Send Email ' + PRMAX.utils.settings.distribution_description);
 			dojo.attr(this.sendpreview_distrtext, 'innerHTML', 'In the top box enter the email address you wish this '
 				+ PRMAX.utils.settings.distribution_description.toLowerCase()
-				+ ' to come from.<br/>In the bottom box enter an email address if you wish to send yourself or someone else a preview proof copy of this ' 
+				+ ' to come from.<br/>In the bottom box enter an email address if you wish to send yourself or someone else a preview proof copy of this '
 				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
-			dojo.attr(this.sendpreview_distrtext2, 'innerHTML', 'Enter an email address here if you wish to send yourself or someone else a preview proof copy of this ' 
+			dojo.attr(this.sendpreview_distrtext2, 'innerHTML', 'Enter an email address here if you wish to send yourself or someone else a preview proof copy of this '
 				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
 
 			dojo.attr(this.step5_mgs, 'innerHTML', 'You have successfully distributed your ' + PRMAX.utils.settings.distribution_description.toLowerCase());
@@ -156,11 +156,11 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				+'<p>But how do you reach a wider audience? How do you get your story to appear on the major News Websites and key search engines such as Google, Yahoo and Bing?</p>'
 				+'<p>How do you attain the absolute maximum number of opportunities for Journalists, News Organisations and News Consumers to see your story?</p>'
 				+'<p><b>SEO is the answer!</b></p>'
-				+'<p>SEO ' + PRMAX.utils.settings.distribution_description_plural.toLowerCase() + ' are just like a standard ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+'<p>SEO ' + PRMAX.utils.settings.distribution_description_plural.toLowerCase() + ' are just like a standard ' + PRMAX.utils.settings.distribution_description.toLowerCase()
 				+' but optimised for the web with the addition of Keyword Tags and published in a specific way to achieve the greatest possible visibility in the Search Engines.</p>'
-				+'<p>If you are sending out a ' + PRMAX.utils.settings.distribution_description.toLowerCase() + ', it makes sense to get the most out of it. Add the SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+'<p>If you are sending out a ' + PRMAX.utils.settings.distribution_description.toLowerCase() + ', it makes sense to get the most out of it. Add the SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase()
 				+' and instantly enhance your story’s potential audience, your search engine rankings and brand visibility in a single stroke.</p>'
-				+'<p>In typical <b>PRmax</b> style you can add videos and images to your ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+'<p>In typical <b>PRmax</b> style you can add videos and images to your ' + PRMAX.utils.settings.distribution_description.toLowerCase()
 				+' at no extra cost, your ' + PRMAX.utils.settings.distribution_description
 				+' will immediately be published on PRnewslink, the Journalist and Newsroom specific online wire service and will start hitting all the major Search Engines in minutes.</p>'
 				+'<p>But most importantly and again, in typical PRmax style, SEO ' + PRMAX.utils.settings.distribution_description_plural + ' are Free.</p>'
@@ -178,7 +178,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				+ PRMAX.utils.settings.distribution_description.toLowerCase()
 				+ ' to come from.<br/>In the bottom box enter an email address if you wish to send yourself or someone else a preview proof copy of this '
 				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
-			dojo.attr(this.sendpreview_distrtext2, 'innerHTML', 'Enter an email address here if you wish to send yourself or someone else a preview proof copy of this ' 
+			dojo.attr(this.sendpreview_distrtext2, 'innerHTML', 'Enter an email address here if you wish to send yourself or someone else a preview proof copy of this '
 				+ PRMAX.utils.settings.distribution_description.toLowerCase() + '.</td></tr> ');
 
 			dojo.attr(this.step5_mgs, 'innerHTML', 'You have successfully distributed your ' + PRMAX.utils.settings.distribution_description.toLowerCase());
@@ -188,11 +188,11 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				+'<p>But how do you reach a wider audience? How do you get your story to appear on the major News Websites and key search engines such as Google, Yahoo and Bing?</p>'
 				+'<p>How do you attain the absolute maximum number of opportunities for Journalists, News Organisations and News Consumers to see your story?</p>'
 				+'<p><b>SEO is the answer!</b></p>'
-				+'<p>SEO ' + PRMAX.utils.settings.distribution_description_plural.toLowerCase() + ' are just like a standard ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+'<p>SEO ' + PRMAX.utils.settings.distribution_description_plural.toLowerCase() + ' are just like a standard ' + PRMAX.utils.settings.distribution_description.toLowerCase()
 				+' but optimised for the web with the addition of Keyword Tags and published in a specific way to achieve the greatest possible visibility in the Search Engines.</p>'
-				+'<p>If you are sending out a ' + PRMAX.utils.settings.distribution_description.toLowerCase() + ', it makes sense to get the most out of it. Add the SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+'<p>If you are sending out a ' + PRMAX.utils.settings.distribution_description.toLowerCase() + ', it makes sense to get the most out of it. Add the SEO ' + PRMAX.utils.settings.distribution_description.toLowerCase()
 				+' and instantly enhance your story’s potential audience, your search engine rankings and brand visibility in a single stroke.</p>'
-				+'<p>In typical <b>PRmax</b> style you can add videos and images to your ' + PRMAX.utils.settings.distribution_description.toLowerCase() 
+				+'<p>In typical <b>PRmax</b> style you can add videos and images to your ' + PRMAX.utils.settings.distribution_description.toLowerCase()
 				+' at no extra cost, your ' + PRMAX.utils.settings.distribution_description
 				+' will immediately be published on PRnewslink, the Journalist and Newsroom specific online wire service and will start hitting all the major Search Engines in minutes.</p>'
 				+'<p>But most importantly and again, in typical PRmax style, SEO ' + PRMAX.utils.settings.distribution_description_plural + ' are Free.</p>'
@@ -266,6 +266,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 							url:'/lists/list_member_delete',
 							content: {listmemberid:this._deleteRow.i.listmemberid}
 						}));
+
+					this._Show_Outlet_Details(null);
 				}
 			}
 			else
@@ -1335,6 +1337,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		}
 		this.selected_listmembers = [];
 		dojo.addClass(this.removeselectedbtn.domNode, "prmaxhidden");
+		this._Show_Outlet_Details();
 	}
 });
 

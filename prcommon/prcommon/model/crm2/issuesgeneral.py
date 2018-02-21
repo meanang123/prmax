@@ -251,6 +251,22 @@ class IssuesGeneral(object):
 				transaction.rollback()
 				raise
 
+
+	@staticmethod
+	def delete(params):
+		""" delete an issue """
+
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+
+			issue = Issue.query.get(params["issueid"])
+			session.delete(issue)
+			transaction.commit()
+		except:
+			LOGGER.exception("Issue_delete")
+			transaction.rollback()
+			raise
+
 	@staticmethod
 	def get(issueid, extended=False):
 		"""Get details about an issue"""

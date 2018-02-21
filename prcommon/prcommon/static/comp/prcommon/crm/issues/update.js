@@ -26,12 +26,12 @@ dojo.declare("prcommon.crm.issues.update",
 		this._load_briefing_call_back = dojo.hitch(this, this._load_briefing_call);
 		this._delete_issue_call_back = dojo.hitch(this, this._delete_issue_call);
 		this._error_call_back = dojo.hitch ( this, this._error_call );
+		this._archive_issue_call_back = dojo.hitch(this, this._archive_issue_call);
 
 		this._documents = new dojox.data.JsonRestStore( {target:"/crm/documents/rest_combo", idAttribute:"id"});
 		this._briefingnotesstatus = new dojo.data.ItemFileReadStore ( { url:"/common/lookups_restricted?searchtype=briefingnotesstatus"});
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._clients = new dojox.data.JsonRestStore( {target:"/clients/rest_combo", idAttribute:"id"});
-
 
 		this.filter_db = new prcommon.data.QueryWriteStore (
 			{url:'/crm/issues/issue_history',
@@ -124,11 +124,27 @@ dojo.declare("prcommon.crm.issues.update",
 			this.coverage.load(response.data.issueid);
 			this.analysis_ctrl.load(null,response.data.issueid)
 			this.display_view.selectChild(this.tabcont);
-
+			this.deletebtn.cancel();
+			this.archivebtn.cancel();
+			this._issuestatusid = response.data.issuestatusid;
+			this._setup_archive();
 		}
 		else
 		{
 			alert("Problem Loading Issue");
+		}
+	},
+	_setup_archive:function()
+	{
+		if (this._issuestatusid==1)
+		{
+			this.archivebtn.set("label","Archive");
+			this._command_url = "/crm/issues/archive";
+		}
+		else
+		{
+			this.archivebtn.set("label","Un-Archive");
+			this._command_url = "/crm/issues/unarchive";
 		}
 	},
 	startup:function()
@@ -259,7 +275,7 @@ dojo.declare("prcommon.crm.issues.update",
 	{
 		if ( response.success=="OK")
 		{
-
+			dojo.publish ( PRCOMMON.Events.Issue_Delete, [this._issueid]);
 		}
 		else
 		{
@@ -267,16 +283,49 @@ dojo.declare("prcommon.crm.issues.update",
 		}
 
 		this.deletebtn.cancel();
+		this.archivebtn.cancel();
 
 	},
 	_error_call:function(response, ioArgs)
 	{
 		this.deletebtn.cancel();
+		this.archivebtn.cancel();
+
 		ttl.utilities.xhrPostError(response,ioArgs);
+	},
+	_archive_issue:function()
+	{
+		dojo.xhrPost(
+					ttl.utilities.makeParams({
+						load: this._archive_issue_call_back,
+						error: this._error_call_back,
+						url:this._command_url ,
+						content: {issueid : this._issueid}
+						}));
+	},
+	_archive_issue_call:function(response)
+	{
+		this.deletebtn.cancel();
+		this.archivebtn.cancel();
+
+		if ( response.success=="OK")
+		{
+			if ( this._issuestatusid==1)
+			{
+				dojo.publish ( PRCOMMON.Events.Issue_Update, [response.data ]);
+				this._issuestatusid = 2;
+
+			}
+			else
+			{
+				dojo.publish ( PRCOMMON.Events.Issue_Update, [response.data ]);
+				this._issuestatusid = 1;
+			}
+			this._setup_archive();
+		}
+		else
+		{
+			alert("Problem");
+		}
 	}
 });
-
-
-
-
-

@@ -135,6 +135,7 @@ PREvents.prototype.Update_Notes ="crm/notes_updated";
 
 PREvents.prototype.Issue_Add ="issue/add";
 PREvents.prototype.Issue_Update = "issue/update";
+PREvents.prototype.Issue_Delete = "issue/delete";
 
 PREvents.prototype.Task_Add = "/task/add";
 PREvents.prototype.Task_Update = "task/updated";

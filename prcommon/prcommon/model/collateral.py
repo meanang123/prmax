@@ -223,13 +223,10 @@ class Collateral(BaseSql):
 		FROM userdata.collateral AS c
 	  LEFT OUTER JOIN userdata.emailtemplates AS et ON c.emailtemplateid = et.emailtemplateid
 	  LEFT OUTER JOIN userdata.client AS cl ON c.clientid = cl.clientid
-	  LEFT OUTER JOIN userdata.collateralusers AS cu ON cu.collateralid = c.collateralid AND cu.userid = :userid
-		WHERE c.customerid = :customerid
-		ORDER BY  %s %s
-		LIMIT :limit  OFFSET :offset """
+	  LEFT OUTER JOIN userdata.collateralusers AS cu ON cu.collateralid = c.collateralid AND cu.userid = :userid """
 
 	ListDataCount = """
-		SELECT COUNT(*) FROM userdata.collateral WHERE customerid = :customerid"""
+		SELECT COUNT(*) FROM userdata.collateral AS c """
 
 	ListDataList = """
 		SELECT
@@ -260,11 +257,16 @@ class Collateral(BaseSql):
 		if "sort" in params and len(params["sort"]):
 			params["sort"] = 'UPPER(%s)' % params["sort"]
 
+		whereused = BaseSql.addclause("", "c.customerid = :customerid")
+
+		if "ignore_automated" in params:
+			whereused = BaseSql.addclause(whereused, "c.automated_source = false")
+
 		return BaseSql.getGridPage(params,
 		                           'UPPER(collateralcode)',
 		                           'collateralid',
-		                           Collateral.ListData,
-		                           Collateral.ListDataCount,
+		                           Collateral.ListData + whereused + BaseSql.Standard_View_Order,
+		                           Collateral.ListDataCount + whereused,
 		                           cls)
 
 	@classmethod

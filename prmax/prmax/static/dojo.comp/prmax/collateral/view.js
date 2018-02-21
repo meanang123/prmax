@@ -259,6 +259,23 @@ dojo.declare("prmax.collateral.view",
 		{
 			alert("Problem Deleting Selected Collateral");
 		}
+	},
+	_clear_filter:function()
+	{
+		this.ignore_automated.set("checked", false);
+
+	},
+	_filter:function()
+	{
+		var query = {};
+
+		if ( this.ignore_automated.get("checked") == true )
+			query["ignore_automated"] = 1;
+
+		this.grid.setQuery(ttl.utilities.getPreventCache(query));
+
+		dojo.addClass(this.display_pane,"prmaxhidden");
+
 	}
 });
 

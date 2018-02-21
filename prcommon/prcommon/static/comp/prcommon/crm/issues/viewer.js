@@ -44,13 +44,14 @@ dojo.declare("prcommon.crm.issues.viewer",
 		this._get_model_item_call = dojo.hitch(this,this._get_model_item);
 		dojo.subscribe(PRCOMMON.Events.Issue_Add, dojo.hitch(this,this._new_issue_event));
 		dojo.subscribe(PRCOMMON.Events.Issue_Update, dojo.hitch(this,this._update_issue_event));
+		dojo.subscribe(PRCOMMON.Events.Issue_Delete, dojo.hitch(this,this._delete_issue_event));
 	},
 	view:{
 		cells: [[
 			{name: 'Created', width: "120px",field: 'created_display'},
 			{name: 'Name', width: "auto",field: 'name'},
 			{name: 'Status', width: "120px",field: 'issuestatusdescription'},
-			{name: ' ',width: "15px",styles: 'text-align: center;', width: "20px",formatter:ttl.utilities.formatRowCtrl}
+			{name: ' ',width: "15px",styles: 'text-align: center;', width: "20px",formatter:ttl.utilities.format_row_ctrl}
 			]]
 	},
 	postCreate:function()
@@ -161,6 +162,13 @@ dojo.declare("prcommon.crm.issues.viewer",
 				this.filter_db.setValue(  this.tmp_row, "issuestatusdescription" , data.issuestatusdescription, true );
 				this.filter_db.setValue(  this.tmp_row, "name" , data.name, true );
 			}
+	},
+	_delete_issue_event:function(issueid)
+	{
+
+		this.filter_db.deleteItem( this._selected_row);
+		this.update_issue_ctrl.clear();
+
 	},
 	_update_issue:function()
 	{
