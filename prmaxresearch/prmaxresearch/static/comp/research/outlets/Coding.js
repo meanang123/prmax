@@ -42,11 +42,11 @@ define([
  return declare("research.outlets.Coding",
 	[BaseWidgetAMD, BorderContainer],{
 	templateString: template,
+	prefix:"coding",
 	constructor: function()
 	{
 		this._update_call_back = lang.hitch(this, this._update_call);
 		this._error_call_back = lang.hitch(this, this._error_call);
-
 	},
 	postCreate:function()
 	{
@@ -57,8 +57,12 @@ define([
 
 		this.inherited(arguments);
 	},
-	load:function( outletid, outlet ,profile )
+	load:function( outletid, outlet ,profile, prefix )
 	{
+		if (prefix != "" && prefix != undefined)
+		{
+			this.prefix = prefix;
+		}
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
 		this.outletid.set("value", outletid);
 		this.prmax_outlettypeid.set("value",outlet.outlet.prmax_outlettypeid);
@@ -69,28 +73,28 @@ define([
 		this.supplements.set("value", outlet.supplements );
 		if (outlet.serieschildren.length > 0)
 		{
-			domConstruct.destroy('serieschildren_table');
-			if (dom.byId('serieschildren_td')) 
+			domConstruct.destroy(this.prefix+'_serieschildren_table');
+			if (dom.byId(this.prefix+'_serieschildren_td'))
 			{
-				domConstruct.destroy('serieschildren_td');
+				domConstruct.destroy(this.prefix+'_serieschildren_td');
 			};			
-			domConstruct.create('td', {
+			td1 = domConstruct.create('td', {
 				'align':'right', 
 				'class': 'prmaxrowtag' ,
 				'valign':'top',
 				'style': {'padding-top': '10px'},
-				'id':'serieschildren_td',
+				'id':this.prefix+'_serieschildren_td',
 				innerHTML: 'Series Children'
-				}, 'serieschildren_tr', 'first');
+				}, this.prefix+'_serieschildren_tr', 'first');
 			
-			td2 = domConstruct.create('td', {}, 'serieschildren_tr', 'last');
+			td2 = domConstruct.create('td', {}, this.prefix+'_serieschildren_tr', 'last');
 			div = domConstruct.create('div', {
-				'id': 'serieschildren_div'	
+				'id': this.prefix+'_serieschildren_div'
 			}, td2);
 			
-			domConstruct.create('table', {'id':'serieschildren_table'}, 'serieschildren_div', 'first');
+			table = domConstruct.create('table', {'id':this.prefix+'_serieschildren_table'}, this.prefix+'_serieschildren_div', 'first');
 			array.forEach(outlet.serieschildren, function(child, i) {
-				var tr = domConstruct.create("tr", {}, "serieschildren_table"),
+				var tr = domConstruct.create("tr", {}, table),
 					td = domConstruct.create("td", {}, tr),
 					txbox = domConstruct.create(new TextBox({
 							value: child.outletname,
@@ -115,8 +119,8 @@ define([
 		}
 		else 
 		{
-			domConstruct.destroy('serieschildren_table');
-			domConstruct.destroy('serieschildren_td');
+			domConstruct.destroy(this.prefix+'_serieschildren_table');
+			domConstruct.destroy(this.prefix+'_serieschildren_td');
 		};
 		
 		if (profile.profile)

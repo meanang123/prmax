@@ -50,6 +50,7 @@ define([
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
 	gutters:false,
+	prefix:"edit",
 	constructor: function()
 	{
 		this.private_menu = null;
@@ -266,7 +267,7 @@ define([
 				domclass.add(this.outlet_main.synchrbtn.domNode,"prmaxhidden");
 			}
 			this.outlet_profile_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
-			this.outlet_coding_ctrl.load( this._outletid, response.outlet, response.outlet.profile ) ;
+			this.outlet_coding_ctrl.load( this._outletid, response.outlet, response.outlet.profile , this.prefix) ;
 			this.outlet_research_ctrl.load ( this._outletid, response.outlet.outlet.outlettypeid ) ;
 			this.outlet_desk_ctrl.load ( this._outletid, response.outlet.outlet.outlettypeid ) ;
 			this.outlet_advance_ctrl.load ( this._outletid ) ;
@@ -276,9 +277,13 @@ define([
 			domattr.set(this.outlet_details_view,"innerHTML",  tmp );
 		}
 	},
-	load:function ( outletid )
+	load:function ( outletid, prefix )
 	{
 		this._outletid = outletid;
+		if (prefix != "" && prefix != undefined)
+		{
+			this.prefix = prefix;
+		}
 		this.outlet_audit_ctrl.load ( this._outletid ) ;
 
 		if (this._outletid == -1 )

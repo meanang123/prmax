@@ -46,6 +46,7 @@ define([
 	[BaseWidgetAMD, BorderContainer],{
 	templateString: template,
 	gutters:false,
+	prefix:"project",
 	constructor: function()
 	{
 		this.model =  new Observable( new JsonRest( {target:'/research/admin/projects/projects_members', idProperty:"researchprojectitemid"}));
@@ -273,7 +274,7 @@ define([
 		else
 		{
 			this.zone.selectChild ( this.outletedit);
-			this.outletedit.load ( this._data.outletid );
+			this.outletedit.load ( this._data.outletid, this.prefix );
 		}
 	},
 	_complete:function()
