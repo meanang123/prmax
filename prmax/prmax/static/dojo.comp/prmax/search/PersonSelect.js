@@ -17,6 +17,7 @@ dojo.require("ttl.Form");
 dojo.require("prmax.search.standard");
 dojo.require("prmax.search.person");
 dojo.require("prcommon.crm.add");
+dojo.require("prmax.search.PersonSelectDetails");
 
 dojo.declare("prmax.search.PersonSelect",
 	[ ttl.BaseWidget],
@@ -88,11 +89,11 @@ dojo.declare("prmax.search.PersonSelect",
 				this.selectdetails_dlg.show();
 			}
 			else
-			{	
+			{
 				this.on_select_func(this._row.i.employeeid,this._row.i.outletid, this._row.i.contactname, this._row.i.outletname );
 				this.search_people_dlg.hide();
 			}
-		}		
+		}
 	},
 	_clear:function()
 	{
