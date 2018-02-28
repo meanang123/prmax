@@ -1032,37 +1032,31 @@ class StatisticsReport(ReportCommon):
 	def load_data(self, db_connect ):
 		"Load Data"
 
-
-		engagements = """SELECT count(*)
-		FROM userdata.contacthistory AS ch"""
-		releases = """SELECT count(*)
-		FROM userdata.emailtemplates AS et"""
-		statements = """SELECT count(*)
-		FROM userdata.statements AS st"""
-		clippings = """SELECT count(*) FROM userdata.clippings AS clip"""
-
-		clients = """SELECT clientname, clientid
-		FROM userdata.client AS c"""
-
-		engagements_by_client = """SELECT clientid, count(*)
-		FROM userdata.contacthistory AS ch"""
-		releases_by_client = """SELECT clientid, count(*)
-		FROM userdata.emailtemplates AS et"""
-		statements_by_client = """SELECT clientid, count(*)
-		FROM userdata.statements AS st """
-		clippings_by_client = """SELECT clientid, count(*)
-		FROM userdata.clippings AS clip"""
-
-		labels = """SELECT crm_engagement, crm_engagement_plural, distribution_description, distribution_description_plural FROM internal.customers WHERE customerid = %(icustomerid)s"""
+		engagements = """SELECT count(*) FROM userdata.contacthistory AS ch"""
+		releases = """SELECT count(*) FROM userdata.emailtemplates AS et"""
+		statements = """SELECT count(*) FROM userdata.statements AS st"""
+		clippings = """SELECT count(*) FROM userdata.clippings AS clip JOIN userdata.clippingsanalysis AS clipan ON clipan.clippingid = clip.clippingid"""
+		releases_with_clippings = """SELECT count(*) FROM userdata.emailtemplates AS et JOIN userdata.clippings AS clip ON et.emailtemplateid = clip.emailtemplateid"""
+		statements_with_clippings = """SELECT count(*) FROM userdata.statements AS st JOIN userdata.clippings AS clip ON st.statementid = clip.statementid"""
+		clients = """SELECT clientname, clientid FROM userdata.client AS c"""
+		engagements_by_client = """SELECT clientid, count(*) FROM userdata.contacthistory AS ch"""
+		releases_by_client = """SELECT clientid, count(*) FROM userdata.emailtemplates AS et"""
+		statements_by_client = """SELECT clientid, count(*) FROM userdata.statements AS st """
+		clippings_by_client = """SELECT clip.clientid, count(*) FROM userdata.clippings AS clip JOIN userdata.clippingsanalysis AS clipan ON clipan.clippingid = clip.clippingid"""
+		releases_with_clippings_by_client = """SELECT et.clientid, count(*) FROM userdata.emailtemplates AS et JOIN userdata.clippings AS clip ON et.emailtemplateid = clip.emailtemplateid"""
+		statements_with_clippings_by_client = """SELECT st.clientid, count(*) FROM userdata.statements AS st JOIN userdata.clippings AS clip ON st.statementid = clip.statementid"""
 
 		whereclause_eng = whereclause_eng_total_current = whereclause_eng_total_last = """ WHERE ch.customerid = %(icustomerid)s """
-		whereclause_rel = whereclause_rel_total_current = whereclause_rel_total_last = """ WHERE et.customerid = %(icustomerid)s """
-		whereclause_stat = whereclause_stat_total_current = whereclause_stat_total_last = """ WHERE st.customerid = %(icustomerid)s """
-		whereclause_clip_proactive = whereclause_clip_proactive_total_current = whereclause_clip_proactive_total_last = """ WHERE clip.customerid = %(icustomerid)s AND clip.emailtemplateid IS NOT NULL"""
-		whereclause_clip_reactive = whereclause_clip_reactive_total_current = whereclause_clip_reactive_total_last = """ WHERE clip.customerid = %(icustomerid)s AND (clip.statementid IS NOT NULL OR (clip.statementid IS NULL AND clip.emailtemplateid IS NULL))"""
+		whereclause_rel = whereclause_rel_total_current = whereclause_rel_total_last = whereclause_rel_with_clip_total_current =  whereclause_rel_with_clip_total_last = """ WHERE et.customerid = %(icustomerid)s """
+		whereclause_stat = whereclause_stat_total_current = whereclause_stat_total_last = whereclause_stat_with_clip_total_current = whereclause_stat_with_clip_total_last = """ WHERE st.customerid = %(icustomerid)s """
+		whereclause_clip_proactive = """ WHERE clip.customerid = %(icustomerid)s AND clipan.questionid = 15 AND clipan.answer_answerid = 14"""
+		whereclause_clip_reactive = """ WHERE clip.customerid = %(icustomerid)s AND clipan.questionid = 15 AND clipan.answer_answerid = 15"""
 		whereclause_client = """ WHERE c.customerid = %(icustomerid)s """
 
 		groupbyclause = """ GROUP BY clientid"""
+		groupbyclause2 = """ GROUP BY clip.clientid"""
+		groupbyclause3 = """ GROUP BY et.clientid"""
+		groupbyclause4 = """ GROUP BY st.clientid"""
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
 
@@ -1076,7 +1070,7 @@ class StatisticsReport(ReportCommon):
 			whereclause_stat = BaseSql.addclause( whereclause_stat, 'st.created <= %(from_date)s')
 			whereclause_clip_proactive = BaseSql.addclause( whereclause_clip_proactive, 'clip.clip_source_date <= %(from_date)s' )
 			whereclause_clip_reactive = BaseSql.addclause( whereclause_clip_reactive, 'clip.clip_source_date <= %(from_date)s')
-			params['display_date'] = 'From:- To: %s ' % (datetime.datetime.strptime(str(drange['from_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y'))
+			params['display_date'] = 'Start - %s' % (datetime.datetime.strptime(str(drange['from_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y'))
 		elif option == TTLConstants.AFTER:
 			# After
 			params["from_date"] = drange["from_date"]
@@ -1085,7 +1079,7 @@ class StatisticsReport(ReportCommon):
 			whereclause_stat = BaseSql.addclause( whereclause_stat, 'st.created >= %(from_date)s')
 			whereclause_clip_proactive = BaseSql.addclause( whereclause_clip_proactive, 'clip.clip_source_date >= %(from_date)s')
 			whereclause_clip_reactive = BaseSql.addclause( whereclause_clip_reactive, 'clip.clip_source_date >= %(from_date)s')
-			params['display_date'] = 'From: %s To: %s ' % ((datetime.datetime.strptime(str(drange['from_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y')), (datetime.datetime.now().strftime('%d/%m/%Y')))
+			params['display_date'] = '%s - %s ' % ((datetime.datetime.strptime(str(drange['from_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y')), (datetime.datetime.now().strftime('%d/%m/%Y')))
 		elif option == TTLConstants.BETWEEN:
 			# ABetween
 			params["from_date"] = drange["from_date"]
@@ -1096,66 +1090,91 @@ class StatisticsReport(ReportCommon):
 			whereclause_stat = BaseSql.addclause( whereclause_stat, 'st.created BETWEEN %(from_date)s AND %(to_date)s')
 			whereclause_clip_proactive = BaseSql.addclause( whereclause_clip_proactive, 'clip.clip_source_date BETWEEN %(from_date)s AND %(to_date)s')
 			whereclause_clip_reactive = BaseSql.addclause( whereclause_clip_reactive, 'clip.clip_source_date BETWEEN %(from_date)s AND %(to_date)s')
-			params['display_date'] = 'From: %s To: %s ' % ((datetime.datetime.strptime(str(drange['from_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y')), (datetime.datetime.strptime(str(drange['to_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y')))
+			params['display_date'] = '%s - %s ' % ((datetime.datetime.strptime(str(drange['from_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y')), (datetime.datetime.strptime(str(drange['to_date']),"%Y-%m-%d" ).strftime('%d/%m/%Y')))
 
-		params['current_year_start'] = datetime.datetime.strftime(datetime.datetime(datetime.datetime.now().year, 4, 1, 0, 0 ), "%Y-%m-%d")
-		params['current_year_end'] = datetime.datetime.strftime(datetime.datetime(datetime.datetime.now().year+1, 3, 31, 0, 0 ), "%Y-%m-%d")
-		params['current_year_end_rel'] = datetime.datetime.strftime(datetime.datetime(datetime.datetime.now().year+1, 4, 1, 0, 0 ), "%Y-%m-%d")
-		params['last_year_start'] = datetime.datetime.strftime(datetime.datetime(datetime.datetime.now().year-1, 4, 1, 0, 0 ), "%Y-%m-%d")
-		params['last_year_end'] = datetime.datetime.strftime(datetime.datetime(datetime.datetime.now().year, 3, 31, 0, 0 ), "%Y-%m-%d")
-		params['last_year_end_rel'] = datetime.datetime.strftime(datetime.datetime(datetime.datetime.now().year, 4, 1, 0, 0 ), "%Y-%m-%d")
+		params['current_year_start'] = datetime.datetime.strftime(datetime.datetime.today() - datetime.timedelta(days=365), "%Y-%m-%d")
+		params['current_year_end'] = datetime.datetime.strftime(datetime.datetime.today(), "%Y-%m-%d")
+		params['current_year_end_rel'] = datetime.datetime.strftime(datetime.datetime.today() + datetime.timedelta(days=1), "%Y-%m-%d")
+		params['last_year_start'] = datetime.datetime.strftime(datetime.datetime.today() - datetime.timedelta(days=730), "%Y-%m-%d")
+		params['last_year_end'] = datetime.datetime.strftime(datetime.datetime.today() - datetime.timedelta(days=365), "%Y-%m-%d")
+		params['last_year_end_rel'] = datetime.datetime.strftime(datetime.datetime.today() - datetime.timedelta(days=364), "%Y-%m-%d")
 
+		#whereclauses for 'Other' section - items that have not been linked with a client
+		whereclause_eng_no_client = BaseSql.addclause(whereclause_eng, 'ch.clientid is null')
+		whereclause_rel_no_client = BaseSql.addclause(whereclause_rel, 'et.clientid is null')
+		whereclause_stat_no_client = BaseSql.addclause(whereclause_stat, 'st.clientid is null')
+		whereclause_clip_proactive_no_client = BaseSql.addclause(whereclause_clip_proactive, 'clip.clientid is null')
+		whereclause_clip_reactive_no_client = BaseSql.addclause(whereclause_clip_reactive, 'clip.clientid is null')
+
+		#whereclauses for 'Media total' section
 		whereclause_eng_total_current = BaseSql.addclause(whereclause_eng_total_current, 'ch.taken BETWEEN %(current_year_start)s AND %(current_year_end)s')
 		whereclause_eng_total_last = BaseSql.addclause(whereclause_eng_total_last, 'ch.taken BETWEEN %(last_year_start)s AND %(last_year_end)s')
 		whereclause_stat_total_current = BaseSql.addclause(whereclause_stat_total_current, 'st.created BETWEEN %(current_year_start)s AND %(current_year_end)s')
 		whereclause_stat_total_last = BaseSql.addclause(whereclause_stat_total_last, 'st.created BETWEEN %(last_year_start)s AND %(last_year_end)s')
+		whereclause_stat_with_clip_total_current = BaseSql.addclause(whereclause_stat_with_clip_total_current, 'st.created BETWEEN %(current_year_start)s AND %(current_year_end)s')
+		whereclause_stat_with_clip_total_last = BaseSql.addclause(whereclause_stat_with_clip_total_last, 'st.created BETWEEN %(last_year_start)s AND %(last_year_end)s')
 		whereclause_rel_total_current = BaseSql.addclause(whereclause_rel_total_current, 'sent_time BETWEEN %(current_year_start)s AND %(current_year_end_rel)s')
 		whereclause_rel_total_last = BaseSql.addclause(whereclause_rel_total_last, 'sent_time BETWEEN %(last_year_start)s AND %(last_year_end_rel)s')
-		whereclause_clip_proactive_total_current = BaseSql.addclause(whereclause_clip_proactive_total_current, 'clip.clip_source_date BETWEEN %(current_year_start)s AND %(current_year_end)s')
-		whereclause_clip_proactive_total_last = BaseSql.addclause(whereclause_clip_proactive_total_last, 'clip.clip_source_date BETWEEN %(last_year_start)s AND %(last_year_end_rel)s')
-		whereclause_clip_reactive_total_current = BaseSql.addclause(whereclause_clip_reactive_total_current, 'clip.clip_source_date BETWEEN %(current_year_start)s AND %(current_year_end)s')
-		whereclause_clip_reactive_total_last = BaseSql.addclause(whereclause_clip_reactive_total_last, 'clip.clip_source_date BETWEEN %(last_year_start)s AND %(last_year_end_rel)s')
-
-
+		whereclause_rel_with_clip_total_current = BaseSql.addclause(whereclause_rel_with_clip_total_current, 'sent_time BETWEEN %(current_year_start)s AND %(current_year_end_rel)s')
+		whereclause_rel_with_clip_total_last = BaseSql.addclause(whereclause_rel_with_clip_total_last, 'sent_time BETWEEN %(last_year_start)s AND %(last_year_end_rel)s')
 
 		is_dict = True
 
 		results_eng = db_connect.executeAll(engagements + whereclause_eng, params, is_dict)
 		results_eng_by_client = db_connect.executeAll(engagements_by_client + whereclause_eng + groupbyclause, params, False)
+		results_eng_no_client = db_connect.executeAll(engagements + whereclause_eng_no_client, params, is_dict)
 		results_rel = db_connect.executeAll(releases + whereclause_rel, params, is_dict)
 		results_rel_by_client = db_connect.executeAll(releases_by_client + whereclause_rel + groupbyclause, params, False)
+		results_rel_no_client = db_connect.executeAll(releases + whereclause_rel_no_client, params, is_dict)
+		results_rel_with_clips_by_client = db_connect.executeAll(releases_with_clippings_by_client + whereclause_rel + groupbyclause3, params, False)
+		results_rel_with_clips_no_client = db_connect.executeAll(releases_with_clippings + whereclause_rel_no_client + groupbyclause3, params, is_dict)
+		results_rel_with_clips = db_connect.executeAll(releases_with_clippings + whereclause_rel + groupbyclause3, params, is_dict)
 		results_stat = db_connect.executeAll(statements + whereclause_stat, params, is_dict)
 		results_stat_by_client = db_connect.executeAll(statements_by_client + whereclause_stat + groupbyclause, params, False)
+		results_stat_no_client = db_connect.executeAll(statements + whereclause_stat_no_client, params, is_dict)
+		results_stat_with_clips_by_client = db_connect.executeAll(statements_with_clippings_by_client + whereclause_stat + groupbyclause4, params, False)
+		results_stat_with_clips_no_client = db_connect.executeAll(statements_with_clippings + whereclause_stat_no_client + groupbyclause4, params, is_dict)
+		results_stat_with_clips = db_connect.executeAll(statements_with_clippings + whereclause_stat + groupbyclause4, params, is_dict)
 		results_clip_proactive = db_connect.executeAll(clippings + whereclause_clip_proactive, params, False)
-		results_clip_proactive_by_client = db_connect.executeAll(clippings_by_client + whereclause_clip_proactive + groupbyclause, params, False)
+		results_clip_proactive_by_client = db_connect.executeAll(clippings_by_client + whereclause_clip_proactive + groupbyclause2, params, False)
+		results_clip_proactive_no_client = db_connect.executeAll(clippings + whereclause_clip_proactive_no_client, params, is_dict)
 		results_clip_reactive = db_connect.executeAll(clippings + whereclause_clip_reactive, params, False)
-		results_clip_reactive_by_client = db_connect.executeAll(clippings_by_client + whereclause_clip_reactive + groupbyclause, params, False)
+		results_clip_reactive_by_client = db_connect.executeAll(clippings_by_client + whereclause_clip_reactive + groupbyclause2, params, False)
+		results_clip_reactive_no_client = db_connect.executeAll(clippings + whereclause_clip_reactive_no_client, params, is_dict)
+
 		clients = db_connect.executeAll(clients + whereclause_client, params, False)
 
 		results_eng_total_current = db_connect.executeAll(engagements + whereclause_eng_total_current, params, is_dict)
 		results_eng_total_last = db_connect.executeAll(engagements + whereclause_eng_total_last, params, is_dict)
 		results_stat_total_current = db_connect.executeAll(statements + whereclause_stat_total_current, params, is_dict)
 		results_stat_total_last = db_connect.executeAll(statements + whereclause_stat_total_last, params, is_dict)
+		results_stat_with_clip_total_current = db_connect.executeAll(statements_with_clippings + whereclause_stat_with_clip_total_current, params, is_dict)
+		results_stat_with_clip_total_last = db_connect.executeAll(statements_with_clippings + whereclause_stat_with_clip_total_last, params, is_dict)
 		results_rel_total_current = db_connect.executeAll(releases + whereclause_rel_total_current, params, is_dict)
 		results_rel_total_last = db_connect.executeAll(releases + whereclause_rel_total_last, params, is_dict)
-		results_clip_proactive_total_current = db_connect.executeAll(clippings + whereclause_clip_proactive_total_current, params, is_dict)
-		results_clip_proactive_total_last = db_connect.executeAll(clippings + whereclause_clip_proactive_total_last, params, is_dict)
-		results_clip_reactive_total_current = db_connect.executeAll(clippings + whereclause_clip_reactive_total_current, params, is_dict)
-		results_clip_reactive_total_last = db_connect.executeAll(clippings + whereclause_clip_reactive_total_last, params, is_dict)
-
-		results_labels = db_connect.executeAll(labels, params, is_dict)
+		results_rel_with_clip_total_current = db_connect.executeAll(releases_with_clippings + whereclause_rel_with_clip_total_current, params, is_dict)
+		results_rel_with_clip_total_last = db_connect.executeAll(releases_with_clippings + whereclause_rel_with_clip_total_last, params, is_dict)
 		
 		data = dict(
 			eng = results_eng,
-			eng_by_client = results_eng_by_client,
+		    eng_by_client = results_eng_by_client,
+		    eng_no_client = results_eng_no_client,
 		    rel = results_rel,
 		    rel_by_client = results_rel_by_client,
+		    rel_no_client = results_rel_no_client,
+		    rel_with_clips_by_client = results_rel_with_clips_by_client,
+		    rel_with_clips_no_client = results_rel_with_clips_no_client,
 		    stat = results_stat,
 		    stat_by_client = results_stat_by_client,
+		    stat_no_client = results_stat_no_client,
+		    stat_with_clips_by_client = results_stat_with_clips_by_client,
+		    stat_with_clips_no_client = results_stat_with_clips_no_client,
 		    clip_proactive_by_client = results_clip_proactive_by_client,
+		    clip_proactive_no_client = results_clip_proactive_no_client,
 		    clip_proactive = results_clip_proactive,
 		    clip_reactive_by_client = results_clip_reactive_by_client,
 		    clip_reactive = results_clip_reactive,
+		    clip_reactive_no_client = results_clip_reactive_no_client,
 		    clients = clients,
 		    eng_total_current = results_eng_total_current,
 		    eng_total_last = results_eng_total_last,
@@ -1163,12 +1182,11 @@ class StatisticsReport(ReportCommon):
 		    stat_total_last = results_stat_total_last,
 		    rel_total_current = results_rel_total_current,
 		    rel_total_last = results_rel_total_last,
-		    clip_proactive_total_current = results_clip_proactive_total_current,
-		    clip_proactive_total_last = results_clip_proactive_total_last,
-		    clip_reactive_total_current = results_clip_reactive_total_current,
-		    clip_reactive_total_last = results_clip_reactive_total_last,
-		    display_date = params['display_date'] if 'display_date' in params else '',
-		    labels = results_labels
+		    rel_with_clip_total_current = results_rel_with_clip_total_current,
+		    rel_with_clip_total_last = results_rel_with_clip_total_last,
+		    stat_with_clip_total_current = results_stat_with_clip_total_current,
+		    stat_with_clip_total_last = results_stat_with_clip_total_last,
+		    display_date = params['display_date'] if 'display_date' in params else ''
 		)
 		return dict(results = data)
 

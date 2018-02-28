@@ -124,7 +124,8 @@ class ReportTemplate(BaseSql):
 	WHERE
 		(r.customerid=-1 OR r.customerid = :customerid) AND
 		reportsourceid = :reportsourceid AND
-		r.reporttemplatename ILIKE :reporttemplatename
+		r.reporttemplatename ILIKE :reporttemplatename AND
+	    r.reporttemplateid != 32
 	ORDER BY r.reporttemplatename"""
 
 	List_Id = """SELECT reporttemplateid,reporttemplatename
@@ -132,6 +133,20 @@ class ReportTemplate(BaseSql):
 	WHERE
 		reporttemplateid = :id AND
 		(r.customerid=-1 OR r.customerid = :customerid"""
+
+	List_Std_EastAyrshire = """SELECT reporttemplateid,
+	CASE
+	WHEN (reporttemplateid = 21) THEN (SELECT crm_engagement_plural FROM internal.customers where customerid = :customerid)
+	WHEN (reporttemplateid = 22) THEN (SELECT crm_engagement_plural||' By Issue' FROM internal.customers where customerid = :customerid)
+	ELSE reporttemplatename
+	END as reporttemplatename
+	FROM internal.reporttemplates as r
+	WHERE
+		(r.customerid=-1 OR r.customerid = :customerid) AND
+		reportsourceid = :reportsourceid AND
+		r.reporttemplatename ILIKE :reporttemplatename
+	ORDER BY r.reporttemplatename"""
+
 
 	@classmethod
 	def getTemplatesForArea(cls, kw):
@@ -146,9 +161,11 @@ class ReportTemplate(BaseSql):
 		elif "reporttemplatename" not in kw:
 			kw['reporttemplatename'] = "%"
 
-
 		if not command:
-			command = text(ReportTemplate.List_Std)
+			if 'customerid' in kw and kw['customerid'] == 5730: # customer: East Ayrshire
+				command = text(ReportTemplate.List_Std_EastAyrshire)
+			else:
+				command = text(ReportTemplate.List_Std)
 
 		data = cls.sqlExecuteCommand(command,
 									   kw,
