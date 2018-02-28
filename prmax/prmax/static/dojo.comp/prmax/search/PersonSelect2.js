@@ -17,6 +17,8 @@ dojo.require("prmax.search.standard");
 
 dojo.require("prcommon.crm.add");
 dojo.require("prmax.search.PersonSelect");
+dojo.require("prmax.search.PersonSelectDetails");
+
 
 dojo.declare("prmax.search.PersonSelect2",
 	[ ttl.BaseWidget],
@@ -24,7 +26,7 @@ dojo.declare("prmax.search.PersonSelect2",
 	templatePath: dojo.moduleUrl( "prmax.search","templates/PersonSelect2.html"),
 	searchtypeid:7,
 	placeHolder:"Select Contact",
-	source_url:"/search/list",	
+	source_url:"/search/list",
 	constructor: function()
 	{
 		this._contactid = null;
@@ -113,7 +115,7 @@ dojo.declare("prmax.search.PersonSelect2",
 		this._contactid = null;
 		dojo.attr(this.contact_display,"innerHTML",this.placeHolder);
 		this._set_view();
-	},	
+	},
 	_close:function()
 	{
 		this.select_dlg.hide();
@@ -156,10 +158,10 @@ dojo.declare("prmax.search.PersonSelect2",
 		dojo.attr(this.contact_display,"innerHTML",display);
 		dojo.removeClass(this.clearbtn.domNode, "prmaxhidden");
 		dojo.removeClass(this.infobtn.domNode, "prmaxhidden");
-		
+
 		dojo.publish("/crm/update_person", [details]);
 	},
-	
+
 });
 
 
