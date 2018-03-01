@@ -258,10 +258,10 @@ class StatisticsPDF(object):
 	def _print_media_total_line5(self):
 		previous_year1 = self._results_stat_total_last[0]['count']+self._results_rel_total_last[0]['count']
 		previous_year2 = self._results_stat_with_clip_total_last[0]['count']+self._results_rel_with_clip_total_last[0]['count']
-		previous_year = self._do_division_percentage(previous_year1, previous_year2)
+		previous_year = self._do_division_percentage(previous_year2, previous_year1)
 		current_year1 = self._results_stat_total_current[0]['count']+self._results_rel_total_current[0]['count']
 		current_year2 = self._results_stat_with_clip_total_current[0]['count']+self._results_rel_with_clip_total_current[0]['count']
-		current_year = self._do_division_percentage(current_year1, current_year2)
+		current_year = self._do_division_percentage(current_year2, current_year1)
 		variance = current_year - previous_year
 		variance_percent = self._do_division_percentage(variance, previous_year)
 		col1 = "<b>Total % Used</b>"
@@ -303,8 +303,8 @@ class StatisticsPDF(object):
 		for statement_with_clip in self._stat_with_clips_by_client:
 			if statement_with_clip[0] == client[1]:
 				stat_with_clip = statement_with_clip[1]
-		rel_used = self._do_division_percentage(rel, rel_with_clip)
-		stat_used = self._do_division_percentage(stat, stat_with_clip)
+		rel_used = self._do_division_percentage(rel_with_clip, rel)
+		stat_used = self._do_division_percentage(stat_with_clip, stat)
 
 		line =  [((Paragraph(str(client[0]), DATA_STYLE_LEFT),),\
 		          (Paragraph(str(eng), DATA_STYLE_CENTER),),\
@@ -319,8 +319,8 @@ class StatisticsPDF(object):
 		self.append(Table(line,self.col_widths2,self.row_heights,TABLE_HEADER,repeatRows=1))
 
 	def  _print_other(self):
-		rel_used = self._do_division_percentage(self._rel_no_client[0]['count'] if self._rel_no_client else 0, self._rel_with_clips_no_client[0]['count'] if self._rel_with_clips_no_client else 0)
-		stat_used = self._do_division_percentage(self._stat_no_client[0]['count'] if self._stat_no_client else 0, self._stat_with_clips_no_client[0]['count'] if self._stat_with_clips_no_client else 0)
+		rel_used = self._do_division_percentage(self._rel_with_clips_no_client[0]['count'] if self._rel_with_clips_no_client else 0, self._rel_no_client[0]['count'] if self._rel_no_client else 0)
+		stat_used = self._do_division_percentage(self._stat_with_clips_no_client[0]['count'] if self._stat_with_clips_no_client else 0, self._stat_no_client[0]['count'] if self._stat_no_client else 0)
 		line =  [((Paragraph("Other", DATA_STYLE_LEFT),),\
 		          (Paragraph(str(self._eng_no_client[0]['count'] if self._eng_no_client else 0), DATA_STYLE_CENTER),),\
 		          (Paragraph(str(self._rel_no_client[0]['count'] if self._rel_no_client else 0), DATA_STYLE_CENTER),),\
@@ -441,10 +441,10 @@ class StatisticsExcel(object):
 		self._sheet.write(self._row, 0, 'Total % Used')
 		previous_year_all = self._results['stat_total_last'][0]['count'] + self._results['rel_total_last'][0]['count']
 		previous_year_with_clip = self._results['rel_with_clip_total_last'][0]['count'] + self._results['stat_with_clip_total_last'][0]['count']
-		previous_year = self._do_division(previous_year_all, previous_year_with_clip)
+		previous_year = self._do_division(previous_year_with_clip, previous_year_all)
 		current_year_all = self._results['stat_total_current'][0]['count'] + self._results['rel_total_current'][0]['count']
 		current_year_with_clip = self._results['rel_with_clip_total_current'][0]['count'] + self._results['stat_with_clip_total_current'][0]['count']
-		current_year = self._do_division(current_year_all, current_year_with_clip)
+		current_year = self._do_division(current_year_with_clip, current_year_all)
 		variance = current_year - previous_year
 		self._sheet.write(self._row, 1, previous_year, self._percentage_format)
 		self._sheet.write(self._row, 2, current_year, self._percentage_format)
@@ -470,8 +470,8 @@ class StatisticsExcel(object):
 		self._sheet.write(self._row, 6, self._results['rel_with_clips_no_client'][0]['count'] if self._results['rel_with_clips_no_client'] else 0)
 		self._sheet.write(self._row, 7, self._results['stat_with_clips_no_client'][0]['count'] if self._results['stat_with_clips_no_client'] else 0)
 
-		self._sheet.write(self._row, 8, self._do_division(self._results['rel_no_client'][0]['count'] if self._results['eng_no_client'] else 0,self._results['rel_with_clips_no_client'][0]['count'] if self._results['rel_with_clips_no_client'] else 0), self._percentage_format)
-		self._sheet.write(self._row, 9, self._do_division(self._results['stat_no_client'][0]['count'] if self._results['stat_no_client'] else 0,self._results['stat_with_clips_no_client'][0]['count'] if self._results['stat_with_clips_no_client'] else 0), self._percentage_format)
+		self._sheet.write(self._row, 8, self._do_division(self._results['rel_with_clips_no_client'][0]['count'] if self._results['rel_with_clips_no_client'] else 0, self._results['rel_no_client'][0]['count'] if self._results['eng_no_client'] else 0), self._percentage_format)
+		self._sheet.write(self._row, 9, self._do_division(self._results['stat_with_clips_no_client'][0]['count'] if self._results['stat_with_clips_no_client'] else 0, self._results['stat_no_client'][0]['count'] if self._results['stat_no_client'] else 0), self._percentage_format)
 		self._row += 2
 		
 	def _print_clients(self):
@@ -504,8 +504,8 @@ class StatisticsExcel(object):
 		for statement_with_clip in self._results['stat_with_clips_by_client']:
 			if statement_with_clip[0] == client:
 				stat_with_clip = statement_with_clip[1]
-		rel_used = self._do_division(rel, rel_with_clip)
-		stat_used = self._do_division(stat, stat_with_clip)
+		rel_used = self._do_division(rel_with_clip, rel)
+		stat_used = self._do_division(stat_with_clip, stat)
 
 		return dict(eng = eng, rel = rel, stat = stat, clip_pro = clip_pro, clip_re = clip_re, rel_with_clip = rel_with_clip, stat_with_clip = stat_with_clip, rel_used = rel_used, stat_used = stat_used)
 
