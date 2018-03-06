@@ -292,7 +292,7 @@ class InvoiceReport(ReportCommon):
 		params = dict(customerid = self._reportoptions['customerid'])
 		self.comm.execute( """SELECT customerid, contactname, contactjobtitle, customername, a.address1, a.address2, a.townname, a.county, a.postcode,
 		pc.cost, pc.vat,pc.total,logins, t.termname,c.countryid, co.countryname, vc.rate, c.vatnumber, c.purchase_order,
-		pc.advancecost, pc.advancevat, pc.advancetotal, pc.crmcost, pc.crmvat, pc.crmtotal, c.advancefeatures , c.crm,c.is_bundle,c.has_bundled_invoice
+		pc.advancecost, pc.advancevat, pc.advancetotal, pc.crmcost, pc.crmvat, pc.crmtotal, c.advancefeatures , c.crm,c.is_bundle,c.has_bundled_invoice,
 		c.distribution_description, c.distribution_description_plural
 
 		FROM internal.customers as c
@@ -692,7 +692,7 @@ class ReportEngagments(ReportCommon):
 		params['clientid'] = self._reportoptions["clientid"]
 		if params['clientid'] != -1 and params['clientid'] != '-1':
 			whereclause += ' AND ch.clientid = %(clientid)s'
-			
+
 
 		drange = simplejson.loads(self._reportoptions["drange"])
 		option = TTLConstants.CONVERT_TYPES[drange["option"]]
@@ -761,16 +761,16 @@ class ActivityReport(ReportCommon):
 		LEFT OUTER JOIN internal.contacthistorystatus AS chs ON chs.contacthistorystatusid = ch.contacthistorystatusid
 		LEFT OUTER JOIN userdata.client on client.clientid = ch.clientid"""
 
-		clippings = """SELECT 
+		clippings = """SELECT
 		to_char(clip.clip_source_date, 'DD/MM/YYYY') as source_date,
-		clip.clip_title, clip.clip_abstract, 
+		clip.clip_title, clip.clip_abstract,
 		client.clientname,
 		o.outletname
 		FROM userdata.clippings AS clip
 		LEFT OUTER JOIN outlets AS o ON o.outletid = clip.outletid
 		LEFT OUTER JOIN userdata.client on client.clientid = clip.clientid"""
 
-		releases = """SELECT  
+		releases = """SELECT
 		et.emailtemplatename,
 		et.subject,
 		client.clientname,
@@ -778,15 +778,15 @@ class ActivityReport(ReportCommon):
 		FROM userdata.emailtemplates AS et
 		LEFT OUTER JOIN userdata.client AS client ON client.clientid = et.clientid
 		"""
-		
-		total_eng = """SELECT count(*) 
+
+		total_eng = """SELECT count(*)
 		FROM userdata.contacthistory AS ch
 		LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid"""
-		total_clip = """SELECT count(*) 
+		total_clip = """SELECT count(*)
 		FROM userdata.clippings AS clip"""
-		total_rel = """SELECT count(*) 
+		total_rel = """SELECT count(*)
 		FROM userdata.emailtemplates AS et"""
-		
+
 		andclause_completed_eng = """ AND ch.contacthistorystatusid = 1 """
 		andclause_inprogress_eng = """ AND ch.contacthistorystatusid = 2 """
 
@@ -797,7 +797,7 @@ class ActivityReport(ReportCommon):
 		andclause_eng = ""
 		andclause_clip = ""
 		andclause_rel = ""
-		
+
 		labels = """SELECT crm_engagement, crm_engagement_plural, distribution_description, distribution_description_plural FROM internal.customers WHERE customerid = %(icustomerid)s"""
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
@@ -806,7 +806,7 @@ class ActivityReport(ReportCommon):
 			andclause_eng = """AND ch.clientid = %(clientid)s"""
 			andclause_clip = """AND clip.clientid = %(clientid)s"""
 			andclause_rel = """AND et.clientid = %(clientid)s"""
-		
+
 		drange = simplejson.loads(self._reportoptions["drange"])
 		option = TTLConstants.CONVERT_TYPES[drange["option"]]
 		if option == TTLConstants.BEFORE:
@@ -844,9 +844,9 @@ class ActivityReport(ReportCommon):
 
 		data = dict(
 		    labels = results_labels,
-			results_eng = results_eng, 
-			total_eng = results_total_eng, 
-			completed_eng = results_completed_eng, 
+			results_eng = results_eng,
+			total_eng = results_total_eng,
+			completed_eng = results_completed_eng,
 			inprogress_eng = results_inprogress_eng,
 		    results_clip = results_clip,
 		    total_clip = results_total_clip,
@@ -945,26 +945,26 @@ class ClippingsLinesChartReport(ReportCommon):
 
 		whereclause = ''
 		groupbyclause = 'GROUP BY c.clippingstypeid, ct.clippingstypedescription, c.clip_source_date'
-		
+
 		params = dict(icustomerid = self._reportoptions["customerid"])
 
 		if "clientid" in self._reportoptions and self._reportoptions['clientid'] != '' and self._reportoptions['clientid'] is not None and self._reportoptions['clientid'] != -1 and self._reportoptions['clientid'] != '-1':
 			whereclause = BaseSql.addclause(whereclause, 'c.clientid=%(clientid)s')
-			params['clientid'] = int(self._reportoptions['clientid'])	
-			
+			params['clientid'] = int(self._reportoptions['clientid'])
+
 		if 'issueid' in self._reportoptions and self._reportoptions['issueid'] != '' and self._reportoptions['issueid'] is not None  and self._reportoptions['issueid'] != -1 and self._reportoptions['issueid'] != '-1':
 			whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = %(issueid)s AND ci.clippingid = c.clippingid)')
 			params['issueid'] = int(self._reportoptions['issueid'])
-			
+
 		# tones on the filter
 		if self._reportoptions.get("tones", None):
 			whereclause = BaseSql.addclause(whereclause, "c.clippingstoneid IN (%s)" % ",".join([str(tone) for tone in self._reportoptions["tones"]]))
-	
+
 		#date range
-	
+
 		drange = simplejson.loads(self._reportoptions["drange"])
-		option = TTLConstants.CONVERT_TYPES[drange["option"]]		
-		
+		option = TTLConstants.CONVERT_TYPES[drange["option"]]
+
 		if option == TTLConstants.BEFORE:
 			params["from_date"] = drange['from_date']
 			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date <= %(from_date)s')
@@ -974,7 +974,7 @@ class ClippingsLinesChartReport(ReportCommon):
 		elif option == TTLConstants.BETWEEN:
 			params["from_date"] = drange['from_date']
 			params["to_date"] = drange['to_date']
-			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date BETWEEN %(from_date)s AND %(to_date)s')			
+			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date BETWEEN %(from_date)s AND %(to_date)s')
 
 		is_dict = False if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv else True
 
@@ -1003,7 +1003,7 @@ class PartnersListCustomersReport(ReportCommon):
 		data_command = """SELECT customername, contactname
 		FROM internal.customers"""
 
-		whereclause = """WHERE customersourceid = %(customersourceid)s"""		
+		whereclause = """WHERE customersourceid = %(customersourceid)s"""
 
 		params = dict(customersourceid = self._reportoptions["customersourceid"])
 
@@ -1019,7 +1019,7 @@ class PartnersListCustomersReport(ReportCommon):
 		report = PartnersListPDF( self._reportoptions,  data["results"])
 
 		output.write(report.stream())
-		
+
 
 class StatisticsReport(ReportCommon):
 	"""Statistics Report"""
@@ -1154,7 +1154,7 @@ class StatisticsReport(ReportCommon):
 		results_rel_total_last = db_connect.executeAll(releases + whereclause_rel_total_last, params, is_dict)
 		results_rel_with_clip_total_current = db_connect.executeAll(releases_with_clippings + whereclause_rel_with_clip_total_current, params, is_dict)
 		results_rel_with_clip_total_last = db_connect.executeAll(releases_with_clippings + whereclause_rel_with_clip_total_last, params, is_dict)
-		
+
 		data = dict(
 			eng = results_eng,
 		    eng_by_client = results_eng_by_client,

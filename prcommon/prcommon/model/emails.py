@@ -108,7 +108,7 @@ class EmailQueue(BaseSql):
 	def send_email_and_attachments(cls, fromemailaddress, toaddress,
 	              subject, body, files,
 	              emailqueuetypeid=Constants.EmailQueueType_Internal,
-								newtype="text/plain", emailsendtypeid=Constants.Email_Html_And_Plain):
+								newtype="text/plain", emailsendtypeid=Constants.Email_Html_And_Plain, customerid=None):
 		""" Send an email wiith an attachment by default the type is plain text """
 
 		emailm = EmailMessage(fromemailaddress,
@@ -134,7 +134,8 @@ class EmailQueue(BaseSql):
 			  emailaddress=toaddress,
 			  subject=emailm.Subject,
 			  emailqueuetypeid=emailqueuetypeid,
-			  message=DBCompress.encode2(emailm))
+			  message=DBCompress.encode2(emailm),
+			  customerid=customerid)
 			session.add(emailq)
 			session.flush()
 			transaction.commit()
@@ -722,7 +723,8 @@ class EmailTemplates(BaseSql):
 		  EmailTemplates.get_attachments(params["emailtemplateid"]),
 		  Constants.EmailQueueType_Internal,
 		  "text/html",
-		  emailsendtypeid)
+		  emailsendtypeid,
+		  params["customerid"])
 
 	@classmethod
 	def build_list(cls, params):
@@ -1103,7 +1105,7 @@ class EmailTemplates(BaseSql):
 						)
 						session.add(lm)
 						session.flush()
-					
+
 						lmd = ListMemberDistribution(
 						    listmemberid = lm.listmemberid,
 							listid = emailtemplate.listid,
@@ -1131,7 +1133,7 @@ class EmailTemplates(BaseSql):
 						session.flush()
 
 						session.commit()
-					
+
 		except:
 			transaction.rollback()
 			LOGGER.exception("resend emailtemplate")

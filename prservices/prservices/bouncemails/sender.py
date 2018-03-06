@@ -64,7 +64,8 @@ def _run():
 	    "",
 	    [(output1.getvalue(), 'Monthly highest bounces.csv'), (output2.getvalue(), 'Monthly top 50 breakdown.csv')],
 	    Constants.EmailQueueType_Internal,
-	    "text/html")
+	    "text/html",
+	    None)
 
 if __name__ == '__main__':
 	_run()

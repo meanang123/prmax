@@ -1535,7 +1535,9 @@ class DemoRequests(BaseSql):
 				"Demo Request Submitted",
 				[],
 				Constants.EmailQueueType_Internal,
-				"text/html")
+				"text/html",
+			    Constants.Email_Html_Only,
+			    None)
 
 		except:
 			LOGGER.exception("DemoRequests_Add")

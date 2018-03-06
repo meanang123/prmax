@@ -208,3 +208,15 @@ INSERT INTO internal.actiontypes VALUES (8, 'Resend');
 ALTER TABLE userdata.collateral ADD COLUMN automated_source boolean NOT NULL DEFAULT false;
 UPDATE userdata.collateral SET automated_source = true WHERE SUBSTRING(collateralname,1,1) IN ('0','1','2','3','4','5','6','7','8','9' ) ;
 
+CREATE TABLE internal.emailservertype
+(
+   emailservertypeid integer NOT NULL,
+   emailservertypename character varying NOT NULL,
+    PRIMARY KEY (emailservertypeid)
+) WITH (OIDS = FALSE);
+
+INSERT INTO internal.emailservertype( emailservertypeid, emailservertypename ) VALUES(1,'localhost'),(2,'Open Relay');
+
+ALTER TABLE userdata.emailserver ADD COLUMN emailservertypeid integer NOT NULL DEFAULT 1;
+ALTER TABLE userdata.emailserver ADD FOREIGN KEY (emailservertypeid) REFERENCES internal.emailservertype (emailservertypeid) ON UPDATE NO ACTION ON DELETE RESTRICT;
+

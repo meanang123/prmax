@@ -618,12 +618,28 @@ class SMTPExchange(SMTPServerBase):
 		                        limit=300,
 		                        starttls=True)
 
+class SMTPOpenRelay(SMTPServerBase):
+	""" handle hot mail
+	"""
+	def __init__(self, host=None):
+		"settings"
+
+		SMTPServerBase.__init__(self,
+		                        host=host,
+		                        port=587,
+		                        https=False,
+		                        authorise=False,
+		                        username="",
+		                        password="",
+		                        limit=300,
+		                        starttls=True)
 
 SMTPSERVERBYTYPE = {2: SMTPServerGMail,
                     3: SMTPServerYahoo,
                     4: SMTPServerHotmail,
                     5: SMTPServer1to1,
-                    6: SMTPExchange}
+                    6: SMTPExchange,
+                    7: SMTPOpenRelay,}
 
 class STMPUsage(object):
 	def __init__(self, limit):

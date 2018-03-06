@@ -11,18 +11,18 @@
 
 #-----------------------------------------------------------------------------
 
+import platform
 from time import sleep
 from datetime import datetime
-import prmax.Constants as Constants
-from ttl.postgres import DBCompress, DBConnect
-from ttl.ttlemail import SendMessage
 from random import randint
 import dkim
+import prmax.Constants as Constants
+from ttl.postgres import DBCompress, DBConnect
+from ttl.ttlemail import SendMessage, SMTPOpenRelay
 
-testMode = False
-import platform
+TESTMODE = False
 if platform.system().lower() == "windows":
-	testMode = True
+	TESTMODE = True
 
 PRMAXDKIM = """
 -----BEGIN RSA PRIVATE KEY-----
@@ -44,12 +44,20 @@ DpgA1tXPHUdkjAkOSme8dODXKAnrU3so6vLNVaNjpRXT
 PRMAXSELECTOR = 'dkim'
 PRMAXDOMAIN = 'prmax.co.uk'
 
-_sql_get_domains = "SELECT host FROM internal.hostspf WHERE is_valid_source = true"
-_sql_get_domains_keys_selectors = "SELECT host, privatekey, selector FROM internal.hostspf WHERE is_valid_source = true and privatekey is not null and privatekey != ''"
+SQL_GET_DOMAINS = "SELECT host FROM internal.hostspf WHERE is_valid_source = true"
+SSQL_GET_DOMAINS_KEYS_SELECTORS = "SELECT host, privatekey, selector FROM internal.hostspf WHERE is_valid_source = true and privatekey is not null and privatekey != ''"
 
+COL_SERVERTYPEID = 5
+COL_SERVEREMAILHOST = 6
 
 class EmailController(object):
 	"""  Email send controller """
+	def __init__(self):
+		"""__intit__"""
+		self._domains = {}
+		self._privatekeys = {}
+		self._selectors = {}
+
 	def heartbeat(self):
 		"heartbeat"
 		pass
@@ -72,82 +80,104 @@ class EmailController(object):
 		try:
 			domain = email.split("@")[1].lower()
 			if domain[-1] == '>':
-				domain = domain[:-1]			
+				domain = domain[:-1]
 			if domain in self._privatekeys:
 				return True
 		except:
 			pass
 		return False
 
+	def _std_email(self, emailrec, fields):
+		"""Standard Emails"""
+		is_valid_email_domain = self.is_valid_domain_email(emailrec.fromAddress)
+		has_privatekey = self.has_privatekey(emailrec.fromAddress)
+		if is_valid_email_domain:
+			sender = emailrec.fromAddress
+		else:
+			sender = '<%s@prmax.co.uk>' % (emailrec.fromAddress.replace("@", "="))
+
+		if is_valid_email_domain and has_privatekey:
+			dom = emailrec.fromAddress.split("@")[1].lower()
+			sig = dkim.sign(
+			    emailrec.serialise(),
+			    self._selectors[dom],
+			    dom,
+			    self._privatekeys[dom],
+			    canonicalize=(dkim.Relaxed, dkim.Relaxed),
+			    include_headers=['from', 'to', 'subject'])
+
+			emailrec.set_dkim(sig[len("DKIM-Signature: "):])
+
+		if not is_valid_email_domain:
+			# sign message
+			sig = dkim.sign(
+			    emailrec.serialise(),
+			    PRMAXSELECTOR,
+			    PRMAXDOMAIN,
+			    PRMAXDKIM,
+			    canonicalize=(dkim.Relaxed, dkim.Relaxed),
+			    include_headers=['from', 'to', 'subject'])
+
+			emailrec.set_dkim(sig[len("DKIM-Signature: "):])
+
+		(fields['error'], _) = SendMessage(
+		    Constants.email_host,
+		    Constants.email_post,
+		    emailrec,
+		    TESTMODE,
+		    sender)
+		print "Result", fields['error']
+
+	def _open_relay(self, emailrec, host, fields):
+		"""Open Replay"""
+
+		try:
+			stmp = SMTPOpenRelay(host)
+
+			stmp.send(emailrec)
+		except Exception, e:
+			print e
+
 	def run(self):
 		""" run """
+
 		self._domains = {}
 		self._privatekeys = {}
-		self._selectors = {}		
+		self._selectors = {}
+
 		try:
-			db = DBConnect(Constants.db_Command_Service)
-			cur = db.getCursor()
+			db_connect = DBConnect(Constants.db_Command_Service)
+			cur = db_connect.getCursor()
 			# get the next bacth of email to be sent
 			# all email that hav't been sent and who have no embargo time
 			# all email that hav't been sent but who embargo time has expired
-			cur.execute("""SELECT emailqueueid,emailaddress,subject,message
-			FROM queues.emailqueue WHERE statusid = 1 AND ( embargo is NULL OR embargo < now() ) ORDER BY emailqueueid LIMIT %d """ % randint(50, 150))
+			cur.execute("""SELECT emq.emailqueueid,emq.emailaddress,emq.subject,emq.message,emq.customerid,em.emailservertypeid,em.email_host,em.email_port,em.email_https,em.email_authorise,em.email_username,em.email_password,em.mailedby
+			FROM queues.emailqueue AS emq
+			LEFT OUTER JOIN internal.customers AS c ON c.customerid = emq.customerid
+			LEFT OUTER JOIN userdata.emailserver AS em ON em.emailserverid = c.emailserverid
+			WHERE statusid = 1 AND (embargo is NULL OR embargo < now())
+			ORDER BY emailqueueid LIMIT %d """ % randint(50, 150))
 			rows = cur.fetchall()
 			if len(rows):
-				for domain in db.executeAll(_sql_get_domains, None, False):
+				for domain in db_connect.executeAll(SQL_GET_DOMAINS, None, False):
 					self._domains[domain[0]] = True
-				for ks in db.executeAll(_sql_get_domains_keys_selectors, None, False):
-					self._privatekeys[ks[0]] = ks[1]
-					self._selectors[ks[0]] = ks[2]					
+				for dom_keys in db_connect.executeAll(SSQL_GET_DOMAINS_KEYS_SELECTORS, None, False):
+					self._privatekeys[dom_keys[0]] = dom_keys[1]
+					self._selectors[dom_keys[0]] = dom_keys[2]
 				for row in rows:
 					fields = dict(statusid=2, error="", emailqueueid=row[0])
 					try:
 						# get email record
 						emailrec = DBCompress.decode(row[3])
-						# get sender
-						sender = None
-
-						is_valid_email_domain = self.is_valid_domain_email(emailrec.fromAddress)
-						has_privatekey = self.has_privatekey(emailrec.fromAddress)
-						if is_valid_email_domain:
-							sender = emailrec.fromAddress
+						# check send type
+						if row[COL_SERVERTYPEID] == 2:
+							self._open_relay(emailrec, row[COL_SERVEREMAILHOST], fields)
 						else:
-							sender = '<%s@prmax.co.uk>' % (emailrec.fromAddress.replace("@", "="))
+							self._std_email(emailrec, fields)
 
-						if is_valid_email_domain and has_privatekey:
-							dom = emailrec.fromAddress.split("@")[1].lower()
-							sig = dkim.sign(
-						        emailrec.serialise(),
-						        self._selectors[dom],
-						        dom,
-						        self._privatekeys[dom],
-						        canonicalize=(dkim.Relaxed, dkim.Relaxed),
-						        include_headers=['from', 'to', 'subject'])
-					
-							emailrec.set_dkim(sig[len("DKIM-Signature: "):])
-					
-						if not is_valid_email_domain:
-							# sign message
-							sig = dkim.sign(
-						        emailrec.serialise(),
-						        PRMAXSELECTOR,
-						        PRMAXDOMAIN,
-						        PRMAXDKIM,
-						        canonicalize=(dkim.Relaxed, dkim.Relaxed),
-						        include_headers=['from', 'to', 'subject'])
-					
-							emailrec.set_dkim(sig[len("DKIM-Signature: "):])
-
-						(fields['error'], ignore) = SendMessage(
-							Constants.email_host ,
-							Constants.email_post,
-							emailrec,
-						  testMode,
-						  sender)
-						print "Result", fields['error']
 					finally:
 						# message sent remove message details from queue it too large too store
-						db.startTransaction(cur)
+						db_connect.startTransaction(cur)
 						cur.execute("""UPDATE queues.emailqueue
 									SET statusid = %(statusid)s,
 									error = %(error)s,
@@ -155,15 +185,15 @@ class EmailController(object):
 									sent = now()
 									WHERE emailqueueid =  %(emailqueueid)s""", fields)
 
-						db.commitTransaction(cur)
+						db_connect.commitTransaction(cur)
 				print "Complete (%d) %s" % (len(rows), datetime.now())
-			db.Close()
+			db_connect.Close()
 		except Exception, ex:
 			print ex
 
 # need to add a timing loop in here to run every 60 second if not already running
-emailCtrl = EmailController()
+EMAILCTRL = EmailController()
 while 1 == 1:
-	emailCtrl.heartbeat()
-	emailCtrl.run()
+	EMAILCTRL.heartbeat()
+	EMAILCTRL.run()
 	sleep(randint(1, 30))

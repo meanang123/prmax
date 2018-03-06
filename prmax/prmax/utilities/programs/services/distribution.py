@@ -25,7 +25,7 @@ import turbogears
 import dkim
 import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
-from ttl.ttlemail import EmailMessage, SendSupportEmailMessage
+from ttl.ttlemail import EmailMessage, SendSupportEmailMessage, SMTPOpenRelay
 from ttl.ttlemail import getTestMode, SMTPServer
 from ttl.ttldict import NotTooOften
 from ttl.ttlenv import getConfigFile
@@ -123,7 +123,8 @@ COALESCE( es.email_password,'') AS email_password,
 et.emailsendtypeid,
 COALESCE( es.mailedby,'prmax.co.uk') AS mailedby,
 dtf.templatecontent AS footercontent,
-dth.templatecontent AS headercontent
+dth.templatecontent AS headercontent,
+es.emailservertypeid
 
 FROM userdata.listmemberdistribution AS lmd
 JOIN userdata.emailtemplates AS et ON et.listid = lmd.listid
@@ -340,7 +341,7 @@ class WorkerController(threading.Thread):
 				# build the email message
 				# dependant on type
 				# are we sending email ? if then tag us as sender
-				if record["email_host"] == "localhost":
+				if record["email_host"] == "localhost" or record["emailservertypeid"] in (2, ):
 					if is_valid_email_domain:
 						sender = "%s.%d@prmax.co.uk" % (self._typ, record["listmemberdistributionid"])
 					else:
@@ -354,14 +355,19 @@ class WorkerController(threading.Thread):
 
 					# emailer
 					if self._do_email:
-						emailserver = SMTPServer(
-							record["email_host"],
-							record["email_port"],
-							record["email_https"],
-							record["email_authorise"],
-							record["email_username"],
-							record["email_password"])
-						(error, _) = emailserver.send(email, sender)
+						if record['emailservertypeid'] == 2:
+							# this is an open relay
+							openrelay = SMTPOpenRelay(record["email_host"])
+							(error, _) = openrelay.send(email, sender)
+						else:
+							emailserver = SMTPServer(
+							    record["email_host"],
+							    record["email_port"],
+							    record["email_https"],
+							    record["email_authorise"],
+							    record["email_username"],
+							    record["email_password"])
+							(error, _) = emailserver.send(email, sender)
 						#emailserver.send(email, sender)
 						#(error, ignore) = SendMessage(
 						#  Constants.email_host ,
