@@ -220,3 +220,5 @@ INSERT INTO internal.emailservertype( emailservertypeid, emailservertypename ) V
 ALTER TABLE userdata.emailserver ADD COLUMN emailservertypeid integer NOT NULL DEFAULT 1;
 ALTER TABLE userdata.emailserver ADD FOREIGN KEY (emailservertypeid) REFERENCES internal.emailservertype (emailservertypeid) ON UPDATE NO ACTION ON DELETE RESTRICT;
 
+-- INSERT INTO userdata.emailserver( email_host, emailservertypeid) VALUES ('shielporter.com.outbound1-uk.mailanyone.net',2);
+
