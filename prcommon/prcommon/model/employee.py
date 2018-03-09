@@ -679,8 +679,11 @@ class Employee(BaseSql):
 		address = None
 		if comm.addressid > 0 :
 			address = Address.query.get(comm.addressid)
-		contact = Contact.query.get(employee.contactid)
-		contactname = Contact.getName(contact)
+		if employee.contactid:
+			contact = Contact.query.get(employee.contactid)
+			contactname = Contact.getName(contact)
+		else:
+			contactname = None
 		# job roles
 		jobroles = session.query(EmployeeRoleView).\
 		  filter( EmployeeRoleView.employeeid == params["employeeid"]).all()

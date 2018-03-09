@@ -496,10 +496,10 @@ class ResearchProjectChanges(BaseSql):
 	  c.middlename,
 	  COALESCE((SELECT value FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 AND fieldid = 23),c.familyname),
 	  c.suffix)) AS contactname,
-	  JSON_ENCODE(COALESCE((SELECT value FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 AND fieldid = 2),e.job_title)) AS job_title,
-	  UPPER(COALESCE((SELECT value FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 AND fieldid = 23),c.familyname)) AS familyname,
-	  IFNULL((SELECT actiontypeid FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 LIMIT 1),-1) AS actiontypeid,
-	  IFNULL((SELECT MAX(applied::int) FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2),0) AS applied,
+	  JSON_ENCODE(COALESCE((SELECT value FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 AND fieldid = 2 ORDER BY chi.researchprojectchangeid desc LIMIT 1),e.job_title)) AS job_title,
+	  UPPER(COALESCE((SELECT value FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 AND fieldid = 23 ORDER BY chi.researchprojectchangeid desc LIMIT 1),c.familyname)) AS familyname,
+	  IFNULL((SELECT actiontypeid FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 ORDER BY chi.researchprojectchangeid desc LIMIT 1),-1) AS actiontypeid,
+	  IFNULL((SELECT MAX(applied::int) FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 LIMIT 1),0) AS applied,
 	  CASE WHEN(SELECT actiontypeid FROM research.researchprojectchanges AS chi WHERE researchprojectitemid =:researchprojectitemid AND chi.employeeid = e.employeeid AND actiontypeid = 2 LIMIT 1) IS NULL THEN
 	  'Not Modified' ELSE  'Change' END AS actiontypedescription,
 	  CASE WHEN o.primaryemployeeid = e.employeeid THEN true ELSE false END AS isprimary

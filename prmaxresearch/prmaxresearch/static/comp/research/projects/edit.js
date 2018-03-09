@@ -74,6 +74,7 @@ define([
 		var cells =
 		[
 			{label: ' ', field:"menu", className:"grid-field-image-view", formatter:utilities2.format_row_ctrl},
+			{label: 'OutletID',className:"dgrid-column-status-small",field:"outletid"},
 			{label: 'Outlet',className:"standard",field:"outletname"},
 			{label: 'Desk',className:"standard",field:"deskname"},
 			{label: 'Status',className:"standard",field:"researchprojectstatusdescription"},
