@@ -936,7 +936,10 @@ class EmployeeDisplay(BaseSql):
 	  c_e.twitter,
 	  c_e.linkedin,
 	  c_e.instagram,
-	  c_e.facebook
+	  c_e.facebook,
+	  e.contactid,
+	  e.outletid,
+	  o.outletname
 	FROM employees as e
 		LEFT OUTER JOIN contacts as c ON c.contactid = e.contactid
 		LEFT OUTER JOIN internal.deliverypreferences as dp on dp.deliverypreferenceid = e.deliverypreferenceid

@@ -200,12 +200,16 @@ dojo.declare("prcommon.crm.add",
 		this.outletid.set("value",outletid);
 		this.employeeid.set("value",employeeid);
 
-		var display = contactname;
-		if (outletname != "")
+		var display = '';
+		if (contactname != undefined && contactname != "")
+		{
+			display = contactname;
+		}
+		if (outletname != undefined && outletname != "" && display != null && display != "")
 		{
 			display +=" (" + outletname + ")";
 		}
-		dojo.attr(this.contact_display,"innerHTML",display);
+		this.contact.set("Displayvalue", display);
 	},
 	_select_contact:function()
 	{
@@ -218,16 +222,40 @@ dojo.declare("prcommon.crm.add",
 		else
 			dojo.addClass(this.follow_up_view,"prmaxhidden");
 	},
-	load:function(outletid,outletname,employeeid,contactname)
+	load:function(outletid,outletname,employeeid,contactname,contactid)
 	{
-			dojo.attr(this.contact_display, "innerHTML", outletname);
-			if (contactname != undefined)
-			{
-				dojo.attr(this.contact_display, "innerHTML", contactname);
-			}
-			dojo.addClass(this.selectbtn.domNode,"prmaxhidden");
-			this.outletid.set("value",outletid);
-			this.employeeid.set("value",employeeid);
+		if (outletid == "" || outletid == undefined)
+		{
+			this.outletid.set("value", -1);
+		}
+		else
+		{
+			this.outletid.set("value", outletid);
+			this.contact.outletid.set("value", outletid);
+		}
+		if (employeeid == "" || employeeid == undefined)
+		{
+			this.employeeid.set("value", -1);
+		}
+		else
+		{
+			this.employeeid.set("value", employeeid);
+			this.contact.employeeid.set("value", employeeid);
+		}
+		var display = '';
+		if (contactname != undefined && contactname != "")
+		{
+			display = contactname;
+		}
+		if (outletname != undefined && outletname != "" && display != null && display != "")
+		{
+			display +=" (" + outletname + ")";
+		}
+		if (contactid != undefined && contactid != "" )
+		{
+			this.contact.set("value", contactid);
+		}
+		this.contact.set("Displayvalue", display);
 	},
 	_new_issue_event:function(issue)
 	{

@@ -29,6 +29,7 @@ dojo.declare("prcommon.crm.viewer_only",
 
 		this._outletid = null;
 		this._employeeid = null;
+		this._contactid = null;
 		dojo.subscribe("/crm/newnote", dojo.hitch(this, this._new_issue_event));
 
 	},
@@ -75,10 +76,12 @@ dojo.declare("prcommon.crm.viewer_only",
 		this.crm_add.set("dialog",this.crm_dlg);
 		this.view_details.set("content","");
 	},
-	load_employee:function(employeeid,contactname,outletid)
+	load_employee:function(employeeid,contactname,outletid,contactid,outletname)
 	{
 		this._employeeid = employeeid;
 		this._contactname = contactname;
+		this._contactid = contactid;
+		this._outletname = outletname;
 		this._outletid = (outletid ==-1)?null:outletid;
 		this.view_grid.setQuery( ttl.utilities.getPreventCache({employeeid:this._employeeid}));
 		this.crm_add.set("dialog",this.crm_dlg);
@@ -89,7 +92,7 @@ dojo.declare("prcommon.crm.viewer_only",
 		this.crm_add.clear();
 		this.crm_add.set("dialog", this.crm_dlg);
 		this.crm_dlg.set("title", "<p><i class=\"fa fa-user\"></i>&nbsp;New " + PRMAX.utils.settings.crm_engagement + "</p>");
-		this.crm_add.load(this._outletid, this._outletname, this._employeeid, this._contactname);
+		this.crm_add.load(this._outletid, this._outletname, this._employeeid, this._contactname, this._contactid);
 		this.crm_dlg.show();
 	},
 	refresh:function ( )

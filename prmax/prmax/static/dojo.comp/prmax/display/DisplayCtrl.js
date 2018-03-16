@@ -139,7 +139,10 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		this.advanceTabButton = this.advanceView.controlButton;
 		this.crmView.set("title", PRMAX.utils.settings.crm_engagement_plural);
 		this.crmTabButton = this.crmView.controlButton;
-		this.crmTabButton.set('label', PRMAX.utils.settings.crm_engagement_plural);
+		if (this.crmTabButton)
+		{
+			this.crmTabButton.set('label', PRMAX.utils.settings.crm_engagement_plural);
+		}
 		this.freelancerContactTabButton = this.resendView.controlButton;
 
 	},

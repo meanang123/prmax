@@ -270,7 +270,7 @@ dojo.declare("prcommon.crm.update",
 		if ( this.details.get("value") == "")
 		{
 			this.savebtn.cancel();
-			alert("Empty note");
+			alert("Briefing Notes cannot be empty");
 			return ;
 		}
 		var content = this.form.get("value");

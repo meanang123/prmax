@@ -29,6 +29,9 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		this.resend_loaded = false;
 		this.whereused_loaded = false ;
 		this._setstore = false;
+		this._contactid = null;
+		this._outletid = null;
+		this._outletname = null;
 		dojo.subscribe(PRCOMMON.Events.Update_Notes, dojo.hitch(this,this._profile_refresh_event));
 		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
 	},
@@ -70,7 +73,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		if (button.id==this.crmview.id && this.crm_loaded==false)
 		{
 			this.crm_loaded = true;
-			this.crmctrl.load_employee(this.employeeid,this.contactname,this.outletid);
+			this.crmctrl.load_employee(this.employeeid,this.contactname,this._outletid,this._contactid,this._outletname);
 		}
 	},
 	// Load employee details on the screen
@@ -105,6 +108,9 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		this._contactemail = response.employee.email;
 		this.tabControl.selectChild(this.maintab);
 		this.Clear();
+		this._contactid = response.employee.contactid;
+		this._outletid = response.employee.outletid;
+		this._outletname = response.employee.outletname;
 		this.crmview.set("title", PRMAX.utils.settings.crm_engagement_plural);
 		dojo.attr(this.employee_display_contactname, "innerHTML", response.employee.contactname);
 		dojo.attr(this.employee_display_job_title,"innerHTML",response.employee.job_title);
