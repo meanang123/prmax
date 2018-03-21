@@ -134,6 +134,26 @@ def _run():
 		session.execute(DataSourceTranslations.mapping.insert(), inserts_circulationsources)
 		session.commit()
 
+	inserts_circulationauditdate = []
+	workbook_circulation = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
+	xls_sheet_circulation = workbook_circulation.sheet_by_name('circulation-audit-period')
+	for rnum in xrange(1, xls_sheet_circulation.nrows):
+		sourcetext = xls_sheet_circulation.cell_value(rnum, 0).strip()
+		translation = int(xls_sheet_circulation.cell_value(rnum, 1))
+		english = xls_sheet_circulation.cell_value(rnum, 2).lower().strip()
+
+		inserts_circulationauditdate.append({"fieldname": "circulation-audit-period",
+	                                "sourcetext": sourcetext,
+	                                "sourcetypeid" : Constants.Source_Type_Stamm,
+	                                "translation" : translation,
+	                                "english" : english
+	                                })
+	if inserts_circulationauditdate:
+		session.begin()
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_circulationauditdate)
+		session.commit()
+
+
 	# media channels
 	inserts = []
 	workbook = xlrd.open_workbook(os.path.join(sourcedir, "Sachgruppe.xlsx"))
@@ -209,24 +229,6 @@ def _run():
 	        filter(PRMaxRoles.visible == True).scalar()
 		prmaxroleid = simplejson.dumps([jobrole.prmaxroleid, ] if jobrole else [])
 		keywords = []
-#		for interestname in xls_sheet.cell_value(rnum, 6).strip().split(","):
-#			interestname = interestname.strip()
-#			if interestname == "NA":
-#				continue
-#			interestid = session.query(Interests.interestid).\
-#		        filter(Interests.interestname.ilike(interestname)).\
-#		        filter(Interests.customerid == -1).scalar()
-#			if interestid:
-#				keywords.append(interestid)
-#			else:
-#				interests = session.query(Interests).filter(Interests.interestname.ilike(interestname)).all()
-#				if interests:
-#					interests[0].customerid = -1
-#					keywords.append(interests[0].interestid)
-#				else:
-#					print interestname
-#		keywords = simplejson.dumps(keywords)
-
 		tmp = session.query(DataSourceTranslations).\
 	        filter(DataSourceTranslations.sourcetypeid == Constants.Source_Type_Stamm).\
 	        filter(DataSourceTranslations.fieldname == "jobtitle-areainterest").\
