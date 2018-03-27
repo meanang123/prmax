@@ -26,10 +26,13 @@ class FeedController(controllers.RootController):
 		customerid = argv[0]
 		export_type = argv[len(argv)-1]
 		clientid = '-1'
+		newsroomid = '-1'
 		if len(argv) > 2:
 			clientid = argv[1]
+		if len(argv) > 3:
+			newsroomid = argv[2]
 
-		params = {'customerid':customerid, 'export_type':export_type, 'clientid':clientid, 'days':300,}
+		params = {'customerid':customerid, 'export_type':export_type, 'clientid':clientid, 'days':300, 'newsroomid': newsroomid,}
 		seoreleases = SEORelease.get_list(params)
 
 		if seoreleases == None:

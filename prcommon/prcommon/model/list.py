@@ -426,9 +426,11 @@ class List(BaseSql):
 
 	Select_Release_Data = """SELECT
 		l.listid, l.listname, lt.listtypedescription,
-		(SELECT COUNT(*) FROM userdata.listmembers AS lm WHERE lm.listid = l.listid) AS qty
+		(SELECT COUNT(*) FROM userdata.listmembers AS lm WHERE lm.listid = l.listid) AS qty,
+	    c.clientname
 	FROM userdata.list AS l
 	JOIN internal.listtypes AS lt ON l.listtypeid = lt.listtypeid
+	LEFT OUTER JOIN userdata.client AS c ON c.clientid = l.clientid
 	WHERE l.customerid = :customerid AND
 		l.listid NOT IN (select listid FROM userdata.emailtemplatelist WHERE emailtemplateid = :emailtemplateid) AND
 		l.listtypeid = 1

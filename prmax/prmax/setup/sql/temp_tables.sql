@@ -222,3 +222,72 @@ ALTER TABLE userdata.emailserver ADD FOREIGN KEY (emailservertypeid) REFERENCES 
 
 -- INSERT INTO userdata.emailserver( email_host, emailservertypeid) VALUES ('shielporter.com.outbound1-uk.mailanyone.net',2);
 
+DELETE FROM  userdata.clientnewsroom
+WHERE clientid IN ( SELECT cnr.clientid FROM userdata.clientnewsroom as cnr
+left outer join userdata.client as c on c.clientid = cnr.clientid
+WHERE c.clientid is null ) ;
+
+ALTER TABLE userdata.clientnewsroom DROP CONSTRAINT pk_clientnewsroom;
+ALTER TABLE userdata.clientnewsroom ADD COLUMN newsroomid serial NOT NULL;
+ALTER TABLE userdata.clientnewsroom ADD PRIMARY KEY (newsroomid);
+ALTER TABLE userdata.clientnewsroom ADD FOREIGN KEY (clientid) REFERENCES userdata.client (clientid) ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE userdata.clientnewsroom ALTER COLUMN clientid DROP NOT NULL;
+ALTER TABLE userdata.clientnewsroom ADD COLUMN description character varying(80);
+
+ALTER TABLE userdata.clientnewsroomcustumlinks ALTER COLUMN clientid DROP NOT NULL;
+ALTER TABLE userdata.clientnewsroomcustumlinks ADD COLUMN newsroomid integer;
+ALTER TABLE userdata.clientnewsroomcustumlinks ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE RESTRICT;
+ALTER TABLE userdata.clientnewsroomcustumlinks ADD UNIQUE (newsroomid, "name");
+
+ALTER TABLE userdata.clientnewsroomimage ALTER COLUMN clientid DROP NOT NULL;
+ALTER TABLE userdata.clientnewsroomimage ADD COLUMN newsroomid integer;
+ALTER TABLE userdata.clientnewsroomimage ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE userdata.clientnewsroomimage ADD UNIQUE (newsroomid, imagetypeid);
+
+
+UPDATE userdata.clientnewsroomcustumlinks AS cncl
+SET newsroomid = cnr.newsroomid
+FROM
+userdata.clientnewsroom AS cnr
+WHERE cnr.clientid = cncl.clientid AND
+cncl.newsroomid is null;
+
+UPDATE userdata.clientnewsroomimage AS cncl
+SET newsroomid = cnr.newsroomid
+FROM
+userdata.clientnewsroom AS cnr
+WHERE cnr.clientid = cncl.clientid AND
+cncl.newsroomid is null;
+
+CREATE TABLE seoreleases.seonewsrooms
+(
+   seoreleaseid integer NOT NULL,
+   newsroomid integer NOT NULL,
+    PRIMARY KEY (seoreleaseid, newsroomid),
+    FOREIGN KEY (seoreleaseid) REFERENCES seoreleases.seorelease (seoreleaseid) ON UPDATE NO ACTION ON DELETE CASCADE,
+    FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE
+) WITH ( OIDS = FALSE);
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE  seoreleases.seonewsrooms TO prmax;
+GRANT SELECT ON TABLE  seoreleases.seonewsrooms TO prrelease;
+
+CREATE TABLE userdata.clientnewroomcontactdetails
+(
+   newsroomid integer NOT NULL,
+   www character varying,
+   tel character varying,
+   email character varying,
+   linkedin character varying,
+   facebook character varying,
+   twitter character varying,
+    PRIMARY KEY (newsroomid),
+    FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (OIDS = FALSE);
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE  userdata.clientnewroomcontactdetails TO prmax;
+GRANT SELECT ON TABLE  userdata.clientnewroomcontactdetails TO prrelease;
+
+ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
+ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
+

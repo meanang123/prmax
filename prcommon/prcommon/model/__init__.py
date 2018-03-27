@@ -99,6 +99,9 @@ from prcommon.model.newsroom.newsroom import VirtualNewsRoom
 from prcommon.model.newsroom.clientnewsroom import ClientNewsRoom
 from prcommon.model.newsroom.clientnewsroomimage import ClientNewsRoomImage
 from prcommon.model.newsroom.clientnewsroomcustumlinks import ClientNewsRoomCustumLinks
+from prcommon.model.newsroom.clientnewroomcontactdetails import ClientNewRoomContactDetails
+from prcommon.model.newsroom.seonewsrooms import SeoNewsRooms
+
 
 from prcommon.model.sales.prospect import Prospect
 from prcommon.model.sales.unsubscribe import UnSubscribe
@@ -253,5 +256,5 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "OutletDeskGeneral", "GeneralDistributionTemplates", "DistributionTemplateTypes", "MediaToolKitAccess", "MadaptiveAccess",
            "CustomerAccessLog", "ClippingsChartGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
            "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
-           "AnalyseGlobal", "Statements"
+           "AnalyseGlobal", "Statements", "ClientNewRoomContactDetails", "SeoNewsRooms"
 					 ]

@@ -23,12 +23,12 @@ def page_settings_basic():
 	global LOCALSETTINGS
 
 	if not LOCALSETTINGS:
-		LOCALSETTINGS = dict (
-		  prodpath = config.get('prpublish.prodpath','rel'),
-		  prpublish = dict ( version = config.get('prpublish.version',''),
-		                     copyright = config.get('prpublish.copyright','')),
-		  localpath = config.get('prpublish.localpath',''),
-		  categories = SEOCategories.get_list() )
+		LOCALSETTINGS = dict(
+		  prodpath=config.get('prpublish.prodpath', 'rel'),
+		  prpublish=dict(version=config.get('prpublish.version', ''),
+		                   copyright=config.get('prpublish.copyright', '')),
+		  localpath=config.get('prpublish.localpath', ''),
+		  categories=SEOCategories.get_list())
 
 	return LOCALSETTINGS
 
