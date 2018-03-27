@@ -350,7 +350,7 @@ class StammDbImport(object):
 
 		# profile
 		editorialprofile = ""
-		if "menmos" in publication:
+		if "memos" in publication:
 			for memo in publication["memos"]:
 				if memo['memo-type'] == 'Profile':
 					editorialprofile += memo['memo-text']

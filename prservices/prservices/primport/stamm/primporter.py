@@ -28,10 +28,11 @@ from prcommon.model import StammImport, DataFeedsGeneral
 def _run():
 	""" run the application """
 	#
-	options, dummy = getopt.getopt(sys.argv[1:], "", ["sourcedir=", "check", "remove_old="])
+	options, dummy = getopt.getopt(sys.argv[1:], "", ["sourcedir=", "check", "remove_old=", "remove_sourcetypeid="])
 	sourcedir = None
 	check = None
 	remove_old = None
+	sourcetypeid = None
 
 	for option, params in options:
 		if option in ("--sourcedir",):
@@ -40,6 +41,8 @@ def _run():
 			check = True
 		if option in ("--remove_old", ):
 			remove_old = int(params)
+		if option in ("--remove_sourcetypeid", ):
+			sourcetypeid = int(params)
 
 	if sourcedir == None:
 		print "Missing Source Directory"
@@ -47,6 +50,8 @@ def _run():
 
 	if remove_old:
 		DataFeedsGeneral.do_delete_old_data(remove_old)
+	elif sourcetypeid:
+		DataFeedsGeneral.do_delete_old_sourcetypeid(sourcetypeid)
 	else:
 		importer = StammImport(sourcedir, check)
 		importer.do_process()
