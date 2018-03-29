@@ -102,6 +102,7 @@ dojo.require("prmax.iadmin.sales.prospects.gather.view");
 dojo.require("prmax.iadmin.sales.prospects.mailing.view");
 dojo.require("prmax.iadmin.clippings.view");
 dojo.require("prmax.iadmin.extendedsettings");
+dojo.require("prmax.iadmin.emailserver");
 
 dojo.declare("prmax.iadmin.admin",
 	[dijit._Widget, dijit._Templated, dijit._Container],{
@@ -233,6 +234,7 @@ dojo.declare("prmax.iadmin.admin",
 			this.user_display_name.set("value",response.data.display_name ) ;
 			this.user_user_name.set("value",response.data.user_name ) ;
 			this.canviewfinancial.set("value",response.data.canviewfinancial ) ;
+			this.force_passwordrecovery.set("value",response.data.force_passwordrecovery) ;
 			this.isuseradmin.set("value",response.data.isuseradmin ) ;
 			this.nodirectmail.set("value",response.data.nodirectmail);
 			this.userpassword.reset();
@@ -243,7 +245,7 @@ dojo.declare("prmax.iadmin.admin",
 			this.updatum_password.reset();
 			this.updatum_iuserid.set("value", this._userrow.i.user_id );
 			this.external_key.set("value", response.data.external_key);
-			if (response.data.invalid_login_tries >= 10)
+			if (response.data.invalid_login_tries >= 10 || response.data.invalid_reset_tries >= 10)
 			{
 				dojo.removeClass(this.unlockUserNode.domNode, "prmaxhidden");
 			}
@@ -327,7 +329,7 @@ dojo.declare("prmax.iadmin.admin",
 
 		this.updatum.set("value", response.data.cust.updatum);
 		this.maxmonitoringusers.set("value", response.data.cust.maxmonitoringusers);
-		this._CheckLayout( response.data.cust, response.data.mediaaccesstype );
+		this._CheckLayout( response.data.cust, response.data.mediaaccesstype, response.data.emailserver );
 
 		this.customertypeid.set("value", response.data.cust.customertypeid);
 
@@ -336,6 +338,7 @@ dojo.declare("prmax.iadmin.admin",
 		this.ismonitoringdemo.set("value", response.data.cust.ismonitoringdemo);
 		this.is_bundle.set("value", response.data.cust.is_bundle);
 		this.has_news_rooms.set("value", response.data.cust.has_news_rooms);
+//		this.has_global_newsroom.set("value", response.data.cust.has_global_newsroom);
 		this.has_journorequests.set("value", response.data.cust.has_journorequests);
 		this.has_international_data.set("value", response.data.cust.has_international_data);
 		this.has_clippings.set("value", response.data.cust.has_clippings);
@@ -983,7 +986,7 @@ dojo.declare("prmax.iadmin.admin",
 
 		}
 	},
-	_CheckLayout:function( customer, mediaaccesstype)
+	_CheckLayout:function( customer, mediaaccesstype, emailserver)
 	{
 		if (this.updatum.get("checked"))
 		{
@@ -1004,6 +1007,7 @@ dojo.declare("prmax.iadmin.admin",
 		display = (customer.has_international_data)?"":"none";
 		this.datasets.controlButton.domNode.style.display = display;
 		this.extendedsettings.load(customer, mediaaccesstype);
+		this.emailserver.load(customer, emailserver);
 
 	},
 	_UpdateModulesCall:function ( response )
@@ -1032,6 +1036,7 @@ dojo.declare("prmax.iadmin.admin",
 						maxmonitoringusers: this.maxmonitoringusers.get("value"),
 						is_bundle : this.is_bundle.get("value"),
 						has_news_rooms : this.has_news_rooms.get("value"),
+//						has_global_newsroom : this.has_global_newsroom.get("value"),
 						has_international_data: this.has_international_data.get("value"),
 						has_clippings : this.has_clippings.get("value"),
 						has_journorequests: this.has_journorequests.get("value")}

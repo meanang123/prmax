@@ -99,6 +99,7 @@ from prcommon.model.newsroom.newsroom import VirtualNewsRoom
 from prcommon.model.newsroom.clientnewsroom import ClientNewsRoom
 from prcommon.model.newsroom.clientnewsroomimage import ClientNewsRoomImage
 from prcommon.model.newsroom.clientnewsroomcustumlinks import ClientNewsRoomCustumLinks
+#from prcommon.model.newsroom.clientnewsroomcontactdetails import ClientNewsRoomContactDetails
 
 from prcommon.model.sales.prospect import Prospect
 from prcommon.model.sales.unsubscribe import UnSubscribe
@@ -196,6 +197,7 @@ from prcommon.model.madaptive.madaptiveaccess import MadaptiveAccess
 from prcommon.model.clippings.output.clippingsreport import ClippingsReport
 from prcommon.model.clippings.clippingschartgeneral import ClippingsChartGeneral
 #from prcommon.model.customer.customeremailserver import CustomerEmailServer
+from prcommon.model.emailserver import EmailServer
 
 from prcommon.model.researchext.outletexternallinks import OutletExternalLink
 from prcommon.model.researchext.outletexternallinkgeneral import OutletExternalLinkGeneral
@@ -208,6 +210,8 @@ from prcommon.model.journorequests.journorequestsgeneral import JournoRequestsGe
 from prcommon.model.distribution.distributiontemplates import DistributionTemplates
 from prcommon.model.distribution.generaldistributiontemplates import GeneralDistributionTemplates
 from prcommon.model.cyberwatch.clippingscyberwatch import ClippingsCyberWatch
+
+#from prcommon.model.newsroom.newsrooms import Newsrooms
 
 from prcommon.model.customer.customeraccesslog import CustomerAccessLog
 
@@ -253,5 +257,6 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "OutletDeskGeneral", "GeneralDistributionTemplates", "DistributionTemplateTypes", "MediaToolKitAccess", "MadaptiveAccess",
            "CustomerAccessLog", "ClippingsChartGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
            "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
-           "AnalyseGlobal", "Statements"
+           "AnalyseGlobal", "Statements", "EmailServer"
+           #,"Newsrooms"
 					 ]

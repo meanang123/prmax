@@ -22,6 +22,10 @@ dojo.declare("prcommon.crm.issues.briefingnoteupdate",
 		this._save_call_back = dojo.hitch( this, this._save_call);
 		this._load_call_back = dojo.hitch( this, this._load_call);
 	},
+	postCreate:function()
+	{
+		dojo.attr(this.briefing_notes_status_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description + ' Status');
+	},
 	_save:function()
 	{
 		if ( ttl.utilities.formValidator(this.formnode)==false)
@@ -55,12 +59,12 @@ dojo.declare("prcommon.crm.issues.briefingnoteupdate",
 		}
 		else if ( response.success == "DU")
 		{
-			alert("Briefing Status Already Exists");
+			alert(PRMAX.utils.settings.briefing_notes_description + " Status Already Exists");
 			this.savebtn.cancel();
 		}
 		else
 		{
-			alert("Problem Updating Briefing Note Status");
+			alert("Problem Updating Status");
 			this.savebtn.cancel();
 		}
 	},

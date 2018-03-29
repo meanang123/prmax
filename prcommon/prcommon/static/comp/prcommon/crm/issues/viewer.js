@@ -63,8 +63,11 @@ dojo.declare("prcommon.crm.issues.viewer",
 		this.filter_briefingnotesstatusid.set("value",-1);
 
 		this.addbtn.set("label", "New " + PRMAX.utils.settings.issue_description);
-
-
+		dojo.attr(this.new_issue_dlg, 'title', 'New ' + PRMAX.utils.settings.issue_description);
+		
+		dojo.attr(this.briefing_notes_label, "innerHTML", PRMAX.utils.settings.briefing_notes_description);
+		dojo.attr(this.settings_dlg, 'title', 'New ' + PRMAX.utils.settings.briefing_notes_description + ' Status');
+		
 		this.inherited(arguments);
 
 	},

@@ -81,6 +81,7 @@ dojo.declare("prcommon.crm.viewer",
 		this.clientid.set("value",-1);
 
 		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
+		dojo.attr(this.response_label, "innerHTML", PRMAX.utils.settings.response_description);
 
 		this.inherited(arguments);
 	},

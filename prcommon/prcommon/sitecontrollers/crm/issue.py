@@ -14,7 +14,7 @@ from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, Int2Null, RestSchema
 from ttl.base import stdreturn, duplicatereturn
-from prcommon.model import IssuesGeneral, IssueHistory, BriefingNotesGeneral, SolidMediaGeneral
+from prcommon.model import IssuesGeneral, IssueHistory, BriefingNotesGeneral, SolidMediaGeneral, Customer
 import ttl.Constants as Constants
 
 class IssueAddSchema(PrFormSchema):
@@ -163,8 +163,9 @@ class IssueController(SecureController):
 	def history_view(self, *args, **params):
 		"""History View """
 
-		return dict(ih=IssueHistory.query.get(params["issuehistoryid"]))
-
+		ih = IssueHistory.query.get(params["issuehistoryid"])
+		briefing_notes_description = Customer.query.get(params['customerid']).briefing_notes_description
+		return dict(ih=IssueHistory.query.get(params["issuehistoryid"]),briefing_notes_description = briefing_notes_description)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

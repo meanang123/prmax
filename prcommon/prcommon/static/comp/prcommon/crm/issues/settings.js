@@ -50,6 +50,9 @@ dojo.declare("prcommon.crm.issues.settings",
 		this.grid._setStore(this._store);
 		this.grid.onRowClick = dojo.hitch(this, this._on_select_row);
 		this.force_startup();
+		dojo.attr(this.new_briefingnote_status_dlg, 'title', 'New ' + PRMAX.utils.settings.briefing_notes_description + ' Status');
+		dojo.attr(this.upd_briefingnote_status_dlg, 'title', 'Update ' + PRMAX.utils.settings.briefing_notes_description + ' Status');
+		
 	},
 	_clear:function()
 	{
@@ -125,7 +128,7 @@ dojo.declare("prcommon.crm.issues.settings",
 		}
 		else
 		{
-			alert("Problem Deleting Briefing Status");
+			alert("Problem Deleting "+ PRMAX.utils.settings.briefing_notes_description+" Status");
 		}
 	},
 	_add_event:function(briefingnote)

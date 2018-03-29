@@ -24,11 +24,14 @@ from prcommon.model.customer.customerdatasets import CustomerPrmaxDataSets
 from prcommon.model.accounts.customeraccountsdetails import CustomerAccountsDetails
 from prcommon.model.customer.customersettings import CustomerSettings
 from prcommon.model.customer.customermediaaccesstypes import CustomerMediaAccessTypes
+from prcommon.model.customer.customeraccesslog import CustomerAccessLog
+from prcommon.model.emailserver import EmailServer
 
 from simplejson import JSONEncoder
 from ttl.postgres import DBCompress
 from ttl.ttldate import DatetoStdString
 from ttl.PasswordGenerator import Pgenerate
+from ttl.sqlalchemy.ttlcoding import CryptyInfo
 from datetime import date, datetime, timedelta
 import prcommon.Constants as Constants
 from ttl.ttlcoding import TTLCoding
@@ -36,6 +39,7 @@ from types import ListType
 
 import logging
 LOGGER = logging.getLogger("prcommon.model")
+CRYPTENGINE = CryptyInfo(Constants.KEY1)
 
 class UserView(object):
 	""" Access to the external user_external_view view in the database
@@ -244,10 +248,13 @@ class User(BaseSql):
 		   client_name=client_name,
 		   cid=customer.customerid,
 		   has_news_rooms=customer.has_news_rooms,
+#		   has_global_newsroom=customer.has_global_newsroom,
 		   has_journorequests=customer.has_journorequests,
 		   has_e_e_s=customer.has_extended_email_subject,
 		   is_r_adm=self._is_research_admin(),
 		   uid=self.user_id,
+		   username=self.user_name,
+		   uemail=self.email_address,
 		   crm_user_define_1=customer.crm_user_define_1,
 		   crm_user_define_2=customer.crm_user_define_2,
 		   crm_user_define_3=customer.crm_user_define_3,
@@ -268,7 +275,11 @@ class User(BaseSql):
 		   crm_engagement_plural=customer.crm_engagement_plural,
 		   distribution_description=customer.distribution_description,
 		   distribution_description_plural=customer.distribution_description_plural,
-		   ccaddresses=user.ccaddresses
+		   ccaddresses=user.ccaddresses,
+		   briefing_notes_description=customer.briefing_notes_description,
+		   response_description=customer.response_description,
+		   passwordrecovery=self.passwordrecovery,
+		   force_passwordrecovery=self.force_passwordrecovery
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
@@ -327,10 +338,13 @@ class User(BaseSql):
 		   client_name=client_name,
 		   cid=customer.customerid,
 		   has_news_rooms=customer.has_news_rooms,
+#		   has_global_newsroom=customer.has_global_newsroom,
 		   has_journorequests=customer.has_journorequests,
 		   has_e_e_s=customer.has_extended_email_subject,
 		   is_r_adm=self._is_research_admin(),
 		   uid=self.user_id,
+		   username=self.user_name,
+		   uemail=self.email_address,
 		   crm_user_define_1=customer.crm_user_define_1,
 		   crm_user_define_2=customer.crm_user_define_2,
 		   crm_user_define_3=customer.crm_user_define_3,
@@ -351,7 +365,11 @@ class User(BaseSql):
 		   crm_engagement_plural=customer.crm_engagement_plural,
 		   distribution_description=customer.distribution_description,
 		   distribution_description_plural=customer.distribution_description_plural,
-		   ccaddresses=user.ccaddresses
+		   briefing_notes_description=customer.briefing_notes_description,
+		   response_description=customer.response_description,
+		   ccaddresses=user.ccaddresses,
+		   passwordrecovery=self.passwordrecovery,
+		   force_passwordrecovery=self.force_passwordrecovery
 		  )
 
 		return data
@@ -505,6 +523,7 @@ class User(BaseSql):
 		try:
 			user = User.query.get(userid)
 			user.invalid_login_tries = 0
+			user.invalid_reset_tries = 0
 			transaction.commit()
 		except:
 			try:
@@ -513,7 +532,6 @@ class User(BaseSql):
 				pass
 			LOGGER.exception("UnlockUser")
 			raise
-
 
 	@classmethod
 	def update_password(cls, params):
@@ -527,9 +545,58 @@ class User(BaseSql):
 			user.last_change_pssw = datetime.today()
 			user.force_change_pssw = False
 			user.invalid_login_tries = 0
+			user.invalid_reset_tries = 0
 			transaction.commit()
 		except:
 			LOGGER.exception("update_password")
+			transaction.rollback()
+			raise
+
+	@classmethod
+	def get_password_recovery_details(cls, userid):
+
+		details = PasswordRecoveryDetails.query.get(userid)
+		ret = None
+		if details:
+			ret = dict(recovery_email = CRYPTENGINE.aes_decrypt(details.recovery_email),
+#			           recovery_phone = CRYPTENGINE.aes_decrypt(details.recovery_phone),
+			           recovery_word = CRYPTENGINE.aes_decrypt(details.recovery_word),
+			           )
+		return ret
+
+
+	@classmethod
+	def set_password_recovery(cls, params):
+		""" set the user's details for password recovery"""
+
+		transaction = cls.sa_get_active_transaction()
+		try:
+			details = PasswordRecoveryDetails.query.get(params["userid"])
+			if details:
+				details.recovery_email = CRYPTENGINE.aes_encrypt(params['recovery_email'])
+#				details.recovery_phone = CRYPTENGINE.aes_encrypt(params['recovery_phone'])
+				details.recovery_word = CRYPTENGINE.aes_encrypt(params['recovery_word'])
+			else:
+				details = PasswordRecoveryDetails(
+				    userid=params['userid'],
+				    recovery_email=CRYPTENGINE.aes_encrypt(params['recovery_email']),
+#				    recovery_phone=CRYPTENGINE.aes_encrypt(params['recovery_phone']),
+				    recovery_word=CRYPTENGINE.aes_encrypt(params['recovery_word']))
+				session.add(details)
+				session.flush()
+
+			user = User.query.get(params['userid'])
+			user.force_passwordrecovery = False
+			user.passwordrecovery = True
+
+			session.add(CustomerAccessLog(customerid=user.customerid,
+					                      userid=user.user_id,
+					                      levelid=CustomerAccessLog.UPDATEPASSWORDRECOVERY,
+					                      username=user.user_name))
+
+			transaction.commit()
+		except:
+			LOGGER.exception("password_recovery_details")
 			transaction.rollback()
 			raise
 
@@ -548,6 +615,7 @@ class User(BaseSql):
 			user.isuseradmin = params["isuseradmin"]
 			user.nodirectmail = params["nodirectmail"]
 			user.external_key = params.get("external_key", None)
+			user.force_passwordrecovery = params["force_passwordrecovery"]
 			transaction.commit()
 
 		except:
@@ -744,6 +812,27 @@ class User(BaseSql):
 			raise
 
 	@classmethod
+	def reset_invalid_reset_tries(cls, userid, in_trans=False):
+
+		if not in_trans:
+			transaction = cls.sa_get_active_transaction()
+		else:
+			transaction = None
+		try:
+			user = User.query.get(userid)
+			user.invalid_reset_tries = 0
+			if transaction:
+				transaction.commit()
+		except:
+			LOGGER.exception("reset_invalid_reset_tries")
+			if transaction:
+				try:
+					transaction.rollback()
+				except:
+					pass
+			raise
+
+	@classmethod
 	def setTriedToLogin(cls, sess):
 		"""The user has tried to login ?
 		Not sure if this will work
@@ -828,7 +917,9 @@ class User(BaseSql):
 		  user_id=user.user_id,
 		  hasmonitoring=user.hasmonitoring,
 		  invalid_login_tries=user.invalid_login_tries,
-		  external_key=user.external_key
+		  invalid_reset_tries=user.invalid_reset_tries,
+		  external_key=user.external_key,
+		  force_passwordrecovery=user.force_passwordrecovery
 		)
 
 
@@ -1098,17 +1189,24 @@ class Customer(BaseSql):
 
 			if customer.has_news_rooms != params["has_news_rooms"]:
 				session.add(AuditTrail(
-						audittypeid=Constants.audit_expire_date_changed,
-						audittext="News Room %s" % "On" if params["has_news_rooms"] else "Off",
-						userid=params["userid"],
-						customerid=params["icustomerid"]))
+			            audittypeid=Constants.audit_expire_date_changed,
+			            audittext="News Room %s" % "On" if params["has_news_rooms"] else "Off",
+			            userid=params["userid"],
+			            customerid=params["icustomerid"]))
 
-				if customer.has_journorequests != params["has_journorequests"]:
-					session.add(AuditTrail(
-						  audittypeid=Constants.audit_expire_date_changed,
-						  audittext="Journo Requests %s" % "On" if params["has_journorequests"] else "Off",
-						  userid=params["userid"],
-						  customerid=params["icustomerid"]))
+#			if customer.has_global_newsroom != params["has_global_newsroom"]:
+#				session.add(AuditTrail(
+#			            audittypeid=Constants.audit_expire_date_changed,
+#			            audittext="Global News Room %s" % "On" if params["has_global_newsroom"] else "Off",
+#			            userid=params["userid"],
+#			            customerid=params["icustomerid"]))
+
+			if customer.has_journorequests != params["has_journorequests"]:
+				session.add(AuditTrail(
+			          audittypeid=Constants.audit_expire_date_changed,
+			          audittext="Journo Requests %s" % "On" if params["has_journorequests"] else "Off",
+			          userid=params["userid"],
+			          customerid=params["icustomerid"]))
 
 			if customer.has_international_data != params["has_international_data"]:
 				session.add(AuditTrail(
@@ -1125,6 +1223,7 @@ class Customer(BaseSql):
 				    customerid=params["icustomerid"]))
 
 			customer.has_news_rooms = params["has_news_rooms"]
+#			customer.has_global_newsroom = params["has_global_newsroom"]
 			customer.has_journorequests = params["has_journorequests"]
 			customer.is_bundle = params["is_bundle"]
 			customer.crm = params["crm"]
@@ -1199,6 +1298,45 @@ class Customer(BaseSql):
 			transaction.commit()
 		except:
 			LOGGER.exception("update_modules")
+			transaction.rollback()
+			raise
+
+	@staticmethod
+	def update_emailserver(params):
+		""" 	update the emailserver	"""
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			customer = Customer.query.get(params['customerid'])
+			customer.thirdparty = params["thirdparty"]
+			
+			if params['thirdparty'] == True and int(params["emailservertypeid"]) == 2:
+				emailserver = None
+				if (customer.emailserverid):
+					emailserver = EmailServer.query.get(customer.emailserverid)
+				if not emailserver:
+					emailserver = EmailServer(
+						email_host=params["hostname"],
+						emailservertypeid=params["emailservertypeid"]
+					)
+					session.add(emailserver)
+				else:
+					emailserver.emailservertypeid=params["emailservertypeid"]
+					emailserver.email_host=params["hostname"]
+
+				session.flush()
+				customer.emailserverid = emailserver.emailserverid
+			else:
+				if customer.emailserverid:
+					emailserver = EmailServer.query.get(customer.emailserverid)
+					if emailserver:
+						session.delete(emailserver)
+						customer.emailserverid = None
+						session.flush()
+
+			session.flush()
+			transaction.commit()
+		except:
+			LOGGER.exception("update_emailserver")
 			transaction.rollback()
 			raise
 
@@ -1726,6 +1864,10 @@ class Customer(BaseSql):
 				iaddress = None
 
 			custsource = CustomerSources.query.get(cust.customersourceid)
+			if cust.emailserverid:
+				emailserver = EmailServer.query.get(cust.emailserverid)
+			else:
+				emailserver = None
 
 			cust_mediaaccesstype = [row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).
 			                        filter(CustomerMediaAccessTypes.customerid == cust.customerid).all()]
@@ -1734,7 +1876,8 @@ class Customer(BaseSql):
 		            address=address,
 		            iaddress=iaddress,
 		            custsource=custsource,
-		            mediaaccesstype = cust_mediaaccesstype)
+		            mediaaccesstype = cust_mediaaccesstype,
+		            emailserver = emailserver)
 
 	@classmethod
 	def setExtpireDateInternal(cls, customerid, licence_expire, advance_licence_expired,
@@ -2511,6 +2654,13 @@ class CustomerView(object):
 class UserGroups(object):
 	pass
 
+class PasswordRecoveryDetails(BaseSql):
+	""" details for user recover password """
+	pass
+
+class PasswordRequest(BaseSql):
+	""" details for user new password """
+	pass
 
 class UserDefaultCountries(BaseSql):
 	""" default country for user """
@@ -2536,6 +2686,8 @@ user_group_table = Table('user_group', metadata, autoload=True)
 group_permission_table = Table('group_permission', metadata, autoload=True)
 
 UserDefaultCountries.mapping = Table('user_default_countries', metadata, autoload=True)
+PasswordRecoveryDetails.mapping = Table('passwordrecoverydetails', metadata, autoload=True)
+PasswordRequest.mapping = Table('tg_password_request', metadata, autoload=True)
 
 mapper(UserGroups, user_group_table)
 mapper(Visit, Visit.mapping)
@@ -2554,5 +2706,7 @@ mapper(UserView, user_external_view_table)
 mapper(Customer, Customer.mapping)
 mapper(CustomerView, CustomerView.mapping)
 mapper(UserDefaultCountries, UserDefaultCountries.mapping)
+mapper(PasswordRecoveryDetails, PasswordRecoveryDetails.mapping)
+mapper(PasswordRequest, PasswordRequest.mapping)
 
 

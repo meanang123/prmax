@@ -71,7 +71,6 @@ class PRTaskSchema(PrFormSchema):
 	""" schema """
 	taskid = validators.Int()
 
-
 class PrCreditSchema(PrFormSchema):
 	""" schema """
 	icustomerid = validators.Int()
@@ -84,6 +83,53 @@ class PrCreditSchema(PrFormSchema):
 class PRImportSchemaSchema(PrFormSchema):
 	" import schema "
 	no_add_outlet = BooleanValidator()
+
+class CustomerStatusSchema(PrFormSchema):
+	""" schema """
+	customerid = validators.Int()
+	customerstatusid = validators.Int()
+
+class DemoStatusSchema(PrFormSchema):
+	"""Demo Schema"""
+	icustomerid = validators.Int()
+	demo = BooleanValidator()
+	isadvancedemo = BooleanValidator()
+	ismonitoringdemo = BooleanValidator()
+
+class PrInternalStatusSchema(PrFormSchema):
+	""" schema """
+	icustomerid = validators.Int()
+	isinternal = tgvalidators.BooleanValidator(if_empty=True)
+
+class ModulesCustomerSchema(PrFormSchema):
+	""" schema """
+	userid = validators.Int()
+	icustomerid = validators.Number()
+	advancefeatures = tgvalidators.BooleanValidator(if_empty=True)
+	crm = tgvalidators.BooleanValidator(if_empty=True)
+	updatum = tgvalidators.BooleanValidator()
+	seo = tgvalidators.BooleanValidator()
+	maxmonitoringusers = validators.Int()
+	is_bundle = BooleanValidator()
+	has_news_rooms = BooleanValidator()
+	has_journorequests = BooleanValidator()
+	has_international_data = BooleanValidator()
+	has_clippings = BooleanValidator()
+
+class SupportCustomerSchema(PrFormSchema):
+	""" schema """
+	userid = validators.Int()
+	icustomerid = validators.Number()
+	
+class PrCustomerFinancialSeoSchema(PrFormSchema):
+	""" schema """
+	icustomerid = validators.Int()
+	seonbrincredit = validators.Int()
+
+class ExtendedSubjectSchema(PrFormSchema):
+	""" schema """
+	icustomerid = validators.Int()
+	has_extended_email_subject = BooleanValidator()
 	
 class CustomerController(SecureControllerAdmin):
 	"""
@@ -121,6 +167,157 @@ class CustomerController(SecureControllerAdmin):
 		return stdreturn(data=Customer.get_internal(params))
 
 
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def set_expire_date(self, *argv, **params):
+		""" Resets the customer expiry date """
+
+		Customer.set_expire_date(params)
+
+		return stdreturn(data=Customer.get_internal(params))
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def set_login_count(self, *argv, **params):
+		""" Resets the customers login count"""
+
+		Customer.set_login_count(params["icustomerid"],
+		                         params["logins"],
+		                         params["user_id"])
+		return stdreturn()
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrGridSchema(), state_factory=std_state_factory)
+	def users_support(self, *argv, **params):
+		""" returns the list of customers for the grid"""
+
+		return User.getSupportUserPage(params)
+	
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def set_users_count(self, *argv, **params):
+		""" Resets the customers login count"""
+
+		Customer.set_user_count(params["icustomerid"],
+		                        params["nbrofusersaccounts"],
+		                        params["user_id"])
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def set_collateral_limit(self, *argv, **params):
+		"""Set the collateral limit for a customer """
+
+		Customer.set_collateral_size(params["icustomerid"], params["collateral_size"])
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def set_max_emails_for_day(self, *argv, **params):
+		"""Set email limit for a customer """
+
+		Customer.set_max_emails_for_day(params["icustomerid"], params["max_emails_for_day"])
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=DemoStatusSchema(), state_factory=std_state_factory)
+	def set_demo_status(self, *argv, **params):
+		"""  change the demo status for an account"""
+
+		Customer.set_demo_status(params["icustomerid"],
+		                         params["demo"],
+		                         params["isadvancedemo"],
+		                         params["ismonitoringdemo"],
+		                         params["user_id"])
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def set_email_status(self, *argv, **params):
+		"""  change the demo status for an account"""
+
+		status = True if params.get("useemail", "0") == "1" else False
+		emailistestmode = True if params.get("emailistestmode", "0") == "1" else False
+		Customer.set_email_status(params["icustomerid"],
+		                          status,
+		                          emailistestmode,
+		                          params["user_id"])
+		return stdreturn()
+	
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrInternalStatusSchema(), state_factory=std_state_factory)
+	def update_internal_status(self, *argv, **params):
+		""" Chnage the internal flag for a customer """
+
+		Customer.update_internal_status(params)
+
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=CustomerIdSchema(), state_factory=std_state_factory)
+	def delete_customer(self, *argv, **params):
+		""" delete a customer """
+
+		# delete the row
+		return dict(success=Customer.DeleteCustomer(params["icustomerid"]))
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ModulesCustomerSchema(), state_factory=std_state_factory)
+	def update_customer_modules(self, *argv, **params):
+		""" Update the customer modules """
+
+		Customer.update_modules(params)
+
+		return stdreturn(data=Customer.get_internal(params))
+
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrCustomerFinancialSeoSchema(), state_factory=std_state_factory)
+	def customer_seo_qty_update(self, icustomerid, seonbrincredit, *argv, **params):
+		""" Reset the free qty for a customer seo """
+
+		Customer.customer_seo_qty_update(icustomerid, seonbrincredit, params["userid"])
+		return stdreturn()
+		
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=SupportCustomerSchema(), state_factory=std_state_factory)
+	def support_customer_set(self, *argv, **params):
+		""" Set support user current customer login """
+
+		User.setSupportCustomer(params["iuserid"], params["icustomerid"])
+		return stdreturn()
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ExtendedSubjectSchema(), state_factory=std_state_factory)
+	def update_extended_subject(self, *argv, **params):
+		""" Customer has extended email subject """
+
+		Customer.update_extended_subject(params["icustomerid"],
+		                                 params["has_extended_email_subject"])
+		return stdreturn()
+	
 	@expose(template="prmaxcontrol.templates.customers.summary")
 	@validate(validators=CustomerIdSchema(), state_factory=std_state_factory)
 	def summary(self, *args, **params):
@@ -277,5 +474,14 @@ class CustomerController(SecureControllerAdmin):
 		                              params["offset"],
 				                      False )
 
+	@expose("json")
+	@error_handler(pr_std_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=CustomerStatusSchema(), state_factory=std_state_factory)
+	def changestatus(self, *argv, **params):
+		""" Change the status of a customer """
 
-	
+		params['user_id'] = identity.current.user.user_id
+		Customer.change_status(params)
+
+		return stdreturn()

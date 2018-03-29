@@ -3,6 +3,7 @@ dojo.provide("prmax.customer.Preferences");
 dojo.require("ttl.BaseWidget");
 dojo.require("prcommon.search.Countries");
 dojo.require("dojox.form.PasswordValidator");
+dojo.require("prcommon.recovery.passwordrecoverydetails");
 
 dojo.declare("prmax.customer.Preferences",
 	[ ttl.BaseWidget ],{
@@ -128,6 +129,7 @@ dojo.declare("prmax.customer.Preferences",
 
 		this.displayname.set("value",response.data.user.display_name);
 		this.email.set("value",response.data.user.email_address);
+		this.passwordrecovery.set("checked",response.data.user.passwordrecovery);
 		this.autoselectfirstrecord.set("value",response.data.user.autoselectfirstrecord);
 		this.interface_font_size.set("value", response.data.user.interface_font_size);
 		this.usepartialmatch.set("checked", response.data.user.usepartialmatch);
@@ -144,6 +146,8 @@ dojo.declare("prmax.customer.Preferences",
 		this.crm_engagement_plural.set("value",response.data.customer.crm_engagement_plural);
 		this.distribution_description.set("value",response.data.customer.distribution_description);
 		this.distribution_description_plural.set("value",response.data.customer.distribution_description_plural);
+		this.briefing_notes_description.set("value",response.data.customer.briefing_notes_description);
+		this.response_description.set("value",response.data.customer.response_description);
 
 		this.general_update.set("disabled",false);
 		this.pssw_update.set("disabled",false);
@@ -232,6 +236,7 @@ dojo.declare("prmax.customer.Preferences",
 	{
 		if (response.success=="OK")
 		{
+			PRMAX.utils.settings.passwordrecovery = this.passwordrecovery.get("checked");
 			PRMAX.utils.settings.autoselectfirstrecord = this.autoselectfirstrecord.get("value");
 			PRMAX.utils.settings.usepartialmatch = this.usepartialmatch.get("checked");
 			PRMAX.utils.settings.searchappend = this.searchappend.get("checked");
@@ -245,6 +250,8 @@ dojo.declare("prmax.customer.Preferences",
 			PRMAX.utils.settings.crm_engagement_plural = this.crm_engagement_plural.get("value");
 			PRMAX.utils.settings.distribution_description = this.distribution_description.get("value");
 			PRMAX.utils.settings.distribution_description_plural = this.distribution_description_plural.get("value");
+			PRMAX.utils.settings.briefing_notes_description = this.briefing_notes_description.get("value");
+			PRMAX.utils.settings.response_description = this.response_description.get("value");
 			dojo.publish('/update/engagement_label');
 			dojo.publish('/update/distribution_label');
 
@@ -292,5 +299,24 @@ dojo.declare("prmax.customer.Preferences",
 	resize:function()
 	{
 		this.frame.resize(arguments[0]);
+	},
+	_recovery:function()
+	{
+		if (this.passwordrecovery.get("checked"))
+		{
+			this.set_passwordrecovery_dialog.show();
+			this.set_passwordrecovery_ctrl.load(this.set_passwordrecovery_dialog, false);
+		}
+	},
+	_set_recovery:function()
+	{
+		if (this.passwordrecovery.get("checked"))
+		{
+			dojo.removeClass(this.setrecoverydetailsbtn.domNode, "prmaxhidden");
+		}
+		else
+		{
+			dojo.addClass(this.setrecoverydetailsbtn.domNode, "prmaxhidden");
+		}
 	}
 });

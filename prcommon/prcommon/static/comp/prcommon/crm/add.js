@@ -16,11 +16,12 @@ dojo.require("prcommon.crm.issues.selectmultiple");
 dojo.require("prcommon.crm.issues.add");
 dojo.require("prcommon.common.ExpandedText");
 dojo.require("dijit.Dialog");
+dojo.require("dijit.layout.ContentPane");
 
 dojo.require("prcommon.documents.adddialog");
 
 dojo.declare("prcommon.crm.add",
-	[ ttl.BaseWidget ],
+	[ ttl.BaseWidget, dijit.layout.ContentPane],
 	{
 	widgetsInTemplate: true,
 	templatePath: dojo.moduleUrl( "prcommon.crm","templates/add.html"),
@@ -115,6 +116,8 @@ dojo.declare("prcommon.crm.add",
 		{
 			dojo.attr(this.outcome_label_1,"innerHTML",PRMAX.utils.settings.crm_outcome);
 		}
+		dojo.attr(this.briefing_notes_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description);
+		dojo.attr(this.response_label, 'innerHTML', PRMAX.utils.settings.response_description);
 
 		this.inherited(arguments);
 	},
@@ -256,6 +259,9 @@ dojo.declare("prcommon.crm.add",
 			this.contact.set("value", contactid);
 		}
 		this.contact.set("Displayvalue", display);
+		
+		this.tabcont.selectChild(this.details_view);
+
 	},
 	_new_issue_event:function(issue)
 	{
@@ -322,8 +328,7 @@ dojo.declare("prcommon.crm.add",
 	},
 	resize:function()
 	{
-		this.form.resize({w:600, h:600});
-		this.scroll_box.resize({w:600, h:600});
+		this.tabcont.resize({w:600, h:600});
 	},
 	_update_person_event:function(response)
 	{
@@ -332,6 +337,6 @@ dojo.declare("prcommon.crm.add",
 	},
 	_expand_response:function()
 	{
-		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, "Response");
+		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, PRMAX.utils.settings.response_description);
 	}
 });

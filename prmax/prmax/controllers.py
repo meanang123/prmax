@@ -10,6 +10,9 @@
 # Copyright:   (c) 2008
 #-----------------------------------------------------------------------------
 import logging
+import random
+import uuid
+import string
 from turbogears import controllers, expose, config, identity, redirect, view, exception_handler, validate, visit
 from turbogears.database import session
 from cherrypy import request, response
@@ -17,6 +20,7 @@ from datetime import datetime, timedelta
 
 from prmax.utilities.common import addConfigDetails
 from prmax.model import Customer, User, Preferences
+from prcommon.model.identity import PasswordRecoveryDetails, PasswordRequest
 
 from prmax.sitecontrollers.layout import LayoutController
 from prmax.sitecontrollers.search import SearchController
@@ -64,10 +68,15 @@ from prcommon.sitecontrollers.emails import EmailFooterController, EmailHeaderCo
 from prcommon.sitecontrollers.search import SearchController as SearchController2
 from prcommon.sitecontrollers.crm.statements import StatementController
 from prcommon.sitecontrollers.activity import ActivityController
+from prcommon.sitecontrollers.emailserver import EmailServerController
+#from prcommon.sitecontrollers.newsrooms import NewsroomController
 from ttl.tg.validators import std_state_factory, PrFormSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler_text
+from ttl.sqlalchemy.ttlcoding import CryptyInfo
+from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE, SMTPServerGMail
 
 LOGGER = logging.getLogger("prmax")
+CRYPTENGINE = CryptyInfo(Constants.KEY1)
 
 class Root(controllers.RootController):
 	"Main tg root"
@@ -117,7 +126,8 @@ class Root(controllers.RootController):
 	emaillayout = EmailLayoutController()
 	statement = StatementController()
 	activity = ActivityController()
-
+	emailserver = EmailServerController()
+#	newsroom = NewsroomController()
 
 	@expose("")
 	def default(self, *args, **kw):
@@ -125,7 +135,6 @@ class Root(controllers.RootController):
 		captures and log it"""
 
 		return GeneralController.WebSiteCommonFile(self, args, kw)
-
 
 	@expose(template="prmax.templates.locked")
 	def locked(self, *args, **kw):
@@ -139,6 +148,166 @@ class Root(controllers.RootController):
 		)
 		return view.render(fields, template=template)
 
+	@expose(template="prmax.templates.passwordrequest")
+	def passwordrequest(self, *args, **kw):
+
+		template = "prmax.templates.passwordrequest"
+		fields = addConfigDetails(
+		  dict(message='You have requested new password. Please enter your details')
+		)
+		if identity.current.anonymous:
+			user = None
+			customer = None
+			if "user_username" in request.body_params:
+				user = User.by_user_name(request.body_params['user_username'])
+				if user and user.passwordrecovery:
+					details = PasswordRecoveryDetails.query.get(user.user_id)
+					if not user.customerid or not details:
+						redirect('/passwordrequest_fail')
+					if user.customerid:
+						customer = Customer.query.get(user.customerid)
+						if customer.licence_expire < datetime.now().date():
+							redirect('/passwordrequest_fail')
+
+					#create record to table
+					guid = PasswordRequest(
+				        password_guid = ''.join(uuid.uuid4().hex for _ in range(2)),
+				        userid=user.user_id,
+				        expirydate=datetime.now() + timedelta(hours=1)
+				    )	
+					session.add(guid)
+					session.flush()
+					session.commit()
+					
+					#link='http://test.app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
+					#link='http://app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
+					link='http://prmaxtest.localhost/passwordrequest_word?guid=%s' % guid.password_guid
+					expirydate = datetime.strftime(guid.expirydate, "%d/%m/%Y %H:%M")
+					button = '%s' %link
+					body = '<p>Hi %s,</p></br></br><p>You recently requested to reset your PRMAX password. Please use the button below to reset it.</p></br>'\
+				    '<p>You will be asked to supply random characters of your secret word in order to pass the security check</p></br>'\
+				    '<p>This password reset option will expire %s</p></br><p><a href="%s"><button style="margin:15px;padding:15px;">Reset Password</button></a></p></br>'\
+				    '</br></br><p>Thanks,</p><p>PRMAX Team</p>'% (user.display_name,expirydate,link)
+					password_guid = guid.password_guid
+					fromemailaddress = Constants.SupportEmail_Email
+					details = PasswordRecoveryDetails.query.get(user.user_id)
+					email = EmailMessage(fromemailaddress,
+				                         CRYPTENGINE.aes_decrypt(details.recovery_email),
+				                         "PRMAX Password Request",
+				                         body,
+				                         "text/html"
+				                         )
+					email.BuildMessage()
+					sender = fromemailaddress
+					emailserver = SMTPServerGMail(
+				        username=fromemailaddress,
+				        password=Constants.SupportEmail_Password)	
+					(error, statusid) = emailserver.send(email, sender)
+					if not statusid:
+						raise Exception("Problem Sending Email")					
+					else:
+						redirect('/passwordrequest_success')
+				else:
+					redirect('/passwordrequest_fail')
+		return view.render(fields, template=template)
+
+	@expose(template="prmax.templates.passwordrequest_success")
+	def passwordrequest_success(self, *args, **kw):
+
+		template = "prmax.templates.passwordrequest_success"
+		if 'back' in kw:
+			redirect('/login')
+		fields = addConfigDetails(
+		  dict(message='Your new password has been sent to your password recovery email address' if 'm' in kw \
+		       else 'An email has been sent to your password recovery email address. Please check your inbox and follow the instructions.')
+		)
+		return view.render(fields, template=template)
+
+	@expose(template="prmax.templates.passwordrequest_fail")
+	def passwordrequest_fail(self, *args, **kw):
+
+		template = "prmax.templates.passwordrequest_fail"
+		fields = addConfigDetails(
+                dict(message='The details you entered are not valid. Please contact the system administrator',
+                     support_phone="01582 380 198",
+                     support_email="support@prmax.co.uk")
+		        )
+		return view.render(fields, template=template)
+
+	@expose(template="prmax.templates.passwordrequest_word")
+	def passwordrequest_word(self, *args, **kw):
+
+		template = "prmax.templates.passwordrequest_word"
+		suffixes = {1:'st', 2:'nd', 3:'rd', 21:'st', 22:'nd', 23:'rd', 31:'st', 32:'nd', 33:'rd'}
+		if "guid" in kw:
+			guid=PasswordRequest.query.get(kw['guid'])
+			if not guid or guid.expirydate <= datetime.now():
+				redirect('/passwordrequest_fail')
+			user = User.query.get(guid.userid)
+			if user.invalid_reset_tries >= 10:
+				redirect('/locked')
+			details = PasswordRecoveryDetails.query.get(user.user_id)
+			if not details or user.invalid_reset_tries >= 10:
+				redirect('/passwordrequest_fail')
+
+			db_recovery_word = CRYPTENGINE.aes_decrypt(details.recovery_word)
+			letter1 = letter2 = ''
+			if "letter1" not in kw and "letter2" not in kw:
+				letter1 = random.randint(1,len(db_recovery_word))
+				letter2 = random.randint(1,len(db_recovery_word))
+				while letter1 == letter2:
+					letter2 = random.randint(1,len(db_recovery_word))
+				if letter1 > letter2:
+					letter1,letter2 = letter2,letter1
+			if 'letter1' in request.body_params and 'letter2' in request.body_params \
+		       and 'index_letter1' in request.body_params and 'index_letter2' in request.body_params:
+				if request.body_params['letter1'] == db_recovery_word[int(request.body_params['index_letter1'])-1] \
+			       and request.body_params['letter2'] == db_recovery_word[int(request.body_params['index_letter2'])-1]:
+					
+					newpassword = ''.join(random.choice('!@#$%&*' + string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(8))
+					while not any(ext in newpassword for ext in string.ascii_uppercase ) \
+				       or not any(ext in newpassword for ext in string.ascii_lowercase )\
+				       or not any(ext in newpassword for ext in string.digits )\
+				       or not any(ext in newpassword for ext in ['!','@','#','$','%','&','*']):
+						newpassword = ''.join(random.choice('!@#$%&*' + string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(8))
+					user.password = newpassword
+					session.commit()
+					
+					body = '<p>Hi %s,</p></br></br><p>Your password has been reset. Your temporary password is:<b>%s<b></p></br>'\
+				    '<p><b>Please note that the password is case sensitive.</b></p></br>'\
+				    '<p><b>You will need to use this password the next time you log in.</b></p></br>'\
+				    '<p><b>After you have logged in, you can change this temporary password to one of your choice by going to "Settings" and "User Admin".</b></p></br><p><b>Thanks,</p><p>PRMAX Team</b></p>'% (user.display_name,newpassword)
+
+					fromemailaddress = Constants.SupportEmail_Email
+					email = EmailMessage(fromemailaddress,
+				                         CRYPTENGINE.aes_decrypt(details.recovery_email),
+				                         "PRMAX Reset Password",
+				                         body,
+				                         "text/html"
+				                         )
+					email.BuildMessage()
+					sender = fromemailaddress
+					emailserver = SMTPServerGMail(
+				        username=fromemailaddress,
+				        password=Constants.SupportEmail_Password)	
+					(error, statusid) = emailserver.send(email, sender)
+					if not statusid:
+						raise Exception("Problem Sending Email")
+					else:
+						det = dict(m=1)
+						redirect('/passwordrequest_success', det)
+				else:
+					user.invalid_reset_tries += 1
+					redirect('/passwordrequest_fail')
+			fields = addConfigDetails(
+		            dict(message='Please enter the following letters of your secret word',
+		                 letter1=letter1 if letter1 else "",
+		                 letter2=letter2 if letter2 else "",
+		                 suffix1=suffixes[letter1] if letter1 in suffixes else 'th',
+		                 suffix2=suffixes[letter2] if letter2 in suffixes else 'th'
+		                 )
+		        )
+		return view.render(fields, template=template)
 
 	@expose("")
 	def index(self, *args, **kw):
@@ -167,7 +336,7 @@ class Root(controllers.RootController):
 				user = User.by_user_name(request.params['prmax_user_name'])
 			if user:
 				user.invalid_login_tries += 1
-				if user.invalid_login_tries >= 10:
+				if user.invalid_login_tries >= 10 or user.invalid_reset_tries >= 10:
 					raise redirect("/locked")
 
 		msg = None
@@ -177,9 +346,10 @@ class Root(controllers.RootController):
 
 			user = User.by_user_name(request.body_params['user_name'])
 			customer = Customer.query.get(identity.current.user.customerid)
-			if user.invalid_login_tries >= 10:
+			if user.invalid_login_tries >= 10 or user.invalid_reset_tries >= 10:
 				raise redirect("/locked")
 			User.reset_invalid_login_tries(user.user_id, True)
+			User.reset_invalid_reset_tries(user.user_id, True)
 			#Clear current user ClippingSelection table
 			ClippingsGeneral.clear_user_selection({'userid':user.user_id}, True)
 			# check too see if a customer is a noninteractive on if so then LOGGER it out
@@ -316,11 +486,12 @@ class Root(controllers.RootController):
 			startdate = datetime.now() - timedelta(days = 60)
 			if startdate >= identity.current.user.last_change_pssw:
 				template = 'prmax.templates.eadmin/change_password'
-		if identity.current.user.invalid_login_tries >= 10:
+		if identity.current.user.invalid_login_tries >= 10 or identity.current.user.invalid_reset_tries >= 10:
 			raise redirect('/login')
 
 		User.setLoggedIn(identity.current.user.user_id)
 		User.reset_invalid_login_tries(identity.current.user.user_id, True)
+		User.reset_invalid_reset_tries(identity.current.user.user_id, True)
 		#Clear current user ClippingSelection table
 		ClippingsGeneral.clear_user_selection({'userid':identity.current.user.user_id}, True)
 		if identity.current.user.usertypeid != Constants.UserType_Support and identity.current.user.force_change_pssw == False:

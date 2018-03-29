@@ -190,6 +190,7 @@ function _LoadDojoOntoStartPage(dojopath,dojoversion, options )
 		dojo.require("prcommon.clippings.viewer");
 
 		dojo.require("prmax.pressrelease.distributiontemplate.viewer");
+		dojo.require("prcommon.recovery.passwordrecoverydetails");
 
 	}
 	else

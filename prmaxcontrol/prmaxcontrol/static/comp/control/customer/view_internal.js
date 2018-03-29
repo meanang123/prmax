@@ -52,6 +52,7 @@ define([
 		this.view_financial_log.load(this._icustomerid);
 		this.view_audit.load(this._icustomerid);
 		this._display_func("view_internal");
+		this.view_options.load(response.data.cust, response.data.emailserver, response.data.mediaaccesstype, response.data.custsource)
 	 }
 	 else
 	 {

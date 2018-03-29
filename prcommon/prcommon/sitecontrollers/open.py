@@ -23,7 +23,8 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
 from prcommon.model.hostspf import Hostspf
 from prcommon.model.emails import EmailFooter, EmailHeader, EmailLayout
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
-from prcommon.model.lookups import Publishers
+from prcommon.model.lookups import Publishers, EmailServerTypes
+#from prcommon.model.newsroom.newsrooms import Newsrooms
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.validators import  SimpleFormValidator, Schema
 from ttl.tg.controllers import OpenSecureController
@@ -111,7 +112,9 @@ class OpenController(OpenSecureController):
 	              "emailheader": EmailHeader,
 	              "emailfooter": EmailFooter,
 	              "emaillayout": EmailLayout,
-	              "statements": Statements
+	              "statements": Statements,
+	              #"newsrooms": Newsrooms,
+	              "emailservertypes": EmailServerTypes
 		            }
 
 	_AddFilter = ("taskstatus", "users", "tasktype", "tasktags", "countrytypes", "seostatus", "newsfeedtypes", "customertypes",

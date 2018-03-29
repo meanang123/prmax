@@ -21,7 +21,7 @@ from ttl.base import stdreturn, duplicatereturn
 from prcommon.model import ContactHistory, PRNotesGeneral, ContactHistoryGeneral, TasksGeneral, ContactHistoryHistory, \
      ContactHistoryUserDefine, ContactHistoryResponses, EmailTemplates
 from prcommon.model.crm2.statements import Statements
-
+from prcommon.model import Customer
 from prcommon.sitecontrollers.crm.issue import IssueController
 from prcommon.sitecontrollers.crm.tasks import TaskController
 from prcommon.sitecontrollers.crm.documents import DocumentController
@@ -271,13 +271,14 @@ class CrmController(SecureController):
 		chh = ContactHistoryHistory.query.get(params["contacthistoryhistoryid"])
 		chres = {}
 		statementdescription = ''
+		briefing_notes_description = Customer.query.get(params['customerid']).briefing_notes_description
 		if chh and chh.contacthistoryresponseid:
 			chres = ContactHistoryResponses.query.get(chh.contacthistoryresponseid)
 			if chres and chres.statementid:
 				st = Statements.query.get(chres.statementid)
 				statementdescription = st.statementdescription
 		
-		return dict(chh=chh, chres=chres, statementdescription = statementdescription)
+		return dict(chh=chh, chres=chres, statementdescription = statementdescription, briefing_notes_description = briefing_notes_description)
 
 
 	@expose(template="mako:prmax.templates.display.basic_details_page")

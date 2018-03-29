@@ -17,4 +17,7 @@
 		<div style="float:right;margin-right:5px"><a class="button" dojoAttachPoint="distribute_add" dojoAttachEvent="onclick:_New" ><img src="/static/images/home_dist_new.gif"></img></a></div>
 	</div>
 	<div class="panelfullwidth" dojoAttachPoint="front_panel_1" dojoType="dijit.layout.ContentPane"></div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="set_passwordrecovery_dialog" data-dojo-props='title:"Set Password Recovery",style:"width:450px;height:250px"'>
+		<div data-dojo-type="prcommon.recovery.passwordrecoverydetails" data-dojo-attach-point="set_passwordrecovery_ctrl"></div>
+	</div>
 </div>

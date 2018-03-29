@@ -215,6 +215,11 @@ CREATE TABLE internal.emailservertype
     PRIMARY KEY (emailservertypeid)
 ) WITH (OIDS = FALSE);
 
+ALTER TABLE internal.emailservertype OWNER TO postgres;
+GRANT ALL ON TABLE internal.emailservertype TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailservertype TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailservertype TO prmaxcontrol;
+
 INSERT INTO internal.emailservertype( emailservertypeid, emailservertypename ) VALUES(1,'localhost'),(2,'Open Relay');
 
 ALTER TABLE userdata.emailserver ADD COLUMN emailservertypeid integer NOT NULL DEFAULT 1;
@@ -222,3 +227,171 @@ ALTER TABLE userdata.emailserver ADD FOREIGN KEY (emailservertypeid) REFERENCES 
 
 -- INSERT INTO userdata.emailserver( email_host, emailservertypeid) VALUES ('shielporter.com.outbound1-uk.mailanyone.net',2);
 
+ALTER TABLE tg_user ADD COLUMN passwordrecovery boolean NOT NULL DEFAULT false;
+UPDATE tg_user SET passwordrecovery = false;
+
+CREATE OR REPLACE VIEW user_external_view AS
+SELECT u.user_id,
+ u.user_name,
+ u.email_address,
+ u.display_name,
+ u.projectname,
+ u.interface_font_size,
+ u.interface_font_family,
+ u.show_dialog_on_load,
+ u.showmenubartext,
+ u.autoselectfirstrecord,
+ u.isuseradmin,
+ u.usepartialmatch,
+ u.searchappend,
+ u.emailreplyaddress,
+ u.test_extensions,
+ u.stdview_sortorder,
+ u.canviewfinancial,
+ u.client_name,
+ u.issue_description,
+ u.external_key,
+ u.passwordrecovery,
+ u.force_passwordrecovery
+   FROM tg_user u;
+
+ALTER TABLE user_external_view OWNER TO postgres;
+GRANT ALL ON TABLE user_external_view TO postgres;
+GRANT SELECT ON TABLE user_external_view TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE user_external_view TO prmaxcontrol;
+
+CREATE TABLE public.passwordrecoverydetails
+(
+  userid integer NOT NULL,
+  recovery_email character varying,
+  recovery_phone character varying,
+  recovery_word character varying,
+  created timestamp without time zone NOT NULL DEFAULT now(),
+  CONSTRAINT pk_passwordrecovery PRIMARY KEY (userid),
+  CONSTRAINT fk_userid FOREIGN KEY (userid)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.passwordrecoverydetails OWNER TO postgres;
+GRANT ALL ON TABLE public.passwordrecoverydetails TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.passwordrecoverydetails TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.passwordrecoverydetails TO prmaxcontrol;
+
+CREATE TABLE public.tg_password_request
+(
+  password_guid character varying NOT NULL,
+  userid integer NOT NULL,
+  created timestamp without time zone NOT NULL DEFAULT now(),
+  expirydate timestamp without time zone,
+  details_confirmed boolean NOT NULL DEFAULT false,
+  attempts integer NOT NULL DEFAULT 0,
+  CONSTRAINT pk_password_guid PRIMARY KEY (password_guid),
+  CONSTRAINT fk_userid FOREIGN KEY (userid)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.tg_password_request OWNER TO postgres;
+GRANT ALL ON TABLE public.tg_password_request TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.tg_password_request TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.tg_password_request TO prmaxcontrol;
+
+ALTER TABLE tg_user ADD COLUMN invalid_reset_tries integer NOT NULL DEFAULT 0;
+UPDATE tg_user SET invalid_reset_tries = 0;
+
+ALTER TABLE tg_user ADD COLUMN force_passwordrecovery boolean NOT NULL DEFAULT false;
+UPDATE tg_user SET force_passwordrecovery = false;
+
+ALTER TABLE internal.customers ADD COLUMN thirdparty boolean NOT NULL DEFAULT false;
+UPDATE internal.customers SET thirdparty = false;
+
+INSERT INTO internal.circulationauditdate (circulationauditdatedescription) VALUES ('jul - sept 17');
+INSERT INTO internal.circulationauditdate (circulationauditdatedescription) VALUES ('oct - dec 17');
+INSERT INTO internal.languages(languagename) VALUES ('Chechen');
+
+ALTER TABLE internal.customers ADD COLUMN briefing_notes_description character varying(45) NOT NULL DEFAULT 'Briefing Notes';
+UPDATE internal.customers SET briefing_notes_description = 'Briefing Notes';
+
+ALTER TABLE internal.customers ADD COLUMN response_description character varying(45) NOT NULL DEFAULT 'Response';
+UPDATE internal.customers SET response_description = 'Response';
+
+/*ALTER TABLE internal.customers ADD COLUMN has_global_newsroom BOOLEAN NOT NULL DEFAULT false;
+UPDATE internal.customers SET has_global_newsroom = false;
+
+DELETE FROM  userdata.clientnewsroom
+WHERE clientid IN ( SELECT cnr.clientid FROM userdata.clientnewsroom as cnr
+left outer join userdata.client as c on c.clientid = cnr.clientid
+WHERE c.clientid is null ) ;
+
+ALTER TABLE userdata.clientnewsroom DROP CONSTRAINT pk_clientnewsroom;
+ALTER TABLE userdata.clientnewsroom ADD COLUMN newsroomid serial NOT NULL;
+ALTER TABLE userdata.clientnewsroom ADD PRIMARY KEY (newsroomid);
+ALTER TABLE userdata.clientnewsroom ADD FOREIGN KEY (clientid) REFERENCES userdata.client (clientid) ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE userdata.clientnewsroom ALTER COLUMN clientid DROP NOT NULL;
+ALTER TABLE userdata.clientnewsroom ADD COLUMN description character varying(80);
+
+ALTER TABLE userdata.clientnewsroomcustumlinks ALTER COLUMN clientid DROP NOT NULL;
+ALTER TABLE userdata.clientnewsroomcustumlinks ADD COLUMN newsroomid integer;
+ALTER TABLE userdata.clientnewsroomcustumlinks ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE RESTRICT;
+ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
+ALTER TABLE userdata.clientnewsroomcustumlinks ADD UNIQUE (newsroomid, "name");
+
+ALTER TABLE userdata.clientnewsroomimage ALTER COLUMN clientid DROP NOT NULL;
+ALTER TABLE userdata.clientnewsroomimage ADD COLUMN newsroomid integer;
+ALTER TABLE userdata.clientnewsroomimage ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
+ALTER TABLE userdata.clientnewsroomimage ADD CONSTRAINT un_control UNIQUE (newsroomid, imagetypeid);
+
+GRANT ALL ON TABLE userdata.clientnewsroom_newsroomid_seq TO postgres;
+GRANT UPDATE ON TABLE userdata.clientnewsroom_newsroomid_seq TO prmax;
+GRANT UPDATE ON TABLE userdata.clientnewsroom_newsroomid_seq TO prmaxcontrol;
+
+UPDATE userdata.clientnewsroomcustumlinks AS cncl
+SET newsroomid = cnr.newsroomid
+FROM 
+userdata.clientnewsroom AS cnr
+WHERE cnr.clientid = cncl.clientid AND 
+cncl.newsroomid is null;
+
+UPDATE userdata.clientnewsroomimage AS cncl
+SET newsroomid = cnr.newsroomid
+FROM 
+userdata.clientnewsroom AS cnr
+WHERE cnr.clientid = cncl.clientid AND 
+cncl.newsroomid is null;
+
+CREATE TABLE seoreleases.seonewsrooms
+(
+   seoreleaseid integer NOT NULL,
+   newsroomid integer NOT NULL,
+    PRIMARY KEY (seoreleaseid, newsroomid),
+    FOREIGN KEY (seoreleaseid) REFERENCES seoreleases.seorelease (seoreleaseid) ON UPDATE NO ACTION ON DELETE CASCADE,
+    FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE
+) WITH ( OIDS = FALSE);
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE  seoreleases.seonewsrooms TO prmax;
+GRANT SELECT ON TABLE  seoreleases.seonewsrooms TO prrelease;
+
+CREATE TABLE userdata.clientnewroomcontactdetails
+(
+   newsroomid integer NOT NULL,
+   www character varying,
+   tel character varying,
+   email character varying,
+   linkedin character varying,
+   facebook character varying,
+   twitter character varying,
+    PRIMARY KEY (newsroomid),
+    FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (OIDS = FALSE);
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE  userdata.clientnewroomcontactdetails TO prmax;
+GRANT SELECT ON TABLE  userdata.clientnewroomcontactdetails TO prrelease;
+*/
