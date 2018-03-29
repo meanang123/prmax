@@ -152,6 +152,10 @@ dojo.declare("prcommon.clippings.viewer",
 	{
 		dijit.byId("std_banner_control")._Clients();
 	},
+	_newsrooms:function()
+	{
+		dijit.byId("std_banner_control")._Newsrooms();
+	},
 	_issues:function()
 	{
 		dijit.byId("std_banner_control")._issues();

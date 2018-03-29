@@ -99,7 +99,7 @@ from prcommon.model.newsroom.newsroom import VirtualNewsRoom
 from prcommon.model.newsroom.clientnewsroom import ClientNewsRoom
 from prcommon.model.newsroom.clientnewsroomimage import ClientNewsRoomImage
 from prcommon.model.newsroom.clientnewsroomcustumlinks import ClientNewsRoomCustumLinks
-#from prcommon.model.newsroom.clientnewsroomcontactdetails import ClientNewsRoomContactDetails
+from prcommon.model.newsroom.clientnewsroomcontactdetails import ClientNewsRoomContactDetails
 
 from prcommon.model.sales.prospect import Prospect
 from prcommon.model.sales.unsubscribe import UnSubscribe
@@ -211,7 +211,7 @@ from prcommon.model.distribution.distributiontemplates import DistributionTempla
 from prcommon.model.distribution.generaldistributiontemplates import GeneralDistributionTemplates
 from prcommon.model.cyberwatch.clippingscyberwatch import ClippingsCyberWatch
 
-#from prcommon.model.newsroom.newsrooms import Newsrooms
+from prcommon.model.newsroom.newsrooms import Newsrooms
 
 from prcommon.model.customer.customeraccesslog import CustomerAccessLog
 
@@ -258,5 +258,5 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "CustomerAccessLog", "ClippingsChartGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
            "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
            "AnalyseGlobal", "Statements", "EmailServer"
-           #,"Newsrooms"
+           ,"Newsrooms"
 					 ]

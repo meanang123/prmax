@@ -338,7 +338,7 @@ dojo.declare("prmax.iadmin.admin",
 		this.ismonitoringdemo.set("value", response.data.cust.ismonitoringdemo);
 		this.is_bundle.set("value", response.data.cust.is_bundle);
 		this.has_news_rooms.set("value", response.data.cust.has_news_rooms);
-//		this.has_global_newsroom.set("value", response.data.cust.has_global_newsroom);
+		this.has_global_newsroom.set("value", response.data.cust.has_global_newsroom);
 		this.has_journorequests.set("value", response.data.cust.has_journorequests);
 		this.has_international_data.set("value", response.data.cust.has_international_data);
 		this.has_clippings.set("value", response.data.cust.has_clippings);
@@ -1036,7 +1036,7 @@ dojo.declare("prmax.iadmin.admin",
 						maxmonitoringusers: this.maxmonitoringusers.get("value"),
 						is_bundle : this.is_bundle.get("value"),
 						has_news_rooms : this.has_news_rooms.get("value"),
-//						has_global_newsroom : this.has_global_newsroom.get("value"),
+						has_global_newsroom : this.has_global_newsroom.get("value"),
 						has_international_data: this.has_international_data.get("value"),
 						has_clippings : this.has_clippings.get("value"),
 						has_journorequests: this.has_journorequests.get("value")}

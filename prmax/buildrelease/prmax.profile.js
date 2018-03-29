@@ -72,7 +72,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -617,7 +617,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -796,7 +796,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -971,7 +971,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1159,7 +1159,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1334,7 +1334,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1509,7 +1509,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1684,7 +1684,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1858,7 +1858,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2045,7 +2045,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2233,7 +2233,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2420,7 +2420,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2608,7 +2608,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2797,7 +2797,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
-//			"prcommon.newsrooms.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 

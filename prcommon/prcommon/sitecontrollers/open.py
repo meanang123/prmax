@@ -24,7 +24,7 @@ from prcommon.model.hostspf import Hostspf
 from prcommon.model.emails import EmailFooter, EmailHeader, EmailLayout
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
 from prcommon.model.lookups import Publishers, EmailServerTypes
-#from prcommon.model.newsroom.newsrooms import Newsrooms
+from prcommon.model.newsroom.newsrooms import Newsrooms
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.validators import  SimpleFormValidator, Schema
 from ttl.tg.controllers import OpenSecureController
@@ -113,7 +113,7 @@ class OpenController(OpenSecureController):
 	              "emailfooter": EmailFooter,
 	              "emaillayout": EmailLayout,
 	              "statements": Statements,
-	              #"newsrooms": Newsrooms,
+	              "newsrooms": Newsrooms,
 	              "emailservertypes": EmailServerTypes
 		            }
 

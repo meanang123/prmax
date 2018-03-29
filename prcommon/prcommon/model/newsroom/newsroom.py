@@ -246,4 +246,3 @@ class VirtualNewsRoom(object):
 
 			return NewsRoom(customer, client, address[2:], params)
 		return None
-

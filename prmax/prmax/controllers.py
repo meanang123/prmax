@@ -69,7 +69,7 @@ from prcommon.sitecontrollers.search import SearchController as SearchController
 from prcommon.sitecontrollers.crm.statements import StatementController
 from prcommon.sitecontrollers.activity import ActivityController
 from prcommon.sitecontrollers.emailserver import EmailServerController
-#from prcommon.sitecontrollers.newsrooms import NewsroomController
+from prcommon.sitecontrollers.newsrooms import NewsroomController
 from ttl.tg.validators import std_state_factory, PrFormSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler_text
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
@@ -127,7 +127,7 @@ class Root(controllers.RootController):
 	statement = StatementController()
 	activity = ActivityController()
 	emailserver = EmailServerController()
-#	newsroom = NewsroomController()
+	newsroom = NewsroomController()
 
 	@expose("")
 	def default(self, *args, **kw):

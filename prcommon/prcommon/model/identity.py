@@ -248,7 +248,7 @@ class User(BaseSql):
 		   client_name=client_name,
 		   cid=customer.customerid,
 		   has_news_rooms=customer.has_news_rooms,
-#		   has_global_newsroom=customer.has_global_newsroom,
+		   has_global_newsroom=customer.has_global_newsroom,
 		   has_journorequests=customer.has_journorequests,
 		   has_e_e_s=customer.has_extended_email_subject,
 		   is_r_adm=self._is_research_admin(),
@@ -338,7 +338,7 @@ class User(BaseSql):
 		   client_name=client_name,
 		   cid=customer.customerid,
 		   has_news_rooms=customer.has_news_rooms,
-#		   has_global_newsroom=customer.has_global_newsroom,
+		   has_global_newsroom=customer.has_global_newsroom,
 		   has_journorequests=customer.has_journorequests,
 		   has_e_e_s=customer.has_extended_email_subject,
 		   is_r_adm=self._is_research_admin(),
@@ -1194,12 +1194,12 @@ class Customer(BaseSql):
 			            userid=params["userid"],
 			            customerid=params["icustomerid"]))
 
-#			if customer.has_global_newsroom != params["has_global_newsroom"]:
-#				session.add(AuditTrail(
-#			            audittypeid=Constants.audit_expire_date_changed,
-#			            audittext="Global News Room %s" % "On" if params["has_global_newsroom"] else "Off",
-#			            userid=params["userid"],
-#			            customerid=params["icustomerid"]))
+			if customer.has_global_newsroom != params["has_global_newsroom"]:
+				session.add(AuditTrail(
+			            audittypeid=Constants.audit_expire_date_changed,
+			            audittext="Global News Room %s" % "On" if params["has_global_newsroom"] else "Off",
+			            userid=params["userid"],
+			            customerid=params["icustomerid"]))
 
 			if customer.has_journorequests != params["has_journorequests"]:
 				session.add(AuditTrail(
@@ -1223,7 +1223,7 @@ class Customer(BaseSql):
 				    customerid=params["icustomerid"]))
 
 			customer.has_news_rooms = params["has_news_rooms"]
-#			customer.has_global_newsroom = params["has_global_newsroom"]
+			customer.has_global_newsroom = params["has_global_newsroom"]
 			customer.has_journorequests = params["has_journorequests"]
 			customer.is_bundle = params["is_bundle"]
 			customer.crm = params["crm"]

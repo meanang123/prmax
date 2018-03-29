@@ -146,7 +146,7 @@ class CustomerExternal(BaseSql):
 				cust.seo = True
 				cust.is_bundle = True
 				cust.has_news_rooms = True
-#				cust.has_global_newsroom = True
+				cust.has_global_newsroom = True
 
 			session.flush()
 

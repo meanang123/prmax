@@ -144,7 +144,7 @@ class ModulesCustomerSchema(PrFormSchema):
 	maxmonitoringusers = validators.Int()
 	is_bundle = BooleanValidator()
 	has_news_rooms = BooleanValidator()
-#	has_global_newsroom = BooleanValidator()
+	has_global_newsroom = BooleanValidator()
 	has_journorequests = BooleanValidator()
 	has_international_data = BooleanValidator()
 	has_clippings = BooleanValidator()

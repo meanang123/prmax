@@ -234,6 +234,7 @@ class LayoutController(SecureController):
 	  "distributiontemplate": "layout",
 	  "global_analysis_questions": "layout",
 	  "activity": "layout",
+	  "newsrooms":"layout",  # newsrooms view
 
 	  # embedded version
 	  "ai_start_view":"layout", # ai

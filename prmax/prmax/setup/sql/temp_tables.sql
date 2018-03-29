@@ -320,7 +320,7 @@ UPDATE internal.customers SET briefing_notes_description = 'Briefing Notes';
 ALTER TABLE internal.customers ADD COLUMN response_description character varying(45) NOT NULL DEFAULT 'Response';
 UPDATE internal.customers SET response_description = 'Response';
 
-/*ALTER TABLE internal.customers ADD COLUMN has_global_newsroom BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE internal.customers ADD COLUMN has_global_newsroom BOOLEAN NOT NULL DEFAULT false;
 UPDATE internal.customers SET has_global_newsroom = false;
 
 DELETE FROM  userdata.clientnewsroom
@@ -394,4 +394,3 @@ WITH (OIDS = FALSE);
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE  userdata.clientnewroomcontactdetails TO prmax;
 GRANT SELECT ON TABLE  userdata.clientnewroomcontactdetails TO prrelease;
-*/
