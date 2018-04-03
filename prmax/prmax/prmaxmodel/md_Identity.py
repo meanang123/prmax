@@ -46,6 +46,7 @@ class Preferences(object):
 		                          crm_outcome=customer.crm_outcome,
 		                          crm_engagement=customer.crm_engagement, crm_engagement_plural=customer.crm_engagement_plural,
 		                          distribution_description=customer.distribution_description, distribution_description_plural=customer.distribution_description_plural,
+		                          briefing_notes_description=customer.briefing_notes_description, response_description=customer.response_description, 
 		                          )
 		            )
 
@@ -114,7 +115,7 @@ class Preferences(object):
 			value = True
 		return value
 
-	_general_check_fields = ("autoselectfirstrecord", "usepartialmatch", "searchappend")
+	_general_check_fields = ("autoselectfirstrecord", "usepartialmatch", "searchappend", "passwordrecovery")
 
 	@classmethod
 	def update_general(cls, params):
@@ -134,7 +135,7 @@ class Preferences(object):
 			user.stdview_sortorder = params["stdview_sortorder"]
 			user.client_name = params["client_name"]
 			user.issue_description = params["issue_description"]
-
+			user.passwordrecovery = params["passwordrecovery"]
 
 			# customer level
 			customer = Customer.query.get(params["customerid"])
@@ -145,6 +146,8 @@ class Preferences(object):
 				customer.crm_outcome = params["crm_outcome"]
 				customer.crm_engagement = params["crm_engagement"]
 				customer.crm_engagement_plural = params["crm_engagement_plural"]
+				customer.briefing_notes_description = params["briefing_notes_description"]
+				customer.response_description = params["response_description"]
 
 			session.flush()
 

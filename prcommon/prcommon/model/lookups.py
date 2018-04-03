@@ -791,6 +791,20 @@ class ServerTypes(object):
 
 		return data
 
+class EmailServerTypes(BaseSql):
+	"EmailServerTypes"
+
+	List_Types = """SELECT emailservertypeid,emailservertypename FROM internal.emailservertype ORDER BY emailservertypeid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.emailservertypeid, name=row.emailservertypename)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(EmailServerTypes.List_Types), None, _convert)
+
 class MediaAccessTypes(BaseSql):
 	""" media acceess types """
 
@@ -877,6 +891,7 @@ ClippingsTypes.mapping = Table('clippingstype', metadata, autoload=True, schema=
 MediaAccessTypes.mapping = Table('mediaaccesstypes', metadata, autoload=True, schema='internal')
 TaskTypeStatus.mapping = Table('tasktypestatus', metadata, autoload=True, schema='internal')
 Publishers.mapping = Table('publishers', metadata, autoload = True, schema='internal')
+EmailServerTypes.mapping = Table('emailservertype', metadata, autoload = True, schema='internal')
 try:
 	ServerTypes.mapping = Table('servertypes', metadata, autoload=True, schema='internal')
 except:
@@ -926,5 +941,6 @@ mapper(MediaAccessTypes, MediaAccessTypes.mapping)
 mapper(TaskTypeStatus, TaskTypeStatus.mapping)
 mapper(Publishers, Publishers.mapping )
 mapper(ServerTypes, ServerTypes.mapping)
+mapper(EmailServerTypes, EmailServerTypes.mapping)
 
 

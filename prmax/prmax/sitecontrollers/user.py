@@ -210,5 +210,24 @@ class UserController(SecureController):
 		params["icustomerid"] = params["customerid"]
 		return UserGeneral.user_list(params)
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory = std_state_factory)
+	def set_password_recovery(self, *argv, **kw):
+		""" set users details for password recovery"""
+
+		User.set_password_recovery ( kw )
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory = std_state_factory)
+	def get_password_recovery_details(self, *argv, **kw):
+		""" set users details for password recovery"""
+
+		return stdreturn( details = User.get_password_recovery_details(kw["userid"]))
+
 
 

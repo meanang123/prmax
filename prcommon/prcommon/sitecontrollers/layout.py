@@ -104,6 +104,7 @@ class LayoutController(SecureController):
 	  "clients" : "layout", # client view
 	  "issues": "layout",  # issues view
 	  "statements": "layout",  # statements view
+	  "newsrooms": "layout",  # newsrooms view
 
 		# search templates
 		"std_search_quick" : "search", # quick search form

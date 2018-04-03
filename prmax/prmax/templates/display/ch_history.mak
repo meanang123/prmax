@@ -2,9 +2,9 @@
 %if chh:
 
  %if chh.contacthistoryhistorytypeid == 1:
-  <label>From Notes</label><br/>
+  <label>From ${briefing_notes_description}</label><br/>
   <p>${chh.from_notes}</p><br/>
-  <label>To  Notes</label><br/>
+  <label>To  ${briefing_notes_description}</label><br/>
   <p>${chh.to_notes}</p><br/>
  %elif chh.contacthistoryhistorytypeid == 2:
   <label>Send By:</label><br/>

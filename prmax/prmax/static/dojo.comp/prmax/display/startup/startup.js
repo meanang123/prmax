@@ -9,7 +9,9 @@ dojo.require("prmax.display.startup.plugins.distribution");
 dojo.require("prmax.display.startup.plugins.contactus");
 dojo.require("prmax.display.startup.plugins.updatum");
 dojo.require("prmax.display.startup.plugins.prrequests");
+dojo.require("prmax.display.startup.plugins.passwordrecovery");
 
+dojo.require("prcommon.recovery.passwordrecoverydetails");
 
 dojo.require("dojox.data.AtomReadStore");
 
@@ -36,7 +38,16 @@ dojo.declare("prmax.display.startup.startup",
 
 		this.frame.addChild(new prmax.display.startup.plugins.prrequests({ dndType:"Portlet", dragRestriction:true}), 1, 0);
 
-
+		if (PRMAX.utils.settings.force_passwordrecovery)
+		{
+			var message = 'set';
+			if (PRMAX.utils.settings.passwordrecovery)
+			{
+				message = 'update';
+			}
+			this.set_passwordrecovery_dialog.show();
+			this.set_passwordrecovery_ctrl.load(this.set_passwordrecovery_dialog, true, message);
+		}
 		this.inherited(arguments);
 	},
 	resize:function()

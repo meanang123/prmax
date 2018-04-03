@@ -1,0 +1,114 @@
+<div class="common_prmax_layout">
+<br/>
+	<table style="width:100%;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+		<tr><td class="prmaxrowtag">Name</td><td class="prmaxrowdisplay" data-dojo-attach-point="displayname"></td></tr>
+		<tr><td class="prmaxrowtag">Customer Source</td><td data-dojo-attach-point="customersourcedescription"></td></tr>
+
+		<tr><td class="prmaxrowtag">Status</td><td>
+			<select data-dojo-attach-point="statusid" data-dojo-props="autoComplete:true,labelType:'html'" data-dojo-type="dijit/form/FilteringSelect"></select>
+			<button data-dojo-type="dojox/form/BusyButton" data-dojo-props='label:"Change Status"' data-dojo-attach-point="statusidbutton" data-dojo-attach-event="onClick:_ChangeStatus"></button>
+		</td></tr>
+		<tr><td class="prmaxrowtag">Customer type</td><td>
+			<select data-dojo-attach-point="customertypeid" data-dojo-props="autoComplete:true,labelType:'html'" data-dojo-type="dijit/form/FilteringSelect"></select>
+			<button data-dojo-attach-event="onClick:_CustomerType" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Set Customer Type",type:"button"' ></button>
+		</td></tr>
+		<tr><td class="prmaxrowtag">Expire Date</td>
+			<td><div style="display:inline" class="prmaxrowtag" data-dojo-attach-point="expire_display"></div>&nbsp;
+				<button data-dojo-type="dijit/form/Button" data-dojo-props='label:"Set Expire Date",type:"button"' data-dojo-attach-event="onClick:_SetExpireDate" ></button>
+			</td>
+		</tr>
+		<tr><td class="prmaxrowtag">Concurrent Count</td><td>
+			<form data-dojo-attach-point="setusercountform"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+				<input data-dojo-props='type:"text",name:"logins"' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="logins" >
+				<button data-dojo-attach-point="setusercount" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Set User Count",type:"submit"' ></button>
+			</form>
+		</td></tr>
+		<tr><td class="prmaxrowtag">User Name Count</td><td>
+			<form data-dojo-attach-point="setupernamecount"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+				<input data-dojo-props='type:"text",name:"nbrofusersaccounts"' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="nbrofusersaccounts" >
+				<button data-dojo-attach-point="setusercount" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Set User Name Count",type:"submit"'></button>
+			</form>
+		</td></tr>
+		<tr><td class="prmaxrowtag">Collateral Limit</td><td>
+			<form data-dojo-attach-point="collaterallimitform"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+				<input data-dojo-props='type:"text",name:"collateral_size"' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="collateral_size" >
+				<button data-dojo-attach-point="collateral_sizecollateral_size_btn" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Set Collateral Size",type:"submit"'></button>
+			</form>
+		</td></tr>
+		<tr><td class="prmaxrowtag">Email Day Limit</td><td>
+			<form data-dojo-attach-point="emaillimitform"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+				<input data-dojo-props='type:"text",name:"max_emails_for_day"' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="max_emails_for_day" >
+				<button data-dojo-attach-point="email_limit_btn" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Set Email Day Limit",type:"submit"'></button>
+			</form>
+		</td></tr>
+		<tr><td class="prmaxrowtag" valign="top">Demo Status</td><td>
+			<form data-dojo-attach-point="demoaccountform"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+				<table style="width:100%;border-collapse:collapse;" cellspacing="0" cellpadding="0">
+					<tr><td class="prmaxrowtag" width="20%">Core</td><td align="left"><input data-dojo-props='type:"text",name:"demo"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="demoaccount_check"></td></tr>
+					<tr><td class="prmaxrowtag">Features</td><td><input data-dojo-props='type:"text",name:"isadvancedemo"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="isadvancedemo"></td></tr>
+					<tr><td class="prmaxrowtag">Monitoring</td><td><input data-dojo-props='type:"text",name:"ismonitoringdemo"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="ismonitoringdemo"></td></tr>
+					<tr><td></td><td><button data-dojo-attach-point="demoaccountset" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Change Demo Status",type:"submit"'></button>
+					<button data-dojo-attach-point="reactive_demo" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Re-Activate Demo",type:"button","class":"prmaxhidden"' data-dojo-attach-event="onClick:_ReActiveDemo" ></button></td></tr>
+				</table>
+			</form>
+		</td></tr>
+		<tr><td class="prmaxrowtag">Email Enabled</td><td>
+			<form data-dojo-attach-point="emailenabledform"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit/form/Form">
+				<input data-dojo-props='type:"text",name:"useemail",value:"1"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="useemail_check">
+				<label> Email Test Mode</label>
+				<input data-dojo-props='type:"text",name:"emailistestmode",value:"1"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="emailistestmode_check">
+				<button data-dojo-attach-point="useemailset" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Change Email Status",type:"submit"'></button>
+			</form>
+		</td></tr>
+		<tr><td class="prmaxrowtag">Is Internal Account</td><td>
+				<input data-dojo-props='type:"text",name:"isinternal"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="isinternal">
+				<button data-dojo-type="dijit/form/Button" data-dojo-props='label:"Change Internal Status",type:"button"' data-dojo-attach-event="onClick:_ChangeInternalStatus"></button>
+		</td></tr>
+		<tr><td class="prmaxrowtag">Delete Account</td>
+			<td><button data-dojo-attach-point="deleteaccount" data-dojo-attach-event="onClick: _DeleteAccount" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Delete Account",type:"button"' ></button></td></tr>
+		<tr><td class="prmaxrowtag" valign="top"'>Modules</td><td>
+			<table>
+				<tr><td class="prmaxrowtag" align="right">Professional</td>
+					<td><input data-dojo-attach-point="is_bundle" data-dojo-props='name:"is_bundle",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-event="_bundle_settings"></td><td></td></tr>
+				<tr><td class="prmaxrowtag" align="right">Features</td>
+					<td><input data-dojo-attach-point="advancefeatures" data-dojo-props='name:"advancefeatures",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox" ></td><td></td></tr>
+				<tr><td class="prmaxrowtag" align="right">Crm</td>
+					<td><input data-dojo-attach-point="crm" data-dojo-props='name:"crm",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox"></td></tr>
+				<tr><td class="prmaxrowtag" align="right">International Data</td>
+					<td><input data-dojo-attach-point="has_international_data" data-dojo-props='name:"has_international_data",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox"></td></tr>
+				<tr>
+					<td class="prmaxrowtag" align="right">Monitoring</td>
+					<td><input data-dojo-attach-point="updatum" data-dojo-props='name:"updatum",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-event="onClick:_CheckLayout" ></td>
+					<td><table width="100%" data-dojo-attach-point="max_users_monitoring" class="prmaxhidden"><tr><td class="prmaxrowtag">Max Logins</td>
+					<td><input data-dojo-props='name:"maxmonitoringusers",type:"text"' data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="maxmonitoringusers" ></td></tr></table></td>
+				</tr>
+				<tr><td class="prmaxrowtag" align="right">News Room's</td>
+				<td><input data-dojo-attach-point="has_news_rooms" data-dojo-props='name:"has_news_rooms",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox"></td><td></td></tr>
+				<tr><td class="prmaxrowtag" align="right">SEO</td>
+				<td><input data-dojo-attach-point="seo" data-dojo-props='name:"seo",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox"></td></tr>
+				<tr><td class="prmaxrowtag" align="right">Journo Requests</td>
+				<td><input data-dojo-attach-point="has_journorequests" data-dojo-props='name:"has_journorequests",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox"></td></tr>
+				<tr><td class="prmaxrowtag" align="right">Clippings</td>
+				<td><input data-dojo-attach-point="has_clippings" data-dojo-props='name:"has_clippings",type:"checkBox",value:true' data-dojo-type="dijit/form/CheckBox" ></td>
+				<td><button data-dojo-attach-event="onClick:_UpdateModules" data-dojo-type="dijit/form/Button" data-dojo-props='label:"Update Modules",type:"button"' ></button></td></tr>
+			</table></td>
+		</tr>
+		<tr><td class="prmaxrowtag">Support User</td><td>
+				<select data-dojo-attach-point="support_userid" data-dojo-props="autoComplete:true,searchAttr:'name',labelType:'html',required:true" data-dojo-type="dijit/form/FilteringSelect" ></select>
+				<button data-dojo-props='"class":"prmaxbutton",type:"button",label:"Set Support User to Customer"' data-dojo-attach-event="onClick:_SetCustomer" data-dojo-type="dijit/form/Button"></button>
+		</td></tr>
+		<tr><td class="prmaxrowtag">SEO Free Qty</td>
+			<td class="prmaxrowtag"><button data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_SetSeoCount" data-dojo-props='label:"Set SEO Free Count"'></button></td></tr>
+		<tr><td class="prmaxrowtag">Extended Email Subject</td><td>
+				<input data-dojo-props='type:"text",name:"has_extended_email_subject"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="has_extended_email_subject">
+				<button data-dojo-type="dijit/form/Button" data-dojo-props='label:"Change Extended Subject",type:"button"' data-dojo-attach-event="onClick:_change_extended_subject"></button>
+		</td></tr>
+	</table>
+<div data-dojo-attach-point="expirectrl" data-dojo-type="control/customer/options/SetExpireDate" ></div>
+<div data-dojo-type="dijit/Dialog" data-dojo-props='title:"Re-Activate Demo"' data-dojo-attach-point="reactiveatedialog">
+	<div data-dojo-attach-point="reactiveatectrl" data-dojo-type="control/customer/options/ReActivateDemo"></div>
+</div>
+<div data-dojo-type="control/customer/options/SetFreeSEOCount" data-dojo-attach-point="seofree"></div>
+
+
+</div>

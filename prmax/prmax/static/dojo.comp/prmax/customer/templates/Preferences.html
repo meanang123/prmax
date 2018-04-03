@@ -9,6 +9,12 @@
 						<tr><td align="right" class="prmaxrowtag">Select First Row</td><td><input class="prmaxinput" dojoAttachPoint="autoselectfirstrecord" value="1" name="autoselectfirstrecord" dojoType="dijit.form.CheckBox" /></td></tr>
 						<tr><td align="right" class="prmaxrowtag">Use Partial Match</td><td><input class="prmaxinput" dojoAttachPoint="usepartialmatch" value="1" name="usepartialmatch" dojoType="dijit.form.CheckBox" /></td></tr>
 						<tr><td align="right" class="prmaxrowtag">Search Append's </td><td><input class="prmaxinput" dojoAttachPoint="searchappend" value="1" name="searchappend" dojoType="dijit.form.CheckBox" /></td></tr>
+
+						<tr><td align="right" class="prmaxrowtag">Password Recovery</td><td>
+							<span><input data-dojo-attach-point="passwordrecovery" data-dojo-props="'class':'prmaxinput', value:'1', name:'passwordrecovery'" data-dojo-type="dijit.form.CheckBox" data-dojo-attach-event="onChange:_set_recovery"/></span>
+							<span><button data-dojo-attach-event="onClick:_recovery" data-dojo-attach-point="setrecoverydetailsbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Edit</button></span>
+							</td></tr>
+
 						<tr><td align="right" class="prmaxrowtag">Reply To Email</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="emailreplyaddress" name="emailreplyaddress" maxlength="70" trim="true" invalidMessage="This must be a valid email address" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress"/></td></tr>
 						<tr><td align="right" class="prmaxrowtag">Default Sort Order</td><td><select class="prmaxinput"  dojoAttachPoint="stdview_sortorder" dojotype ="dijit.form.FilteringSelect" name="stdview_sortorder" searchAttr="name" labelType="html" ></select></td></tr>
 						<tr><td align="right" class="prmaxrowtag">"Client" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="client_name" name="client_name" maxlength="20" trim="true" invalidMessage="This cannot be blank" dojoType="dijit.form.ValidationTextBox" /></td></tr>
@@ -21,6 +27,10 @@
 						</tr>
 						<tr><td align="right" class="prmaxrowtag">"Distribution" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="distribution_description" name="distribution_description" maxlength="20" trim="true" required="false" invalidMessage="This cannot be blank" dojoType="dijit.form.ValidationTextBox" />
 							<span align="right" class="prmaxrowtag">Plural</span><span><input  class="prmaxinput" size="40" dojoAttachPoint="distribution_description_plural" name="distribution_description_plural" maxlength="20" trim="true" required="false" invalidMessage="This cannot be blank" dojoType="dijit.form.ValidationTextBox" /></span></td>
+						</tr>
+						<tr><td align="right" class="prmaxrowtag">"Briefing Notes" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="briefing_notes_description" name="briefing_notes_description" maxlength="20" trim="true" required="false" invalidMessage="This cannot be blank" dojoType="dijit.form.ValidationTextBox" /></td>
+						</tr>
+						<tr><td align="right" class="prmaxrowtag">"Response" Name</td><td><input  class="prmaxinput" size="40" dojoAttachPoint="response_description" name="response_description" maxlength="20" trim="true" required="false" invalidMessage="This cannot be blank" dojoType="dijit.form.ValidationTextBox" /></span></td>
 						</tr>
 						<tr><td align="right" class="prmaxrowtag" valign="top">Countries</td><td><div data-dojo-props ='style:"width:99%",name:"user_countries",selectonly:true,startopen:true,preload:false,size:4,displaytitle:""' data-dojo-attach-point="user_countries" data-dojo-type="prcommon.search.Countries"></div></td></tr>
 						<tr><td colspan="2" align="right"><button class="prmaxbutton" iconClass="fa fa-floppy-o fa-2x" disabled="disabled"  dojoAttachPoint="general_update" dojoAttachEvent="onClick:_SaveGeneral" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Update Settings"></button></td></tr>
@@ -69,6 +79,9 @@
 		</div>
 		<div dojoType="dijit.layout.ContentPane" style="height:34px;padding-top:2px;padding-right:10px" region="bottom">
 			<button iconClass="fa fa-close fa-2x" style="float:right" type="button" class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close" label="Close"></button>
+		</div>
+		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="set_passwordrecovery_dialog" data-dojo-props='title:"Set Password Recovery",style:"width:450px;height:250px"'>
+			<div data-dojo-type="prcommon.recovery.passwordrecoverydetails" data-dojo-attach-point="set_passwordrecovery_ctrl"></div>
 		</div>
 	</div>
 </div>

@@ -146,7 +146,14 @@ dojo.declare("prcommon.crm.update",
 		{
 			dojo.attr(this.outcome_label_1,"innerHTML",PRMAX.utils.settings.crm_outcome);
 		}
-
+		if (this.briefing_notes_label)
+		{
+			dojo.attr(this.briefing_notes_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description);
+		}
+		if (this.response_label)
+		{
+			dojo.attr(this.response_label, 'innerHTML', PRMAX.utils.settings.response_description);
+		}
 
 		this.inherited(arguments);
 	},
@@ -270,7 +277,7 @@ dojo.declare("prcommon.crm.update",
 		if ( this.details.get("value") == "")
 		{
 			this.savebtn.cancel();
-			alert("Briefing Notes cannot be empty");
+			alert(PRMAX.utils.settings.briefing_notes_description + " cannot be empty");
 			return ;
 		}
 		var content = this.form.get("value");
@@ -460,7 +467,7 @@ dojo.declare("prcommon.crm.update",
 	},
 	_expand_response:function()
 	{
-		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, "Response");
+		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, PRMAX.utils.settings.response_description);
 	}
 });
 

@@ -67,6 +67,9 @@ class Client(BaseSql):
 				  about_template=params["about_template"],
 				  header_colour=params["header_colour"])
 				session.add(newsroom)
+				session.flush()
+				
+				params['newsroomid']=newsroom.newsroomid
 				if params.get("headerimageleftid", "") == "-2":
 					cls._update_image(1, params)
 				if params.get("headerimagerightid", "") == "-2":
@@ -100,9 +103,14 @@ class Client(BaseSql):
 			session.delete(imagestore)
 			imagestore = None
 
-		image = session.query(ClientNewsRoomImage).filter_by(
-		  imagetypeid=imagetypeid,
-		  clientid=params["clientid"]).scalar()
+		if "newsroomid" in params:
+			image = session.query(ClientNewsRoomImage).filter_by(
+			  imagetypeid=imagetypeid,
+			  newsroomid=params["newsroomid"]).scalar()
+		else:
+			image = session.query(ClientNewsRoomImage).filter_by(
+			  imagetypeid=imagetypeid,
+			  clientid=params["clientid"]).scalar()
 		# update
 		if imagestore and image:
 			image.image = imagestore.image
@@ -113,12 +121,13 @@ class Client(BaseSql):
 			session.delete(image)
 		# add
 		if imagestore and not image:
-			session.add(ClientNewsRoomImage(clientid=params["clientid"],
-			                                    imagetypeid=imagetypeid,
-			                                    image=imagestore.image,
-			                                    height=imagestore.height,
-			                                    width=imagestore.width
-			                                  ))
+			session.add(ClientNewsRoomImage(newsroomid=params['newsroomid'],
+			                                clientid=params.get("clientid", None),
+			                                imagetypeid=imagetypeid,
+			                                image=imagestore.image,
+			                                height=imagestore.height,
+			                                width=imagestore.width
+			                                ))
 
 	@classmethod
 	def update(cls, params):
@@ -135,7 +144,10 @@ class Client(BaseSql):
 			client.facebook = params["facebook"]
 			client.twitter = params["twitter"]
 			client.instagram = params["instagram"]
-			newsroom = ClientNewsRoom.query.get(client.clientid)
+			
+			newsroom = session.query(ClientNewsRoom).filter_by(clientid = client.clientid).scalar()
+			if newsroom:
+				params['newsroomid']=newsroom.newsroomid
 			# header logo changed
 			if params.get("headerimageleftid", "") in ("-1", "-2"):
 				cls._update_image(1, params, params.get("headerimageleftid", ""))
@@ -153,6 +165,8 @@ class Client(BaseSql):
 				  customerid=params["customerid"],
 				  about_template=params["about_template"])
 				session.add(newsroom)
+				session.flush()
+				params['newsroomid'] = newsroom.newsroomid
 			elif params["has_news_room"] and newsroom:
 				#update
 				newsroom.news_room_root = params["news_room_root"]
@@ -161,23 +175,33 @@ class Client(BaseSql):
 			elif not params["has_news_room"] and newsroom:
 				# is a delete
 				client.has_news_room = False
+				
+				for row in session.query(ClientNewsRoomCustumLinks).filter_by(newsroomid=params["newsroomid"]).all():
+					session.delete(row)
+					session.flush()		
+				for row in session.query(ClientNewsRoomImage).filter_by(newsroomid=params["newsroomid"]).all():					
+					session.delete(row)
+					session.flush()		
+
 				session.delete(newsroom)
 			elif not params["has_news_room"]:
 				client.has_news_room = False
 
 			if params["has_news_room"]:
-				for row in session.query(ClientNewsRoomCustumLinks).filter_by(clientid=params["clientid"]).all():
+				for row in session.query(ClientNewsRoomCustumLinks).filter_by(newsroomid=params["newsroomid"]).all():
 					session.delete(row)
 					session.flush()
 
 				if params["link_1_name"]:
 					session.add(ClientNewsRoomCustumLinks(
+					    newsroomid=params['newsroomid'],
 					  clientid=params["clientid"],
 					  name=params["link_1_name"],
 					  url=params["link_1_url"]))
 
 				if params["link_2_name"]:
 					session.add(ClientNewsRoomCustumLinks(
+					    newsroomid=params['newsroomid'],
 					  clientid=params["clientid"],
 					  name=params["link_2_name"],
 					  url=params["link_2_url"]))
@@ -223,13 +247,13 @@ class Client(BaseSql):
 		""" get a client record """
 		if extended:
 			client = Client.query.get(clientid)
-			newsroom = ClientNewsRoom.query.get(clientid)
+			newsroom = session.query(ClientNewsRoom).filter_by(clientid=client.clientid).limit(1).all()
 			if newsroom:
 				newsroom = dict(
-				  news_room_root=newsroom.news_room_root,
-				  about_template=newsroom.about_template,
-				  news_room_url=newsroom.get_news_room_url(),
-				  header_colour=newsroom.header_colour,
+				  news_room_root=newsroom[0].news_room_root,
+				  about_template=newsroom[0].about_template,
+				  news_room_url=newsroom[0].get_news_room_url(),
+				  header_colour=newsroom[0].header_colour,
 				  link_1=dict(name="", url=""),
 				  link_2=dict(name="", url=""))
 				links = session.query(ClientNewsRoomCustumLinks).filter_by(clientid=clientid).all()
@@ -239,7 +263,8 @@ class Client(BaseSql):
 				if len(links) > 1:
 					newsroom["link_2"]["name"] = links[1].name
 					newsroom["link_2"]["url"] = links[1].url
-
+			else:
+				newsroom = None
 			return dict(
 			  client=client,
 			  newsroom=newsroom)

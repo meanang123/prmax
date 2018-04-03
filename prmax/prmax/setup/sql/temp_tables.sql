@@ -291,3 +291,5 @@ GRANT SELECT ON TABLE  userdata.clientnewroomcontactdetails TO prrelease;
 ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
 ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
 
+ALTER TABLE userdata.clientnewroomcontactdetails ADD COLUMN instagram character varying;
+

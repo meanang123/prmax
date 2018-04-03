@@ -23,6 +23,7 @@ dojo.require("prmax.editor.CollateralDialog");
 dojo.require("prmax.customer.clients.add");
 dojo.require("prmax.pressrelease.seo.seoimage");
 dojo.require("dijit.form.CheckBox");
+dojo.require("prcommon.newsrooms.globalnewsrooms");
 
 dojo.require("dojox.validate");
 
@@ -46,6 +47,13 @@ dojo.declare("prmax.pressrelease.seo.edit",
 			clearOnClose:true,
 			urlPreventCache:true
 			});
+			
+//		this._newsroom_data = new dojox.data.QueryReadStore (
+//			{url:'/newsroom/combo',
+//			onError:ttl.utilities.globalerrorchecker,
+//			clearOnClose:true,
+//			urlPreventCache:true
+//			});
 	},
 	postCreate:function()
 	{
@@ -55,6 +63,10 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.clientid.store = this._client_data;
 		this.clientid.set("value",-1);
 		this._Client_Get_Call_Back = dojo.hitch(this, this._Client_Get_Call );
+
+//		this.newsroomid.store = this._newsroom_data;
+//		this.newsroomid.set("value",-1);
+
 
 		this.inherited(arguments);
 	},
@@ -243,5 +255,28 @@ dojo.declare("prmax.pressrelease.seo.edit",
 	_setSeoreleaseidAttr:function( seoreleaseid )
 	{
 		this.seoreleaseid.set("value", seoreleaseid ) ;
+	},
+	_option_changed:function()	{
+	if (this.option0.get("checked"))
+	{
+		dojo.removeClass(this.client_name, "prmaxhidden");
+		dojo.removeClass(this.clientid.domNode, "prmaxhidden");
+		dojo.removeClass(this.addclientbtn.domNode, "prmaxhidden");
+		dojo.addClass(this.globalnewsrooms.domNode, "prmaxhidden");
+		dojo.addClass(this.globalnewsrooms_node, "prmaxhidden");
+//		dojo.addClass(this.newsroomid.domNode, "prmaxhidden");
+//		dojo.addClass(this.addnewsroombtn.domNode, "prmaxhidden");
 	}
+	else if (this.option1.get("checked"))
+	{
+		dojo.addClass(this.client_name, "prmaxhidden");
+		dojo.addClass(this.clientid.domNode, "prmaxhidden");
+		dojo.addClass(this.addclientbtn.domNode, "prmaxhidden");
+		dojo.removeClass(this.globalnewsrooms_node, "prmaxhidden");
+		dojo.removeClass(this.globalnewsrooms.domNode, "prmaxhidden");
+//		dojo.removeClass(this.newsroomid.domNode, "prmaxhidden");
+//		dojo.removeClass(this.addnewsroombtn.domNode, "prmaxhidden");
+	}
+},
+
 });

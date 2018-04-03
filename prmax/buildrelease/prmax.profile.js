@@ -72,6 +72,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -170,7 +171,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 			},
@@ -210,7 +212,8 @@ dependencies ={
 			"prmax.customer.NewCustomer",
 			"prmax.customer.RequestDemo",
 			"prmax.customer.PaymentCollectDetails",
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 
 
             ]
@@ -312,7 +315,8 @@ dependencies ={
 			"prcommon.data.QueryWriteStore",
 			"prcommon.data.DataStores",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -426,7 +430,8 @@ dependencies ={
 			"prcommon.data.QueryWriteStore",
 			"prcommon.data.DataStores",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 
 
 			]
@@ -525,7 +530,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -611,6 +617,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -702,7 +709,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -788,6 +796,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -875,7 +884,8 @@ dependencies ={
 			"prmax.ipcb.banner",
 			"prmax.ipcb.stdview",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -961,6 +971,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1060,7 +1071,8 @@ dependencies ={
 
 			"prcommon.clippings.viewer",
 
-			"prmax.pressrelease.distributiontemplate.viewer"
+			"prmax.pressrelease.distributiontemplate.viewer",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -1147,6 +1159,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1234,7 +1247,8 @@ dependencies ={
 			"prmax.updatum.banner",
 			"prmax.updatum.stdview",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -1320,6 +1334,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1407,7 +1422,8 @@ dependencies ={
 			"prmax.fens.banner",
 			"prmax.fens.stdview",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -1493,6 +1509,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1580,7 +1597,8 @@ dependencies ={
 			"prmax.kantar.banner",
 			"prmax.kantar.stdview",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -1666,6 +1684,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1753,7 +1772,8 @@ dependencies ={
 			"prmax.phoenixpd.banner",
 			"prmax.phoenixpd.stdview",
 
-			"prcommon.contacthistory.notes"
+			"prcommon.contacthistory.notes",
+			"prcommon.recovery.passwordrecoverydetails"
 			]
 		},
 // prmaxdeperslijst
@@ -1838,6 +1858,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -1937,7 +1958,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -2023,6 +2045,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2123,7 +2146,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -2209,6 +2233,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2309,7 +2334,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 			]
 		},
 // pressdata
@@ -2394,6 +2420,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2495,7 +2522,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 			]
 		},
 // pressdata office
@@ -2580,6 +2608,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2681,7 +2710,8 @@ dependencies ={
 
 			"prcommon.crm.viewer",
 			"prcommon.contacthistory.notes",
-			"prcommon.documents.view"
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		},
@@ -2767,6 +2797,7 @@ dependencies ={
 			"prmax.collateral.adddialog",
 
 			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
 
 			"prmax.email.wordtohtml",
 
@@ -2864,7 +2895,8 @@ dependencies ={
 
 			"prcommon.clippings.viewer",
 
-			"prmax.pressrelease.distributiontemplate.viewer"
+			"prmax.pressrelease.distributiontemplate.viewer",
+			"prcommon.recovery.passwordrecoverydetails"
 
 			]
 		}

@@ -12,6 +12,7 @@ dojo.provide("prmax.solidmedia.startup");
 
 dojo.require("ttl.BaseWidget");
 dojo.require("prmax.search.PersonSearch");
+dojo.require("prcommon.recovery.passwordrecoverydetails");
 
 dojo.declare("prmax.solidmedia.startup",
 	[ dijit._Widget, dijit._Templated, dijit._Container ],
@@ -21,6 +22,16 @@ dojo.declare("prmax.solidmedia.startup",
 		postCreate:function()
 		{
 			this.issuesbtn.set("label", PRMAX.utils.settings.issue_description);
+			if (PRMAX.utils.settings.force_passwordrecovery)
+			{
+				var message = 'set';
+				if (PRMAX.utils.settings.passwordrecovery)
+				{
+					message = 'update';
+				}
+				this.set_passwordrecovery_dialog.show();
+				this.set_passwordrecovery_ctrl.load(this.set_passwordrecovery_dialog, true, message);
+			}
 			this.inherited(arguments);
 		},
 		_issues:function()

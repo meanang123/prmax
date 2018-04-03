@@ -34,7 +34,9 @@ dojo.declare("prcommon.crm.issues.add",
 	},
 	postCreate:function()
 	{
-
+		dojo.attr(this.briefing_notes_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description);
+		dojo.attr(this.briefing_notes_status_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description + ' Status');
+		
 		this.inherited(arguments);
 
 		this._dialog = null;

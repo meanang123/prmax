@@ -26,6 +26,9 @@ from prmaxcontrol.sitecontrollers.hostspf import HostspfController
 from prcommon.sitecontrollers.query import QueryController
 from prmaxcontrol.sitecontrollers.customersource import CustomerSourceController
 from prcommon.sitecontrollers.report import ReportController
+from prcommon.sitecontrollers.emailserver import EmailServerController
+from prmaxcontrol.sitecontrollers.extendedsettings import ExtendedSettingsController
+from prmaxcontrol.sitecontrollers.datasets import DataSetsController
 LOGGER = logging.getLogger("prmaxcontrol")
 
 class Root(controllers.RootController):
@@ -43,6 +46,9 @@ class Root(controllers.RootController):
 	partners = CustomerSourceController()
 	reports = ReportController()
 	hostspf = HostspfController()
+	emailserver = EmailServerController()
+	extendedsettings = ExtendedSettingsController()
+	datasets = DataSetsController()
 
 	@expose("")
 	def index(self, *args, **params):

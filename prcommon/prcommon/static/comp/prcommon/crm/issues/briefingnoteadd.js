@@ -21,6 +21,10 @@ dojo.declare("prcommon.crm.issues.briefingnoteadd",
 	{
 		this._save_call_back = dojo.hitch( this, this._save_call);
 	},
+	postCreate:function()
+	{
+		dojo.attr(this.briefing_notes_status_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description + ' Status');
+	},
 	_save:function()
 	{
 		if ( ttl.utilities.formValidator(this.formnode)==false)
@@ -50,7 +54,7 @@ dojo.declare("prcommon.crm.issues.briefingnoteadd",
 		}
 		else
 		{
-			alert("Problem Adding Briefing Note Status");
+			alert("Problem Adding Status");
 			this.savebtn.cancel();
 		}
 	},

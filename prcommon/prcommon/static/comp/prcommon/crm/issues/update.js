@@ -78,6 +78,9 @@ dojo.declare("prcommon.crm.issues.update",
 		this.clientid.set("value",  "-1");
 
 		this.engagements.set("title", PRMAX.utils.settings.crm_engagement_plural);
+		
+		dojo.attr(this.briefing_notes_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description);
+		dojo.attr(this.briefing_notes_status_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description + ' Status');
 
 		this.inherited(arguments);
 	},

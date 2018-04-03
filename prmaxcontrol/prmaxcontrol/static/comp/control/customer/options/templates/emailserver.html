@@ -1,0 +1,14 @@
+<div class="common_prmax_layout">
+<br/>
+	<form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='onSubmit:"return false","class":"common_prmax_layout"'>
+		<input data-dojo-attach-point="customerid" data-dojo-props='name:"customerid",type:"hidden"' data-dojo-type="dijit/form/TextBox" />
+		<label class="label_size_1 label_tag label_align_r"><input data-dojo-attach-point="thirdparty" data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"thirdparty",type:"checkbox"' data-dojo-attach-event="onChange: _change"/> Via 3rd Party</label><br/><br/><br/><br/>
+
+		<label class="label_size_2 label_tag label_align_r" data-dojo-attach-point="emailservertype_label" data-dojo-props='"class":"prmaxhidden"'>Email Server Type</label><select data-dojo-props='"class":"prmaxinput prmaxhidden",name:"emailservertypeid",autoComplete:true,style:"width:8em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="emailservertypeid" data-dojo-attach-event="onChange: _set_emailservertype"></select></br>
+
+		<label class="label_size_2 label_tag label_align_r" data-dojo-attach-point="hostname_label" data-dojo-props='"class":"prmaxhidden"'>Host Name</label><input data-dojo-props='"class":"prmaxhidden", type:"text",name:"hostname"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="hostname" ><br/></br>
+
+		<br/><br/>
+		<button data-dojo-attach-event="onClick:_update" data-dojo-attach-point="updatebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating ...",label:"Update",'></button><br/><br/>
+	</form>
+</div>

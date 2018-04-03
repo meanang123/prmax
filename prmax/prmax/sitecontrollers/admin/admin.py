@@ -48,6 +48,7 @@ class UpdateUserDetailsSchema(PrFormSchema):
 	canviewfinancial = BooleanValidator()
 	isuseradmin = BooleanValidator()
 	nodirectmail = BooleanValidator()
+	force_passwordrecovery = BooleanValidator()
 	iuserid = validators.Int()
 
 class UpdateMonitoringDetailsSchema(PrFormSchema):
@@ -143,6 +144,7 @@ class ModulesCustomerSchema(PrFormSchema):
 	maxmonitoringusers = validators.Int()
 	is_bundle = BooleanValidator()
 	has_news_rooms = BooleanValidator()
+	has_global_newsroom = BooleanValidator()
 	has_journorequests = BooleanValidator()
 	has_international_data = BooleanValidator()
 	has_clippings = BooleanValidator()
@@ -1185,7 +1187,6 @@ class InternalAdminController(SecureController):
 		PaymentSystem.dd_first_month(params)
 
 		return stdreturn(data=Customer.getPaymentValue(params["icustomerid"]))
-
 
 	@expose("json")
 	@error_handler(pr_std_error_handler)
