@@ -96,6 +96,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		},
 		postCreate:function()
 		{
+			this.view_select["cells"][0][1].name = PRMAX.utils.settings.client_name;
+
 			this.selectgrid.set("structure",this.view_select);
 			this.selectedgrid.set("structure",this.view_selected);
 			this.listitemsgrid.set("structure",this.view_members);
@@ -419,6 +421,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		view_select:{
 		cells: [[
 			{name: 'Name',width: "auto",field:"listname"},
+			{name: 'Short Name',width: "100px",field:"clientname"},
 			{name: 'Qty',width: "50px",field:"qty"},
 			{name: ' ',width: "13px",styles: 'text-align: center;', width: "20px",formatter:ttl.utilities.formatRowCtrlLarge}
 			]]

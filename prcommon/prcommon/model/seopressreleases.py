@@ -257,7 +257,7 @@ class SEORelease(BaseSql):
 		seo.tel = params["tel"]
 		seo.twitter = params["twitter"]
 		seo.facebook = params["facebook"]
-		seo.instagram= params["instagram"]
+		seo.instagram = params["instagram"]
 		seo.linkedin = params["linkedin"]
 		clientid = params.get("clientid", None)
 		if clientid == -1:
@@ -742,13 +742,19 @@ class SEORelease(BaseSql):
 
 		whereclause = """ WHERE seo.published::date BETWEEN '%s' AND '%s'""" %(fromdate, todate)
 
+		# customer settings
 		if customerid and customerid not in ("-1", "-2"):
 			whereclause = BaseSql.addclause(whereclause, "seo.customerid = :customerid")
 			params["customerid"] = int(params["customerid"])
+		# for a client
 		clientid = params.get("clientid", "").strip()
 		if clientid and clientid not in ("-1", ):
 			whereclause = BaseSql.addclause(whereclause, "seo.clientid = :clientid")
 			params["clientid"] = int(params["clientid"])
+		# for a newsroom
+		newsrooomid = params.get('newsrooomid', '')
+		if newsrooomid and newsrooomid not in ("-1", ):
+			whereclause = BaseSql.addclause(whereclause, "seo.seoreleaseid IN (SELECT seoreleaseid FROM seoreleases.seonewsrooms WHERE newsroomid = :newsroomid)")
 
 		return cls.sqlExecuteCommand(text(SEORelease._List_View2 + whereclause),
 		                               params,
@@ -1189,7 +1195,7 @@ class SEOSite(object):
 		doc = Document()
 		rss = doc.createElement('rss')
 		rss.setAttribute("version", "2.0")
-		rss.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/" )
+		rss.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/")
 
 		doc.appendChild(rss)
 		channel = doc.createElement('channel')

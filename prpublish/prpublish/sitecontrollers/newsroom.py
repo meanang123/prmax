@@ -28,7 +28,7 @@ class NewsRoomController(controllers.RootController):
 		  params)
 		# if is valid news room then get data
 		if newsroom:
-			(data, datatype) = newsroom.get_page( page_settings_basic(), params )
+			(data, datatype) = newsroom.get_page(page_settings_basic(), params)
 		else:
 			datatype = "html"
 			data = ""
@@ -37,7 +37,7 @@ class NewsRoomController(controllers.RootController):
 
 		# set the default setting for browser
 		set_default_response_settings()
-		set_response_type( datatype )
+		set_response_type(datatype)
 
 		return data
 

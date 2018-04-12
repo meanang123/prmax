@@ -1,4 +1,4 @@
-﻿INSERT INTO internal.reporttemplates VALUES (32, -1, 'Statistics Report', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'StatisticsReport');
+INSERT INTO internal.reporttemplates VALUES (32, -1, 'Statistics Report', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'StatisticsReport');
 
 UPDATE communications SET instagram = '' WHERE instagram is null;
 UPDATE userdata.client SET instagram = '' WHERE instagram is null;
@@ -215,11 +215,6 @@ CREATE TABLE internal.emailservertype
     PRIMARY KEY (emailservertypeid)
 ) WITH (OIDS = FALSE);
 
-ALTER TABLE internal.emailservertype OWNER TO postgres;
-GRANT ALL ON TABLE internal.emailservertype TO postgres;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailservertype TO prmax;
-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailservertype TO prmaxcontrol;
-
 INSERT INTO internal.emailservertype( emailservertypeid, emailservertypename ) VALUES(1,'localhost'),(2,'Open Relay');
 
 ALTER TABLE userdata.emailserver ADD COLUMN emailservertypeid integer NOT NULL DEFAULT 1;
@@ -333,38 +328,32 @@ ALTER TABLE userdata.clientnewsroom DROP CONSTRAINT pk_clientnewsroom;
 ALTER TABLE userdata.clientnewsroom ADD COLUMN newsroomid serial NOT NULL;
 ALTER TABLE userdata.clientnewsroom ADD PRIMARY KEY (newsroomid);
 ALTER TABLE userdata.clientnewsroom ADD FOREIGN KEY (clientid) REFERENCES userdata.client (clientid) ON UPDATE NO ACTION ON DELETE CASCADE;
-
 ALTER TABLE userdata.clientnewsroom ALTER COLUMN clientid DROP NOT NULL;
 ALTER TABLE userdata.clientnewsroom ADD COLUMN description character varying(80);
 
 ALTER TABLE userdata.clientnewsroomcustumlinks ALTER COLUMN clientid DROP NOT NULL;
 ALTER TABLE userdata.clientnewsroomcustumlinks ADD COLUMN newsroomid integer;
 ALTER TABLE userdata.clientnewsroomcustumlinks ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE RESTRICT;
-ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
 ALTER TABLE userdata.clientnewsroomcustumlinks ADD UNIQUE (newsroomid, "name");
 
 ALTER TABLE userdata.clientnewsroomimage ALTER COLUMN clientid DROP NOT NULL;
 ALTER TABLE userdata.clientnewsroomimage ADD COLUMN newsroomid integer;
 ALTER TABLE userdata.clientnewsroomimage ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE;
-ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
-ALTER TABLE userdata.clientnewsroomimage ADD CONSTRAINT un_control UNIQUE (newsroomid, imagetypeid);
+ALTER TABLE userdata.clientnewsroomimage ADD UNIQUE (newsroomid, imagetypeid);
 
-GRANT ALL ON TABLE userdata.clientnewsroom_newsroomid_seq TO postgres;
-GRANT UPDATE ON TABLE userdata.clientnewsroom_newsroomid_seq TO prmax;
-GRANT UPDATE ON TABLE userdata.clientnewsroom_newsroomid_seq TO prmaxcontrol;
 
 UPDATE userdata.clientnewsroomcustumlinks AS cncl
 SET newsroomid = cnr.newsroomid
-FROM 
+FROM
 userdata.clientnewsroom AS cnr
-WHERE cnr.clientid = cncl.clientid AND 
+WHERE cnr.clientid = cncl.clientid AND
 cncl.newsroomid is null;
 
 UPDATE userdata.clientnewsroomimage AS cncl
 SET newsroomid = cnr.newsroomid
-FROM 
+FROM
 userdata.clientnewsroom AS cnr
-WHERE cnr.clientid = cncl.clientid AND 
+WHERE cnr.clientid = cncl.clientid AND
 cncl.newsroomid is null;
 
 CREATE TABLE seoreleases.seonewsrooms
@@ -395,3 +384,9 @@ WITH (OIDS = FALSE);
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE  userdata.clientnewroomcontactdetails TO prmax;
 GRANT SELECT ON TABLE  userdata.clientnewroomcontactdetails TO prrelease;
+
+ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
+ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
+
+ALTER TABLE userdata.clientnewroomcontactdetails ADD COLUMN instagram character varying;
+
