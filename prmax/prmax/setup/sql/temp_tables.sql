@@ -230,6 +230,7 @@ ALTER TABLE userdata.emailserver ADD FOREIGN KEY (emailservertypeid) REFERENCES 
 ALTER TABLE tg_user ADD COLUMN passwordrecovery boolean NOT NULL DEFAULT false;
 UPDATE tg_user SET passwordrecovery = false;
 
+DROP VIEW user_external_view;
 CREATE OR REPLACE VIEW user_external_view AS
 SELECT u.user_id,
  u.user_name,
