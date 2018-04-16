@@ -262,7 +262,7 @@ class ContactHistoryGeneral():
 
 			contacthistory.details = params["details"]
 			contacthistory.outcome = params["outcome"]
-			
+
 			contacthistory.contacthistorytypeid = params["contacthistorytypeid"]
 			contacthistory.contacthistorystatusid = params["contacthistorystatusid"]
 			contacthistory.crm_subject = params["crm_subject"]
@@ -402,7 +402,7 @@ class ContactHistoryGeneral():
 
 				(error, statusid) = emailserver.send(email, sender)
 				if not statusid:
-					raise Exception("Problem Sending Email")				
+					raise Exception("Problem Sending Email")
 				else:
 					user = session.query(User).filter(User.user_id == int(params['userid'])).scalar()
 					chresp = ContactHistoryResponses(contacthistoryid=int(params['contacthistoryid']),
@@ -423,7 +423,7 @@ class ContactHistoryGeneral():
 						created=datetime.now(),
 						contacthistoryhistorytypeid=2) #Response
 					session.add(chh)
-					session.flush()					
+					session.flush()
 					transaction.commit()
 					return chh
 		except:
@@ -543,10 +543,16 @@ class ContactHistoryGeneral():
 
 		customer = Customer.query.get(params["customerid"])
 
-		return dict (crm_user_define_1 = customer.crm_user_define_1,
-		             crm_user_define_2 = customer.crm_user_define_2,
-		             crm_user_define_3 = customer.crm_user_define_3,
-		             crm_user_define_4 = customer.crm_user_define_4)
+		return dict (crm_user_define_1=customer.crm_user_define_1,
+		             crm_user_define_2=customer.crm_user_define_2,
+		             crm_user_define_3= customer.crm_user_define_3,
+		             crm_user_define_4=customer.crm_user_define_4,
+		             crm_subject=customer.crm_subject,
+		             crm_outcome=customer.crm_outcome,
+		             crm_engagement=customer.crm_engagement, crm_engagement_plural=customer.crm_engagement_plural,
+		             distribution_description=customer.distribution_description, distribution_description_plural=customer.distribution_description_plural,
+		             briefing_notes_description=customer.briefing_notes_description, response_description=customer.response_description,
+		             )
 
 
 	@staticmethod
@@ -560,7 +566,7 @@ class ContactHistoryGeneral():
 				if params["crm_user_define_" + fieldid] and params["crm_user_define_"+ fieldid + "_on"]:
 					setattr(customer, "crm_user_define_" + fieldid,params["crm_user_define_" + fieldid])
 				else:
-					setattr(customer, "c" + fieldid, None)
+					setattr(customer, "crm_user_define_" + fieldid, None)
 
 			transaction.commit()
 		except:
@@ -572,6 +578,27 @@ class ContactHistoryGeneral():
 		             crm_user_define_2 = customer.crm_user_define_2,
 		             crm_user_define_3 = customer.crm_user_define_3,
 		             crm_user_define_4 = customer.crm_user_define_4)
+
+	@staticmethod
+	def update_settings_desc(params):
+		"""Load Settings"""
+
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			customer = Customer.query.get(params["customerid"])
+			customer.crm_subject = params["crm_subject"]
+			customer.crm_outcome = params["crm_outcome"]
+			customer.crm_engagement = params["crm_engagement"]
+			customer.crm_engagement_plural = params["crm_engagement_plural"]
+			customer.briefing_notes_description = params["briefing_notes_description"]
+			customer.response_description = params["response_description"]
+
+
+			transaction.commit()
+		except:
+			transaction.rollback()
+			LOGGER.exception("ContactHistory update_settings_desc")
+			raise
 
 	@staticmethod
 	def user_defined_add(params):

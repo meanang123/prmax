@@ -1308,7 +1308,7 @@ class Customer(BaseSql):
 		try:
 			customer = Customer.query.get(params['customerid'])
 			customer.thirdparty = params["thirdparty"]
-			
+
 			if params['thirdparty'] == True and int(params["emailservertypeid"]) == 2:
 				emailserver = None
 				if (customer.emailserverid):

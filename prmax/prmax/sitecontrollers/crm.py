@@ -82,7 +82,7 @@ class UpdateHistorySchema(PrFormSchema):
 	"""schema """
 	contacthistoryhistoryid = validators.Int()
 	contacthistoryid = validators.Int()
-	
+
 class CrmIdSchema(PrFormSchema):
 	"""schema """
 	contacthistoryid = validators.Int()
@@ -99,6 +99,10 @@ class PrUpdateSettingsSchema(PrFormSchema):
 		crm_user_define_2_on = BooleanValidator()
 		crm_user_define_3_on = BooleanValidator()
 		crm_user_define_4_on = BooleanValidator()
+
+class PrUpdateSettingsDescSchema(PrFormSchema):
+		"""schema """
+		pass
 
 class PrAddUserDefinedSchema(PrFormSchema):
 	"""schema"""
@@ -245,7 +249,7 @@ class CrmController(SecureController):
 		chh = ContactHistoryGeneral.update_response( params )
 
 		return stdreturn(data = ContactHistoryHistory.query.get(chh.contacthistoryhistoryid))
-	
+
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
@@ -267,7 +271,7 @@ class CrmController(SecureController):
 	@expose(template="mako:prmax.templates.display.ch_history")
 	@validate(validators=CrmHistorySchema(), state_factory=std_state_factory)
 	def history_view(self, *args, **params):
-		
+
 		chh = ContactHistoryHistory.query.get(params["contacthistoryhistoryid"])
 		chres = {}
 		statementdescription = ''
@@ -277,7 +281,7 @@ class CrmController(SecureController):
 			if chres and chres.statementid:
 				st = Statements.query.get(chres.statementid)
 				statementdescription = st.statementdescription
-		
+
 		return dict(chh=chh, chres=chres, statementdescription = statementdescription, briefing_notes_description = briefing_notes_description)
 
 
@@ -304,6 +308,17 @@ class CrmController(SecureController):
 		""" Update Settings  """
 
 		ContactHistoryGeneral.update_settings(params)
+
+		return stdreturn(data=ContactHistoryGeneral.load_settings(params))
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrUpdateSettingsDescSchema(), state_factory=std_state_factory)
+	def update_settings_desc(self, *args, **params):
+		""" Update Settings  """
+
+		ContactHistoryGeneral.update_settings_desc(params)
 
 		return stdreturn(data=ContactHistoryGeneral.load_settings(params))
 

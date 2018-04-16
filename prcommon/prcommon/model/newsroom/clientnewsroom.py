@@ -21,7 +21,7 @@ from prcommon.model.session import UserSession
 LOG = logging.getLogger("prmax.model")
 
 class FakeClient(object):
-	def __init__(self, _customerid, clientid=-1, clientname='Global', tel='', www='', email='', twitter='', linkedin='', facebook='', instagram=''):
+	def __init__(self, _customerid, gobject, clientid=-1, clientname='Global', tel='', www='', email='', twitter='', linkedin='', facebook='', instagram=''):
 		self._clientid = clientid
 		self._clientname = clientname
 		self._customerid = _customerid
@@ -32,6 +32,15 @@ class FakeClient(object):
 		self._linkedin = linkedin
 		self._facebook = facebook
 		self._instagram = instagram
+		if gobject:
+			self._tel = gobject.tel
+			self._www = gobject.www
+			self._email = gobject.email
+			self._twitter = gobject.twitter
+			self._linkedin = gobject.linkedin
+			self._facebook = gobject.facebook
+			self._instagram = gobject.instagram
+
 
 	@property
 	def instagram(self):
@@ -93,18 +102,19 @@ class ClientNewsRoom(object):
 
 		return True if query.count() else False
 
-
 	@classmethod
 	def is_valid_newsroow(cls, customerid, news_room_root):
 		"""check too see if it exist"""
 
 		from prcommon.model.client import Client
 		from prcommon.model.identity import Customer
+		from prcommon.model.newsroom.clientnewroomcontactdetails import ClientNewRoomContactDetails
 
 		# check for client news rooms
 		# check for global news rooms
-		records = session.query(ClientNewsRoom, Client, Customer).\
+		records = session.query(ClientNewsRoom, Client, Customer, ClientNewRoomContactDetails).\
 			outerjoin(Client, Client.clientid == ClientNewsRoom.clientid).\
+		    outerjoin(ClientNewRoomContactDetails, ClientNewRoomContactDetails.newsroomid == ClientNewsRoom.newsroomid).\
 			join(Customer, ClientNewsRoom.customerid == Customer.customerid).\
 		  filter(ClientNewsRoom.customerid == customerid).\
 		  filter(ClientNewsRoom.news_room_root == news_room_root).all()
@@ -113,7 +123,7 @@ class ClientNewsRoom(object):
 			if records[0][2].is_active():
 				result = list(records[0])
 				if result[1] is None:
-					result[1] = FakeClient(customerid)
+					result[1] = FakeClient(customerid, result[3])
 
 				return result
 

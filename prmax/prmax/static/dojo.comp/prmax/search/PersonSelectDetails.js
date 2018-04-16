@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Name:    PersonSelectDetails.js
-// Author:  
+// Author:
 // Purpose:
 // Created: Jan 2018
 //
@@ -30,7 +30,7 @@ dojo.declare("prmax.search.PersonSelectDetails",
 
 		this._load_call_back = dojo.hitch(this,this._load_call);
 		this._clear_call_back = dojo.hitch(this,this._clear_call);
-		
+
 	},
 
 	postCreate:function()
@@ -50,13 +50,13 @@ dojo.declare("prmax.search.PersonSelectDetails",
 	load:function(dialog, employeeid)
 	{
 		this._dialog = dialog;
-	
+
 		var content = {};
 		content['employeeid'] = employeeid;
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
 				load: this._load_call_back,
-				url:'/employees/research_get_edit',
+				url:'/employees/get_for_display',
 				content:content}));
 	},
 	_load_call:function(response)
@@ -65,17 +65,17 @@ dojo.declare("prmax.search.PersonSelectDetails",
 
 		if (response.success == 'OK')
 		{
-			this.contactname.set("value", response.data.contactname);
-			this.www.set("value", response.data.outlet.www);
-			this.tel.set("value", response.data.comm.tel);
-			this.mobile.set("value", response.data.comm.mobile);
-			this.fax.set("value", response.data.comm.fax);
-			this.email.set("value", response.data.comm.email);
-			this.twitter.set("value", response.data.comm.twitter);
-			this.facebook.set("value", response.data.comm.facebook);
-			this.instagram.set("value", response.data.comm.instagram);
-			this.linkedin.set("value", response.data.comm.linkedin);
-			if (this.www.value != '')
+			this.contactname.set("value", response.data[0]);
+			this.www.set("value", response.data[7]);
+			this.tel.set("value", response.data[8]);
+			this.mobile.set("value", response.data[9]);
+			this.fax.set("value", response.data[10]);
+			this.email.set("value", response.data[11]);
+			this.twitter.set("value", response.data[12]);
+			this.facebook.set("value", response.data[13]);
+			this.linkedin.set("value", response.data[14]);
+			this.instagram.set("value", response.data[15]);
+			if (response.data[7] != '')
 			{
 				dojo.removeClass(this.www_show.domNode, "prmaxhidden");
 			}
@@ -83,7 +83,7 @@ dojo.declare("prmax.search.PersonSelectDetails",
 			{
 				dojo.addClass(this.www_show.domNode, "prmaxhidden");
 			}
-			if (this.facebook.value != '')
+			if (response.data[13] != '')
 			{
 				dojo.removeClass(this.facebook_show.domNode, "prmaxhidden");
 			}
@@ -91,7 +91,7 @@ dojo.declare("prmax.search.PersonSelectDetails",
 			{
 				dojo.addClass(this.facebook_show.domNode, "prmaxhidden");
 			}
-			if (this.twitter.value != '')
+			if (response.data[12] != '')
 			{
 				dojo.removeClass(this.twitter_show.domNode, "prmaxhidden");
 			}
@@ -99,15 +99,15 @@ dojo.declare("prmax.search.PersonSelectDetails",
 			{
 				dojo.addClass(this.twitter_show.domNode, "prmaxhidden");
 			}
-			if (this.instagram.value != '')
+			if (response.data[15] != '')
 			{
 				dojo.removeClass(this.instagram_show.domNode, "prmaxhidden");
-			}			
+			}
 			else
 			{
 				dojo.addClass(this.instagram_show.domNode, "prmaxhidden");
 			}
-			if (this.linkedin.value != '')
+			if (response.data[14] != '')
 			{
 				dojo.removeClass(this.linkedin_show.domNode, "prmaxhidden");
 			}

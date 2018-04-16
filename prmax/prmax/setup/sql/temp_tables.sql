@@ -1,4 +1,4 @@
-INSERT INTO internal.reporttemplates VALUES (32, -1, 'Statistics Report', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'StatisticsReport');
+﻿INSERT INTO internal.reporttemplates VALUES (32, -1, 'Statistics Report', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'StatisticsReport');
 
 UPDATE communications SET instagram = '' WHERE instagram is null;
 UPDATE userdata.client SET instagram = '' WHERE instagram is null;
@@ -389,4 +389,3 @@ ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
 ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
 
 ALTER TABLE userdata.clientnewroomcontactdetails ADD COLUMN instagram character varying;
-

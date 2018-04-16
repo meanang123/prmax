@@ -84,10 +84,10 @@ dojo.declare("prcommon.crm.add",
 			this["chud"+keyid+"id"].store = this["_chud"+keyid];
 		}
 
-		if (userdefine==true)
-		{
-			dojo.removeClass(this["chud5_view"],"prmaxhidden");
-		}
+		//if (userdefine==true)
+		//{
+		//	dojo.removeClass(this["chud5_view"],"prmaxhidden");
+		//}
 
 		this.clientid.set("store", this._clients);
 		if (PRMAX.utils.settings.required_client)
@@ -119,10 +119,14 @@ dojo.declare("prcommon.crm.add",
 		dojo.attr(this.briefing_notes_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description);
 		dojo.attr(this.response_label, 'innerHTML', PRMAX.utils.settings.response_description);
 
+		this.initiate_layout();
+
 		this.inherited(arguments);
 	},
 	_clear:function()
 	{
+		this.tabcont.selectChild(this.details_view);
+
 		this.contacthistorystatusid.set("value",2);
 		this.contacthistorytypeid.set("value",1);
 		this.follow_up_ownerid.set("value",PRMAX.utils.settings.uid);
@@ -172,6 +176,7 @@ dojo.declare("prcommon.crm.add",
 	_save:function()
 	{
 		var content = this.form.get("value");
+		var content2 = this.form2.get("value");
 		content["taken"] = ttl.utilities.toJsonDate ( this.taken.get("value"));
 		content["follow_up_date"] = ttl.utilities.toJsonDate ( this.follow_up_date.get("value"));
 		content['outletid'] = this.outletid.value;
@@ -181,7 +186,7 @@ dojo.declare("prcommon.crm.add",
 			ttl.utilities.makeParams({
 			load: this._save_call_back,
 			url:'/crm/add_note',
-			content:content}));
+			content:dojo.mixin(content,content2)}));
 	},
 	_save_call:function( response )
 	{
@@ -259,7 +264,7 @@ dojo.declare("prcommon.crm.add",
 			this.contact.set("value", contactid);
 		}
 		this.contact.set("Displayvalue", display);
-		
+
 		this.tabcont.selectChild(this.details_view);
 
 	},
@@ -338,5 +343,19 @@ dojo.declare("prcommon.crm.add",
 	_expand_response:function()
 	{
 		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, PRMAX.utils.settings.response_description);
+	},
+	_expand_details:function()
+	{
+		this.text_view_ctrl.show_control( this.details, this.text_view_dlg, PRMAX.utils.settings.briefing_notes_description);
+	},
+	_expand_outcome:function()
+	{
+		this.text_view_ctrl.show_control( this.outcome, this.text_view_dlg, "Outcome");
+	},
+	initiate_layout:function()
+	{
+		dojo.place(this.crm_response_zone, this.point_1);
+		dojo.place(this.analysis_node, this.point_2);
+
 	}
 });

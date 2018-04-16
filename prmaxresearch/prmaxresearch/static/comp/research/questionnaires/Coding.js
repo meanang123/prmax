@@ -19,11 +19,11 @@ define([
 	"dojox/data/JsonRestStore",
 	"dojo/data/ItemFileReadStore",
 	"dojo/dom-attr",
-	"dojo/dom-construct",	
+	"dojo/dom-construct",
 	"dojo/dom",
 	"dojo/on",
-	"dojo/_base/array",	
-	"dijit/form/Button",	
+	"dojo/_base/array",
+	"dijit/form/Button",
 	"dijit/form/TextBox",
 	"dijit/layout/ContentPane",
 	"dijit/form/Form",
@@ -59,6 +59,8 @@ define([
 	load:function( projectitem, outlet , user_changes )
 	{
 
+		domattr.set(this.seriesfeedback,"innerHTML","");
+
 		this.seriesparentid.set("parentbtnvalue", false);
 		this._reset_fields();
 		this.prmax_outlettypeid.set("value",outlet.outlet.prmax_outlettypeid);
@@ -69,24 +71,24 @@ define([
 		if (outlet.serieschildren.length > 0)
 		{
 			domConstruct.destroy('serieschildren_table');
-			if (dom.byId('serieschildren_td')) 
+			if (dom.byId('serieschildren_td'))
 			{
 				domConstruct.destroy('serieschildren_td');
-			};			
+			};
 			domConstruct.create('td', {
-				'align':'right', 
+				'align':'right',
 				'class': 'prmaxrowtag' ,
 				'valign':'top',
 				'style': {'padding-top': '10px'},
 				'id':'serieschildren_td',
 				innerHTML: 'Series Children'
 				}, 'serieschildren_tr', 'first');
-			
+
 			td2 = domConstruct.create('td', {}, 'serieschildren_tr', 'last');
 			div = domConstruct.create('div', {
-				'id': 'serieschildren_div'	
+				'id': 'serieschildren_div'
 			}, td2);
-			
+
 			domConstruct.create('table', {'id':'serieschildren_table'}, 'serieschildren_div', 'first');
 			array.forEach(outlet.serieschildren, function(child, i) {
 				var tr = domConstruct.create("tr", {}, "serieschildren_table"),
@@ -95,9 +97,9 @@ define([
 							value: child.outletname,
 							'readonly':'readonly'
 							}).placeAt(td, 'first'))
-			 });	
+			 });
 		}
-		else 
+		else
 		{
 			domConstruct.destroy('serieschildren_table');
 			domConstruct.destroy('serieschildren_td');

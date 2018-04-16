@@ -77,7 +77,7 @@ dojo.declare("prcommon.newsrooms.viewer",
 				url:'/newsroom/newsroom_get',
 				content: content
 			})
-		);		
+		);
 	},
 	_LoadNewsroomCall:function(response)
 	{
@@ -85,7 +85,7 @@ dojo.declare("prcommon.newsrooms.viewer",
 		{
 			dojo.removeClass(this.display_pane,"prmaxhidden");
 			dojo.style(this.contact.controlButton.domNode, {display:"none"});
-		
+
 			this.newsroomid.set("value", response.data.newsroom.newsroomid);
 			this.description.set("value", response.data.newsroom.description);
 			this.news_room_root.set("value", response.data.newsroom.news_room_root);
@@ -126,7 +126,7 @@ dojo.declare("prcommon.newsrooms.viewer",
 		}
 
 //		this.grid.selection.clickSelectEvent(e);
-		this.tabcont.selectChild(this.details);		
+		this.tabcont.selectChild(this.details);
 	},
 	_AddNewsroom:function()
 	{
@@ -225,11 +225,11 @@ dojo.declare("prcommon.newsrooms.viewer",
 		this.email.set("value", "");
 		this.linkedin.set("value", "");
 		this.facebook.set("value", "");
-		this.twitter.set("value", "");		
+		this.twitter.set("value", "");
 		this.update_form_btn.set("disabled",false);
-		
+
 	},
-	
+
 	_use_default_color:function()
 	{
 		if (this.default_header_colour.checked)
@@ -240,7 +240,7 @@ dojo.declare("prcommon.newsrooms.viewer",
 	_ColourUpdate:function()
 	{
 		this.default_header_colour.set("checked", false);
-	},	
+	}
 });
 
 

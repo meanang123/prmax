@@ -29,6 +29,41 @@ from datetime import datetime
 
 LOGGER = logging.getLogger("prmax.model")
 
+COMMAND1 = """SELECT
+	JSON(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
+	JSON(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
+	CASE WHEN oca.address1 IS NULL THEN oa.address1	ELSE oca.address1 END as address1,
+	CASE WHEN oca.address1 IS NULL THEN oa.address2	ELSE oca.address2 END as address2,
+	CASE WHEN oca.address1 IS NULL THEN oa.townname	ELSE oca.townname END as townname,
+	CASE WHEN oca.address1 IS NULL THEN oa.county	ELSE oca.county END as county,
+	CASE WHEN oca.address1 IS NULL THEN oa.postcode	ELSE oca.postcode END as postcode,
+	o.www,
+	get_override(ec_c.tel,e_c.tel,oc_c.tel,o_c.tel) as telephone,
+	get_override(ec_c.mobile,e_c.mobile,'','') as mobile,
+	get_override(ec_c.fax,e_c.fax,oc_c.fax,o_c.fax) as fax,
+	get_override(ec_c.email,e_c.email,o_c.email,o_c.email) as email,
+	get_override(ec_c.twitter,e_c.twitter,o_c.twitter,'') AS contact_twitter,
+	get_override(ec_c.facebook,e_c.facebook,o_c.facebook,'') AS contact_facebook,
+	get_override(ec_c.linkedin,e_c.linkedin,o_c.linkedin,'') AS contact_linkedin,
+	get_override(ec_c.instagram,e_c.instagram,o_c.instagram,'') AS contact_instagram
+
+	FROM employees as e
+	JOIN outlets as o on o.outletid = e.outletid
+	LEFT OUTER JOIN outletcustomers as oc ON oc.outletid = o.outletid AND oc.customerid = :customerid
+	LEFT OUTER JOIN communications as o_c ON o.communicationid = o_c.communicationid
+	LEFT OUTER JOIN communications as oc_c ON oc_c.communicationid = oc.communicationid
+	-- employee communications
+	LEFT OUTER JOIN communications as e_c ON e_c.communicationid = e.communicationid
+	LEFT OUTER JOIN communications as ec_c ON e_c.communicationid = ec_c.communicationid
+
+	LEFT OUTER JOIN addresses as oa ON oa.addressid = o_c.addressid
+	LEFT OUTER JOIN addresses as oca ON oca.addressid = oc_c.addressid
+	LEFT OUTER JOIN addresses as ea ON ea.addressid = e_c.addressid
+	LEFT OUTER JOIN addresses as eca ON eca.addressid = ec_c.addressid
+
+	LEFT OUTER JOIN contacts as c on e.contactid = c.contactid
+	WHERE e.employeeid = :employeeid"""
+
 class Employee(BaseSql):
 	"""
 	Employee
@@ -700,6 +735,16 @@ class Employee(BaseSql):
 		    employeeid = params['employeeid'],
 		    interesttypeid = Constants.Interest_Type_Standard).all()),
 		  isprimary = True if outlet.primaryemployeeid == employee.employeeid else False )
+
+	@staticmethod
+	def get_for_display(params):
+		"""Display Detilas"""
+
+		employee = Employee.query.get(params['employeeid'])
+
+		data = session.execute(text(COMMAND1), params, Employee).fetchone()
+
+		return list(data)
 
 
 	Delete_Employee = "SELECT employee_delete(:employeeid)"

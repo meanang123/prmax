@@ -63,12 +63,12 @@ dojo.declare("prmax.search.PersonSelect",
 		cells: [[
 			{name: 'Outlet',width: "auto",field:'outletname'},
 			{name: 'Contact',width: "auto",field:'contactname'},
-			{name: ' ',width: "15px",field:'',formatter:ttl.utilities.formatRowCtrl}
+			{name: ' ',width: "15px",field:'',formatter:ttl.utilities.format_row_ctrl}
 			]]
 	},
 	postCreate:function()
 	{
-		this.viewer_grid.resize( {w:580, h:250,t:3} );
+		this.viewer_grid.resize( {w:595, h:255,t:3} );
 
 		this.viewer_grid.set("structure", this.view);
 		this.viewer_grid._setStore(this.filter_db);
@@ -110,6 +110,10 @@ dojo.declare("prmax.search.PersonSelect",
 	_clear_call:function()
 	{
 		this.viewer_grid.setQuery(ttl.utilities.getPreventCache({}));
+	},
+	_close:function()
+	{
+		this.search_people_dlg.hide();
 	}
 });
 

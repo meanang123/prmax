@@ -251,6 +251,15 @@ class EmployeeController(SecureController):
 		return stdreturn()
 
 
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrEmployeeIdFormSchema(), state_factory=std_state_factory)
+	def get_for_display(self, *argv, **kw):
+		""" get the details about a specific employee"""
+
+		return stdreturn(data=Employee.get_for_display(kw))
+
 
 
 
