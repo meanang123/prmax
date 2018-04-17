@@ -104,6 +104,13 @@ class PrUpdateSettingsDescSchema(PrFormSchema):
 		"""schema """
 		pass
 
+class PrUpdateSettingsLayoutSchema(PrFormSchema):
+	"""schema"""
+	crm_analysis_page_1 = BooleanValidator()
+	crm_outcome_page_1 = BooleanValidator()
+	crm_response_page_1 = BooleanValidator()
+	crm_briefingnotes_page_1 = BooleanValidator()
+
 class PrAddUserDefinedSchema(PrFormSchema):
 	"""schema"""
 	fieldid = validators.Int()
@@ -246,9 +253,9 @@ class CrmController(SecureController):
 	def update_response(self, *args, **params):
 		""" Update contact history response record """
 
-		chh = ContactHistoryGeneral.update_response( params )
+		chh = ContactHistoryGeneral.update_response(params)
 
-		return stdreturn(data = ContactHistoryHistory.query.get(chh.contacthistoryhistoryid))
+		return stdreturn(data=ContactHistoryHistory.query.get(chh.contacthistoryhistoryid))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -279,10 +286,10 @@ class CrmController(SecureController):
 		if chh and chh.contacthistoryresponseid:
 			chres = ContactHistoryResponses.query.get(chh.contacthistoryresponseid)
 			if chres and chres.statementid:
-				st = Statements.query.get(chres.statementid)
-				statementdescription = st.statementdescription
+				statment = Statements.query.get(chres.statementid)
+				statementdescription = statment.statementdescription
 
-		return dict(chh=chh, chres=chres, statementdescription = statementdescription, briefing_notes_description = briefing_notes_description)
+		return dict(chh=chh, chres=chres, statementdescription=statementdescription, briefing_notes_description=briefing_notes_description)
 
 
 	@expose(template="mako:prmax.templates.display.basic_details_page")
@@ -319,6 +326,17 @@ class CrmController(SecureController):
 		""" Update Settings  """
 
 		ContactHistoryGeneral.update_settings_desc(params)
+
+		return stdreturn(data=ContactHistoryGeneral.load_settings(params))
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrUpdateSettingsLayoutSchema(), state_factory=std_state_factory)
+	def update_settings_layout(self, *args, **params):
+		""" Update Settings  """
+
+		ContactHistoryGeneral.update_settings_layout(params)
 
 		return stdreturn(data=ContactHistoryGeneral.load_settings(params))
 

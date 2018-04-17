@@ -35,7 +35,7 @@ from ttl.sqlalchemy.ttlcoding import CryptyInfo
 CRYPTENGINE = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
 
-class ContactHistoryGeneral():
+class ContactHistoryGeneral(object):
 	""" Contact History General Record """
 
 	List_View_Single = """SELECT ch.contacthistoryid,
@@ -71,16 +71,16 @@ class ContactHistoryGeneral():
 	def get_record(contacthistoryid, ashtml=False):
 		""" Get a specific note record
 		convert cr to html if required """
-		data =  ContactHistory.sqlExecuteCommand(
+		data = ContactHistory.sqlExecuteCommand(
 			text(ContactHistoryGeneral.List_View_Single),
-			dict ( contacthistoryid=contacthistoryid),
+			dict(contacthistoryid=contacthistoryid),
 			BaseSql.ResultAsEncodedDict)[0]
 		if ashtml:
 			data["details"] = data["details"].replace("\n", "<br/>")
 		return data
 
 	@staticmethod
-	def add_note( params ) :
+	def add_note(params):
 		""" add a new notes record """
 		transaction = BaseSql.sa_get_active_transaction()
 		try:
@@ -165,16 +165,16 @@ class ContactHistoryGeneral():
 
 
 	@staticmethod
-	def get_grid_page( params ) :
+	def get_grid_page(params):
 		""" get alist of notes"""
 
-		whereclause = BaseSql.addclause("","ch.ref_customerid = :icustomerid")
+		whereclause = BaseSql.addclause("", "ch.ref_customerid = :icustomerid")
 		if "icustomerid" not in params:
 			params["icustomerid"] = params["customerid"]
 
 		for fieldid in ("contacthistorysourceid", "contacthistorystatusid", "followup_by",
 		                "taken_by", "taskid", "outletid", "employeeid", "clientid"):
-			if fieldid in params and params[fieldid] != '-1' :
+			if fieldid in params and params[fieldid] != '-1':
 				whereclause = BaseSql.addclause(whereclause, "ch.%s = :%s" % (fieldid, fieldid))
 				params[fieldid] = int(params[fieldid])
 
@@ -184,31 +184,31 @@ class ContactHistoryGeneral():
 
 		if "subject" in params:
 			whereclause = BaseSql.addclause(whereclause, "ch.subject ilike :subject")
-			params["subject"] = "%" +  params["subject"] +  "%"
+			params["subject"] = "%" + params["subject"] + "%"
 
 		if "response" in params:
 			whereclause = BaseSql.addclause(whereclause, "ch.crm_response ilike :response")
-			params["response"] = "%" +  params["response"] +  "%"
+			params["response"] = "%" + params["response"] + "%"
 
 		if "sort" in params and params["sort"] == "taken_display":
 			params["sort"] = "ch.taken"
 
 		# date range
 		if "drange" in params and params["drange"].option != DateRangeResult.NOSELECTION:
-			drange =  params["drange"]
+			drange = params["drange"]
 			if drange.option == DateRangeResult.BEFORE:
 				# BEfore
 				params["from_date"] = drange.from_date
-				whereclause = BaseSql.addclause( whereclause, 'ch.taken <= :from_date')
+				whereclause = BaseSql.addclause(whereclause, 'ch.taken <= :from_date')
 			elif drange.option == DateRangeResult.AFTER:
 				# After
 				params["from_date"] = drange.from_date
-				whereclause = BaseSql.addclause( whereclause, 'ch.taken >= :from_date')
+				whereclause = BaseSql.addclause(whereclause, 'ch.taken >= :from_date')
 			elif drange.option == DateRangeResult.BETWEEN:
 				# ABetween
 				params["from_date"] = drange.from_date
 				params["to_date"] = drange.to_date
-				whereclause = BaseSql.addclause( whereclause, 'ch.taken BETWEEN :from_date AND :to_date')
+				whereclause = BaseSql.addclause(whereclause, 'ch.taken BETWEEN :from_date AND :to_date')
 
 		# default is date reverse order
 		if "sortfield" not in params or params.get("sortfield") == "":
@@ -223,10 +223,10 @@ class ContactHistoryGeneral():
 									'contacthistoryid',
 									ContactHistoryGeneral.List_View + whereclause + BaseSql.Standard_View_Order,
 									ContactHistoryGeneral.List_View_Count % whereclause,
-									ContactHistory )
+									ContactHistory)
 
 	@staticmethod
-	def update_note( params ) :
+	def update_note(params):
 		""" update a note record """
 
 		transaction = BaseSql.sa_get_active_transaction()
@@ -251,10 +251,10 @@ class ContactHistoryGeneral():
 				session.add(ContactHistoryHistory(
 				    from_notes=contacthistory.details,
 				    to_notes=params["details"],
-				  contacthistoryid = contacthistory.contacthistoryid,
-				  userid = params["userid"],
-				  created=datetime.now(),
-				  contacthistoryhistorytypeid=1 #Changed
+				    contacthistoryid=contacthistory.contacthistoryid,
+				    userid=params["userid"],
+				    created=datetime.now(),
+				    contacthistoryhistorytypeid=1 #Changed
 				))
 
 			if contacthistory.details != params["details"]:
@@ -281,18 +281,17 @@ class ContactHistoryGeneral():
 
 			if params["follow_up_view_check"] and contacthistory.taskid is None:
 				task = Task(
-						taskstatusid = Constants.TaskStatus_InProgress,
-				    due_date = params["follow_up_date"],
-				    userid = params["follow_up_ownerid"],
-				    description = params["details"][:255],
-				    tasktypeid = Constants.TaskType_Standard,
-				    ref_customerid = params["customerid"],
-				    contacthistoryid = contacthistory.contacthistoryid)
+						taskstatusid=Constants.TaskStatus_InProgress,
+				        due_date=params["follow_up_date"],
+				        userid=params["follow_up_ownerid"],
+				        description=params["details"][:255],
+				        tasktypeid=Constants.TaskType_Standard,
+				        ref_customerid=params["customerid"],
+				        contacthistoryid=contacthistory.contacthistoryid)
 				session.add(task)
 				session.flush()
 				# linked task back to contact
 				contacthistory.taskid = task.taskid
-				taskid = task.taskid
 				contacthistory.follow_up_date = params["follow_up_date"]
 				contacthistory.follow_up_ownerid = params["follow_up_ownerid"]
 			elif contacthistory.taskid is not None and params["follow_up_view_check"]:
@@ -311,18 +310,18 @@ class ContactHistoryGeneral():
 			# update issue
 			issues = session.query(ContactHistoryIssues).\
 				filter(ContactHistoryIssues.contacthistoryid == params["contacthistoryid"]).\
-				filter (ContactHistoryIssues.isprimary == False).all()
+				filter(ContactHistoryIssues.isprimary == False).all()
 
 			primary = session.query(ContactHistoryIssues).\
 				filter(ContactHistoryIssues.contacthistoryid == params["contacthistoryid"]).\
-				filter (ContactHistoryIssues.isprimary == True).scalar()
+				filter(ContactHistoryIssues.isprimary == True).scalar()
 
 			if primary and primary.issueid != params["issueid"]:
 				# issue update or delete
 				if params["issueid"]:
 					for issue in issues:
 						if issue.issueid == params["issueid"]:
-							issue.isprimary =True
+							issue.isprimary = True
 							session.delete(primary)
 							primary = issue
 						primary.issueid = params["issueid"]
@@ -339,9 +338,9 @@ class ContactHistoryGeneral():
 				# needs to be added
 				if not primary:
 					primary = ContactHistoryIssues(
-					  contacthistoryid = params["contacthistoryid"],
-					  issueid = params["issueid"],
-					  isprimary = True)
+					  contacthistoryid=params["contacthistoryid"],
+					  issueid=params["issueid"],
+					  isprimary=True)
 					session.add(primary)
 					session.flush()
 
@@ -362,8 +361,8 @@ class ContactHistoryGeneral():
 					newissues[issueid] = issueid
 					if issueid not in issues_existing:
 						issue = ContactHistoryIssues(
-							contacthistoryid = params["contacthistoryid"],
-							issueid = issueid)
+						    contacthistoryid=params["contacthistoryid"],
+						    issueid=issueid)
 						session.add(issue)
 						issues_existing[issue.issueid] = issue
 			#deletes
@@ -400,7 +399,7 @@ class ContactHistoryGeneral():
 					host=ces.host)
 				sender = ces.fromemailaddress
 
-				(error, statusid) = emailserver.send(email, sender)
+				(_, statusid) = emailserver.send(email, sender)
 				if not statusid:
 					raise Exception("Problem Sending Email")
 				else:
@@ -453,11 +452,11 @@ class ContactHistoryGeneral():
 		primary = session.query(Issue).\
 		  join(ContactHistoryIssues, Issue.issueid == ContactHistoryIssues.issueid).\
 		  filter(ContactHistoryIssues.contacthistoryid == contacthistoryid).\
-		  filter (ContactHistoryIssues.isprimary == True).scalar()
+		  filter(ContactHistoryIssues.isprimary == True).scalar()
 		issues = session.query(Issue).\
 		  join(ContactHistoryIssues, Issue.issueid == ContactHistoryIssues.issueid).\
 		  filter(ContactHistoryIssues.contacthistoryid == contacthistoryid).\
-		  filter (ContactHistoryIssues.isprimary == False).all()
+		  filter(ContactHistoryIssues.isprimary == False).all()
 		if contacthistory.documentid:
 			document = Documents.query.get(contacthistory.documentid)
 		else:
@@ -465,19 +464,19 @@ class ContactHistoryGeneral():
 		status = session.query(ContactHistoryStatus).filter(ContactHistoryStatus.contacthistorystatusid == contacthistory.contacthistorystatusid).scalar()
 		display_name = session.query(User.display_name).filter(User.user_id == contacthistory.taken_by).scalar()
 		return dict(
-		  ch = contacthistory,
-		  chi = dict( primary = primary, si = issues),
-		  status = status.contacthistorystatusdescription,
-		  display_name = display_name,
-		  task = task,
-		  taken_date = datetime.strftime(contacthistory.taken, "%d/%m/%y"),
-		  contact = contact,
-		  outlet = outlet,
-		  employee = employee,
-		  contactname = contactname,
-		  document = document)
+		  ch=contacthistory,
+		  chi=dict(primary=primary, si=issues),
+		  status=status.contacthistorystatusdescription,
+		  display_name=display_name,
+		  task=task,
+		  taken_date=datetime.strftime(contacthistory.taken, "%d/%m/%y"),
+		  contact=contact,
+		  outlet=outlet,
+		  employee=employee,
+		  contactname=contactname,
+		  document=document)
 
-	EMPTYGRID = dict (numRows = 0, items = [], identifier = 'contacthistoryid')
+	EMPTYGRID = dict(numRows=0, items=[], identifier='contacthistoryid')
 
 	List_Chh_View = """SELECT
 	chh.contacthistoryhistoryid,
@@ -493,11 +492,11 @@ class ContactHistoryGeneral():
 	EMPTYGRID_CHH = dict(numRows=0, items=[], identifier='contacthistoryhistoryid')
 
 	@staticmethod
-	def ch_history( params ) :
+	def ch_history(params):
 		""" get alist of notes"""
 
 		if "contacthistoryid" in  params:
-			whereclause = BaseSql.addclause("","chh.contacthistoryid = :contacthistoryid")
+			whereclause = BaseSql.addclause("", "chh.contacthistoryid = :contacthistoryid")
 
 			if "sort" in params and params["sort"] == "created_display":
 				params["sort"] = "chh.created"
@@ -506,9 +505,9 @@ class ContactHistoryGeneral():
 			  params,
 			  'chh.created',
 			  'contacthistoryhistoryid',
-			  ContactHistoryGeneral.List_Chh_View % (whereclause,"ORDER BY  %s %s"),
+			  ContactHistoryGeneral.List_Chh_View % (whereclause, "ORDER BY  %s %s"),
 			  ContactHistoryGeneral.List_Chh_View_Count % whereclause,
-			  ContactHistoryHistory )
+			  ContactHistoryHistory)
 		else:
 			return ContactHistoryGeneral.EMPTYGRID_CHH
 
@@ -516,18 +515,18 @@ class ContactHistoryGeneral():
 	List_UD_Count = """SELECT COUNT(*) FROM userdata.contacthistoryuserdefine AS chu """
 
 	@staticmethod
-	def user_defined( params ) :
+	def user_defined(params):
 		""" get alist of notes"""
 
-		whereclause = BaseSql.addclause("","chu.customerid = :customerid")
-		whereclause = BaseSql.addclause(whereclause,"chu.fieldid = :fieldid")
+		whereclause = BaseSql.addclause("", "chu.customerid = :customerid")
+		whereclause = BaseSql.addclause(whereclause, "chu.fieldid = :fieldid")
 
 		if "id" in params:
-			whereclause = BaseSql.addclause(whereclause,"chu.contacthistoryuserdefinid = :id")
+			whereclause = BaseSql.addclause(whereclause, "chu.contacthistoryuserdefinid = :id")
 
 		if "description" in params:
 			params["description"] = params["description"].replace("*", "%")
-			whereclause = BaseSql.addclause(whereclause,"chu.description ILIKE :description")
+			whereclause = BaseSql.addclause(whereclause, "chu.description ILIKE :description")
 
 		return BaseSql.get_grid_page(
 		  params,
@@ -535,7 +534,7 @@ class ContactHistoryGeneral():
 		  'contacthistoryuserdefinid',
 		  ContactHistoryGeneral.List_UD_View + whereclause + BaseSql.Standard_View_Order,
 		  ContactHistoryGeneral.List_UD_Count + whereclause,
-		  ContactHistoryHistory )
+		  ContactHistoryHistory)
 
 	@staticmethod
 	def load_settings(params):
@@ -543,16 +542,22 @@ class ContactHistoryGeneral():
 
 		customer = Customer.query.get(params["customerid"])
 
-		return dict (crm_user_define_1=customer.crm_user_define_1,
-		             crm_user_define_2=customer.crm_user_define_2,
-		             crm_user_define_3= customer.crm_user_define_3,
-		             crm_user_define_4=customer.crm_user_define_4,
-		             crm_subject=customer.crm_subject,
-		             crm_outcome=customer.crm_outcome,
-		             crm_engagement=customer.crm_engagement, crm_engagement_plural=customer.crm_engagement_plural,
-		             distribution_description=customer.distribution_description, distribution_description_plural=customer.distribution_description_plural,
-		             briefing_notes_description=customer.briefing_notes_description, response_description=customer.response_description,
-		             )
+		return dict(crm_user_define_1=customer.crm_user_define_1,
+		            crm_user_define_2=customer.crm_user_define_2,
+		            crm_user_define_3=customer.crm_user_define_3,
+		            crm_user_define_4=customer.crm_user_define_4,
+		            crm_subject=customer.crm_subject,
+		            crm_outcome=customer.crm_outcome,
+		            crm_engagement=customer.crm_engagement, crm_engagement_plural=customer.crm_engagement_plural,
+		            distribution_description=customer.distribution_description,
+		            distribution_description_plural=customer.distribution_description_plural,
+		            briefing_notes_description=customer.briefing_notes_description,
+		            response_description=customer.response_description,
+		            crm_analysis_page_1=customer.crm_analysis_page_1,
+		            crm_outcome_page_1=customer.crm_outcome_page_1,
+		            crm_response_page_1=customer.crm_response_page_1,
+		            crm_briefingnotes_page_1=customer.crm_briefingnotes_page_1
+		            )
 
 
 	@staticmethod
@@ -564,7 +569,7 @@ class ContactHistoryGeneral():
 			customer = Customer.query.get(params["customerid"])
 			for fieldid in  ("1", "2", "3", "4"):
 				if params["crm_user_define_" + fieldid] and params["crm_user_define_"+ fieldid + "_on"]:
-					setattr(customer, "crm_user_define_" + fieldid,params["crm_user_define_" + fieldid])
+					setattr(customer, "crm_user_define_" + fieldid, params["crm_user_define_" + fieldid])
 				else:
 					setattr(customer, "crm_user_define_" + fieldid, None)
 
@@ -574,10 +579,10 @@ class ContactHistoryGeneral():
 			LOGGER.exception("ContactHistory update_settings")
 			raise
 
-		return dict (crm_user_define_1 = customer.crm_user_define_1,
-		             crm_user_define_2 = customer.crm_user_define_2,
-		             crm_user_define_3 = customer.crm_user_define_3,
-		             crm_user_define_4 = customer.crm_user_define_4)
+		return dict(crm_user_define_1=customer.crm_user_define_1,
+		            crm_user_define_2=customer.crm_user_define_2,
+		            crm_user_define_3=customer.crm_user_define_3,
+		            crm_user_define_4=customer.crm_user_define_4)
 
 	@staticmethod
 	def update_settings_desc(params):
@@ -601,14 +606,32 @@ class ContactHistoryGeneral():
 			raise
 
 	@staticmethod
+	def update_settings_layout(params):
+		"""Load Settings"""
+
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			customer = Customer.query.get(params["customerid"])
+			customer.crm_analysis_page_1 = params["crm_analysis_page_1"]
+			customer.crm_outcome_page_1 = params["crm_outcome_page_1"]
+			customer.crm_response_page_1 = params["crm_response_page_1"]
+			customer.crm_briefingnotes_page_1 = params["crm_briefingnotes_page_1"]
+
+			transaction.commit()
+		except:
+			transaction.rollback()
+			LOGGER.exception("ContactHistory update_settings_layout")
+			raise
+
+	@staticmethod
 	def user_defined_add(params):
 		"""Ad a new user defined field"""
 
 		transaction = BaseSql.sa_get_active_transaction()
 		try:
-			chud = ContactHistoryUserDefine(customerid = params["customerid"],
-			                                 fieldid = params["fieldid"],
-			                                 description =  params["description"])
+			chud = ContactHistoryUserDefine(customerid=params["customerid"],
+			                                fieldid=params["fieldid"],
+			                                description=params["description"])
 			session.add(chud)
 			session.flush()
 			transaction.commit()

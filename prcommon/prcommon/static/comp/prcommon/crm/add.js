@@ -278,12 +278,17 @@ dojo.declare("prcommon.crm.add",
 	},
 	_settings_event:function()
 	{
+
+		dojo.addClass(this["chud5_view"],"prmaxhidden");
+
 		for ( var key in this._fields)
 		{
 			var keyid = this._fields[key];
 			if (PRMAX.utils.settings["crm_user_define_" + keyid] != "" && PRMAX.utils.settings["crm_user_define_" + keyid] != null )
 			{
 				dojo.removeClass(this["chud" + keyid + "_view"],"prmaxhidden");
+				dojo.removeClass(this["chud5_view"],"prmaxhidden");
+
 				dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
 			}
 			else
@@ -292,6 +297,8 @@ dojo.declare("prcommon.crm.add",
 				dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
 			}
 		}
+
+		this.initiate_layout();
 	},
 	_new_document:function()
 	{
@@ -354,8 +361,21 @@ dojo.declare("prcommon.crm.add",
 	},
 	initiate_layout:function()
 	{
-		dojo.place(this.crm_response_zone, this.point_1);
-		dojo.place(this.analysis_node, this.point_2);
+		var parent_loc = null;
+
+		parent_loc = (PRMAX.utils.settings.crm_outcome_page_1) ? this.page_1_point_2 : this.page_2_point_1;
+		dojo.place(this.outcome_node, parent_loc);
+
+		parent_loc = (PRMAX.utils.settings.crm_analysis_page_1) ? this.page_1_point_1 : this.page_2_point_2;
+		dojo.place(this.analysis_node, parent_loc);
+
+		parent_loc = (PRMAX.utils.settings.crm_response_page_1) ? this.page_1_point_4 : this.page_2_point_4;
+		dojo.place(this.crm_response_zone, parent_loc);
+
+		parent_loc = (PRMAX.utils.settings.crm_briefingnotes_page_1) ? this.page_1_point_3 : this.page_2_point_3;
+		dojo.place(this.briefing_node, parent_loc);
+
+		//dojo.place(this.crm_response_zone, parent_loc);
 
 	}
 });

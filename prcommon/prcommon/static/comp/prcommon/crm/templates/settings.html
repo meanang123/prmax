@@ -28,6 +28,21 @@
 			</form>
 		</div>
 		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:650px;height:410px","class":"common_prmax_layout",title:"Layout"'>
+			<form data-dojo-attach-point="form_layout" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
+				<div style="width:600px;height:350px">
+					<br/><p style="text-align:center;font-size:1.2em;font-weight:bold;width:100%">Engagement field's on page 1</p><br/>
+					<label class="label_2"><input data-dojo-attach-point="crm_outcome_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_outcome_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:false'/> Outcome</label><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2"><input data-dojo-attach-point="crm_analysis_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_analysis_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:true'/> Analysis</label><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2"><input data-dojo-attach-point="crm_response_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_response_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:true'/> Response</label><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2"><input data-dojo-attach-point="crm_briefingnotes_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_briefingnotes_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:true'/> Briefing Notes</label><br/>
+					<p class="spacer">&nbsp;</p>
+					<br/><br/>
+				</div>
+				<button data-dojo-attach-event="onClick:_save_layout" data-dojo-attach-point="savelayoutbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-2x fa-floppy-o",type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright",style:"float:right"'></button>
+			</form>
 		</div>
 		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:650px;height:410px","class":"common_prmax_layout",title:"Descriptions"'>
 			<form data-dojo-attach-point="form_descriptions" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>

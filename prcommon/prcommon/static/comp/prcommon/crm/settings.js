@@ -24,6 +24,7 @@ dojo.declare("prcommon.crm.settings",
 		this._save_desc_call_back = dojo.hitch(this, this._save_desc_call);
 		this._load_call_back = dojo.hitch(this, this._load_call);
 		this._error_call_back = dojo.hitch(this, this._error_call);
+		this._save_desc_call_back = dojo.hitch(this, this._save_desc_call);
 	},
 	postCreate:function()
 	{
@@ -33,6 +34,7 @@ dojo.declare("prcommon.crm.settings",
 	{
 		this.savebtn.cancel();
 		this.savedescbtn.cancel();
+		this.savelayoutbtn.cancel();
 	},
 	_close:function()
 	{
@@ -111,6 +113,10 @@ dojo.declare("prcommon.crm.settings",
 			this.crm_engagement_plural.set("value",response.data.crm_engagement_plural);
 			this.briefing_notes_description.set("value",response.data.briefing_notes_description);
 			this.response_description.set("value",response.data.response_description);
+			this.crm_analysis_page_1.set("checked", response.data.crm_analysis_page_1);
+			this.crm_outcome_page_1.set("checked", response.data.crm_outcome_page_1);
+			this.crm_briefingnotes_page_1.set("checked", response.data.crm_response_page_1);
+			this.crm_response_page_1.set("checked", response.data.crm_response_page_1);
 
 		}
 		else
@@ -155,7 +161,10 @@ dojo.declare("prcommon.crm.settings",
 	_error_call:function(response, ioArgs)
 	{
 		ttl.utilities.xhrPostError(response, ioArgs);
+
 		this.savebtn.cancel();
+		this.savelayoutbtn.cancel();
+		this.savedescbtn.cancel();
 	},
 	resize:function()
 	{
@@ -163,7 +172,7 @@ dojo.declare("prcommon.crm.settings",
 	},
 	_save_desc:function()
 	{
-			if ( ttl.utilities.formValidator(this.form_descriptions)==false)
+		if ( ttl.utilities.formValidator(this.form_descriptions)==false)
 		{
 			alert("Not all required field filled in");
 			this.savedescbtn.cancel();
@@ -176,6 +185,32 @@ dojo.declare("prcommon.crm.settings",
 			url:'/crm/update_settings_desc',
 			error: this._error_call_back,
 			content:this.form_descriptions.get("value")}));
+	},
+	_save_layout:function()
+	{
+		dojo.xhrPost(
+			ttl.utilities.makeParams({
+			load: this._save_desc_call_back,
+			url:'/crm/update_settings_layout',
+			error: this._error_call_back,
+			content:this.form_layout.get("value")}));
+	},
+	_save_desc_call:function(response)
+	{
+		if ( response.success == "OK")
+		{
+			PRMAX.utils.settings.crm_analysis_page_1 = response.data.crm_analysis_page_1;
+			PRMAX.utils.settings.crm_outcome_page_1 = response.data.crm_outcome_page_1;
+			PRMAX.utils.settings.crm_response_page_1 = response.data.crm_response_page_1;
+			PRMAX.utils.settings.crm_briefingnotes_page_1 = response.data.crm_briefingnotes_page_1;
+			dojo.publish("/crm/settings_change",[]);
+
+		}
+		else
+		{
+			alert("Problem updating settings");
+		}
+		this.savelayoutbtn.cancel();
 	}
 });
 

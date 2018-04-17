@@ -389,3 +389,10 @@ ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
 ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
 
 ALTER TABLE userdata.clientnewroomcontactdetails ADD COLUMN instagram character varying;
+
+ALTER TABLE internal.customers ADD COLUMN crm_outcome_page_1 boolean NOT NULL DEFAULT false;
+ALTER TABLE internal.customers ADD COLUMN crm_analysis_page_1 boolean NOT NULL DEFAULT true;
+ALTER TABLE internal.customers ADD COLUMN crm_response_page_1 boolean NOT NULL DEFAULT true;
+ALTER TABLE internal.customers ADD COLUMN crm_briefingnotes_page_1 boolean NOT NULL DEFAULT true;
+
+

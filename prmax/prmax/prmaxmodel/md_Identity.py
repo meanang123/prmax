@@ -46,7 +46,11 @@ class Preferences(object):
 		                          crm_outcome=customer.crm_outcome,
 		                          crm_engagement=customer.crm_engagement, crm_engagement_plural=customer.crm_engagement_plural,
 		                          distribution_description=customer.distribution_description, distribution_description_plural=customer.distribution_description_plural,
-		                          briefing_notes_description=customer.briefing_notes_description, response_description=customer.response_description, 
+		                          briefing_notes_description=customer.briefing_notes_description, response_description=customer.response_description,
+		                          crm_outcome_page_1=customer.crm_outcome_page_1,
+		                          crm_analysis_page_1=customer.crm_analysis_page_1,
+		                          crm_response_page_1=customer.crm_response_page_1,
+		                          crm_briefingnotes_page_1=customer.crm_briefingnotes_page_1
 		                          )
 		            )
 
