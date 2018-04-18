@@ -68,7 +68,7 @@ class NewsRoom(object):
 		#
 		self._images = {}
 		for row in session.query(ClientNewsRoomImage).\
-		    filter_by(clientid=client[0].clientid).all():
+		    filter_by(newsroomid=client[0].newsroomid).all():
 			self._images[row.imagetypeid] = row
 
 	def get_page(self, envir, params):
@@ -79,11 +79,14 @@ class NewsRoom(object):
 		# handle the page to return html or collateral
 		if self._page == None:
 			lparams = self.get_env(envir)
-			lparams.update(SEORelease.do_search(dict(cid=self._client[1].clientid)))
+			if self._client[1].clientid == -1:
+				lparams.update(SEORelease.do_search(dict(nid=self._client[0].newsroomid)))
+			else:
+				lparams.update(SEORelease.do_search(dict(cid=self._client[1].clientid)))
 			template = "prpublish.templates.newsroom.main_page"
-			if self._client[1].clientid == 2014: #Cardiff - English
+			if self._client[0].newsroomid == 24: #Cardiff - English
 				template = "prpublish.templates.newsroom.cardiff.main_page"
-			if self._client[1].clientid == 1966: #Cardiff - Welsh
+			if self._client[0].newsroomid == 65: #Cardiff - Welsh
 				template = "prpublish.templates.newsroom.cardiff.main_page_welsh"
 
 			data = view.render(
@@ -93,9 +96,9 @@ class NewsRoom(object):
 			lparams = self.get_env(envir)
 			lparams.update(dict(client=self._client[1]))
 			if self._page[0] == "collateral":
-				lparams["clientcollateral"] = session.query(Collateral).filter_by(clientid=self._client[0].clientid).all()
+				lparams["clientcollateral"] = session.query(Collateral).filter_by(clientid=self._client[1].clientid).all()
 			base_template = "prpublish.templates.newsroom."
-			if self._client[1].clientid == 2014 or self._client[1].clientid == 1966: #Cardiff/Welsh
+			if self._client[0].newsroomid == 24 or self._client[0].newsroomid == 65: #Cardiff/Welsh
 				base_template = "prpublish.templates.newsroom.cardiff."
 			data = view.render(
 			  lparams,
@@ -111,31 +114,31 @@ class NewsRoom(object):
 				data_type = "png"
 		elif self._page[0] in NewsRoom._standard_pages_rss:
 			data = SEOSite.get_rss(None,
-			                       self._client[1].clientid,
+			                       self._client[0].newsroomid,
 			                       title=self._client[1].clientname + " News",
 			                       description='Current News From '+ self._client[1].clientname)
 			data_type = "xml"
 		elif self._page[0] in NewsRoom._standard_pages_search_cardiff_welsh:
 			lparams = self.get_env(envir)
-			params['cid'] = self._client[0].clientid
+			params['nid'] = self._client[0].newsroomid
 			lparams.update(SEORelease.do_search(params))
 			template = ""
-			if self._client[0].clientid == 2014:
+			if self._client[0].newsroomid == 24:
 				template = "prpublish.templates.newsroom.cardiff.main_page"
-			elif self._client[0].clientid == 1966:
+			elif self._client[0].newsroomid == 65:
 				template = "prpublish.templates.newsroom.cardiff.main_page_welsh"
 			data = view.render(
 			  lparams,
 			  template=template)
 		elif self._page[0] in CATEGORY_PAGES:
 			lparams = self.get_env(envir)
-			params['cid'] = self._client[0].clientid
+			params['nid'] = self._client[0].newsroomid
 			params['seocategoryid'] = CATEGORY_PAGES[self._page[0].lower()].seocategoryid
 			lparams.update(SEORelease.do_search(params))
 			template = ""
-			if self._client[0].clientid == 2014:
+			if self._client[0].newsroomid == 24:
 				template = "prpublish.templates.newsroom.cardiff.main_page"
-			elif self._client[0].clientid == 1966:
+			elif self._client[0].newsroomid == 65:
 				template = "prpublish.templates.newsroom.cardiff.main_page_welsh"
 			data = view.render(
 			  lparams,

@@ -56,7 +56,7 @@ class Root(controllers.RootController):
 	def searchcardiff(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
-		kw['cid'] = 2014
+		kw['nid'] = 24
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -64,7 +64,7 @@ class Root(controllers.RootController):
 	def searchwelsh(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
-		kw['cid'] = 1966
+		kw['nid'] = 65
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -72,7 +72,7 @@ class Root(controllers.RootController):
 	def search_results_cardiff(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
-		kw['cid'] = 2014
+		kw['nid'] = 24
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -80,7 +80,7 @@ class Root(controllers.RootController):
 	def search_results_welsh(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
-		kw['cid'] = 1966
+		kw['nid'] = 65
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -173,13 +173,13 @@ class Root(controllers.RootController):
 			ret = page_settings_basic()
 			ret["seocategoryid"] = CATEGORY_PAGES[args[0].lower()].seocategoryid
 			ret.update ( SEORelease.do_search( ret ))
-			clientid = request.headers.get("X-Custom-Forwarded-For", None)
-			if clientid == "2014": #Cardiff - english
-				ret['cid'] = 2014
+			newsroomid = request.headers.get("X-Custom-Forwarded-For", None)
+			if newsroomid == "24": #Cardiff - english
+				ret['nid'] = 24
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page")
-			elif clientid == "1966": #Cardiff - welsh
-				ret['cid'] = 1966
+			elif newsroomid == "65": #Cardiff - welsh
+				ret['nid'] = 65
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page_welsh")
 			else:
@@ -188,13 +188,13 @@ class Root(controllers.RootController):
 
 		if args and (args[0].lower() == 'searchcardiff' or args[0].lower() == 'searchwelsh'):
 			ret = page_settings_basic()
-			clientid = request.headers.get("X-Custom-Forwarded-For", None)
-			if clientid == "2014": #Cardiff - english
-				ret['cid'] = 2014
+			newsroomid = request.headers.get("X-Custom-Forwarded-For", None)
+			if newsroomid == "24": #Cardiff - english
+				ret['nid'] = 24
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page")
-			elif clientid == "1966": #Cardiff - welsh
-				ret['cid'] = 1966
+			elif newsroomid == "65": #Cardiff - welsh
+				ret['nid'] = 65
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page_welsh")
 			else:
@@ -202,13 +202,13 @@ class Root(controllers.RootController):
 
 		if args and (args[0].lower() == 'search_results_cardiff' or args[0].lower() == 'search_results_welsh'):
 			ret = page_settings_basic()
-			clientid = request.headers.get("X-Custom-Forwarded-For", None)
-			if clientid == "2014": #Cardiff - english
-				ret['cid'] = 2014
+			newsroomid = request.headers.get("X-Custom-Forwarded-For", None)
+			if newsroomid == "24": #Cardiff - english
+				ret['nid'] = 24
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page")
-			elif clientid == "1966": #Cardiff - welsh
-				ret['cid'] = 1966
+			elif clientid == "65": #Cardiff - welsh
+				ret['nid'] = 65
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page_welsh")
 			else:

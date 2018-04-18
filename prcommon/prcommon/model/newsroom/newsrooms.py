@@ -18,8 +18,6 @@ from ttl.postgres import DBCompress
 from sqlalchemy import Table, text
 from prcommon.model.session import UserSession
 from prcommon.model.common import BaseSql
-from prcommon.model import Client, ClientNewsRoomCustumLinks, ClientNewsRoomImage
-from prcommon.model import ClientNewsRoomContactDetails
 
 import logging
 LOGGER = logging.getLogger("prmax.model")
@@ -39,6 +37,8 @@ class Newsrooms(BaseSql):
 	@classmethod
 	def delete(cls, params):
 		""" delete a newsroom """
+
+		from prcommon.model import ClientNewsRoomCustumLinks, ClientNewsRoomImage, ClientNewsRoomContactDetails
 
 		try:
 			transaction = cls.sa_get_active_transaction()
@@ -62,6 +62,9 @@ class Newsrooms(BaseSql):
 	@classmethod
 	def add(cls, params):
 		""" add a new newsroom """
+
+		from prcommon.model import Client, ClientNewsRoomCustumLinks, ClientNewsRoomContactDetails
+
 		try:
 			transaction = cls.sa_get_active_transaction()
 			newsroom = Newsrooms(
@@ -109,6 +112,8 @@ class Newsrooms(BaseSql):
 	@classmethod
 	def update(cls, params):
 		""" update a newsroom """
+
+		from prcommon.model import Client, ClientNewsRoomCustumLinks, ClientNewsRoomContactDetails
 		try:
 			transaction = cls.sa_get_active_transaction()
 			newsroomid = params["newsroomid"]
@@ -128,6 +133,13 @@ class Newsrooms(BaseSql):
 				    facebook = params["facebook"],
 				    twitter = params["twitter"]
 				))
+			if ns_contact:
+				ns_contact.www = params['www']
+				ns_contact.tel = params["tel"]
+				ns_contact.email = params["email"]
+				ns_contact.linkedin = params["linkedin"]
+				ns_contact.facebook = params["facebook"]
+				ns_contact.twitter = params["twitter"]
 
 			# header logo changed
 			if params.get("headerimageleftid", "") in ("-1", "-2"):
@@ -181,22 +193,25 @@ class Newsrooms(BaseSql):
 			params["sortfield"] = "description"
 			params['direction'] = "DESC"
 
-		x = Newsrooms.getGridPage(params,
+		return Newsrooms.getGridPage(params,
 		                              'description',
 		                              'newsroomid',
 		                              Newsrooms.ListData,
 		                              Newsrooms.ListDataCount,
 		                              cls)
-		return x
 
 	@classmethod
 	def get(cls, newsroomid):
 		""" get a newsroom"""
 
+		from prcommon.model import ClientNewsRoomCustumLinks, ClientNewsRoomContactDetails, ClientNewsRoom
+
 		clientmode = False
 		newsroom = Newsrooms.query.get(newsroomid)
 		if newsroom and newsroom.clientid:
 			clientmode=True
+		clientnewsroom = ClientNewsRoom.query.get(newsroom.newsroomid)
+		newsroom_url = clientnewsroom.get_news_room_url()
 			
 		customlinks=dict(link_1=dict(name="", url=""),	link_2=dict(name="", url=""))
 		links = session.query(ClientNewsRoomCustumLinks).filter_by(newsroomid=newsroomid).all()
@@ -212,7 +227,8 @@ class Newsrooms(BaseSql):
 		return dict(newsroom=newsroom,
 		            customlinks=customlinks,
 		            ns_contact=ns_contact,
-		            clientmode=clientmode)
+		            clientmode=clientmode,
+		            newsroom_url=newsroom_url)
 
 	@classmethod
 	def get_list_rest(cls, params):
@@ -274,7 +290,10 @@ class Newsrooms(BaseSql):
 		return session.query(
 		    Newsrooms.mapping.c.description,
 		    Newsrooms.mapping.c.newsroomid).\
-		       filter( Newsrooms.mapping.c.description.ilike(word)).filter(Newsrooms.mapping.c.clientid==None).order_by(Newsrooms.mapping.c.description).all()
+		       filter( Newsrooms.mapping.c.description.ilike(word)).\
+		       filter(Newsrooms.mapping.c.clientid==None).\
+		       filter(Newsrooms.mapping.c.customerid==params['customerid']).\
+		       order_by(Newsrooms.mapping.c.description).all()
 
 
 #########################################################

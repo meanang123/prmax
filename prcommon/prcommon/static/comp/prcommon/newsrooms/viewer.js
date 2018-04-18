@@ -97,6 +97,8 @@ dojo.declare("prcommon.newsrooms.viewer",
 			this.headerimage_left.set("value", response.data.newsroom.newsroomid);
 			this.headerimage_right.set("value", response.data.newsroom.newsroomid);
 			this.about_template.set("value", response.data.newsroom.about_template);
+			dojo.attr(this.show_news_room_form,"action",response.data.newsroom_url);
+
 			if (response.data.clientmode == false)
 			{
 				dojo.style(this.contact.controlButton.domNode, {display:"inline-block"});
@@ -240,7 +242,11 @@ dojo.declare("prcommon.newsrooms.viewer",
 	_ColourUpdate:function()
 	{
 		this.default_header_colour.set("checked", false);
-	}
+	},
+	_show_new_room_url:function()
+	{
+		this.show_news_room_form.submit();
+	},
 });
 
 

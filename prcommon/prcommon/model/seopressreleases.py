@@ -26,6 +26,8 @@ from prcommon.model.lookups import SEOCategories, SEOStatus
 from prcommon.model.session import UserSession
 from prcommon.model.identity import Customer
 from prcommon.model.newsroom.clientnewsroom import ClientNewsRoom
+from prcommon.model.newsroom.seonewsrooms import SeoNewsRooms
+from prcommon.model.newsroom.newsrooms import Newsrooms
 from prcommon.model.collateral import Collateral, ECollateral
 from prcommon.lib.distribution import MailMerge
 import prcommon.Constants as Constants
@@ -153,6 +155,11 @@ class SEORelease(BaseSql):
 			for seoint in session.query(SEOReleaseCategories).filter_by(seoreleaseid=seo.seoreleaseid).all():
 				ret["cat_%d" % seoint.seocategoryid] = True
 
+				#ret['newsrooms'] = session.query(SeoNewsRooms).filter_by(seoreleaseid=seo.seoreleaseid).all()
+				ret['newsrooms'] = session.query(Newsrooms).\
+				    join(SeoNewsRooms, SeoNewsRooms.newsroomid==Newsrooms.newsroomid).\
+					filter(SeoNewsRooms.seoreleaseid==seo.seoreleaseid).all()
+
 		return ret
 
 	@staticmethod
@@ -232,6 +239,15 @@ class SEORelease(BaseSql):
 					session.add(seoimage)
 					session.flush()
 					seo.seoimageid = seoimage.seoimageid
+
+				if 'newsrooms' in params and params['newsrooms'] != None:
+					for newsroomid in params["newsrooms"]["data"]:
+						seonewsroom = SeoNewsRooms(
+					        seoreleaseid=seo.seoreleaseid,
+					        newsroomid=newsroomid
+					    )
+						session.add(seonewsroom)
+						session.flush()
 			else:
 				# update an existing record
 				cls._update_seo(seo, params)
@@ -332,13 +348,25 @@ class SEORelease(BaseSql):
 			usersession.seo_image_extension = None
 			usersession.seo_image = None
 
+		for row in session.query(SeoNewsRooms).\
+		    filter(SeoNewsRooms.seoreleaseid==seo.seoreleaseid).all():
+			session.delete(row)
+			session.flush()
+		if params["newsrooms"] != None:
+			for newsroomid in params["newsrooms"]["data"]:
+				seonewsroom = SeoNewsRooms(
+			        seoreleaseid=seo.seoreleaseid,
+			        newsroomid=newsroomid
+			    )
+				session.add(seonewsroom)
+				session.flush()
+
 		seocache = session.query(SEOCache).\
 	    filter(SEOCache.seoreleaseid == seo.seoreleaseid).all()
 		if seocache:
 			for i in xrange(0, len(seocache)):
 				session.delete(seocache[i])
 				session.flush()
-
 
 	@classmethod
 	def _handle_payment(cls, seo):
@@ -417,6 +445,15 @@ class SEORelease(BaseSql):
 					session.add(seoimage)
 					session.flush()
 					seo.seoimageid = seoimage.seoimageid
+
+				if 'newsrooms' in params and params['newsrooms'] != None:
+					for newsroomid in params["newsrooms"]["data"]:
+						seonewsroom = SeoNewsRooms(
+					        seoreleaseid=seo.seoreleaseid,
+					        newsroomid=newsroomid
+					    )
+						session.add(seonewsroom)
+						session.flush()
 
 			transaction.commit()
 			return dict(seoreleaseid=seo.seoreleaseid,
@@ -528,8 +565,11 @@ class SEORelease(BaseSql):
 				if key == "b":
 					whereused += " AND seo.content_text ilike :b "
 
-				if key == "cid":
+				if key == "cid" and key['cid'] != -1:
 					whereused += " AND seo.clientid  = :cid "
+
+				if key == "nid":
+					whereused += " AND seo.seoreleaseid in (SELECT seoreleaseid FROM seoreleases.seonewsrooms WHERE newsroomid= :nid) "
 
 				if key == "search":
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
@@ -563,13 +603,18 @@ class SEORelease(BaseSql):
 					cri["cid"] = int(params["cid"])
 					whereused += " AND seo.clientid  = :cid "
 
+				if "nid" in params:
+					cri["nid"] = int(params["nid"])
+					whereused += " AND seo.seoreleaseid in (SELECT seoreleaseid FROM seoreleases.seonewsrooms WHERE newsroomid= :nid) "
+
+
 				if 'search' in params:
 					cri["search"] = "%" + params["search"].strip() + "%"
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 
 		fields.update(cri)
 		command = SEORelease._Release_List_Date + whereused + SEORelease._Release_List_Order
-		if 'cid' in params and (params['cid'] == 2014 or params['cid'] == 1966): #Cardiff
+		if 'nid' in params and (params['nid'] == 24 or params['nid'] == 65): #Cardiff
 			command = SEORelease._Release_List_Date_Cardiff + whereused + SEORelease._Release_List_Order
 
 		return dict(

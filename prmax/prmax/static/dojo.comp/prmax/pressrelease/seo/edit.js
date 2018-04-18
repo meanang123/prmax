@@ -57,6 +57,8 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.clientid.set("value",-1);
 		this._Client_Get_Call_Back = dojo.hitch(this, this._Client_Get_Call );
 
+		this._has_global_newsrooms = PRMAX.utils.settings.has_global_newsroom;
+
 		this.inherited(arguments);
 	},
 	_LoadCall:function(response)
@@ -128,6 +130,29 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.instagram.set("value", data.instagram);
 		this.keywords.set("value",data.keywords);
 		this.seoimage.set("value", (data.seoimageid==null)?-1:data.seoimageid);
+		if (this._has_global_newsrooms)
+		{
+			dojo.removeClass(this.globalnewsrooms_tr, "prmaxhidden");
+
+			if (data.newsrooms && data.newsrooms.length>0){
+
+				this.option1.set("checked", true);
+				this._show_hide_fields('globalnewsrooms', data);
+				this.globalnewsrooms.set("value", data.newsrooms);
+			}
+			else
+			{
+				this.option0.set("checked", true);
+				this._show_hide_fields('client');
+				this.globalnewsrooms.Clear();
+			}
+		}
+		else
+		{
+			dojo.addClass(this.globalnewsrooms_tr, "prmaxhidden");
+
+			this._show_hide_fields('client');
+		}
 	},
 	Save:function()
 	{
@@ -136,7 +161,14 @@ dojo.declare("prmax.pressrelease.seo.edit",
 			alert("Please Enter Details");
 			return false;
 		}
-
+		if (this.option1.checked)
+		{
+			if (this.globalnewsrooms.value == "")
+			{
+				alert("Please Select at least one Global newsroom");
+				return false;
+			}
+		}
 		if ( this.synopsis.get("value").length>254)
 		{
 			alert("Synopsis too long");
@@ -173,6 +205,8 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.seocontent.set("value", "");
 		this.clientid.set("value",-1);
 		this.seoimage.set("value",-1);
+		this.option0.set("checked", "checked");
+		this.globalnewsrooms.set("value", "");
 
 		for ( var x = 1 ; x < 26 ; x++ )
 			this["cat_" + x].set("value",false);
@@ -246,22 +280,67 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.seoreleaseid.set("value", seoreleaseid ) ;
 	},
 	_option_changed:function()	{
-	if (this.option0.get("checked"))
+		if (this.option0.get("checked"))
+		{
+			this._show_hide_fields('client');
+			this.globalnewsrooms.Clear();
+		}
+		else if (this.option1.get("checked"))
+		{
+			this._show_hide_fields('globalnewsrooms');
+		}
+	},
+	_show_hide_fields(mode)
 	{
-		dojo.removeClass(this.client_name, "prmaxhidden");
-		dojo.removeClass(this.clientid.domNode, "prmaxhidden");
-		dojo.removeClass(this.addclientbtn.domNode, "prmaxhidden");
-		dojo.addClass(this.globalnewsrooms.domNode, "prmaxhidden");
-		dojo.addClass(this.globalnewsrooms_node, "prmaxhidden");
-	}
-	else if (this.option1.get("checked"))
-	{
-		dojo.addClass(this.client_name, "prmaxhidden");
-		dojo.addClass(this.clientid.domNode, "prmaxhidden");
-		dojo.addClass(this.addclientbtn.domNode, "prmaxhidden");
-		dojo.removeClass(this.globalnewsrooms_node, "prmaxhidden");
-		dojo.removeClass(this.globalnewsrooms.domNode, "prmaxhidden");
-	}
-},
+		if (mode == 'globalnewsrooms')
+		{
+			dojo.addClass(this.client_name, "prmaxhidden");
+			dojo.addClass(this.clientid.domNode, "prmaxhidden");
+			dojo.addClass(this.addclientbtn.domNode, "prmaxhidden");
+			dojo.removeClass(this.globalnewsrooms_node, "prmaxhidden");
+			dojo.removeClass(this.globalnewsrooms.domNode, "prmaxhidden");
 
+			dojo.addClass(this.companyname_label, "prmaxhidden");
+			dojo.addClass(this.companyname.domNode, "prmaxhidden");
+			dojo.addClass(this.www_label, "prmaxhidden");
+			dojo.addClass(this.www.domNode, "prmaxhidden");
+			dojo.addClass(this.email_label, "prmaxhidden");
+			dojo.addClass(this.email.domNode, "prmaxhidden");
+			dojo.addClass(this.tel_label, "prmaxhidden");
+			dojo.addClass(this.tel.domNode, "prmaxhidden");
+			dojo.addClass(this.twitter_label, "prmaxhidden");
+			dojo.addClass(this.twitter.domNode, "prmaxhidden");
+			dojo.addClass(this.facebook_label, "prmaxhidden");
+			dojo.addClass(this.facebook.domNode, "prmaxhidden");
+			dojo.addClass(this.linkedin_label, "prmaxhidden");
+			dojo.addClass(this.linkedin.domNode, "prmaxhidden");
+			dojo.addClass(this.instagram_label, "prmaxhidden");
+			dojo.addClass(this.instagram.domNode, "prmaxhidden");
+		}
+		else if (mode == 'client')
+		{
+			dojo.removeClass(this.client_name, "prmaxhidden");
+			dojo.removeClass(this.clientid.domNode, "prmaxhidden");
+			dojo.removeClass(this.addclientbtn.domNode, "prmaxhidden");
+			dojo.addClass(this.globalnewsrooms_node, "prmaxhidden");
+			dojo.addClass(this.globalnewsrooms.domNode, "prmaxhidden");
+
+			dojo.removeClass(this.companyname_label, "prmaxhidden");
+			dojo.removeClass(this.companyname.domNode, "prmaxhidden");
+			dojo.removeClass(this.www_label, "prmaxhidden");
+			dojo.removeClass(this.www.domNode, "prmaxhidden");
+			dojo.removeClass(this.email_label, "prmaxhidden");
+			dojo.removeClass(this.email.domNode, "prmaxhidden");
+			dojo.removeClass(this.tel_label, "prmaxhidden");
+			dojo.removeClass(this.tel.domNode, "prmaxhidden");
+			dojo.removeClass(this.twitter_label, "prmaxhidden");
+			dojo.removeClass(this.twitter.domNode, "prmaxhidden");
+			dojo.removeClass(this.facebook_label, "prmaxhidden");
+			dojo.removeClass(this.facebook.domNode, "prmaxhidden");
+			dojo.removeClass(this.linkedin_label, "prmaxhidden");
+			dojo.removeClass(this.linkedin.domNode, "prmaxhidden");
+			dojo.removeClass(this.instagram_label, "prmaxhidden");
+			dojo.removeClass(this.instagram.domNode, "prmaxhidden");
+		}
+	},
 });
