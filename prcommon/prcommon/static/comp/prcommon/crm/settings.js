@@ -24,7 +24,7 @@ dojo.declare("prcommon.crm.settings",
 		this._save_desc_call_back = dojo.hitch(this, this._save_desc_call);
 		this._load_call_back = dojo.hitch(this, this._load_call);
 		this._error_call_back = dojo.hitch(this, this._error_call);
-		this._save_desc_call_back = dojo.hitch(this, this._save_desc_call);
+		this._save_layout_call_back = dojo.hitch(this, this._save_layout_call);
 	},
 	postCreate:function()
 	{
@@ -168,7 +168,7 @@ dojo.declare("prcommon.crm.settings",
 	},
 	resize:function()
 	{
-		this.tabcont.resize({w:610, h:440});
+		this.tabcont.resize({w:600, h:450});
 	},
 	_save_desc:function()
 	{
@@ -190,12 +190,12 @@ dojo.declare("prcommon.crm.settings",
 	{
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
-			load: this._save_desc_call_back,
+			load: this._save_layout_call_back,
 			url:'/crm/update_settings_layout',
 			error: this._error_call_back,
 			content:this.form_layout.get("value")}));
 	},
-	_save_desc_call:function(response)
+	_save_layout_call:function(response)
 	{
 		if ( response.success == "OK")
 		{
