@@ -76,8 +76,7 @@ class NewsroomController(SecureController):
 	def newsroom_grid(self, *argv, **params):
 		""" return a page of newsrooms for the grid"""
 
-		x = Newsrooms.get_grid_page(params)
-		return x
+		return Newsrooms.get_grid_page(params)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

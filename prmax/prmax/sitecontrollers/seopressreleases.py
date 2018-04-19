@@ -42,6 +42,7 @@ class SEOPublishSchema(PrFormSchema):
 	""" shema """
 	clientid = validators.Int()
 	seoimageid = validators.Int()
+	newsrooms = validators.JSONValidator()
 	cat_1 = BooleanValidator()
 	cat_2 = BooleanValidator()
 	cat_3 = BooleanValidator()
