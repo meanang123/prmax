@@ -374,10 +374,10 @@ class User(BaseSql):
 		   ccaddresses=user.ccaddresses,
 		   passwordrecovery=self.passwordrecovery,
 		   force_passwordrecovery=self.force_passwordrecovery,
-		   crm_analysis_page_1=self.crm_analysis_page_1,
-		   crm_outcome_page_1=self.crm_outcome_page_1,
-		   crm_response_page_1=self.crm_response_page_1,
-		   crm_briefingnotes_page_1=self.crm_briefingnotes_page_1
+		   crm_analysis_page_1=customer.crm_analysis_page_1,
+		   crm_outcome_page_1=customer.crm_outcome_page_1,
+		   crm_response_page_1=customer.crm_response_page_1,
+		   crm_briefingnotes_page_1=customer.crm_briefingnotes_page_1
 		)
 
 		return data

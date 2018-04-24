@@ -168,7 +168,7 @@ dojo.declare("prcommon.crm.settings",
 	},
 	resize:function()
 	{
-		this.tabcont.resize({w:610, h:440});
+		this.tabcont.resize({w:650, h:460});
 	},
 	_save_desc:function()
 	{

@@ -199,16 +199,19 @@ dojo.declare("prcommon.crm.update",
 				this.employeeid.set("value", response.data.employee.employeeid);
 				this.contact.employeeid.set("value", response.data.employee.employeeid);
 			}
-			if (response.data.outlet != null && response.data.outlet.outletname != "" && display != null && display != "")
+			if (response.data.outlet != null && response.data.outlet.outletname != "")
 			{
-				display +=" (" + response.data.outlet.outletname + ")";
+				if (display != null && display != "")
+					display +=" (" + response.data.outlet.outletname + ")";
+				else
+					display = " Outlet: " + response.data.outlet.outletname;
 			}
 			if (response.data.contact)
 			{
 				this.contact.set("value", response.data.contact.contactid);
 			}
 			this.contact.set("Displayvalue", display);
-			
+
 			this.taken.set("value", ttl.utilities.fromJsonDate( response.data.ch.taken) );
 			this.taken_by.set("value",response.data.ch.taken_by);
 			this.contacthistorystatusid.set("value", response.data.ch.contacthistorystatusid);
@@ -416,7 +419,7 @@ dojo.declare("prcommon.crm.update",
 	},
 	_delete:function()
 	{
-		
+
 		if (confirm("Delete " + PRMAX.utils.settings.crm_engagement + "?"))
 		{
 		dojo.xhrPost(

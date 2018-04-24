@@ -443,7 +443,7 @@ class ContactHistoryGeneral(object):
 			contactname = Contact.getName(contact)
 		elif contacthistory.employeeid:
 			employee = Employee.query.get(contacthistory.employeeid)
-			if employee:
+			if employee.contactid:
 				contact = Contact.query.get(employee.contactid)
 				if contact:
 					contactname = Contact.getName(contact)

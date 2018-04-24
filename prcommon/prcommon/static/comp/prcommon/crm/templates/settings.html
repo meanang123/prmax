@@ -1,6 +1,6 @@
 <div>
-	<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"center"'>
-		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:700px;height:410px","class":"common_prmax_layout",title:"User Defined Fields"'>
+	<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer">
+		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:600px;height:430px","class":"common_prmax_layout",title:"User Defined Fields"'>
 			<br style="height:1px"/>
 			<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
 				<div style="float:left;width:300px;height:350px">
@@ -23,11 +23,11 @@
 					<br/><br/>
 					<div data-dojo-type="prcommon.crm.userdefined" data-dojo-attach-point="crm_user_define_menu_4" data-dojo-props="fieldid:4"></div>
 					<br/>
-				</div>
-				<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-2x fa-floppy-o",type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright",style:"float:right"'></button>
+				</div><br/>
+				<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-2x fa-floppy-o",type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright",style:"float:right;padding-right:15px"'></button>
 			</form>
 		</div>
-		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:650px;height:410px","class":"common_prmax_layout",title:"Layout"'>
+		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:600px;height:430px","class":"common_prmax_layout",title:"Layout"'>
 			<form data-dojo-attach-point="form_layout" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
 				<div style="width:600px;height:350px">
 					<br/><p style="text-align:center;font-size:1.2em;font-weight:bold;width:100%">Engagement field's on page 1</p><br/>
@@ -44,7 +44,7 @@
 				<button data-dojo-attach-event="onClick:_save_layout" data-dojo-attach-point="savelayoutbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='iconClass:"fa fa-2x fa-floppy-o",type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright",style:"float:right"'></button>
 			</form>
 		</div>
-		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:650px;height:410px","class":"common_prmax_layout",title:"Descriptions"'>
+		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:600px;height:430px","class":"common_prmax_layout",title:"Descriptions"'>
 			<form data-dojo-attach-point="form_descriptions" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
 				<div style="width:600px;height:350px">
 					<br/>
@@ -64,7 +64,7 @@
 			</form>
 		</div>
 	</div>
-	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="style:'height:40px',region:'bottom'">
+	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="style:'height:50px',region:'bottom'">
 		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-times fa-2x",type:"button",label:"Close",style:"float:right"'></button>
 	</div>
 </div>
