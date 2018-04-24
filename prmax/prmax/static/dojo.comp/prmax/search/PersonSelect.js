@@ -68,7 +68,7 @@ dojo.declare("prmax.search.PersonSelect",
 	},
 	postCreate:function()
 	{
-		this.viewer_grid.resize( {w:595, h:255,t:3} );
+		this.viewer_grid.resize( {w:595, h:240,t:3} );
 
 		this.viewer_grid.set("structure", this.view);
 		this.viewer_grid._setStore(this.filter_db);
