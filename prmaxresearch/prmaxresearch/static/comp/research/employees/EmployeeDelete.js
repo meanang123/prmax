@@ -78,14 +78,14 @@ define([
 	{
 		this.employeeid.set("value", -1 ) ;
 		this.reasoncodes.set("value",null);
-		this.delete_option.set("value", 1);
+		domattr.set(this.delete_completely, "checked", "checked");
 	},
 	load:function( employeeid, job_title , name )
 	{
 		this.employeeid.set("value", employeeid );
 		domattr.set(this.heading,"innerHTML" , job_title + "(" + name + ")" ) ;
 		this.reasoncodes.set("value", null);
-		this.delete_option.set("value", 1);
+		domattr.set(this.delete_completely, "checked", "checked");
 	},
 	_close:function()
 	{
