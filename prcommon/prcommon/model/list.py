@@ -425,27 +425,30 @@ class List(BaseSql):
 			  identifier = "listid")
 
 	Select_Release_Data = """SELECT
-		l.listid, l.listname, lt.listtypedescription,
-		(SELECT COUNT(*) FROM userdata.listmembers AS lm WHERE lm.listid = l.listid) AS qty,
-	    c.clientname
-	FROM userdata.list AS l
-	JOIN internal.listtypes AS lt ON l.listtypeid = lt.listtypeid
-	LEFT OUTER JOIN userdata.client AS c ON c.clientid = l.clientid
-	WHERE l.customerid = :customerid AND
-		l.listid NOT IN (select listid FROM userdata.emailtemplatelist WHERE emailtemplateid = :emailtemplateid) AND
-		l.listtypeid = 1
-		ORDER BY   %s %s
-		LIMIT :limit OFFSET :offset
-	"""
+        l.listid, l.listname, lt.listtypedescription,
+        (SELECT COUNT(*) FROM userdata.listmembers AS lm WHERE lm.listid = l.listid) AS qty,
+        c.clientname
+    FROM userdata.list AS l
+    JOIN internal.listtypes AS lt ON l.listtypeid = lt.listtypeid
+    LEFT OUTER JOIN userdata.client AS c ON c.clientid = l.clientid
+    WHERE l.customerid = :customerid AND
+        l.listid NOT IN (select listid FROM userdata.emailtemplatelist WHERE emailtemplateid = :emailtemplateid) AND
+        l.listtypeid = 1 %s
+        ORDER BY   %s %s
+        LIMIT :limit OFFSET :offset"""
 	Select_Release_Data_Count = """SELECT COUNT(*) FROM userdata.list AS l
 	WHERE l.customerid = :customerid AND
 		l.listid NOT IN (select listid FROM userdata.emailtemplatelist WHERE emailtemplateid = :emailtemplateid) AND
-		l.listtypeid = 1 """
+		l.listtypeid = 1 %s"""
 
 	@classmethod
 	def get_selected_for_release(cls, kw):
 		""" List of list that need to be selected for this list """
+
+		from prcommon.model.emails import EmailTemplates
+
 		if kw.has_key("emailtemplateid"):
+			emailtemplate = EmailTemplates.query.get(kw['emailtemplateid'])
 			sortname = "UPPER(listname)"
 			direction = "ASC"
 			if kw.has_key("sort") and len(kw["sort"]) :
@@ -458,13 +461,21 @@ class List(BaseSql):
 			if sortname == "listname":
 				sortname = "UPPER(listname)"
 
+			if emailtemplate and emailtemplate.clientid != None:
+				kw['clientid'] = emailtemplate.clientid
+				query = List.Select_Release_Data % ('AND l.clientid = :clientid', sortname, direction)
+				query_count = List.Select_Release_Data_Count % ('AND l.clientid = :clientid')
+			elif emailtemplate and emailtemplate.clientid == None:
+				query = List.Select_Release_Data % ('', sortname, direction)
+				query_count = List.Select_Release_Data_Count % ('')
+
 			data = cls.sqlExecuteCommand (
-				text(List.Select_Release_Data % (sortname, direction) ) ,
+				text(query) ,
 				kw,
 				BaseSql.ResultAsEncodedDict)
 
 			numRows = cls.sqlExecuteCommand (
-				text(List.Select_Release_Data_Count) ,
+				text(query_count) ,
 				kw,
 				cls.singleFieldInteger)
 		else:

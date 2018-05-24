@@ -215,10 +215,16 @@ CREATE TABLE internal.emailservertype
     PRIMARY KEY (emailservertypeid)
 ) WITH (OIDS = FALSE);
 
+ALTER TABLE internal.emailservertype OWNER TO postgres;
+GRANT ALL ON TABLE internal.emailservertype TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailservertype TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.emailservertype TO prmaxcontrol;
+
 INSERT INTO internal.emailservertype( emailservertypeid, emailservertypename ) VALUES(1,'localhost'),(2,'Open Relay');
 
 ALTER TABLE userdata.emailserver ADD COLUMN emailservertypeid integer NOT NULL DEFAULT 1;
 ALTER TABLE userdata.emailserver ADD FOREIGN KEY (emailservertypeid) REFERENCES internal.emailservertype (emailservertypeid) ON UPDATE NO ACTION ON DELETE RESTRICT;
+
 
 -- INSERT INTO userdata.emailserver( email_host, emailservertypeid) VALUES ('shielporter.com.outbound1-uk.mailanyone.net',2);
 ALTER TABLE tg_user ADD COLUMN passwordrecovery boolean NOT NULL DEFAULT false;
@@ -405,3 +411,39 @@ ALTER TABLE internal.customers ALTER COLUMN crm_briefingnotes_page_1 SET NOT NUL
 ALTER TABLE internal.customers ADD COLUMN has_global_newsroom boolean;
 ALTER TABLE internal.customers ALTER COLUMN has_global_newsroom SET DEFAULT false;
 ALTER TABLE internal.customers ALTER COLUMN has_global_newsroom SET NOT NULL;
+
+DELETE FROM seoreleases.seocache;
+ALTER TABLE seoreleases.seocache ADD COLUMN newsroomid integer NOT NULL;
+ALTER TABLE seoreleases.seocache DROP CONSTRAINT pk_cache;
+ALTER TABLE seoreleases.seocache ADD CONSTRAINT pk_cache PRIMARY KEY (seoreleaseid, newsroomid, layout);
+
+ALTER TABLE seoreleases.seorelease ADD COLUMN is_client_newsroom boolean;
+ALTER TABLE seoreleases.seorelease ALTER COLUMN is_client_newsroom SET DEFAULT true;
+UPDATE seoreleases.seorelease SET is_client_newsroom = true;
+ALTER TABLE seoreleases.seorelease ALTER COLUMN is_client_newsroom SET NOT NULL;
+
+ALTER TABLE userdata.collateral ADD COLUMN newsroomid integer;
+
+
+DROP FUNCTION employee_empty(integer);
+CREATE OR REPLACE FUNCTION employee_empty(p_employeeid integer)
+  RETURNS void AS
+$BODY$
+DECLARE
+BEGIN
+	-- make sure all sub-info has been deleted
+	DELETE FROM employeeinterests where employeeid = p_employeeid;
+	DELETE FROM employeeprmaxroles where employeeid = p_employeeid;
+	-- didn't get name
+	--
+	UPDATE employees SET prmaxstatusid = 2, contactid = NULL WHERE employeeid = p_employeeid;
+	UPDATE communications SET email = '', tel = '', fax = '',  mobile = '', webphone = '', twitter = '', facebook = '', linkedin = '', blog = '', instagram = ''
+	WHERE communicationid = (SELECT communicationid FROM employees WHERE employeeid = p_employeeid);
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE SECURITY DEFINER
+  COST 100;
+ALTER FUNCTION employee_empty(integer) OWNER TO postgres;
+
+
+

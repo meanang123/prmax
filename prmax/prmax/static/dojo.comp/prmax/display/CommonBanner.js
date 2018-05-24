@@ -104,6 +104,12 @@ dojo.declare("prmax.display.CommonBanner",
 		if (this.distr_menuitem != undefined)
 			dojo.attr(this.distr_menuitem.containerNode, 'innerHTML', PRMAX.utils.settings.distribution_description_plural);
 
+		if (PRMAX.utils.settings.has_global_newsroom==false)
+		{
+			dojo.addClass(this.newsrooms.domNode,"prmaxhidden");
+		}
+
+
 		this.inherited(arguments);
 	},
 	loadLinks:function()

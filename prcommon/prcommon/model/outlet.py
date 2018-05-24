@@ -1206,6 +1206,9 @@ class Outlet(BaseSql):
 				contact = None
 
 			com = Communication.query.get(employee.communicationid)
+			addr = None
+			if com and com.addressid:
+				addr = Address.query.get(com.addressid)
 
 			#copy to
 			outlet = Outlet.query.get(params['outletid'])
@@ -1228,10 +1231,46 @@ class Outlet(BaseSql):
 			    filter(OutletDesk.outletid == outlet.outletid).\
 				filter(OutletDesk.deskname == deskname).scalar()
 
+			new_addr = {}
+			if addr:
+				new_addr = Address(address1=addr.address1,
+				                   address2=addr.address2,
+				                   addresstypeid=addr.addresstypeid,
+				                   county=addr.county,
+				                   postcode=addr.postcode,
+				                   countryid=addr.countryid,
+				                   prn_key=addr.prn_key,
+				                   townname=addr.townname,
+				                   townid=addr.townid,
+				                   multiline=addr.multiline
+				                   )
+				session.add(new_addr)
+				session.flush()
+
+			new_com = Communication(addressid=new_addr.addressid if new_addr else com.addressid,
+			                        email=com.email,
+			                        customerid=com.customerid,
+			                        communicationtypeid=com.communicationtypeid,
+			                        tel=com.tel,
+			                        fax=com.fax,
+			                        mobile=com.mobile,
+			                        webphone=com.webphone,
+			                        prn_key=com.prn_key,
+			                        prn_source=com.prn_source,
+			                        twitter=com.twitter,
+			                        facebook=com.facebook,
+			                        linkedin=com.linkedin,
+			                        twitterid=com.twitterid,
+			                        blog=com.blog,
+			                        instagram=com.instagram
+			                        )
+			session.add(new_com)
+			session.flush()
+
 			# setup new employee record
 			new_emp = Employee(outletid = outlet.outletid,
 			                   contactid = contact.contactid if contact else None,
-			                   communicationid = com.communicationid,
+			                   communicationid = new_com.communicationid,
 			                   job_title = employee.job_title,
 			                   outletdeskid = desk.outletdeskid if desk else None,
 			                   sourcetypeid = 2

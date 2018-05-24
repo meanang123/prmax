@@ -29,13 +29,32 @@ class ReleasesController(controllers.RootController):
 		seorelease = None
 		layout = 0
 		emailtemplateid = None
+		newsroomid = -1
+		is_newsroom = False
 		actual_field = 0
+		prefix = argv[0][0]
 		if argv[0][0] == "c":
 			layout = 1
 			actual_field = 1
-		if argv[0][0] == "w":
+			newsroomid = argv[0][1:]
+		elif argv[0][0] == "w":
 			layout = 2
 			actual_field = 1
+			newsroomid = argv[0][1:]
+		elif argv[0] == "nr":
+			is_newsroom = True
+			layout = 3
+			prefix = argv[1][0]
+			if argv[1][0] == "g":
+				newsroomid = argv[1][1:]
+				actual_field = 2
+			elif argv[1][0] == "e":
+				newsroomid = argv[1][1:]
+				actual_field = 2
+		else:
+			if len(argv) > 1:
+				newsroomid = argv[0][1:]
+				actual_field = 1
 
 		if len(argv) > 0:
 			temp = argv[actual_field].split(".")
@@ -45,12 +64,12 @@ class ReleasesController(controllers.RootController):
 					emailtemplateid = int(temp[0])
 
 					#is it cached
-					html = SEOCache.get_cached(emailtemplateid, layout)
+					html = SEOCache.get_cached(emailtemplateid, newsroomid, layout)
 					if html:
 						return html
 
 					#get details
-					seorelease = SEORelease.get_for_display(emailtemplateid)
+					seorelease = SEORelease.get_for_display(emailtemplateid, newsroomid, prefix)
 					if seorelease == None:
 						return "Page Not Found"
 				except:
@@ -60,14 +79,19 @@ class ReleasesController(controllers.RootController):
 		ret = page_settings_basic()
 		ret["seorelease"] = seorelease
 		ret["layout"] = layout
+		ret["newsroomid"] = newsroomid
+		if seorelease:
+			ret['newsroom'] = seorelease['newsroom']
 		template = "prpublish.templates.release"
+		if is_newsroom:
+			template = "prpublish.templates.newsroom.release"
 		if layout == 1:
 			template = "prpublish.templates.newsroom.cardiff.release_cardiff"
 		if layout == 2:
 			template = "prpublish.templates.newsroom.cardiff.release_welsh"
 		html = html_slimmer( view.render( ret, template = template ))
 		if emailtemplateid:
-			SEOCache.add_cache(emailtemplateid, html, layout)
+			SEOCache.add_cache(emailtemplateid, newsroomid, html, layout)
 		# return page
 		return html
 
@@ -95,11 +119,24 @@ class ReleasesController(controllers.RootController):
 			return ""
 
 	@expose(template="prpublish.templates.epage")
-	def epage(self, seoreleaseid, *args, **kw):
+	def epage(self, seoreleaseid, newsroomid, prefix, *args, **kw):
 		""" send email to address """
 
 		ret = page_settings_basic()
-		ret["seorelease"] = SEORelease.query.get(seoreleaseid)
+		if prefix == "e":
+#			if newsroomid == -1 or newsroomid == '-1':#it is a seorelease that the newsroom is marked as client but it is not linked with a client
+			seorelease = SEORelease.query.get(seoreleaseid)
+			ret['email'] = seorelease.email
+			ret['prefix'] = prefix
+			ret['newsroomid'] = newsroomid
+			ret['seoreleaseid'] = seoreleaseid
+		else:
+			from prcommon.model import ClientNewsRoomContactDetails
+			ns_contact = ClientNewsRoomContactDetails.query.get(newsroomid)
+			ret['email'] = ns_contact.email
+			ret['prefix'] = prefix
+			ret['newsroomid'] = newsroomid
+			ret['seoreleaseid'] = seoreleaseid
 		return ret
 
 

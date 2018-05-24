@@ -58,6 +58,7 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this._Client_Get_Call_Back = dojo.hitch(this, this._Client_Get_Call );
 
 		this._has_global_newsrooms = PRMAX.utils.settings.has_global_newsroom;
+		this._is_client_newsroom = true;
 
 		this.inherited(arguments);
 	},
@@ -120,31 +121,33 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.seoreleaseid.set("value",data.seoreleaseid);
 		this.headline.set("value",data.headline);
 		this.synopsis.set("value",data.synopsis);
-		this.companyname.set("value",data.companyname);
-		this.www.set("value", data.www);
-		this.email.set("value", data.email );
-		this.tel.set("value", data.tel );
-		this.twitter.set("value", data.twitter ) ;
-		this.facebook.set("value", data.facebook);
-		this.linkedin.set("value", data.linkedin);
-		this.instagram.set("value", data.instagram);
 		this.keywords.set("value",data.keywords);
 		this.seoimage.set("value", (data.seoimageid==null)?-1:data.seoimageid);
+		this._is_client_newsroom = data.is_client_newsroom;
 		if (this._has_global_newsrooms)
 		{
 			dojo.removeClass(this.globalnewsrooms_tr, "prmaxhidden");
 
-			if (data.newsrooms && data.newsrooms.length>0){
+			if (data.is_client_newsroom == false && data.newsrooms.length>0){
 
 				this.option1.set("checked", true);
 				this._show_hide_fields('globalnewsrooms', data);
 				this.globalnewsrooms.set("value", data.newsrooms);
+				this.clientid.set("value",-1);
 			}
 			else
 			{
 				this.option0.set("checked", true);
 				this._show_hide_fields('client');
 				this.globalnewsrooms.Clear();
+				this.companyname.set("value",data.companyname);
+				this.www.set("value", data.www);
+				this.email.set("value", data.email );
+				this.tel.set("value", data.tel );
+				this.twitter.set("value", data.twitter ) ;
+				this.facebook.set("value", data.facebook);
+				this.linkedin.set("value", data.linkedin);
+				this.instagram.set("value", data.instagram);
 			}
 		}
 		else
@@ -152,6 +155,14 @@ dojo.declare("prmax.pressrelease.seo.edit",
 			dojo.addClass(this.globalnewsrooms_tr, "prmaxhidden");
 
 			this._show_hide_fields('client');
+			this.companyname.set("value",data.companyname);
+			this.www.set("value", data.www);
+			this.email.set("value", data.email );
+			this.tel.set("value", data.tel );
+			this.twitter.set("value", data.twitter ) ;
+			this.facebook.set("value", data.facebook);
+			this.linkedin.set("value", data.linkedin);
+			this.instagram.set("value", data.instagram);
 		}
 	},
 	Save:function()
@@ -288,9 +299,10 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		else if (this.option1.get("checked"))
 		{
 			this._show_hide_fields('globalnewsrooms');
+			this.clientid.set("value",-1);
 		}
 	},
-	_show_hide_fields(mode)
+	_show_hide_fields:function(mode)
 	{
 		if (mode == 'globalnewsrooms')
 		{

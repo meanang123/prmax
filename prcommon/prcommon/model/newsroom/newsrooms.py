@@ -211,7 +211,7 @@ class Newsrooms(BaseSql):
 		if newsroom and newsroom.clientid:
 			clientmode=True
 		clientnewsroom = ClientNewsRoom.query.get(newsroom.newsroomid)
-		newsroom_url = clientnewsroom.get_news_room_url()
+		newsroom_url = clientnewsroom.get_news_room_url('client') if clientmode == True else clientnewsroom.get_news_room_url('global')
 			
 		customlinks=dict(link_1=dict(name="", url=""),	link_2=dict(name="", url=""))
 		links = session.query(ClientNewsRoomCustumLinks).filter_by(newsroomid=newsroomid).all()

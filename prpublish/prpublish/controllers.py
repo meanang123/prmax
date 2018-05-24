@@ -34,6 +34,7 @@ class Root(controllers.RootController):
 
 		# we need deal with the esearch and sets
 		ret = page_settings_basic()
+		#kw['nr'] = False
 		ret.update ( SEORelease.get_for_release( kw ))
 		return ret
 
@@ -42,12 +43,14 @@ class Root(controllers.RootController):
 		""" Show the default page """
 
 		# we need deal with the esearch and sets
+		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.main")
 	def search(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
+		#kw['nr'] = False
 		ret.update ( SEORelease.do_search( kw ))
 
 		return ret
@@ -56,6 +59,7 @@ class Root(controllers.RootController):
 	def searchcardiff(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
+		#kw['nr'] = False
 		kw['nid'] = 24
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
@@ -64,6 +68,7 @@ class Root(controllers.RootController):
 	def searchwelsh(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
+		#kw['nr'] = False
 		kw['nid'] = 65
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
@@ -72,6 +77,7 @@ class Root(controllers.RootController):
 	def search_results_cardiff(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
+		#kw['nr'] = False
 		kw['nid'] = 24
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
@@ -80,6 +86,7 @@ class Root(controllers.RootController):
 	def search_results_welsh(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
+		#kw['nr'] = False
 		kw['nid'] = 65
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
@@ -87,11 +94,13 @@ class Root(controllers.RootController):
 	@expose(template="prpublish.templates.contactus")
 	def contactus(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.searchmodal")
 	def searchmodal(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 
@@ -103,38 +112,45 @@ class Root(controllers.RootController):
 	@expose(template="prpublish.templates.copyright")
 	def copyright(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.categories")
 	def categories(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.aboutus")
 	def aboutus(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.privacypolicy")
 	def privacypolicy(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.privacypolicy2")
 	def privacypolicy2(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 
 	@expose(template="prpublish.templates.termsconditions")
 	def termsconditions(self, *args, **kw ):
 		""" Contact Us Page """
+		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.main")
 	def search_results(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
+		#kw['nr'] = False
 		ret.update ( SEORelease.do_search( kw ))
 
 		return ret
@@ -144,6 +160,7 @@ class Root(controllers.RootController):
 		""" default files """
 
 		response.headers["Content-type"] = "text/html;charset=utf-8"
+		#kw['nr'] = False
 
 		if args and args[0].lower() == "robots.txt":
 			return """User-agent: *

@@ -5,9 +5,14 @@
 			<tr><td  align="center" data-dojo-attach-point="heading" class="prmaxrowdisplaylarge" colspan="2" data-dojo-attach-point="header" ></td></tr>
 			<tr><td align="right" class="prmaxrowtag" width="20%">Reason</td><td ><select data-dojo-attach-point="reasoncodes" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html",style:"width:98%","class":"prmaxrequired"'/></td></tr>
 			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td></td><td><label class="prmaxrowtag"><input data-dojo-attach-point="delete_completely" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"delete_option","class":"prmaxdefault",checked:"checked",type:"radio",value:"1"'/>Delete completely</label></td></tr>
+			<tr><td></td><td><label class="prmaxrowtag"><input data-dojo-attach-point="delete_and_retain" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"delete_option","class":"prmaxdefault",type:"radio",value:"2"'/>Delete contact and retain role</label></td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
 			<tr>
 				<td align="left"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_close">Close</button></td>
 				<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_delete_submit">Delete Contact</button></td></tr>
 		</table>
 	</form>
 </div>
+
+

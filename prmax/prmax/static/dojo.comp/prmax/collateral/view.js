@@ -37,6 +37,7 @@ dojo.declare("prmax.collateral.view",
 		templatePath: dojo.moduleUrl( "prmax.collateral","templates/view.html"),
 		constructor: function()
 		{
+			this._has_global_newsroom = PRMAX.utils.settings.has_global_newsroom;
 			this.model= new prcommon.data.QueryWriteStore ( {url:'/icollateral/collateral_grid',
 				tableid:7,
 				oncallback: dojo.hitch(this,this._selection_changed),
@@ -46,6 +47,13 @@ dojo.declare("prmax.collateral.view",
 
 			this._client_data = new dojox.data.QueryReadStore (
 			{	url:'/clients/combo?include_no_select',
+				onError:ttl.utilities.globalerrorchecker,
+				clearOnClose:true,
+				urlPreventCache:true
+			});
+
+			this._newsroom_data = new dojox.data.QueryReadStore (
+			{	url:'/newsroom/combo?include_no_select',
 				onError:ttl.utilities.globalerrorchecker,
 				clearOnClose:true,
 				urlPreventCache:true
@@ -72,6 +80,8 @@ dojo.declare("prmax.collateral.view",
 
 			this.clientid.set("store",this._client_data);
 			this.clientid.set("value",-1)
+			this.newsroomid.set("store",this._newsroom_data);
+			this.newsroomid.set("value",-1)
 
 		},
 		_OnStyleRow:function(inRow)
@@ -103,6 +113,7 @@ dojo.declare("prmax.collateral.view",
 			this.code.set("value", this._row.i.collateralcode ) ;
 			this.description.set("value", this._row.i.collateralname ) ;
 			this.clientid.set("value", this._row.i.clientid==null? -1: this._row.i.clientid) ;
+			this.newsroomid.set("value", this._row.i.newsroomid==null? -1: this._row.i.newsroomid) ;
 
 		},
 		_getModelItem:function()
@@ -126,6 +137,7 @@ dojo.declare("prmax.collateral.view",
 				dojo.attr(this.prmaxid,"innerHTML", "" ) ;
 
 				this.clientid.set("value", "-1" ) ;
+				this.newsroomid.set("value", "-1" ) ;
 				this.code.set("value", "") ;
 				dojo.attr(this.description,"description", "") ;
 
@@ -147,6 +159,7 @@ dojo.declare("prmax.collateral.view",
 			{name: 'Code',width: "100px",field:"collateralcode"},
 			{name: 'Description',width: "200px",field:"collateralname"},
 			{name: 'Client',width: "150px",field:"clientname"},
+			{name: 'Newsroom',width: "150px",field:"description"},
 			{name: 'Releases',width: "auto",field:"emailtemplatename"}
 			]]
 		},
@@ -198,6 +211,7 @@ dojo.declare("prmax.collateral.view",
 				this.model.setValue(  this._row, "collateralname" , this.description.get("value"), true );
 				this.model.setValue(  this._row, "clientname" , response.data.clientname, true );
 				this.model.setValue(  this._row, "clientid" ,  response.data.clientid, true );
+				this.model.setValue(  this._row, "newsroomid" ,  response.data.newsroomid, true );
 				this.model.setValue(  this._row, "emailtemplatename" , response.data.emailtemplatename, true );
 			}
 			else if ( response.success == "DU")
@@ -276,6 +290,34 @@ dojo.declare("prmax.collateral.view",
 
 		dojo.addClass(this.display_pane,"prmaxhidden");
 
+	},
+	_show_hide_fields:function()
+	{
+		if (this._has_global_newsroom)
+		{
+			if (this.clientid.get("value") != -1 && this.clientid.get("value") != '-1')
+			{
+				this.newsroomid.set("value", -1);
+				dojo.addClass(this.newsroom_label, "prmaxhidden");
+				dojo.addClass(this.newsroomid.domNode, "prmaxhidden");
+			}
+			else
+			{
+				dojo.removeClass(this.newsroom_label, "prmaxhidden");
+				dojo.removeClass(this.newsroomid.domNode, "prmaxhidden");
+			}
+			if (this.newsroomid.get("value") != -1 && this.newsroomid.get("value") != '-1')
+			{
+				this.clientid.set("value", -1);
+				dojo.addClass(this.clientid.domNode, "prmaxhidden");
+				dojo.addClass(this.client_label, "prmaxhidden");
+			}
+			else
+			{
+				dojo.removeClass(this.clientid.domNode, "prmaxhidden");
+				dojo.removeClass(this.client_label, "prmaxhidden");
+			}
+		}
 	}
 });
 

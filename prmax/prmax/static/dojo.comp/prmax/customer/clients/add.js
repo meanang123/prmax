@@ -182,6 +182,7 @@ dojo.declare("prmax.customer.clients.add",
 						newsroom.news_room_url = "https://www.newyddioncaerdydd.co.uk" //live
 //						newsroom.news_room_url = "http://testnewyddioncaerdydd.prmax.co.uk/" //test
 					}
+					this.newsroomid.set("value", newsroom.newsroomid)
 					this.news_room_root.set("value", newsroom.news_room_root);
 					this.about_template.set("value", newsroom.about_template);
 					dojo.attr(this.show_news_room_form,"action",newsroom.news_room_url);
@@ -221,6 +222,7 @@ dojo.declare("prmax.customer.clients.add",
 		this.instagram.set("value","");
 		this.save.cancel();
 		this.clientid.set("value",-1);
+		this.newsroomid.set("value",-1);
 		this.news_room_root.set("value", "");
 		this.about_template.set("value", "");
 		this.default_header_colour.set("checked", false);

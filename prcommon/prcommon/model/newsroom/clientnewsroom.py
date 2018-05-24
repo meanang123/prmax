@@ -21,10 +21,9 @@ from prcommon.model.session import UserSession
 LOG = logging.getLogger("prmax.model")
 
 class FakeClient(object):
-	def __init__(self, _customerid, gobject, clientid=-1, clientname='Global', tel='', www='', email='', twitter='', linkedin='', facebook='', instagram=''):
+	def __init__(self, gobject, clientid=-1, clientname='Global', tel='', www='', email='', twitter='', linkedin='', facebook='', instagram=''):
 		self._clientid = clientid
 		self._clientname = clientname
-		self._customerid = _customerid
 		self._tel = tel
 		self._www = www
 		self._email = email
@@ -75,10 +74,6 @@ class FakeClient(object):
 		return self._tel
 
 	@property
-	def customerid(self):
-		return self._customerid
-
-	@property
 	def clientid(self):
 		return self._clientid
 
@@ -95,15 +90,15 @@ class ClientNewsRoom(object):
 		""" check too see if a root exists """
 
 		query = session.query(ClientNewsRoom).\
-		  filter(ClientNewsRoom.customerid == params["customerid"]).\
-		  filter(ClientNewsRoom.news_room_root == params["news_room_root"])
+		  filter(ClientNewsRoom.clientid == params["clientid"]).\
+		  filter(ClientNewsRoom.newsroomid == params["newsroomid"])
 		if params["clientid"] != -1:
 			query = query.filter(ClientNewsRoom.clientid != params["clientid"])
 
 		return True if query.count() else False
 
 	@classmethod
-	def is_valid_newsroow(cls, customerid, news_room_root):
+	def is_valid_newsroow(cls, client_newsroomid, mode):
 		"""check too see if it exist"""
 
 		from prcommon.model.client import Client
@@ -112,18 +107,25 @@ class ClientNewsRoom(object):
 
 		# check for client news rooms
 		# check for global news rooms
-		records = session.query(ClientNewsRoom, Client, Customer, ClientNewRoomContactDetails).\
-			outerjoin(Client, Client.clientid == ClientNewsRoom.clientid).\
-		    outerjoin(ClientNewRoomContactDetails, ClientNewRoomContactDetails.newsroomid == ClientNewsRoom.newsroomid).\
-			join(Customer, ClientNewsRoom.customerid == Customer.customerid).\
-		  filter(ClientNewsRoom.customerid == customerid).\
-		  filter(ClientNewsRoom.news_room_root == news_room_root).all()
+		records = []
+		if mode == 'client':
+			records = session.query(ClientNewsRoom, Client, Customer, ClientNewRoomContactDetails).\
+				outerjoin(Client, Client.clientid == ClientNewsRoom.clientid).\
+				outerjoin(ClientNewRoomContactDetails, ClientNewRoomContactDetails.newsroomid == ClientNewsRoom.newsroomid).\
+				join(Customer, Customer.customerid == Client.customerid).\
+			  filter(ClientNewsRoom.clientid == client_newsroomid[1:]).all()
+		elif mode == 'global':
+			records = session.query(ClientNewsRoom, Client, Customer, ClientNewRoomContactDetails).\
+				outerjoin(Client, Client.clientid == ClientNewsRoom.clientid).\
+				outerjoin(ClientNewRoomContactDetails, ClientNewRoomContactDetails.newsroomid == ClientNewsRoom.newsroomid).\
+				join(Customer, Customer.customerid == ClientNewsRoom.customerid).\
+			  filter(ClientNewsRoom.newsroomid == client_newsroomid[1:]).all()
 		if records:
 			# customer is active
 			if records[0][2].is_active():
 				result = list(records[0])
 				if result[1] is None:
-					result[1] = FakeClient(customerid, result[3])
+					result[1] = FakeClient(result[3])
 
 				return result
 
@@ -164,10 +166,16 @@ class ClientNewsRoom(object):
 			LOG.exception("upload_and_convert")
 			raise
 
-	def get_news_room_url(self):
+	def get_news_room_url(self, mode):
 		""" get the client newsroom url"""
 
-		return "%s/nr/%d/%s" % (config.get('prpublish.web', ''), self.customerid, self.news_room_root)
+		if mode == 'client':
+			retval = "%s/nr/e%d" % (config.get('prpublish.web', ''), self.clientid)
+		else:
+			retval = "%s/nr/g%d" % (config.get('prpublish.web', ''), self.newsroomid)
+		return retval
+
+#		return "%s/nr/%d/%s" % (config.get('prpublish.web', ''), self.customerid, self.news_room_root)
 
 
 ClientNewsRoom.mapping = Table('clientnewsroom', metadata, autoload=True, schema="userdata")

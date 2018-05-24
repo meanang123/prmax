@@ -45,12 +45,23 @@ class SEORelease(BaseSql):
 	""" Seo Press Release """
 
 	@classmethod
-	def get_for_display(cls, seoreleaseid):
+	def get_for_display(cls, seoreleaseid, newsroomid, prefix):
 		""" get all the details need to create a display publish page """
 
+		from prcommon.model.newsroom.newsroom import VirtualNewsRoom
+
 		seo = SEORelease.query.get(seoreleaseid)
+		ns_contact = {}
+		newsroom = None
+		prefix = prefix
 		if not seo or seo.seostatusid != Constants.SEO_Live:
 			return None
+		if seo.is_client_newsroom == False:
+			from prcommon.model import ClientNewsRoomContactDetails
+			ns_contact = ClientNewsRoomContactDetails.query.get(newsroomid)
+			newsroom = VirtualNewsRoom.get_newsroom_info(newsroomid, 'global')
+		elif seo.is_client_newsroom == True and newsroomid != -1 and newsroomid != '-1':
+				newsroom = VirtualNewsRoom.get_newsroom_info(newsroomid, 'client')
 
 		content = DBCompress.decode(seo.content)
 		# us soup too strip the comment and add the target too anchors
@@ -73,6 +84,10 @@ class SEORelease(BaseSql):
 			content = DBCompress.decode(seo.content)
 
 		return dict(seo=seo,
+		            newsroom=newsroom,
+		            newsroomid=newsroomid,
+		            ns_contact=ns_contact,
+		            prefix=prefix,
 		            content=content,
 		            keywords=",".join([r.seoreleasekeyword.strip(",").replace("_", " ")
 		                                for r in session.query(SEOReleaseInterests).filter_by(seoreleaseid=seoreleaseid).all()]),
@@ -149,6 +164,7 @@ class SEORelease(BaseSql):
 									 linkedin=seo.linkedin,
 									 content=DBCompress.decode(seo.content),
 									 clientid=seo.clientid,
+			                         is_client_newsroom=seo.is_client_newsroom,
 									 keywords=" ".join([row.seoreleasekeyword for row in session.query(SEOReleaseInterests).filter_by(seoreleaseid=seo.seoreleaseid).all()])
 									)
 			# now add the categories
@@ -276,6 +292,7 @@ class SEORelease(BaseSql):
 		seo.instagram = params["instagram"]
 		seo.linkedin = params["linkedin"]
 		clientid = params.get("clientid", None)
+		seo.is_client_newsroom = params['is_client_newsroom']
 		if clientid == -1:
 			clientid = None
 		seo.clientid = clientid
@@ -466,20 +483,41 @@ class SEORelease(BaseSql):
 			transaction.rollback()
 			raise
 
-	_Release_List_Date = """SELECT seo.synopsis,'/releases/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
+	_Release_List_Date1 = """SELECT seo.synopsis,
+	CASE
+	WHEN seo.is_client_newsroom = false THEN '/releases/g'|| ns.newsroomid ||'/'||seo.seoreleaseid||'.html'
+	ELSE
+	    CASE
+		WHEN seo.clientid is null THEN '/releases/e-1/'||seo.seoreleaseid||'.html'
+		ELSE '/releases/e'||seo.clientid||'/'||seo.seoreleaseid||'.html'
+	    END
+	END as link,
+	seo.is_client_newsroom,
+	seo.headline, seo.seoimageid,
+	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
+	FROM seoreleases.seorelease AS seo
+	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid
+	left outer join seoreleases.seonewsrooms as ns on ns.seoreleaseid = seo.seoreleaseid"""
+	_Release_List_Date2 = """SELECT seo.synopsis,
+	CASE
+	WHEN seo.is_client_newsroom = false THEN '/releases/nr/g'||:nid||'/'||seo.seoreleaseid||'.html'
+	ELSE '/releases/nr/e'||seo.clientid||'/'||seo.seoreleaseid||'.html'
+	END as link,
+	seo.is_client_newsroom,
+	seo.headline, seo.seoimageid,
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
 	_Release_List_Date_Cardiff = """SELECT seo.synopsis,
 	CASE
-	WHEN seo.clientid = 2014 THEN '/releases/c/'||seo.seoreleaseid||'.html'
-	WHEN seo.clientid = 1966 THEN '/releases/w/'||seo.seoreleaseid||'.html'
+	WHEN seo.clientid = 2014 THEN '/releases/c'||:nid||'/'||seo.seoreleaseid||'.html'
+	WHEN seo.clientid = 1966 THEN '/releases/w'||:nid||'/'||seo.seoreleaseid||'.html'
 	END as link,
 	seo.headline, seo.seoimageid,
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
-	_Release_List_Date_Welsh = """SELECT seo.synopsis,'/releases/w/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
+	_Release_List_Date_Welsh = """SELECT seo.synopsis,'/releases/w'||:nid||'/'||seo.seoreleaseid||'.html' as link, seo.headline, seo.seoimageid,
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
@@ -492,12 +530,13 @@ class SEORelease(BaseSql):
 		""" Do the search and return the details"""
 
 		whereused = " WHERE published < CURRENT_TIMESTAMP AND seostatusid = 2 "
-		fields = dict(limit=int(params.get("limit", BLOCK_SIZE)),
+		fields = dict(nid=-1,
+		              limit=int(params.get("limit", BLOCK_SIZE)),
 		              offset=BLOCK_SIZE * (int(params.get("o", 1)) -1)
 								)
 
 		return dict(
-		    results=cls.sqlExecuteCommand(text(SEORelease._Release_List_Date + whereused + SEORelease._Release_List_Order),
+		    results=cls.sqlExecuteCommand(text(SEORelease._Release_List_Date1 + whereused + SEORelease._Release_List_Order),
 		                                  fields,
 		                                  BaseSql.ResultAsEncodedDict),
 		    resultcount=cls.sqlExecuteCommand(text(SEORelease._Release_List_Count + whereused),
@@ -606,6 +645,8 @@ class SEORelease(BaseSql):
 				if "nid" in params:
 					cri["nid"] = int(params["nid"])
 					whereused += " AND seo.seoreleaseid in (SELECT seoreleaseid FROM seoreleases.seonewsrooms WHERE newsroomid= :nid) "
+				else:
+					cri['nid'] = -1
 
 
 				if 'search' in params:
@@ -613,7 +654,12 @@ class SEORelease(BaseSql):
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 
 		fields.update(cri)
-		command = SEORelease._Release_List_Date + whereused + SEORelease._Release_List_Order
+		command = SEORelease._Release_List_Date2 + whereused + SEORelease._Release_List_Order
+		#params['nr'] = True
+		if 'nr' in params and params['nr'] == True:
+			command = SEORelease._Release_List_Date2 + whereused + SEORelease._Release_List_Order
+		else:
+			command = SEORelease._Release_List_Date1 + whereused + SEORelease._Release_List_Order
 		if 'nid' in params and (params['nid'] == 24 or params['nid'] == 65): #Cardiff
 			command = SEORelease._Release_List_Date_Cardiff + whereused + SEORelease._Release_List_Order
 
@@ -871,10 +917,11 @@ class SEOCache(BaseSql):
 	""" Cache output of a record """
 
 	@classmethod
-	def get_cached(cls, seoreleaseid, layout):
+	def get_cached(cls, seoreleaseid, newsroomid, layout):
 		""" get an entry from the cache """
 		seocache = session.query(SEOCache).\
 		    filter(SEOCache.seoreleaseid == seoreleaseid).\
+		    filter(SEOCache.newsroomid == newsroomid).\
 			filter(SEOCache.layout == layout).scalar()
 		if seocache:
 			seorelease = SEORelease.query.get(seoreleaseid)
@@ -885,7 +932,7 @@ class SEOCache(BaseSql):
 			return None
 
 	@classmethod
-	def add_cache(cls, seoreleaseid, html, layout):
+	def add_cache(cls, seoreleaseid, newsroomid, html, layout):
 		""" Add an entry to the cache"""
 
 		transaction = cls.sa_get_active_transaction()
@@ -893,10 +940,12 @@ class SEOCache(BaseSql):
 			# update Email record
 			seocache = session.query(SEOCache).\
 			    filter(SEOCache.seoreleaseid == seoreleaseid).\
+				filter(SEOCache.newsroomid == newsroomid).\
 			    filter(SEOCache.layout == layout).scalar()
 
 			if not seocache:
 				session.add(SEOCache(seoreleaseid=seoreleaseid,
+				                     newsroomid=newsroomid,
 				                     layout=layout,
 				                     cache=html))
 				seorelease = SEORelease.query.get(seoreleaseid)

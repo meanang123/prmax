@@ -212,6 +212,7 @@ from prcommon.model.distribution.generaldistributiontemplates import GeneralDist
 from prcommon.model.cyberwatch.clippingscyberwatch import ClippingsCyberWatch
 
 from prcommon.model.newsroom.newsrooms import Newsrooms
+from prcommon.model.dataclean.dataclean import DataClean
 
 from prcommon.model.customer.customeraccesslog import CustomerAccessLog
 

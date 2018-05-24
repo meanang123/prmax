@@ -780,32 +780,55 @@ class Employee(BaseSql):
 		try:
 			employee = Employee.query.get(params['employeeid'])
 			outletid = employee.outletid
-			cname = ""
-			if employee.contactid:
-				cname = Contact.query.get ( employee.contactid ).getName()
 
-			# add audit trail record
-			activity = Activity ( reasoncodeid = params["reasoncodeid"] ,
-			                reason = params.get("reason", ""),
-			                objecttypeid = Constants.Object_Type_Employee,
-			                objectid = employee.employeeid,
-			                actiontypeid = Constants.Research_Record_Delete,
-			                userid = params['userid'],
-			                parentobjectid = employee.outletid,
-			                parentobjecttypeid = Constants.Object_Type_Outlet,
-			                name = employee.job_title + " : " + cname
-			                )
-			session.add ( activity )
-			session.flush()
-
-			# delete contact
-			if employee.prmaxstatusid == 1:
-				session.execute(text(Employee.Delete_Employee), params, cls)
+			if int(params["delete_option"]) == 2:
+				comm = Communication.query.get(employee.communicationid)
+				comm.email = ""
+				comm.tel = ""
+				comm.addressid = None
+				comm.fax = ""
+				comm.mobile = ""
+				comm.webphone = ""
+				comm.twitter = ""
+				comm.facebook = ""
+				comm.linkedin = ""
+				comm.instagram = ""
+				comm.blog = ""
+				employee.contactid = None
+				activity = Activity(reasoncodeid=params["reasoncodeid"],
+						                reason=params.get("reason", ""),
+						                objecttypeid=Constants.Object_Type_Employee,
+						                objectid=employee.employeeid,
+						                actiontypeid=Constants.Research_Record_Update,
+						                userid=params['userid'],
+						                parentobjectid=employee.outletid,
+						                parentobjecttypeid=Constants.Object_Type_Outlet,
+						                name=employee.job_title
+						                )
+				session.add(activity)
+				session.flush()
 			else:
-				# force a delete
-				session.execute(text("SELECT employee_research_force_delete(:employeeid)"), params, cls)
+				cname = ""
+				if employee.contactid:
+					cname = Contact.query.get(employee.contactid).getName()
 
-			session.flush()
+				# add audit trail record
+				activity = Activity(reasoncodeid=params["reasoncodeid"],
+						            reason=params.get("reason", ""),
+						            objecttypeid=Constants.Object_Type_Employee,
+						            objectid=employee.employeeid,
+						            actiontypeid=Constants.Research_Record_Delete,
+						            userid=params['userid'],
+						            parentobjectid=employee.outletid,
+						            parentobjecttypeid=Constants.Object_Type_Outlet,
+						            name=employee.job_title + " : " + cname
+						            )
+				session.add(activity)
+				session.flush()
+				# delete contact
+				session.execute(text(Employee.Delete_Employee),
+							    dict(employeeid=employee.employeeid), Employee)
+				session.flush()
 
 			ResearchDetails.set_research_modified(outletid)
 

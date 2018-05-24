@@ -245,6 +245,9 @@ class OutletDisplay(BaseSql):
 			retdata["frequency"] = frequency.frequencyname
 			if outletprofile and outletprofile.frequencynotes:
 				retdata["frequency"] += ". " + outletprofile.frequencynotes
+		elif outletprofile:
+			if outletprofile.frequencynotes:
+				retdata['frequency'] = outletprofile.frequencynotes
 		else:
 			retdata["frequency"] = ""
 

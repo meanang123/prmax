@@ -16,9 +16,9 @@
 
 <div class="content-width">
     <div class="single-news-content">
-        <a class="back" href="/releases/${seorelease.seoreleaseid}.html">Back</a><br/><br/><br/>
+        <a class="back" href="/releases/${prefix}${newsroomid}/${seoreleaseid}.html">Back</a><br/><br/><br/>
         <div  class="single-news-text">
-            <a href="mailto:${seorelease.email}">Send Email</a><br/>
+            <a href="mailto:${email}">Send Email</a><br/>
         </div>
     </div>
 </div>

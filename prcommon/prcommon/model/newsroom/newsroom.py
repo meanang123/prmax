@@ -14,7 +14,7 @@
 import logging
 import copy
 from turbogears import view
-from turbogears.database import session
+from turbogears.database import session, config
 from cherrypy import response
 from prcommon.model.identity import Customer
 from prcommon.model.newsroom.clientnewsroom import ClientNewsRoom
@@ -58,14 +58,15 @@ class NewsRoom(object):
 	    "search_results_welsh": "search_results_welsh",
 	}
 
-	def __init__(self, customer, client, page=None, params=None):
+	def __init__(self, client, mode='client', page=None, params=None):
 		""" setup news desk """
 
-		self._customer = customer
+#		self._customer = customer
 		self._client = client
 		self._page = None if not page else page
 		self._params = params
-		#
+		self._mode=mode
+
 		self._images = {}
 		for row in session.query(ClientNewsRoomImage).\
 		    filter_by(newsroomid=client[0].newsroomid).all():
@@ -79,10 +80,10 @@ class NewsRoom(object):
 		# handle the page to return html or collateral
 		if self._page == None:
 			lparams = self.get_env(envir)
-			if self._client[1].clientid == -1:
-				lparams.update(SEORelease.do_search(dict(nid=self._client[0].newsroomid)))
+			if self._client[1].clientid == -1 or self._client[1].clientid == 2014 or self._client[1].clientid == 1966:
+				lparams.update(SEORelease.do_search(dict(nid=self._client[0].newsroomid,nr=True)))
 			else:
-				lparams.update(SEORelease.do_search(dict(cid=self._client[1].clientid)))
+				lparams.update(SEORelease.do_search(dict(cid=self._client[1].clientid,nr=True)))
 			template = "prpublish.templates.newsroom.main_page"
 			if self._client[0].newsroomid == 24: #Cardiff - English
 				template = "prpublish.templates.newsroom.cardiff.main_page"
@@ -96,7 +97,10 @@ class NewsRoom(object):
 			lparams = self.get_env(envir)
 			lparams.update(dict(client=self._client[1]))
 			if self._page[0] == "collateral":
-				lparams["clientcollateral"] = session.query(Collateral).filter_by(clientid=self._client[1].clientid).all()
+				if self._client[1].clientid != -1 and self._client[1].clientid != '-1' and self._client[1].clientid != None:
+					lparams["clientcollateral"] = session.query(Collateral).filter_by(clientid=self._client[1].clientid).all()
+				else:
+					lparams['clientcollateral'] = session.query(Collateral).filter_by(newsroomid=self._client[0].newsroomid).all()
 			base_template = "prpublish.templates.newsroom."
 			if self._client[0].newsroomid == 24 or self._client[0].newsroomid == 65: #Cardiff/Welsh
 				base_template = "prpublish.templates.newsroom.cardiff."
@@ -152,7 +156,7 @@ class NewsRoom(object):
 		prms = copy.copy(envir)
 		prms['client'] = self._client[1]
 		prms['clientnewsroom'] = self._client[0]
-		prms['customer'] = self._customer
+#		prms['customer'] = self._customer
 		prms['newsroom'] = self
 
 		return prms
@@ -160,7 +164,13 @@ class NewsRoom(object):
 	def _get_base_url(self):
 		"""get the basic bit of the url"""
 
-		return "/nr/%d/%s" % (self._client[1].customerid, self._client[0].news_room_root)
+		if self._mode == 'client':
+			retval = "/nr/e%d" % self._client[0].clientid
+		else:
+			retval = "/nr/g%d" % self._client[0].newsroomid
+		return retval
+
+#		return "/nr/%d/%s" % (self._client[1].customerid, self._client[0].news_room_root)
 
 	def get_home_page(self):
 		"""Get home page"""
@@ -222,7 +232,7 @@ class NewsRoom(object):
 		""" return the list of custom links """
 
 		return session.query(ClientNewsRoomCustumLinks).\
-		       filter_by(clientid=self._client[0].clientid).all()
+	       filter_by(newsroomid=self._client[0].newsroomid).all()
 
 class VirtualNewsRoom(object):
 	"""Virtual News root """
@@ -236,14 +246,32 @@ class VirtualNewsRoom(object):
 	@classmethod
 	def is_news_room_file(cls, address, params):
 		"""Determine if the path is part of a valid news room"""
-		if len(address) >= 2:
+		if len(address) >= 1:
 			# first is the customerid or customer root
-			customer = Customer.is_valid_newsroom(address[0])
-			if not customer:
-				return None
-			client = ClientNewsRoom.is_valid_newsroow(customer.customerid, address[1])
+#			customer = Customer.is_valid_newsroom(address[0])
+#			if not customer:
+#				return None
+			mode = None
+			if address[0][0] == 'e':
+				mode = 'client'
+			if address[0][0] == 'g':
+				mode = 'global'
+			client = ClientNewsRoom.is_valid_newsroow(address[0], mode)
 			if not client:
 				return None
 
-			return NewsRoom(customer, client, address[2:], params)
+			return NewsRoom(client, mode, address[1:], params)
+#		return NewsRoom(customer, client, address[2:], params)
 		return None
+
+	@classmethod
+	def get_newsroom_info(cls, newsroomid, mode):
+
+		client = []
+		if mode == 'client':
+			cl = session.query(ClientNewsRoom).filter(ClientNewsRoom.clientid==newsroomid).scalar()
+		elif mode == 'global':
+			cl = ClientNewsRoom.query.get(newsroomid)
+		client.insert(0,cl)
+		x = NewsRoom(client, mode)
+		return x

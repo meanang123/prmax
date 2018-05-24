@@ -16,6 +16,8 @@ define([
 	"prcommon2/interests/Interests",
 	"prcommon2/search/PrmaxOutletTypes",
 	"prcommon2/search/SearchRoles",
+	"prcommon2/search/person",
+	"prcommon2/search/standard2",
 	"prcommon2/search/Countries"
 	], function(declare, BaseWidgetAMD, template, ContentPane){
  return declare("prcommon2.search.EmployeeSearch",

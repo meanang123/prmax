@@ -3,21 +3,17 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<%include file="header_common.mak"/>
-% if seorelease:
-<title>${seorelease['seo'].headline}</title>
-<meta name="description" content="${seorelease['seo'].headline}"></meta>
-<meta name="keywords" content="${seorelease['keywords']}"></meta>
-%endif
-<%include file="header_google.mak"/>
-<script type="text/javascript">var switchTo5x=false;</script>
-<script type="text/javascript">stLight.options({publisher:'a8ad746a-9fd2-4279-b743-150377f85716'});</script>
+<%include file="../header_common.mak"/>
+##<title>${client.clientname} Newsroom</title>
+<meta name="description" content=""></meta>
+<meta name="keywords" content=""></meta>
+<%include file="../header_google.mak"/>
 </head>
 <body>
-<%include file="header.mak"/>
+<%include file="default_header.mak"/>
 <div class="content-width">
     <div class="single-news-content">
-        <a class="back" href="/search_results">Back</a>
+        <a class="back" href="${newsroom.get_home_page()}">Back</a>
         <div class="news-date">
             <div class="day">${seorelease['seo'].published.day}.</div>
             <div class="month">${seorelease['seo'].published.strftime("%B")}</div>
@@ -45,7 +41,7 @@
                             <a href='${correct_http_link(seorelease["ns_contact"].www)}' rel="nofollow" target="_blank">Link</a><br/><br/>
                         % endif
                         % if seorelease["ns_contact"].email:
-                            <a href='/releases/epage?seoreleaseid=${seorelease["seo"].seoreleaseid}&newsroomid=${seorelease["ns_contact"].newsroomid}&prefix=${seorelease["prefix"]}'>Email</a><br/>
+                            <a href="mailto:${seorelease["ns_contact"].email}'">Email</a><br/>
                         % endif
                         % if seorelease["ns_contact"].twitter:
                             <a href='${correct_http_link(seorelease["ns_contact"].twitter)}' rel="nofollow" target="_blank">Twitter</a><br/>
@@ -68,7 +64,7 @@
                             <a href='${correct_http_link(seorelease["seo"].www)}' rel="nofollow" target="_blank">Link</a><br/><br/>
                         % endif
                         % if seorelease["seo"].email:
-                            <a href='/releases/epage?seoreleaseid=${seorelease["seo"].seoreleaseid}&newsroomid=${seorelease["newsroomid"]}&prefix=${seorelease["prefix"]}'>Email</a><br/>
+                            <a href="mailto:${seorelease["seo"].email}'">Email</a><br/>
                         % endif
                         % if seorelease["seo"].twitter:
                             <a href='${correct_http_link(seorelease["seo"].twitter)}' rel="nofollow" target="_blank">Twitter</a><br/>
@@ -96,5 +92,5 @@
         %endif
     </div>
 </div>
-<%include file="footer.mak"/>
+<%include file="default_footer.mak"/>
 </body></html>

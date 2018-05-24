@@ -22,6 +22,7 @@ from sqlalchemy.sql.functions import sum as sql_sum
 from prcommon.model.common import BaseSql
 from prcommon.model.identity import Customer
 from prcommon.model.projects import ProjectCollateral
+from prcommon.model.newsroom.clientnewsroom import ClientNewsRoom
 import prcommon.Constants as Constants
 from ttl.postgres import DBCompress
 
@@ -91,6 +92,7 @@ class Collateral(BaseSql):
 			coll.collateralcode = params["collateralcode"]
 			coll.collateralname = params["description"]
 			coll.clientid = params["clientid"] if params["clientid"] != '-1' else None
+			coll.newsroomid = params["newsroomid"] if params["newsroomid"] != '-1' else None
 			transaction.commit()
 		except:
 			LOGGER.exception("Collateral_Update")
@@ -160,6 +162,8 @@ class Collateral(BaseSql):
 			  collaterallength=collaterallength)
 			if params["clientid"] != "-1":
 				coll.clientid = int(params["clientid"])
+			if params["newsroomid"] != "-1":
+				coll.newsroomid = int(params["newsroomid"])
 
 			session.add(coll)
 			session.flush()
@@ -190,9 +194,11 @@ class Collateral(BaseSql):
 		from prcommon.model.client import Client
 
 		obj = Collateral.query.get(params['collateralid'])
-		emailtemplatename = clientname = ""
+		emailtemplatename = clientname = description = ""
 		if obj.clientid:
 			clientname = Client.query.get(obj.clientid).clientname
+		if obj.newsroomid:
+			description = ClientNewsRoom.query.get(obj.newsroomid).description
 
 		return dict(customerid=obj.customerid,
 		            collateralname=obj.collateralname,
@@ -203,6 +209,8 @@ class Collateral(BaseSql):
 		            emailtemplatename=emailtemplatename,
 		            clientname=clientname,
 		            clientid=obj.clientid,
+		            newsroomid=obj.newsroomid,
+		            description=description,
 		            collaterallength=round(obj.collaterallength / float(Constants.ByteToMegaByte), 2)
 					 )
 
@@ -219,11 +227,14 @@ class Collateral(BaseSql):
 	  et.emailtemplatename,
 	  cl.clientname,
 	  c.clientid,
+	  ns.newsroomid,
+	  ns.description,
 	  COALESCE( CASE WHEN cu.selected = false THEN NULL ELSE cu.selected END , false ) AS selected
 		FROM userdata.collateral AS c
 	  LEFT OUTER JOIN userdata.emailtemplates AS et ON c.emailtemplateid = et.emailtemplateid
 	  LEFT OUTER JOIN userdata.client AS cl ON c.clientid = cl.clientid
-	  LEFT OUTER JOIN userdata.collateralusers AS cu ON cu.collateralid = c.collateralid AND cu.userid = :userid """
+	  LEFT OUTER JOIN userdata.collateralusers AS cu ON cu.collateralid = c.collateralid AND cu.userid = :userid 
+	  LEFT OUTER JOIN userdata.clientnewsroom AS ns ON ns.newsroomid = c.newsroomid """
 
 	ListDataCount = """
 		SELECT COUNT(*) FROM userdata.collateral AS c """
@@ -289,6 +300,9 @@ class Collateral(BaseSql):
 	def get_link_address(self):
 		""" get the link address"""
 
+
+		#x = "%s/%d%s" % ('http://prmaxtest.localhost/collateral', self.collateralid, self.ext)
+		#return x
 		return "%s/%d%s" % (config.get('collateral.link'), self.collateralid, self.ext)
 
 	def get_link_description(self):

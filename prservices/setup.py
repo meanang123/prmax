@@ -42,6 +42,8 @@ setup(
               "prservices.primport.nijgh.utils",
               "prservices.primport.ayrshire",
               "prservices.emplsynchronise",
+              "prservices.emplcommunication",
+              "prservices.cleanup",
               "prservices.unsubscribe",
               "prservices.bouncemails"
               ],

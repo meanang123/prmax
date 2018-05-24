@@ -58,7 +58,7 @@ define([
 		{
 			topic.publish(PRCOMMON.Events.Employee_Deleted, response.data);
 			if ( response.data.has_deleted == false )
-				alert("Marked as Deleted Only");
+				alert("Contact deleted but retained role");
 			else
 				alert("Contact Deleted");
 			this.clear();
@@ -78,12 +78,14 @@ define([
 	{
 		this.employeeid.set("value", -1 ) ;
 		this.reasoncodes.set("value",null);
+		this.delete_option.set("value", 1);
 	},
 	load:function( employeeid, job_title , name )
 	{
 		this.employeeid.set("value", employeeid );
 		domattr.set(this.heading,"innerHTML" , job_title + "(" + name + ")" ) ;
 		this.reasoncodes.set("value", null);
+		this.delete_option.set("value", 1);
 	},
 	_close:function()
 	{

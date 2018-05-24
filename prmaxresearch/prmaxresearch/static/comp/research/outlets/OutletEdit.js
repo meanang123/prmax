@@ -307,7 +307,13 @@ define([
 	_employee_deleted_event:function ( employee )
 	{
 		if (employee.has_deleted)
+		{
 			this.outlet_contact_model.remove(employee.employeeid);
+		}
+		else
+		{
+			this.outlet_contact_grid.set("query", {outletid: this._outletid, extended:1});
+		}
 		this.contact_edit_container.selectChild(this.blank_cont_view);
 	},
 

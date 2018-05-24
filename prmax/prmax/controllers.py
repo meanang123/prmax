@@ -180,8 +180,8 @@ class Root(controllers.RootController):
 					session.commit()
 					
 					#link='http://test.app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
-					#link='http://app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
-					link='http://prmaxtest.localhost/passwordrequest_word?guid=%s' % guid.password_guid
+					link='http://app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
+					#link='http://prmaxtest.localhost/passwordrequest_word?guid=%s' % guid.password_guid
 					expirydate = datetime.strftime(guid.expirydate, "%d/%m/%Y %H:%M")
 					button = '%s' %link
 					body = '<p>Hi %s,</p></br></br><p>You recently requested to reset your PRMAX password. Please use the button below to reset it.</p></br>'\

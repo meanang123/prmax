@@ -28,6 +28,7 @@ dojo.declare("prmax.collateral.add",
 		templatePath: dojo.moduleUrl( "prmax.collateral","templates/add.html"),
 		constructor: function()
 		{
+			this._has_global_newsroom = PRMAX.utils.settings.has_global_newsroom;
 			this._AddedCallback = dojo.hitch(this,this._Added);
 
 			this._client_data = new dojox.data.QueryReadStore (
@@ -37,6 +38,12 @@ dojo.declare("prmax.collateral.add",
 				urlPreventCache:true
 			});
 
+			this._newsroom_data = new dojox.data.QueryReadStore (
+			{	url:'/newsroom/combo?include_no_select',
+				onError:ttl.utilities.globalerrorchecker,
+				clearOnClose:true,
+				urlPreventCache:true
+			});
 			this.inherited(arguments);
 		},
 		postCreate:function()
@@ -44,7 +51,8 @@ dojo.declare("prmax.collateral.add",
 			this.dlg = null;
 			this.clientid.store = this._client_data;
 			this.clientid.set("value",-1);
-
+			this.newsroomid.store = this._newsroom_data;
+			this.newsroomid.set("value",-1);
 
 			if (PRMAX.utils.settings.productid==PRCOMMON.Constants.PRMAX_Pro)
 			{
@@ -132,6 +140,34 @@ dojo.declare("prmax.collateral.add",
 			this.dlg = dlg;
 			dojo.removeClass( this.clearNode, "prmaxhidden");
 
+		},
+		_show_hide_fields:function()
+		{
+			if (this._has_global_newsroom)
+			{
+				if (this.clientid.get("value") != -1 && this.clientid.get("value") != '-1')
+				{
+					this.newsroomid.set("value", -1);
+					dojo.addClass(this.newsroomid.domNode, "prmaxhidden");
+					dojo.addClass(this.newsroom_label, "prmaxhidden");
+				}
+				else
+				{
+					dojo.removeClass(this.newsroomid.domNode, "prmaxhidden");
+					dojo.removeClass(this.newsroom_label, "prmaxhidden");
+				}
+				if (this.newsroomid.get("value") != -1 && this.newsroomid.get("value") != '-1')
+				{
+					this.clientid.set("value", -1);
+					dojo.addClass(this.clientid.domNode, "prmaxhidden");
+					dojo.addClass(this.client_label, "prmaxhidden");
+				}
+				else
+				{
+					dojo.removeClass(this.clientid.domNode, "prmaxhidden");
+					dojo.removeClass(this.client_label, "prmaxhidden");
+				}
+			}
 		}
 
 	}

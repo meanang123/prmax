@@ -127,6 +127,7 @@ class SEOPageSchema(PrFormSchema):
 	cat_23 = BooleanValidator()
 	cat_24 = BooleanValidator()
 	cat_25 = BooleanValidator()
+	is_client_newsroom = BooleanValidator()
 
 
 class  PREmailDistSchema(PrFormSchema):

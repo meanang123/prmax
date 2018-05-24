@@ -252,7 +252,7 @@ class Client(BaseSql):
 				newsroom = dict(
 				  news_room_root=newsroom[0].news_room_root,
 				  about_template=newsroom[0].about_template,
-				  news_room_url=newsroom[0].get_news_room_url(),
+				  news_room_url=newsroom[0].get_news_room_url('client'),
 				  header_colour=newsroom[0].header_colour,
 				  link_1=dict(name="", url=""),
 				  link_2=dict(name="", url=""))
