@@ -45,7 +45,8 @@ setup(
               "prservices.emplcommunication",
               "prservices.cleanup",
               "prservices.unsubscribe",
-              "prservices.bouncemails"
+              "prservices.bouncemails",
+              "prservices.removedeplicateroles"
               ],
     package_data = {}
     )
