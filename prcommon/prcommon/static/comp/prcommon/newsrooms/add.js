@@ -78,6 +78,7 @@ dojo.declare("prcommon.newsrooms.add",
 			return false;
 		}
 		var content = dojo.mixin(this.newsroom_form.get("value"), this.contact_form.get("value"));
+		content['customerid'] = this.icustomerid;
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({

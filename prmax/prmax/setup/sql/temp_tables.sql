@@ -336,6 +336,10 @@ ALTER TABLE userdata.clientnewsroom ADD FOREIGN KEY (clientid) REFERENCES userda
 ALTER TABLE userdata.clientnewsroom ALTER COLUMN clientid DROP NOT NULL;
 ALTER TABLE userdata.clientnewsroom ADD COLUMN description character varying(80);
 
+GRANT ALL ON TABLE userdata.clientnewsroom_newsroomid_seq TO postgres;
+GRANT UPDATE ON TABLE userdata.clientnewsroom_newsroomid_seq TO prmax;
+GRANT UPDATE ON TABLE userdata.clientnewsroom_newsroomid_seq TO prmaxcontrol;
+
 ALTER TABLE userdata.clientnewsroomcustumlinks ALTER COLUMN clientid DROP NOT NULL;
 ALTER TABLE userdata.clientnewsroomcustumlinks ADD COLUMN newsroomid integer;
 ALTER TABLE userdata.clientnewsroomcustumlinks ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE RESTRICT;
@@ -345,7 +349,6 @@ ALTER TABLE userdata.clientnewsroomimage ALTER COLUMN clientid DROP NOT NULL;
 ALTER TABLE userdata.clientnewsroomimage ADD COLUMN newsroomid integer;
 ALTER TABLE userdata.clientnewsroomimage ADD FOREIGN KEY (newsroomid) REFERENCES userdata.clientnewsroom (newsroomid) ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE userdata.clientnewsroomimage ADD UNIQUE (newsroomid, imagetypeid);
-
 
 UPDATE userdata.clientnewsroomcustumlinks AS cncl
 SET newsroomid = cnr.newsroomid
@@ -394,6 +397,8 @@ ALTER TABLE userdata.clientnewsroomcustumlinks DROP CONSTRAINT un_linkname;
 ALTER TABLE userdata.clientnewsroomimage DROP CONSTRAINT un_control;
 
 ALTER TABLE userdata.clientnewroomcontactdetails ADD COLUMN instagram character varying;
+
+DROP INDEX userdata.index_clientnewsroom_root;
 
 ALTER TABLE internal.customers ADD COLUMN crm_outcome_page_1 boolean;
 ALTER TABLE internal.customers ALTER COLUMN crm_outcome_page_1 SET DEFAULT false;

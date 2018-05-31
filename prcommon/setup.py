@@ -44,6 +44,7 @@ setup(
               "prcommon.model.crm2",
               "prcommon.model.customer",
               "prcommon.model.cyberwatch",
+              "prcommon.model.dataclean",
               "prcommon.model.datafeeds",
               "prcommon.model.distribution",
               "prcommon.model.exports",

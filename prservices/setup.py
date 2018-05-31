@@ -46,7 +46,7 @@ setup(
               "prservices.cleanup",
               "prservices.unsubscribe",
               "prservices.bouncemails",
-              "prservices.removedeplicateroles"
+              "prservices.removeduplicateroles"
               ],
     package_data = {}
     )

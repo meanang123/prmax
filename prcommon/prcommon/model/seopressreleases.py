@@ -369,7 +369,7 @@ class SEORelease(BaseSql):
 		    filter(SeoNewsRooms.seoreleaseid==seo.seoreleaseid).all():
 			session.delete(row)
 			session.flush()
-		if params["newsrooms"] != None:
+		if params["newsrooms"] != None and params["newsrooms"] != "":
 			for newsroomid in params["newsrooms"]["data"]:
 				seonewsroom = SeoNewsRooms(
 			        seoreleaseid=seo.seoreleaseid,

@@ -49,8 +49,6 @@ def _run():
 
 def _duplicate_address(addressid):
 	
-	print (addressid)
-	
 	addr = Address.query.get(addressid)
 	new_addr = Address(address1=addr.address1,
                        address2=addr.address2,
@@ -68,8 +66,6 @@ def _duplicate_address(addressid):
 	return new_addr
 	
 def _duplicate_communication(communicationid):
-	
-	print(communicationid)
 	
 	com = Communication.query.get(communicationid)
 	new_addr = {}

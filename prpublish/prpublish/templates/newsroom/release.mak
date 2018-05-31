@@ -41,7 +41,7 @@
                             <a href='${correct_http_link(seorelease["ns_contact"].www)}' rel="nofollow" target="_blank">Link</a><br/><br/>
                         % endif
                         % if seorelease["ns_contact"].email:
-                            <a href="mailto:${seorelease["ns_contact"].email}'">Email</a><br/>
+                            <a href="mailto:${seorelease["ns_contact"].email}">Email</a><br/>
                         % endif
                         % if seorelease["ns_contact"].twitter:
                             <a href='${correct_http_link(seorelease["ns_contact"].twitter)}' rel="nofollow" target="_blank">Twitter</a><br/>
