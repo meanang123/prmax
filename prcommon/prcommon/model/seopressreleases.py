@@ -256,7 +256,7 @@ class SEORelease(BaseSql):
 					session.flush()
 					seo.seoimageid = seoimage.seoimageid
 
-				if 'newsrooms' in params and params['newsrooms'] != None:
+				if 'newsrooms' in params and params['newsrooms'] != None and params['newsrooms'] != '':
 					for newsroomid in params["newsrooms"]["data"]:
 						seonewsroom = SeoNewsRooms(
 					        seoreleaseid=seo.seoreleaseid,
@@ -463,7 +463,7 @@ class SEORelease(BaseSql):
 					session.flush()
 					seo.seoimageid = seoimage.seoimageid
 
-				if 'newsrooms' in params and params['newsrooms'] != None:
+				if 'newsrooms' in params and params['newsrooms'] != None and params['newsrooms'] != '':
 					for newsroomid in params["newsrooms"]["data"]:
 						seonewsroom = SeoNewsRooms(
 					        seoreleaseid=seo.seoreleaseid,
