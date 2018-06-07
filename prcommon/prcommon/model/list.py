@@ -29,7 +29,7 @@ class List(BaseSql):
 	FROM
 	userdata.listmembers as lm
 	JOIN userdata.list as l ON l.listid = lm.listid
-	JOIN outlets as o ON o.outletid = lm.outletid
+	JOIN outlets as o ON o.outletid = lm.outletid AND lm.outletid = ( SELECT outletid from employees WHERE employeeid = :employeeid LIMIT 1)
 	JOIN internal.listtypes AS lt ON lt.listtypeid = l.listtypeid
 
 	WHERE ( ( lm.employeeid = :employeeid) OR ( lm.employeeid IS NULL AND o.primaryemployeeid=:employeeid)) AND l.customerid = :customerid
@@ -37,7 +37,15 @@ class List(BaseSql):
 	ORDER BY  %s %s
 	LIMIT :limit OFFSET :offset
 	"""
-	Where_Used_Data_Count = """SELECT * FROM whereused_count(:employeeid, :customerid)"""
+	Where_Used_Data_Count = """SELECT COUNT(*) FROM (SELECT l.listid, l.listname, lt.listtypedescription, l.update_time
+	FROM
+	userdata.listmembers as lm
+	JOIN userdata.list as l ON l.listid = lm.listid
+	JOIN outlets as o ON o.outletid = lm.outletid AND lm.outletid = ( SELECT outletid from employees WHERE employeeid = :employeeid LIMIT 1)
+	JOIN internal.listtypes AS lt ON lt.listtypeid = l.listtypeid
+
+	WHERE ( ( lm.employeeid = :employeeid) OR ( lm.employeeid IS NULL AND o.primaryemployeeid=:employeeid)) AND l.customerid = :customerid
+	GROUP BY  l.listid, l.listname, lt.listtypedescription, l.update_time) AS t """
 
 	Command_List_Data = """SELECT CASE WHEN o.selected is NULL THEN false ELSE o.selected END as selected,l.listname as name, l.listid as listid FROM userdata.list as l left outer join userdata.listusers as o ON o.listid = l.listid AND o.userid = :userid  WHERE l.customerid = :customerid ORDER BY l.listname LIMIT :limit OFFSET :offset"""
 	Command_List_Count = """SELECT COUNT(*) FROM userdata.list  WHERE customerid = :customerid AND listname ILIKE :listname %s"""

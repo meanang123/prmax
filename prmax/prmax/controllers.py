@@ -174,11 +174,11 @@ class Root(controllers.RootController):
 				        password_guid = ''.join(uuid.uuid4().hex for _ in range(2)),
 				        userid=user.user_id,
 				        expirydate=datetime.now() + timedelta(hours=1)
-				    )	
+				    )
 					session.add(guid)
 					session.flush()
 					session.commit()
-					
+
 					link='http://test.app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
 					#link='http://app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
 					#link='http://prmaxtest.localhost/passwordrequest_word?guid=%s' % guid.password_guid
@@ -201,10 +201,10 @@ class Root(controllers.RootController):
 					sender = fromemailaddress
 					emailserver = SMTPServerGMail(
 				        username=fromemailaddress,
-				        password=Constants.SupportEmail_Password)	
+				        password=Constants.SupportEmail_Password)
 					(error, statusid) = emailserver.send(email, sender)
 					if not statusid:
-						raise Exception("Problem Sending Email")					
+						raise Exception("Problem Sending Email")
 					else:
 						redirect('/passwordrequest_success')
 				else:
@@ -263,7 +263,7 @@ class Root(controllers.RootController):
 		       and 'index_letter1' in request.body_params and 'index_letter2' in request.body_params:
 				if request.body_params['letter1'] == db_recovery_word[int(request.body_params['index_letter1'])-1] \
 			       and request.body_params['letter2'] == db_recovery_word[int(request.body_params['index_letter2'])-1]:
-					
+
 					newpassword = ''.join(random.choice('!@#$%&*' + string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(8))
 					while not any(ext in newpassword for ext in string.ascii_uppercase ) \
 				       or not any(ext in newpassword for ext in string.ascii_lowercase )\
@@ -272,7 +272,7 @@ class Root(controllers.RootController):
 						newpassword = ''.join(random.choice('!@#$%&*' + string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(8))
 					user.password = newpassword
 					session.commit()
-					
+
 					body = '<p>Hi %s,</p></br></br><p>Your password has been reset. Your temporary password is:<b>%s<b></p></br>'\
 				    '<p><b>Please note that the password is case sensitive.</b></p></br>'\
 				    '<p><b>You will need to use this password the next time you log in.</b></p></br>'\
@@ -289,7 +289,7 @@ class Root(controllers.RootController):
 					sender = fromemailaddress
 					emailserver = SMTPServerGMail(
 				        username=fromemailaddress,
-				        password=Constants.SupportEmail_Password)	
+				        password=Constants.SupportEmail_Password)
 					(error, statusid) = emailserver.send(email, sender)
 					if not statusid:
 						raise Exception("Problem Sending Email")
@@ -344,7 +344,7 @@ class Root(controllers.RootController):
 			and identity.was_login_attempted() \
 			and not identity.get_identity_errors():
 
-			user = User.by_user_name(request.body_params['user_name'])
+			user = User.query.get(identity.current.user.user_id)
 			customer = Customer.query.get(identity.current.user.customerid)
 			if user.invalid_login_tries >= 10 or user.invalid_reset_tries >= 10:
 				raise redirect("/locked")
