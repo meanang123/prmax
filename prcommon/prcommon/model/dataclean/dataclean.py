@@ -195,11 +195,23 @@ class CollateralClean(object):
     def start_service(self):
 
         prmaxcollateral = session.query(Collateral.collateralid).all()
-        collateral_todelete = session.query(ECollateral).filter(not_(ECollateral.collateralid.in_(prmaxcollateral))).all()
+        print 'prmaxcollateral: %s' %len(prmaxcollateral)
 
-        session.begin()
-        for collateralcollateral in collateral_todelete:
-            session.delete(collateralcollateral)
-            session.flush()
-        session.commit()
+        nbr = 0
+        for x in range(1, 137):
+            collateral_collateral = session.query(ECollateral).\
+                filter(ECollateral.collateralid < x*1000).filter(ECollateral.collateralid >= (x-1)*1000).all()
+
+            print 'collateral_collateral: %s' %len(collateral_collateral)
+            session.begin()
+            for col in collateral_collateral:
+                if col.collateralid not in prmaxcollateral:
+                    nbr += 1
+                    session.delete(col_collateral)
+                    if nbr%50 == 0:
+                        session.commit()
+                        session.begin()
+                        print '%5d:' % nbr
+            session.commit()
+        print 'Total deleted: %s' % nbr
 
