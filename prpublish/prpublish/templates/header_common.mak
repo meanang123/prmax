@@ -1,4 +1,4 @@
-<meta name="google-site-verification" content="fkUSFJkbcengmq-lRN0QVTjTu1n5A9HKlIFTeGJEOZg" />
+<meta name="google-site-verification" content="JRCQJlfKV204pREy5YjtlAlrskiwznWdIKXGY-gFqMo" />
 <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 <meta name="copyright" content="PRmax V${prpublish['version']} ${prpublish['copyright']}"></meta>
