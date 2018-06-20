@@ -1,0 +1,27 @@
+<div style="height:auto;width:auto;padding:0px !important">
+	<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="custom_dialog" style="height:auto;width:auto;min-width:150px;min-width:25vmin;padding:0px !important">
+		<table style="width:100%;height:100%">
+			<tr><td data-dojo-attach-point="header" colspan="3" class="dialog-header"></td></tr>
+			<tr>
+				<td data-dojo-attach-point="revyespanel" class="pprhidden dialog-button control-left control-dialog button-green" style="padding:0px">
+					<button title="Yes" data-dojo-attach-point="revyesbtn" style="border-radius:0px" data-dojo-attach-event="onClick:_getYes"><i class="fa fa-check"></i></button>
+				</td>
+				<td data-dojo-attach-point="nopanel" class="dialog-button control-left control-dialog button-red" style="padding:0px">
+					<button title="No" data-dojo-attach-point="nobtn" style="border-radius:0px" data-dojo-attach-event="onClick:_getNo"><i class="fa fa-times"></i></button>
+				</td>
+				<td data-dojo-attach-point="message" class="dialog-message"></td>
+				<td data-dojo-attach-point="yespanel" class="dialog-button control-right control-dialog button-green" style="padding:0px">
+					<button title="Yes" data-dojo-attach-point="yesbtn" style="border-radius:0px" data-dojo-attach-event="onClick:_getYes"><i class="fa fa-check"></i></button>
+				</td>
+				<td data-dojo-attach-point="revnopanel" class="pprhidden dialog-button control-right control-dialog button-red" style="padding:0px">
+					<button title="No" data-dojo-attach-point="revnobtn" style="border-radius:0px" data-dojo-attach-event="onClick:_getNo"><i class="fa fa-times"></i></button>
+				</td>
+			</tr>
+			<tr data-dojo-attach-point="okpanel">
+				<td class="dialog-button control-dialog-base" style="padding:0px">
+					<button title="OK" data-dojo-attach-point="okbtn" style="border-radius:0px" data-dojo-attach-event="onClick:_getYes">OK</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

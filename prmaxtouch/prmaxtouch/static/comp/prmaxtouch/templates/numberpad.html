@@ -1,0 +1,79 @@
+<div data-dojo-attach-event="onMouseDown:hold_focus">
+	<table><tr><td width="30%"></td><td width="25.95%" height="100%">
+		<table>
+			<tr>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_7">7</button>
+				</td>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_8">8</button>
+				</td>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_9">9</button>
+				</td>
+			</tr>
+			<tr>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_4">4</button>
+				</td>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_5">5</button>
+				</td>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_6">6</button>
+				</td>
+			</tr>
+			<tr>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_1">1</button>
+				</td>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_2">2</button>
+				</td>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_3">3</button>
+				</td>
+			</tr>
+			<tr data-dojo-attach-point="integer_row">
+				<td width="66%" colspan="2" class="button-large" data-dojo-attach-point="positiveonly">
+					<button data-dojo-attach-event="onMouseDown:press_0">0</button>
+				</td>
+				<td width="33%" class="button-large pprhidden" data-dojo-attach-point="negative">
+					<button data-dojo-attach-event="onMouseDown:press_minus">-</button>
+				</td>
+				<td width="33%" class="button-larger button-red">
+					<button data-dojo-attach-event="onMouseDown:press_del">DEL</button>
+				</td>
+			</tr>
+			<tr class="pprhidden" data-dojo-attach-point="decimal_row">
+				<td width="33%">
+					<button data-dojo-attach-event="onMouseDown:press_dot"><i class="fa fa-circle"></i></button>
+				</td>
+				<td width="33%" class="button-large">
+					<button data-dojo-attach-event="onMouseDown:press_0">0</button>
+				</td>
+				<td width="33%" class="button-largeish button-red">
+					<button data-dojo-attach-event="onMouseDown:press_del">DEL</button>
+				</td>
+			</tr>
+		</table>
+	</td><td width="30%"></td><td class="input-nav">
+		<table>
+			<tr>
+				<td class="button-orange">
+					<button title="Previous Input" data-dojo-attach-event="onMouseDown:move_up"><i data-dojo-attach-point="nav_prev" class="fa fa-arrow-circle-up fa-2x"></i></button>
+				</td>
+			</tr>
+			<tr>
+				<td class="button-black">
+					<button title="Close" data-dojo-attach-event="onMouseDown:_close"><i class="fa fa-times-circle fa-2x"></i></button>
+				</td>
+			</tr>
+			<tr>
+				<td class="button-orange">
+					<button title="Next Input" data-dojo-attach-event="onMouseDown:move_down"><i data-dojo-attach-point="nav_next" class="fa fa-arrow-circle-down fa-2x"></i></button>
+				</td>
+			</tr>
+		</table>
+	</td></tr></table>
+</div>

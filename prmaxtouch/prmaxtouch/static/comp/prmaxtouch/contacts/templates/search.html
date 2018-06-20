@@ -1,0 +1,47 @@
+<div data-dojo-attach-event="onKeyDown:keydown"  tabindex="0">
+	<div data-dojo-attach-point="container" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='gutters:false'>
+		<div data-dojo-attach-point="header_bar" data-dojo-type="prmaxtouch/contacts/search/headerbar" data-dojo-props='region:"top"'></div>
+		<div data-dojo-attach-point="mainpanel" class="main-panel" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false'>
+			<div data-dojo-type="dijit/layout/BorderContainer" class="control-left" data-dojo-props='gutters:false,region:"left"'>
+				<div data-dojo-attach-point="addpanel" data-dojo-type="dijit/layout/ContentPane" class="control-half button-green" data-dojo-props='region:"top"'>
+					<button data-dojo-attach-point="addbtn" title="Add" data-dojo-attach-event="onMouseDown:_add"><i class="fa fa-plus"></i></button>
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" class="control-onethird button-red" data-dojo-props='region:"bottom"'>
+					<button title="Reset" data-dojo-attach-event="onMouseDown:_reset"><i class="fa fa-undo"></i></button>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/layout/ContentPane" class="centre-panel" data-dojo-props='region:"center"'>
+				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/keyboard" data-dojo-attach-point="keyboard"></div>
+				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/numberpad" data-dojo-attach-point="numberpad"></div>
+				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/itemselector" data-dojo-attach-point="itemselector"></div>
+				<input type="hidden" data-dojo-props='name:"shoplocationid"' data-dojo-attach-point="shoplocationid" />
+				<input type="hidden" data-dojo-props='name:"ownerid"' data-dojo-attach-point="ownerid" />
+				<table class="form-panel"><tr><td>
+					<div class="gradienter"></div>
+					<table class="input-area" data-dojo-attach-point="formpanel">
+						<tr class="input-row">
+							<td>Name</td>
+							<td colspan="3"><input readonly data-dojo-props='type:"text",trim:true,name:"customername"' maxlength="50" data-dojo-attach-point="customername" data-dojo-attach-event="onFocus:name_focus,onKeyUp:name_focus,onMouseDown:name_focus,onBlur:delay_close" /></td>
+						</tr>
+				<tr class="empty-row">
+					<td colspan="3">
+						<div data-dojo-attach-point="no_results" class="pprhidden">
+							<table><tr>
+								<td style="width:1px"><i class="fa fa-minus-circle fa-lg"></i></td>
+								<td class="empty-cell">No Contacts found</td>
+								<td style="width:1px"><i class="fa fa-minus-circle fa-lg"></i></td>
+							</tr></table>
+						</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			<div data-dojo-type="dijit/layout/BorderContainer" class="control-right" data-dojo-props='gutters:false,region:"right"'>
+				<div data-dojo-type="dijit/layout/ContentPane" class="control-full" data-dojo-props='region:"center"'>
+					<button title="Search" data-dojo-attach-event="onMouseDown:_search"><i class="fa fa-search"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

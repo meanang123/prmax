@@ -1,0 +1,71 @@
+<div data-dojo-attach-event="onMouseDown:hold_focus">
+	<table><tr><td height="100%" style="vertical-align:top">
+		<table class="input-selector button-item pprhidden" data-dojo-attach-point="listers">
+			<tr height="16.6%">
+				<td data-dojo-attach-point="item_row1">
+					<button style="text-align:left" data-dojo-attach-point="item_1" data-dojo-attach-event="onMouseDown:press_item1">Item 1</button>
+				</td>
+			</tr>
+			<tr height="16.6%">
+				<td data-dojo-attach-point="item_row2">
+					<button style="text-align:left" data-dojo-attach-point="item_2" data-dojo-attach-event="onMouseDown:press_item2">Item 2</button>
+				</td>
+			</tr>
+			<tr height="16.6%">
+				<td data-dojo-attach-point="item_row3">
+					<button style="text-align:left" data-dojo-attach-point="item_3" data-dojo-attach-event="onMouseDown:press_item3">Item 3</button>
+				</td>
+			</tr>
+			<tr height="16.6%">
+				<td data-dojo-attach-point="item_row4">
+					<button style="text-align:left" data-dojo-attach-point="item_4" data-dojo-attach-event="onMouseDown:press_item4">Item 4</button>
+				</td>
+			</tr>
+			<tr height="16.6%">
+				<td data-dojo-attach-point="item_row5">
+					<button style="text-align:left" data-dojo-attach-point="item_5" data-dojo-attach-event="onMouseDown:press_item5">Item 5</button>
+				</td>
+			</tr>
+			<tr height="16.6%">
+				<td data-dojo-attach-point="item_row6">
+					<button style="text-align:left" data-dojo-attach-point="item_6" data-dojo-attach-event="onMouseDown:press_item6">Item 6</button>
+				</td>
+			</tr>
+		</table>
+	</td><td data-dojo-attach-point="scrollview" class="pprhidden scroll-view">
+		<div class="selector-scroll"><div data-dojo-attach-point="scrollbar"></div></div>
+	</td><td class="input-scroll" data-dojo-attach-point="scrollers">
+		<table>
+			<tr><td class="button-orange" data-dojo-attach-point="btn_top_cell">
+				<button data-dojo-attach-point="btn_top" data-dojo-attach-event="onMouseDown:item_top" title="Top"><i class="fa fa-angle-double-up fa-lg"></i></button>
+			</td></tr>
+			<tr><td class="button-orange" data-dojo-attach-point="btn_up_cell">
+				<button data-dojo-attach-point="btn_up" data-dojo-attach-event="onMouseDown:item_up" title="Up"><i class="fa fa-angle-up fa-lg"></i></button>
+			</td></tr>
+			<tr><td class="button-orange" data-dojo-attach-point="btn_down_cell">
+				<button data-dojo-attach-point="btn_down" data-dojo-attach-event="onMouseDown:item_down" title="Down"><i class="fa fa-angle-down fa-lg"></i></button>
+			</td></tr>
+			<tr><td class="button-orange" data-dojo-attach-point="btn_bottom_cell">
+				<button data-dojo-attach-point="btn_bottom" data-dojo-attach-event="onMouseDown:item_bottom" title="Bottom"><i class="fa fa-angle-double-down fa-lg"></i></button>
+			</td></tr>
+		</table>
+	</td><td class="input-nav">
+		<table>
+			<tr>
+				<td class="button-orange">
+					<button title="Previous Input" data-dojo-attach-event="onMouseDown:move_up"><i data-dojo-attach-point="nav_prev" class="fa fa-arrow-circle-up fa-2x"></i></button>
+				</td>
+			</tr>
+			<tr>
+				<td class="button-black">
+					<button title="Close" data-dojo-attach-event="onMouseDown:_close"><i class="fa fa-times-circle fa-2x"></i></button>
+				</td>
+			</tr>
+			<tr>
+				<td class="button-orange">
+					<button title="Next Input" data-dojo-attach-event="onMouseDown:move_down"><i data-dojo-attach-point="nav_next" class="fa fa-arrow-circle-down fa-2x"></i></button>
+				</td>
+			</tr>
+		</table>
+	</td></tr></table>
+</div>

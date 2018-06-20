@@ -1,0 +1,105 @@
+
+*{
+	margin:0;
+	padding:0;
+}
+body{
+	color:#FFFFFF;
+	font-family:Calibri, Arial, Helvetica, sans-serif;
+	font-size:100%;
+	background:#013E50;
+}
+a{
+	color:#FFFFFF;
+	text-decoration:none;
+}
+a:hover{
+	text-decoration:underline;
+}
+.container{
+	width:940px;
+	padding:0 10px;
+	margin:0 auto;
+	position:relative;
+}
+#header{
+	background:url(/static/images/header-gradient.png) center bottom repeat-x #026989;
+	border-bottom:solid 4px #026F8E;
+	height:87px;
+}
+	#pr-logo{
+		margin-top:8px;
+	}
+#main{
+	background:url(/static/images/middle-glow.jpg) center center no-repeat #0282A9;
+	overflow:hidden;
+}
+#bottom-gradient{
+	background:url(/static/images/middle-gradient.png) center bottom repeat-x transparent;
+	overflow:hidden;
+}
+	#main .container{
+		padding:19px 10px 44px 10px;
+	}
+	h1{
+		font-size:312.5%;
+		margin-bottom:6px;
+	}
+	p{
+		margin-bottom:1em;
+	}
+	label{
+		font-size:112.5%;
+		font-weight:bold;
+	}
+	#username,
+	#password{
+		width:274px;
+		padding:2px;
+		margin-top:8px;
+	}
+	#login-button{
+	}
+	#login-button:hover{
+		opacity:0.9;
+		filter:alpha(opacity=90);
+	}
+	#login-help{
+		display:inline-block;
+		margin:0 0 5px 45px;
+		font-weight:bold;
+		vertical-align:bottom;
+	}
+	#screenshot{
+		background:url(/static/images/screenshot-bg.png) left top no-repeat;
+		position:absolute;
+		bottom:0px;
+		right:0px;
+		width:420px;
+		height:244px;
+		padding:0px 26px 41px 32px;
+	}
+#bottom-strip{
+	background:url(/static/images/houses.gif) center bottom no-repeat #0282A9;
+	height:190px;
+}
+#footer{
+	background:#015770;
+	padding-top:12px;
+	overflow:hidden;
+}
+	#footer p{
+		font-size:87.5%;
+		line-height:160%;
+		width:50%;
+		float:left;
+	}
+	#footer p.adept-link{
+		font-size:75%;
+		width:50%;
+		float:right;
+		text-align:right;
+		margin-top:26px;
+	}
+
+

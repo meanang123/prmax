@@ -1,0 +1,27 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='gutters:false'>
+		<div class="header-bar" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top"'>
+			<table>
+				<tr>
+					<td class="header-icon header-logo header-left">
+						<img data-dojo-attach-point="headerimg" class="header-img" src="/prmax_common_s/images/prmax_logo.png" alt="PRMax Ltd"/>
+					</td>
+					<td class="header-main header-home">
+						<b data-dojo-attach-point="shop_name">Customer</b><br/>
+					</td>
+					<td data-dojo-attach-point="logoutcell" class="button-black header-right">
+						<button title="Logout" data-dojo-attach-point="logoutbtn" data-dojo-attach-event="onMouseDown:_logout"><i class="fas fa-sign-out-alt fa-2x"></i></button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="menu-options menu-home" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"'>
+			<table><tr><td class="menu-panel menu-options" style="text-align:center;vertical-align:middle;padding:0 !important">
+				<div style="width:auto !important;height:auto !important">
+					<button data-dojo-attach-event="onMouseDown:_enquiry"><div class="button-icon"><i class="fas fa-users fa-4x"></i></div><div>Enquiry</div></button>
+					<button data-dojo-attach-event="onMouseDown:_outlet"><div class="button-icon"><i class="fas fa-newspaper fa-4x"></i></div><div>Outlets</div></button>
+				</div>
+			</td></tr></table>
+		</div>
+	</div>
+</div>
