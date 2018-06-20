@@ -34,8 +34,9 @@ def add_config_details(in_dict, nocache = True, app = None):
 				dojodebug=config.get('prmax.dojodebug'),
 				release=config.get('prmax.release'),
 				dojoversion=config.get('prmax.dojoversion'),
-			  prodpath=config.get('prmax.prodpath'),
-				copyright=config.get('prmax.copyright').decode('utf-8'))
+			    prodpath=config.get('prmax.prodpath'),
+				copyright=config.get('prmax.copyright').decode('utf-8'),
+				fashion='modern')
 
 		# add settings
 		adict = in_dict
