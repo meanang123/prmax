@@ -176,8 +176,6 @@ return declare("prmaxtouch.contacts.search.search",
 	{
 		this.input_focus(this.customername,this.keyboard);
 		var prevcontrol = this.accnbr;
-		if (!domclass.contains(this.subscriptionid, "pprhidden"))
-			prevcontrol = this.subscriptionid;
 		this.keyboard.push_focus(this.customername,prevcontrol,this.customeraddress);
 	},
 

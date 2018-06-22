@@ -4,7 +4,7 @@
 	<head><%include file="/prmaxtouch/templates/prmaxtouch_header.mak"/></head>
 	<body oncontextmenu="return false;" id="main" class="claro ${fashion}">
 		<table id="wait"><tr><td><i class="fa fa-spinner fa-4x fa-pulse"></i></td></tr></table>
-		<div class="main-div" data-dojo-type="prmaxtouch/contacts/search/search" data-dojo-props='' </div>
+		<div class="main-div" data-dojo-type="prmaxtouch/contacts/search/search" data-dojo-props='kb:1' </div>
 		<script type="text/javascript" >
 			require(["dojo/ready"], function(ready) {
 				ready(function() {
