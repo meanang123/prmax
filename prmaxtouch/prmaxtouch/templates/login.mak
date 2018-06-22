@@ -19,7 +19,7 @@
 <tr><td style="background-color:#dfeffb;vertical-align:top;text-align:center;height:100%">
 	<div id="header" style="background:rgb(2,130,169);height:13vmin;border-bottom:solid 0.6vmin #026F8E">
 			<div style="width:100%">
-				<img id="pr-logo" src="/prmaxtouch_s/images/prmaxlogo.png" style="height:11vmin;margin:1vmin 2vmin;float:right" alt="Prmax Ltd" />        </div>
+				<img id="pr-logo" src="/prmax_common_s/images/prmax_logo.png" style="height:11vmin;margin:1vmin 2vmin;float:right" alt="Prmax Ltd" />        </div>
 			</div>
 		<div style="margin-top:9.5vmin;background:#dfeffb">
 					<div>

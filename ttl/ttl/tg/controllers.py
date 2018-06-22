@@ -151,7 +151,7 @@ class EmbeddedBaseController(SecureControllerExt):
 	""" must be active and embedded """
 
 	# must be active and a memebr of admin
-	require = identity.in_all_groups("active","embedded")
+	require = identity.in_all_groups("active")
 
 	def __init__(self):
 		SecureControllerExt.__init__(self)

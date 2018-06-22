@@ -14,6 +14,7 @@ create_session()
 LOGGER = logging.getLogger("prmaxtouch")
 
 from prcommon.sitecontrollers import OpenController
+from prmaxtouch.sitecontrollers.contacts.contacts import ContactsController
 from model import User
 
 __all__ = ['Root']
@@ -21,6 +22,7 @@ __all__ = ['Root']
 class Root(controllers.RootController):
     """The root controller of the application."""
     lookups = OpenController()
+    contacts = ContactsController()
 
     @expose("")
     def index(self, *args, **params):

@@ -1,4 +1,4 @@
-<title>PaperRound</title>
+<title>Prmax Ltd</title>
 <link rel="shortcut icon" type="image/x-icon" href="/prmaxtouch_s/images/prmax.ico"/>
 <%include file="/prmaxtouch/templates/common/meta_standard.mak"/>
 <style type="text/css" media="screen">
