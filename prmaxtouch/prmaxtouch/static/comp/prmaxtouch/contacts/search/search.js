@@ -10,13 +10,13 @@ define([
 	"dijit/focus",
 	"dijit/layout/BorderContainer",
 	"dijit/layout/ContentPane",
-	"prmaxtouch/customer/search/headerbar",
+	"prmaxtouch/contacts/search/headerbar",
 	"prmaxtouch/numberpad",
 	"prmaxtouch/keyboard",
 	"prmaxtouch/itemselector"
 	],
 	function(declare, BaseWidgetAMD, template, lang, domclass, domattr, domstyle, topic, focusutil){
-return declare("prmaxtouch.search.search",
+return declare("prmaxtouch.contacts.search.search",
 	[BaseWidgetAMD],{
 	templateString:template,
 	statusid:-1,
@@ -230,7 +230,7 @@ return declare("prmaxtouch.search.search",
 
 	_search:function()
 	{
-		searchstring = "/contacts/search/?";
+		searchstring = "/contacts/search/do_search?";
 		if (this.customername.value > "")
 			searchstring += "&customername=" + encodeURIComponent(this.customername.value);
 		window.location = searchstring;

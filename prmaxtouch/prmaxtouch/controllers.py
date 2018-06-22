@@ -22,7 +22,7 @@ __all__ = ['Root']
 class Root(controllers.RootController):
     """The root controller of the application."""
     lookups = OpenController()
-    contacts = ContactsController()
+    contact = ContactsController()
 
     @expose("")
     def index(self, *args, **params):

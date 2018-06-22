@@ -27,12 +27,12 @@ define([
 	},
     _enquiry:function()
     {
-		window.location = "/contact/search" ;
+		window.location = "/contact/search/search" ;
 	},
 
     _outlet:function()
     {
-        window.location = "/outlet/search";
+        window.location = "/outlet/search/search";
 	},
     _logout:function()
     {

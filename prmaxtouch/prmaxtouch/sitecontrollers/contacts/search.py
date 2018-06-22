@@ -14,6 +14,7 @@ from turbogears import expose, validate, exception_handler, view
 from ttl.tg.controllers import EmbeddedBaseController
 from ttl.tg.validators import std_state_factory, RestSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler
+from prcommon.lib.common import add_config_details
 
 class SearchContactController(EmbeddedBaseController):
 	""" Search controller """
@@ -24,7 +25,7 @@ class SearchContactController(EmbeddedBaseController):
 	def search(self, *args, **params):
 		""" return the search criteria page"""
 
-		data = dict()
+		data = add_config_details(params)
 		html = view.render(data, 'prmaxtouch.templates.contacts.search')
 
 		return slimmer.xhtml_slimmer(html)
@@ -35,8 +36,8 @@ class SearchContactController(EmbeddedBaseController):
 	def results(self, *args, **params):
 		""" return the search results page """
 
-		data = dict()
-		html = view.render(data, 'prmaxtouch.templates.contactsresults')
+		data = add_config_details(params)
+		html = view.render(data, 'prmaxtouch.templates.contacts.results')
 
 		return slimmer.xhtml_slimmer(html)
 

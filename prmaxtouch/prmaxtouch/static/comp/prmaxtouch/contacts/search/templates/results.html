@@ -1,0 +1,42 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='gutters:false'>
+		<div data-dojo-attach-point="header_bar" data-dojo-type="prmaxtouch/contacts/search/headerbar" data-dojo-props='region:"top"'></div>
+		<div data-dojo-attach-point="mainpanel" class="main-panel" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false'>
+			<div data-dojo-type="dijit/layout/BorderContainer" class="control-left" data-dojo-props='gutters:false,region:"left"'>
+				<div data-dojo-attach-point="backbtn" data-dojo-type="dijit/layout/ContentPane" class="control-quarter control-bottom-square" data-dojo-props='region:"top"'>
+					<button title="Back" data-dojo-attach-event="onMouseDown:_back"><i class="fa fa-arrow-left"></i></button>
+				</div>
+				<div data-dojo-attach-point="addbtn" data-dojo-type="dijit/layout/ContentPane" class="control-quarter control-top-square button-green" data-dojo-props='region:"top"'>
+					<button title="Add" data-dojo-attach-event="onMouseDown:_add"><i class="fa fa-plus"></i></button>
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" class="pprhidden control-half button-green" data-dojo-props='region:"bottom"'>
+					<button class="pprhidden" title="Add" data-dojo-attach-event="onMouseDown:_back"><i class="fa fa-plus"></i></button>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/layout/BorderContainer" class="centre-panel" data-dojo-attach-point="list_container" data-dojo-props='region:"center"'>
+				<div data-dojo-type="dijit/layout/ContentPane" class="list-panel" data-dojo-attach-point="list_panel" data-dojo-props='region:"center",loadingMessage:"<table class=\"loading\"><tr><td><i class=\"fa fa-spinner fa-4x fa-pulse\"></i></td></tr></table>"'></div>
+			</div>
+			<div data-dojo-attach-point="nav_control" data-dojo-type="dijit/layout/BorderContainer" class="control-right button-orange" data-dojo-props='gutters:false,region:"right"'>
+				<div data-dojo-attach-point="btn_first" data-dojo-type="dijit/layout/ContentPane" class="control-single control-bottom-square" data-dojo-props='region:"top"'>
+					<button title="First Page" data-dojo-attach-event="onMouseDown:page_first"><i class="fa fa-angle-double-up fa-lg"></i></button>
+				</div>
+				<div data-dojo-attach-point="btn_previous" data-dojo-type="dijit/layout/ContentPane" class="control-single control-top-square control-bottom-square" data-dojo-props='region:"top"'>
+					<button title="Previous Page" data-dojo-attach-event="onMouseDown:page_previous"><i class="fa fa-angle-up fa-lg"></i></button>
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" class="page-cell" data-dojo-props='region:"center"'>
+					<table>
+						<tr><td data-dojo-attach-point="page_status"></td></tr>
+						<tr class="page-total-cell"><td data-dojo-attach-point="page_total"></td></tr>
+					</table>
+				</div>
+				<div data-dojo-attach-point="btn_last" data-dojo-type="dijit/layout/ContentPane" class="control-single control-top-square" data-dojo-props='region:"bottom"'>
+					<button title="Last Page" data-dojo-attach-event="onMouseDown:page_last"><i class="fa fa-angle-double-down fa-lg"></i></button>
+				</div>
+				<div data-dojo-attach-point="btn_next" data-dojo-type="dijit/layout/ContentPane" class="control-single control-top-square control-bottom-square" data-dojo-props='region:"bottom"'>
+					<button title="Next Page" data-dojo-attach-event="onMouseDown:page_next"><i class="fa fa-angle-down fa-lg"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

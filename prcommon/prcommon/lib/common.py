@@ -42,6 +42,7 @@ def add_config_details(in_dict, nocache = True, app = None):
 		adict = in_dict
 		adict['prmax'] = GLOBALD
 		adict['prmaxapp'] = app
+		adict['fashion'] = 'modern'
 
 		if nocache:
 			set_default_response_settings()
