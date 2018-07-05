@@ -17,6 +17,8 @@ import email
 import StringIO
 import logging
 import uuid
+import spf
+import dns.resolver
 from urlparse import urlparse
 from datetime import datetime, date, timedelta
 from turbogears.database import metadata, mapper, session, config
@@ -43,6 +45,7 @@ from prcommon.model.contact import Contact
 from prcommon.model.employee import Employee
 from prcommon.model.outlet import Outlet
 from prcommon.model.customer.activity import Activity
+from prcommon.model.internal import AuditTrail
 
 CRYPTENGINE = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
@@ -551,6 +554,39 @@ class EmailTemplates(BaseSql):
 			transaction.rollback()
 			raise
 
+	@classmethod
+	def check_return_address(cls, params):
+
+		try:
+			returnaddress = params['returnaddress']
+			domain = returnaddress.split("@")[1].lower()
+			status = 0 
+			ans1 = ans2 = None
+			try:
+				ans1 = dns.resolver.query(domain, 'MX')
+			except:
+				status=1
+			try:
+				ans2 = dns.resolver.query(domain, 'A')
+			except:
+				status=1
+			
+			if ans2:
+				for rdata in ans2:
+					check = spf.check(i=unicode(rdata), s=returnaddress, h=domain)
+					if check[0] != 'pass':
+						status = 2
+				
+			return status
+		except:
+			LOGGER.exception("EmailTemplate_check_return_address")
+			raise				
+		
+	
+	@classmethod
+	def check_domain(domain):
+		answers1 = dns.resolver.query(domain, 'MX')
+		answers2 = dns.resolver.query(domain, 'A')
 
 	@classmethod
 	def update_content(cls, params):
@@ -887,7 +923,7 @@ class EmailTemplates(BaseSql):
 		        userid=params['user_id'],
 		        objectid=emailtemplate.emailtemplateid,
 		        objecttypeid=4, #distribution
-		        actiontypeid=7, #re-send
+		        actiontypeid=9 if params['choice'] == 'continue' else 7, #send
 		        description=emailtemplate.subject
 		    )
 			session.add(activity)

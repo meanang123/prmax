@@ -290,6 +290,8 @@ class Collateral(BaseSql):
 		else:
 			whereextra = " AND ( c.emailtemplateid  = :emailtemplateid  OR c.emailtemplateid IS NULL)"
 
+		whereextra += " ORDER BY collateralid DESC"
+
 		return BaseSql.getListPage(params,
 		                           'collateralcode',
 		                           'collateralid',

@@ -71,7 +71,7 @@ dojo.declare("prmax.editor._CollateralButton",
 	_add_collateral_event:function(collateral)
 	{
 		this.add_dialog.hide();
-		this.select.set("value", collateral.collateralid);
+		this.select.set("value", collateral.collateralid, false);
 	},
 
 /*	_setValueAttr: function(value, priorityChange){

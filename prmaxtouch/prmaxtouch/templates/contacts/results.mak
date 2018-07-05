@@ -4,7 +4,11 @@
 	<head><%include file="/prmaxtouch/templates/prmaxtouch_header.mak"/></head>
 	<body oncontextmenu="return false;" id="main" class="claro ${fashion}">
 		<table id="wait"><tr><td><i class="fa fa-spinner fa-4x fa-pulse"></i></td></tr></table>
-		<div class="main-div" data-dojo-type="prmaxtouch/contacts/search/results" data-dojo-props=''/>
+		<div class="main-div" data-dojo-type="prmaxtouch/contacts/search/results" data-dojo-props='
+		contacthistory:${contacthistory},
+		familyname:"${familyname}",
+		firstname:"${firstname}"
+		'/>
 		</div>
 		<script type="text/javascript" >
 			require(["dojo/ready"], function(ready) {

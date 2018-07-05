@@ -178,6 +178,16 @@ return declare("prmaxtouch.contacts.search.search",
 		var prevcontrol = this.accnbr;
 		this.keyboard.push_focus(this.customername,prevcontrol,this.customeraddress);
 	},
+	familyname_focus:function()
+	{
+		this.input_focus(this.familyname,this.keyboard);
+		this.keyboard.push_focus(this.familyname,this.firstname,this.firstname);
+	},
+	firstname_focus:function()
+	{
+		this.input_focus(this.firstname,this.keyboard);
+		this.keyboard.push_focus(this.firstname,this.familyname,this.familyname);
+	},
 
 	address_focus:function()
 	{
@@ -218,19 +228,22 @@ return declare("prmaxtouch.contacts.search.search",
 
 	_add:function()
 	{
-		window.location = "/customer/new" + this.pq;
+		window.location = "/enquiries/new";
 	},
 
 	_reset:function()
 	{
-		this.customername.value = "";
+		this.familyname.value = "";
+		this.firstname.value = "";
 	},
 
 	_search:function()
 	{
-		searchstring = "/contacts/search/do_search?";
-		if (this.customername.value > "")
-			searchstring += "&customername=" + encodeURIComponent(this.customername.value);
+		searchstring = "/contact/search/results?";
+		if (this.familyname.value > "")
+			searchstring += "&familyname=" + encodeURIComponent(this.familyname.value);
+		if (this.firstname.value > "")
+			searchstring += "&firstname=" + encodeURIComponent(this.firstname.value);
 		window.location = searchstring;
 	},
 
@@ -245,7 +258,87 @@ return declare("prmaxtouch.contacts.search.search",
 		chr = evt.charCode;
 		if (((chr > 0 && chr < 48) || chr > 57) && (this.ctrldown == false || chr == 118))
 			evt.preventDefault();
-	}
+	},
+	
+	page_first:function()
+	{
+		if (this.listpage > 1)
+			this.goto_page(1);
+	},
+
+	page_previous:function()
+	{
+		if (this.listpage > 1)
+			this.goto_page(this.listpage - 1);
+	},
+
+	page_next:function()
+	{
+		if (this.listpage < this.maxpage)
+			this.goto_page(this.listpage + 1);
+	},
+
+	page_last:function()
+	{
+		if (this.listpage < this.maxpage)
+			this.goto_page(this.maxpage);
+	},
+
+	goto_page:function(listpage)
+	{
+		this.listpage = listpage;
+		var listtotal = this.listpage * 6;
+		if (listtotal > this.total)
+			listtotal = this.total;
+		if (this.total == 0)
+		{
+			this.page_status.innerHTML = "0";
+			this.page_total.innerHTML = "0";
+		}
+		else
+		{
+			this.page_status.innerHTML = this.listpage;
+			this.page_total.innerHTML = this.maxpage;
+		}
+		
+		if (this.listpage > 1)
+		{
+			domclass.remove(this.btn_first.domNode,"button-disabled");
+			domclass.remove(this.btn_previous.domNode,"button-disabled");
+		}
+		else
+		{
+			domclass.add(this.btn_first.domNode,"button-disabled");
+			domclass.add(this.btn_previous.domNode,"button-disabled");
+		}
+		if (this.listpage < this.maxpage)
+		{
+			domclass.remove(this.btn_next.domNode,"button-disabled");
+			domclass.remove(this.btn_last.domNode,"button-disabled");
+		}
+		else
+		{
+			domclass.add(this.btn_next.domNode,"button-disabled");
+			domclass.add(this.btn_last.domNode,"button-disabled");
+		}
+
+		if (this.maxpage > 1)
+		{
+			domclass.remove(this.list_container.domNode, "right-panel");
+			domclass.remove(this.nav_control.domNode, "pprhidden");
+		}
+		else
+		{
+			domclass.add(this.list_container.domNode, "right-panel");
+			domclass.add(this.nav_control.domNode, "pprhidden");
+		}
+
+		var liststring = this.searchstring.toString();
+		if (this.searchurl)
+			liststring += "&searchurl=" + this.searchurl;
+		this.list_panel.set("href", liststring + "&listpage=" + this.listpage + "&criteriaurl=" + this.criteriaurl + this.pq);
+	},
+	
 });
 });
 

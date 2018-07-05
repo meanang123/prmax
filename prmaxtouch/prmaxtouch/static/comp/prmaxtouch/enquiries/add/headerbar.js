@@ -2,7 +2,7 @@ define([
 	"dojo/_base/declare", // declare
 	"prmaxtouch/customdialog",
 	"ttl/BaseWidgetAMD",
-	"dojo/text!../search/templates/headerbar.html",
+	"dojo/text!../add/templates/headerbar.html",
 	"dojo/_base/lang",
 	"dojo/dom-class",
 	"dojo/dom-attr",
@@ -11,7 +11,7 @@ define([
 	"dijit/layout/BorderContainer"
 	],
 	function(declare, customdialog, BaseWidgetAMD, template, lang, domclass, domattr, topic, ContentPane){
-return declare("prmaxtouch.contacts.search.headerbar",
+return declare("prmaxtouch.enquiries.add.headerbar",
 	[BaseWidgetAMD, ContentPane],{
 	templateString:template,
 	pprdialog:new customdialog(),

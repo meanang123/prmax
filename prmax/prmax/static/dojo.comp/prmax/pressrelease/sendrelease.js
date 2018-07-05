@@ -22,6 +22,7 @@ dojo.require("prmax.pressrelease.seo.edit");
 
 dojo.require("prmax.pressrelease.distributiontemplate.template_add");
 dojo.require("prmax.pressrelease.removelistmembers");
+dojo.require("prmax.pressrelease.emailvalidation");
 
 dojo.declare("prmax.pressrelease.sendrelease",
 	[ ttl.BaseWidget ],
@@ -49,6 +50,9 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			this._Step_3_Std_Next_CallBack = dojo.hitch(this, this._Step_3_Std_Next_Call);
 			this._SeoLoadCallBack = dojo.hitch ( this, this._SeoLoadCall);
 			this._SeoLoadCall2Back = dojo.hitch( this, this._SeoLoadCall2 );
+			this._ValidateReplyAddressCallBack = dojo.hitch( this, this._ValidateReplyAddressCall );
+			this._get_choice_call_back = dojo.hitch(this, this._get_choice_call);
+			
 
 			this.select_menu = null;
 			this.selected_menu = null;
@@ -56,6 +60,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 
 			this._modified = false;
 			this._releasesent = false ;
+			this.choice = null;
 
 			this.select_model = new prcommon.data.QueryWriteStore (
 				{url:'/lists/release_select',
@@ -91,6 +96,7 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			dojo.subscribe(PRCOMMON.Events.Word_Html_Data, dojo.hitch(this,this._Word_Html_Data_Event));
 			dojo.subscribe("/distribution/listmembers_remove", dojo.hitch(this,this._Remove_Selected_ListMembers_Event));
 			dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
+			dojo.subscribe('/send_release/check_replyaddress', dojo.hitch(this, this._get_choice_event));
 
 			this._Load_Page_Loaded_2 = false;
 		},
@@ -139,6 +145,15 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			this._show_add_footer_call_back = dojo.hitch(this, this._show_add_call, this.templatefooterid);
 			this._show_add_header_call_back = dojo.hitch(this, this._show_add_call, this.templateheaderid);
 
+			if (PRMAX.utils.settings.seo)
+			{
+				dojo.attr(this.step5_name, 'innerHTML', 'Step 5');
+			}
+			else
+			{
+				dojo.attr(this.step5_name, 'innerHTML', 'Step 4');
+			}
+			
 			dojo.attr(this.usetemplates, 'label', 'Use ' + PRMAX.utils.settings.distribution_description + ' Templates');
 			dojo.attr(this.step1_label, 'innerHTML', 'Upload Your ' + PRMAX.utils.settings.distribution_description);
 			dojo.attr(this.step3_label, 'innerHTML', 'Modify ' + PRMAX.utils.settings.distribution_description + ' Lists');
@@ -171,6 +186,15 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		},
 		_UpdateDistributionLabelEvent:function()
 		{
+			if (PRMAX.utils.settings.seo)
+			{
+				dojo.attr(this.step5_name, 'innerHTML', 'Step 5');
+			}
+			else
+			{
+				dojo.attr(this.step5_name, 'innerHTML', 'Step 4');
+			}
+
 			dojo.attr(this.usetemplates, 'label', 'Use ' + PRMAX.utils.settings.distribution_description + ' Templates');
 			dojo.attr(this.step1_label, 'innerHTML', 'Upload Your ' + PRMAX.utils.settings.distribution_description);
 			dojo.attr(this.step3_label, 'innerHTML', 'Modify ' + PRMAX.utils.settings.distribution_description + ' Lists');
@@ -605,6 +629,10 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				} ));
 		},
 		// email sent
+		_check_and_send:function()
+		{
+			this._ValidateReplyAddress();
+		},
 		_Sent:function( response )
 		{
 			if ( response.success=="OK")
@@ -624,15 +652,15 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			this.send.cancel();
 			this.send2.cancel();
 			dojo.removeClass(this.send_prev.domNode,"prmaxhidden");
+			this.savechangesbtn.set('disabled',false);
+			this.preview.set('disabled',false);
 		},
 		// send a complete list as an email
 		_Send:function()
 		{
 			/// this.Lock_Code_Wait();
-
 			try
 			{
-
 				if ( this._releasesent == true )
 				{
 					alert(PRMAX.utils.settings.distribution_description + " Already Sent");
@@ -702,6 +730,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 				dojo.addClass(this.send_prev.domNode,"prmaxhidden");
 				this.send.makeBusy();
 				this.send2.makeBusy();
+				this.savechangesbtn.set('disabled',true);
+				this.preview.set('disabled',true);
 
 				dojo.xhrPost(
 					ttl.utilities.makeParams(
@@ -720,7 +750,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 							embargo_time:ttl.utilities.toJsonTime(this.embargo_time.get("value")),
 							emailsendtypeid : this.emailsendtypeid.get("value"),
 							templateheaderid:this.templateheaderid.get("value"),
-							templatefooterid:this.templatefooterid.get("value")
+							templatefooterid:this.templatefooterid.get("value"),
+							choice:this._choice
 							}
 					} ));
 				}
@@ -728,7 +759,65 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			{
 				this.UnLock_Code();
 			}
+		},
+		_ValidateReplyAddress:function()
+		{
+			content = {};
+			content['returnaddress'] = this.email.get("value");
+			dojo.xhrPost(
+				ttl.utilities.makeParams({
+					load: this._ValidateReplyAddressCallBack,
+					url:'/emails/validate_reply_address',
+					content: content
+				} ));
+		},
+		_ValidateReplyAddressCall:function(response)
+		{
+			if (response.success == 'OK')
+			{
+				if (response.data == '1')
+				{
+					//this.validate_email_ctrl.set("dialog",this.validate_email_dlg, 'The domain name of the reply address "'+this.email.get("value")+'" you entered is not correct.');
+					this.validate_email_ctrl._load(this.validate_email_dlg,'The domain name <b>'+this.email.get("value")+'</b> is not correct.');
+					this.validate_email_dlg.show();
+					
+				}
+				else if (response.data == '2')
+				{
+					//this.validate_email_ctrl.set("dialog",this.validate_email_dlg, 'PRMax is not authirised to send emails on behalf of '+ this.email.get("value"));
+					this.validate_email_ctrl._load(this.validate_email_dlg,'PRMax is not authirised to send emails on behalf of <b>'+ this.email.get("value") +'<b>');
+					this.validate_email_dlg.show();
+				}
 
+			}
+			else
+			{
+				alert("Problem validating reply address");	
+			}
+			this.validatereplyaddress.cancel();
+		},
+		_get_choice_event:function(choice)
+		{
+			if (choice == 'retry')
+			{
+				this._choice = 'retry'
+				this.send.cancel();
+				this.send2.cancel();
+				dojo.removeClass(this.send_prev.domNode,"prmaxhidden");
+				this.savechangesbtn.set('disabled',false);
+				this.preview.set('disabled',false);	
+				this.email.focus();
+			}
+			if (choice == 'continue')
+			{
+				this._choice = 'continue'
+				this._Send();
+			}
+
+		},
+		_get_choice_call:function(response)
+		{
+			alert('test');
 		},
 		_Previewed:function( response )
 		{

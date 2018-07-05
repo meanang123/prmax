@@ -343,6 +343,17 @@ class EmailController(SecureController):
 
 		return stdreturn(data=dict(sent=0, total=0))
 
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	def validate_reply_address(self, *args, **params):
+		""" check the return email address"""
+
+		status = EmailTemplates.check_return_address(params)
+		return stdreturn(data=status)
+
 	@expose("")
 	def wordtohtml_add(self, *args, **params):
 		""" return the template for an outlet based upont ht etype of outlet"""

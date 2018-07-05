@@ -81,6 +81,27 @@ class QueryHistory(BaseSql):
 			transaction.rollback()
 			raise
 
+	@classmethod
+	def toresearch (cls, params ) :
+		""" Change a query to be or not visible to research application"""
+		try:
+			transaction = cls.sa_get_active_transaction()
+
+			query = QueryHistory.query.get ( params["queryhistoryid"])
+			if query:
+				if params['visibletoresearch'] == True:
+					query.typeid = 1
+				else:
+					query.typeid = 0
+
+			transaction.commit()
+
+		except:
+			LOGGER.exception("QueryHistory_toresearch")
+			transaction.rollback()
+			raise
+
+
 class AdHocQuery( BaseSql ):
 	"""  AdHocQuery """
 	@classmethod

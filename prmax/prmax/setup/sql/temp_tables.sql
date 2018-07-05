@@ -450,5 +450,8 @@ $BODY$
   COST 100;
 ALTER FUNCTION employee_empty(integer) OWNER TO postgres;
 
+UPDATE userdata.clippings SET clippingstoneid = 3 WHERE clippingstoneid = 6;
+DELETE FROM internal.clippingstone WHERE clippingstoneid = 6;
+UPDATE research.datasourcetranslations SET translation = 3 where datasourcetranslationid = 858;
 
-
+INSERT INTO internal.actiontypes VALUES (9, 'Send - domain check failed');

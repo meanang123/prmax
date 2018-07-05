@@ -11,6 +11,7 @@
 						<input type="hidden"  dojoAttachPoint="tmp_to_excel" name = "tmp_cache" dojoType="dijit.form.TextBox" >
 					<button type="submit" dojoType="dijit.form.Button" label="To Excel" ></button>
 				</form></td>
+				<td align="right">Visible to Research</td><td><input name="visibletoresearch" type="checkbox" dojoAttachPoint="visibletoresearch"  dojotype="dijit.form.CheckBox" dojoAttachEvent="onClick:_VisibleToResearch" /></td>
 				<td align="right"><button dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Save">Save As</button><select dojoAttachPoint="select" dojotype ="dijit.form.FilteringSelect"  searchAttr="subject" labelType="html" ></select><button dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Load">Load</button></td></tr></table>
 				<br/>
 			</div>

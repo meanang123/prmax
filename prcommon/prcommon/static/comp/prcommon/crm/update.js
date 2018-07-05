@@ -88,6 +88,8 @@ dojo.declare("prcommon.crm.update",
 		this.contacthistorytypeid.store = this._contacthistorytypes;
 		this.issueid.store = this._issues;
 		this.clientid.set("store", this._clients);
+		dojo.attr(this.sendreplybtn, "disabled", true);
+
 		if (PRMAX.utils.settings.required_client)
 		{
 			dojo.addClass(this.clientid,"prmaxrequired");
@@ -211,6 +213,15 @@ dojo.declare("prcommon.crm.update",
 				this.contact.set("value", response.data.contact.contactid);
 			}
 			this.contact.set("Displayvalue", display);
+
+			if (response.data.ch.crm_response == '')
+			{
+				this.sendreplybtn.set("disabled", true);
+			}
+			else
+			{
+				this.sendreplybtn.set("disabled", false);
+			}
 
 			this.taken.set("value", ttl.utilities.fromJsonDate( response.data.ch.taken) );
 			this.taken_by.set("value",response.data.ch.taken_by);

@@ -14,7 +14,7 @@ from turbogears import expose, validate, validators, error_handler, \
 	 exception_handler, identity
 from ttl.tg.errorhandlers import pr_std_exception_handler, pr_form_error_handler, \
      pr_std_exception_handler_text
-from ttl.tg.validators import std_state_factory, PrFormSchema, RestSchema, PrGridSchema
+from ttl.tg.validators import std_state_factory, PrFormSchema, RestSchema, PrGridSchema, BooleanValidator
 from ttl.tg.controllers import SecureController, set_output_as
 from ttl.base import stdreturn
 from prcommon.model import AdHocQuery, QueryHistory
@@ -36,6 +36,10 @@ class  QuerySchema(PrFormSchema):
 	""" load a query schema"""
 	query_text = validators.String(not_empty=True)
 
+class  ToResearchSchema(PrFormSchema):
+	""" make a query visible to research"""
+	visibletoresearch = BooleanValidator()
+	queryhistoryid = validators.Int()
 
 class QueryController( SecureController ):
 	""" Common interest for all prmax applications """
@@ -125,5 +129,17 @@ class QueryController( SecureController ):
 		QueryHistory.save ( params )
 
 		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ToResearchSchema(), state_factory=std_state_factory)
+	def toresearch(self, *args, **params):
+		""" update query """
+
+		QueryHistory.toresearch(params)
+
+		return stdreturn()
+
 
 __all__ = ["QueryController"]

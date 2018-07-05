@@ -58,7 +58,7 @@ class ProjectDeleteSchema(PrFormSchema):
 class OutletResearchSaveSchema(PrFormSchema):
 	"""validates form for outler save """
 	circulation = validators.Int()
-	webbrowsers = tgvalidators.IntNull()
+	#webbrowsers = tgvalidators.IntNull()
 	frequencyid = validators.Int()
 	countryid = validators.Int()
 	researchprojectitemid = validators.Int()
@@ -66,6 +66,7 @@ class OutletResearchSaveSchema(PrFormSchema):
 	circulationauditdateid = tgvalidators.IntNull()
 	websourceid = tgvalidators.IntNull()
 	webauditdateid = tgvalidators.IntNull()
+	outletpriceid = validators.Int()
 
 class ProjectItemUpdateSchema(PrFormSchema):
 	""" schema"""

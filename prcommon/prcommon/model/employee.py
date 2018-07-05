@@ -826,8 +826,8 @@ class Employee(BaseSql):
 				session.add(activity)
 				session.flush()
 				# delete contact
-				session.execute(text(Employee.Delete_Employee),
-							    dict(employeeid=employee.employeeid), Employee)
+				#session.execute(text(Employee.Delete_Employee),dict(employeeid=employee.employeeid), Employee)
+				session.execute(text("SELECT employee_research_force_delete(:employeeid)"), {'employeeid':employee.employeeid}, Employee)				
 				session.flush()
 
 			ResearchDetails.set_research_modified(outletid)

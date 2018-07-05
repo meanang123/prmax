@@ -24,7 +24,7 @@ return declare("prmaxtouch.contacts.search.results",
 		this.header_bar._fill(this.logout,this.posid,this.customerid,this.returnurl,this.cusonly);
 
 		this.maxpage = Math.ceil(this.total / 6);
-		this.searchstring = "/customer/search/list?statusid=" + this.statusid;
+		this.searchstring = "/contact/search/list";
 		this.goto_page(this.listpage);
 	},
 
@@ -102,32 +102,21 @@ return declare("prmaxtouch.contacts.search.results",
 		}
 
 		var liststring = this.searchstring.toString();
-		if (this.searchurl)
-			liststring += "&searchurl=" + this.searchurl;
-		this.list_panel.set("href", liststring + "&listpage=" + this.listpage + "&criteriaurl=" + this.criteriaurl + this.pq);
+		liststring += "?familyname=" + this.familyname;
+		if (this.firstname)
+			liststring += "&firstname=" + this.firstname;
+		this.list_panel.set("href", liststring);
 	},
 
 	_back:function()
 	{
-		searchstring = "/customer/search/" + this.criteriaurl + "?statusid=" + this.statusid;
-		if (this.accnumber > "")
-			searchstring += "&accountnbr=" + encodeURIComponent(this.accnumber);
-		if (this.subid > "")
-			searchstring += "&subscriptionid=" + encodeURIComponent(this.subid);
-		if (this.accname > "")
-			searchstring += "&customername=" + encodeURIComponent(this.accname);
-		if (this.accaddress > "")
-			searchstring += "&address=" + encodeURIComponent(this.accaddress);
-		if (this.cuslocationid > -1)
-			searchstring += "&locationid=" + encodeURIComponent(this.cuslocationid);
-		if (this.cusownerid > -1)
-			searchstring += "&ownerid=" + encodeURIComponent(this.cusownerid);
-		window.location = searchstring + this.pq;
+		searchstring = "/contact/search/search?familyname=" + this.familyname + "&firstname=" + this.firstname;
+		window.location = searchstring;
 	},
 
 	_add:function()
 	{
-		window.location = "/customer/new" + this.pq;
+		window.location = "/enquiries/new";
 	}
 
 });

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""prexporter"""
+"""prspfcheck"""
 #-----------------------------------------------------------------------------
-# Name:        prexporter.py
-# Purpose:     Export System
+# Name:        prspfcheck.py
+# Purpose:		check emails/domains before send distibutions
 #
 # Author:      Chris Hoy
 #
@@ -19,7 +19,8 @@ LOGGER = logging.getLogger("prcommon.model")
 from ttl.tg.config import read_config
 from SPF2IP import SPF2IP
 import csv
-
+import spf
+import dns.resolver
 # initiale interface to tg to get at data model
 read_config(os.getcwd(), None, None)
 # connect to database
@@ -33,44 +34,45 @@ domainstested = {}
 
 def check_all():
 	results = []
-	for row in session.execute(text("""select c.customerid,c.customername,returnaddress,COUNT(*)
+	for row in session.execute(text("""select c.customerid,c.customername,returnaddress,c.contact_title||' '||c.contact_firstname||' '||c.contact_surname as contact,c.email,c.tel
 FROM userdata.emailtemplates AS et
 JOIN internal.customers AS c on et.customerid = c.customerid
 WHERE LENGTH(returnaddress)>1 AND
 c.customerstatusid = 2 AND c.licence_expire > CURRENT_DATE
-GROUP BY c.customerid,c.customername,returnaddress
+GROUP BY c.customerid,c.customername,returnaddress, c.contact_title ||' '|| c.contact_firstname ||' '|| c.contact_surname, c.email, c.tel
 ORDER BY c.customerid"""), None, Outlet).fetchall():
-		result = [str(row[0]), row[2]]
+		
 		try:
 			domain = row[2].split("@")[1]
-
+			email=row[2]
 			if domain in domainstested:
 				continue
 
-			lookup = SPF2IP(domain)
-			spf = lookup.IPArray('4')
-			message = "MISSING"
-			if spf:
-				message = "SETUP"
-				for ip in spf:
-					if ip.find(u'89.16.167.250') != -1:
-						message = "PASSED"
-						break
-
+			ans1 = dns.resolver.query(domain, 'MX')
+			ans2 = dns.resolver.query(domain, 'A')
+			
+#			message='PASSED'
+#			if not ans1 or not ans2:
+#				message='FAILED'
+			if ans2:
+				for rdata in ans2:
+					check = spf.check(i=unicode(rdata), s=email, h=domain)
+					if check[0] != 'pass':
+						results.append([str(row[0]), row[1].encode('ascii','ignore') if row[1] else '', row[2], row[3].encode('ascii','ignore') if row[3] else '', row[4], str(row[5]), check[0]])
 			domainstested[domain] = True
-			result.append(message)
+			#result.append(message)
 		except:
-			result.append("INVALID DOMAIN")
-			print "INVALID DOMAIN", domain
-		results.append(result)
+			results.append([str(row[0]), row[1].encode('ascii','ignore') if row[1] else '', row[2], row[3].encode('ascii','ignore') if row[3] else '', row[4], str(row[5]), 'INVALID DOMAIN'])
+			#result.append("INVALID DOMAIN")
+		print domain
+#		results.append(result)
 
-	with file("/tmp/spf.csv", "wb") as outfile:
+	with file("/tmp/spf2.csv", "wb") as outfile:
 		csv_write = csv.writer(outfile)
 		csv_write.writerows(results)
 
 def _run( ):
 	""" run the application """
-	#
 	check_all()
 
 

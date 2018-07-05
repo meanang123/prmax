@@ -78,6 +78,7 @@ audit_trail_clipping_order_change = 23
 audit_clipping_order_confirmation = 24
 audit_trail_clipping_order_cancel = 25
 audit_trail_clipping_order_reactivate = 26
+audit_domain_check_failed = 27
 
 # payment methods
 payment_cc  = 1

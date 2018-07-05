@@ -14,6 +14,7 @@ dojo.require("dijit.Menu");
 dojo.require("dijit.MenuBar");
 dojo.require("dijit.MenuBarItem");
 dojo.require("dijit.PopupMenuBarItem");
+dojo.require("dijit.form.CheckBox");
 
 dojo.declare("prcommon.query.query",
 	[ ttl.BaseWidget ],
@@ -25,6 +26,7 @@ dojo.declare("prcommon.query.query",
 		this._QueryCallBack = dojo.hitch(this,this._QueryCall);
 		this._QueryLoadCallBack = dojo.hitch(this,this._QueryLoadCall);
 		this._QuerySaveCallBack = dojo.hitch(this,this._QuerySaveCall);
+		this._QueryUpdateCallBack = dojo.hitch(this,this._QueryUpdateCall)
 
 		this.queries = new dojox.data.QueryReadStore (
 			{url:'/query/queries',
@@ -73,6 +75,7 @@ dojo.declare("prcommon.query.query",
 		if ( response.success == "OK" )
 		{
 			dojo.attr(this.query_text,"value", response.data.query_text);
+			this.visibletoresearch.set("value", response.data.typeid);
 		}
 		else
 		{
@@ -132,5 +135,27 @@ dojo.declare("prcommon.query.query",
 		this.tmp_to_excel.set("value", new Date());
 
 		return true ;
-	}
+	},
+	_VisibleToResearch:function()
+	{
+		var content = {};
+		content['queryhistoryid'] = this.select.get("value");
+		content['visibletoresearch'] = this.visibletoresearch.get("value");
+		dojo.xhrPost(
+			ttl.utilities.makeParams({
+			load: this._QueryUpdateCallBack,
+			url:"/query/toresearch" ,
+			content:content}));
+	},
+	 _QueryUpdateCall:function ( response )
+	 {
+		if ( response.success == "OK" )
+		{
+			alert("Query Updated");
+		}
+		else
+		{
+			alert("Problem");
+		}
+	 },		
 });

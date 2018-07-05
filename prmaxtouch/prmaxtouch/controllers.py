@@ -15,7 +15,11 @@ LOGGER = logging.getLogger("prmaxtouch")
 
 from prcommon.sitecontrollers import OpenController
 from prmaxtouch.sitecontrollers.contacts.contacts import ContactsController
+from prmaxtouch.sitecontrollers.enquiries.add import AddController
+from prmaxtouch.sitecontrollers.enquiry import EnquiriesController
 from model import User
+from prmax.sitecontrollers.clients import ClientController
+from prmaxtouch.sitecontrollers.user import UserController
 
 __all__ = ['Root']
 
@@ -23,6 +27,11 @@ class Root(controllers.RootController):
     """The root controller of the application."""
     lookups = OpenController()
     contact = ContactsController()
+    
+    enquiries = EnquiriesController()
+    enquiries1 = AddController()
+    clients = ClientController()
+    user = UserController()
 
     @expose("")
     def index(self, *args, **params):

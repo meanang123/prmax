@@ -89,7 +89,7 @@ In the bottom box enter an email address if you wish to send yourself or someone
 			<div title="Send" dojoAttachPoint="send_view" dojoType="dijit.layout.ContentPane" style="width:100%;height:100%">
 				<div dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%">
 					<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:2em">
-						<p class="step">Step 4 </p><p class="stepspace">-</p><p class="stepdetails" data-dojo-attach-point="step4_label">Send Release</p>
+						<p class="step" data-dojo-attach-point="step5_name">Step 4 </p><p class="stepspace">-</p><p class="stepdetails" data-dojo-attach-point="step4_label">Send Release</p>
 						<div class="subjecttitle" dojoAttachPoint="step_4_title"></div>
 					</div>
 					<div dojoType="dijit.layout.ContentPane" region="center">
@@ -107,7 +107,8 @@ In the bottom box enter an email address if you wish to send yourself or someone
 							<tr><td colspan="2" class="prmaxrowdisplaylarge2" data-dojo-attach-point="sendemail_label" >Send Email Distribution</td></tr>
 							<tr><td width="15%"  nowrap class="prmaxrowtag" >Reply Name</td><td width="84%"><input style="width:50%" type="text" dojoAttachPoint="returnname" size="40" maxlength="70" dojoType="dijit.form.ValidationTextBox" trim="true" required="true" /></td></tr>
 							<tr><td width="15%"  nowrap class="prmaxrowtag" >Reply Address</td><td width="84%"><input  style="width:99%" type="text" dojoAttachPoint="email" size="40" maxlength="70" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" required="true" nvalidMessage="Please Enter Valid Reply Email Address" /></td></tr>
-							<tr><td colspan="2" align="right"><button type="button" class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Sending" label="Send Emails" dojoAttachPoint="send" dojoAttachEvent="onClick:_Send" ></button></td></tr>
+							<tr><td colspan="2" align="right"><button type="button" class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Checking" label="Validate Reply Address" dojoAttachPoint="validatereplyaddress" dojoAttachEvent="onClick:_ValidateReplyAddress" ></button></td></tr>
+							<tr><td colspan="2" align="right"><button type="button" class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Sending" label="Send Emails" dojoAttachPoint="send" dojoAttachEvent="onClick:_check_and_send" ></button></td></tr>
 							<tr><td colspan="2" class="prmaxrowtag" >Insert the email address that you wish journalists to reply</td></tr>
 							<tr><td colspan="2" ><br/></td></tr>
 							<tr><td colspan="2" class="prmaxrowdisplaylarge2" ><label data-dojo-attach-point="embargo_text">Schedule Delivery</label>&nbsp;<input type="checkbox" dojoAttachPoint="embargoed" dojoAttachEvent="onChange:_Embargo_Changed" dojoType="dijit.form.CheckBox" /></td></tr>
@@ -121,9 +122,9 @@ In the bottom box enter an email address if you wish to send yourself or someone
 
 					</div>
 					<div dojoType="dijit.layout.ContentPane" region="bottom" style="width:100%;height:3em">
-						<button style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dojox.form.BusyButton" dojoAttachPoint="send2"  label="Send" dojoAttachEvent="onClick:_Send" busyLabel="Sending" ></button>
+						<button style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dojox.form.BusyButton" dojoAttachPoint="send2"  label="Send" dojoAttachEvent="onClick:_check_and_send" busyLabel="Sending" ></button>
 						<button style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  dojoAttachPoint = "send_prev" label="Prev" dojoAttachEvent="onClick:_Step_5_Prev" ></button>
-						<button style="float:left;padding-left:2px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Save Changes" dojoAttachEvent="onClick:_SaveChanges" ></button>
+						<button style="float:left;padding-left:2px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button" dojoAttachPoint="savechangesbtn" label="Save Changes" dojoAttachEvent="onClick:_SaveChanges" ></button>
 					</div>
 				</div>
 			</div>
@@ -175,4 +176,8 @@ In the bottom box enter an email address if you wish to send yourself or someone
 	<div data-dojo-attach-point="remove_listmembers_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Remove Members From Distibution List", style:"width:300px"'>
 		<div data-dojo-type="prmax.pressrelease.removelistmembers" data-dojo-attach-point="remove_listmembers_ctrl"></div>
 	</div>
+	<div data-dojo-attach-point="validate_email_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Return Address Validation", style:"width:400px;height:150px"'>
+		<div data-dojo-attach-point="validate_email_ctrl" data-dojo-type="prmax.pressrelease.emailvalidation"></div>
+	</div>
+	
 </div>

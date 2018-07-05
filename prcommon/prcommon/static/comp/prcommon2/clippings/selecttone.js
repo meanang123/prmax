@@ -28,7 +28,7 @@ define([
 		this.inherited(arguments);
 		domattr.set(this.selected_tones, "innerHTML", "ALL Tones");
 
-		this._all_labels = [this.very_pos, this.pos, this.neutral, this.neg, this.very_neg, this.bipolar];
+		this._all_labels = [this.very_pos, this.pos, this.neutral, this.neg, this.very_neg];
 
 	},
 	_toggle:function(evt)
@@ -107,10 +107,6 @@ define([
 					case "5":
 						this.very_neg.set("checked",true);
 						break;
-					case 6:
-					case "6":
-						this.bipolar.set("checked",true);
-						break;
 				}
 			}
 
@@ -127,7 +123,7 @@ define([
 				selected_tones_text += " " + this._all_labels[key].get("sname");
 		}
 
-		if (this.tones.length == 6){selected_tones_text = 'ALL Tones'};
+		if (this.tones.length == 5){selected_tones_text = 'ALL Tones'};
 		if (this.tones.length == 0){selected_tones_text = 'No Selection'};
 
 		domattr.set(this.selected_tones,"innerHTML", selected_tones_text);
