@@ -788,13 +788,15 @@ dojo.declare("prmax.pressrelease.sendrelease",
 					this.validate_email_ctrl._load(this.validate_email_dlg,'PRMax is not authirised to send emails on behalf of <b>'+ this.email.get("value") +'<b>');
 					this.validate_email_dlg.show();
 				}
-
+				else if (response.data == '0')
+				{
+					this._Send();
+				}
 			}
 			else
 			{
 				alert("Problem validating reply address");	
 			}
-			this.validatereplyaddress.cancel();
 		},
 		_get_choice_event:function(choice)
 		{
@@ -1333,7 +1335,10 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		var content = { emailtemplateid:this.emailtemplateid,
 										seopressrelease:this.hasseopressrelease.get("checked"),
 										selected : -1};
-
+		if (this.seopressrelease.globalnewsrooms.get("value") == "")
+		{
+			content["newsrooms"] = "";
+		}
 		if (this.hasseopressrelease.get("checked") == true )
 		{
 			if ( this.seopressrelease.isValid() == false )

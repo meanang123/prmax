@@ -102,6 +102,7 @@ class SEOPageSchema(PrFormSchema):
 	emailtemplateid = validators.Int()
 	clientid = TgInt()
 	seoimageid = TgInt()
+	newsrooms = validators.JSONValidator()
 	cat_1 = BooleanValidator()
 	cat_2 = BooleanValidator()
 	cat_3 = BooleanValidator()

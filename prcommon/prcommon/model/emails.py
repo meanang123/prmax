@@ -923,7 +923,7 @@ class EmailTemplates(BaseSql):
 		        userid=params['user_id'],
 		        objectid=emailtemplate.emailtemplateid,
 		        objecttypeid=4, #distribution
-		        actiontypeid=9 if params['choice'] == 'continue' else 7, #send
+		        actiontypeid=9 if 'choice' in params and params['choice'] == 'continue' else 7, #send
 		        description=emailtemplate.subject
 		    )
 			session.add(activity)
