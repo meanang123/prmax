@@ -7,7 +7,9 @@
 		<div class="main-div" data-dojo-type="prmaxtouch/contacts/search/results" data-dojo-props='
 		contacthistory:${contacthistory},
 		familyname:"${familyname}",
-		firstname:"${firstname}"
+		firstname:"${firstname}",
+		listpage:${listpage},
+		total:${total}
 		'/>
 		</div>
 		<script type="text/javascript" >

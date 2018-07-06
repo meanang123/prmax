@@ -105,6 +105,8 @@ return declare("prmaxtouch.contacts.search.results",
 		liststring += "?familyname=" + this.familyname;
 		if (this.firstname)
 			liststring += "&firstname=" + this.firstname;
+		if (this.listpage)
+			liststring += "&listpage=" + this.listpage;
 		this.list_panel.set("href", liststring);
 	},
 

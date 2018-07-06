@@ -178,7 +178,11 @@ class ContactHistory(BaseSql):
 					params[field] = None
 
 			params["ref_customerid"] = params["customerid"]
-			params["subject"] = params["details"][:254]
+			subject = None
+			if 'crm_subject' in params and params['crm_subject'] != "":
+				subject = params['crm_subject']
+			elif 'outcome' in params and params['outcome'] != "":
+				subject = params['outcome']
 
 			if params.has_key("contacthistoryid"):
 				del params["contacthistoryid"]
@@ -195,7 +199,6 @@ class ContactHistory(BaseSql):
 			transaction.rollback()
 			LOGGER.exception("ContactHistory add_note")
 			raise
-
 
 
 	List_View = """SELECT ch.contacthistoryid,

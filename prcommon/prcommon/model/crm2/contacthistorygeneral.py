@@ -89,7 +89,12 @@ class ContactHistoryGeneral(object):
 					params[field] = None
 
 			params["ref_customerid"] = params["customerid"]
-			params["subject"] = params["details"][:254]
+			subject = None
+			if 'crm_subject' in params:
+				subject = params['crm_subject']
+			elif 'outcome' in params:
+				subject = params['outcome']
+			params["subject"] = subject
 
 			if "employeeid" in params and params["employeeid"]:
 				params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid == params["employeeid"]).scalar()
@@ -115,11 +120,17 @@ class ContactHistoryGeneral(object):
 
 			# add task ?
 			if params["follow_up_view_check"]:
+				subject = None
+				if 'crm_subject' in params and params['crm_subject'] != "":
+					subject = params['crm_subject']
+				elif 'outcome' in params and params['outcome'] != "":
+					subject = params['outcome']
+					
 				task = Task(
 				    taskstatusid=Constants.TaskStatus_InProgress,
 				    due_date=params["follow_up_date"],
 				    userid=params["follow_up_ownerid"],
-				    description=params["details"][:255],
+				    description= subject,
 				    tasktypeid=Constants.TaskType_Standard,
 				    ref_customerid=params["customerid"],
 				    contacthistoryid=contacthistory.contacthistoryid)
