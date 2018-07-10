@@ -170,9 +170,11 @@ class ClientNewsRoom(object):
 		""" get the client newsroom url"""
 
 		if mode == 'client':
-			retval = "%s/nr/e%d" % (config.get('prpublish.web', ''), self.clientid)
+			retval = "%snr/e%d" % (config.get('prpublish.web', ''), self.clientid)
 		else:
-			retval = "%s/nr/g%d" % (config.get('prpublish.web', ''), self.newsroomid)
+			retval = "%snr/g%d" % (config.get('prpublish.web', ''), self.newsroomid)
+
+		print retval
 		return retval
 
 #		return "%s/nr/%d/%s" % (config.get('prpublish.web', ''), self.customerid, self.news_room_root)
