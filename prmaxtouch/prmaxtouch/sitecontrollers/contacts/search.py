@@ -169,13 +169,20 @@ class SearchContactController(EmbeddedBaseController):
 		
 			newitem2 = {
 		        "contacthistoryid%s" %row : contacthistory[0],
-		        "subject%s" %row : contacthistory[1].replace('\xe2\x80\x99', "'"),
+			    "subject%s" %row : contacthistory[1].replace('\xe2\x80\x99', "'").\
+			    replace('\xe2\x80\x9c', '"').\
+			    replace('\xe2\x80\x9d', '"').\
+			    replace('\xe2\x80\x9e', '"').\
+			    replace('\xe2\x80\x9f', '"').\
+			    replace("\xc2\xa3", 'poundsymbol') if contacthistory[1] else "",
+#			    "subject%s" %row : contacthistory[1].replace("\xc2\xa3",'£') if contacthistory[1] else "",
 		        "familyname%s" %row : contacthistory[2] if contacthistory[2] else contacthistory[4],
 		        "firstname%s" %row : contacthistory[3] if contacthistory[3] else contacthistory[5],
 		        "colour%s" %row : "icon-blue", 
 		        "rowclass%s" %row : "item-row item-row-click",
 			    "icon%s" %row: "<i class='fa fa-user fa-2x'></i>"
 		    }
+			print '%s - %s' %(row, newitem2['subject%s' %row])
 			items.update(newitem2)
 			row += 1
 				

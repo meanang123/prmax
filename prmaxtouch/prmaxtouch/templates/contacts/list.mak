@@ -8,7 +8,7 @@
 						<span class="item-main">${firstname1} ${familyname1}</span>
 					% endif
 					% if subject1:
-						<span class="item-main">${subject1}</span>
+ 						<span class="item-main">${subject1.replace('poundsymbol', unichr(163))}</span>
 					% endif
 				</td>
 			</tr>	
@@ -21,7 +21,7 @@
 						<span class="item-main">${firstname2} ${familyname2}</span>
 					% endif
 					% if subject2:
-						<span class="item-main">${subject2}</span>
+ 						<span class="item-main">${subject2.replace('poundsymbol', unichr(163))}</span>
 					% endif
 				</td>
 			</tr>	
@@ -34,7 +34,8 @@
 						<span class="item-main">${firstname3} ${familyname3}</span>
 					% endif
 					% if subject3:
-						<span class="item-main">${subject3}</span>
+ 						<span class="item-main">${subject3.replace('poundsymbol', unichr(163))}</span>
+
 					% endif
 				</td>
 			</tr>	
@@ -47,7 +48,7 @@
 						<span class="item-main">${firstname4} ${familyname4}</span>
 					% endif
 					% if subject4:
-						<span class="item-main">${subject4}</span>
+						<span class="item-main">${subject4.replace('poundsymbol', unichr(163))}</span>
 					% endif
 				</td>
 			</tr>	
@@ -60,7 +61,7 @@
 						<span class="item-main">${firstname5} ${familyname5}</span>
 					% endif
 					% if subject5:
-						<span class="item-main">${subject5}</span>
+						<span class="item-main">${subject5.replace('poundsymbol', unichr(163))}</span>
 					% endif
 				</td>
 			</tr>	
@@ -73,7 +74,7 @@
 						<span class="item-main">${firstname6} ${familyname6}</span>
 					% endif
 					% if subject6:
-						<span class="item-main">${subject6}</span>
+						<span class="item-main">${subject6.replace('poundsymbol', unichr(163))}</span>
 					% endif
 				</td>
 			</tr>	

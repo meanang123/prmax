@@ -202,6 +202,11 @@ define([
 //		this.input_focus(this.clientid,this.keyboard);
 //		this.keyboard.push_focus(this.clientid,this.crm_subject,this.taken);
 	},
+	crm_response_focus:function()
+	{
+		this.input_focus(this.crm_response,this.keyboard);
+		this.keyboard.push_focus(this.crm_response,this.clientid,this.taken);
+	},
 
 	_reset:function()
 	{
@@ -219,6 +224,7 @@ define([
 			this.taken_by.value = "";
 			this.crm_subject.value = "";
 			this.clientid.value = "";
+			this.crm_response.value = "";
 			this.itemselector.push_focus(this.typestring,this.taken_by,this.taken,this.clientid,this.typeitems,itemindex,2);
 			//this._validate();
 		}
@@ -249,6 +255,7 @@ define([
 			content["crm_subject"] = this.crm_subject.value;
 			content["details"] = this.crm_subject.value;
 			content["clientid"] = this.clientid.value;
+			content["crm_response"] = this.crm_response.value;
 			content["employeeid"] = "";
 			content["outletid"] = "";
 	

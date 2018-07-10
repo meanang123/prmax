@@ -21,19 +21,23 @@
 						<tr><td>
 							<table>
 							<tr><td>&nbsp;&nbsp;Date</td></tr>
-							<tr><td><input  data-dojo-props='type:"text",trim:true,name:"taken"' maxlength="50" data-dojo-attach-point="taken" data-dojo-attach-event="onFocus:taken_focus,onKeyUp:taken_focus,onMouseDown:taken_focus,onBlur:delay_close" /></td></tr>
+							<tr><td><input data-dojo-props='type:"text",trim:true,name:"taken"' maxlength="50" data-dojo-attach-point="taken" data-dojo-attach-event="onFocus:taken_focus,onKeyUp:taken_focus,onMouseDown:taken_focus,onBlur:delay_close" /></td></tr>
 						</table>
 						<table>
 							<tr><td>&nbsp;&nbsp;Taken By</td></tr>
-							<tr><td><select  data-dojo-props='type:"text",name:"taken_by",autoComplete:true,searchAttr:"name",invalidMessage:"Taken By",labelType:"html", style:"width:98%; margin:5px"' maxlength="255" data-dojo-attach-event="onFocus:taken_by_focus,onKeyUp:taken_by_focus,onMouseDown:taken_by_focus,onBlur:delay_close" data-dojo-attach-point="taken_by" data-dojo-type="dijit/form/FilteringSelect"></select></td></tr>
+							<tr><td><select data-dojo-props='type:"text",name:"taken_by",autoComplete:true,searchAttr:"name",invalidMessage:"Taken By",labelType:"html", style:"width:98%; margin:5px"' maxlength="255" data-dojo-attach-event="onFocus:taken_by_focus,onKeyUp:taken_by_focus,onMouseDown:taken_by_focus,onBlur:delay_close" data-dojo-attach-point="taken_by" data-dojo-type="dijit/form/FilteringSelect"></select></td></tr>
 						</table>
 						<table>
 							<tr><td>&nbsp;&nbsp;Subject</td></tr>
-							<tr><td><input  data-dojo-props='type:"text",trim:true,name:"crm_subject"' maxlength="255" data-dojo-attach-point="crm_subject" data-dojo-attach-event="onFocus:crm_subject_focus,onKeyUp:crm_subject_focus,onMouseDown:crm_subject_focus,onBlur:delay_close" /></td></tr>
+							<tr><td><input data-dojo-props='type:"text",trim:true,name:"crm_subject"' maxlength="255" data-dojo-attach-point="crm_subject" data-dojo-attach-event="onFocus:crm_subject_focus,onKeyUp:crm_subject_focus,onMouseDown:crm_subject_focus,onBlur:delay_close" /></td></tr>
 						</table>
 						<table>
 							<tr><td>&nbsp;&nbsp;Client</td></tr>
-							<tr><td><input  data-dojo-props='type:"text",trim:true,name:"clientid", autoComplete:true,searchAttr:"clientname",labelType:"html", style:"width:98%; margin:5px"' maxlength="255" data-dojo-attach-point="clientid" data-dojo-type="dijit/form/FilteringSelect"></input></td></tr>
+							<tr><td><input data-dojo-props='type:"text",trim:true,name:"clientid", autoComplete:true,searchAttr:"clientname",labelType:"html", style:"width:98%; margin:5px"' maxlength="255" data-dojo-attach-point="clientid" data-dojo-type="dijit/form/FilteringSelect"></input></td></tr>
+						</table>
+						<table>
+							<tr><td>&nbsp;&nbsp;Response</td></tr>
+							<tr><td><textarea data-dojo-props='type:"text",trim:true,name:"response"' data-dojo-attach-point="crm_response" data-dojo-attach-event="onFocus:crm_response_focus,onKeyUp:crm_response_focus,onMouseDown:crm_response_focus,onBlur:delay_close" ></textarea></td></tr>
 						</table>
 						</td></tr>
 						<tr height="100%"></tr>
