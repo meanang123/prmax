@@ -60,8 +60,9 @@ class List(BaseSql):
 	SELECT l.listid, l.listname,l.clientid,
 	(SELECT COUNT(*) FROM userdata.listmembers WHERE listid=:listid ) as nbr,  (SELECT COUNT(*) FROM userdata.listmembers WHERE listid = l.listid AND selected=true ) as selectednbr,
 	COALESCE((SELECT COUNT(*) FROM userdata.listmembers AS lm JOIN employees AS e ON e.employeeid  = lm.employeeid WHERE lm.listid = l.listid AND e.prmaxstatusid = 2),0) as nbr_deleted,
-	l.emailtemplateid
-	FROM userdata.list AS l WHERE listid=:listid"""
+	l.emailtemplateid,
+	client.clientname
+	FROM userdata.list AS l LEFT OUTER JOIN userdata.client as client ON client.clientid = l.clientid WHERE listid=:listid"""
 
 	Command_List_Count_All = """SELECT * FROM listmaintcount(:customerid,:userid,:listtypeid)"""
 	Command_List_Rename = """UPDATE userdata.list set listname=:listname WHERE listid= :listid"""
@@ -369,11 +370,19 @@ class List(BaseSql):
 			cls._singleResultAsDict)
 
 	@classmethod
-	def Exits( cls, customerid, listname):
+	def Exits( cls, customerid, listname, listid=None):
 		""" Exits"""
-		result = session.query(List.listid).filter_by(customerid = customerid,
-													  listname = listname)
-		return True if result.count() else False
+		result = session.query(List.listid).filter_by(customerid=customerid,
+													  listname=listname)
+		if listid:
+			resultdata = result.all()
+			if not resultdata:
+				return False
+			if resultdata[0].listid == listid:
+				return False
+			return True
+		else:
+			return True if result.count() else False
 
 	@classmethod
 	def rename(cls, customerid, listid, listname, clientid):

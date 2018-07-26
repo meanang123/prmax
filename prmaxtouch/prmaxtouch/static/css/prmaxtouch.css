@@ -23,11 +23,6 @@ html, body {
 	box-sizing: border-box;
 }
 
-.retro html,
-.retro body {
-	font-size: 2.3vmin;
-}
-
 html.luminate,
 body.luminate {
 	background: #E2E2E2;
@@ -53,10 +48,6 @@ table {
 	border-collapse: separate;
 }
 
-.retro .main-div {
-	position: absolute;
-}
-
 .preview-display html body div.toolbar {
 	display: none !important;
 }
@@ -64,10 +55,6 @@ table {
 #wait {
 	text-align: center;
 	vertical-align: middle;
-}
-
-.retro #wait {
-	display: none !important;
 }
 
 .luminate #wait {
@@ -153,8 +140,7 @@ td {
 	border-radius: 3vmin;
 }
 
-.luminate .dijitDialogPaneContent,
-.paypoint .dijitDialogPaneContent {
+.luminate .dijitDialogPaneContent {
 	background: white;
 }
 
@@ -168,10 +154,6 @@ td {
 }
 
 .luminate .dialog-flash .dijitDialogPaneContent {
-	background: #f5d40e !important;
-}
-
-.paypoint .dialog-flash .dijitDialogPaneContent {
 	background: #f5d40e !important;
 }
 
@@ -214,15 +196,7 @@ input::-moz-selection {
 	color: white;
 }
 
-.paypoint ::selection {
-	background: #2e2556;
-	color: white;
-}
 
-.paypoint ::-moz-selection {
-	background: #2e2556;
-	color: white;
-}
 
 .form-panel,
 .form-panel tbody,
@@ -234,11 +208,7 @@ input::-moz-selection {
 .luminate .form-panel,
 .luminate .form-panel tbody,
 .luminate .form-panel tr,
-.luminate .centre-panel .form-panel,
-.paypoint .form-panel,
-.paypoint .form-panel tbody,
-.paypoint .form-panel tr,
-.paypoint .centre-panel .form-panel {
+.luminate .centre-panel .form-panel {
 	background:	 white;
 }
 
@@ -260,20 +230,8 @@ input::-moz-selection {
 	padding: 1.4vmin 2vmin 2vmin !important;
 }
 
-.paypoint .summary-form,
-.paypoint .menu-grid {
-	border-left: 1px #cec8c4 solid !important;
-	padding: 0px 0px 7px 7px !important;
-	padding: 0px 0px 1vmin 1vmin !important;
-}
-
 .logo-paypoint {
 	display: none;
-}
-
-.paypoint .logo-paypoint {
-	display: inline;
-	cursor: pointer;
 }
 
 .input-header {
@@ -289,10 +247,6 @@ input::-moz-selection {
 	z-index: 10;
 }
 
-.retro .input-header {
-	font-size: 3.8vmin;
-}
-
 .input-header tr:first-child td {
 	padding: 7px 5px 10px;
 	padding: 1vmin 0.7vmin 1.3vmin;
@@ -300,21 +254,8 @@ input::-moz-selection {
 	text-overflow: ellipsis;
 }
 
-.paypoint .input-header tr:first-child td {
-	padding: 10px 5px 7px;
-	padding: 1.4vmin 0.7vmin 0.9vmin;
-	background: #2e2556;
-}
-
 .luminate .input-header {
 	background: #AEE1FD;
-}
-
-.paypoint .input-header {
-	background: #2e2556;
-	color: white;
-	border-bottom: 2px solid white;
-	border-bottom: 0.3vmin solid white;
 }
 
 .input-sub {
@@ -329,18 +270,6 @@ input::-moz-selection {
 	background: #8BD5FC;
 }
 
-.paypoint .input-sub {
-	background: #e6e2e1;
-	color: #2d2d2d;
-	padding: 3px 5px 0px;
-	padding: 0.4vmin 0.7vmin 0px;
-}
-
-.paypoint .paypoint-button button {
-	padding-top: 5px !important;
-	padding-top: 0.7vmin !important;
-}
-
 .head-small {
 	font-size: 14px;
 	font-size: 2vmin;
@@ -351,10 +280,6 @@ input::-moz-selection {
 
 .luminate .head-small {
 	color: #0282A9;
-}
-
-.paypoint .head-small {
-	color: #2d2d2d;
 }
 
 .head-small td {
@@ -371,13 +296,6 @@ input::-moz-selection {
 .luminate .head-small td {
 	background: #D6F0FE;
 	border-right-color: #AEE1FD;
-}
-
-.paypoint .head-small td {
-	background: #e6e2e1;
-	border-right-color: white;
-	padding: 8px 7px 3px;
-	padding: 0.8vmin 1vmin 0.4vmin;
 }
 
 .head-small td:last-child,
@@ -408,13 +326,6 @@ input::-moz-selection {
 	border-right-color: #AEE1FD;
 }
 
-.paypoint .head-item td {
-	background: #447fc1;
-	border-right-color: white;
-	padding: 7px 0px 4px !important;
-	padding: 1.1vmin 0px 0.6vmin !important;
-}
-
 .check-box {
 	cursor: pointer !important;
 }
@@ -434,12 +345,7 @@ input::-moz-selection {
 	transition: top 0.5s;
 }
 
-.retro .input-area {
-	width: 96% !important;
-}
-
-.luminate .input-area,
-.paypoint .input-area {
+.luminate .input-area {
 	background: white;
 }
 
@@ -475,8 +381,7 @@ input::-moz-selection {
 	background: linear-gradient(#003241 92%, transparent) !important;
 }
 
-.luminate .input-area.input-area-full,
-.paypoint .input-area.input-area-full {
+.luminate .input-area.input-area-full {
 	background: -webkit-linear-gradient(white 92%, transparent) !important;
 	background: -o-linear-gradient(white 92%, transparent) !important;
 	background: -moz-linear-gradient(white 92%, transparent) !important;
@@ -493,16 +398,6 @@ input::-moz-selection {
 	background: #F2F2F2 !important;
 }
 
-.paypoint .full-list-panel {
-	background: white !important;
-	padding: 0px !important;
-}
-
-.paypoint .list-panel.full-list-panel,
-.paypoint .list-panel.full-list-panel table {
-	border-right: none !important;
-	padding-right: 0px !important;
-}
 
 .view-panel {
 	padding: 14px 0px 0px !important;
@@ -525,24 +420,10 @@ input::-moz-selection {
 	background: #D6F0FE !important;
 }
 
-.paypoint .view-panel table,
-.paypoint .view-panel table td {
-	background: white !important;
-}
-
-.paypoint .view-panel table {
-	border: 2px #2e2556 solid;
-	border: 0.3vmin #2e2556 solid;
-}
-
 .view-panel table table {
 	padding: 20px 0px 0px !important;
 	padding: 3vmin 0px 0px !important;
 	background: inherit;
-}
-
-.paypoint .view-panel table table {
-	border: none !important;
 }
 
 .view-panel .view-panel-head td {
@@ -558,15 +439,6 @@ input::-moz-selection {
 
 .luminate .view-panel .view-panel-head td {
 	background: #AEE1FD !important;
-}
-
-.paypoint .view-panel .view-panel-head td {
-	background: #2e2556 !important;
-	color: white !important;
-	padding: 14px 0px 12px !important;
-	padding: 2vmin 2vmin 1.7vmin !important;
-	border-top-left-radius: 1.6vmin;
-	border-top-right-radius: 1.6vmin;
 }
 
 .view-panel table td {
@@ -634,19 +506,6 @@ input::-moz-selection {
 	border: #8FD4FB 2px solid;
 }
 
-.paypoint .input-panel {
-	padding: 0.6vmin 0.7vmin 0.5vmin 0.6vmin;
-	background: black;
-	border: none;
-	box-shadow: 0px 0px 5px #2e2556;
-	box-shadow: 0px 0px 0.6vmin #2e2556;
-	bottom: 0.4vmin;
-}
-
-.paypoint.retro .input-panel {
-	border: #8FD4FB 2px solid;
-}
-
 .input-panel table {
 	table-layout: fixed;
 }
@@ -655,10 +514,6 @@ input::-moz-selection {
 	width: 2vmin;
 	padding: 3px 4px 3px 0px !important;
 	padding: 0.4vmin 0.5vmin 0.4vmin 0px !important;
-}
-
-.paypoint .input-panel .scroll-view {
-	padding: 0.8vmin 0.5vmin 0.8vmin 0px !important;
 }
 
 .selector-scroll {
@@ -673,14 +528,6 @@ input::-moz-selection {
 	top: 0;
 	height: 100%;
 	transition: top 0.5s;
-}
-
-.paypoint .selector-scroll {
-	background: #303030;
-}
-
-.paypoint .selector-scroll div {
-	background: #e6e2e1;
 }
 
 .dialog-panel {
@@ -739,18 +586,6 @@ input::-moz-selection {
 	background: #BFB;
 }
 
-.paypoint .dialog-panel {
-	background: #2e2556;
-	border: none;
-	left: 0;
-	bottom: 0;
-	height: 25.8vmin;
-}
-
-.paypoint .dialog-panel.add-dialog {
-	background: #2e2556;
-}
-
 .dialog-panel .input-area {
 	background: #2C0A47;
 }
@@ -761,10 +596,6 @@ input::-moz-selection {
 
 .luminate .dialog-panel .input-area {
 	background: #BFB;
-}
-
-.paypoint .dialog-panel .input-area {
-	background: #2e2556;
 }
 
 .dialog-panel.dialog-panel-hide {
@@ -798,12 +629,6 @@ input::-moz-selection {
 	border-color: white !important;
 }
 
-.paypoint .dialog-header {
-	background: #2e2556 !important;
-	border-color: white !important;
-	padding: 1.6vmin 1.3vmin 1.1vmin;
-}
-
 .totals-panel {
 	height: 222px;
 	height: 30.4vh;
@@ -824,21 +649,11 @@ input::-moz-selection {
 	font-weight: normal;
 }
 
-.paypoint .totals-panel table {
-	background: white !important;
-	border: 0.2vmin #999 solid;
-}
-
 .totals-panel table td {
 	background: #8FD4FB !important;
 	padding: 14px 8px;
 	padding: 2vmin 1.2vmin;
 	text-align: right;
-}
-
-.paypoint .totals-panel table td {
-	background: white !important;
-	padding: 1.6vmin 1.2vmin;
 }
 
 .totals-panel table td:first-child {
@@ -847,11 +662,6 @@ input::-moz-selection {
 
 .totals-total td {
 	font-weight: bold;
-}
-
-.paypoint .totals-total td {
-	border-top: 0.2vmin #e6e2e1 solid;
-	padding-top: 1.9vmin !important;
 }
 
 .input-panel .input-dialog {
@@ -877,11 +687,6 @@ input::-moz-selection {
 .modern .input-panel td,
 .modern .price-panel td {
 	padding: 0.3vmin !important;
-}
-
-.paypoint .input-panel td,
-.paypoint .price-panel td {
-	padding: 0.4vmin !important;
 }
 
 .input-panel-top
@@ -910,15 +715,6 @@ input::-moz-selection {
 
 .luminate .inset-price td {
 	background: #D6F0FE;
-}
-
-.paypoint .inset-price td {
-	background: white;
-	border: 0.2vmin #999 solid;
-	padding: 5px 14px 0px !important;
-	padding: 0.6vmin 2vmin 0px !important;
-	border-radius: 5px;
-	border-radius: 0.6vmin;
 }
 
 .input-panel td button {
@@ -961,39 +757,14 @@ input::-moz-selection {
 	box-shadow: 0px 0px 0.6vmin #3C90C0;
 }
 
-.paypoint .input-panel td button,
-.paypoint .price-panel td button {
-	background: #505050;
-	color: white;
-	border: none;
-	box-shadow: none;
-	padding-top: 4px;
-	padding-top: 0.5vmin;
-	font-weight: bold;
-	border-radius: 0.3vmin !important;
-}
-
-.paypoint .price-panel td button {
-	background: #e6e2e1;
-	color: #303030;
-}
-
 .price-panel.option-panel td button {
 	height: 100px;
 	height: 14.1vmin;
 }
 
-.paypoint .price-panel.option-panel td button {
-	background: #f5d40e;
-}
-
 .price-panel .button-tall button {
 	height: 200px !important;
 	height: 28vmin !important;
-}
-
-.paypoint .price-panel .button-tall button {
-	height: 100% !important;
 }
 
 .input-panel .input-selector {
@@ -1032,11 +803,6 @@ input::-moz-selection {
 	border-color: #8FD4FB;
 	box-shadow: 0px 0px 5px #8FD4FB;
 	box-shadow: 0px 0px 0.6vmin #8FD4FB;
-}
-
-.paypoint .input-panel .input-selector td button {
-	border: none;
-	box-shadow: none;
 }
 
 .input-panel .input-scroll {
@@ -1104,10 +870,6 @@ input::-moz-selection {
 	padding: 0px 2.3vmin 0.2vmin 0px;
 }
 
-.retro .pay-panel {
-	padding: 0px 16px 0px 0px;
-}
-
 .pay-panel table td table {
 	padding-top: 4px;
 }
@@ -1126,10 +888,6 @@ input::-moz-selection {
 .modern .pay-panel table td table td {
 	padding: 0.6vmin 0.4vmin 0.1vmin 0.5vmin !important;
 	height: 15.2vmin;
-}
-
-.retro .pay-panel table td table td {
-	height: 15.1vmin;
 }
 
 .pay-panel table td table td table {
@@ -1159,18 +917,8 @@ input::-moz-selection {
 	box-shadow: 0px 0px 0.6vmin #3C90C0;
 }
 
-.paypoint .pay-panel table td table td table {
-	background: #e6e2e1;
-	border: none;
-	box-shadow: none;
-}
-
 .luminate .pay-panel table td table td table td {
 	background: white !important;
-}
-
-.paypoint .pay-panel table td table td table td {
-	background: #e6e2e1 !important;
 }
 
 .pay-details td {
@@ -1213,10 +961,6 @@ input::-moz-selection {
 	color: black;
 }
 
-.paypoint .inset-account td {
-	color: #2d2d2d;
-}
-
 .inset-account td:first-child {
 	width: 1px !important;
 	font-weight: bold;
@@ -1227,10 +971,6 @@ input::-moz-selection {
 
 .luminate .inset-account td:first-child {
 	color: #0282a9 !important;
-}
-
-.paypoint .inset-account td:first-child {
-	color: #2d2d2d !important;
 }
 
 .claro .dijitBorderContainer .inset-holiday,
@@ -1254,13 +994,6 @@ input::-moz-selection {
 	color: black !important;
 }
 
-.paypoint div.summary-title {
-	color: #2d2d2d !important;
-	font-size: 4vmin !important;
-	line-height: 80% !important;
-	padding-bottom: 1px !important;
-	padding-bottom: 0.2vmin !important;
-}
 
 .owing-line td {
 	font-size: 36px;
@@ -1268,15 +1001,6 @@ input::-moz-selection {
 	font-weight: normal !important;
 	padding-bottom: 15px !important;
 	padding-bottom: 2vmin !important;
-}
-
-.retro .owing-line td {
-	font-size: 4.5vmin;
-	padding-top: 0.2vmin !important;
-}
-
-.paypoint .owing-line td {
-	font-size: 4.5vmin !important;
 }
 
 .claro .dijitBorderContainer .inset-pane,
@@ -1296,10 +1020,6 @@ input::-moz-selection {
 
 .luminate .inset-pane table {
 	color: black;
-}
-
-.paypoint .inset-pane table {
-	color: #2d2d2d;
 }
 
 .claro .dijitBorderContainer .order-key,
@@ -1323,10 +1043,6 @@ input::-moz-selection {
 	color: black;
 }
 
-.paypoint .order-key-label {
-	color: #2d2d2d;
-}
-
 .order-key-item {
 	border: 1px solid #026A88;
 	padding: 2px 7px;
@@ -1338,12 +1054,6 @@ input::-moz-selection {
 	color: black;
 }
 
-.paypoint .order-key-item {
-	border-color: #cec8c4;
-	color: #2d2d2d;
-	padding: 6px 7px 2px;
-	padding: 0.7vmin 1vmin 0.3vmin;
-}
 
 .auto-table {
 	height: auto !important;
@@ -1368,10 +1078,6 @@ input::-moz-selection {
 
 .luminate .loading td {
 	color: #0282A9;
-}
-
-.paypoint .loading td {
-	color: #2e2556;
 }
 
 .claro .dijitBorderContainer .inset-content,
@@ -1401,12 +1107,6 @@ input::-moz-selection {
 	background: #BBDEF9 !important;
 }
 
-.paypoint div.note-panel {
-	color: white;
-	background: #2e2556 !important;
-	padding: 13px 10px 9px !important;
-	padding: 1.9vmin 1.5vmin 1.5vmin !important;
-}
 
 .note-panel td {
 	width: 100%;
@@ -1424,13 +1124,6 @@ input::-moz-selection {
 	background: inherit !important;
 }
 
-.paypoint .footer-panel {
-	color: white;
-	background: #2e2556 !important;
-	padding: 10px 0 !important;
-	padding: 1.4vmin 0 !important;
-	height: 3vmin !important;
-}
 
 button {
 	cursor: pointer;
@@ -1456,15 +1149,6 @@ button {
 	border-radius: 1.6vmin;
 }
 
-.paypoint button {
-	background: #f5d40e;
-	color: #2e2556;
-	font-family: paypointfont, segoe ui, tahoma, sans-serif;
-	font-weight: bold !important;
-	padding-top: 1.35vmin;
-	border-radius: 7px;
-	border-radius: 1vmin;
-}
 
 button:disabled {
 	cursor: default;
@@ -1537,12 +1221,6 @@ textarea {
 	border-radius: 1.6vmin;
 }
 
-.retro input,
-.retro select,
-.retro textarea {
-	border: black 2px solid;
-}
-
 .luminate input,
 .luminate select,
 .luminate textarea {
@@ -1550,35 +1228,6 @@ textarea {
 	padding: 1.1vmin 1.5vmin;
 	border-color: #8FD4FB;
 	outline-color: #8FD4FB;
-}
-
-.retro.luminate input,
-.retro.luminate select,
-.retro.luminate textarea {
-	padding: 8px 10px 7px;
-	border-color: #8FD4FB;
-}
-
-.paypoint input,
-.paypoint select,
-.paypoint textarea {
-	padding: 8px 10px 4px;
-	padding: 1.4vmin 1.5vmin 0.9vmin;
-	border-width: 0.24vmin;
-	border-color: #999;
-	outline-color: #999;
-	color: #2d2d2d !important;
-	background: white;
-	border-radius: 5px;
-	border-radius: 0.6vmin;
-	font-family: paypointfont, tahoma, sans-serif;
-}
-
-.retro.paypoint input,
-.retro.paypoint select,
-.retro.paypoint textarea {
-	padding: 8px 10px 7px;
-	border-color: #447fc1;
 }
 
 .input-missing {
@@ -1589,11 +1238,6 @@ textarea {
 .luminate .input-missing {
 	background: #FFB !important;
 	border-color: #CC8;
-}
-
-.paypoint .input-missing {
-	background: #fde8ea !important;
-	border-color: #ef4050;
 }
 
 input:focus,
@@ -1617,15 +1261,6 @@ textarea:focus {
 	box-shadow: 0px 0px 0.3vmin #0282A9;
 }
 
-.paypoint input:focus,
-.paypoint select:focus,
-.paypoint textarea:focus {
-	border-color: #f5d40e !important;
-	outline-color: #f5d40e !important;
-	box-shadow: 0px 0px 2px #f5d40e !important;
-	box-shadow: 0px 0px 0.3vmin #f5d40e !important;
-}
-
 .dialog-panel input,
 .dialog-panel select,
 .dialog-panel textarea {
@@ -1645,13 +1280,6 @@ textarea:focus {
 	outline-color: #D5AEFB;
 }
 
-.paypoint .dialog-panel input,
-.paypoint .dialog-panel select,
-.paypoint .dialog-panel textarea {
-	background: white;
-	border-color: #999;
-	outline: none;
-}
 
 .dialog-panel input:focus,
 .dialog-panel select:focus,
@@ -1663,14 +1291,6 @@ textarea:focus {
 	box-shadow: 0px 0px 0.3vmin white;
 }
 
-.paypoint .dialog-panel input:focus,
-.paypoint .dialog-panel select:focus,
-.paypoint .dialog-panel textarea:focus {
-	border-color: #f5d40e;
-	outline-color: #f5d40e;
-	box-shadow: 0px 0px 2px #f5d40e;
-	box-shadow: 0px 0px 0.3vmin #f5d40e;
-}
 
 .dialog-panel.add-dialog input:focus,
 .dialog-panel.add-dialog select:focus,
@@ -1683,13 +1303,6 @@ textarea:focus {
 .luminate .dialog-panel textarea:focus {
 	box-shadow: 0px 0px 2px #A040EF;
 	box-shadow: 0px 0px 0.3vmin #A040EF;
-}
-
-.paypoint .dialog-panel input:focus,
-.paypoint .dialog-panel select:focus,
-.paypoint .dialog-panel textarea:focus {
-	box-shadow: 0px 0px 2px #f5d40e;
-	box-shadow: 0px 0px 0.3vmin #f5d40e;
 }
 
 .input-label {
@@ -1746,11 +1359,6 @@ textarea:focus {
 	overflow: hidden;
 }
 
-.paypoint .header-bar {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-}
-
 .modern .header-bar {
 	height: 11vmin;
 }
@@ -1773,16 +1381,6 @@ textarea:focus {
 	line-height: 100%;
 }
 
-.paypoint .header-bar .header-customer {
-	color: #2e2556 !important;
-}
-
-.retro .header-bar .header-customer,
-.retro .header-bar .header-sub {
-	font-size: 2.4vmin;
-	padding: 0.3vmin 0.4vmin 0px;
-}
-
 .header-bar .header-sub {
 	padding: 4px 3px 1px;
 	padding: 0.3vmin 0.4vmin 0.1vmin;
@@ -1792,10 +1390,6 @@ textarea:focus {
 	font-size: 2.5vmin;
 	color: #BEF0FF;
 	line-height: 100%;
-}
-
-.paypoint .header-bar .header-sub {
-	color: #2e2556 !important;
 }
 
 .header-bar .header-icon {
@@ -1811,24 +1405,10 @@ textarea:focus {
 	text-shadow: 0px 0px 0.6vmin black;
 }
 
-.paypoint .header-bar .header-icon {
-	display: none;
-}
-
-.retro .header-bar .header-icon {
-	font-size: 3.3vmin;
-	padding: 1.4vmin 0.5vmin 0.2vmin 0.7vmin !important;
-}
-
 .modern .header-bar .header-icon {
 	padding: 2.2vmin 0px 0px 1vmin;
 }
 
-.paypoint .header-logo {
-	display: table-cell !important;
-	background: #2e2556;
-	padding: 0 0 0.2vmin !important;
-}
 
 .header-bar .header-left {
 	width: 210px !important;
@@ -1880,10 +1460,6 @@ textarea:focus {
 	color: #77DFFF;
 }
 
-.paypoint .header-bar .header-main span {
-	color: #447fc1;
-}
-
 .header-bar .header-home {
 	width: auto;
 	padding: 0px !important;
@@ -1906,16 +1482,6 @@ textarea:focus {
 	white-space: nowrap;
 }
 
-.paypoint .header-bar .header-acc {
-	color: #2e2556 !important;
-	padding: 18px 8px 0px 14px !important;
-}
-
-.retro .header-bar .header-acc {
-	font-size: 4.8vmin;
-	padding: 1.8vmin 1vmin 0.2vmin 1vmin !important;
-}
-
 .modern .header-bar .header-acc {
 	padding: 2.7vmin 1vmin 0.2vmin 1vmin !important;
 }
@@ -1931,14 +1497,6 @@ textarea:focus {
 	font-size: 32px;
 	font-size: 4.5vmin !important;
 	display: none;
-}
-
-.paypoint .header-bar .header-acc.header-acc-page {
-	display: table-cell;
-}
-
-.retro .header-bar .header-acc {
-	padding: 2.7vmin 1vmin 0px 1vmin !important;
 }
 
 .header-bar .header-acc span {
@@ -1978,11 +1536,6 @@ textarea:focus {
 	border-radius: 0.4vmin;
 }
 
-.paypoint .header-date table {
-	background: #2e2556 !important;
-	border-color: #2e2556 !important;
-}
-
 .header-date-month {
 	height: 1px !important;
 	font-size: 10px !important;
@@ -1993,11 +1546,6 @@ textarea:focus {
 	text-shadow: none !important;
 	margin: 0px !important;
 	line-height: 90% !important;
-}
-
-.paypoint .header-date-month {
-	background: #2e2556 !important;
-	color: #f5d40e !important;
 }
 
 .modern .header-date-month {
@@ -2015,22 +1563,11 @@ textarea:focus {
 	vertical-align: middle !important;
 }
 
-.retro .header-date-day {
-	padding-bottom: 0px !important;
-	padding-top: 2px !important;
-}
-
 .modern .header-date-day {
 	box-shadow: 0px 0px 2px black inset;
 	box-shadow: 0px 0px 0.2vmin black inset;
 	padding-bottom: 0.2vmin !important;
 	color: #44D5FF !important;
-}
-
-.paypoint .header-date-day {
-	padding-top: 0.6vmin;
-	background: #f5d40e !important;
-	color: #2e2556 !important;
 }
 
 .header-bar .btn-date {
@@ -2058,11 +1595,6 @@ textarea:focus {
 	border-radius: 0.3vmin;
 }
 
-.paypoint .btn-date table {
-	background: #2e2556 !important;
-	border-color: #2e2556 !important;
-}
-
 .btn-date-month {
 	height: 1px !important;
 	font-size: 8px !important;
@@ -2081,10 +1613,6 @@ textarea:focus {
 	padding: 0px 0px 0.3vmin !important;
 }
 
-.paypoint .btn-date-month {
-	background: #2e2556 !important;
-	color: #f5d40e !important;
-}
 
 .btn-date-day {
 	font-size: 18px !important;
@@ -2101,21 +1629,11 @@ textarea:focus {
 }
 
 
-.retro .btn-date-day {
-	padding-bottom: 0px !important;
-	padding-top: 1px !important;
-}
-
 .modern .btn-date-day {
 	padding-top: 0.15vmin !important;
 	padding-bottom: 0.3vmin !important;
 }
 
-.paypoint .btn-date-day {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-	padding-top: 0.5vmin !important;
-}
 
 .header-bar button {
 	background: #0282A9;
@@ -2139,11 +1657,6 @@ textarea:focus {
 	height: 11vmin;
 }
 
-.paypoint .header-bar button {
-	background: #f5d40e;
-	border-color: white;
-}
-
 .header-bar .button-on button {
 	background: #3CD1FD !important;
 	width: 11.4vmin;
@@ -2165,10 +1678,6 @@ textarea:focus {
 	font-size: 5vmin;
 }
 
-.retro .dialog-button button {
-	width: 85px;
-}
-
 .claro .dijitSplitContainer-child,
 .claro .dijitBorderContainer-child {
 	border: none;
@@ -2184,10 +1693,6 @@ textarea:focus {
 
 .luminate div.main-panel {
 	background: #E2E2E2 !important;
-}
-
-.paypoint div.main-panel {
-	background: white !important;
 }
 
 .list-no-left-border {
@@ -2221,31 +1726,16 @@ textarea:focus {
 	font-size: 3.1vmin;
 }
 
-.paypoint .menu-grid button {
-	border-color: #447fc1;
-	color: #447fc1;
-	padding: 3px 14px 0px;
-	padding: 0.4vmin 2vmin 0px;
-}
 
 .menu-grid .menu-grid-orange button {
 	border-color: #D87000 !important;
 	color: #A85700 !important;
 }
 
-.paypoint .menu-grid .menu-grid-orange button {
-	border-color: #f47920 !important;
-	color: #f47920 !important;
-}
 
 .menu-grid .menu-grid-purple button {
 	border-color: #A850F4 !important;
 	color: #833FBF !important;
-}
-
-.paypoint .menu-grid .menu-grid-purple button {
-	border-color: #317656 !important;
-	color: #317656 !important;
 }
 
 .menu-grid .menu-grid-grey button {
@@ -2277,10 +1767,6 @@ textarea:focus {
 	background: #E2E2E2 !important;
 }
 
-.paypoint div.menu-panel,
-.claro.paypoint .dijitBorderContainer .menu-panel {
-	background: white !important;
-}
 
 .menu-panel button {
 	background: black;
@@ -2293,11 +1779,6 @@ textarea:focus {
 
 .luminate .menu-panel button {
 	background: #E2E2E2;
-}
-
-.paypoint .menu-panel button {
-	background: #f5d40e;
-	font-weight: normal;
 }
 
 .menu-panel button i {
@@ -2315,15 +1796,6 @@ textarea:focus {
 
 .luminate .menu-panel table {
 	background: #03B4E7 !important;
-}
-
-.paypoint .menu-panel table {
-	background: #f5d40e !important;
-	border-radius: 7px;
-}
-
-.paypoint.modern .menu-panel table {
-	border-radius: 1vmin;
 }
 
 .menu-panel button td {
@@ -2350,10 +1822,6 @@ textarea:focus {
 	background: #02A0CE !important;
 }
 
-.paypoint .menu-panel .menu-base {
-	background: #f5d40e !important;
-}
-
 .menu-panel div {
 	display: inline-block;
 }
@@ -2370,10 +1838,6 @@ textarea:focus {
 	width: 31.6vw;
 }
 
-.retro .menu-column-3 div {
-	width: 32.2%;
-}
-
 .menu-column-4 div {
 	width: 236px;
 	width: 24.3vw;
@@ -2383,17 +1847,9 @@ textarea:focus {
 	width: 23.4vw;
 }
 
-.retro .menu-column-4 div {
-	width: 23.9%;
-}
-
 .menu-column-5 div {
 	width: 130px;
 	width: 18.48vw;
-}
-
-.retro .menu-column-5 div {
-	width: 14.2%;
 }
 
 .menu-row-2 button {
@@ -2451,11 +1907,6 @@ textarea:focus {
 	font-size: 5vmin;
 }
 
-.retro .menu-3 button {
-	height: 97%;
-	width: 32.2%;
-}
-
 .menu-4 button {
 	width: 236px;
 	height: 596px;
@@ -2463,11 +1914,6 @@ textarea:focus {
 	height: 85vh;
 	font-size: 32px;
 	font-size: 4.5vmin;
-}
-
-.retro .menu-4 button {
-	height: 97%;
-	width: 23.9%;
 }
 
 .menu-8 button {
@@ -2485,11 +1931,6 @@ textarea:focus {
 
 .menu-8 .menu-base {
 	padding: 0 0 2vmin;
-}
-
-.retro .menu-8 button {
-	height: 47.7%;
-	width: 23.9%;
 }
 
 .menu-3 .menu-base,
@@ -2547,11 +1988,6 @@ textarea:focus {
 	border-radius: 0.8vmin !important;
 }
 
-.paypoint .menu-date table {
-	background: #2e2556 !important;
-	border-color: #2e2556 !important;
-}
-
 .menu-date-month {
 	height: 1px !important;
 	padding: 5px 0px 6px !important;
@@ -2571,11 +2007,6 @@ textarea:focus {
 	color: #03B4E7 !important;
 }
 
-.paypoint .menu-date-month {
-	background: #2e2556 !important;
-	color: #f5d40e !important;
-}
-
 .menu-date-day {
 	padding: 5px 0px 9px !important;
 	font-size: 40px !important;
@@ -2586,22 +2017,12 @@ textarea:focus {
 	border-radius: 0px;
 }
 
-.retro .menu-date-day {
-	padding: 7px 0px !important;
-}
-
 .modern .menu-date-day {
 	padding: 0.6vmin 0px 1.2vmin !important;
 }
 
 .luminate .menu-date-day {
 	background: #03B4E7 !important;
-}
-
-.paypoint .menu-date-day {
-	color: #2e2556 !important;
-	background: #f5d40e !important;
-	padding-top: 1.9vmin !important;
 }
 
 .landing td {
@@ -2663,10 +2084,6 @@ textarea:focus {
 	border-color: #E2E2E2;
 }
 
-.paypoint .summary-panel button {
-	border-color: white;
-}
-
 .summary-panel button td {
 	padding-top: 5px;
 	padding-top: 0.7vmin;
@@ -2685,16 +2102,6 @@ textarea:focus {
 	padding-top: 1.1vmin;
 }
 
-.paypoint .summary-panel button td {
-	padding-top: 6px;
-	padding-top: 0.8vmin;
-}
-
-.paypoint .summary-panel button td:first-child {
-	padding-left: 0px;
-	padding-top: 7px;
-	padding-top: 1.1vmin;
-}
 
 .summary-top {
 	padding-top: 0px;
@@ -2711,12 +2118,6 @@ textarea:focus {
 	text-align: center;
 }
 
-.paypoint .label-cell {
-	color: #e6e2e1;
-	font-size: 20px !important;
-	font-size: 2.8vmin !important;
-	font-weight: bold;
-}
 
 .dialog-message {
 	padding: 14px 20px;
@@ -2736,8 +2137,7 @@ textarea:focus {
 	border-right: 0.3vmin black solid;
 }
 
-.luminate .dialog-message,
-.paypoint .dialog-message {
+.luminate .dialog-message {
 	border-color: white;
 }
 
@@ -2790,10 +2190,6 @@ textarea:focus {
 	border-left: 1px white solid !important;
 }
 
-.paypoint .control-small {
-	border-color: #cec8c4 !important;
-}
-
 .transfer-area {
 	padding:7px !important;
 	padding:1vmin !important;
@@ -2801,10 +2197,6 @@ textarea:focus {
 	border-width: 0.5vmin !important;
 	border-radius: 21px !important;
 	border-radius: 3vmin !important;
-}
-
-.paypoint .transfer-area {
-	border-color: #cec8c4 !important;
 }
 
 .control-right button {
@@ -2843,12 +2235,6 @@ textarea:focus {
 	font-size: 4.5vmin;
 }
 
-.paypoint .control-left button,
-.paypoint .control-right button {
-	border-color: white;
-	transition: border 0s linear 0.2s;
-}
-
 .control-top-square button {
 	border-top-left-radius: 0px !important;
 	border-top-right-radius: 0px !important;
@@ -2872,11 +2258,6 @@ textarea:focus {
 .luminate .control-top-square button,
 .luminate .control-bottom-square button {
 	border-color: #E2E2E2 !important;
-}
-
-.paypoint .control-top-square button,
-.paypoint .control-bottom-square button {
-	border-color: white !important;
 }
 
 .control-full,
@@ -2953,11 +2334,6 @@ textarea:focus {
 	font-size: 4vmin;
 }
 
-.paypoint .control-dialog-base button {
-	padding-top: 8px;
-	padding-top: 1.2vmin;
-}
-
 .control-dialog-button {
 	width: 88px !important;
 	width: 12.5vmin !important;
@@ -3016,40 +2392,9 @@ textarea:focus {
 	border-color: #8FD4FB;
 }
 
-.paypoint .input-button td button {
-	color: #999;
-	background: white;
-	border-width: 2px;
-	border-width: 0.24vmin;
-	border-color: #999;
-	padding-top: 6px !important;
-	padding-bottom: 4px !important;
-	font-size: 18px;
-	font-size: 2.8vmin;
-	border-left-width: 1px;
-	border-right-width: 1px;
-	border-left-width: 0.12vmin;
-	border-right-width: 0.12vmin;
-}
-
-.paypoint .input-button.input-button-small-text td button {
-	font-size: 16px;
-	font-size: 2.5vmin;
-}
-
-.paypoint.modern .input-button td button {
-	padding-top: 0.8vmin !important;
-	padding-bottom: 0.2vmin !important;
-}
-
 .input-button.input-button-small td button {
 	height: 55px;
 	height: 7.9vmin;
-}
-
-.paypoint .input-button.input-button-small td button {
-	height: 51px;
-	height: 7.55vmin;
 }
 
 .input-button.input-button-menu td button {
@@ -3079,13 +2424,6 @@ textarea:focus {
 	border-top-width: 0.2vmin;
 }
 
-.paypoint .input-button .input-button-top td button {
-	border-bottom-width: 0.12vmin;
-}
-
-.paypoint .input-button .input-button-bottom td button {
-	border-top-width: 0.12vmin;
-}
 
 .item-input-button td button {
 	width: 100%;
@@ -3106,20 +2444,12 @@ textarea:focus {
 	border-color: #F2F2F2;
 }
 
-.paypoint .item-input-button td button {
-	border: none;
-}
-
 .item-row-highlight td button {
 	border-color: #045 !important;
 }
 
 .luminate .item-row-highlight td button {
 	border-color: #D0F0FF !important;
-}
-
-.paypoint .item-row-highlight td button {
-	border-color: #a3d5ef !important;
 }
 
 .dialog-panel .input-button button {
@@ -3131,12 +2461,6 @@ textarea:focus {
 	color: #9259C6;
 	background: #C7A1ED;
 	border-color: #D5AEFB;
-}
-
-.paypoint .dialog-panel .input-button button {
-	color: #999;
-	background: white;
-	border-color: #999;
 }
 
 .input-panel .input-dialog .input-button td button,
@@ -3157,13 +2481,6 @@ textarea:focus {
 	border-bottom-left-radius: 1.6vmin;
 }
 
-.paypoint .input-button td:first-child button {
-	border-left-width: 0.24vmin;
-	border-top-left-radius: 5px;
-	border-top-left-radius: 0.6vmin;
-	border-bottom-left-radius: 5px;
-	border-bottom-left-radius: 0.6vmin;
-}
 
 .input-button td:last-child button,
 .input-button-last button {
@@ -3179,15 +2496,6 @@ textarea:focus {
 	border-bottom-right-radius: 1.6vmin;
 }
 
-.paypoint .input-button td:last-child button,
-.paypoint .input-button-last button {
-	border-right-width: 0.24vmin !important;
-	border-top-right-radius: 5px;
-	border-top-right-radius: 0.6vmin;
-	border-bottom-right-radius: 5px;
-	border-bottom-right-radius: 0.6vmin;
-}
-
 .input-button-on button {
 	background: white !important;
 	color: #0282A9 !important;
@@ -3199,16 +2507,6 @@ textarea:focus {
 	color: white !important;
 }
 
-.paypoint .input-button-on button {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-}
-
-.paypoint .input-panel .input-button-on button {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-}
-
 .dialog-panel .input-button-on button {
 	color: #7002CA !important;
 }
@@ -3218,10 +2516,6 @@ textarea:focus {
 	color: white !important;
 }
 
-.paypoint .dialog-panel .input-button-on button {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-}
 
 .input-row-full {
 	padding: 0px 0.5vmin;
@@ -3240,23 +2534,9 @@ textarea:focus {
 	background: linear-gradient(#003241, transparent) !important;
 }
 
-.luminate .gradienter,
-.paypoint .gradienter {
-	background: -webkit-linear-gradient(white, transparent) !important;
-	background: -o-linear-gradient(white, transparent) !important;
-	background: -moz-linear-gradient(white, transparent) !important;
-	background: linear-gradient(white, transparent) !important;
-}
-
 .input-row-grid {
 	padding-top: 7px !important;
 	padding-top: 1vmin !important;
-}
-
-.retro .input-row-grid,
-.retro .input-row-panel {
-	width: 98% !important;
-	table-layout: fixed;
 }
 
 .input-row-panel {
@@ -3319,26 +2599,8 @@ textarea:focus {
 	color: #0282A9;
 }
 
-.paypoint .input-row td:first-child,
-.paypoint .input-card td,
-.paypoint .input-panel .input-dialog .input-row td:first-child,
-.paypoint .price-panel .input-dialog .input-row td:first-child,
-.paypoint .input-title {
-	color: #2d2d2d;
-	padding-top: 19px !important;
-	padding-top: 2.4vmin !important;
-}
-
-.paypoint .input-card td {
-	padding-top: 0px !important;
-}
-
 .luminate .dialog-panel .input-area td:first-child {
 	color: #7944AA !important;
-}
-
-.paypoint .dialog-panel .input-area td:first-child {
-	color: white !important;
 }
 
 .menu-options button {
@@ -3362,21 +2624,10 @@ textarea:focus {
 	margin-bottom: 1vmin;
 }
 
-.paypoint .menu-options button .button-icon {
-	background: #f5d40e;
-	border-radius: 0.6vmin !important;
-	height: 18vh;
-	margin-bottom: 1vmin;
-}
 
 .menu-options button div i,
 .menu-options button div img {
 	margin-top: 4vmin;
-}
-
-.paypoint .fa-stack {
-	font-size: 5vmin;
-	padding-bottom: 2vmin;
 }
 
 .fa-no-padding {
@@ -3426,10 +2677,6 @@ textarea:focus {
 	border-color: #8FD4FB;
 }
 
-.paypoint .input-total td {
-	border-color: #e6e2e1;
-}
-
 .side-tabs td {
 	width: 100%;
 	background: #002530;
@@ -3450,16 +2697,6 @@ textarea:focus {
 	border-right-width: 0.4vmin;
 }
 
-.paypoint .side-tabs td {
-	background: #e6e2e1;
-	color: #777;
-	border-color: white;
-	border-right: none !important;
-	font-size: 18px;
-	font-size: 2.6vmin;
-	line-height: 110%;
-}
-
 .side-tabs i {
 	padding-bottom: 7px;
 	padding-bottom: 1vmin;
@@ -3478,10 +2715,6 @@ textarea:focus {
 	border-right-width: 0px !important;
 	cursor: default !important;
 	color: white !important;
-}
-
-.paypoint .side-tab-on {
-	color: #2e2556 !important;
 }
 
 .empty-row {
@@ -3524,15 +2757,6 @@ textarea:focus {
 	color: #F22;
 }
 
-.paypoint .empty-row div {
-	border-color: #ef4050;
-	color: #ef4050;
-}
-
-.paypoint .empty-row .empty-cell {
-	padding-top: 0.3vmin !important;
-}
-
 .list-empty td {
 	font-size: 24px;
 	font-size: 3.4vmin;
@@ -3542,10 +2766,6 @@ textarea:focus {
 
 .luminate .list-empty td {
 	color: #D00;
-}
-
-.paypoint .list-empty td {
-	color: #a59d95;
 }
 
 .list-empty .fa {
@@ -3567,28 +2787,11 @@ textarea:focus {
 	background: #F2F2F2;
 }
 
-.paypoint .list-panel,
-.paypoint .list-panel table,
-.paypoint .print-panel,
-.paypoint .print-panel div {
-	background: white;
-}
-
-.paypoint .list-panel table table {
-	background: inherit !important;
-}
-
 .print-panel,
 .print-panel table,
 .print-panel table td {
 	color: black;
 	font-family: Arial;
-}
-
-.paypoint .print-panel,
-.paypoint .print-panel table,
-.paypoint .print-panel table td {
-	font-family: paypointfont, Arial;
 }
 
 .print-panel table,
@@ -3613,16 +2816,6 @@ textarea:focus {
 	color: #0282a9 !important;
 }
 
-.paypoint .item-title td {
-	background: white;
-	color: #2d2d2d !important;
-	border: none !important;
-}
-
-.retro .item-title td {
-	height: 8vmin !important;
-}
-
 .item-head td {
 	color: #01546B;
 	background: #D6F0FE;
@@ -3633,16 +2826,6 @@ textarea:focus {
 .luminate .item-head td {
 	color: white !important;
 	background: #01546B;
-}
-
-.paypoint .item-head td {
-	color: white !important;
-	background: #2e2556;
-	border: none !important;
-}
-
-.retro .item-head td {
-	height: 5vmin !important;
 }
 
 .item-row td {
@@ -3664,18 +2847,9 @@ textarea:focus {
 	border-top: black 0.2vmin solid;
 }
 
-.retro .item-row td {
-	height: 13vmin;
-}
-
 .luminate .item-row td {
 	border-color: #E2E2E2;
 	color: black;
-}
-
-.paypoint .item-row td {
-	border-color: #cec8c4;
-	color: #2d2d2d;
 }
 
 .item-row-off td {
@@ -3687,10 +2861,6 @@ textarea:focus {
 	background: #E0E0E0 !important;
 }
 
-.paypoint .item-row-off td {
-	background: #e6e2e1 !important;
-}
-
 .item-row td:first-child {
 	padding-left: 18px;
 	padding-left: 2.8vmin;
@@ -3698,14 +2868,6 @@ textarea:focus {
 
 .item-row td:last-child {
 	padding-right: 3vmin;
-}
-
-.paypoint .item-row td:first-child {
-	padding-left: 1.8vmin !important;
-}
-
-.paypoint .item-row td:last-child {
-	padding-right: 2vmin !important;
 }
 
 .item-row-last td {
@@ -3717,25 +2879,12 @@ textarea:focus {
 	cursor: pointer;
 }
 
-.luminate .item-row-click td,
-.paypoint .item-row-click td {
-	background: white;
-}
-
 .item-row-highlight td {
 	background: #01627F;
 }
 
 .luminate .item-row-highlight td {
 	background: #D0F0FF;
-}
-
-.paypoint .item-row-highlight td {
-	background: #a3d5ef;
-}
-
-.paypoint .paypoint-left {
-	padding-left: 0 !important;
 }
 
 .item-clip {
@@ -3765,11 +2914,6 @@ textarea:focus {
 	border-color: #0282a9 !important;
 }
 
-.paypoint .small-head td {
-	color: #2d2d2d;
-	border-width: 0.2vmin !important;
-	border-color: #2e2556 !important;
-}
 
 .small-row td {
 	font-size: 16px;
@@ -3788,11 +2932,6 @@ textarea:focus {
 	border-color: #8FD4FB;
 }
 
-.paypoint .small-row td {
-	border-color: #a59d95;
-	padding: 6px 8px 2px 4px;
-	padding: 0.8vmin 0.7vmin 0.45vmin;
-}
 
 .small-row-borderless td {
 	border: none !important;
@@ -3808,18 +2947,6 @@ textarea:focus {
 	background: white;
 }
 
-.paypoint .small-row-alternate td {
-	background: #e6e2e1;
-}
-
-.paypoint .small-row .item-highlight,
-.paypoint .item-row-click .item-highlight {
-	background: #e6e2e1;
-}
-
-.paypoint .small-row-alternate .item-highlight {
-	background: #cec8c4 !important;
-}
 
 .small-head td:first-child,
 .small-row td:first-child {
@@ -3941,12 +3068,6 @@ textarea:focus {
 	box-shadow: 0px 0px 0px 0.1vmin white inset;
 }
 
-.paypoint .cellte {
-	background: #cec8c4 !important;
-	box-shadow: 0px 0px 0px 1px white inset;
-	box-shadow: 0px 0px 0px 0.1vmin white inset;
-}
-
 .cellsa {
 	background: #807 !important;
 	box-shadow: 0px 0px 0px 1px #003241 inset;
@@ -3959,11 +3080,6 @@ textarea:focus {
 	box-shadow: 0px 0px 0px 0.1vmin white inset;
 }
 
-.paypoint .cellsa {
-	background: #aad59f !important;
-	box-shadow: 0px 0px 0px 1px white inset;
-	box-shadow: 0px 0px 0px 0.1vmin white inset;
-}
 
 .cellsc {
 	background: #850 !important;
@@ -3973,12 +3089,6 @@ textarea:focus {
 
 .luminate .cellsc {
 	background: #FC8 !important;
-	box-shadow: 0px 0px 0px 1px white inset;
-	box-shadow: 0px 0px 0px 0.1vmin white inset;
-}
-
-.paypoint .cellsc {
-	background: #f9bc88 !important;
 	box-shadow: 0px 0px 0px 1px white inset;
 	box-shadow: 0px 0px 0px 0.1vmin white inset;
 }
@@ -3995,22 +3105,12 @@ textarea:focus {
 	box-shadow: 0px 0px 0px 0.1vmin white inset;
 }
 
-.paypoint .cellpr {
-	color: #ef4050 !important;
-	box-shadow: 0px 0px 0px 1px white inset;
-	box-shadow: 0px 0px 0px 0.1vmin white inset;
-}
-
 .warning-text {
 	color: #F55 !important;
 }
 
 .luminate .warning-text {
 	color: #D00 !important;
-}
-
-.paypoint .warning-text {
-	color: #ef4050 !important;
 }
 
 .item-icon {
@@ -4036,11 +3136,6 @@ textarea:focus {
 
 .modern .item-icon.item-icon-wider {
 	width: 7vmin;
-}
-
-.luminate .item-icon,
-.paypoint .item-icon {
-	text-shadow: none;
 }
 
 .item-number {
@@ -4084,11 +3179,6 @@ textarea:focus {
 	width: 9vmin !important;
 }
 
-.paypoint .insert-bar {
-	border-left: 1px #cec8c4 solid;
-	padding: 0 0 0 2vmin !important;
-}
-
 .insert-bar td {
 	padding: 2px 0 !important;
 	padding: 0.2vmin 0 !important;
@@ -4118,11 +3208,6 @@ textarea:focus {
 	line-height: 100%;
 }
 
-.paypoint .item-row td {
-	padding-top: 3px !important;;
-	padding-top: 0.5vmin !important;
-}
-
 .item-huge {
 	font-size: 36px !important;
 	font-size: 5vmin !important;
@@ -4142,10 +3227,6 @@ textarea:focus {
 	width: 300px;
 }
 
-.retro .item-third {
-	width: 360px;
-}
-
 .modern .item-third {
 	width: 36vw;
 }
@@ -4159,10 +3240,6 @@ textarea:focus {
 }
 
 .item-sixth {
-	width: 150px;
-}
-
-.retro .item-sixth {
 	width: 150px;
 }
 
@@ -4182,10 +3259,6 @@ textarea:focus {
 	width: 100px;
 }
 
-.retro .item-tenth {
-	width: 80px;
-}
-
 .modern .item-tenth {
 	width: 11vw;
 }
@@ -4194,20 +3267,12 @@ textarea:focus {
 	width: 80px;
 }
 
-.retro .item-twelfth {
-	width: 65px;
-}
-
 .modern .item-twelfth {
 	width: 9vw;
 }
 
 .item-sixteenth {
 	width: 60px;
-}
-
-.retro .item-sixteenth {
-	width: 48px;
 }
 
 .modern .item-sixteenth {
@@ -4235,10 +3300,6 @@ textarea:focus {
 
 .luminate .item-sub {
 	color: #0282a9;
-}
-
-.paypoint .item-sub {
-	color: #2d2d2d;
 }
 
 .item-grid {
@@ -4269,20 +3330,12 @@ textarea:focus {
 	color: #02A0CE !important;
 }
 
-.paypoint .icon-blue {
-	color: #447fc1 !important;
-}
-
 .icon-green {
 	color: #00E000 !important;
 }
 
 .luminate .icon-green {
 	color: #00A000 !important;
-}
-
-.paypoint .icon-green {
-	color: #317656 !important;
 }
 
 .icon-red {
@@ -4316,12 +3369,6 @@ textarea:focus {
 	font-weight: normal;
 }
 
-.paypoint .header-status {
-	background: #ef4050 !important;
-	padding: 6px 7px 2px !important;
-	padding: 2.3vmin 2vmin 1.8vmin !important;
-}
-
 .max-reached {
 	position: absolute;
 	bottom: 7px;
@@ -4344,32 +3391,12 @@ textarea:focus {
 	line-height: 100%;
 }
 
-.paypoint .max-reached {
-	background: #ef4050 !important;
-	padding: 6px 7px 2px !important;
-	padding: 2.3vmin 2vmin 1.8vmin !important;
-}
-
-.paypoint .icon-red,
-.paypoint .icon-light-red {
-	color: #ef4050 !important;
-}
-
-.paypoint .header-bar .icon-red,
-.paypoint .header-bar .icon-light-red {
-	color: #2e2556 !important;;
-}
-
 .icon-orange {
 	color: #FF9933 !important;
 }
 
 .luminate .icon-orange {
 	color: #E97000 !important;
-}
-
-.paypoint .icon-orange {
-	color: #f47920 !important;
 }
 
 .icon-purple {
@@ -4380,10 +3407,6 @@ textarea:focus {
 	color: #BB22EE !important;
 }
 
-.paypoint .icon-purple {
-	color: #317656 !important;
-}
-
 .icon-grey {
 	color: #BBB !important;
 }
@@ -4392,19 +3415,10 @@ textarea:focus {
 	color: #555 !important;
 }
 
-.paypoint .icon-grey {
-	color: #89827b !important;
-}
-
 .group-type-blue td,
 .bar-blue {
 	color: white !important;
 	background: #03B4E7 !important;
-}
-
-.paypoint .group-type-blue td,
-.paypoint .bar-blue {
-	background: #447fc1 !important;
 }
 
 .group-type-orange td,
@@ -4413,35 +3427,16 @@ textarea:focus {
 	background: #D87000 !important;
 }
 
-.paypoint .group-type-orange td,
-.paypoint .bar-orange {
-	background: #f47920 !important;
-}
-
 .group-type-purple td,
 .bar-purple {
 	color: white !important;
 	background: #A850F4 !important;
 }
 
-.paypoint .group-type-purple td,
-.paypoint .bar-purple {
-	background: #317656 !important;
-}
-
 .group-type-grey td,
 .bar-grey {
 	color: white !important;
 	background: #888 !important;
-}
-
-.paypoint .group-type-grey td,
-.paypoint .bar-grey {
-	background: #a59d95 !important;
-}
-
-.paypoint .button-blue button {
-	background: #447fc1 !important;
 }
 
 .input-panel .button-blue button,
@@ -4488,19 +3483,9 @@ textarea:focus {
 	color: white !important;
 }
 
-.paypoint .button-black button {
-	background: #a59d95 !important;
-	color: white !important;
-}
-
 .header-bar .button-black button,
 .luminate .header-bar .button-black button {
 	background: #404040 !important;
-	color: white !important;
-}
-
-.paypoint .header-bar .button-black button {
-	background: #a59d95 !important;
 	color: white !important;
 }
 
@@ -4520,31 +3505,15 @@ textarea:focus {
 	background: #71DDFD;
 }
 
-.paypoint .button-level2 button,
-.paypoint .button-level3 button {
-	background: #f5d40e;
-}
-
 .button-green button,
 .green {
 	background: #0A0 !important;
 	color: white !important;
 }
 
-.paypoint .button-green button,
-.paypoint .green {
-	background: #6ec05d !important;
-	color: white !important;
-}
-
 .luminate .input-panel .button-green button,
 .luminate .price-panel .button-green button {
 	background: #0D0 !important;
-}
-
-.paypoint .input-panel .button-green button,
-.paypoint .price-panel .button-green button {
-	background: #6ec05d !important;
 }
 
 .button-green.button-green-on button {
@@ -4566,30 +3535,14 @@ textarea:focus {
 	background: #F44 !important;
 }
 
-.paypoint .button-red button,
-.paypoint .input-panel .button-red button,
-.paypoint .price-panel .button-red button {
-	background: #ef4050 !important;
-}
-
 .button-orange button {
 	background: #D87000 !important;
 	color: white !important;
 }
 
-.paypoint .button-orange button {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-}
-
 .luminate .input-panel .button-orange button,
 .luminate .price-panel .button-orange button {
 	background: #F94 !important;
-}
-
-.paypoint .input-panel .button-orange button,
-.paypoint .price-panel .button-orange button {
-	background: #f5d40e !important;
 }
 
 .button-purple button {
@@ -4602,21 +3555,6 @@ textarea:focus {
 	background: #CC77FF !important;
 }
 
-.paypoint .button-purple button,
-.paypoint .price-panel .button-purple button {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-}
-
-.paypoint .input-panel .button-purple button,
-.paypoint .input-panel .button-orange button,
-.paypoint .input-panel .button-red button,
-.paypoint .price-panel .button-red button,
-.paypoint .price-panel .button-black button {
-	background: #303030 !important;
-	color: white !important;
-}
-
 .button-purple.button-purple-on button {
 	background: #2C0A47 !important;
 }
@@ -4626,36 +3564,13 @@ textarea:focus {
 	background: #C7A1ED !important;
 }
 
-.paypoint .button-purple.button-purple-on button,
-.paypoint .button-green.button-green-on button {
-	color: white !important;
-	background: #2e2556 !important;
-	border-right-color: #2e2556 !important;
-	transition: border 0s linear 0s;
-}
-
 .button-grey button {
 	background: #888;
-}
-
-.paypoint .button-grey button {
-	background: #2e2556;
-	color: white;
 }
 
 .delete-btn {
 	background: #C00 !important;
 	color: white !important;
-}
-
-.paypoint .delete-btn {
-	background: #ef4050 !important;
-}
-
-.paypoint .full-list-panel.push-right-pp {
-	padding-left: 14px !important;
-	padding-left: 2vmin !important;
-	border-left: 1px #cec8c4 solid !important;
 }
 
 .button-submit {
@@ -4712,10 +3627,6 @@ textarea:focus {
 	color: #03B4E7;
 }
 
-.paypoint .button-date button span {
-	color: white;
-}
-
 .button-date .input-button-on button span {
 	color: #03B4E7;
 }
@@ -4724,19 +3635,11 @@ textarea:focus {
 	color: #AEE1FD;
 }
 
-.paypoint .button-date .input-button-on button span {
-	color: #2e2556;
-}
-
 .input-panel .button-shift button {
 	padding-top: 11px !important;
 	padding-top: 0.3vmin !important;
 	padding-bottom: 0px !important;
 	padding-bottom: 0.5vmin !important;
-}
-
-.paypoint .input-panel .button-shift button {
-	padding-top: 1.1vmin !important;
 }
 
 .fa-sign-out {
@@ -4817,12 +3720,6 @@ textarea:focus {
 	border-color: #E2E2E2 !important;
 }
 
-.paypoint .page-cell {
-	background: #f5d40e !important;
-	color: #2e2556 !important;
-	border-color: white !important;
-}
-
 .page-cell table {
 	margin: auto;
 	width: auto;
@@ -4841,12 +3738,6 @@ textarea:focus {
 	height: 50%;
 }
 
-.paypoint .page-cell table td {
-	padding: 0px 5px 5px 4px;
-	padding: 0px 0.4vmin 0.7vmin 0.3vmin;
-	font-weight: bold;
-}
-
 .page-total-cell td {
 	padding: 8px 5px 0px 4px !important;
 	padding: 1vmin 0.4vmin 0px 0.3vmin !important;
@@ -4856,10 +3747,6 @@ textarea:focus {
 
 .modern .page-total-cell td {
 	border-top: white 0.3vmin solid !important;
-}
-
-.paypoint .page-total-cell td {
-	border-top-color: #2e2556 !important;
 }
 
 .header-message {
@@ -4876,18 +3763,6 @@ textarea:focus {
 .header-message.header-error {
 	color: #FCC;
 	background: #A00 !important;
-}
-
-.paypoint .header-message {
-	background: #2e2556 !important;
-	color: white !important;
-	padding-top: 14px !important;
-	padding-top: 1.8vmin !important;
-}
-
-.paypoint .header-message.header-error {
-	background: #ef4050 !important;
-	color: white !important;
 }
 
 .header-control {
@@ -4921,12 +3796,6 @@ textarea:focus {
 	border-bottom-right-radius: 0px !important;
 }
 
-.paypoint .header-control .control-right-square,
-.paypoint .header-control .control-left-square {
-	border-radius: 7px !important;
-	border-radius: 1vmin !important;
-}
-
 @media print {
 * {
 		display: none;
@@ -4951,11 +3820,6 @@ textarea:focus {
 .processing td {
 	text-align: center;
 	vertical-align: middle;
-}
-
-.luminate .processing,
-.paypoint .processing {
-	background: white;
 }
 
 .side-tabs .fa-edit {
