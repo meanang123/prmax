@@ -363,6 +363,7 @@ dojo.declare("prmax.lists.standinglist", [ttl.BaseWidget], {
 				{
 					this.modelList.SetNoCallBackMode(true);
 					this.modelList.setValue(  this.tmp_row, "listname" , response.list.listname, true );
+					this.modelList.setValue(  this.tmp_row, "clientname" , response.list.clientname, true );
 					this.modelList.SetNoCallBackMode(false);
 				}
 			}

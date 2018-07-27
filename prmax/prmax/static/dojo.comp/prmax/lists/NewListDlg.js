@@ -29,7 +29,6 @@ dojo.declare("prmax.lists.NewListDlg",
 	},
 	postCreate:function()
 	{
-		dojo.connect(this.form,"onSubmit",dojo.hitch(this,this._SubmitAdd));
 		this.clientid.set("store", this._clients);
 		this.clientid.set("value",  "-1");
 	},
@@ -39,7 +38,7 @@ dojo.declare("prmax.lists.NewListDlg",
 	},
 	_Save:function()
 	{
-		this.form.submit();
+		this._SubmitAdd();
 	},
 	_Cancel:function()
 	{
@@ -113,6 +112,7 @@ dojo.declare("prmax.lists.NewListDlg",
 	{
 		if (response.success == "OK")
 		{
+			this.listname.set("value", response.list.listname);
 			this.clientid.set("value", response.list.clientid);
 			this.dlg.show();
 		}
