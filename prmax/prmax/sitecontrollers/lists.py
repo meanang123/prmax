@@ -202,7 +202,7 @@ class ListController(SecureController):
 		2. renames
 		returns list details """
 
-		if List.Exits(params['customerid'], params['listname']):
+		if List.Exits(params['customerid'], params['listname'], params["listid"]):
 			return duplicatereturn()
 
 		List.rename( params['customerid'],
