@@ -15,8 +15,7 @@ from turbogears import expose, validate, validators, error_handler, \
 	 exception_handler
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
-from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, \
-     BooleanValidator
+from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, RestSchema, BooleanValidator
 from ttl.base import stdreturn, formreturn, errorreturn
 from ttl.ttlemail import ext_to_content_type
 from ttl.postgres import DBCompress
@@ -154,6 +153,16 @@ class SEOPressReleaseController(SecureController):
 		""" list of seo release """
 
 		return SEORelease.get_grid_page ( params )
+
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def list_rest(self, *argv, **params):
+		""" returns a list of seoreleases """
+
+		params["is_combo"] = True
+		return SEORelease.get_list_rest(params)
 
 	@expose("")
 	def thumbnail_image_load(self, *args, **params):

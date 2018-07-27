@@ -130,11 +130,15 @@ class ContactHistory(BaseSql):
 			#contacthistoryid
 			ch = ContactHistory.query.get(params["contacthistoryid"])
 			ch.subject = params["subject"]
-			ch.contacthistorysourceid = params["contacthistorysourceid"]
+			if 'contacthistorysourceid' in params:
+				ch.contacthistorysourceid = params["contacthistorysourceid"]
 			ch.details = params["details"]
 			ch.modifiedby = params["userid"]
 			ch.modified = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
+			if "crm_response" in params:
+				ch.crm_response = params['crm_response']
+			if 'clientid' in params:
+				ch.clientid = params['clientid']
 			transaction.commit()
 		except:
 			transaction.rollback()

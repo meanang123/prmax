@@ -27,10 +27,11 @@
 							</table>
 						</td>
 					</tr>
+					<tr data-dojo-attach-point="language_node" data-dojo-props='"class":"prmaxhidden"'><td>Language</td><td><select data-dojo-props='style:"width:15em",name:"languageid",autoComplete:true,searchAttr:"name",required:false,placeHolder:"No Selection"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="languageid" data-dojo-attach-event="onChange:_change_lang"></select></td><tr>
+					<tr data-dojo-attach-point="tranlatedseo_node" data-dojo-props='"class":"prmaxhidden"'><td>Translated SEO</td><td><select data-dojo-props='style:"width:15em",name:"translatedseoreleaseid",autoComplete:true,searchAttr:"name",required:false,placeHolder:"No Selection"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="translatedseoreleaseid"></select></td><tr>
 
 					<tr data-dojo-attach-point="globalnewsrooms_tr"><td>Newsroom</td><td><span><input data-dojo-attach-point="option0" data-dojo-attach-event="onClick:_option_changed" data-dojo-props='"class":"prmaxlabeltag",type:"radio",name:"is_client_newsroom",value:"1",checked:"checked"' data-dojo-type="dijit.form.RadioButton" /><label>Client</label></span>
 									 <span><input data-dojo-attach-point="option1" data-dojo-attach-event="onClick:_option_changed" data-dojo-props='"class":"prmaxlabeltag",type:"radio",name:"is_client_newsroom",value:"0"' data-dojo-type="dijit.form.RadioButton" /><label>Global</label></span></td></tr>
-
 					<tr>
 						<td valign="top" align="right" class="prmaxrowtag" data-dojo-attach-point="client_name"></td>
 						<td>

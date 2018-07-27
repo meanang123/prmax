@@ -141,6 +141,7 @@ class ModulesCustomerSchema(PrFormSchema):
 	crm = tgvalidators.BooleanValidator(if_empty=True)
 	updatum = tgvalidators.BooleanValidator()
 	seo = tgvalidators.BooleanValidator()
+	seotranslation = tgvalidators.BooleanValidator()
 	maxmonitoringusers = validators.Int()
 	is_bundle = BooleanValidator()
 	has_news_rooms = BooleanValidator()

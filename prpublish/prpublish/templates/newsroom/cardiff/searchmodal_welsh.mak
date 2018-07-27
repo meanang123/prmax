@@ -41,7 +41,7 @@
             </div>
 
             <div class="float-right mt20 mr20">
-                <button class="prmax-cardiff-btn white-cardiff-btn"><a href="/">Canslo</a></button>
+                <button class="prmax-cardiff-btn white-cardiff-btn"><a href="/nr/e1966">Canslo</a></button>
                 <button class="prmax-cardiff-btn light-cardiff-btn" type="submit" value="Submit" >Cyflwyno</button>
             </div>
         <form>

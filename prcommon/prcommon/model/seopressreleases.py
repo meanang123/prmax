@@ -83,9 +83,20 @@ class SEORelease(BaseSql):
 		except:
 			content = DBCompress.decode(seo.content)
 
+		cardiff_release = None
+		if int(newsroomid) == 24:
+			cardiff_release = session.query(SEOTranslations).\
+			    filter(SEOTranslations.seoreleaseid == seoreleaseid).\
+			    filter(SEOTranslations.languageid == 1945).scalar()
+		elif int(newsroomid) == 65:
+			cardiff_release = session.query(SEOTranslations).\
+			    filter(SEOTranslations.seoreleaseid == seoreleaseid).\
+			    filter(SEOTranslations.languageid == 1936).scalar()
+
 		return dict(seo=seo,
 		            newsroom=newsroom,
 		            newsroomid=newsroomid,
+		            cardiff_release=cardiff_release,
 		            ns_contact=ns_contact,
 		            prefix=prefix,
 		            content=content,
@@ -135,7 +146,9 @@ class SEORelease(BaseSql):
 			                         instagram="",
 									 linkedin="",
 									 clientid=-1,
-									 content=content)
+									 content=content,
+			                         languageid = 1945,
+			                         translatedseoreleaseid = -1)
 			if emailtemplate.clientid:
 				from prcommon.model.client import Client
 				client = Client.query.get(emailtemplate.clientid)
@@ -149,6 +162,9 @@ class SEORelease(BaseSql):
 				ret["linkedin"] = client.linkedin
 				ret["instagram"] = client.instagram
 		else:
+			translatedseo = session.query(SEOTranslations).\
+			    filter(SEOTranslations.seoreleaseid == seo.seoreleaseid).\
+			    filter(SEOTranslations.languageid == seo.languageid).scalar()
 			ret = dict(emailtemplateid=seo.emailtemplateid,
 									 seoreleaseid=seo.seoreleaseid,
 									 headline=seo.headline,
@@ -165,6 +181,8 @@ class SEORelease(BaseSql):
 									 content=DBCompress.decode(seo.content),
 									 clientid=seo.clientid,
 			                         is_client_newsroom=seo.is_client_newsroom,
+			                         languageid=seo.languageid,
+			                         translatedseoreleaseid=translatedseo.translatedseoreleaseid if translatedseo else -1,
 									 keywords=" ".join([row.seoreleasekeyword for row in session.query(SEOReleaseInterests).filter_by(seoreleaseid=seo.seoreleaseid).all()])
 									)
 			# now add the categories
@@ -264,6 +282,90 @@ class SEORelease(BaseSql):
 					    )
 						session.add(seonewsroom)
 						session.flush()
+
+				#cardiff, add a record to seonewsroom for cardiff (English/Welsh)
+				if 'clientid' in params and params['clientid'] == 2014:
+					seonewsroom = SeoNewsRooms(
+				        seoreleaseid=seo.seoreleaseid,
+				        newsroomid=24
+				    )
+					session.add(seonewsroom)
+					session.flush()
+				if 'clientid' in params and params['clientid'] == 1966:
+					seonewsroom = SeoNewsRooms(
+				        seoreleaseid=seo.seoreleaseid,
+				        newsroomid=65
+				    )
+					session.add(seonewsroom)
+					session.flush()
+				if 'translatedseoreleaseid' in params \
+			       and params['translatedseoreleaseid'] != '' \
+			       and  params['translatedseoreleaseid'] != None \
+			       and params['translatedseoreleaseid'] != -1 \
+			       and params['translatedseoreleaseid'] != '-1':
+
+					seo_linked = SEORelease.query.get(params["translatedseoreleaseid"])
+
+					seotrans1 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == seo.seoreleaseid).filter(SEOTranslations.languageid == params['languageid']).scalar()
+
+					seotrans2 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == params['translatedseoreleaseid']).filter(SEOTranslations.languageid == seo_linked.languageid).scalar()
+
+					if not seotrans1:
+						translateseorelease1 = SEOTranslations(
+					        seoreleaseid=seo.seoreleaseid,
+					        translatedseoreleaseid=params['translatedseoreleaseid'],
+					        languageid=params['languageid'],
+					        translatedlanguageid=seo_linked.languageid
+					    )
+						session.add(translateseorelease1)
+						session.flush()
+						if not seotrans2:
+							translateseorelease2 = SEOTranslations(
+						        seoreleaseid=params['translatedseoreleaseid'],
+						        translatedseoreleaseid=seo.seoreleaseid,
+						        languageid=seo_linked.languageid,
+						        translatedlanguageid=params['languageid']
+						    )
+							session.add(translateseorelease2)
+							session.flush()
+						else:
+							seotrans2_existing_linked = session.query(SEOTranslations).\
+						    filter(SEOTranslations.seoreleaseid == seotrans2.translatedseoreleaseid).\
+						    filter(SEOTranslations.languageid == seotrans2.translatedlanguageid).scalar()
+
+							session.delete(seotrans2_existing_linked)
+							seotrans2.translatedseoreleaseid = seo.seoreleaseid
+							seotrans2.translatedlanguageid = params['languageid']
+							session.flush()
+					else:
+						seotrans1_existing_linked = session.query(SEOTranslations).\
+					        filter(SEOTranslations.seoreleaseid == seotrans1.translatedseoreleaseid).\
+					        filter(SEOTranslations.languageid == seotrans1.translatedlanguageid).scalar()
+
+						session.delete(seotrans1_existing_linked)
+						seotrans1.translatedseoreleaseid = params['translatedseoreleaseid']
+						seotrans1.translatedlanguageid = seo_linked.languageid
+						session.flush()
+
+						if not seotrans2:
+							translateseorelease2 = SEOTranslations(
+						        seoreleaseid=params['translatedseoreleaseid'],
+						        translatedseoreleaseid=seo.seoreleaseid,
+						        languageid=seo_linked.languageid,
+						        translatedlanguageid=params['languageid']
+						    )
+							session.add(translateseorelease2)
+							session.flush()
+						else:
+							seotrans2_existing_linked = session.query(SEOTranslations).\
+						    filter(SEOTranslations.seoreleaseid == seotrans2.translatedseoreleaseid).\
+						    filter(SEOTranslations.languageid == seotrans2.translatedlanguageid).scalar()
+
+							session.delete(seotrans2_existing_linked)
+							session.flush()
+
+							seotrans2.translatedseoreleaseid = seo.seoreleaseid
+							seotrans2.translatedlanguageid = seo.languageid
 			else:
 				# update an existing record
 				cls._update_seo(seo, params)
@@ -378,6 +480,120 @@ class SEORelease(BaseSql):
 				session.add(seonewsroom)
 				session.flush()
 
+		#cardiff, add a record to seonewsroom for cardiff (English/Welsh)
+		if 'clientid' in params and params['clientid'] == 2014:
+			seonewsroom = SeoNewsRooms(
+		        seoreleaseid=seo.seoreleaseid,
+		        newsroomid=24
+		    )
+			session.add(seonewsroom)
+			session.flush()
+		if 'clientid' in params and params['clientid'] == 1966:
+			seonewsroom = SeoNewsRooms(
+		        seoreleaseid=seo.seoreleaseid,
+		        newsroomid=65
+		    )
+			session.add(seonewsroom)
+			session.flush()
+
+		if 'translatedseoreleaseid' in params \
+	       and params['translatedseoreleaseid'] != '' \
+	       and  params['translatedseoreleaseid'] != None \
+	       and params['translatedseoreleaseid'] != -1 \
+	       and params['translatedseoreleaseid'] != '-1':
+
+			seo_linked = SEORelease.query.get(params["translatedseoreleaseid"])
+			seotrans1 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == seo.seoreleaseid).filter(SEOTranslations.languageid == params['languageid']).scalar()
+			seotrans2 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == params['translatedseoreleaseid']).filter(SEOTranslations.languageid == seo_linked.languageid).scalar()
+			if not seotrans1:
+				translateseorelease1 = SEOTranslations(
+			        seoreleaseid=seo.seoreleaseid,
+			        translatedseoreleaseid=params['translatedseoreleaseid'],
+			        languageid=params['languageid'],
+			        translatedlanguageid=seo_linked.languageid
+			    )
+				session.add(translateseorelease1)
+				session.flush()
+				if not seotrans2:
+					translateseorelease2 = SEOTranslations(
+				        seoreleaseid=params['translatedseoreleaseid'],
+				        translatedseoreleaseid=seo.seoreleaseid,
+				        languageid=seo_linked.languageid,
+				        translatedlanguageid=params['languageid']
+				    )
+					session.add(translateseorelease2)
+					session.flush()
+				else:
+					seotrans2_existing_linked = session.query(SEOTranslations).\
+				    filter(SEOTranslations.seoreleaseid == seotrans2.translatedseoreleaseid).\
+				    filter(SEOTranslations.languageid == seotrans2.translatedlanguageid).scalar()
+
+					session.delete(seotrans2_existing_linked)
+					seotrans2.translatedseoreleaseid = seo.seoreleaseid
+					seotrans2.translatedlanguageid = params['languageid']
+					session.flush()
+			else:
+
+				seotrans1_existing_linked = session.query(SEOTranslations).\
+					filter(SEOTranslations.seoreleaseid == seotrans1.translatedseoreleaseid).\
+					filter(SEOTranslations.languageid == seotrans1.translatedlanguageid).scalar()
+
+				session.delete(seotrans1_existing_linked)
+				seotrans1.translatedseoreleaseid = params['translatedseoreleaseid']
+				seotrans1.translatedlanguageid = seo_linked.languageid
+				session.flush()
+
+				if not seotrans2:
+					translateseorelease2 = SEOTranslations(
+				        seoreleaseid=params['translatedseoreleaseid'],
+				        translatedseoreleaseid=seo.seoreleaseid,
+				        languageid=seo_linked.languageid,
+				        translatedlanguageid=params['languageid']
+				    )
+					session.add(translateseorelease2)
+					session.flush()
+				else:
+					seotrans2_existing_linked = session.query(SEOTranslations).\
+				    filter(SEOTranslations.seoreleaseid == seotrans2.translatedseoreleaseid).\
+				    filter(SEOTranslations.languageid == seotrans2.translatedlanguageid).scalar()
+
+					session.delete(seotrans2_existing_linked)
+					session.flush()
+
+					seotrans2.translatedseoreleaseid = seo.seoreleaseid
+					seotrans2.translatedlanguageid = seo.languageid
+
+				#we need to clear the cache for the translated seorelease too
+				if 'clientid' in params and params['clientid'] == 2014:
+					seocache_welsh = session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 2).scalar()
+					if seocache_welsh:
+						session.delete(seocache_welsh)
+						session.flush()
+				if 'clientid' in params and params['clientid'] == 1966:
+					seocache_cardiff = session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 1).scalar()
+					if seocache_cardiff:
+						session.delete(seocache_cardiff)
+						session.flush()
+		else:
+			seotrans1 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == seo.seoreleaseid).filter(SEOTranslations.languageid == params['languageid']).scalar()
+			if seotrans1:
+				seotrans2 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOTranslations.languageid == seotrans1.translatedlanguageid).scalar()
+				if seotrans2:
+					session.delete(seotrans2)
+				session.delete(seotrans1)
+				session.flush()
+				#we need to clear the cache for the translated seorelease too
+				if 'clientid' in params and params['clientid'] == 2014:
+					seocache_welsh = session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 2).scalar()
+					if seocache_welsh:
+						session.delete(seocache_welsh)
+						session.flush()
+				if 'clientid' in params and params['clientid'] == 1966:
+					seocache_cardiff = session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 1).scalar()
+					if seocache_cardiff:
+						session.delete(seocache_cardiff)
+						session.flush()
+
 		seocache = session.query(SEOCache).\
 	    filter(SEOCache.seoreleaseid == seo.seoreleaseid).all()
 		if seocache:
@@ -471,6 +687,89 @@ class SEORelease(BaseSql):
 					    )
 						session.add(seonewsroom)
 						session.flush()
+				#cardiff, add a record to seonewsroom for cardiff (English/Welsh)
+				if 'clientid' in params and params['clientid'] == 2014:
+					seonewsroom = SeoNewsRooms(
+				        seoreleaseid=seo.seoreleaseid,
+				        newsroomid=24
+				    )
+					session.add(seonewsroom)
+					session.flush()
+				if 'clientid' in params and params['clientid'] == 1966:
+					seonewsroom = SeoNewsRooms(
+				        seoreleaseid=seo.seoreleaseid,
+				        newsroomid=65
+				    )
+					session.add(seonewsroom)
+					session.flush()
+				if 'translatedseoreleaseid' in params \
+			       and params['translatedseoreleaseid'] != '' \
+			       and  params['translatedseoreleaseid'] != None \
+			       and params['translatedseoreleaseid'] != -1 \
+			       and params['translatedseoreleaseid'] != '-1':
+
+					seo_linked = SEORelease.query.get(params["translatedseoreleaseid"])
+
+					seotrans1 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == seo.seoreleaseid).filter(SEOTranslations.languageid == params['languageid']).scalar()
+
+					seotrans2 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == params['translatedseoreleaseid']).filter(SEOTranslations.languageid == seo_linked.languageid).scalar()
+
+					if not seotrans1:
+						translateseorelease1 = SEOTranslations(
+					        seoreleaseid=seo.seoreleaseid,
+					        translatedseoreleaseid=params['translatedseoreleaseid'],
+					        languageid=params['languageid'],
+					        translatedlanguageid=seo_linked.languageid
+					    )
+						session.add(translateseorelease1)
+						session.flush()
+						if not seotrans2:
+							translateseorelease2 = SEOTranslations(
+						        seoreleaseid=params['translatedseoreleaseid'],
+						        translatedseoreleaseid=seo.seoreleaseid,
+						        languageid=seo_linked.languageid,
+						        translatedlanguageid=params['languageid']
+						    )
+							session.add(translateseorelease2)
+							session.flush()
+						else:
+							seotrans2_existing_linked = session.query(SEOTranslations).\
+						    filter(SEOTranslations.seoreleaseid == seotrans2.translatedseoreleaseid).\
+						    filter(SEOTranslations.languageid == seotrans2.translatedlanguageid).scalar()
+
+							session.delete(seotrans2_existing_linked)
+							seotrans2.translatedseoreleaseid = seo.seoreleaseid
+							seotrans2.translatedlanguageid = params['languageid']
+							session.flush()
+					else:
+						seotrans1_existing_linked = session.query(SEOTranslations).\
+					        filter(SEOTranslations.seoreleaseid == seotrans1.translatedseoreleaseid).\
+					        filter(SEOTranslations.languageid == seotrans1.translatedlanguageid).scalar()
+
+						session.delete(seotrans1_existing_linked)
+						seotrans1.translatedseoreleaseid = params['translatedseoreleaseid']
+						seotrans1.translatedlanguageid = seo_linked.languageid
+						session.flush()
+
+						if not seotrans2:
+							translateseorelease2 = SEOTranslations(
+						        seoreleaseid=params['translatedseoreleaseid'],
+						        translatedseoreleaseid=seo.seoreleaseid,
+						        languageid=seo_linked.languageid,
+						        translatedlanguageid=params['languageid']
+						    )
+							session.add(translateseorelease2)
+							session.flush()
+						else:
+							seotrans2_existing_linked = session.query(SEOTranslations).\
+						    filter(SEOTranslations.seoreleaseid == seotrans2.translatedseoreleaseid).\
+						    filter(SEOTranslations.languageid == seotrans2.translatedlanguageid).scalar()
+
+							session.delete(seotrans2_existing_linked)
+							session.flush()
+
+							seotrans2.translatedseoreleaseid = seo.seoreleaseid
+							seotrans2.translatedlanguageid = seo.languageid
 
 			transaction.commit()
 			return dict(seoreleaseid=seo.seoreleaseid,
@@ -488,8 +787,12 @@ class SEORelease(BaseSql):
 	WHEN seo.is_client_newsroom = false THEN '/releases/g'|| ns.newsroomid ||'/'||seo.seoreleaseid||'.html'
 	ELSE
 	    CASE
-		WHEN seo.clientid is null THEN '/releases/e-1/'||seo.seoreleaseid||'.html'
-		ELSE '/releases/e'||seo.clientid||'/'||seo.seoreleaseid||'.html'
+	    WHEN seo.clientid is null THEN '/releases/e-1/'||seo.seoreleaseid||'.html'
+	    ELSE
+	        CASE
+	        WHEN (SELECT has_news_room FROM userdata.client AS cl WHERE cl.clientid = seo.clientid) = true THEN '/releases/e'||seo.clientid||'/'||seo.seoreleaseid||'.html'
+	        ELSE '/releases/e-1/'||seo.seoreleaseid||'.html'
+	        END
 	    END
 	END as link,
 	seo.is_client_newsroom,
@@ -645,15 +948,14 @@ class SEORelease(BaseSql):
 				if "nid" in params:
 					cri["nid"] = int(params["nid"])
 					whereused += " AND seo.seoreleaseid in (SELECT seoreleaseid FROM seoreleases.seonewsrooms WHERE newsroomid= :nid) "
-				else:
-					cri['nid'] = -1
-
 
 				if 'search' in params:
 					cri["search"] = "%" + params["search"].strip() + "%"
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 
 		fields.update(cri)
+		if 'nid' not in fields:
+			fields['nid'] = -1
 		command = SEORelease._Release_List_Date2 + whereused + SEORelease._Release_List_Order
 		#params['nr'] = True
 		if 'nr' in params and params['nr'] == True:
@@ -781,6 +1083,29 @@ class SEORelease(BaseSql):
 	to_char(seo.published,'DD-MM-YY') AS published_display
 	FROM seoreleases.seorelease AS seo"""
 
+	_List_Data = """ SELECT
+		seo.seoreleaseid,
+	    seo.headline,
+	    seo.headline AS name,
+	    seo.seoreleaseid AS id
+		FROM seoreleases.seorelease AS seo
+		WHERE
+		seo.customerid = :customerid AND
+		seo.headline ILIKE :headline
+	    %s
+		ORDER BY  UPPER(seo.headline)"""
+
+	_List_Data_Id = """ SELECT
+		seo.seoreleaseid,
+	    seo.headline,
+	    seo.seoreleaseid AS id
+		FROM seoreleases.seorelease AS seo
+		WHERE
+		seo.customerid = :customerid AND
+		seo.seoreleaseid = :id
+	    %s
+		ORDER BY  UPPER(seo.headline)"""
+
 	_Sort_Order = """ ORDER BY %s %s
 	LIMIT :limit  OFFSET :offset """
 
@@ -817,6 +1142,38 @@ class SEORelease(BaseSql):
 		  SEORelease._List_View + whereclause + SEORelease._Sort_Order,
 		  SEORelease._Count_Figure + whereclause,
 		  cls)
+
+
+	@classmethod
+	def get_list_rest(cls, params):
+		""" as rest"""
+
+		single = True if "id" in params else False
+		return cls.grid_to_rest(cls.get_list2(params), params["offset"], single)
+
+	@classmethod
+	def get_list2(cls, params):
+		""" get alist of templates """
+
+		customerid = params['customerid']
+		andclause = ''
+
+		if 'languageid' in params:
+			andclause = ' AND languageid != %s' % int(params['languageid'])
+
+		data = BaseSql.getListPage(params,
+		                           'headline',
+			                       'seoreleaseid',
+			                       SEORelease._List_Data%andclause,
+			                       SEORelease._List_Data_Id%andclause,
+			                       cls)
+
+		data['items'].insert(0, dict(id=-1, name="No Selection"))
+		if "is_combo" in params:
+			data["identifier"] = "id"
+
+		return data
+
 
 	@classmethod
 	def get_list(cls, params, internal=False):
@@ -1399,17 +1756,27 @@ class SEOImage(BaseSql):
 			LOG.exception("upload_and_convert")
 			raise
 
+
+class SEOTranslations(BaseSql):
+	""" link between seoreleases and languages """
+
+	pass
+
+
+
 SEORelease.mapping = Table('seorelease', metadata, schema="seoreleases", autoload=True)
 SEOReleaseInterests.mapping = Table('seoreleaseinterests', metadata, schema="seoreleases", autoload=True)
 SEOCache.mapping = Table('seocache', metadata, schema="seoreleases", autoload=True)
 SEOReleaseCategories.mapping = Table('seoreleasecategories', metadata, schema="seoreleases", autoload=True)
 SEOImage.mapping = Table('seoimages', metadata, schema="seoreleases", autoload=True)
+SEOTranslations.mapping = Table('seotranslations', metadata, schema="seoreleases", autoload=True)
 
 mapper(SEORelease, SEORelease.mapping)
 mapper(SEOReleaseInterests, SEOReleaseInterests.mapping)
 mapper(SEOCache, SEOCache.mapping)
 mapper(SEOReleaseCategories, SEOReleaseCategories.mapping)
 mapper(SEOImage, SEOImage.mapping)
+mapper(SEOTranslations, SEOTranslations.mapping)
 
 
 

@@ -26,6 +26,7 @@ class ReleasesController(controllers.RootController):
 	@expose("text/html")
 	def default(self, *argv, **kw):
 		""" default handler """
+
 		seorelease = None
 		layout = 0
 		emailtemplateid = None
@@ -51,6 +52,12 @@ class ReleasesController(controllers.RootController):
 			elif argv[1][0] == "e":
 				newsroomid = argv[1][1:]
 				actual_field = 2
+		elif argv[0] == 'e2014':
+			newsroomid = 24
+			actual_field = 1
+		elif argv[0] == 'e1966':
+			newsroomid = 65
+			actual_field = 1
 		else:
 			if len(argv) > 1:
 				newsroomid = argv[0][1:]

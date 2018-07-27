@@ -1156,21 +1156,21 @@ class Customer(BaseSql):
 			if customer.crm != params["crm"]:
 				session.add(AuditTrail(
 				  audittypeid=Constants.audit_expire_date_changed,
-				  audittext="Crm Turned %s" % "On" if params["crm"] else "Off",
+				  audittext="Crm Turned %s" % ("On" if params["crm"] else "Off"),
 				  userid=params["userid"],
 				  customerid=params["icustomerid"]))
 
 			if customer.advancefeatures != params["advancefeatures"]:
 				session.add(AuditTrail(
 				  audittypeid=Constants.audit_expire_date_changed,
-				  audittext="Features Turned %s" % "On" if params["advancefeatures"] else "Off",
+				  audittext="Features Turned %s" % ("On" if params["advancefeatures"] else "Off"),
 				  userid=params["userid"],
 				  customerid=params["icustomerid"]))
 
 			if customer.updatum != params["updatum"]:
 				session.add(AuditTrail(
 				  audittypeid=Constants.audit_expire_date_changed,
-				  audittext="Monitoring Turned %s" % "On" if params["updatum"] else "Off",
+				  audittext="Monitoring Turned %s" % ("On" if params["updatum"] else "Off"),
 				  userid=params["userid"],
 				  customerid=params["icustomerid"]))
 
@@ -1184,49 +1184,55 @@ class Customer(BaseSql):
 			if customer.seo != params["seo"]:
 				session.add(AuditTrail(
 						audittypeid=Constants.audit_expire_date_changed,
-						audittext="SEO Turned %s" % "On" if params["seo"] else "Off",
+						audittext="SEO Turned %s" % ("On" if params["seo"] else "Off"),
+						userid=params["userid"],
+						customerid=params["icustomerid"]))
+			if customer.seotranslation != params["seotranslation"]:
+				session.add(AuditTrail(
+						audittypeid=Constants.audit_expire_date_changed,
+						audittext="SEO Translations Turned %s" % ("On" if params["seotranslation"] else "Off"),
 						userid=params["userid"],
 						customerid=params["icustomerid"]))
 
 			if customer.is_bundle != params["is_bundle"]:
 				session.add(AuditTrail(
 						audittypeid=Constants.audit_expire_date_changed,
-						audittext="Bundle %s" % "On" if params["is_bundle"] else "Off",
+						audittext="Bundle %s" % ("On" if params["is_bundle"] else "Off"),
 						userid=params["userid"],
 						customerid=params["icustomerid"]))
 
 			if customer.has_news_rooms != params["has_news_rooms"]:
 				session.add(AuditTrail(
 			            audittypeid=Constants.audit_expire_date_changed,
-			            audittext="News Room %s" % "On" if params["has_news_rooms"] else "Off",
+			            audittext="News Room %s" % ("On" if params["has_news_rooms"] else "Off"),
 			            userid=params["userid"],
 			            customerid=params["icustomerid"]))
 
 			if customer.has_global_newsroom != params["has_global_newsroom"]:
 				session.add(AuditTrail(
 			            audittypeid=Constants.audit_expire_date_changed,
-			            audittext="Global News Room %s" % "On" if params["has_global_newsroom"] else "Off",
+			            audittext="Global News Room %s" % ("On" if params["has_global_newsroom"] else "Off"),
 			            userid=params["userid"],
 			            customerid=params["icustomerid"]))
 
 			if customer.has_journorequests != params["has_journorequests"]:
 				session.add(AuditTrail(
 			          audittypeid=Constants.audit_expire_date_changed,
-			          audittext="Journo Requests %s" % "On" if params["has_journorequests"] else "Off",
+			          audittext="Journo Requests %s" % ("On" if params["has_journorequests"] else "Off"),
 			          userid=params["userid"],
 			          customerid=params["icustomerid"]))
 
 			if customer.has_international_data != params["has_international_data"]:
 				session.add(AuditTrail(
 						audittypeid=Constants.audit_expire_date_changed,
-						audittext="International Data %s" % "On" if params["has_international_data"] else "Off",
+						audittext="International Data %s" % ("On" if params["has_international_data"] else "Off"),
 						userid=params["userid"],
 						customerid=params["icustomerid"]))
 
 			if customer.has_clippings != params["has_clippings"]:
 				session.add(AuditTrail(
 						audittypeid=Constants.audit_expire_date_changed,
-				    audittext="Clippings %s" % "On" if params["has_clippings"] else "Off",
+				    audittext="Clippings %s" % ("On" if params["has_clippings"] else "Off"),
 				    userid=params["userid"],
 				    customerid=params["icustomerid"]))
 
@@ -1236,6 +1242,7 @@ class Customer(BaseSql):
 			customer.is_bundle = params["is_bundle"]
 			customer.crm = params["crm"]
 			customer.seo = params["seo"]
+			customer.seotranslation = params["seotranslation"]
 			customer.advancefeatures = params["advancefeatures"]
 			customer.updatum = params["updatum"]
 			customer.maxmonitoringusers = params["maxmonitoringusers"]

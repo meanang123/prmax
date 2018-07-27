@@ -376,6 +376,10 @@ CREATE TABLE seoreleases.seonewsrooms
 GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE  seoreleases.seonewsrooms TO prmax;
 GRANT SELECT ON TABLE  seoreleases.seonewsrooms TO prrelease;
 
+INSERT INTO  seoreleases.seonewsrooms (SELECT seoreleaseid, newsroomid
+					FROM seoreleases.seorelease as s
+					JOIN userdata.clientnewsroom as cnr on s.clientid = cnr.clientid);
+
 CREATE TABLE userdata.clientnewroomcontactdetails
 (
    newsroomid integer NOT NULL,
@@ -455,3 +459,47 @@ DELETE FROM internal.clippingstone WHERE clippingstoneid = 6;
 UPDATE research.datasourcetranslations SET translation = 3 where datasourcetranslationid = 858;
 
 INSERT INTO internal.actiontypes VALUES (9, 'Send - domain check failed');
+
+CREATE TABLE seoreleases.seotranslations
+(
+  seoreleaseid integer NOT NULL,
+  languageid integer NOT NULL,
+  translatedseoreleaseid integer NOT NULL,
+  translatedlanguageid integer NOT NULL,
+  PRIMARY KEY (seoreleaseid, languageid),
+  CONSTRAINT fk_seoreleaseid FOREIGN KEY (seoreleaseid)
+      REFERENCES seoreleases.seorelease (seoreleaseid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_translateseoreleaseid FOREIGN KEY (seoreleaseid)
+      REFERENCES seoreleases.seorelease (seoreleaseid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_languageid FOREIGN KEY (languageid)
+      REFERENCES internal.languages (languageid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_translatedlanguageid FOREIGN KEY (languageid)
+      REFERENCES internal.languages (languageid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE seoreleases.seotranslations OWNER TO postgres;
+GRANT ALL ON TABLE seoreleases.seotranslations TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE seoreleases.seotranslations TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE seoreleases.seotranslations TO prmaxcontrol;
+GRANT SELECT, UPDATE, INSERT ON TABLE seoreleases.seotranslations TO prrelease;
+
+ALTER TABLE seoreleases.seotranslations ADD UNIQUE (seoreleaseid, languageid, translatedseoreleaseid, translatedlanguageid);
+
+ALTER TABLE internal.customers ADD COLUMN seotranslation boolean;
+ALTER TABLE internal.customers ALTER COLUMN seotranslation SET DEFAULT false;
+UPDATE internal.customers SET seotranslation = false;
+
+ALTER TABLE seoreleases.seorelease ADD COLUMN languageid integer;
+ALTER TABLE seoreleases.seorelease ALTER COLUMN languageid SET DEFAULT 1945;
+ALTER TABLE seoreleases.seorelease ADD CONSTRAINT fk_languageid FOREIGN KEY (languageid) REFERENCES internal.languages (languageid) MATCH SIMPLE;
+
+UPDATE seoreleases.seorelease SET languageid = 1945 WHERE clientid != 1966;
+UPDATE seoreleases.seorelease SET languageid = 1936 WHERE clientid = 1966;
+
+DELETE FROM seoreleases.seocache;

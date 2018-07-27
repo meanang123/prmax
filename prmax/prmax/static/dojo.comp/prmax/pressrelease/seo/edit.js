@@ -32,9 +32,12 @@ dojo.declare("prmax.pressrelease.seo.edit",
 	[ ttl.BaseWidget],
 	{
 	widgetsInTemplate: true,
+//	_lang:this.languageid.get("value"),
 	templatePath: dojo.moduleUrl( "prmax.pressrelease.seo","templates/edit.html"),
 	constructor: function()
 	{
+		this._languages = new dojo.data.ItemFileReadStore  ({ url:"/common/lookups?searchtype=languages&nofilter=1"});
+
 		this._nochange = false;
 		this._LoadCallBack = dojo.hitch(this,this._LoadCall);
 		this._SavedCallBack = dojo.hitch(this,this._SavedCall);
@@ -47,6 +50,8 @@ dojo.declare("prmax.pressrelease.seo.edit",
 			clearOnClose:true,
 			urlPreventCache:true
 			});
+
+		this._translatedseorelease = new dojox.data.JsonRestStore( {target:"/emails/seorelease/list_rest", idAttribute:"id"});
 	},
 	postCreate:function()
 	{
@@ -57,10 +62,25 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.clientid.set("value",-1);
 		this._Client_Get_Call_Back = dojo.hitch(this, this._Client_Get_Call );
 
+		this.translatedseoreleaseid.store = this._translatedseorelease;
+
 		this._has_global_newsrooms = PRMAX.utils.settings.has_global_newsroom;
 		this._is_client_newsroom = true;
 
+		this.languageid.set("store", this._languages);
+		this.languageid.set("value", 1945);
+
 		this.inherited(arguments);
+		if (PRMAX.utils.settings.cid == 5454)
+		{
+			dojo.removeClass(this.tranlatedseo_node, 'prmaxhidden');
+			dojo.removeClass(this.language_node, 'prmaxhidden');
+		}
+		else
+		{
+			dojo.addClass(this.tranlatedseo_node, 'prmaxhidden');
+			dojo.addClass(this.language_node, 'prmaxhidden');
+		}
 	},
 	_LoadCall:function(response)
 	{
@@ -107,8 +127,14 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.LoadDefault(emailtemplateid);
 		this._Load ( data ) ;
 	},
+	_change_lang:function()
+	{
+		this.translatedseoreleaseid.set("query",{languageid:this.languageid.get("value")});
+		this.translatedseoreleaseid.value = -1;
+	},
 	_Load:function ( data )
 	{
+		this.translatedseoreleaseid.set("query",{languageid:data.languageid});
 		this._nochange = true;
 
 		for ( var x = 1 ; x < 26 ; x++ )
@@ -124,6 +150,8 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.keywords.set("value",data.keywords);
 		this.seoimage.set("value", (data.seoimageid==null)?-1:data.seoimageid);
 		this._is_client_newsroom = data.is_client_newsroom;
+		this.languageid.set("value", data.languageid);
+		this.translatedseoreleaseid.set("value", data.translatedseoreleaseid)
 		if (this._has_global_newsrooms)
 		{
 			dojo.removeClass(this.globalnewsrooms_tr, "prmaxhidden");
@@ -218,6 +246,9 @@ dojo.declare("prmax.pressrelease.seo.edit",
 		this.seoimage.set("value",-1);
 		this.option0.set("checked", "checked");
 		this.globalnewsrooms.set("value", "");
+		this.languageid.set("value", 1945);
+		this._lang = 1945;
+		this.translatedseoreleaseid.set("value", "");
 
 		for ( var x = 1 ; x < 26 ; x++ )
 			this["cat_" + x].set("value",false);

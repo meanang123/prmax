@@ -269,7 +269,10 @@ class VirtualNewsRoom(object):
 
 		client = []
 		if mode == 'client':
-			cl = session.query(ClientNewsRoom).filter(ClientNewsRoom.clientid==newsroomid).scalar()
+			if int(newsroomid) in (24, 65): #cardiff
+				cl = ClientNewsRoom.query.get(newsroomid)
+			else:
+				cl = session.query(ClientNewsRoom).filter(ClientNewsRoom.clientid==newsroomid).scalar()
 		elif mode == 'global':
 			cl = ClientNewsRoom.query.get(newsroomid)
 		client.insert(0,cl)

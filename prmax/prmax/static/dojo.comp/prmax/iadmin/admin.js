@@ -325,7 +325,17 @@ dojo.declare("prmax.iadmin.admin",
 		// Modules
 		this.advancefeatures.set("value",response.data.cust.advancefeatures);
 		this.crm.set("value",response.data.cust.crm);
-		this.seo.set("value", response.data.cust.seo)
+		this.seo.set("value", response.data.cust.seo);
+		if (this.seo.checked == false)
+		{
+			dojo.addClass(this.seotranslation_node, "prmaxhidden");
+			this.seotranslation.set("value", false);
+		}
+		else
+		{
+			dojo.removeClass(this.seotranslation_node, "prmaxhidden");
+			this.seotranslation.set("value", response.data.cust.seotranslation);
+		}
 
 		this.updatum.set("value", response.data.cust.updatum);
 		this.maxmonitoringusers.set("value", response.data.cust.maxmonitoringusers);
@@ -1033,6 +1043,7 @@ dojo.declare("prmax.iadmin.admin",
 						advancefeatures: this.advancefeatures.get("value"),
 						updatum: this.updatum.get("value"),
 						seo: this.seo.get("value"),
+						seotranslation: this.seotranslation.get("value"),
 						maxmonitoringusers: this.maxmonitoringusers.get("value"),
 						is_bundle : this.is_bundle.get("value"),
 						has_news_rooms : this.has_news_rooms.get("value"),
@@ -1183,6 +1194,17 @@ dojo.declare("prmax.iadmin.admin",
 	_send_login_details:function()
 	{
 		this.send_password_ctrl.load( this._userrow.i.user_id, this.send_password_dialog);
+	},
+	_ChangeSeoOption:function()
+	{
+		if (this.seo.checked == false)
+		{
+			dojo.addClass(this.seotranslation_node, "prmaxhidden");
+		}
+		else
+		{
+			dojo.removeClass(this.seotranslation_node, "prmaxhidden");
+		}
 	},
 	_init_monitoring_filter:function()
 	{

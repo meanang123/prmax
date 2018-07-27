@@ -5,7 +5,13 @@ from datetime import date
 <div class="main-header-cardiff">
     <div class="top-bar-newsroom-cardiff">
         <div class="content-width">
-            <span class="menu-boxes-first"><a href="https://www.newyddioncaerdydd.co.uk">Cymraeg</a></span>
+            % if seorelease and seorelease['cardiff_release'] != None:
+                <span class="menu-boxes-first">
+                    <a href="https://prnewslink.net/releases/w65/${seorelease['cardiff_release'].translatedseoreleaseid}.html">Cymraeg</a>
+                </span>
+            %else:
+                <span class="menu-boxes-first">Cymraeg</span>
+            %endif      
             <span class="menu-boxes"><a href="https://www.cardiff.gov.uk/ENG/Your-Council/News/In-Cardiff/Pages/default.aspx" target="_blank">In Cardiff</a></span>
             <span class="menu-boxes"><a href="http://cardifffilmoffice.co.uk/" target="_blank">Filming in Cardiff</a></span>
             <span class="menu-boxes-last"><a href="https://www.cardiffnewsroom.co.uk/contacts_cardiff" target="_self">Press Contacts</a></span>

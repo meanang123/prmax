@@ -14,10 +14,10 @@
 <script type="text/javascript">stLight.options({publisher:'a8ad746a-9fd2-4279-b743-150377f85716'});</script>
 </head>
 <body class="cardiff">
-<%include file="default_header_welsh.mak"/>
+<%include file="release_header_welsh.mak"/>
 <div class="content-width">
     <div class="single-news-content-cardiff">
-        <a class="back" href="/">Back</a>
+        <a class="back" href="/nr/e1966">Back</a>
         % if seorelease:
             <%
             from ttl.ttlmako import correct_http_link

@@ -41,7 +41,7 @@
             </div>
 
             <div class="float-right mt20 mr20">
-                <button class="prmax-cardiff-btn white-cardiff-btn"><a href="/">Cancel</a></button>
+                <button class="prmax-cardiff-btn white-cardiff-btn"><a href="/nr/e2014">Cancel</a></button>
                 <button class="prmax-cardiff-btn light-cardiff-btn" type="submit" value="Submit" >Submit</button>
             </div>
         <form>
