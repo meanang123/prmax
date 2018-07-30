@@ -631,6 +631,9 @@ dojo.declare("prmax.pressrelease.sendrelease",
 		// email sent
 		_check_and_send:function()
 		{
+			if ( this._send_check() == false )
+				return;
+
 			this._ValidateReplyAddress();
 		},
 		_Sent:function( response )
@@ -655,6 +658,67 @@ dojo.declare("prmax.pressrelease.sendrelease",
 			this.savechangesbtn.set('disabled',false);
 			this.preview.set('disabled',false);
 		},
+		_send_check:function()
+		{
+			var emailtemplatecontent  =  this.emailtemplatecontent.get("value");
+
+			if ( this.email.isValid() == false )
+			{
+				alert("No valid Email Address Specified");
+				this.email.focus();
+				this.send.cancel();
+				this.send2.cancel();
+				return false;
+			}
+			if ( this.returnname.isValid() == false )
+			{
+				alert("No Return Name Specified");
+				this.returnname.focus();
+				this.send.cancel();
+				this.send2.cancel();
+				return false;
+			}
+
+			if ( this.subject2.get("value").length==0)
+			{
+				alert("Please enter a Subject Line for the email");
+				this.subject2.focus();
+				this.send.cancel();
+				this.send2.cancel();
+				return false;
+			}
+
+			if ( this.embargoed.get("checked"))
+			{
+				// need to check that date + time is valid and in the future
+				var td = ttl.utilities.jscDate(new Date());
+				var dt = ttl.utilities.jscDate(this.embargo_date.get("value"));
+				var failed = false;
+
+				if ( td > dt )
+				{
+					failed = true;
+				}
+				else if ( dt.getTime() === td.getTime() )
+				{
+					var ct = new Date();
+					var t = this.embargo_time.get("value");
+					if ( ct.getHours() > t.getHours() ||
+							 ( ct.getHours() == t.getHours() && ct.getMinutes() >= t.getMinutes()))
+					{
+					failed = true;
+					}
+				}
+				if ( failed == true )
+				{
+					alert("Schedule Delivery cannot be in the past");
+					this.send.cancel();
+					this.send2.cancel();
+					return false ;
+				}
+			}
+			return true;
+		},
 		// send a complete list as an email
 		_Send:function()
 		{
@@ -667,64 +731,8 @@ dojo.declare("prmax.pressrelease.sendrelease",
 					return;
 				}
 
-				var emailtemplatecontent  =  this.emailtemplatecontent.get("value");
-
-				if ( this.email.isValid() == false )
-				{
-					alert("No valid Email Address Specified");
-					this.email.focus();
-					this.send.cancel();
-					this.send2.cancel();
+				if ( this._send_check() == false )
 					return;
-				}
-				if ( this.returnname.isValid() == false )
-				{
-					alert("No Return Name Specified");
-					this.returnname.focus();
-					this.send.cancel();
-					this.send2.cancel();
-					return;
-				}
-
-				if ( this.subject2.get("value").length==0)
-				{
-					alert("Please enter a Subject Line for the email");
-					this.subject2.focus();
-					this.send.cancel();
-					this.send2.cancel();
-					return;
-				}
-
-				if ( this.embargoed.get("checked"))
-				{
-					// need to check that date + time is valid and in the future
-					var td = ttl.utilities.jscDate(new Date());
-					var dt = ttl.utilities.jscDate(this.embargo_date.get("value"));
-					var failed = false;
-
-					if ( td > dt )
-					{
-						failed = true;
-					}
-					else if ( dt.getTime() === td.getTime() )
-					{
-						var ct = new Date();
-						var t = this.embargo_time.get("value");
-						if ( ct.getHours() > t.getHours() ||
-								 ( ct.getHours() == t.getHours() && ct.getMinutes() >= t.getMinutes()))
-						{
-						failed = true;
-						}
-					}
-					if ( failed == true )
-					{
- 						alert("Schedule Delivery cannot be in the past");
-						this.send.cancel();
-						this.send2.cancel();
-						return;
-					}
-				}
-
 
 				this._releasesent = true ;
 				dojo.addClass(this.send_prev.domNode,"prmaxhidden");
