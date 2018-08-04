@@ -53,10 +53,10 @@ class ReleasesController(controllers.RootController):
 				newsroomid = argv[1][1:]
 				actual_field = 2
 		elif argv[0] == 'e2014':
-			newsroomid = 24
+			newsroomid = 25
 			actual_field = 1
 		elif argv[0] == 'e1966':
-			newsroomid = 65
+			newsroomid = 66
 			actual_field = 1
 		else:
 			if len(argv) > 1:
