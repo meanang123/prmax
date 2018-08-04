@@ -353,6 +353,8 @@ class EmailController(SecureController):
 		""" check the return email address"""
 
 		status = EmailTemplates.check_return_address(params)
+		# not finised yetignore
+		status = 0
 		return stdreturn(data=status)
 
 	@expose("")
