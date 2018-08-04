@@ -37,6 +37,8 @@ from ttl.postgres import DBCompress
 LOG = logging.getLogger("prcommon")
 
 BLOCK_SIZE = 16
+CARDIFF_ENGLISH = 25
+CARDIFF_WELSH = 66
 
 #########################################################
 ## Map object to db
@@ -84,11 +86,11 @@ class SEORelease(BaseSql):
 			content = DBCompress.decode(seo.content)
 
 		cardiff_release = None
-		if int(newsroomid) == 24:
+		if int(newsroomid) == CARDIFF_ENGLISH:
 			cardiff_release = session.query(SEOTranslations).\
 			    filter(SEOTranslations.seoreleaseid == seoreleaseid).\
 			    filter(SEOTranslations.languageid == 1945).scalar()
-		elif int(newsroomid) == 65:
+		elif int(newsroomid) == CARDIFF_WELSH:
 			cardiff_release = session.query(SEOTranslations).\
 			    filter(SEOTranslations.seoreleaseid == seoreleaseid).\
 			    filter(SEOTranslations.languageid == 1936).scalar()
@@ -287,14 +289,14 @@ class SEORelease(BaseSql):
 				if 'clientid' in params and params['clientid'] == 2014:
 					seonewsroom = SeoNewsRooms(
 				        seoreleaseid=seo.seoreleaseid,
-				        newsroomid=24
+				        newsroomid=CARDIFF_ENGLISH
 				    )
 					session.add(seonewsroom)
 					session.flush()
 				if 'clientid' in params and params['clientid'] == 1966:
 					seonewsroom = SeoNewsRooms(
 				        seoreleaseid=seo.seoreleaseid,
-				        newsroomid=65
+				        newsroomid=CARDIFF_WELSH
 				    )
 					session.add(seonewsroom)
 					session.flush()
@@ -484,14 +486,14 @@ class SEORelease(BaseSql):
 		if 'clientid' in params and params['clientid'] == 2014:
 			seonewsroom = SeoNewsRooms(
 		        seoreleaseid=seo.seoreleaseid,
-		        newsroomid=24
+		        newsroomid=CARDIFF_ENGLISH
 		    )
 			session.add(seonewsroom)
 			session.flush()
 		if 'clientid' in params and params['clientid'] == 1966:
 			seonewsroom = SeoNewsRooms(
 		        seoreleaseid=seo.seoreleaseid,
-		        newsroomid=65
+		        newsroomid=CARDIFF_WELSH
 		    )
 			session.add(seonewsroom)
 			session.flush()
@@ -691,14 +693,14 @@ class SEORelease(BaseSql):
 				if 'clientid' in params and params['clientid'] == 2014:
 					seonewsroom = SeoNewsRooms(
 				        seoreleaseid=seo.seoreleaseid,
-				        newsroomid=24
+				        newsroomid=CARDIFF_ENGLISH
 				    )
 					session.add(seonewsroom)
 					session.flush()
 				if 'clientid' in params and params['clientid'] == 1966:
 					seonewsroom = SeoNewsRooms(
 				        seoreleaseid=seo.seoreleaseid,
-				        newsroomid=65
+				        newsroomid=CARDIFF_WELSH
 				    )
 					session.add(seonewsroom)
 					session.flush()
@@ -962,7 +964,7 @@ class SEORelease(BaseSql):
 			command = SEORelease._Release_List_Date2 + whereused + SEORelease._Release_List_Order
 		else:
 			command = SEORelease._Release_List_Date1 + whereused + SEORelease._Release_List_Order
-		if 'nid' in params and (params['nid'] == 24 or params['nid'] == 65): #Cardiff
+		if 'nid' in params and (params['nid'] == CARDIFF_ENGLISH or params['nid'] == CARDIFF_WELSH): #Cardiff
 			command = SEORelease._Release_List_Date_Cardiff + whereused + SEORelease._Release_List_Order
 
 		return dict(
@@ -1500,7 +1502,7 @@ class SEOSite(object):
 		#pubDate
 		#lastBuildDate
 
-		# now append the last 24 hours news
+		# now append the last CARDIFF_ENGLISH hours news
 		if seocategoryid:
 			results = session.query(SEORelease).join(SEOReleaseCategories)\
 			  .filter(SEORelease.seostatusid == Constants.SEO_Live)\
@@ -1665,7 +1667,7 @@ class SEOSite(object):
 		tmp.appendChild(doc.createTextNode('en-uk'))
 		channel.appendChild(tmp)
 
-		# now append the last 24 hours news
+		# now append the last CARDIFF_ENGLISH hours news
 		for seo in results:
 			item = doc.createElement('item')
 			channel.appendChild(item)

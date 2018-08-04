@@ -25,7 +25,8 @@ from prcommon.model.collateral import Collateral
 from prcommon.model import SEORelease, SEOSite, SEOCategories
 import prcommon.Constants as Constants
 from ttl.postgres import DBCompress
-
+CARDIFF_ENGLISH = 25
+CARDIFF_WELSH = 66
 LOGGER = logging.getLogger("prcommon.model")
 
 try:
@@ -85,9 +86,9 @@ class NewsRoom(object):
 			else:
 				lparams.update(SEORelease.do_search(dict(cid=self._client[1].clientid,nr=True)))
 			template = "prpublish.templates.newsroom.main_page"
-			if self._client[0].newsroomid == 24: #Cardiff - English
+			if self._client[0].newsroomid == 25: #Cardiff - English
 				template = "prpublish.templates.newsroom.cardiff.main_page"
-			if self._client[0].newsroomid == 65: #Cardiff - Welsh
+			if self._client[0].newsroomid == 66: #Cardiff - Welsh
 				template = "prpublish.templates.newsroom.cardiff.main_page_welsh"
 
 			data = view.render(
@@ -102,7 +103,7 @@ class NewsRoom(object):
 				else:
 					lparams['clientcollateral'] = session.query(Collateral).filter_by(newsroomid=self._client[0].newsroomid).all()
 			base_template = "prpublish.templates.newsroom."
-			if self._client[0].newsroomid == 24 or self._client[0].newsroomid == 65: #Cardiff/Welsh
+			if self._client[0].newsroomid == CARDIFF_ENGLISH or self._client[0].newsroomid == CARDIFF_WELSH: #Cardiff/Welsh
 				base_template = "prpublish.templates.newsroom.cardiff."
 			data = view.render(
 			  lparams,
@@ -127,9 +128,9 @@ class NewsRoom(object):
 			params['nid'] = self._client[0].newsroomid
 			lparams.update(SEORelease.do_search(params))
 			template = ""
-			if self._client[0].newsroomid == 24:
+			if self._client[0].newsroomid == CARDIFF_ENGLISH:
 				template = "prpublish.templates.newsroom.cardiff.main_page"
-			elif self._client[0].newsroomid == 65:
+			elif self._client[0].newsroomid == CARDIFF_WELSH:
 				template = "prpublish.templates.newsroom.cardiff.main_page_welsh"
 			data = view.render(
 			  lparams,
@@ -140,9 +141,9 @@ class NewsRoom(object):
 			params['seocategoryid'] = CATEGORY_PAGES[self._page[0].lower()].seocategoryid
 			lparams.update(SEORelease.do_search(params))
 			template = ""
-			if self._client[0].newsroomid == 24:
+			if self._client[0].newsroomid == CARDIFF_ENGLISH:
 				template = "prpublish.templates.newsroom.cardiff.main_page"
-			elif self._client[0].newsroomid == 65:
+			elif self._client[0].newsroomid == CARDIFF_WELSH:
 				template = "prpublish.templates.newsroom.cardiff.main_page_welsh"
 			data = view.render(
 			  lparams,
@@ -269,7 +270,7 @@ class VirtualNewsRoom(object):
 
 		client = []
 		if mode == 'client':
-			if int(newsroomid) in (24, 65): #cardiff
+			if int(newsroomid) in (CARDIFF_ENGLISH, CARDIFF_WELSH): #cardiff
 				cl = ClientNewsRoom.query.get(newsroomid)
 			else:
 				cl = session.query(ClientNewsRoom).filter(ClientNewsRoom.clientid==newsroomid).scalar()
