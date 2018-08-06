@@ -480,8 +480,8 @@ class List(BaseSql):
 
 			if emailtemplate and emailtemplate.clientid != None:
 				kw['clientid'] = emailtemplate.clientid
-				query = List.Select_Release_Data % ('AND l.clientid = :clientid', sortname, direction)
-				query_count = List.Select_Release_Data_Count % ('AND l.clientid = :clientid')
+				query = List.Select_Release_Data % ('AND (l.clientid = :clientid OR l.clientid IS NULL)', sortname, direction)
+				query_count = List.Select_Release_Data_Count % ('AND (l.clientid = :clientid OR l.clientid IS NULL)')
 			elif emailtemplate and emailtemplate.clientid == None:
 				query = List.Select_Release_Data % ('', sortname, direction)
 				query_count = List.Select_Release_Data_Count % ('')
