@@ -503,3 +503,158 @@ UPDATE seoreleases.seorelease SET languageid = 1945 WHERE clientid != 1966;
 UPDATE seoreleases.seorelease SET languageid = 1936 WHERE clientid = 1966;
 
 DELETE FROM seoreleases.seocache;
+
+CREATE TABLE userdata.searchcrm
+(
+  searchcrmid serial NOT NULL,
+  userid integer NOT NULL,
+  customerid integer NOT NULL,
+  contacthistoryid integer,
+  PRIMARY KEY (searchcrmid),
+  CONSTRAINT fk_customerid FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_userid FOREIGN KEY (userid)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_contacthistoryid FOREIGN KEY (contacthistoryid)
+      REFERENCES userdata.contacthistory (contacthistoryid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE userdata.searchcrm OWNER TO postgres;
+GRANT ALL ON TABLE userdata.searchcrm TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.searchcrm TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.searchcrm TO prmaxcontrol;
+GRANT SELECT, UPDATE, INSERT ON TABLE userdata.searchcrm TO prrelease;
+
+
+-- Function: loadcrm(bytea, integer, integer, integer, text)
+
+-- DROP FUNCTION loadcrm(bytea, integer, integer, integer, text);
+
+CREATE OR REPLACE FUNCTION loadcrm(commandtext bytea, p_userid integer, p_searchtypeid integer, p_newsession_in integer, p_searchtype text)
+  RETURNS SETOF searchsessionstatisticsext AS
+$BODY$
+  DECLARE
+  p_customerid integer;
+  p_count integer;
+  p_newsession integer;
+  BEGIN
+  p_newsession = p_newsession_in;
+  -- if this is an append and entries are 0 then chabge mode
+  if p_newsession=0 THEN
+	SELECT COUNT(*) INTO p_count FROM userdata.searchsession WHERE userid = p_userid AND searchtypeid = p_searchtypeid;
+	if p_count=0 OR p_count IS NULL THEN
+	p_newsession=1;
+	END IF;
+
+  END IF;
+  -- Check for new session
+  if p_newsession=1 THEN
+    DELETE FROM userdata.searchsession WHERE userid = p_userid AND searchtypeid = p_searchtypeid;
+  ELSE
+    UPDATE userdata.searchsession SET appended=false WHERE userid = p_userid AND searchtypeid = p_searchtypeid;
+  END IF;
+
+  SELECT INTO p_customerid customerid  from tg_user where user_id =  p_userid;
+
+  -- put into temp table
+  DROP TABLE IF EXISTS searchcrm_temp;
+
+  CREATE temporary TABLE searchcrm_temp AS SELECT p_userid as userid ,p_searchtypeid as searchtypeid, contacthistoryid FROM doCrmSearch(commandtext) ;
+
+  INSERT INTO userdata.searchsession(userid,searchtypeid,contacthistoryid,customerid) SELECT p_userid,p_searchtypeid,contacthistoryid,p_customerid
+        FROM searchcrm_temp
+		WHERE contacthistoryid NOT IN (SELECT contacthistoryid FROM userdata.searchsession WHERE userid = p_userid AND searchtypeid=p_searchtypeid);
+
+  DROP TABLE IF EXISTS searchcrm_temp;
+
+  -- return statistics
+  RETURN QUERY SELECT * from crmcount(p_searchtypeid,p_userid);
+
+  END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION loadcrm(bytea, integer, integer, integer, text) OWNER TO postgres;
+
+
+-- Function: docrmsearch(bytea)
+
+-- DROP FUNCTION docrmsearch(bytea);
+
+CREATE OR REPLACE FUNCTION docrmsearch(commandtext bytea)
+  RETURNS SETOF searchresult AS
+$BODY$
+
+  import  prmax.Constants as Constants
+  from ttl.plpython import DBCompress
+  from prmax.utilities.postgres import PostGresControl
+  from prmax.utilities.search import doCrmSearch
+
+  commands = DBCompress.decode(commandtext)
+  logic=Constants.Search_And
+
+  controlSettings = PostGresControl(plpy)
+
+  overallResult = None
+  levellists = doCrmSearch(commands, plpy)
+
+  if len(levellists[Constants.Search_Data_Crm])==1:
+	overallResult = levellists[Constants.Search_Data_Crm][0]
+  else:
+	for rowData in levellists[Constants.Search_Data_Crm]:
+		if overallResult==None:
+			overallResult = rowData
+			continue
+		if logic==Constants.Search_And:
+			overallResult.index.intersection_update(rowData.index)
+			if len(overallResult.index)==0:
+				break
+		elif logic==Constants.Search_Or:
+			overallResult.index.union_update(rowData.index)
+
+  return [(None,None, contacthistoryid) for contacthistoryid in overallResult.index]
+
+$BODY$
+  LANGUAGE plpythonu VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION doCrmSearch(bytea) OWNER TO postgres;
+
+-- Function: crmcount(integer)
+
+-- DROP FUNCTION crmcount(integer);
+
+CREATE OR REPLACE FUNCTION crmcount(p_searchcrmid integer)
+  RETURNS SETOF searchsessionstatisticsext AS
+$BODY$
+DECLARE
+	firstrow userdata.searchcrm%ROWTYPE;
+	contacthistoryrow userdata.contacthistory%ROWTYPE;
+	p_contacthistoryid bigint;
+	p_searchcrmid integer;
+
+BEGIN
+	p_searchcrmid:=p_searchcrmid;
+
+	SELECT INTO firstrow * FROM userdata.searchcrm AS s JOIN userdata.contacthistory AS ch ON ch.contacthistoryid=s.contacthistoryid WHERE s.searchcrmid = p_searchcrmid LIMIT 1;
+
+	SELECT INTO contacthistoryrow * FROM userdata.contacthistory WHERE contacthistoryid = firstrow.contacthistoryid;
+
+RETURN QUERY SELECT
+	COUNT(*) as total,
+	firstrow.contacthistoryid::bigint as contacthistoryid,
+	firstrow.customerid as customerid
+	FROM userdata.searchcrm AS s
+	WHERE s.searchcrmid = p_searchcrmid;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION crmcount(integer) OWNER TO postgres;
