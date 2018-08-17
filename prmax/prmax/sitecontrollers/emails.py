@@ -352,7 +352,9 @@ class EmailController(SecureController):
 	def validate_reply_address(self, *args, **params):
 		""" check the return email address"""
 
-		status = EmailTemplates.check_return_address(params)
+		#status = EmailTemplates.check_return_address(params)
+		# not finised yetignore
+		status = 0
 		return stdreturn(data=status)
 
 	@expose("")

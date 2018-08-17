@@ -16,6 +16,12 @@ js = d.createElement(s); js.id = id;
 js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9";
 fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+<script>
+var ssiSocialTrackingCode = '081ef02f8d4a40f2';
+</script>
+<script>
+	!function(s,e){s._ssiAsyncQueue=[],s._ssiAddBeacon=function(e){s._ssiAsyncQueue.push({methodName:"_ssiAddBeacon",args:[e,(new Date).getTime()]})},s._ssiLinkCustomer=function(e){s._ssiAsyncQueue.push({methodName:"_ssiLinkCustomer",args:[e,(new Date).getTime()]})},s._ssiLoginCustomer=function(e){s._ssiAsyncQueue.push({methodName:"_ssiLoginCustomer",args:[e,(new Date).getTime()]})},s._ssiLogPurchase=function(e){s._ssiAsyncQueue.push({methodName:"_ssiLogPurchase",args:[e,(new Date).getTime()]})};var n=e.createElement("script");n.async=1,n.src="https://app.socialsignin.net/assets/v2/js/social-tracking.js";var t=e.getElementsByTagName("script")[0];t.parentNode.insertBefore(n,t)}(window,document);
+</script>
 
 <%include file="default_header_welsh.mak"/>
 <div class="content-width">
@@ -55,7 +61,7 @@ fjs.parentNode.insertBefore(js, fjs);
 		</div>
 		<div class="load-more-cardiff">
 			<%namespace file="resulttrail_welsh.mak" import="create_trail"/>
-			${create_trail( resultcount, criteria, offset)}		
+			${create_trail( resultcount, criteria, offset)}
 		</div>
 	</div>
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>

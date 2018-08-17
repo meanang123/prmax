@@ -78,6 +78,19 @@ from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE, SMTPServerGMail
 LOGGER = logging.getLogger("prmax")
 CRYPTENGINE = CryptyInfo(Constants.KEY1)
 
+def _get_cherry_py_body(request):
+	"""Version fix"""
+
+	try:
+		lparams = request.body_params
+	except:
+		try:
+			lparams = request.body.params
+		except:
+			lparams = {}
+
+	return lparams
+
 class Root(controllers.RootController):
 	"Main tg root"
 	tg_cookie_name = config.get("visit.cookie.name", "prmax-visit")
@@ -158,8 +171,9 @@ class Root(controllers.RootController):
 		if identity.current.anonymous:
 			user = None
 			customer = None
-			if "user_username" in request.body_params:
-				user = User.by_user_name(request.body_params['user_username'])
+			lparams = _get_cherry_py_body(request)
+			if "user_username" in lparams:
+				user = User.by_user_name(lparams['user_username'])
 				if user and user.passwordrecovery:
 					details = PasswordRecoveryDetails.query.get(user.user_id)
 					if not user.customerid or not details:
@@ -259,10 +273,11 @@ class Root(controllers.RootController):
 					letter2 = random.randint(1,len(db_recovery_word))
 				if letter1 > letter2:
 					letter1,letter2 = letter2,letter1
-			if 'letter1' in request.body_params and 'letter2' in request.body_params \
-		       and 'index_letter1' in request.body_params and 'index_letter2' in request.body_params:
-				if request.body_params['letter1'] == db_recovery_word[int(request.body_params['index_letter1'])-1] \
-			       and request.body_params['letter2'] == db_recovery_word[int(request.body_params['index_letter2'])-1]:
+			lparams = _get_cherry_py_body(request)
+			if 'letter1' in lparams and 'letter2' in lparams \
+		       and 'index_letter1' in lparams and 'index_letter2' in lparams:
+				if lparams['letter1'] == db_recovery_word[int(lparams['index_letter1'])-1] \
+			       and lparams['letter2'] == db_recovery_word[int(lparams['index_letter2'])-1]:
 
 					newpassword = ''.join(random.choice('!@#$%&*' + string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(8))
 					while not any(ext in newpassword for ext in string.ascii_uppercase ) \
@@ -330,8 +345,9 @@ class Root(controllers.RootController):
 
 		if identity.current.anonymous:
 			user = None
-			if "user_name" in request.body_params and "password" in request.body_params:
-				user = User.by_user_name(request.body_params['user_name'])
+			lparams = _get_cherry_py_body(request)
+			if "user_name" in lparams and "password" in lparams:
+				user = User.by_user_name(lparams['user_name'])
 			elif "prmax_user_name" in request.params and "prmax_password" in request.params:
 				user = User.by_user_name(request.params['prmax_user_name'])
 			if user:

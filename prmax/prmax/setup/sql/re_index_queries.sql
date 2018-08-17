@@ -1,11 +1,11 @@
 ﻿-- reindex job roles
 update internal.prmaxcontrol set search_index_rebuild_mode = 1;
-DELETE FROM userdata.setindex where keytypeid in ( 120,119) AND keyname = '1629' AND prmaxdatasetid = 1;
+DELETE FROM userdata.setindex where keytypeid in ( 120,119) AND keyname = '1348' AND prmaxdatasetid = 1;
 update  employeeprmaxroles
 set force_index = now()
 FROM employees,outlets
 WHERE employees.employeeid = employeeprmaxroles.employeeid AND
-employees.outletid = outlets.outletid AND outlets.countryid in (1,3) and prmaxroleid = 1629;
+employees.outletid = outlets.outletid AND outlets.countryid in (1,3) and prmaxroleid = 1348;
 update internal.prmaxcontrol set search_index_rebuild_mode = 0;
 
 -- reindex contact keywords

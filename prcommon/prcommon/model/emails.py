@@ -17,8 +17,12 @@ import email
 import StringIO
 import logging
 import uuid
-import spf
-import dns.resolver
+try:
+	import spf
+	import dns.resolver
+except:
+	pass
+
 from urlparse import urlparse
 from datetime import datetime, date, timedelta
 from turbogears.database import metadata, mapper, session, config
@@ -560,7 +564,7 @@ class EmailTemplates(BaseSql):
 		try:
 			returnaddress = params['returnaddress']
 			domain = returnaddress.split("@")[1].lower()
-			status = 0 
+			status = 0
 			ans1 = ans2 = None
 			try:
 				ans1 = dns.resolver.query(domain, 'MX')
@@ -570,19 +574,19 @@ class EmailTemplates(BaseSql):
 				ans2 = dns.resolver.query(domain, 'A')
 			except:
 				status=1
-			
+
 			if ans2:
 				for rdata in ans2:
 					check = spf.check(i=unicode(rdata), s=returnaddress, h=domain)
 					if check[0] != 'pass':
 						status = 2
-				
+
 			return status
 		except:
 			LOGGER.exception("EmailTemplate_check_return_address")
-			raise				
-		
-	
+			raise
+
+
 	@classmethod
 	def check_domain(domain):
 		answers1 = dns.resolver.query(domain, 'MX')

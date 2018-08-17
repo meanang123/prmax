@@ -151,6 +151,7 @@ prmax_servers = (
     'prmax-a04.dh.bytemark.co.uk',
     'prmax-a03.dh.bytemark.co.uk',
     'prmax-d2013.dh.bytemark.co.uk',
+    'fe1.default.prmax.uk0.bigv.io'
                )
 
 def deploy_to_new_system():

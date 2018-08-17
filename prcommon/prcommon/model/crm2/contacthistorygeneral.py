@@ -125,7 +125,7 @@ class ContactHistoryGeneral(object):
 					subject = params['crm_subject']
 				elif 'outcome' in params and params['outcome'] != "":
 					subject = params['outcome']
-					
+
 				task = Task(
 				    taskstatusid=Constants.TaskStatus_InProgress,
 				    due_date=params["follow_up_date"],
@@ -152,7 +152,7 @@ class ContactHistoryGeneral(object):
 
 	List_View = """SELECT ch.contacthistoryid,
 	to_char(ch.taken, 'DD/MM/YY') as taken_display,
-	ch.crm_subject AS subject,
+	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	com.email as contactemail,
