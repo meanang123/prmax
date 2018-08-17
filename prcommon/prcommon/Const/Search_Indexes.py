@@ -81,7 +81,10 @@ advance_search_name_outletid = 128
 seo_categories = 129
 seo_keywords = 130
 
-# next id 134
+crm_subject = 134
+taken_dates = 135
+
+# next id 136
 
 HIGHEST_INDEX_ID = 133
 

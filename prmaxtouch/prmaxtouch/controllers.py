@@ -20,6 +20,9 @@ from prmaxtouch.sitecontrollers.enquiry import EnquiriesController
 from model import User
 from prmax.sitecontrollers.clients import ClientController
 from prmaxtouch.sitecontrollers.user import UserController
+from prmaxtouch.sitecontrollers.search import SearchController
+from prcommon.model.touch.utils.utils import Utilities
+from prcommon.model import ApiSearch
 
 __all__ = ['Root']
 
@@ -29,9 +32,10 @@ class Root(controllers.RootController):
     contact = ContactsController()
     
     enquiries = EnquiriesController()
-    enquiries1 = AddController()
     clients = ClientController()
     user = UserController()
+    employeesearch = SearchController()
+
 
     @expose("")
     def index(self, *args, **params):

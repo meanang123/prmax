@@ -20,9 +20,13 @@ from prcommon.lib.common import add_config_details
 from prcommon.model.contact import Contact
 from prcommon.model.crm import ContactHistory
 from prcommon.model.employee import Employee
+from prcommon.model.touch.utils.utils import Utilities
 from ttl.model import PPRApplication
 from prcommon import Constants
 from ttl.postgres  import DBConnect, DBCompress
+from prmaxtouch.sitecontrollers.search import SearchController
+from prcommon.model import ApiSearch
+
 
 PRMAXTOUCH = PPRApplication("Prmaxtouch", True)
 
@@ -45,149 +49,95 @@ class SearchContactController(EmbeddedBaseController):
 	@validate(validators=RestSchema(), state_factory=std_state_factory)
 	def results(self, *args, **params):
 		""" return the search results page """
-
-
 		listpage = 1
-		familyname = ''
-		firstname = ''
-		whereclause = ''
-		whereclause2 = ''
-		andclause = ''
-		if 'familyname' in params and params['familyname'] != "":
-			familyname = params['familyname']
-			whereclause = "familyname ilike '%s%%'" %familyname
-			whereclause2 = "(c.familyname ilike '%s%%' OR ec.familyname ilike '%s%%')" %(familyname,familyname)
-		else:
-			familyname = ""
-		if 'firstname' in params and params['firstname'] != "":
-			firstname = params['firstname']
-			if whereclause != '':
-				andclause += ' AND'
-			whereclause += "%s firstname ilike '%s%%'" %(andclause, firstname)
-			whereclause2 += "%s (c.firstname ilike '%s%%' OR ec.firstname ilike '%s%%')" %(andclause, firstname, firstname)
-		else:
-			firstname = ""
-			
-		if params['customerid']:
-			if whereclause != '':
-				andclause += ' AND'
-			whereclause2 += '%s ref_customerid = %s' %(andclause, params['customerid'])
-			
-		contacts = [row.contactid for row in session.query(Contact.contactid).\
-		    filter(text(whereclause)).\
-		    filter(Contact.customerid == -1).all()]
+		familyname = params['familyname'] if 'familyname' in params else ''
+		firstname = params['firstname'] if 'firstname' in params else ''
+		outletname = params['outletname'] if 'outletname' in params else ''
+		
+		params['search_type'] = 'quick'
+		params['mode'] = 1
+		params['search_partial'] = 2
+		params['quick_contact_ext'] =  u'{"data":{"surname":"%s","firstname":"%s"},"logic":2}' %(familyname, firstname)
+		params['quick_searchname'] = outletname
+		params['searchtypeid'] = 7
 
-		employees = [row.employeeid for row in session.query(Employee.employeeid).\
-		    filter(Employee.contactid.in_(contacts)).\
-		    filter(Employee.customerid == -1).all()]
-		
-		
-		whereclause2 += '%s (ch.employeeid in %s or ch.contactid in %s)' %(andclause, tuple(employees), tuple(contacts))
-		
-		q = '''select ch.contacthistoryid, ch.crm_subject, c.familyname as csn, c.firstname as cfn, ec.familyname as ecsn, ec.firstname as ecfn
-		from userdata.contacthistory as ch
-		left outer join contacts as c on c.contactid = ch.contactid
-		left outer join employees as e on e.employeeid = ch.employeeid
-		left outer join contacts as ec on e.contactid = ec.contactid
-		where %s order by ch.contacthistoryid offset(%s *6 - 6)''' %(whereclause2, listpage)
-		contacthistories = DBConnect(Constants.db_Command_Service).executeAll(q, None, False)
-		totalcontacthistories = session.query(ContactHistory).\
-		    filter(ContactHistory.ref_customerid == params['customerid']).\
-		    filter(or_(ContactHistory.employeeid.in_(employees), ContactHistory.contactid.in_(contacts))).count()
+		data = ApiSearch.do_search(params)
 
 		if "listpage" in params:
 			listpage = int(params["listpage"])
 
-		data = add_config_details({"familyname":familyname, "firstname":firstname, "contacthistory":39575, "listpage":listpage, "total": totalcontacthistories} )
+		data = add_config_details({"familyname":familyname, "firstname":firstname, "outletname":params['quick_searchname'], "listpage":listpage, "total": data['results']['total']} )
 		html = view.render(data, 'prmaxtouch.templates.contacts.results')
 
 		return slimmer.xhtml_slimmer(html)
-
 
 	@expose('text/html')
 	@exception_handler(pr_std_exception_handler)
 	@validate(validators=RestSchema(), state_factory=std_state_factory)
 	def list(self, *args, **params):
 		""" return the search results page """
-
 		listpage = 1
-		familyname = ''
-		firstname = ''
-		whereclause = ''
-		whereclause2 = ''
-		andclause = ''
-		if 'familyname' in params and params['familyname'] != "":
-			familyname = params['familyname']
-			whereclause = "familyname ilike '%s%%'" %familyname
-			whereclause2 = "(c.familyname ilike '%s%%' OR ec.familyname ilike '%s%%')" %(familyname,familyname)
-		else:
-			familyname = ""
-		if 'firstname' in params and params['firstname'] != "":
-			firstname = params['firstname']
-			if whereclause != '':
-				andclause += ' AND'
-			whereclause += "%s firstname ilike '%s%%'" %(andclause, firstname)
-			whereclause2 += "%s (c.firstname ilike '%s%%' OR ec.firstname ilike '%s%%')" %(andclause, firstname, firstname)
-		else:
-			firstname = ""
-			
-		if params['customerid']:
-			if whereclause != '':
-				andclause += ' AND'
-			whereclause2 += '%s ref_customerid = %s' %(andclause, params['customerid'])
-
+		familyname = params['familyname'] if 'familyname' in params else ''
+		firstname = params['firstname'] if 'firstname' in params else ''
+		outletname = params['outletname'] if 'outletname' in params else ''
+		
+		params['search_type'] = 'quick'
+		params['mode'] = 1
+		params['search_partial'] = 2
+		params['quick_contact_ext'] =  u'{"data":{"surname":"%s","firstname":"%s"},"logic":2}' %(familyname, firstname)
+		params['quick_searchname'] = outletname
+		params['searchtypeid'] = 7
+	
 		if "listpage" in params:
 			listpage = int(params["listpage"])			
 
-		contacts = [row.contactid for row in session.query(Contact.contactid).\
-		    filter(text(whereclause)).\
-		    filter(Contact.customerid == -1).all()]
+		params['offset'] = listpage * 6 - 6
+		data2 = ApiSearch.results_view(params)
 
-		employees = [row.employeeid for row in session.query(Employee.employeeid).\
-		    filter(Employee.contactid.in_(contacts)).\
-		    filter(Employee.customerid == -1).all()]
-		
-		
-		whereclause2 += '%s (ch.employeeid in %s or ch.contactid in %s)' %(andclause, tuple(employees), tuple(contacts))
-		
-		q = '''select ch.contacthistoryid, ch.crm_subject, c.familyname as csn, c.firstname as cfn, ec.familyname as ecsn, ec.firstname as ecfn
-		from userdata.contacthistory as ch
-		left outer join contacts as c on c.contactid = ch.contactid
-		left outer join employees as e on e.employeeid = ch.employeeid
-		left outer join contacts as ec on e.contactid = ec.contactid
-		where %s order by ch.contacthistoryid offset (%s * 6 - 6)''' %(whereclause2, listpage)
-		contacthistories = DBConnect(Constants.db_Command_Service).executeAll(q, None, False)
 
 		items = {"listpage": listpage}
 		row = 1
-		for contacthistory in contacthistories:
+		for num in range(listpage*6-6, len(data2['items'])):
+			iemployeeid = data2['items'][num]['employeeid']
+			ioutletid = data2['items'][num]['outletid']
+			ijobtitle =  data2['items'][num]['job_title']
+			ioutletname = data2['items'][num]['outletname']
 			icolour = "icon-blue"
 			iicon = "<i class='fa fa-user fa-2x'></i>"
-			ifamilyname = ""
-			ifirstname = ""
+			ifamilyname = data2['items'][num]['contactname']
+			ifirstname = ''
 			irowclass = ""
-		
+			ilocation = "javascript:window.location = '/enquiries/add/add?&employeeid=%s&outletid=%s'" % (iemployeeid, ioutletid)
+
 			newitem2 = {
-		        "contacthistoryid%s" %row : contacthistory[0],
-			    "subject%s" %row : contacthistory[1].replace('\xe2\x80\x99', "'").\
-			    replace('\xe2\x80\x9c', '"').\
-			    replace('\xe2\x80\x9d', '"').\
-			    replace('\xe2\x80\x9e', '"').\
-			    replace('\xe2\x80\x9f', '"').\
-			    replace("\xc2\xa3", 'poundsymbol') if contacthistory[1] else "",
-#			    "subject%s" %row : contacthistory[1].replace("\xc2\xa3",'£') if contacthistory[1] else "",
-		        "familyname%s" %row : contacthistory[2] if contacthistory[2] else contacthistory[4],
-		        "firstname%s" %row : contacthistory[3] if contacthistory[3] else contacthistory[5],
-		        "colour%s" %row : "icon-blue", 
-		        "rowclass%s" %row : "item-row item-row-click",
-			    "icon%s" %row: "<i class='fa fa-user fa-2x'></i>"
+			    "employeeid%s" %row: iemployeeid,
+			    "outletid%s" %row: ioutletid,
+			    "jobtitle%s" %row: ijobtitle if ijobtitle else "",
+		        "familyname%s" %row:ifamilyname if ifamilyname else "",
+		        "firstname%s" %row: ifirstname if ifirstname else "",
+			    "outletname%s" %row: ioutletname if ioutletname else "",
+		        "colour%s" %row: "icon-blue", 
+		        "rowclass%s" %row: "item-row item-row-click",
+			    "icon%s" %row: "<i class='fa fa-user fa-2x'></i>",
+			    "location%s" %row: ilocation
+			    
 		    }
-			print '%s - %s' %(row, newitem2['subject%s' %row])
+			
 			items.update(newitem2)
 			row += 1
-				
-
+		
 		data = add_config_details(items, True, PRMAXTOUCH)
 		html = view.render(data, 'prmaxtouch.templates.contacts.list')
 
 		return slimmer.xhtml_slimmer(html)
+	
+
+def _fix_db_characters(value):
+	return value.replace('\xe2\x80\x99', "'").\
+	    replace('\xe2\x80\x9c', '"').\
+	    replace('\xe2\x80\x9d', '"').\
+	    replace('\xe2\x80\x9e', '"').\
+	    replace('\xe2\x80\x9f', '"').\
+	    replace('\xc3\xa7', 'c').\
+	    replace("\xc2\xa3", 'poundsymbol')
+		

@@ -19,6 +19,7 @@ from ttl.tg.errorhandlers import pr_std_exception_handler, pr_form_error_handler
 from prcommon.lib.common import add_config_details
 
 from prcommon.model import ContactHistory, Client, User
+from prcommon.model.crm2.contacthistorygeneral import ContactHistoryGeneral
 
 from ttl.base import stdreturn, duplicatereturn, formreturn, errorreturn
 
@@ -26,17 +27,18 @@ import json
 import urllib
 import slimmer
 
-class EnquiryAddSchema(PrFormSchema):
-	clientid = Int2Null()
+class EnquiryUpdateSchema(PrFormSchema):
+	clientid = validators.Int()
 	taken = ISODateTimeValidator()
+	contacthistoryid = validators.Int()
 
-class AddController(EmbeddedBaseController):
+class UpdateController(EmbeddedBaseController):
 	""" Add controller """
 
 	@expose('text/html')
 	@exception_handler(pr_std_exception_handler)
 	@validate(validators=RestSchema(), state_factory=std_state_factory)
-	def add(self, *args, **params):
+	def update(self, *args, **params):
 		""" return the add enquiry page"""
 
 		clients = session.query(Client.clientid, Client.clientname).\
@@ -70,11 +72,12 @@ class AddController(EmbeddedBaseController):
 
 	@expose("json")
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=EnquiryAddSchema(), state_factory=std_state_factory)
+	@validate(validators=EnquiryUpdateSchema(), state_factory=std_state_factory)
 	def submit(self, *args, **params):
 		"""Add enquiry details"""
 
 		if 'clientid' in params and params['clientid'] == -1:
 			params['clientid'] = None
-		contacthistoryid = ContactHistory.add_note(params)
-		return stdreturn(contacthistoryid = contacthistoryid)
+		ContactHistoryGeneral.update_note(params)
+	
+		return stdreturn(data=ContactHistory.getRecord(params["contacthistoryid"], True))

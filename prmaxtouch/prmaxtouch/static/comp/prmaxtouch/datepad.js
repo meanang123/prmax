@@ -224,7 +224,34 @@ define([
 		topic.publish("datepad/push_date",this.focuscontrol,datestring);
 		this.focuscontrol.focus();
 	},
+	get_today:function()
+	{
+		this.istfn = false;
+		this.thedate = new Date();
+		this.thedate = new Date(this.thedate.getFullYear(), this.thedate.getMonth(), this.thedate.getDate());
+		this.monthset = new Date(this.thedate.getFullYear(), this.thedate.getMonth() + 1, 0);
+		this.format_days();
+		var theday = this.thedate.getDate();
+		var themonth = this.months[this.thedate.getMonth()];
+		var theyear = this.thedate.getFullYear();
+		var datestring = theday + " " + themonth + " " + theyear;
 
+		return datestring;
+	},
+	get_before_date:function(years, months, days)
+	{
+		this.istfn = false;
+		this.thedate = new Date();
+		this.thedate = new Date(this.thedate.getFullYear() - years, this.thedate.getMonth() - months, this.thedate.getDate() - days);
+		this.monthset = new Date(this.thedate.getFullYear(), this.thedate.getMonth() + 1, 0);
+		this.format_days();
+		var theday = this.thedate.getDate();
+		var themonth = this.months[this.thedate.getMonth()];
+		var theyear = this.thedate.getFullYear();
+		var datestring = theday + " " + themonth + " " + theyear;
+
+		return datestring;
+	},
 	push_day:function(pushday)
 	{
 		this.istfn = false;

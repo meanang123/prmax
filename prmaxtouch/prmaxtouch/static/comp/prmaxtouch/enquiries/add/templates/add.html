@@ -3,10 +3,9 @@
 		<div data-dojo-attach-point="header_bar" data-dojo-type="prmaxtouch/enquiries/add/headerbar" data-dojo-props='region:"top"'></div>
 		<div data-dojo-attach-point="mainpanel" class="main-panel" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false'>
 			<div data-dojo-type="dijit/layout/BorderContainer" class="control-left" data-dojo-props='gutters:false,region:"left"'>
-				<div data-dojo-attach-point="backbtn" data-dojo-type="dijit/layout/ContentPane" class="control-single control-bottom-square" data-dojo-props='region:"top"'>
+				<div data-dojo-attach-point="backbtn" data-dojo-type="dijit/layout/ContentPane" class="control-onethird" data-dojo-props='region:"top"'>
 					<button title="Back" data-dojo-attach-event="onMouseDown:_back"><i class="fa fa-arrow-left"></i></button>
 				</div>
-			
 				<div data-dojo-type="dijit/layout/ContentPane" class="control-onethird button-red" data-dojo-props='region:"bottom"'>
 					<button title="Clear" data-dojo-attach-event="onMouseDown:_reset"><i class="fa fa-undo"></i></button>
 				</div>
@@ -15,31 +14,34 @@
 				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/keyboard" data-dojo-attach-point="keyboard"></div>
 				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/datepad" data-dojo-attach-point="datepad"></div>
 				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/itemselector" data-dojo-attach-point="itemselector"></div>
+				<input type="hidden" data-dojo-props='name:"clientid"' data-dojo-attach-point="clientid" />
+				<input type="hidden" data-dojo-props='name:"takenbyid"' data-dojo-attach-point="takenbyid" />
+				<input type="hidden" data-dojo-props='name:"outletid"' data-dojo-attach-point="outletid" />
+				<input type="hidden" data-dojo-props='name:"employeeid"' data-dojo-attach-point="employeeid" />
 				<table class="form-panel"><tr><td>
-					<div class="gradienter"></div>
-					<table class="input-area input-card" data-dojo-attach-point="formpanel">
-						<tr><td>
-							<table>
-							<tr><td>&nbsp;&nbsp;Date</td></tr>
-							<tr><td><input data-dojo-props='type:"text",trim:true,name:"taken"' maxlength="50" data-dojo-attach-point="taken" data-dojo-attach-event="onFocus:taken_focus,onKeyUp:taken_focus,onMouseDown:taken_focus,onBlur:delay_close" /></td></tr>
-						</table>
-						<table>
-							<tr><td>&nbsp;&nbsp;Taken By</td></tr>
-							<tr><td><select data-dojo-props='type:"text",name:"taken_by",autoComplete:true,searchAttr:"name",invalidMessage:"Taken By",labelType:"html", style:"width:98%; margin:5px"' maxlength="255" data-dojo-attach-event="onFocus:taken_by_focus,onKeyUp:taken_by_focus,onMouseDown:taken_by_focus,onBlur:delay_close" data-dojo-attach-point="taken_by" data-dojo-type="dijit/form/FilteringSelect"></select></td></tr>
-						</table>
-						<table>
-							<tr><td>&nbsp;&nbsp;Subject</td></tr>
-							<tr><td><input data-dojo-props='type:"text",trim:true,name:"crm_subject"' maxlength="255" data-dojo-attach-point="crm_subject" data-dojo-attach-event="onFocus:crm_subject_focus,onKeyUp:crm_subject_focus,onMouseDown:crm_subject_focus,onBlur:delay_close" /></td></tr>
-						</table>
-						<table>
-							<tr><td>&nbsp;&nbsp;Client</td></tr>
-							<tr><td><input data-dojo-props='type:"text",trim:true,name:"clientid", autoComplete:true,searchAttr:"clientname",labelType:"html", style:"width:98%; margin:5px"' maxlength="255" data-dojo-attach-point="clientid" data-dojo-type="dijit/form/FilteringSelect"></input></td></tr>
-						</table>
-						<table>
-							<tr><td>&nbsp;&nbsp;Response</td></tr>
-							<tr><td><textarea data-dojo-props='type:"text",trim:true,name:"response"' data-dojo-attach-point="crm_response" data-dojo-attach-event="onFocus:crm_response_focus,onKeyUp:crm_response_focus,onMouseDown:crm_response_focus,onBlur:delay_close" ></textarea></td></tr>
-						</table>
-						</td></tr>
+					<table class="input-area input-area-full" data-dojo-attach-point="formpanel">
+						<tr class="input-row">
+							<td>Date</td>
+							<td style="width:400px"><input data-dojo-props='type:"text",trim:true,name:"taken"' maxlength="50" data-dojo-attach-point="taken" data-dojo-attach-event="onFocus:taken_focus,onKeyUp:taken_focus,onMouseDown:taken_focus,onBlur:delay_close" /></td>
+							<td></td>
+						</tr>
+						<tr class="input-row">
+							<td>Taken By</td>
+							<td><input data-dojo-props='type:"text",trim:true,name:"takenbystring"' data-dojo-attach-point="takenbystring" data-dojo-attach-event="onFocus:takenby_focus,onKeyUp:takenby_focus,onMouseDown:takenby_focus,onBlur:delay_close" /></td>
+						</tr>
+						<tr class="input-row">
+							<td>Subject</td>
+							<td colspan="2"><input  data-dojo-props='type:"text",trim:true,name:"crm_subject"' maxlength="255" data-dojo-attach-point="crm_subject" data-dojo-attach-event="onFocus:crm_subject_focus,onKeyUp:crm_subject_focus,onMouseDown:crm_subject_focus,onBlur:delay_close" /></td>
+						</tr>
+						<tr class="input-row">
+							<td>Response</td>
+							<td colspan="2"><textarea data-dojo-props='trim:true,name:"crm_response"' data-dojo-attach-point="crm_response" style="width:100%" rows="4" data-dojo-attach-event="onFocus:crm_response_focus,onKeyUp:crm_response_focus,onMouseDown:crm_response_focus,onBlur:delay_close" /></textarea></td>
+						</tr>
+						<tr class="input-row">
+							<td>Client</td>
+							<td><input data-dojo-props='type:"text",trim:true,name:"clientstring"' data-dojo-attach-point="clientstring" data-dojo-attach-event="onFocus:client_focus,onKeyUp:client_focus,onMouseDown:client_focus,onBlur:delay_close" /></td>
+						</tr>
+						<tr>
 						<tr height="100%"></tr>
 					</table>
 				</td></tr>

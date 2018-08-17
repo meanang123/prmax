@@ -3,12 +3,14 @@ define([
 	"ttl/BaseWidgetAMD",
 	"dojo/text!../search/templates/results.html",
 	"dojo/dom-class",
-	"prmaxtouch/contacts/search/headerbar",
+	"ttl/utilities2",	
+	"dojo/json",	
+	"prmaxtouch/enquiries/search/headerbar",
 	"dijit/layout/BorderContainer",
 	"dijit/layout/ContentPane"
 	],
-	function(declare, BaseWidgetAMD, template, domclass){
-return declare("prmaxtouch.contacts.search.results",
+	function(declare, BaseWidgetAMD, template, domclass, utilities2, json){
+return declare("prmaxtouch.enquiries.search.results",
 	[BaseWidgetAMD],{
 	templateString:template,
 	searchstring: "",
@@ -24,7 +26,11 @@ return declare("prmaxtouch.contacts.search.results",
 		this.header_bar._fill(this.logout,this.posid,this.customerid,this.returnurl,this.cusonly);
 
 		this.maxpage = Math.ceil(this.total / 6);
-		this.searchstring = "/contact/search/list";
+		var start = new Date(Date.parse(this.from_date));
+		var end = new Date(Date.parse(this.to_date));
+		
+		var daterange = {option:this.option, from_date:utilities2.to_json_date(start), to_date:utilities2.to_json_date(end)};		
+		this.searchstring = "/enquiries/search/list?daterange=" + json.stringify(daterange);
 		this.goto_page(this.listpage);
 	},
 
@@ -103,28 +109,14 @@ return declare("prmaxtouch.contacts.search.results",
 
 		var liststring = this.searchstring.toString();
 		if (this.familyname)
-			liststring += "?familyname=" + this.familyname;
+			liststring += "&familyname=" + this.familyname;
 		if (this.firstname)
 		{
-			if (liststring == this.searchstring.toString())
-			{
-				liststring += "?firstname=" + this.firstname;
-			}
-			else
-			{
-				liststring += "&firstname=" + this.firstname;			
-			}
+			liststring += "&firstname=" + this.firstname;			
 		}
-		if (this.outletname)
+		if (this.subject)
 		{
-			if (liststring == this.searchstring.toString())
-			{
-				liststring += "?outletname=" + this.outletname;
-			}
-			else
-			{
-				liststring += "&outletname=" + this.outletname;			
-			}
+			liststring += "&subject=" + this.subject;			
 		}
 		if (this.listpage)
 			liststring += "&listpage=" + this.listpage;

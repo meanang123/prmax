@@ -1,0 +1,103 @@
+<div data-dojo-attach-event="onKeyDown:keydown"  tabindex="0">
+	<div data-dojo-attach-point="container" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='gutters:false'>
+		<div data-dojo-attach-point="header_bar" data-dojo-type="prmaxtouch/enquiries/search/headerbar" data-dojo-props='region:"top"'></div>
+		<div data-dojo-attach-point="mainpanel" class="main-panel" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false'>
+			<div data-dojo-type="dijit/layout/BorderContainer" class="control-left" data-dojo-props='gutters:false,region:"left"'>
+				<div data-dojo-attach-point="addpanel" data-dojo-type="dijit/layout/ContentPane" class="control-half button-green" data-dojo-props='region:"top"'>
+					<button data-dojo-attach-point="addbtn" title="Add" data-dojo-attach-event="onMouseDown:_add"><i class="fa fa-plus"></i></button>
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" class="control-onethird button-red" data-dojo-props='region:"bottom"'>
+					<button title="Reset" data-dojo-attach-event="onMouseDown:_reset"><i class="fa fa-undo"></i></button>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/layout/ContentPane" class="centre-panel" data-dojo-props='region:"center"'>
+				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/keyboard" data-dojo-attach-point="keyboard"></div>
+				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/numberpad" data-dojo-attach-point="numberpad"></div>
+				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/itemselector" data-dojo-attach-point="itemselector"></div>
+				<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/datepad" data-dojo-attach-point="datepad"></div>
+				<input type="hidden" data-dojo-props='name:"shoplocationid"' data-dojo-attach-point="shoplocationid" />
+				<input type="hidden" data-dojo-props='name:"ownerid"' data-dojo-attach-point="ownerid" />
+				<input type="hidden" data-dojo-props='name:"outletid"' data-dojo-attach-point="outletid" />
+				
+				<table class="form-panel">
+					<tr><td>
+						<table class="input-area input-area-full" style="height:1px;padding-bottom:8px;padding-bottom:1vmin" data-dojo-attach-point="formpanel">
+							<tr>
+								<td class="input-button input-button-menu">
+									<table><tr>
+										<td data-dojo-attach-point="new_enquiry_btn" class="input-button-on" style="width:14.3%">
+											<button data-dojo-attach-event="onMouseDown:_new_enquiry_page"><i class="fa fa-user fa-2x"></i><br/>New Enquiry</button>
+										</td>
+										<td data-dojo-attach-point="existing_enquiry_btn" style="width:14.3%">
+											<button data-dojo-attach-event="onMouseDown:_existing_enquiry_page"><i class="fa fa-user fa-2x"></i><br/>Existing Enquiry</button>
+										</td>
+		
+									</tr></table>
+								</td>
+							</tr>
+						</table>
+						
+						<table data-dojo-attach-point="new_enquiry" class="input-area ">
+							<tr class="input-row">
+								<td>Surname</td>
+								<td colspan="3"><input readonly data-dojo-props='type:"text",trim:true,name:"new_familyname"' maxlength="50" data-dojo-attach-point="new_familyname" data-dojo-attach-event="onFocus:new_familyname_focus,onKeyUp:new_familyname_focus,onMouseDown:new_familyname_focus,onBlur:delay_close" /></td>
+							</tr>
+							<tr class="input-row">
+								<td>Firstname</td>
+								<td colspan="3"><input readonly data-dojo-props='type:"text",trim:true,name:"new_firstname"' maxlength="50" data-dojo-attach-point="new_firstname" data-dojo-attach-event="onFocus:new_firstname_focus,onKeyUp:new_firstname_focus,onMouseDown:new_firstname_focus,onBlur:delay_close" /></td>
+							</tr>
+							<tr class="input-row">
+								<td>Outlet</td>
+								<td colspan="3"><input readonly data-dojo-props='type:"text",trim:true,name:"new_outletname"' maxlength="50" data-dojo-attach-point="new_outletname" data-dojo-attach-event="onFocus:new_outletname_focus,onKeyUp:new_outletname_focus,onMouseDown:new_outletname_focus,onBlur:delay_close" /></td>
+							</tr>
+							</tr>
+							<tr height="100%"></tr>
+						</table>						
+						<table data-dojo-attach-point="existing_enquiry" class="input-area pprhidden">
+							<tr class="input-row">
+								<td>Surname</td>
+								<td colspan="3"><input readonly data-dojo-props='type:"text",trim:true,name:"existing_familyname"' maxlength="50" data-dojo-attach-point="existing_familyname" data-dojo-attach-event="onFocus:existing_familyname_focus,onKeyUp:existing_familyname_focus,onMouseDown:existing_familyname_focus,onBlur:delay_close" /></td>
+							</tr>
+							<tr class="input-row">
+								<td>Firstname</td>
+								<td colspan="3"><input readonly data-dojo-props='type:"text",trim:true,name:"existing_firstname"' maxlength="50" data-dojo-attach-point="existing_firstname" data-dojo-attach-event="onFocus:existing_firstname_focus,onKeyUp:existing_firstname_focus,onMouseDown:existing_firstname_focus,onBlur:delay_close" /></td>
+							</tr>
+							<tr class="input-row">
+								<td>Subject</td>
+								<td colspan="3"><input data-dojo-props='type:"text",trim:true,name:"existing_subject"' data-dojo-attach-point="existing_subject" data-dojo-attach-event="onFocus:existing_subject_focus,onKeyUp:existing_subject_focus,onMouseDown:existing_subject_focus,onBlur:delay_close" /></td>
+							</tr>
+							<tr class="input-row">
+								<td>Taken Date From</td>
+								<td colspan="3" data-dojo-attach-point="start_row"><input readonly style="width:60%" data-dojo-props='type:"text",trim:true,name:"start_date"' data-dojo-attach-point="start_date" data-dojo-attach-event="onFocus:startdate_focus,onKeyUp:startdate_focus,onMouseDown:startdate_focus,onBlur:delay_close" /></td>
+							</tr>
+							<tr class="input-row">
+								<td>Taken Date To</td>
+								<td colspan="3" data-dojo-attach-point="end_row"></span><input readonly style="width:60%" data-dojo-props='type:"text",trim:true,name:"end_date"' data-dojo-attach-point="end_date" data-dojo-attach-event="onFocus:enddate_focus,onKeyUp:enddate_focus,onMouseDown:enddate_focus,onBlur:delay_close" /></td>
+							</tr>
+							<tr height="100%"></tr>
+						</table>						
+						
+					</td></tr>
+
+					<tr class="empty-row">
+						<td colspan="3">
+							<div data-dojo-attach-point="no_results" class="pprhidden">
+								<table><tr>
+									<td style="width:1px"><i class="fa fa-minus-circle fa-lg"></i></td>
+									<td class="empty-cell">No Contacts found</td>
+									<td style="width:1px"><i class="fa fa-minus-circle fa-lg"></i></td>
+								</tr></table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div data-dojo-type="dijit/layout/BorderContainer" class="control-right" data-dojo-props='gutters:false,region:"right"'>
+				<div data-dojo-type="dijit/layout/ContentPane" class="control-full" data-dojo-props='region:"center"'>
+					<button title="Search" data-dojo-attach-event="onMouseDown:_search"><i class="fa fa-search"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

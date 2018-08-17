@@ -10,10 +10,16 @@
 from ttl.tg.controllers import EmbeddedBaseController
 
 from prmaxtouch.sitecontrollers.enquiries.add import AddController
+from prmaxtouch.sitecontrollers.enquiries.edit import UpdateController
+from prmaxtouch.sitecontrollers.enquiries.search import SearchContactHistoryController
+from prmaxtouch.sitecontrollers.enquiries.details import DetailsContactHistoryController
 
 class EnquiriesController(EmbeddedBaseController):
 	""" Customer root """
 
-#	search = SearchController()
+	search = SearchContactHistoryController()
 	add = AddController()
 	new = AddController().add
+	update = UpdateController()
+	details = DetailsContactHistoryController()
+	

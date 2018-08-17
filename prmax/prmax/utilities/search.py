@@ -569,6 +569,52 @@ def doCommonSearch(commands, plpy, byemployeedid = True ):
 
 	return levellists
 
+def doCrmSearch(commands, plpy):
+	"doCrmSearch"
+	levellists = [[] for i in xrange(0,Constants.Search_Data_Count)]
+
+	controlSettings = PostGresControl(plpy)
+
+	controlSettings.doDebug("doCrmSearch")
+	for command in commands.rows:
+		controlSettings.doDebug("command.keytypeid " + str(command.keytypeid))
+		if type(command.keytypeid) == StringType:
+			data = _EncodeTypeData(command.word)
+			controlSettings.doDebug("Encodeed Data " + str(data))
+
+			action = """select * from %s( %d,'%s',%s,%d);""" % (command.keytypeid,
+														   commands.customerid,
+														   data,
+														   command.logic)
+			result = plpy.execute(action.encode("utf-8"))[0]
+			itemkey = command.keytypeid.lower()
+
+		else:
+			controlSettings.doDebug("command.keytypeid " + str(command.word))
+
+			indexItems = ",".join(["('%s',%d)::IndexElement"%
+								   (value,command.keytypeid)
+								   for value in command.word])
+			controlSettings.doDebug("doCrmSearch " + str(indexItems))
+
+			#logic = Constants.Search_Or if command.partial else command.logic
+			controlSettings.doDebug("pre doIndex")
+			result = plpy.execute( "select * from doIndexGroup(ARRAY[%s],%d,%d,%d);" %
+								   (indexItems,
+									commands.customerid,
+									command.logic,
+									command.partial))[0]
+			itemkey = "doindexgroup"
+			controlSettings.doDebug("post doIndex")
+
+
+		controlSettings.doDebug("command.type " + str(command.type))
+
+		levellists[command.type].append(DBCompress.decode(result[itemkey]))
+
+	return levellists
+
+
 def doQuickEmail(SD, plpy, customerid, data, byemployeeid):
 	""" Do a search of all the email address in the system for a specific part of one """
 	if SD.has_key("search_quick_email_plan"):

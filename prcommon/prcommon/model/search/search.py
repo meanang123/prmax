@@ -286,6 +286,7 @@ class ApiSearching(object):
 
 	_quick_kw = (
 		('quick_contact', Constants.employee_contactfull_employeeid, _convertdatalower, Constants.Search_Data_Employee, True),
+	    ('quick_contact_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
 		('quick_types', Constants.outlet_searchtypeid, _covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_outlettypes', Constants.outlet_outlettypeid, _covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_interests', "SearchInterestsAll", _listostring, Constants.Search_Data_Employee, False),
@@ -306,8 +307,8 @@ class ApiSearching(object):
 		('outlet_profile', 'SearchOutletProfile', _noconvertnolistdata, None, False),
 		('outlet_tags', Constants.outlet_interest, _convertdata, None, False),
 		('outlet_roles', Constants.outlet_job_role, _convertdata, None, False),
-	  ('outlet_frequency', Constants.outlet_frequencyid, _convert_number, None, False),
-	  ('outlet_advance_feature', "SearchOutletAdvance", _minisearch_outlet_advance, None, True),
+	    ('outlet_frequency', Constants.outlet_frequencyid, _convert_number, None, False),
+	    ('outlet_advance_feature', "SearchOutletAdvance", _minisearch_outlet_advance, None, True),
 		('outlet_countryid', Constants.outlet_countryid, _convertdata, None, False)
 		#('outlet_tel', 'SearchOutletTel', _convertdata_tel, None , True ),
 		#('outlet_email', 'SearchOutletEmail',_convertdata_email, None, True ),
@@ -318,7 +319,7 @@ class ApiSearching(object):
 	    ('employee_searchname_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
 		('employee_interests', Constants.employee_employeeid_interestid, _convertdata, None, False),
 		('employee_outlettypes', Constants.employee_prmaxoutlettypeid, _covertdata_or_logic, None, False),
-	  ('employee_roles', Constants.employee_job_role, _convertdata, None, False),
+	    ('employee_roles', Constants.employee_job_role, _convertdata, None, False),
 		('employee_countryid', Constants.employee_countryid, _covertdata_or_logic, None, False)
 		#('employee_email',"SearchEmployeeEmail",_convertdata_email, None, True ),
 		#('employee_tel',"SearchEmployeeTel",_convertdata_tel, None, True ),
@@ -333,22 +334,26 @@ class ApiSearching(object):
 	)
 
 	_advance_kw = (
-		('advance_advancename', Constants.advance_search_name, _convertoutletname, None, True),
-	  ('advance_outletname', "SearchAdvanceOutletName", _minisearch_advance_outletname, None, True),
-	  ('advance_publicationdate', "SearchAdvancePubDate", _minisearch_advance_pub_date2, None, True),
-		('advance_interests', Constants.advance_interest, _convertdata, None, False),
-	  ('advance_outlettypes', "SearchAdvanceMediaChannel", _minisearch_advance_channel, None, True)
+	    ('advance_advancename', Constants.advance_search_name, _convertoutletname, None, True),
+	    ('advance_outletname', "SearchAdvanceOutletName", _minisearch_advance_outletname, None, True),
+	    ('advance_publicationdate', "SearchAdvancePubDate", _minisearch_advance_pub_date2, None, True),
+	    ('advance_interests', Constants.advance_interest, _convertdata, None, False),
+	    ('advance_outlettypes', "SearchAdvanceMediaChannel", _minisearch_advance_channel, None, True)
 	  )
 
-	_crm_kw = ()
+	_crm_kw = (
+	    ('employee_searchname_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
+	    ('crm_subject', Constants.crm_subject, _convertstringdata, None, False),
+	    ('taken_dates', Constants.taken_dates, _convertdata, None, False)
+	)
 
 	_searchs = {
-		"quick" : (_quick_kw, Constants.Search_Data_Employee, None, "loadSession", "outlet"),
+	    "quick" : (_quick_kw, Constants.Search_Data_Employee, None, "loadSession", "outlet"),
 		"outlet": (_outlet_kw, Constants.Search_Data_Outlet, _post_search, "loadSession", "outlet"),
 		"employee": (_employee_kw, Constants.Search_Data_Employee, None, "loadSession", "outlet"),
 		"freelance": (_freelance_kw, Constants.Search_Data_Employee, None, "loadSession", "outlet"),
-	  "advance": (_advance_kw, Constants.Search_Data_Advance, None, "loadAdvance", "advance"),
-	  "crm": (_crm_kw, Constants.Search_Data_Crm, None, "loadCrm", "crm")
+	    "advance": (_advance_kw, Constants.Search_Data_Advance, None, "loadAdvance", "advance"),
+	    "crm": (_crm_kw, Constants.Search_Data_Crm, None, "loadCrm", "crm")
 	}
 
 	_search_ignores = dict(outlet_roles=_check_role_required)

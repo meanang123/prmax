@@ -1,0 +1,117 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='gutters:false'>
+		<div data-dojo-attach-point="header_bar" data-dojo-type="prmaxtouch/enquiries/headerbar" data-dojo-props='region:"top"'></div>
+
+		<div data-dojo-attach-point="editpanel" data-dojo-type="dijit/layout/StackContainer" data-dojo-props='region:"center"'>
+			<div data-dojo-attach-point="mainpanel" class="main-panel" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false'>
+				<div data-dojo-type="dijit/layout/BorderContainer" class="control-left" data-dojo-props='gutters:false,region:"left"'>
+					<div data-dojo-type="dijit/layout/ContentPane" class="control-onethird" data-dojo-props='region:"top"'>
+						<button title="Back" data-dojo-attach-event="onMouseDown:_back"><i class="fa fa-arrow-left"></i></button>
+					</div>
+				</div>
+
+				<div data-dojo-type="dijit/layout/ContentPane" class="centre-panel" data-dojo-props='region:"center"'>
+					<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/keyboard" data-dojo-attach-point="keyboard"></div>
+					<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/numberpad" data-dojo-attach-point="numberpad"></div>
+					<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/datepad" data-dojo-attach-point="datepad"></div>
+					<div class="input-panel pprhidden" data-dojo-type="prmaxtouch/itemselector" data-dojo-attach-point="itemselector"></div>
+					<input type="hidden" data-dojo-props='name:"clientid"' data-dojo-attach-point="clientid" />
+					<input type="hidden" data-dojo-props='name:"takenbyid"' data-dojo-attach-point="takenbyid" />
+					<input type="hidden" data-dojo-props='name:"outletid"' data-dojo-attach-point="outletid" />
+					<input type="hidden" data-dojo-props='name:"employeeid"' data-dojo-attach-point="employeeid" />
+					<input type="hidden" data-dojo-props='name:"contactid"' data-dojo-attach-point="contactid" />
+					<input type="hidden" data-dojo-props='name:"contacthistoryid"' data-dojo-attach-point="contacthistoryid" />
+					<table class="form-panel">
+						<tr><td>
+							<table class="input-area input-area-full" style="height:1px;padding-bottom:8px;padding-bottom:1vmin">
+								<tr>
+									<td class="input-button input-button-menu">
+										<table><tr>
+											<td data-dojo-attach-point="enquirybtn" class="input-button-on" style="width:14.3%">
+												<button data-dojo-attach-event="onMouseDown:_enquiry_page"><i class="fa fa-user fa-2x"></i><br/>Enquiry Details</button>
+											</td>
+											<td data-dojo-attach-point="generalbtn" style="width:14.3%">
+												<button data-dojo-attach-event="onMouseDown:_general_page"><i class="fa fa-info-circle fa-2x"></i><br/>Contact Details</button>
+											</td>
+										</tr></table>
+									</td>
+								</tr>
+							</table>
+							<table data-dojo-attach-point="enquiry" class="input-area input-area-full">
+								<tr class="input-row">
+									<td>Date</td>
+									<td style="width:400px"><input data-dojo-props='type:"text",trim:true,name:"taken"' maxlength="50" data-dojo-attach-point="taken" data-dojo-attach-event="onFocus:taken_focus,onKeyUp:taken_focus,onMouseDown:taken_focus,onBlur:delay_close" /></td>
+									<td></td>
+								</tr>
+								<tr class="input-row">
+									<td>Taken By</td>
+									<td><input data-dojo-props='type:"text",trim:true,name:"takenbystring"' data-dojo-attach-point="takenbystring" data-dojo-attach-event="onFocus:takenby_focus,onKeyUp:takenby_focus,onMouseDown:takenby_focus,onBlur:delay_close" /></td>
+								</tr>
+								<tr class="input-row">
+									<td>Subject</td>
+									<td colspan="2"><input  data-dojo-props='type:"text",trim:true,name:"crm_subject"' maxlength="255" data-dojo-attach-point="crm_subject" data-dojo-attach-event="onFocus:crm_subject_focus,onKeyUp:crm_subject_focus,onMouseDown:crm_subject_focus,onBlur:delay_close" /></td>
+								</tr>
+								<tr class="input-row">
+									<td>Response</td>
+									<td colspan="2"><textarea data-dojo-props='trim:true,name:"crm_response"' data-dojo-attach-point="crm_response" style="width:100%" rows="4" data-dojo-attach-event="onFocus:crm_response_focus,onKeyUp:crm_response_focus,onMouseDown:crm_response_focus,onBlur:delay_close" /></textarea></td>
+								</tr>
+								<tr class="input-row">
+									<td>Client</td>
+									<td><input data-dojo-props='type:"text",trim:true,name:"clientstring"' data-dojo-attach-point="clientstring" data-dojo-attach-event="onFocus:client_focus,onKeyUp:client_focus,onMouseDown:client_focus,onBlur:delay_close" /></td>
+								</tr>
+								<tr>
+								<tr height="100%"></tr>
+							</table>
+							<table data-dojo-attach-point="detailgeneral" class="input-area pprhidden">
+								<tr class="input-row"><td class="label-title" align="left">Email address:</td><td data-dojo-attach-point="email"></td></tr>
+								<tr class="input-row"><td class="label-title" align="left">Phone:</td><td data-dojo-attach-point="phone"></td></tr>
+								<tr class="input-row"><td class="label-title" align="left">Facebook:</td><td data-dojo-attach-point="facebook"></td></tr>
+								<tr class="input-row"><td class="label-title" align="left">Twitter:</td><td data-dojo-attach-point="twitter"></td></tr>
+								<tr height="100%"></tr>
+							</table>
+
+						</td></tr></table>
+				</div>
+				<div data-dojo-type="dijit/layout/BorderContainer" class="control-right" data-dojo-props='gutters:false,region:"right"'>
+					<div data-dojo-attach-point="finishbtn" data-dojo-type="dijit/layout/ContentPane" class="control-full button-green" data-dojo-props='region:"center"'>
+						<button data-dojo-attach-point="submitbtn" title="Submit" data-dojo-attach-event="onMouseDown:_submit"><i class="fa fa-check"></i></button>
+					</div>
+				</div>
+			</div>
+			<div data-dojo-attach-point="positionpanel" class="main-panel" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false'>
+				<div data-dojo-type="dijit/layout/BorderContainer" class="control-left" data-dojo-props='gutters:false,region:"left"'>
+					<div data-dojo-type="dijit/layout/ContentPane" class="control-onethird" data-dojo-props='region:"top"'></div>
+					<div data-dojo-type="dijit/layout/ContentPane" class="control-onethird" data-dojo-props='region:"top"'>
+						<button title="Cancel" data-dojo-attach-event="onMouseDown:_main_back"><i class="fa fa-arrow-left"></i></button>
+					</div>
+				</div>
+				<div data-dojo-attach-point="list_panel" data-dojo-type="dijit/layout/BorderContainer" class="centre-panel list-container" data-dojo-props='region:"center"'>
+					<div data-dojo-type="dijit/layout/ContentPane" class="list-panel" data-dojo-props='region:"center"'>
+					</div>
+				</div>
+				<div data-dojo-attach-point="nav_control" data-dojo-type="dijit/layout/BorderContainer" class="control-right button-orange" data-dojo-props='gutters:false,region:"right"'>
+					<div data-dojo-attach-point="btn_first" data-dojo-type="dijit/layout/ContentPane" class="control-single control-bottom-square" data-dojo-props='region:"top"'>
+						<button title="First Page" data-dojo-attach-event="onMouseDown:page_first"><i class="fa fa-angle-double-up fa-lg"></i></button>
+					</div>
+					<div data-dojo-attach-point="btn_previous" data-dojo-type="dijit/layout/ContentPane" class="control-single control-top-square control-bottom-square" data-dojo-props='region:"top"'>
+						<button title="Previous Page" data-dojo-attach-event="onMouseDown:page_previous"><i class="fa fa-angle-up fa-lg"></i></button>
+					</div>
+					<div data-dojo-type="dijit/layout/ContentPane" class="page-cell" data-dojo-props='region:"center"'>
+						<table>
+							<tr><td data-dojo-attach-point="page_status"></td></tr>
+							<tr class="page-total-cell"><td data-dojo-attach-point="page_total"></td></tr>
+						</table>
+					</div>
+					<div data-dojo-attach-point="btn_last" data-dojo-type="dijit/layout/ContentPane" class="control-single control-top-square" data-dojo-props='region:"bottom"'>
+						<button title="Last Page" data-dojo-attach-event="onMouseDown:page_last"><i class="fa fa-angle-double-down fa-lg"></i></button>
+					</div>
+					<div data-dojo-attach-point="btn_next" data-dojo-type="dijit/layout/ContentPane" class="control-single control-top-square control-bottom-square" data-dojo-props='region:"bottom"'>
+						<button title="Next Page" data-dojo-attach-event="onMouseDown:page_next"><i class="fa fa-angle-down fa-lg"></i></button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

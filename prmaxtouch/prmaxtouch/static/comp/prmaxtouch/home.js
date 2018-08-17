@@ -27,7 +27,7 @@ define([
 	},
     _enquiry:function()
     {
-		window.location = "/contact/search/search" ;
+		window.location = "/enquiries/search/search" ;
 	},
 
     _outlet:function()

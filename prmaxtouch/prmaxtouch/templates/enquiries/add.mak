@@ -2,11 +2,17 @@
 <!DOCTYPE html>
 <html>
     <head><%include file="/prmaxtouch/templates/prmaxtouch_header.mak"/></head>
-    <body oncontextmenu="return false;" id="main" class="claro ${fashion}">
+    <body id="main" class="claro modern">
         <table id="wait"><tr><td><i class="fa fa-spinner fa-4x fa-pulse"></i></td></tr></table>
         <div class="main-div" data-dojo-type="prmaxtouch/enquiries/add/add" data-dojo-props='
-        kb:1     
-        ' </div>
+        kb:1,
+        fashion:"modern",
+        clientitems:"${clientitems}",
+        takenbyitems:"${takenbyitems}",
+        iemployeeid:"${employeeid}",
+        ioutletid:"${outletid}",
+        iuserid:${userid},
+        user_name:"${username}"'</div>
         <script type="text/javascript" >
             require(["dojo/ready"], function(ready) {
                 ready(function() {

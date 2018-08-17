@@ -125,7 +125,7 @@ class ContactHistoryGeneral(object):
 					subject = params['crm_subject']
 				elif 'outcome' in params and params['outcome'] != "":
 					subject = params['outcome']
-
+					
 				task = Task(
 				    taskstatusid=Constants.TaskStatus_InProgress,
 				    due_date=params["follow_up_date"],
@@ -152,7 +152,7 @@ class ContactHistoryGeneral(object):
 
 	List_View = """SELECT ch.contacthistoryid,
 	to_char(ch.taken, 'DD/MM/YY') as taken_display,
-	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
+  ch.crm_subject AS subject
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	com.email as contactemail,
@@ -244,21 +244,21 @@ class ContactHistoryGeneral(object):
 		try:
 			contacthistory = ContactHistory.query.get(params["contacthistoryid"])
 
-#			for field in ("employeeid", "outletid"):
-#				if not params[field] or params[field] == "-1" or params[field] == -1:
-#					params[field] = None
+			for field in ("employeeid", "outletid"):
+				if not params[field] or params[field] == "-1" or params[field] == -1 or params[field] == "": 
+					params[field] = None
 
-			if "employeeid" in params and params["employeeid"]:
-				if "outletid" not in params:
+			if "employeeid" in params and params["employeeid"] != "":
+				if "outletid" not in params or params['outletid'] == "":
 					params["outletid"] = session.query(Employee.outletid).filter(Employee.employeeid == params["employeeid"]).scalar()
-				params['employeeid'] = int(params['employeeid'])
-			params['outletid'] = int(params['outletid'])
+				params['employeeid'] = int(params['employeeid']) if params['employeeid'] != None else None
+			params['outletid'] = int(params['outletid']) if params['outletid'] != None else None
 
-			if params["details"] != contacthistory.details or\
-			   contacthistory.contacthistorytypeid != params["contacthistorytypeid"] or\
-			   contacthistory.contacthistorystatusid != params["contacthistorystatusid"] or \
-			   contacthistory.taken != params["taken"] or \
-			   contacthistory.taken_by != params["taken_by"]:
+			if ('details' in params and params["details"] != contacthistory.details) or\
+			   ('contacthistorytypeid' in params and contacthistory.contacthistorytypeid != params["contacthistorytypeid"]) or\
+			   ('contacthistorystatusid' in params and contacthistory.contacthistorystatusid != params["contacthistorystatusid"]) or \
+			   ('taken' in params and contacthistory.taken != params["taken"]) or \
+			   ('taken_by' in params and contacthistory.taken_by != params["taken_by"]):
 				session.add(ContactHistoryHistory(
 				    from_notes=contacthistory.details,
 				    to_notes=params["details"],
@@ -272,25 +272,31 @@ class ContactHistoryGeneral(object):
 				contacthistory.subject = params["details"][:255]
 
 			contacthistory.details = params["details"]
-			contacthistory.outcome = params["outcome"]
+			if 'outcome'  in params and contacthistory.outcome != params['outcome']:
+				contacthistory.outcome = params["outcome"]
+			
+			if 'crm_subject' in params:
+				contacthistory.crm_subject = params['crm_subject']
+			else:
+				params['crm_subject'] = params['details']
 
-			contacthistory.contacthistorytypeid = params["contacthistorytypeid"]
-			contacthistory.contacthistorystatusid = params["contacthistorystatusid"]
-			contacthistory.crm_subject = params["crm_subject"]
-			contacthistory.crm_response = params["crm_response"]
-			contacthistory.taken = params["taken"]
-			contacthistory.taken_by = params["taken_by"]
-			contacthistory.chud1id = params["chud1id"]
-			contacthistory.chud2id = params["chud2id"]
-			contacthistory.chud3id = params["chud3id"]
-			contacthistory.chud4id = params["chud4id"]
+			contacthistory.contacthistorytypeid = params["contacthistorytypeid"] if 'contacthistorytypeid' in params else contacthistory.contacthistorytypeid
+			contacthistory.contacthistorystatusid = params["contacthistorystatusid"] if 'contacthistorystatusid' in params else contacthistory.contacthistorystatusid
+			contacthistory.crm_subject = params["crm_subject"] if 'crm_subject' in params else contacthistory.crm_subject
+			contacthistory.crm_response = params["crm_response"] if 'crm_response' in params else contacthistory.crm_response
+			contacthistory.taken = params["taken"] if 'taken' in params else contacthistory.taken
+			contacthistory.taken_by = params["taken_by"] if 'taken_by' in params else contacthistory.taken_by
+			contacthistory.chud1id = params["chud1id"] if 'chud1id' in params else contacthistory.chud1id
+			contacthistory.chud2id = params["chud2id"] if 'chud2id' in params else contacthistory.chud2id
+			contacthistory.chud3id = params["chud3id"] if 'chud3id' in params else contacthistory.chud3id
+			contacthistory.chud4id = params["chud4id"] if 'chud4id' in params else contacthistory.chud4id
 
 			contacthistory.outletid = params["outletid"] if params['outletid'] != -1 else None
 			contacthistory.employeeid = params["employeeid"] if params['employeeid'] != -1 else None
-			contacthistory.clientid = params["clientid"]
-			contacthistory.documentid = params["documentid"]
+			contacthistory.clientid = params["clientid"] if 'clientid' in params else contacthistory.clientid
+			contacthistory.documentid = params["documentid"] if 'documentid' in params else contacthistory.documentid
 
-			if params["follow_up_view_check"] and contacthistory.taskid is None:
+			if 'follow_up_view_check' in params and params["follow_up_view_check"] and contacthistory.taskid is None:
 				task = Task(
 						taskstatusid=Constants.TaskStatus_InProgress,
 				        due_date=params["follow_up_date"],
@@ -305,7 +311,7 @@ class ContactHistoryGeneral(object):
 				contacthistory.taskid = task.taskid
 				contacthistory.follow_up_date = params["follow_up_date"]
 				contacthistory.follow_up_ownerid = params["follow_up_ownerid"]
-			elif contacthistory.taskid is not None and params["follow_up_view_check"]:
+			elif contacthistory.taskid is not None and 'follow_up_view_check' in params and params["follow_up_view_check"]:
 				# an update of task?
 				task = Task.query.get(contacthistory.taskid)
 				task.due_date = params["follow_up_date"]
@@ -327,59 +333,60 @@ class ContactHistoryGeneral(object):
 				filter(ContactHistoryIssues.contacthistoryid == params["contacthistoryid"]).\
 				filter(ContactHistoryIssues.isprimary == True).scalar()
 
-			if primary and primary.issueid != params["issueid"]:
-				# issue update or delete
-				if params["issueid"]:
+			if 'issueid' in params:
+				if primary and primary.issueid != params["issueid"]:
+					# issue update or delete
+					if params["issueid"]:
+						for issue in issues:
+							if issue.issueid == params["issueid"]:
+								issue.isprimary = True
+								session.delete(primary)
+								primary = issue
+							primary.issueid = params["issueid"]
+				elif not primary and params["issueid"]:
+					# this is an add
+					# need to check is not a move from others too main
 					for issue in issues:
 						if issue.issueid == params["issueid"]:
-							issue.isprimary = True
-							session.delete(primary)
 							primary = issue
-						primary.issueid = params["issueid"]
-			elif not primary and params["issueid"]:
-				# this is an add
-				# need to check is not a move from others too main
+							primary.isprimary = True
+						else:
+							issue.isprimary = False
+	
+					# needs to be added
+					if not primary:
+						primary = ContactHistoryIssues(
+						  contacthistoryid=params["contacthistoryid"],
+						  issueid=params["issueid"],
+						  isprimary=True)
+						session.add(primary)
+						session.flush()
+
+				# now add.delete from secondary list
+				issues_existing = {}
 				for issue in issues:
-					if issue.issueid == params["issueid"]:
-						primary = issue
-						primary.isprimary = True
-					else:
-						issue.isprimary = False
-
-				# needs to be added
-				if not primary:
-					primary = ContactHistoryIssues(
-					  contacthistoryid=params["contacthistoryid"],
-					  issueid=params["issueid"],
-					  isprimary=True)
-					session.add(primary)
-					session.flush()
-
-			# now add.delete from secondary list
-			issues_existing = {}
-			for issue in issues:
-				issues_existing[issue.issueid] = issue
-			if primary:
-				issues_existing[primary.issueid] = primary
-
-			newissues = {}
-			if params["issueid"]:
-				newissues[params["issueid"]] = True
-
-			# adds
-			if params["extraissues"] and params["extraissues"]["data"]:
-				for issueid in params["extraissues"]["data"]:
-					newissues[issueid] = issueid
-					if issueid not in issues_existing:
-						issue = ContactHistoryIssues(
-						    contacthistoryid=params["contacthistoryid"],
-						    issueid=issueid)
-						session.add(issue)
-						issues_existing[issue.issueid] = issue
-			#deletes
-			for issue in issues_existing.values():
-				if issue.issueid not in newissues:
-					session.delete(issue)
+					issues_existing[issue.issueid] = issue
+				if primary:
+					issues_existing[primary.issueid] = primary
+	
+				newissues = {}
+				if params["issueid"]:
+					newissues[params["issueid"]] = True
+	
+				# adds
+				if params["extraissues"] and params["extraissues"]["data"]:
+					for issueid in params["extraissues"]["data"]:
+						newissues[issueid] = issueid
+						if issueid not in issues_existing:
+							issue = ContactHistoryIssues(
+						        contacthistoryid=params["contacthistoryid"],
+						        issueid=issueid)
+							session.add(issue)
+							issues_existing[issue.issueid] = issue
+				#deletes
+				for issue in issues_existing.values():
+					if issue.issueid not in newissues:
+						session.delete(issue)
 
 			transaction.commit()
 		except:
