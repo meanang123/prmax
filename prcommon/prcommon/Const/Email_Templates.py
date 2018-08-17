@@ -73,7 +73,8 @@ Invoice_Body_One_Off = """
 <p>If you have any questions please call us on 01582 380194 or email us on <a href="mailto:accounts@prmax.co.uk">accounts@prmax.co.uk</a>.</p>
 <br />
 <p>Best regards</p>
-<p>PRmax Accounts team</p>"""
+<p>PRmax Accounts team</p>
+<p><a href="http://app.prmax.co.uk/static/rel/html/tc.pdf">Terms & Conditions</a><br/></p>"""
 
 Invoice_Subject_Proforma = """PRmax Proforma Invoice"""
 

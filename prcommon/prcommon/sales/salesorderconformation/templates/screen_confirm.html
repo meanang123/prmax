@@ -1,19 +1,257 @@
 <div style="width:640px;height:3em;text-align: center">
-<script>
-function sr_confirm()
-{
-	var tcaccept = document.getElementById("tcaccept");
-	if ( tcaccept.checked == false )
-	{
-		alert("T & C not accepted, Please accept before continuing");
-		return false ;
-	}
-
-	return confirm("Accept Confirmation");
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+.dialog-header {
+	padding: 2px 16px;
+	background-color: lightgrey;
+	color: black;
+	text-align: center;
 }
+.dialog-footer {
+	padding: 20px 16px;
+	background-color: white;
+	color: black;
+}
+.dialog-body {
+	padding: 2px 16px;
+	max-height: calc(100vh - 210px);
+	overflow-y: auto;
+	}
+.dialog {
+	display: none;
+	position: fixed;
+	z-index: 1; 
+	padding-top: 10px;
+	padding-bottom: 10px;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	margin-bottom: 100px;
+	background-color: rgb(0,0,0); 
+	background-color: rgba(0,0,0,0.4);
+}
+.dialog-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	padding-bottom:50px;
+	border: 1px solid #888;
+	width: 80%;
+	text-align: left;
+}
+</style>
+
+<script>
+	function showtc()
+	{
+		var dialog = document.getElementById('tcdialog');
+		document.getElementById('tcdialog').style.display = "block";
+		window.onclick = function(event) {
+			if (event.target == dialog) {
+				dialog.style.display = "none";
+			}
+		}	
+		document.getElementById("acceptbtn").disabled = false;
+	};
+	function close_dialog()
+	{
+		document.getElementById('tcdialog').style.display = "none";	
+	}
+	function sr_confirm()
+	{
+		return confirm("Accept Confirmation");
+	};
 </script>
-<form action="/orderconfirmation_accepted" onsubmit="return sr_confirm()" method="post">
-<p><label>I Agree to the Terms and Conditions</label>&nbsp;<input id = "tcaccept" type="checkbox" name="tcaccept"/>&nbsp;&nbsp;<a href="/static/rel/html/tc.pdf" target="_newtab">View  Terms and Conditions<a/></p>
-<p><input class="button_class" style="width:190px;font-size:1.5em" type="submit" value="Accept Terms"/></p>
-</form>
+
+<button id="showtc" style="width:300px;font-size:1.5em" value='View Terms & Conditions' onclick="showtc()" >View Terms & Conditions</button>
+<div id="tcdialog" class="dialog">
+	<div class="dialog-content">
+		<div class="dialog-header">
+			<h2>Licence for and Terms and Conditions for use of PRmax</h2>
+		</div>
+		<div class="dialog-body">
+			<p><h3>1. General</h3>
+			<p>1.1 Subject to these Terms & Conditions PRmax Ltd ('the Company') authorises you ('the 
+			Subscriber') to use the Company's Media Planning and Press Release Distribution Tool 
+			known as 'PRmax' together with the data contained in PRmax from the date of the Agreement 
+			(as defined in condition 1.4 below) until termination of the Subscriber's subscription 
+			for any reason. </p>
+			<p>	1.2 References in these Terms and Conditions to  'PRmax' shall be deemed a reference to all 
+			versions or the version for which the Subscriber has subscribed as the context requires. In 
+			the event of your being allowed access to PRmax on a trial basis you are subject to the 
+			same terms and conditions during the period of the trial as if you had subscribed, whether 
+			or not the trial allows access to the full PRmax service. </p>
+			<p>	1.3 Registration for and/or use of PRmax (whether on a subscription or trial basis) shall constitute 
+			agreement to and acceptance of these Terms and Conditions. </p>
+			<p>	1.4 Any reference in these Terms and Conditions to "this Agreement" shall mean the agreement 
+			between the Company and the Subscriber in relation to the subscription to PRmax 
+			incorporating these Terms and Conditions. </p></br>
+			<p>	<h3>2. Licence </h3></p>
+			<p>	2.1 This Agreement covers the Subscriber's subscription to use PRmax which is an online 
+			internet based database containing information about media titles, outlets and contacts 
+			to facilitate use of that information strictly in accordance with these Terms and Conditions. </p>
+			<p>2.2 It is the Subscriber's responsibility to satisfy itself that PRmax will meet its specific requirements. </p>
+			<p>2.3 The Company hereby grants a non-exclusive, non-transferable licence to the Subscriber to 
+			use PRmax during the Subscription Period (as defined in condition 3) which comprises the 
+			following rights for the number of licensed users in the Subscriber's organisation as stipulated in the relevant subscription agreement:</p>
+			<p>2.3.1 to view the valuable information about media titles, outlets and contacts contained in PRmax; </p>
+			<p>2.3.2 to use a list building and management tool </p>
+			<p>	2.3.3 to use a press release distribution tool </p>
+			<p>	2.3.4 to use other functions and services provide within PR Max from time to time </p>
+			<p>	2.4 Copyright and database rights protect the structure and content of PRmax. Software and 
+			user instructions are also protected by copyright. </p>
+			<p>	2.5 PR Max must not be used other than as specifically set out in and permitted by these 
+			Terms and Conditions. </p></br>
+			<p><h3>3. Subscription/Trial Period </h3></p>
+			<p>3.1 Each subscription will be for a period of either one calendar month or one year as stated 
+			in the relevant order confirmation (in either case referred to as the 'Subscription Period'). </p>
+			<p>3.2 Should the Company permit a trial period it shall cease automatically at the end of the 
+			period specified by the Company but may be terminated at any time by the Company at its 
+			discretion. In the event of termination for any reason the Subscriber's rights under this 
+			Agreement shall end with immediate effect. </p></br>
+			<p><h3>4. Uses Not Permitted </h3></p>
+			<p>	4.1 There are limits on the Subscriber's rights to use PRmax and the Subscriber is not permitted 
+			to do any of the following without the prior written agreement of PRmax: </p>
+			<p>	4.1.1 loan, copy or lease login information for PRmax or any part of the contents of, or the user 
+			instructions for, PRmax to third parties </p>
+			<p>4.1.2 transfer a subscription or any user licence to any third party </p>
+			<p>	4.1.3 erase, move or deface any trademark, copyright or database right notice appearing within PRmax; </p>
+			<p>	4.1.4 generate address files from PRmax for use in bulk fax or email operated by a third party; </p>
+			<p>4.2 In the event PRmax has reasonable cause to believe that the Subscriber in breach of any of 
+			these Terms and Conditions PRmax reserves the right to inspect the Subscriber's premises 
+			during normal business hours to ensure compliance with these Terms and Conditions in 
+			relation to which the Subscriber agrees to provide all reasonable assistance. </p>
+			<p>	4.3 the Subscriber acknowledges that dummy data may be included in PRmax for the purpose 
+			of monitoring compliance with these Terms and Conditions. </p></br>
+			<p>	<h3>5. Renewal and Termination </h3></p>
+			<p>	5.1 Save where clause 5.2 applies, prior to the end of each Subscription Period the Company 
+			will issue a notification specifying the date of expiry, inviting renewal and providing details of any 
+			charges in the terms and Conditions for the next Subscription Period. If the Subscriber has previously 
+			had an annual Subscription Period, renewal for the next 12 month Subscription Period will 
+			automatically take effect if the Subscriber does not confirm in writing not less than one calendar 
+			month before the expiry of its current Subscription Period that it does not wish to renew. </p>
+			<p>5.2. If the Subscriber has previously had an annual Subscription Period, and has paid by monthly 
+			or quarterly standing order or direct debit payment, then renewal for the next 12 month 
+			Subscription Period will automatically take effect if the Subscriber makes payment in part or in 
+			full for the next Subscription Period. </p>
+			<p>	5.3 the Subscriber's rights to use PRMax will terminate immediately upon any of the following events: </p>
+			<p>	5.3.1 the Subscriber being in breach of this Agreement (including failure to make any payment 
+			required under this Agreement) and fails to rectify that breach within 7 days of PRMax giving 
+			written notice of the breach; or </p>
+			<p>	5.3.2 if (in the case of a company) the Subscriber enters into any form of liquidation or has a 
+			receiver, manager or administrative receiver appointed over its undertaking or assets or (in the 
+			case of an individual) is made bankrupt or has a bankruptcy petition made against it which is not 
+			dismissed within 28 days of presentation. </p>
+			<p>	5.4 If a subscription is terminated for any reason or the Subscriber fails to give the required 
+			notice of cancellation the Subscriber shall not be entitled to any refund for the unexpired term 
+			of any Subscription Period and shall remain liable to the Company for the balance of any charges 
+			payable for the remainder of the existing or any new Subscription Period. </p>
+			<p>	5.5 The Company may at its discretion give not less than 6 months notice that it intends to 
+			discontinue PRMax, or any version of PRMax, and in that event the Subscriber will be entitled to 
+			receive a reimbursement pro rata in relation to the remaining part of the Subscription Period 
+			after the expiry of the notice. </p>
+			<p>	5.6 Upon termination or expiry of this Agreement for any reason, the Subscriber agrees to 
+			make no further use of any data whether in electronic or data form obtained or derived from </p>
+			<p>	PRMax and the Company reserves the right to enter any premises during normal business hours 
+			for the purpose of ensuring compliance with this obligation. </p></br>
+			<p><h3>6.Warranties, Liability & Limitations on Liability </h3></p>
+			<p>	6.1 The Company warrants that it is the owner of all copyright and database right in PRmax, 
+			and that it has obtained all necessary licenses in relation to data included in PRmax to 
+			carry out its obligations under this Agreement. </p>
+			<p>	6.2 The Subscriber acknowledges and agrees that any links from the PRmax internet site to 
+			other internet sites are provided for convenience only and PRmax accepts no responsibility 
+			whatsoever for the content, availability or usability of any such site. </p>
+			<p>	6.3 The Company agrees to use reasonable skill and care in producing PRmax which means it 
+			will endeavour to ensure that each record is as complete as reasonably practicable but, in 
+			view of the constantly changing nature of the media sector and relevant personnel, the 
+			Company accepts no responsibility for any errors or omission within PRmax and does not 
+			give any warranties as to the accuracy, completeness, performance or fitness for a particular purpose of PRmax. </p>
+			<p>	6.4 The Subscriber acknowledges that PRmax will only be usable whilst it retain the minimum 
+			requirements for hardware configuration as specified by the Company from time to time 
+			and it is the Subscriber's responsibility to maintain hardware meeting those requirements 
+			at all times. The Subscriber further acknowledges that PRmax is supplied on a generic 
+			basis and has not been designed to any individual business requirements. </p>
+			<p>	6.5 By entering into this Agreement the Subscriber accepts sole responsibility for, and the 
+			Company shall have no responsibility or liability for: </p>
+			<p>	6.5.1 the Subscriber's use of PRmax or any other product which operates with PRmax </p>
+			<p>	6.5.2 any personal data entered into PRmax by the Subscriber or those authorised by it to use 
+			PRmax, and in this respect the Subscriber accept sole responsibility for the accuracy and 
+			legality of such data, for maintaining such data, and for ensuring its use does not breach 
+			the rights of any third party. PRmax accepts no responsibility for the loss, corruption or 
+			destruction of any such data. </p>
+			<p>	6.5.3 maintaining the confidentiality of the Subscriber's user details and passwords to access 
+			PRmax, and for all activity on its account </p>
+			<p>	6.5.4 ensuring the Subscriber's use of PRmax does not breach any applicable local, national or 
+			international laws or other regulations. </p>
+			<p>	6.6 The Subscriber shall hold the Company fully indemnified against any claims (including legal 
+			and other costs, damages, losses and liabilities) made by any third parties against the 
+			Subscriber and/or the Company arising from any use referred to in condition 6.5. </p>
+			<p>	6.7 In no event will the Company be liable to the Subscriber for any loss or damage of any kind 
+			(except personal injury or death resulting from the Company's negligence) including lost 
+			profits or other consequential loss arising from: </p>
+			<p>	6.7.1 any delay in accessing and/or inability to access the PRmax service whether due to a Force 
+			Majeure (as defined in condition 8.6 below), electronic malfunction or any unreliability in 
+			the service, nor for any failure or disruption of, interruption to or other unavailability of 
+			access to the service </p>
+			<p>6.7.2 the Subscriber's use of or inability to use PRmax, or for errors or deficiencies in it, or for 
+			any damage to or corruption of any data introduced by or on behalf of the Subscriber 
+			whether caused by negligence or otherwise, except as expressly provided in these Terms 
+			and Conditions </p>
+			<p>6.8 In no event shall the Company's liability exceed the subscription amounts paid by the 
+			Subscriber for the use of PRmax during the current Subscription Period. </p>
+			<p>	6.9 These express terms replace all warranties and obligations implied by statute, common 
+			law or otherwise all of which are hereby excluded to the fullest extent permitted by law. 
+			Whilst it is the Company's policy to carry out virus checks on PRmax the Company does 
+			not warrant that PRmax is or will remain free from infection by viruses or anything else 
+			that has contaminating or destructive properties. </p></br>
+			<p><h3>7. Support </h3></p>
+			<p>7.1 The Company provides technical support staff who will endeavor to answer by email/
+			telephone queries that the Subscriber may have regarding the use of PRmax during the 
+			Subscription Period. </p></br>
+			<p><h3>8. Miscellaneous </h3></p>
+			<p>	8.1 Due to its policy of updating and improving PRmax the Company may wish or need to 
+			change the terms of this Agreement. When any terms are changed PRmax will notify the 
+			Subscriber by notice published on the PRmax web site, such notice being effective 5 working 
+			days after such publication. If the Subscriber uses PRmax after that time it is deemed 
+			to have agreed to be bound by those changes, if the Subscriber does not wish to accept 
+			any such those changes it must notify the Company and the changes will not be effective 
+			unless and until the relevant subscription is renewed. </p>
+			<p>	8.2 If any provision of this Agreement is found to be invalid by any court having competent 
+			jurisdiction, the invalidity of such provision shall not affect the validity of the remaining 
+			provisions of this Agreement which shall remain in full force and effect. </p>
+			<p>	8.3 This Agreement forms the whole agreement between the parties relating to PRmax. Any 
+			variation of this Agreement (except variations published pursuant to condition 8.1) shall 
+			be binding only if it is recorded in a document signed by or on behalf of all relevant parties. </p>
+			<p>	8.4 Failure or delay by either party to exercise any right or remedy under this Agreement does 
+			not constitute a waiver or bar to exercise of that right or remedy. </p>
+			<p>	8.5 The Subscriber may not assign, sub licence or otherwise transfer its rights or obligations 
+			under this Agreement. </p>
+			<p>	8.6 The Company will not be considered in default or liable under this Agreement if it fails to 
+			perform any of its duties as a result of any act of God, act of government or state, civil 
+			commotion, embargo, epidemic, fire, flood, insurrection, war, disablement or interruption 
+			to the telecommunications network or any other reason beyond the Company's control 
+			('Force Majeure'). In the event of Force Majeure the Company will use reasonable endeav-
+			ours to overcome such delays, but where the Force Majeure circumstance continues for a 
+			consecutive period of 4 weeks or more either the Company or the Subscriber may give 
+			notice to the other to terminate this Agreement with immediate effect. </p>
+			<p>	8.7 Each party shall ensure that it complies with the provisions of the Data Protection Acts 
+			1984 and 1998 (or any successor legislation) concerning the 'processing' of personal data 
+			as that term is defined in the Data Protection Act 1998. </p></br>
+			<p><h4>Licence for and Terms and Conditions for use of PRmax</h4></p>
+			<p><h4>These Terms and Conditions are to be referred to as dated the "January 2014 Edition" and supersede any previous terms and conditions which may have been issued in relation to PRmax.</h4></p>
+		</div>
+		<div class="dialog-footer">
+			<button id="viewpdf" style="width:190px;font-size:1.5em;float:left;" value='View PDF' onclick="window.open('/static/rel/html/tc.pdf', '_blank')" >View PDF</button>
+			<button id="closebtn" style="width:190px;font-size:1.5em;float:right;" value='Close' onclick="close_dialog()" >Close</button>
+		</div>		
+	</div>
 </div>
+
+<form action="/orderconfirmation_accepted" onsubmit="return sr_confirm()" method="post">
+<p><input id = "acceptbtn" class="button_class" style="width:190px;font-size:1.5em" type="submit" value="Accept Terms" disabled/></p>
+</form>
+
+</div>
+
