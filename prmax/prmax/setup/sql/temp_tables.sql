@@ -658,3 +658,9 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION crmcount(integer) OWNER TO postgres;
+
+
+ALTER TABLE clippingstore ADD COLUMN reach bigint;
+ALTER TABLE userdata.contacthistory ADD COLUMN emailtemplateid integer;
+ALTER TABLE userdata.contacthistory ADD FOREIGN KEY (emailtemplateid) REFERENCES userdata.emailtemplates (emailtemplateid) ON UPDATE NO ACTION ON DELETE SET NULL;
+

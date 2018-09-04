@@ -1310,8 +1310,11 @@ class ListMemberDistribution(BaseSql):
 	WHEN emailstatusid = 7 THEN 'Responded'
 	WHEN emailstatusid = 8 THEN 'Unsubscribed'
 	ELSE '' END as status,
-	CASE WHEN msg IS NULL THEN false ELSE true END as hasmsg
+	CASE WHEN msg IS NULL THEN false ELSE true END as hasmsg,
+	lm.outletid,
+	lm.employeeid
 	FROM  userdata.listmemberdistribution AS lmd
+	LEFT OUTER JOIN userdata.listmembers AS lm ON lm.listmemberid = lmd.listmemberid
 	WHERE lmd.listid = :listid
 	ORDER BY %s %s
 	LIMIT :limit OFFSET :offset

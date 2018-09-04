@@ -192,9 +192,9 @@ class SEORelease(BaseSql):
 				ret["cat_%d" % seoint.seocategoryid] = True
 
 				#ret['newsrooms'] = session.query(SeoNewsRooms).filter_by(seoreleaseid=seo.seoreleaseid).all()
-				ret['newsrooms'] = session.query(Newsrooms).\
-				    join(SeoNewsRooms, SeoNewsRooms.newsroomid==Newsrooms.newsroomid).\
-					filter(SeoNewsRooms.seoreleaseid==seo.seoreleaseid).all()
+			ret['newsrooms'] = session.query(Newsrooms).\
+			    join(SeoNewsRooms, SeoNewsRooms.newsroomid==Newsrooms.newsroomid).\
+			    filter(SeoNewsRooms.seoreleaseid==seo.seoreleaseid).all()
 
 		return ret
 

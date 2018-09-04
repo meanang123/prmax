@@ -84,7 +84,7 @@ class SEOPressReleaseController(SecureController):
 	def get(self, *args, **params):
 		""" retrive details about a seopress release """
 
-		return stdreturn( data = SEORelease.get_for_edit( params["seoreleaseid"], None ))
+		return stdreturn(data=SEORelease.get_for_edit(params["seoreleaseid"], None))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

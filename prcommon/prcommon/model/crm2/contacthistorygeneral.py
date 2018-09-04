@@ -125,7 +125,7 @@ class ContactHistoryGeneral(object):
 					subject = params['crm_subject']
 				elif 'outcome' in params and params['outcome'] != "":
 					subject = params['outcome']
-					
+
 				task = Task(
 				    taskstatusid=Constants.TaskStatus_InProgress,
 				    due_date=params["follow_up_date"],
@@ -152,7 +152,7 @@ class ContactHistoryGeneral(object):
 
 	List_View = """SELECT ch.contacthistoryid,
 	to_char(ch.taken, 'DD/MM/YY') as taken_display,
-  ch.crm_subject AS subject
+	ch.crm_subject AS subject,
 	chs.contacthistorydescription,
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	com.email as contactemail,
@@ -245,7 +245,7 @@ class ContactHistoryGeneral(object):
 			contacthistory = ContactHistory.query.get(params["contacthistoryid"])
 
 			for field in ("employeeid", "outletid"):
-				if not params[field] or params[field] == "-1" or params[field] == -1 or params[field] == "": 
+				if not params[field] or params[field] == "-1" or params[field] == -1 or params[field] == "":
 					params[field] = None
 
 			if "employeeid" in params and params["employeeid"] != "":
@@ -274,7 +274,7 @@ class ContactHistoryGeneral(object):
 			contacthistory.details = params["details"]
 			if 'outcome'  in params and contacthistory.outcome != params['outcome']:
 				contacthistory.outcome = params["outcome"]
-			
+
 			if 'crm_subject' in params:
 				contacthistory.crm_subject = params['crm_subject']
 			else:
@@ -352,7 +352,7 @@ class ContactHistoryGeneral(object):
 							primary.isprimary = True
 						else:
 							issue.isprimary = False
-	
+
 					# needs to be added
 					if not primary:
 						primary = ContactHistoryIssues(
@@ -368,11 +368,11 @@ class ContactHistoryGeneral(object):
 					issues_existing[issue.issueid] = issue
 				if primary:
 					issues_existing[primary.issueid] = primary
-	
+
 				newissues = {}
 				if params["issueid"]:
 					newissues[params["issueid"]] = True
-	
+
 				# adds
 				if params["extraissues"] and params["extraissues"]["data"]:
 					for issueid in params["extraissues"]["data"]:
