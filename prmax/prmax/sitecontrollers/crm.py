@@ -54,6 +54,7 @@ class AddNoteSchema(PrFormSchema):
 	chud4id = IntNull()
 	clientid = IntNull()
 	documentid = IntNull()
+	emailtemplateid = Int2Null()
 
 class UpdateNoteSchema(PrFormSchema):
 	"schema"

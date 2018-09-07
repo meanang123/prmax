@@ -41,12 +41,18 @@ dojo.declare("prmax.iadmin.clippings.view",
 	},
 	_on_style_row_call:function(row)
 	{
-		var d = this._clippings_orders_model.getValue(this.grid.getItem(row.index), "enddate", null).split('-');
-		var dd = new Date(d[0], d[1]-1, d[2]);
-
-		if (dd < new Date() )
+		try
 		{
-			row.customClasses += " prmaxOverDueRow";
+			var d = this._clippings_orders_model.getValue(this.grid.getItem(row.index), "enddate", null).split('-');
+			var dd = new Date(d[0], d[1]-1, d[2]);
+
+			if (dd < new Date())
+			{
+				row.customClasses += " prmaxOverDueRow";
+			}
+		}
+		catch(e)
+		{
 		}
 	},
 	_on_cell_click_call:function ( e )
@@ -108,7 +114,7 @@ dojo.declare("prmax.iadmin.clippings.view",
 	{
 		for (var x =0; x <= this.grid._by_idx.length -1; x++ )
 		{
-			this._clippings_orders_model.setValue(  this.grid._by_idx[x].item, "enddate", enddate, true );	
+			this._clippings_orders_model.setValue(  this.grid._by_idx[x].item, "enddate", enddate, true );
 		}
 	},
 	_get_model_item:function()

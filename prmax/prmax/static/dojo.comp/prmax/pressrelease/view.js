@@ -15,6 +15,7 @@ dojo.require("prmax.pressrelease.newrelease");
 dojo.require("prmax.pressrelease.saveasstanding");
 dojo.require("prmax.pressrelease.briefreport");
 dojo.require("prmax.pressrelease.rename");
+dojo.require("prcommon.crm.add");
 
 dojo.declare("prmax.pressrelease.view",
 	[ ttl.BaseWidget ],
@@ -118,11 +119,19 @@ dojo.declare("prmax.pressrelease.view",
 		this.grid2.selection.clickSelectEvent(e);
 		this._row2 = this.grid2.getItem(e.rowIndex);
 
-		if ( this._row2.i.hasmsg && e.cellIndex == 5 )
+		if ( this._row2.i.hasmsg && e.cellIndex == 6 )
 		{
 			this.msgctrl.set("href",dojo.string.substitute("/emails/distribution_details?listmemberdistributionid=${listmemberdistributionid}",
 												{listmemberdistributionid:this._row2.i.listmemberdistributionid}));
 			this.msg_dialog.show();
+		}
+		if ( e.cellIndex == 0 && PRMAX.utils.settings.crm == true )
+		{
+			this.crm_add.set("dialog",this.crm_dlg);
+			this.crm_add.clear();
+			this.crm_add.load(this._row2.i.outletid,this._row2.i.outletname,this._row2.i.employeeid,this._row2.i.contactname,this._row2.i.contactid, this._emailtemplateid);
+			this.crm_dlg.show();
+			this.crm_dlg.resize();
 		}
 	},
 	_CancelShow:function()
@@ -142,6 +151,7 @@ dojo.declare("prmax.pressrelease.view",
 				dojo.removeClass(this.show_analysis.domNode,"prmaxhidden");
 
 			dojo.attr(this.listname_display, "innerHTML" , this._row.i.emailtemplatename ) ;
+			this._emailtemplateid = response.data.emailtemplateid;
 			this.grid2.setQuery( ttl.utilities.getPreventCache({emailtemplateid: response.data.emailtemplateid}));
 			this.grid_clips.setQuery( ttl.utilities.getPreventCache({emailtemplateid: response.data.emailtemplateid}));
 
@@ -213,6 +223,7 @@ dojo.declare("prmax.pressrelease.view",
 	},
 	view2: {
 		cells: [[
+		{name: ' ',width: "12px",field:"h", formatter:ttl.utilities.format_row_ctrl},
 		{name: 'Outlet',width: "200px",field:"outletname"},
 		{name: 'Job title',width: "150px",field:"job_title"},
 		{name: 'Contact',width: "150px",field:"contactname"},

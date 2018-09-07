@@ -127,6 +127,7 @@ dojo.declare("prcommon.crm.add",
 	{
 		this.tabcont.selectChild(this.details_view);
 
+		this.emailtemplateid.set("value",-1);
 		this.contacthistorystatusid.set("value",2);
 		this.contacthistorytypeid.set("value",1);
 		this.follow_up_ownerid.set("value",PRMAX.utils.settings.uid);
@@ -142,9 +143,11 @@ dojo.declare("prcommon.crm.add",
 		this.details.set("value","");
 		this.outcome.set("value","");
 		this.crm_response.set("value","");
+		this.crm_subject.set("value","");
 
 		this.follow_up_view_check.set("checked",false);
 		this.documentid.set("value",  "-1");
+		this.emailtemplateid.set("value","-1");
 	},
 	_clear_contact:function()
 	{
@@ -230,7 +233,7 @@ dojo.declare("prcommon.crm.add",
 		else
 			dojo.addClass(this.follow_up_view,"prmaxhidden");
 	},
-	load:function(outletid,outletname,employeeid,contactname,contactid)
+	load:function(outletid,outletname,employeeid,contactname,contactid,emailtemplateid)
 	{
 		if (outletid == "" || outletid == undefined)
 		{
@@ -250,6 +253,16 @@ dojo.declare("prcommon.crm.add",
 			this.employeeid.set("value", employeeid);
 			this.contact.employeeid.set("value", employeeid);
 		}
+
+		if (emailtemplateid == "" || emailtemplateid == undefined)
+		{
+			this.emailtemplateid.set("value", -1);
+		}
+		else
+		{
+			this.emailtemplateid.set("value", emailtemplateid);
+		}
+
 		var display = '';
 		if (contactname != undefined && contactname != "")
 		{

@@ -157,7 +157,8 @@ class MadaptiveSearch(object):
 		    outletid=clip.get("outletid", None) if "outletid" in clip.keys() else None,
 		    languageid=clip.get("language", None) if "language" in clip.keys() else None,
 		    clippingstoneid=clip.get("tone", None) if "tone" in clip.keys() else None,
-		    authorname=clip.get("authorName", None) if "authorName" in clip.keys() else None
+		    authorname=clip.get("authorName", None) if "authorName" in clip.keys() else None,
+		    reaach=clip.get("reaach", None) if "reaach" in clip.keys() else None
 	    )
 		session.add(store)
 		session.flush()
