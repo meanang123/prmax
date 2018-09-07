@@ -29,10 +29,11 @@ from prcommon.model import DataFeedsGeneral
 def _run():
 	""" run the application """
 	
-	options, dummy = getopt.getopt(sys.argv[1:], "", ["sourcedir=", "check", "remove_old=", "update", "sourcetypeid="])
+	options, dummy = getopt.getopt(sys.argv[1:], "", ["sourcedir=", "check", "remove_old=", "update", "prechecks", "sourcetypeid="])
 	sourcedir = None
 	check = None
 	update = None
+	prechecks = None
 	remove_old = None
 	sourcetypeid = None
 
@@ -45,6 +46,8 @@ def _run():
 			remove_old = int(params)
 		if option in ("--update"):
 			update = True
+		if option in ("--prechecks"):
+			prechecks = True
 		if option in ("--sourcetypeid"):
 			sourcetypeid = int(params)
 
@@ -61,6 +64,8 @@ def _run():
 		importer = USADataImport(sourcedir, check)
 		if update:
 			importer.run_update()
+		elif prechecks:
+			importer.run_prechecks()
 		else:
 			importer.run_import()
 

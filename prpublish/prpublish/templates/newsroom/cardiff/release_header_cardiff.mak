@@ -7,7 +7,7 @@ from datetime import date
         <div class="content-width">
             % if seorelease and seorelease['cardiff_release'] != None:
                 <span class="menu-boxes-first">
-                    <a href="https://prnewslink.net/releases/w65/${seorelease['cardiff_release'].translatedseoreleaseid}.html">Cymraeg</a>
+                    <a href="https://prnewslink.net/releases/w66/${seorelease['cardiff_release'].translatedseoreleaseid}.html">Cymraeg</a>
                 </span>
             %else:
                 <span class="menu-boxes-first">Cymraeg</span>

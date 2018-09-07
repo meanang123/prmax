@@ -13,6 +13,7 @@ from turbogears.database import session
 from sqlalchemy.sql import text
 import xlrd
 import xlwt
+from xlutils.copy import copy
 import os
 import logging
 LOG = logging.getLogger("prmax")
@@ -66,7 +67,7 @@ EMAILMAGAZINECOLUMN = 14
 PROFILEMAGAZINECOLUMN = 11
 CONTACTNAMEMAGAZINECOLUMN = 12
 FREQUENCYMAGAZINECOLUMN = 15
-FREQUENCYMAGAZINECOLUMNBEFORE = 10
+FREQUENCYMAGAZINECOLUMNBEFORE = 9
 
 #constants for radio xls file
 ADDRESS1RADIOCOLUMN = 3
@@ -162,7 +163,7 @@ class USADataImport(object):
 				elif ('blackradio' in filename.lower()):
 					pass
 				
-				if 'magazine' in filename.lower():
+				elif 'magazine' in filename.lower():
 					#copy original file to original folder
 					shutil.copy(os.path.join(self._sourcedir, filename), os.path.normpath(os.path.join(self._sourcedir, 'original', filename)))
 					#add another column to the file for frequency
@@ -170,10 +171,12 @@ class USADataImport(object):
 					self.import_magazine(filename)
 				elif 'radio' in filename.lower():
 					regionaltypeid = DEFAULTREGIONRADIO
-					self.import_radio(filename, regionaltypeid)
+					frequency = FREQUENCYDAILY
+					self.import_radio(filename, regionaltypeid, frequency)
 				elif 'tv' in filename.lower():
 					regionaltypeid = DEFAULTREGIONTV
-					self.import_tv(filename, regionaltypeid)
+					frequency = FREQUENCYDAILY
+					self.import_tv(filename, regionaltypeid, frequency)
 				elif 'daily' in filename.lower():
 					regionaltypeid = DEFAULTREGIONALDAILY
 					frequency = FREQUENCYDAILY
@@ -184,17 +187,22 @@ class USADataImport(object):
 					self.import_daily_weekly(filename, regionaltypeid, frequency)
 				elif 'd2_d_usmedia_' in filename.lower():
 					self._import_old_ping_outlets(filename)
-					
-		
+
 	def run_update(self):
 		"Runs the update"
-		
+
 		files = os.listdir(self._sourcedir)
-		
+
 		for filename in files:
+			print 'start updating file: %s' % filename
 			counter = 0
 			if os.path.isdir(os.path.join(self._sourcedir, filename)) == False:
-				if 'daily' in filename.lower() or 'weekly' in filename.lower() or 'tv' in filename.lower() or 'radio' in filename.lower():
+
+				if 'radio' in filename.lower() \
+			       or 'daily' in filename.lower() \
+			       or 'weekly' in filename.lower()\
+			       or 'tv' in filename.lower():
+					frequencyid = 4
 					if 'radio' in filename.lower():
 						address1column = 3
 						citycolumn = 4
@@ -205,36 +213,123 @@ class USADataImport(object):
 						wwwcolumn = 10
 						emailcolumn = 11
 						matchedidcolumn = 12
-					else: 
+					elif 'daily' in filename.lower() or 'weekly' in filename.lower():
 						address1column = 1
 						citycolumn = 2
 						statecolumn = 3
 						postcode = 4
 						phonecolumn = 5
 						faxcolumn = 6
-						if 'daily' in filename.lower() or 'weekly' in filename.lower():
-							wwwcolumn = 8
-							emailcolumn = 9
-							matchedidcolumn = 10					
-						elif 'tv' in filename.lower():
-							wwwcolumn = 9
-							emailcolumn = 10
-							matchedidcolumn = 11	
-					self.update_daily_weekly_tv_radio(counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn, wwwcolumn, emailcolumn, matchedidcolumn)
-	
-				if 'magazine' in filename.lower():
+						wwwcolumn = 8
+						emailcolumn = 9
+						matchedidcolumn = 10
+						if 'weekly' in filename.lower():
+							frequencyid = 3
+					elif 'tv' in filename.lower():
+						address1column = 1
+						citycolumn = 2
+						statecolumn = 3
+						postcode = 4
+						phonecolumn = 5
+						faxcolumn = 6
+						wwwcolumn = 9
+						emailcolumn = 10
+						matchedidcolumn = 11
+
+					self.update_daily_weekly_tv_radio(counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn,
+				                                     faxcolumn, wwwcolumn, emailcolumn, matchedidcolumn, frequencyid)
+				elif 'magazine' in filename.lower():
+					address1column = 1
+					citycolumn = 2
+					statecolumn = 3
+					postcode = 4
+					phonecolumn = 5
+					faxcolumn = 6
+					circulationcolumn = 8
+					profilecolumn = 10
+					contactnamecolumn = 11
+					wwwcolumn = 12
+					emailcolumn = 13
+					matchedidcolumn = 14
+					frequencycolumn = 15
+
 					shutil.copy(os.path.join(self._sourcedir, filename), os.path.normpath(os.path.join(self._sourcedir, 'original', filename)))
 					#add another column to the file for frequency
 					self._get_magazine_frequency(filename)
-					frequencymagazinecolumn = 16
-					matchedidmagazinecolumn = 15
-					self.update_magazine(counter, filename, frequencymagazinecolumn, matchedidmagazinecolumn)
+					self.update_magazine(counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn,
+				                         circulationcolumn, profilecolumn, contactnamecolumn, wwwcolumn, emailcolumn, matchedidcolumn, frequencycolumn)
 		
-	def update_magazine(self, counter, filename, frequencymagazinecolumn, matchedidmagazinecolumn):
+	def run_prechecks(self):
+		"Runs the check before update"
+
+		files = os.listdir(self._sourcedir)
+
+		for filename in files:
+			print filename
+			if os.path.isdir(os.path.join(self._sourcedir, filename)) == False:
+				read = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
+				read_sheet = read.sheet_by_index(0)
+				wr = copy(read)
+				wr_sheet = wr.get_sheet(0)
+				for rnum_read in xrange(1, read_sheet.nrows):
+					outletname = read_sheet.cell_value(rnum_read, OUTLETNAMECOLUMN).strip()
+					prmax_outlettype = None
+
+					if 'radio' in filename.lower():
+						emailcolumn = 11
+						wwwcolumn = 10
+						address1column = 3
+						idcolumn = 12
+						phonecolumn = 7
+						prmax_outlettypeid = 21
+					if 'daily' in filename.lower() or 'weekly' in filename.lower():
+						emailcolumn = 9
+						wwwcolumn = 8
+						address1column = 1
+						idcolumn = 10
+						phonecolumn = 5
+						if 'daily' in filename.lower():
+							prmax_outlettypeid = 6
+						else:
+							prmax_outlettypeid = 10
+					if 'tv' in filename.lower():
+						emailcolumn = 10
+						wwwcolumn = 9
+						address1column = 1
+						idcolumn = 11
+						phonecolumn = 5
+						prmax_outlettypeid = 25
+					if 'magazine' in filename.lower():
+						emailcolumn = 13
+						wwwcolumn = 12
+						address1column = 1
+						idcolumn = 14
+						phonecolumn = 5
+
+					email = read_sheet.cell_value(rnum_read, emailcolumn).strip()
+					www = read_sheet.cell_value(rnum_read, wwwcolumn).strip()
+					phone = str(read_sheet.cell_value(rnum_read, phonecolumn)).strip()
+					address1 = read_sheet.cell_value(rnum_read, address1column).strip()
+					matchedid = str(read_sheet.cell_value(rnum_read, idcolumn)).strip()
+
+					if 'No match' in matchedid:
+						publication = session.query(Outlet).\
+							filter(Outlet.sourcetypeid == Constants.Source_Type_Usa).\
+						    filter(Outlet.outletname.ilike(outletname)).\
+						    filter(Outlet.frequencyid == 4).all()
+
+						if not publication or len(publication) > 1:
+							wr_sheet.write(rnum_read, idcolumn, 'No match')
+						if publication and len(publication) == 1:
+							wr_sheet.write(rnum_read, idcolumn, publication[0].outletid)
+				wr.save(os.path.join(self._sourcedir, 'c9_%s' % filename))
+
+	def update_magazine(self, counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn,
+	                    circulationcolumn, profilecolumn, contactnamecolumn, wwwcolumn, emailcolumn, matchedidcolumn, frequencycolumn):
 
 		self._load_prefixes()
 		self._load_frequencies()
-		self._load_translations()
+		#self._load_translations()
 		
 		workbook = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
 		xls_sheet = workbook.sheet_by_index(0)	
@@ -242,25 +337,25 @@ class USADataImport(object):
 		for rnum_read in xrange(1, xls_sheet.nrows):
 			session.begin()
 			
-			outletid = int(xls_sheet.cell_value(rnum_read, matchedidmagazinecolumn))
+			outletid = int(xls_sheet.cell_value(rnum_read, matchedidcolumn))
 			outletname = xls_sheet.cell_value(rnum_read, OUTLETNAMECOLUMN).strip()
-			address1 = xls_sheet.cell_value(rnum_read, ADDRESS1COLUMN).strip()
-			city = xls_sheet.cell_value(rnum_read, CITYCOLUMN).strip()
-			state = xls_sheet.cell_value(rnum_read, COUNTYCOLUMN).strip()
-			zipcode = xls_sheet.cell_value(rnum_read, POSTCODECOLUMN)
+			address1 = xls_sheet.cell_value(rnum_read, address1column).strip()
+			city = xls_sheet.cell_value(rnum_read, citycolumn).strip()
+			state = xls_sheet.cell_value(rnum_read, statecolumn).strip()
+			zipcode = xls_sheet.cell_value(rnum_read, postcode)
 			if type(zipcode) is float:
 				zipcode = unicode(int(zipcode)).strip()
 			else:
 				zipcode = unicode(zipcode).strip()
-			phone = xls_sheet.cell_value(rnum_read, PHONECOLUMN).strip()
-			fax = xls_sheet.cell_value(rnum_read, FAXCOLUMN).strip()
-			circulation = xls_sheet.cell_value(rnum_read, CIRCULATIONMAGAZINECOLUMN) if xls_sheet.cell_value(rnum_read, CIRCULATIONMAGAZINECOLUMN) else None
-			www = xls_sheet.cell_value(rnum_read, WWWMAGAZINECOLUMN).strip()
-			email = xls_sheet.cell_value(rnum_read, EMAILMAGAZINECOLUMN).strip()
-			mag_category = self._get_as_string(xls_sheet.cell_value(rnum_read, CATEGORYMAGAZINECOLUMN)).lower()
-			readership = xls_sheet.cell_value(rnum_read, PROFILEMAGAZINECOLUMN).strip()
-			contact_fullname = xls_sheet.cell_value(rnum_read, CONTACTNAMEMAGAZINECOLUMN).strip()
-			frequency_text = xls_sheet.cell_value(rnum_read,frequencymagazinecolumn).strip()
+			phone = xls_sheet.cell_value(rnum_read, phonecolumn).strip()
+			fax = xls_sheet.cell_value(rnum_read, faxcolumn).strip()
+			circulation = xls_sheet.cell_value(rnum_read, circulationcolumn) if xls_sheet.cell_value(rnum_read, circulationcolumn) else None
+			www = xls_sheet.cell_value(rnum_read, wwwcolumn).strip()
+			email = xls_sheet.cell_value(rnum_read, emailcolumn).strip()
+			#mag_category = self._get_as_string(xls_sheet.cell_value(rnum_read, CATEGORYMAGAZINECOLUMN)).lower()
+			readership = xls_sheet.cell_value(rnum_read, profilecolumn).strip()
+			contact_fullname = xls_sheet.cell_value(rnum_read, contactnamecolumn).strip()
+			frequency_text = xls_sheet.cell_value(rnum_read,frequencycolumn).strip()
 			if frequency_text and frequency_text.lower() in self._frequencies:
 				frequencyid = self._frequencies[frequency_text.lower()]			
 			else:
@@ -285,24 +380,23 @@ class USADataImport(object):
 					contact = '%s %s %s' %(cont.prefix, cont.firstname, cont.familyname)
 				else:
 					contact = ""
-				prmax_outlettypeid = self._get_outlettype(mag_category)
+				#prmax_outlettypeid = self._get_outlettype(mag_category)
 				contactsource = {}
 				changed = False
 				
 				if (outletname != publication.outletname \
-			        or (www != publication.www and www != None) \
-			        or (phone != com.tel and phone != None) \
-			        or (fax != com.fax and fax != None) \
-				    or (circulation != publication.circulation and circulation != None) \
-			        or (email != com.email and email != None) \
-			        or (address1 != addr.address1 and address1 != None) \
-			        or (city != addr.townname and city != None) \
-			        or (state != addr.county and state != None) \
-			        or (zipcode != addr.postcode and zipcode != None) \
-			        or (readership != profile.readership and readership != None) \
-				    or (prmax_outlettypeid != publication.prmax_outlettypeid and prmax_outlettypeid != None) \
+			        or (www != publication.www) \
+			        or (phone != com.tel) \
+			        or (fax != com.fax) \
+				    or (circulation != publication.circulation) \
+			        or (email != com.email) \
+			        or (address1 != addr.address1) \
+			        or (city != addr.townname) \
+			        or (state != addr.county) \
+			        or (zipcode != addr.postcode) \
+			        or (readership != profile.readership) \
 				    or (contact_fullname.replace(" ", "") != contact.replace(" ", ""))
-				    or (frequencyid != publication.frequencyid and frequencyid != None)):
+				    or (frequencyid != publication.frequencyid)):
 	
 					if (contact_fullname.replace(" ", "") != contact.replace(" ", "") and contact_fullname.replace(" ", "") != "" ):
 						contact = contact_fullname.split()
@@ -321,8 +415,8 @@ class USADataImport(object):
 						primaryemployeeid = publication.primaryemployeeid
 						
 
-					session.execute(text("UPDATE outlets SET outletname = :outletname, circulation = :circulation, www = :www, frequencyid = :frequencyid, prmax_outlettypeid= :prmax_outlettypeid, primaryemployeeid = :primaryemployeeid where outletid = :outletid"), \
-				                    {'outletname': outletname, 'circulation': circulation,'www': www, 'frequencyid': frequencyid, 'prmax_outlettypeid': prmax_outlettypeid, 'primaryemployeeid': primaryemployeeid,'outletid': publication.outletid}, Outlet)
+					session.execute(text("UPDATE outlets SET outletname = :outletname, circulation = :circulation, www = :www, frequencyid = :frequencyid, primaryemployeeid = :primaryemployeeid where outletid = :outletid"), \
+				                    {'outletname': outletname, 'circulation': circulation,'www': www, 'frequencyid': frequencyid, 'primaryemployeeid': primaryemployeeid,'outletid': publication.outletid}, Outlet)
 	
 					session.execute(text("UPDATE outletprofile SET readership = :readership where outletid = :outletid"), \
 				                    {'readership': readership, 'outletid': publication.outletid}, OutletProfile)
@@ -339,65 +433,79 @@ class USADataImport(object):
 				session.commit()
 		print '%s records updated for file %s' %(counter, filename) 
 	
-	
-	def update_daily_weekly_tv_radio(self, counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn, wwwcolumn, emailcolumn, matchedidcolumn):
+	def update_daily_weekly_tv_radio(self, counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn, wwwcolumn, emailcolumn, matchedidcolumn, frequencyid):
 	
 		workbook = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
 		xls_sheet = workbook.sheet_by_index(0)	
 	
 		for rnum_read in xrange(1, xls_sheet.nrows):
 			session.begin()
-			outletid = int(xls_sheet.cell_value(rnum_read, matchedidcolumn))
-			outletname = xls_sheet.cell_value(rnum_read, OUTLETNAMECOLUMN).strip()
-			address1 = xls_sheet.cell_value(rnum_read, address1column).strip()
-			city = xls_sheet.cell_value(rnum_read, citycolumn).strip()
-			state = xls_sheet.cell_value(rnum_read, statecolumn).strip()
-			zipcode = xls_sheet.cell_value(rnum_read, postcode)
-			if type(zipcode) is float:
-				zipcode = unicode(int(zipcode)).strip()
-			else:
-				zipcode = unicode(zipcode).strip()
-			phone = xls_sheet.cell_value(rnum_read, phonecolumn).strip()
-			fax = xls_sheet.cell_value(rnum_read, faxcolumn).strip()
-			www = xls_sheet.cell_value(rnum_read, wwwcolumn).strip()
-			email = xls_sheet.cell_value(rnum_read, emailcolumn).strip()
+			if xls_sheet.cell_value(rnum_read, matchedidcolumn) != 'No match':
+
+				outletid = int(xls_sheet.cell_value(rnum_read, matchedidcolumn))
+				outletname = xls_sheet.cell_value(rnum_read, OUTLETNAMECOLUMN).strip()
+				address1 = xls_sheet.cell_value(rnum_read, address1column).strip()
+				city = xls_sheet.cell_value(rnum_read, citycolumn).strip()
+				state = xls_sheet.cell_value(rnum_read, statecolumn).strip()
+				zipcode = xls_sheet.cell_value(rnum_read, postcode)
+				if type(zipcode) is float:
+					zipcode = unicode(int(zipcode)).strip()
+				else:
+					zipcode = unicode(zipcode).strip()
+					phone = xls_sheet.cell_value(rnum_read, phonecolumn).strip()
+					fax = xls_sheet.cell_value(rnum_read, faxcolumn).strip()
+					www = xls_sheet.cell_value(rnum_read, wwwcolumn).strip()
+					email = xls_sheet.cell_value(rnum_read, emailcolumn).strip()
 	
-			publication = session.query(Outlet).\
-		        filter(Outlet.countryid == 103).\
-		        filter(Outlet.sourcetypeid == 7).\
-		        filter(Outlet.outletid == outletid).scalar()
+				publication = session.query(Outlet).\
+				    filter(Outlet.countryid == 103).\
+				    filter(Outlet.sourcetypeid == 7).\
+				    filter(Outlet.outletid == outletid).scalar()
 	
-			if publication:
-				com = session.query(Communication).\
-			        filter(Communication.communicationid == publication.communicationid).scalar()
-				addr = session.query(Address).\
-			        filter(Address.addressid == com.addressid).scalar()
+				if publication:
+					com = session.query(Communication).\
+					    filter(Communication.communicationid == publication.communicationid).scalar()
+					if com:
+						addr = session.query(Address).\
+						    filter(Address.addressid == com.addressid).scalar()
 	
-				if (outletname != publication.outletname \
-			        or (www != publication.www and www != None) \
-			        or (phone != com.tel and phone != None) \
-			        or (fax != com.fax and fax != None) \
-			        or (email != com.email and email != None) \
-			        or (address1 != addr.address1 and address1 != None) \
-			        or (city != addr.townname and city != None) \
-			        or (state != addr.county and state != None) \
-			        or (zipcode != addr.postcode and zipcode != None)):
+					if (outletname != publication.outletname \
+					    or (www != publication.www) \
+					    or (phone != com.tel) \
+					    or (fax != com.fax) \
+					    or (email != com.email) \
+					    or (address1 != addr.address1) \
+					    or (city != addr.townname) \
+					    or (state != addr.county) \
+					    or (zipcode != addr.postcode) \
+					    or (frequencyid != publication.frequencyid)):
 	
-					session.execute(text("UPDATE outlets SET outletname = :outletname, circulation = null, www = :www where outletid = :outletid"), \
-				                    {'outletname': outletname, 'www': www, 'outletid': publication.outletid}, Outlet)
-	
-					session.execute(text("UPDATE communications SET tel = :phone, fax = :fax, email = :email where communicationid = :communicationid"), \
-				                    {'phone': phone, 'fax': fax, 'email':email, 'communicationid': publication.communicationid}, Communication)
-	
-					session.execute(text("UPDATE addresses SET address1 = :address1, townname = :city, county = :state, postcode = :zipcode where addressid = :addressid"), \
-				                    {'address1': address1, 'city': city, 'state': state, 'zipcode': zipcode, 'addressid': addr.addressid}, Address)
-					counter = counter + 1
-					print outletname
-				session.commit()
+						session.execute(text("UPDATE outlets SET outletname = :outletname, www = :www, frequencyid = :frequencyid where outletid = :outletid"), \
+						                {'outletname': outletname, 'www': www, 'frequencyid': frequencyid, 'outletid': publication.outletid}, Outlet)
+
+						session.execute(text("UPDATE communications SET tel = :phone, fax = :fax, email = :email where communicationid = :communicationid"), \
+						                {'phone': phone, 'fax': fax, 'email':email, 'communicationid': publication.communicationid}, Communication)
+
+						session.execute(text("UPDATE addresses SET address1 = :address1, townname = :city, county = :state, postcode = :zipcode where addressid = :addressid"), \
+						                {'address1': address1, 'city': city, 'state': state, 'zipcode': zipcode, 'addressid': addr.addressid}, Address)
+						counter = counter + 1
+						print outletname
+			session.commit()
 		print '%s records updated for file %s' %(counter, filename) 
 
-	def _find_outlet(self, outletname, address1, email):
-		publication = session.query(Outlet).\
+	def _find_outlet(self, outletname, address1, email, regionaltypeid):
+		if regionaltypeid != None:
+			publication = session.query(Outlet).\
+		        join(Communication, Communication.communicationid ==  Outlet.communicationid).\
+		        join(Address, Address.addressid == Communication.addressid).\
+		        outerjoin(OutletProfile, OutletProfile.outletid == Outlet.outletid).\
+                        filter(Outlet.sourcetypeid == Constants.Source_Type_Usa).\
+                        filter(Outlet.outletname.ilike(outletname)).\
+						filter(Outlet.prmax_outlettypeid == regionaltypeid).\
+		        filter(Address.address1.ilike(address1)).\
+		        filter(Communication.email.ilike(email)).scalar()
+		else:
+			publication = session.query(Outlet).\
 		        join(Communication, Communication.communicationid ==  Outlet.communicationid).\
 		        join(Address, Address.addressid == Communication.addressid).\
 		        outerjoin(OutletProfile, OutletProfile.outletid == Outlet.outletid).\
@@ -420,8 +528,6 @@ class USADataImport(object):
 		
 		return publication
 				
-	
-	
 	def import_spanish_tv(self, filename, regionaltypeid):
 		
 		if self._check:
@@ -439,7 +545,7 @@ class USADataImport(object):
 			address1=xls_sheet.cell_value(rnum,ADDRESS1COLUMN).strip()
 			email=xls_sheet.cell_value(rnum,EMAILTVCOLUMN).strip()
 
-			publication = self._find_outlet(outletname, address1, email)
+			publication = self._find_outlet(outletname, address1, email, regionaltypeid)
 			
 			# add new record to outletLanguages table
 			if publication:
@@ -471,7 +577,7 @@ class USADataImport(object):
 			address1=xls_sheet.cell_value(rnum,ADDRESS1RADIOCOLUMN).strip()
 			email=xls_sheet.cell_value(rnum,EMAILRADIOCOLUMN).strip()
 
-			publication = self._find_outlet(outletname, address1, email)
+			publication = self._find_outlet(outletname, address1, email, regionaltypeid)
 			
 			# add new record to outletLanguages table
 			if publication:
@@ -562,7 +668,7 @@ class USADataImport(object):
 			session.commit()
 		print '%s records imported for file %s' %(counter, filename) 
 
-	def import_radio(self, filename, regionaltypeid):
+	def import_radio(self, filename, regionaltypeid, frequency):
 		
 		if self._check:
 			return 
@@ -570,7 +676,7 @@ class USADataImport(object):
 		workbook = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
 
 		#for sheetnum in range (0, workbook.nsheets):
-		xls_sheet = workbook.sheet_by_index(0)	
+		xls_sheet = workbook.sheet_by_name('import')
 
 		for rnum in xrange(1, xls_sheet.nrows):
 			session.begin()	
@@ -618,7 +724,8 @@ class USADataImport(object):
 		      outletsearchtypeid=Constants.Source_Type_Usa,
 		      sourcetypeid=Constants.Source_Type_Usa,
 		      #sourcekey=publication["mediaid"],
-		      countryid=DEFAULTCOUNTRYID
+		      countryid=DEFAULTCOUNTRYID,
+			  frequencyid=frequency
 		    )
 			session.add(outlet)
 			session.flush()		
@@ -636,7 +743,7 @@ class USADataImport(object):
 		print '%s records imported for file %s' %(counter, filename) 
 
 
-	def import_tv(self, filename, regionaltypeid):
+	def import_tv(self, filename, regionaltypeid, frequency):
 		
 		if self._check:
 			return 
@@ -655,7 +762,7 @@ class USADataImport(object):
 
 			pc = self._get_as_string(xls_sheet.cell_value(rnum,POSTCODECOLUMN))
 
-			publication = self._find_outlet(outletname, address1, email)
+			publication = self._find_outlet(outletname, address1, email, regionaltypeid)
 			
 			# add new outlet
 			if not publication:
@@ -692,7 +799,8 @@ class USADataImport(object):
 				  outletsearchtypeid=Constants.Source_Type_Usa,
 				  sourcetypeid=Constants.Source_Type_Usa,
 				  #sourcekey=publication["mediaid"],
-				  countryid=DEFAULTCOUNTRYID
+				  countryid=DEFAULTCOUNTRYID,
+				  frequencyid=frequency
 				  
 				)
 				session.add(outlet)
@@ -741,7 +849,7 @@ class USADataImport(object):
 				frequency = self._frequencies[frequency_text]
 			
 			
-			publication = self._find_outlet(outletname, address1, email)
+			publication = self._find_outlet(outletname, address1, email, None)
 
 			# add new outlet
 			if not publication:
@@ -1215,7 +1323,6 @@ class USADataImport(object):
 				freq = "monthly"
 			elif 'qu.' in xls_sheet.cell_value(rnum, FREQUENCYMAGAZINECOLUMNBEFORE).lower():	
 				freq = "quarterly"
-
 
 			ws.write(rnum, xls_sheet.ncols, freq)
 
