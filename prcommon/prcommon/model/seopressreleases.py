@@ -567,15 +567,11 @@ class SEORelease(BaseSql):
 
 				#we need to clear the cache for the translated seorelease too
 				if 'clientid' in params and params['clientid'] == 2014:
-					seocache_welsh = session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 2).scalar()
-					if seocache_welsh:
-						session.delete(seocache_welsh)
-						session.flush()
+					session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 2).delete()
+					session.flush()
 				if 'clientid' in params and params['clientid'] == 1966:
-					seocache_cardiff = session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 1).scalar()
-					if seocache_cardiff:
-						session.delete(seocache_cardiff)
-						session.flush()
+					session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 1).delete()
+					session.flush()
 		else:
 			seotrans1 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == seo.seoreleaseid).filter(SEOTranslations.languageid == params['languageid']).scalar()
 			if seotrans1:
