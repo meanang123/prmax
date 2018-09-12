@@ -397,6 +397,7 @@ class SEORelease(BaseSql):
 		seo.linkedin = params["linkedin"]
 		clientid = params.get("clientid", None)
 		seo.is_client_newsroom = params['is_client_newsroom']
+		seo.languageid = params['languageid']
 		if clientid == -1:
 			clientid = None
 		seo.clientid = clientid
@@ -535,7 +536,6 @@ class SEORelease(BaseSql):
 					seotrans2.translatedlanguageid = params['languageid']
 					session.flush()
 			else:
-
 				seotrans1_existing_linked = session.query(SEOTranslations).\
 					filter(SEOTranslations.seoreleaseid == seotrans1.translatedseoreleaseid).\
 					filter(SEOTranslations.languageid == seotrans1.translatedlanguageid).scalar()
@@ -566,11 +566,11 @@ class SEORelease(BaseSql):
 					seotrans2.translatedlanguageid = seo.languageid
 
 				#we need to clear the cache for the translated seorelease too
-				if 'clientid' in params and params['clientid'] == 2014:
-					session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 2).delete()
-					session.flush()
-				if 'clientid' in params and params['clientid'] == 1966:
-					session.query(SEOCache).filter(SEOCache.seoreleaseid == seotrans1.translatedseoreleaseid).filter(SEOCache.layout == 1).delete()
+			seocache_translated = session.query(SEOCache).\
+		    filter(SEOCache.seoreleaseid == params['translatedseoreleaseid']).all()
+			if seocache_translated:
+				for i in xrange(0, len(seocache_translated)):
+					session.delete(seocache_translated[i])
 					session.flush()
 		else:
 			seotrans1 = session.query(SEOTranslations).filter(SEOTranslations.seoreleaseid == seo.seoreleaseid).filter(SEOTranslations.languageid == params['languageid']).scalar()

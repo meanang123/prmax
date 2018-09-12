@@ -117,7 +117,7 @@ class ActivityLogPDF(object):
 
 			self.parent.logo_and_header(canvas, doc)
 
-	def __init__(self, page_header, results, dates, criteria):
+	def __init__(self, page_header, results, dates, criteria, customername):
 
 		self.report = cStringIO.StringIO()
 		self.document = BaseDocTemplate(self.report,
@@ -141,6 +141,7 @@ class ActivityLogPDF(object):
 		self._data = results
 		self._dates = dates
 		self._criteria = criteria
+		self._customername = customername
 
 		col_width =self.document.width/10
 		self.col_widths1 = self.document.width
@@ -167,7 +168,7 @@ class ActivityLogPDF(object):
 		# do the header:
 		self.new_page()
 
-		self.append(Paragraph("<b>%s</b>" %self._data[0]['customername'], HEADING_STYLE))
+		self.append(Paragraph("<b>%s</b>" %self._customername[0]['customername'], HEADING_STYLE))
 
 		self.append(Paragraph("Activity Log From: %s To: %s" %(self._dates['from_date'], self._dates['to_date']), HEADING_STYLE2))
 		self.append(MLine(-5,0,525,0))
@@ -246,6 +247,7 @@ class ActivityLogExcel(object):
 		self._data = results
 		self._dates = dates
 		self._criteria = criteria
+		#self._customername = customername
 		self._finaloutput = cStringIO.StringIO()
 
 	def stream(self):

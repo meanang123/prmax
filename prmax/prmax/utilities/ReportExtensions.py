@@ -1229,7 +1229,7 @@ class ActivityLogReport(ReportCommon):
 			END as type
 		    FROM internal.activityobjecttypes
 		    WHERE activityobjecttypeid = %(objecttype)s"""
-
+		customername = """SELECT customername FROM internal.customers WHERE customerid = %(customerid)s"""
 		whereclause = ''
 		orderbyclause = ' ORDER BY a.activitydate ASC'
 
@@ -1256,14 +1256,17 @@ class ActivityLogReport(ReportCommon):
 		drange = simplejson.loads(self._reportoptions["drange"])
 		option = TTLConstants.CONVERT_TYPES[drange["option"]]
 		if option == TTLConstants.BEFORE:
-			params["to_date"] = drange["from_date"]
+			params["from_date"] = drange["from_date"]
+			whereclause = BaseSql.addclause( whereclause, 'a.activitydate <= %(from_date)s')
 		elif option == TTLConstants.AFTER:
 			# After
 			params["from_date"] = drange["from_date"]
+			whereclause = BaseSql.addclause( whereclause, 'a.activitydate >= %(from_date)s')
 		elif option == TTLConstants.BETWEEN:
 			# ABetween
 			params["from_date"] = drange["from_date"]
 			params["to_date"] = drange["to_date"]
+			whereclause = BaseSql.addclause( whereclause, 'a.activitydate BETWEEN %(from_date)s AND %(to_date)s')
 
 		results_data = db_connect.executeAll(data_command + whereclause + orderbyclause, params, is_dict)
 		if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv:
@@ -1280,7 +1283,8 @@ class ActivityLogReport(ReportCommon):
 		dates = dict(from_date=params['from_date'], to_date=params['to_date'])
 		criteria = dict(dates = dates, user = params.get('username', None), objecttype = params.get('typedescription', None))
 
-		return dict(results = results_data, dates = dates, criteria = criteria)
+		customername = db_connect.executeAll(customername, params, is_dict)
+		return dict(results = results_data, dates = dates, criteria = criteria, customername = customername)
 
 	def run( self, data , output ) :
 		"run daily report"
@@ -1288,6 +1292,6 @@ class ActivityLogReport(ReportCommon):
 		if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
 			report = ActivityLogExcel( self._reportoptions, data['results'], data['dates'], data['criteria'])
 		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
-			report = ActivityLogPDF( self._reportoptions, data['results'], data['dates'], data['criteria'])
+			report = ActivityLogPDF( self._reportoptions, data['results'], data['dates'], data['criteria'], data['customername'])
 
 		output.write(report.stream())
