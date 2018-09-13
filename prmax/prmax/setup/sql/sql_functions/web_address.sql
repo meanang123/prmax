@@ -5,7 +5,7 @@ win text
 
   AS $$
   w = win
-  if w and not w.startswith("http:"):
+  if w and not w.startswith("http:") and not w.startswith("https:"):
     w = "http://"  + w
 
   return w
