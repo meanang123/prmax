@@ -664,3 +664,19 @@ ALTER TABLE clippingstore ADD COLUMN reach bigint;
 ALTER TABLE userdata.contacthistory ADD COLUMN emailtemplateid integer;
 ALTER TABLE userdata.contacthistory ADD FOREIGN KEY (emailtemplateid) REFERENCES userdata.emailtemplates (emailtemplateid) ON UPDATE NO ACTION ON DELETE SET NULL;
 
+
+DROP FUNCTION web_to_html_link_address(text);
+
+CREATE OR REPLACE FUNCTION Web_To_Html_Link_address(
+win text
+)
+  RETURNS text
+
+  AS $$
+  w = win
+  if w and not w.startswith("http:") and not w.startswith("https:"):
+    w = "http://"  + w
+
+  return w
+
+$$ LANGUAGE plpythonu;
