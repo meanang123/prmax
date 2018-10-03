@@ -680,3 +680,20 @@ win text
   return w
 
 $$ LANGUAGE plpythonu;
+
+INSERT INTO research.fields VALUES (73, 'New Publisher');
+
+UPDATE outlets SET circulationsourceid = 3
+WHERE sourcetypeid = 7
+AND circulation != 0
+AND circulation is not null
+AND circulationsourceid is null;
+
+ALTER TABLE clippingstore ADD COLUMN alexainlinkscount bigint;
+ALTER TABLE clippingstore ADD COLUMN alexapageviews bigint;
+ALTER TABLE clippingstore ADD COLUMN alexarank bigint;
+ALTER TABLE clippingstore ADD COLUMN alexareach bigint;
+
+ALTER TABLE userdata.clippings ADD COLUMN reach bigint;
+
+INSERT INTO internal.sourcetypes VALUES (12, 'Dutch');

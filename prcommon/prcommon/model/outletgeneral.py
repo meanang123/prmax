@@ -370,7 +370,35 @@ class OutletGeneral(object):
 		try:
 			outlet = Outlet.query.get(params["outletid"])
 
+			activity = Activity(reasoncodeid=params.get("reasoncodeid", Constants.ReasonCode_Questionnaire),
+			                reason="",
+			                objecttypeid=Constants.Object_Type_Outlet,
+			                objectid=outlet.outletid,
+			                actiontypeid=Constants.Research_Reason_Update,
+			                userid=params['userid'],
+			                parentobjectid=outlet.outletid,
+			                parentobjecttypeid=Constants.Object_Type_Outlet
+			               )
+			session.add(activity)
+			session.flush()
+
+			ActivityDetails.AddChange(outlet.prmax_outlettypeid, params['prmax_outlettypeid'], activity.activityid, Constants.Field_Outlet_Type)
+
 			outlet.prmax_outlettypeid = params["prmax_outlettypeid"]
+			com = Communication.query.get(outlet.communicationid)
+			if com:
+				address = Address.query.get(com.addressid)
+				if address:
+					address.address1 = params['address1']
+					address.address2 = params['address2']
+					address.townnamd = params['townname']
+					address.county = params['county']
+					address.postcode = params['postcode']
+				com.email = params['email']
+				com.tel = params['tel']
+				com.fax = params['fax']
+
+			Outlet.do_outlet_interests(outlet, activity, params)
 
 			control = session.query(ResearchControRecord).\
 			  filter(ResearchControRecord.objectid == params["outletid"]).scalar()

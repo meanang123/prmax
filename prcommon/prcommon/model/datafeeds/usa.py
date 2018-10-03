@@ -13,7 +13,7 @@ from turbogears.database import session
 from sqlalchemy.sql import text
 import xlrd
 import xlwt
-from xlutils.copy import copy
+#from xlutils.copy import copy
 import os
 import logging
 LOG = logging.getLogger("prmax")
@@ -258,71 +258,7 @@ class USADataImport(object):
 					self._get_magazine_frequency(filename)
 					self.update_magazine(counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn,
 				                         circulationcolumn, profilecolumn, contactnamecolumn, wwwcolumn, emailcolumn, matchedidcolumn, frequencycolumn)
-		
-	def run_prechecks(self):
-		"Runs the check before update"
 
-		files = os.listdir(self._sourcedir)
-
-		for filename in files:
-			print filename
-			if os.path.isdir(os.path.join(self._sourcedir, filename)) == False:
-				read = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
-				read_sheet = read.sheet_by_index(0)
-				wr = copy(read)
-				wr_sheet = wr.get_sheet(0)
-				for rnum_read in xrange(1, read_sheet.nrows):
-					outletname = read_sheet.cell_value(rnum_read, OUTLETNAMECOLUMN).strip()
-					prmax_outlettype = None
-
-					if 'radio' in filename.lower():
-						emailcolumn = 11
-						wwwcolumn = 10
-						address1column = 3
-						idcolumn = 12
-						phonecolumn = 7
-						prmax_outlettypeid = 21
-					if 'daily' in filename.lower() or 'weekly' in filename.lower():
-						emailcolumn = 9
-						wwwcolumn = 8
-						address1column = 1
-						idcolumn = 10
-						phonecolumn = 5
-						if 'daily' in filename.lower():
-							prmax_outlettypeid = 6
-						else:
-							prmax_outlettypeid = 10
-					if 'tv' in filename.lower():
-						emailcolumn = 10
-						wwwcolumn = 9
-						address1column = 1
-						idcolumn = 11
-						phonecolumn = 5
-						prmax_outlettypeid = 25
-					if 'magazine' in filename.lower():
-						emailcolumn = 13
-						wwwcolumn = 12
-						address1column = 1
-						idcolumn = 14
-						phonecolumn = 5
-
-					email = read_sheet.cell_value(rnum_read, emailcolumn).strip()
-					www = read_sheet.cell_value(rnum_read, wwwcolumn).strip()
-					phone = str(read_sheet.cell_value(rnum_read, phonecolumn)).strip()
-					address1 = read_sheet.cell_value(rnum_read, address1column).strip()
-					matchedid = str(read_sheet.cell_value(rnum_read, idcolumn)).strip()
-
-					if 'No match' in matchedid:
-						publication = session.query(Outlet).\
-							filter(Outlet.sourcetypeid == Constants.Source_Type_Usa).\
-						    filter(Outlet.outletname.ilike(outletname)).\
-						    filter(Outlet.frequencyid == 4).all()
-
-						if not publication or len(publication) > 1:
-							wr_sheet.write(rnum_read, idcolumn, 'No match')
-						if publication and len(publication) == 1:
-							wr_sheet.write(rnum_read, idcolumn, publication[0].outletid)
-				wr.save(os.path.join(self._sourcedir, 'c9_%s' % filename))
 
 	def update_magazine(self, counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn,
 	                    circulationcolumn, profilecolumn, contactnamecolumn, wwwcolumn, emailcolumn, matchedidcolumn, frequencycolumn):
@@ -413,10 +349,13 @@ class USADataImport(object):
 						changed = True
 					else:
 						primaryemployeeid = publication.primaryemployeeid
-						
+
+					circulationsourceid = None
+					if circulation:
+						circulationsourceid = 3 #Publisher's statement
 
 					session.execute(text("UPDATE outlets SET outletname = :outletname, circulation = :circulation, www = :www, frequencyid = :frequencyid, primaryemployeeid = :primaryemployeeid where outletid = :outletid"), \
-				                    {'outletname': outletname, 'circulation': circulation,'www': www, 'frequencyid': frequencyid, 'primaryemployeeid': primaryemployeeid,'outletid': publication.outletid}, Outlet)
+				                    {'outletname': outletname, 'circulation': circulation, 'circulationsourceid': circulationsourceid, 'www': www, 'frequencyid': frequencyid, 'primaryemployeeid': primaryemployeeid,'outletid': publication.outletid}, Outlet)
 	
 					session.execute(text("UPDATE outletprofile SET readership = :readership where outletid = :outletid"), \
 				                    {'readership': readership, 'outletid': publication.outletid}, OutletProfile)
@@ -1361,3 +1300,68 @@ class USADataImport(object):
 			value = value.encode('utf8').strip()
 
 		return value
+
+"""	def run_prechecks(self):
+		"Runs the check before update"
+
+		files = os.listdir(self._sourcedir)
+
+		for filename in files:
+			print filename
+			if os.path.isdir(os.path.join(self._sourcedir, filename)) == False:
+				read = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
+				read_sheet = read.sheet_by_index(0)
+				wr = copy(read)
+				wr_sheet = wr.get_sheet(0)
+				for rnum_read in xrange(1, read_sheet.nrows):
+					outletname = read_sheet.cell_value(rnum_read, OUTLETNAMECOLUMN).strip()
+					prmax_outlettype = None
+
+					if 'radio' in filename.lower():
+						emailcolumn = 11
+						wwwcolumn = 10
+						address1column = 3
+						idcolumn = 12
+						phonecolumn = 7
+						prmax_outlettypeid = 21
+					if 'daily' in filename.lower() or 'weekly' in filename.lower():
+						emailcolumn = 9
+						wwwcolumn = 8
+						address1column = 1
+						idcolumn = 10
+						phonecolumn = 5
+						if 'daily' in filename.lower():
+							prmax_outlettypeid = 6
+						else:
+							prmax_outlettypeid = 10
+					if 'tv' in filename.lower():
+						emailcolumn = 10
+						wwwcolumn = 9
+						address1column = 1
+						idcolumn = 11
+						phonecolumn = 5
+						prmax_outlettypeid = 25
+					if 'magazine' in filename.lower():
+						emailcolumn = 13
+						wwwcolumn = 12
+						address1column = 1
+						idcolumn = 14
+						phonecolumn = 5
+
+					email = read_sheet.cell_value(rnum_read, emailcolumn).strip()
+					www = read_sheet.cell_value(rnum_read, wwwcolumn).strip()
+					phone = str(read_sheet.cell_value(rnum_read, phonecolumn)).strip()
+					address1 = read_sheet.cell_value(rnum_read, address1column).strip()
+					matchedid = str(read_sheet.cell_value(rnum_read, idcolumn)).strip()
+
+					if 'No match' in matchedid:
+						publication = session.query(Outlet).\
+							filter(Outlet.sourcetypeid == Constants.Source_Type_Usa).\
+							filter(Outlet.outletname.ilike(outletname)).\
+							filter(Outlet.frequencyid == 4).all()
+
+						if not publication or len(publication) > 1:
+							wr_sheet.write(rnum_read, idcolumn, 'No match')
+						if publication and len(publication) == 1:
+							wr_sheet.write(rnum_read, idcolumn, publication[0].outletid)
+				wr.save(os.path.join(self._sourcedir, 'c9_%s' % filename))"""	

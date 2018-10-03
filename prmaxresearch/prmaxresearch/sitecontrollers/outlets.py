@@ -126,6 +126,12 @@ class OutletResearchIntSaveSchema(PrFormSchema):
 	outletid = validators.Int()
 	prmax_outlettypeid = validators.Int()
 
+class OutletResearchInternationalSchema(PrFormSchema):
+	prmax_outlettypeid = validators.Int()
+	outletid = validators.Int()
+	interests = tgvalidators.JSONValidatorInterests()
+	reasoncodeid = validators.Int()
+
 class OutletController(SecureController):
 	""" outlet controller """
 
@@ -491,7 +497,7 @@ class OutletController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=OutletResearchIntSaveSchema(), state_factory=std_state_factory)
+	@validate(validators=OutletResearchInternationalSchema(), state_factory=std_state_factory)
 	@identity.require(identity.in_group("dataadmin"))
 	def update_international(self, *args, **params):
 		""" update the internaltion research """

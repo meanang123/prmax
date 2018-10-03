@@ -2,18 +2,45 @@
 	<div data-dojo-props='region:"top",style:"width:100%;height:30px","class":"prmaxrowdisplaytitle"' data-dojo-attach-point="blank_cont_view" data-dojo-type="dijit/layout/ContentPane" >
 		<p style="color:white;padding:0px;margin:0px;text-align:middle" data-dojo-attach-point="outlet_details_view"></p>
 	</div>
-	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"overflow:auto;overflow-x:hidden",region:"center"' >
-		<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
-		<br/>
-			<input data-dojo-props='type:"hidden",name:"outletid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="outletid">
-			<table width="98%" cellspacing="0" cellpadding="0">
-				<tr><td align="right" class="prmaxrowtag">Media Channel</td><td class="prmaxrowdisplay"><select data-dojo-props='style:"width:90%","class":"prmaxrequired",name:"prmax_outlettypeid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Please select outlet type",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect"  data-dojo-attach-point="prmax_outlettypeid"></select></td></tr>
-			</table>
-		</form>
+	<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"' data-dojo-attach-point="tabs">
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point='details_tab' data-dojo-props='style:"overflow:auto;overflow-x:hidden",region:"center",title:"Details"' >
+			<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+				<br/>
+				<input data-dojo-props='type:"hidden",name:"outletid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="outletid">
+				<table width="90%" cellspacing="0" cellpadding="0" data-dojo-attach-point="tb">
+					<tr><td align="right" class="prmaxrowtag"  data-dojo-props='style:"width:20px"'>Media Channel</td><td class="prmaxrowdisplay"><select data-dojo-props='style:"width:90%","class":"prmaxrequired",name:"prmax_outlettypeid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Please select outlet type",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect"  data-dojo-attach-point="prmax_outlettypeid"></select></td></tr>
+				</table>
+				<br/><br/>
+				<table width="98%" cellspacing="0" cellpadding="0" data-dojo-attach-point="tb2">
+					<tr><td align="right" class="prmaxrowtag" valign="top">Keywords</td><td><div data-dojo-type="prcommon2/interests/Interests" data-dojo-attach-point="interests" data-dojo-props='name:"interests",selectonly:true,size:6,displaytitle:"",startopen:true,restrict:0,keytypeid:6,title:"Select"'></div></td></tr>
+					<tr><td><br/></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Www</td>
+						<td><span><input data-dojo-attach-point="www" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",disabled:true, name:"www",type:"text",maxlength:"120",pattern:dojox.validate.regexp.url,style:"width:90%"' /></span>
+							<span><div data-dojo-attach-point="www_show" data-dojo-type="prcommon2/web/WebButton"></div></span></td>
+					</tr>
+					<tr><td align="right" class="prmaxrowtag">House/Street</td><td><input data-dojo-attach-point="address1" data-dojo-props='name:"address1",type:"text",trim:true,required:false,style:"width:70%"' data-dojo-type="dijit/form/ValidationTextBox"></input></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Street/District</td><td><input data-dojo-attach-point="address2"data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"address2",type:"text",trim:true,style:"width:70%"'></input></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Town</td><td><input data-dojo-attach-point="townname" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"townname",type:"text",trim:true,style:"width:70%"' ></input></td></tr>
+					<tr><td align="right" class="prmaxrowtag">County</td><td><input data-dojo-attach-point="county" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"county",type:"text",trim:true,style:"width:70%"' ></input></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Post Code</td><td><input data-dojo-attach-point="postcode" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"postcode",type:"text",trim:true,style:"width:10em"' ></input></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Tel</td><td><input data-dojo-attach-point="tel" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"tel",type:"text",maxlength:40,trim:true,style:"width:60%"' /></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Fax</td><td><input data-dojo-attach-point="fax" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"fax",type:"text",maxlength:40, trim:true,style:"width:60%"'/></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Email</td><td><input data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",pattern:dojox.validate.regexp.emailAddress, trim:true,invalidMessage:"invalid email address",size:20,maxlength:70,style:"width:90%"'></td></tr>
+				</table>
+			</form>
+		</div>
+		<div data-dojo-attach-point="outlet_audit" data-dojo-type="research/audit/AuditViewer" data-dojo-props='title:"Audit",objectisbase:true,objecttypeid:1,style:"width:100%;height:100%"'></div>
 	</div>
 	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:3em;padding-right:3px;"'>
 		<table width="99%" cellspacing="0" cellpadding="0">
-			<tr><td align="right"><button data-dojo-attach-point="updatebtn" data-dojo-attach-event="onClick:_update" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving Outlet...",label:"Save"'></button></td></tr>
+			<tr>
+				<td align="left"><button data-dojo-attach-event="onClick:_delete" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Delete Outlet"'></button></td>
+				<td align="right"><label class="prmaxrowtag">Reason</label><select data-dojo-attach-point="reasoncodeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html","class":"prmaxrequired",style:"width:120px"'></select></td>
+				<td align="right"><button data-dojo-attach-point="updatebtn" data-dojo-attach-event="onClick:_update" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving Outlet...",label:"Save"'></button></td>
+			</tr>
 		</table>
+	</div>
+	<div data-dojo-attach-point="outlet_delete_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Delete Outlet"'>
+		<div data-dojo-attach-point="outlet_delete_ctrl" data-dojo-type="research/outlets/OutletDelete"></div>
 	</div>
 </div>
