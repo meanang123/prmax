@@ -59,7 +59,7 @@ fjs.parentNode.insertBefore(js, fjs);
 		<div class="contact">
 			<div class="name">Mark Jacques</div>
 			<div class="jobtitle">Swyddog y Wasg</div>
-			<div class="email"><span class="title">Ebost: </span><span>Mark.Jacques2@caerdydd.gov.uk</span></div>
+			<div class="email"><span class="title">Ebost: </span><span>Mark.Jacques3@caerdydd.gov.uk</span></div>
 			<div class="tel"><span class="title">Ffôn: </span><span>029 2087 3580</span></div>
 		</div>
 	</div>
