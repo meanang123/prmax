@@ -23,10 +23,7 @@
 		</form>
 	</div>
 	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:10em;padding-right:3px;"'>
-		<button data-dojo-attach-event="onClick:_show_q_dlg" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Show Quest",style:"float:left"' ></button>
-		<button data-dojo-attach-event="onClick:_preview" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Preview",style:"float:left"' ></button>
 		<button data-dojo-attach-point="savebtn" data-dojo-props='type:"submit",style:"float:left",label:"Save",busyLabel:"Please Wait Updating..."' data-dojo-attach-event="onClick:_update" data-dojo-type="dojox/form/BusyButton"></button>
-		<label class="prmaxrowtag" style='float:"left"'>Reason</label><select data-dojo-attach-point="reasoncodeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html","class":"prmaxrequired",style:"width:120px,float:left"'/>
 	</div>
 	<div data-dojo-attach-point="qdlg" data-dojo-props='title:"Email Questionaire"' data-dojo-type="dijit/Dialog">
 		<div data-dojo-attach-point="qctrl" data-dojo-type="research/questionnaires/SendSingle"></div>

@@ -75,8 +75,8 @@ define([
 	{
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
-		this.linkedin_show.set("source",this.linkedin);	
-		this.instagram_show.set("source",this.instagram);	
+		this.linkedin_show.set("source",this.linkedin);
+		this.instagram_show.set("source",this.instagram);
 		this.inherited(arguments);
 	},
 	load:function( employeeid, outletid, sourceid )
@@ -120,7 +120,6 @@ define([
 		this.instagram.set("value", response.data.comm.instagram);
 		this.mobile.set("value", response.data.comm.mobile);
 		this.interests.set("value", response.data.interests);
-		this.profile.set("value", response.data.employee.profile);
 		this.jobroles.set("value", response.data.jobroles);
 
 		this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+response.data.employee.outletid + "/", idProperty:"outletdeskid"});
@@ -204,7 +203,6 @@ define([
 		this.fax.set("value","");
 		this.mobile.set("value","");
 		this.interests.set("value","");
-		this.profile.set("value","");
 		this.selectcontact.clear();
 		this.no_address.set("checked", false);
 		this._address_show_do ( false );

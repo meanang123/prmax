@@ -76,8 +76,6 @@ define([
 				this.researchfrequencyid.set("value", response.data.research.researchfrequencyid );
 				this.notes.set("value", response.data.research.notes );
 				this.job_title.set("value", response.data.research.job_title );
-				this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Update_Codes());
-				this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 				this._show_months();
 				this.last_questionaire_sent.set("value",utilities2.from_object_date_no_date(response.data.last_questionaire_sent));
 				this.last_research_completed.set("value",utilities2.from_object_date_no_date(response.data.last_research_completed));
@@ -95,8 +93,6 @@ define([
 			else
 			{
 				this.clear();
-				this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Add_Codes());
-				this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
 			}
 			this.savebtn.set("disabled",false);
 		}
@@ -202,14 +198,7 @@ define([
 			throw "N";
 		}
 
-		if (this.reasoncodeid.isValid()==false)
-		{
-			alert("Missing Reason");
-			throw "N";
-		}
-
 		var tmp = this.form.get("value");
-		tmp["reasoncodeid"] = this.reasoncodeid.get("value");
 		tmp["last_research_completed"] = utilities2.to_json_date(this.last_research_completed.get("value"));
 		tmp["last_questionaire_sent"] = utilities2.to_json_date(this.last_questionaire_sent.get("value"));
 		tmp["no_sync"] = this.no_sync.get("checked");
@@ -223,7 +212,6 @@ define([
 		if ( response.success=="OK")
 		{
 			alert("Research Details Updated");
-			this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 		}
 		else
 		{

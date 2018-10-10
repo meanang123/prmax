@@ -592,7 +592,7 @@ class ResearchDetails(BaseSql):
 			ptype = Constants.Object_Type_Freelance if outlet.outlettypeid == Constants.Outlet_Type_Freelance else Constants.Object_Type_Outlet
 
 			if researchdetails:
-				activity = Activity(reasoncodeid=params["reasoncodeid"],
+				activity = Activity(reasoncodeid=5,
 				                reason="",
 				                objecttypeid=Constants.Object_Type_Research,
 				                objectid=params["outletid"],

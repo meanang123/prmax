@@ -46,13 +46,6 @@ define([
 				alert("Not all required fields filled in");
 				throw "N";
 			}
-			if ( this.reason.get("value").length == 0 )
-			{
-				alert("No Description Given");
-				this.reason.focus();
-				return;
-			}
-
 			if ( confirm("Set Primary  Contact " + domattr.get(this.heading,"innerHTML" ) + "?"))
 			{
 				request.post('/research/admin/employees/research_set_primary',

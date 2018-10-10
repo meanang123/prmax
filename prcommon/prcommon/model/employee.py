@@ -427,7 +427,6 @@ class Employee(BaseSql):
 			# add the change details to the audit record
 			ActivityDetails.AddChange ( tcontactid , employee.contactid , activity.activityid , Constants.Field_Contactid )
 			ActivityDetails.AddChange ( employee.job_title , params['job_title'] , activity.activityid , Constants.Field_Job_Title )
-			ActivityDetails.AddChange ( employee.profile , params['profile'] , activity.activityid , Constants.Field_Profile)
 			ActivityDetails.AddChange ( comm.email , params['email'] , activity.activityid , Constants.Field_Email)
 			ActivityDetails.AddChange ( comm.tel , params['tel'] , activity.activityid , Constants.Field_Tel)
 			ActivityDetails.AddChange ( comm.fax , params['fax'] , activity.activityid , Constants.Field_Fax)
@@ -439,7 +438,6 @@ class Employee(BaseSql):
 
 			# update the the record
 			employee.job_title = params['job_title']
-			employee.profile = params['profile']
 			comm.email = params['email']
 			comm.tel = params['tel']
 			comm.fax = params['fax']
@@ -638,7 +636,6 @@ class Employee(BaseSql):
 			  contactid = contactid,
 				job_title = params['job_title'],
 			  outletid = params['outletid'],
-			  profile = params['profile'],
 			  sourcetypeid = Constants.Research_Source_Prmax
 			)
 			if params["outletdeskid"] != -1:
@@ -827,7 +824,7 @@ class Employee(BaseSql):
 				session.flush()
 				# delete contact
 				#session.execute(text(Employee.Delete_Employee),dict(employeeid=employee.employeeid), Employee)
-				session.execute(text("SELECT employee_research_force_delete(:employeeid)"), {'employeeid':employee.employeeid}, Employee)				
+				session.execute(text("SELECT employee_research_force_delete(:employeeid)"), {'employeeid':employee.employeeid}, Employee)
 				session.flush()
 
 			ResearchDetails.set_research_modified(outletid)

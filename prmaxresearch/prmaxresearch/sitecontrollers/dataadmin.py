@@ -76,6 +76,7 @@ class ReseachDetailsUpdateSchema(PrFormSchema):
 	quest_month_2 = Int2Null()
 	quest_month_3 = Int2Null()
 	quest_month_4 = Int2Null()
+	no_sync = BooleanValidator()
 
 class SendQuestionnaireSchema(PrFormSchema):
 	""" reseach  """
