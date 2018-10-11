@@ -13,9 +13,9 @@ define([
 	"control/customer/view_partner",
 	"control/customer/options/emailserver",
 	"control/customer/options/extendedsettings",
-	"control/customer/options/prmaxdatasets",
+	"control/customer/options/PrmaxDataSets",
 	"control/customer/options/details",
-	
+
 	], function(declare, BaseWidgetAMD, template, BorderContainer,request,utilities2,lang,topic,domclass){
 
  return declare("control.customer.options",
@@ -36,6 +36,6 @@ define([
 		this.options_tab_details.load(customer, custsource);
 		this.options_tab.selectChild(this.options_tab_details);
 	},
-	
+
 });
 });

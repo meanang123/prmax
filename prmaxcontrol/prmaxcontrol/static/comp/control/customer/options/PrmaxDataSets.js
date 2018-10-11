@@ -12,7 +12,7 @@ define([
 	"dojo/_base/declare", // declare
 	"ttl/BaseWidgetAMD",
 	"dojo/text!../options/templates/prmaxdatasets.html",
-	"dijit/layout/BorderContainer",	
+	"dijit/layout/BorderContainer",
 	"ttl/utilities2",
 	"dojo/request",
 	"dojo/_base/lang",
@@ -31,20 +31,20 @@ define([
 			return '<img  height="10px" width="10px" style="padding:0x;margin:0px" src="/static/images/'+status+'" ></img>';
 		};
 
-return declare("control.customer.options.prmaxdatasets",
+return declare("control.customer.options.PrmaxDataSets",
 	[BaseWidgetAMD, BorderContainer],{
 	templateString:template,
-	gutters:false,	
-	constructor: function()	
+	gutters:false,
+	constructor: function()
 	{
 		this._datasets = new Observable(new JsonRest( {
-			target:"/datasets/customer_data_sets", 
+			target:"/datasets/customer_data_sets",
 			idProperty:"prmaxdatasetid",
 			onError:utilities2.globalerrorchecker,
 			clearOnClose:true,
 			urlPreventCache:true
-		}));			
-		
+		}));
+
 		this._update_data_set_call_back = lang.hitch(this,this._update_data_set_call);
 		this._has_international_data = false;
 	},
@@ -56,7 +56,7 @@ return declare("control.customer.options.prmaxdatasets",
 		[
 			{label: 'Selected',className:"grid-field-image-view",field:'customerprmaxdatasetid', formatter:_data_set_selected},
 			{label: 'Data Set',className:"dgrid-column-status",field:'prmaxdatasetdescription'}
-		];	
+		];
 
 		this.datasetsgrid_view = new Grid({
 			columns: cells,
@@ -67,14 +67,14 @@ return declare("control.customer.options.prmaxdatasets",
 		});
 
 		this.datasetsgrid.set("content", this.datasetsgrid_view);
-		this.datasetsgrid_view.on(".dgrid-cell:click", lang.hitch(this,this._on_row_select));	
+		this.datasetsgrid_view.on(".dgrid-cell:click", lang.hitch(this,this._on_row_select));
 	},
 	_on_row_select:function(e)
 	{
 		if (this._has_international_data==true)
 		{
 			var cell = this.datasetsgrid_view.cell(e);
-			
+
 			this._row = cell.row.data;
 
 			var message = "Remove Data Set " + this._row.prmaxdatasetdescription + " ?";
@@ -87,11 +87,11 @@ return declare("control.customer.options.prmaxdatasets",
 				content['icustomerid'] = this._customerid;
 				content['customerprmaxdatasetid'] = this._row.customerprmaxdatasetid;
 				content['prmaxdatasetid'] = this._row.prmaxdatasetid;
-							
-							
+
+
 				request.post ('/datasets/customer_data_set_update',
 					utilities2.make_params({ data : content})).
-					then ( this._update_data_set_call_back);	
+					then ( this._update_data_set_call_back);
 			}
 		}
 		else
