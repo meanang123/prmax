@@ -22,7 +22,7 @@ try:
 except:
 	osname = platform(1).lower()
 
-if osname in ("microsoft-windows", "windows-xp", "windows-vista", "windows-7","windows-post2008server"):
+if osname in ("microsoft-windows", "windows-xp", "windows-vista", "windows-7","windows-post2008server","windows-10"):
 	log_file = log_file_windows
 else:
 	log_file = log_file_unix
