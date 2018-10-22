@@ -103,7 +103,7 @@ dojo.require("prmax.iadmin.sales.prospects.mailing.view");
 dojo.require("prmax.iadmin.clippings.view");
 dojo.require("prmax.iadmin.extendedsettings");
 dojo.require("prmax.iadmin.emailserver");
-dojo.require("prmax.iadmin.prmaxdatasets");
+dojo.require("prmax.iadmin.PrmaxDataSets");
 
 dojo.declare("prmax.iadmin.admin",
 	[dijit._Widget, dijit._Templated, dijit._Container],{
