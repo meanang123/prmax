@@ -13,7 +13,11 @@
 		@import "/prmax_common_s/css/prcommon.css?version=${prmax['dojoversion']}";
 		@import "/prmax_common_s/css/prlayout.css?version=${prmax['dojoversion']}";
 		@import "/prmax_common_s/css/font-awesome/css/font-awesome.min.css?version=${prmax['dojoversion']}";
+%if customertypeid == 24:
+		@import "/static/${prmax['prodpath']}/css/clippings_pressdata_main.css?version=${prmax['dojoversion']}";
+%else:
 		@import "/static/${prmax['prodpath']}/css/clippings_main.css?version=${prmax['dojoversion']}";
+%endif
 		html, body { width: 100%; height: 100%;overflow: hidden; border: 0; padding: 0; margin: 0;font-family: sans-serif;font-size:10pt};
 	</style>
 % if prmax["release"] == False:
@@ -55,10 +59,10 @@
 </head>
 <body id="main" class="claro">
 	<table id="wait" width="100%" height="100%"><tr><td style="text-align:center;vertical-align:middle">
-		<p>Loading PRmax Clippings</p><br/>
+		<p>Loading Clippings</p><br/>
 		<i class="fa fa-spinner fa-2x fa-pulse" style="color:#0282A9"></i></td><td style="text-align:left;vertical-align:middle">
 	</td></tr></table>
-	<div id="mainframe" data-dojo-type="prcommon2/clippings/frame" data-dojo-props='style:"width:100%;height:100%;${top_border}",as_frame:${as_frame}'></div>
+	<div id="mainframe" data-dojo-type="prcommon2/clippings/frame" data-dojo-props='style:"width:100%;height:100%;${top_border}",as_frame:${as_frame},back_colour:"${back_colour}",back_panel_colour:"${back_panel_colour}",fore_color:"${fore_color}"'></div>
 <script type="text/javascript" >
 // get the ready function
 function start_up( parse, BorderContainer, json, UUID, dom, domstyle, frame, PREVENTS,DataStores)

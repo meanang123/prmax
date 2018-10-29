@@ -1,0 +1,68 @@
+.std_menu_view
+{
+	background: #3397B9 !important;
+	color: white !important;
+}
+.std_menu_view .dijitToolbar, .std_menu_view .dijitToggleButtonIconChar,
+{
+		background: none !important;
+		color: white !important;
+}
+
+.std_menu_view .dijitToolbar .dijitTitlePaneTitle, .std_menu_view .dijitToolbar, .std_menu_view .dijitDialogTitleBar
+{
+		background-image: none !important;
+		background: #3397B9 !important;
+		border: none !important;
+		color: white !important;
+}
+
+.std_menu_view .dijitButtonHover,
+.std_menu_view .dijitButtonNode,
+.std_menu_view .dijitButtonHover .dijitButtonNode,
+.std_menu_view .dijitDropDownButtonHover .dijitButtonNode
+{
+		background: #3397B9 !important;
+		border: none !important;
+		color: white !important;
+}
+.std_menu_view .dijitToolbarTop
+{
+		padding:0px;
+		margin:0px;
+		padding-top:6px;
+		color: white !important;
+}
+
+
+/*Temp for professional view*/
+.claro .dijitDialogTitleBar { background-image: url(/static/images/adept/titleBar.png) }
+.claro .dijitTitlePaneTextNode,
+.claro .dijitDialog .dijitDialogTitle { color: #444 }
+
+.dgrid-no-data
+{
+	text-align: center;
+	width: 100%;
+	color: #aaa;
+	padding-top:33%;
+	overflow:hidden;
+}
+
+.dgrid-no-data p
+{
+	font-weight: bold;
+	font-size: 2em;
+}
+
+.dgrid-loading {
+	text-align: center;
+	padding-top:33%;
+	overflow:hidden;
+}
+
+
+.claro .dgrid-row-odd { background: #F2F5F9 }
+.claro .dgrid-cell { padding: 1px }
+.claro .dgrid-selected { background: #e5997f }
+

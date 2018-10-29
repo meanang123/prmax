@@ -697,3 +697,7 @@ ALTER TABLE clippingstore ADD COLUMN alexareach bigint;
 ALTER TABLE userdata.clippings ADD COLUMN reach bigint;
 
 INSERT INTO internal.sourcetypes VALUES (12, 'Dutch');
+
+
+
+INSERT INTO internal.emailservertype (emailservertypeid, emailservertypename) VALUES(3,'Open Relay 365');

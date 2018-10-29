@@ -39,6 +39,7 @@ class EmailServerSchema(PrFormSchema):
 	customerid = validators.Int()
 #	emailserverid = validators.Int()
 	thirdparty = BooleanValidator()
+	emailservertypeid = validators.Int()
 
 
 class EmailServerController(SecureController):

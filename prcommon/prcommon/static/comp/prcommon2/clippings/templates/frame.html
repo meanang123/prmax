@@ -1,5 +1,5 @@
 <div>
-	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top", style:"height:50px;width:100%;overflow:hidden;background-color:black;border-bottom:2px solid white", "class":"std_menu_view"'>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top", style:"height:50px;width:100%;overflow:hidden;background-color:${back_colour};border-bottom:2px solid white", "class":"std_menu_view"'>
 		<div data-dojo-attach-point="logo_view" style="float:left"><img height="50px" width="160px" src="/static/images/adept/banner_prmax_logo.png"></img>&nbsp;&nbsp;&nbsp;</div>
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-pie-chart fa-3x",showLabel:false,label:"Show Summary"' data-dojo-attach-event="onClick:_summary_btn_event"></div>
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-line-chart fa-3x",showLabel:false,label:"Time"' data-dojo-attach-event="onClick:_time_btn_event"></div>
@@ -9,9 +9,9 @@
 	</div>
 	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false' >
 		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="controls" data-dojo-props="region:'center',preload:false">
-			<div data-dojo-attach-point="lineschart" data-dojo-type="prcommon2/clippings/charts/lineschart" data-dojo-props='style:"width:100%;height:100%",selected:"selected"'></div>
+			<div data-dojo-attach-point="lineschart" data-dojo-type="prcommon2/clippings/charts/lineschart" data-dojo-props='style:"width:100%;height:100%",selected:"selected",back_colour:"${back_panel_colour}",fore_color:"${fore_color}"'></div>
 			<div data-dojo-attach-point="clippings_view" data-dojo-type="prcommon2/clippings/detailedviewer" data-dojo-props='style:"width:100%;height:100%",preload:true'></div>
-			<div data-dojo-attach-point="piechart" data-dojo-type="prcommon2/clippings/charts/piechart" data-dojo-props='style:"width:100%;height:100%"'></div>
+			<div data-dojo-attach-point="piechart" data-dojo-type="prcommon2/clippings/charts/piechart" data-dojo-props='style:"width:100%;height:100%",back_colour:"${back_panel_colour}",fore_color:"${fore_color}"'></div>
 			<div data-dojo-attach-point="add_private" data-dojo-type="prcommon2/clippings/edit_private" class="scrollpanel"></div>
 		</div>
 		<div data-dojo-attach-point="email_dlg" data-dojo-type="dijit/Dialog" title="Email Clippings" data-dojo-props='style:"width:500px"'>

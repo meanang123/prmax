@@ -31,6 +31,8 @@ define([
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
 	gutters:false,
+	back_colour:"black",
+	fore_color:"lightblue",
 	constructor: function()
 	{
 		this._pieChart = null;
