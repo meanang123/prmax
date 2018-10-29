@@ -20,6 +20,8 @@ import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
 from ttl.ttlemail import SendMessage, SMTPOpenRelay
 
+from ttl.sqlalchemy.ttlcoding import CryptyInfo
+
 TESTMODE = False
 if platform.system().lower() == "windows":
 	TESTMODE = True
@@ -49,6 +51,10 @@ SSQL_GET_DOMAINS_KEYS_SELECTORS = "SELECT host, privatekey, selector FROM intern
 
 COL_SERVERTYPEID = 5
 COL_SERVEREMAILHOST = 6
+COL_USERNAME = 10
+COL_PASSWORD = 11
+
+CRYPTENGINE  = CryptyInfo(Constants.KEY1)
 
 class EmailController(object):
 	"""  Email send controller """
@@ -138,6 +144,17 @@ class EmailController(object):
 		except Exception, e:
 			print e
 
+	def _365_relay(self, emailrec, username, password):
+		"""Open Replay"""
+
+		try:
+			stmp = SMTP360Relay(CRYPTENGINE.aes_decrypt(username),
+			                    CRYPTENGINE.aes_decrypt(password))
+
+			stmp.send(emailrec)
+		except Exception, e:
+			print e
+
 	def run(self):
 		""" run """
 
@@ -172,6 +189,9 @@ class EmailController(object):
 						# check send type
 						if row[COL_SERVERTYPEID] == 2:
 							self._open_relay(emailrec, row[COL_SERVEREMAILHOST], fields)
+						elif row[COL_SERVERTYPEID] == 3:
+							self._365_relay(emailrec, row[COL_USERNAME, COL_PASSWORD])
+
 						else:
 							self._std_email(emailrec, fields)
 

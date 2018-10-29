@@ -37,6 +37,9 @@ define([
 	templateString: template,
 	gutters:false,
 	as_frame:0,
+	back_colour:"black",
+	back_panel_colour:"black",
+	fore_color:"lightblue",
 	constructor: function()
 	{
 		this._active_page=null;

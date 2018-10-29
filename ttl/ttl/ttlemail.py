@@ -634,12 +634,28 @@ class SMTPOpenRelay(SMTPServerBase):
 		                        limit=300,
 		                        starttls=True)
 
+class SMTP360Relay(SMTPServerBase):
+	""" handle 260 release"""
+	def __init__(self, username, password):
+		"settings"
+
+		SMTPServerBase.__init__(self,
+		                        host="smtp.office365.com",
+		                        port=587,
+		                        https=False,
+		                        authorise=True,
+		                        username=username,
+		                        password=password,
+		                        limit=30000,
+		                        starttls=True)
+
 SMTPSERVERBYTYPE = {2: SMTPServerGMail,
                     3: SMTPServerYahoo,
                     4: SMTPServerHotmail,
                     5: SMTPServer1to1,
                     6: SMTPExchange,
-                    7: SMTPOpenRelay,}
+                    7: SMTPOpenRelay,
+                    8: SMTP360Relay}
 
 class STMPUsage(object):
 	def __init__(self, limit):

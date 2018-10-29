@@ -15,7 +15,7 @@ from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrGridSchema, PrFormSchema, RestSchema, DateRangeValidator, BooleanValidator, Int2Null, \
      ISODateValidator, FloatToIntValidator, ListofIntsValidator
 from ttl.base import stdreturn
-from prcommon.model import ClippingsGeneral, ClippingCache, User
+from prcommon.model import ClippingsGeneral, ClippingCache, User, Customer
 from prcommon.lib.common import add_config_details
 from prmax.sitecontrollers.clippings.questions import QuestionsController
 from prmax.sitecontrollers.clippings.analyse import AnalyseController
@@ -231,7 +231,12 @@ class ClippingsController(SecureController):
 		"""get display text """
 
 		user = User.query.get(params["userid"])
+		customer = Customer.query.get(user.customerid)
 		return add_config_details(dict(control=user.get_json_settings(),
+		                               customertypeid=customer.customertypeid,
+		                               back_colour="#3397B9" if customer.customertypeid == 24 else "black",
+		                               back_panel_colour="white" if customer.customertypeid == 24 else "black",
+		                               fore_color="black" if customer.customertypeid == 24 else "lightblue",
 		                               as_frame=1 if params["as_frame"] else 0,
 		                               top_border="border-top:3px solid white" if params["as_frame"] else ""))
 

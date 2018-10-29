@@ -25,7 +25,7 @@ import turbogears
 import dkim
 import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
-from ttl.ttlemail import EmailMessage, SendSupportEmailMessage, SMTPOpenRelay
+from ttl.ttlemail import EmailMessage, SendSupportEmailMessage, SMTPOpenRelay, SMTP360Relay
 from ttl.ttlemail import getTestMode, SMTPServer
 from ttl.ttldict import NotTooOften
 from ttl.ttlenv import getConfigFile
@@ -134,7 +134,7 @@ LEFT OUTER JOIN userdata.emailserver AS es ON es.emailserverid = c.emailserverid
 LEFT OUTER JOIN userdata.distributiontemplates AS dtf ON dtf.distributiontemplateid = et.templatefooterid
 LEFT OUTER JOIN userdata.distributiontemplates AS dth ON dth.distributiontemplateid = et.templateheaderid
 
-WHERE es.emailsendtypeid NOT IN (2,3) AND lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
+WHERE es.emailsendtypeid IN (2,3) AND lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
 
 _sql_processing_limit = """ LIMIT %(nbr)s """
 
@@ -359,6 +359,10 @@ class WorkerController(threading.Thread):
 							# this is an open relay
 							openrelay = SMTPOpenRelay(record["email_host"])
 							(error, _) = openrelay.send(email, sender)
+						elif record['emailservertypeid'] == 3:
+							# 365 relay
+							openrelay = SMTP360Relay(record["email_username"], record["email_password"])
+							(error, _) = openrelay.send(email, sender)
 						else:
 							emailserver = SMTPServer(
 							    record["email_host"],
@@ -477,7 +481,7 @@ class DistController(threading.Thread):
 
 				if len(rows) == 0:
 					# reasonable bet that their are no release no need to check for a while
-					sleep(60)
+					sleep(10)
 
 				for row in rows:
 					# don't sent too many too a single domain at any one time
@@ -548,7 +552,7 @@ def _run(test_environment, run_restriction, single_customer, tmp_sendpriority):
 	do_email = True
 	if singlecustomer:
 		print "Single Customer", singlecustomer
-	ctrl = DistController(20, do_email, test_environment, run_restriction, single_customer, tmp_sendpriority)
+	ctrl = DistController(4, do_email, test_environment, run_restriction, single_customer, tmp_sendpriority)
 	ctrl.setDaemon(True)
 	ctrl.initApp()
 	ctrl.start()

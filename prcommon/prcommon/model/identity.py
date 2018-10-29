@@ -1324,19 +1324,23 @@ class Customer(BaseSql):
 			customer = Customer.query.get(params['customerid'])
 			customer.thirdparty = params["thirdparty"]
 
-			if params['thirdparty'] == True and int(params["emailservertypeid"]) == 2:
+			if params['thirdparty'] == True and params["emailservertypeid"] in (2,3):
 				emailserver = None
 				if (customer.emailserverid):
 					emailserver = EmailServer.query.get(customer.emailserverid)
 				if not emailserver:
 					emailserver = EmailServer(
 						email_host=params["hostname"],
-						emailservertypeid=params["emailservertypeid"]
+						emailservertypeid=params["emailservertypeid"],
+					    email_username=CRYPTENGINE.aes_encrypt(params["email_username"]),
+					    email_password=CRYPTENGINE.aes_encrypt(params["password"])
 					)
 					session.add(emailserver)
 				else:
-					emailserver.emailservertypeid=params["emailservertypeid"]
-					emailserver.email_host=params["hostname"]
+					emailserver.emailservertypeid = params["emailservertypeid"]
+					emailserver.email_host = params["hostname"]
+					emailserver.email_username = CRYPTENGINE.aes_encrypt(params["email_username"])
+					emailserver.email_password = CRYPTENGINE.aes_encrypt(params["password"])
 
 				session.flush()
 				customer.emailserverid = emailserver.emailserverid
@@ -1880,7 +1884,11 @@ class Customer(BaseSql):
 
 			custsource = CustomerSources.query.get(cust.customersourceid)
 			if cust.emailserverid:
-				emailserver = EmailServer.query.get(cust.emailserverid)
+				emailservert = EmailServer.query.get(cust.emailserverid)
+				emailserver = dict(email_host=emailservert.email_host,
+				                   emailservertypeid=emailservert.emailservertypeid,
+				                   email_username=CRYPTENGINE.aes_decrypt(emailservert.email_username),
+				                   email_password=CRYPTENGINE.aes_decrypt(emailservert.email_password))
 			else:
 				emailserver = None
 
