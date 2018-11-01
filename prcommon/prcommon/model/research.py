@@ -658,7 +658,7 @@ class ResearchDetails(BaseSql):
 				outlet = Outlet.query.get(params["outletid"])
 				outlet.researchdetailid = researchdetails.researchdetailid
 
-				activity = Activity(reasoncodeid=params["reasoncodeid"],
+				activity = Activity(reasoncodeid=5,
 				                reason="",
 				                objecttypeid=Constants.Object_Type_Research,
 				                objectid=params["outletid"],
