@@ -134,7 +134,7 @@ LEFT OUTER JOIN userdata.emailserver AS es ON es.emailserverid = c.emailserverid
 LEFT OUTER JOIN userdata.distributiontemplates AS dtf ON dtf.distributiontemplateid = et.templatefooterid
 LEFT OUTER JOIN userdata.distributiontemplates AS dth ON dth.distributiontemplateid = et.templateheaderid
 
-WHERE es.emailsendtypeid IN (2,3) AND lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
+WHERE es.emailservertypeid IN (2,3) AND lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
 
 _sql_processing_limit = """ LIMIT %(nbr)s """
 
