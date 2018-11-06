@@ -151,7 +151,7 @@ class MadaptiveSearch(object):
 	        url=clip.get("href", "").strip(),
 	        abstract=clip.get("context", "").strip(),
 	        source_id=str(clip.get("id", "")).strip(),
-	        title=clip.get("tite", "").strip(),
+	        title=clip.get("title", "").strip(),
 	        documenttext=clip.get("context", "").strip(),
 	        published_date=clip.get("published", None),
 		    outletid=clip.get("outletid", None) if "outletid" in clip.keys() else None,
