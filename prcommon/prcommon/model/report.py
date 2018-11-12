@@ -162,7 +162,7 @@ class ReportTemplate(BaseSql):
 			kw['reporttemplatename'] = "%"
 
 		if not command:
-			if 'customerid' in kw and kw['customerid'] == 5730: # customer: East Ayrshire
+			if 'customerid' in kw and (kw['customerid'] == 5730 or kw['customerid'] == 5454): # customers: East Ayrshire/Cardiff
 				command = text(ReportTemplate.List_Std_EastAyrshire)
 			else:
 				command = text(ReportTemplate.List_Std)
