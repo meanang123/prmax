@@ -58,6 +58,9 @@ class OutletExternalLinkGeneral(object):
 		if 'hide_ignore' in params:
 			whereclause = BaseSql.addclause(whereclause, 'oel.ignore = false')
 
+		if 'clipsource' in params and params['clipsource'] != -1 and params['clipsource'] != '-1':
+			whereclause = BaseSql.addclause(whereclause, 'oel.linktypeid = :clipsource')
+
 		data = BaseSql.get_grid_page(
 		  params,
 		  'linktext',

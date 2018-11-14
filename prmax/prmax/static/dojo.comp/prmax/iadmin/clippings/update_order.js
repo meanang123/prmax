@@ -86,7 +86,7 @@ dojo.declare("prmax.iadmin.clippings.update_order",
 				this.countries.set("value", order.countries);
 				this.languages.set("value", order.languages);
 				this.clippingstypes.set("value", order.clippingstypes);
-				if (this.clippingsourceid.get("value") == 1 || this.clippingsourceid.get("value") == 7)
+				if (this.clippingsourceid.value == 1)
 				{
 					dojo.addClass( this.clippingstypes_node, "prmaxhidden");
 					if (this._dialog)

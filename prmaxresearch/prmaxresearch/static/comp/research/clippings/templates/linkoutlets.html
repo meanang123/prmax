@@ -5,6 +5,7 @@
 				<span>Filter By</span>
 				<div data-dojo-type="dijit/TooltipDialog" title="Filter" data-dojo-attach-event="execute: _execute">
 					<table>
+						<tr><td>Source</td><td><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="filter_source" data-dojo-props='name:"source",searchAttr:"name",labelType:"html"' ></td></tr>
 						<tr><td>Link Code</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_linktext" data-dojo-props='name:"linktext",trim:"true",maxlength:45,type:"text"' ></td></tr>
 						<tr><td>Link Description</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_linkdescription" data-dojo-props='name:"linkdescription",trim:"true",maxlength:45,type:"text"' ></td></tr>
 						<tr><td>URL</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_url" data-dojo-props='name:"url",trim:"true",maxlength:45,type:"text"' ></td></tr>

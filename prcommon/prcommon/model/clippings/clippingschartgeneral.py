@@ -123,7 +123,8 @@ def _get_data_lineschart(retdata, results, daterange, clippingstypes_db_trans):
     startrangedates = 0
 
     #maximum value for y axis
-    retdata['maxvalue'] = max([x['count'] for x in results]) 
+    if 'count' in results and results['count'] != None:
+        retdata['maxvalue'] = max([x['count'] for x in results])
     
     firstclipsdate = min(x['clip_source_date'] for x in results)
     

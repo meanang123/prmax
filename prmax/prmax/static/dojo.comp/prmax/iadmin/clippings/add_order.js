@@ -86,7 +86,7 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 	},
 	_add:function()
 	{
-		if (this.clippingsourceid != 1 && this.clippingsourceid != 7 && this.clippingstypes.value == "" )
+		if (this.clippingsourceid != 1 && this.clippingstypes.value == "" )
 		{
 			alert("Please Enter Clippings Type");
 			this.addbtn.cancel();
@@ -131,7 +131,7 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 	_change_source:function()
 	{
 		var sourceid = this.clippingsourceid.get("value");
-		if (sourceid == 1 || sourceid == 7)
+		if (sourceid == 1)
 		{
 			dojo.addClass( this.clippingstypes_node, "prmaxhidden");
 			if (this._dialog)
