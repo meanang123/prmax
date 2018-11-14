@@ -108,11 +108,11 @@ define([
 	},
 	_update_event:function( outletdesk )
 	{
-		this._outletdesks.put( outletdesk );
+		this._outletdesks.put( outletdesk.outletdesk );
 	},
 	_add_event:function( outletdesk )
 	{
-		this._outletdesks.add( outletdesk );
+		this._outletdesks.add( outletdesk.outletdesk );
 	},
 	_delete_event:function( outletdeskid )
 	{
