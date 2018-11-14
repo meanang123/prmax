@@ -336,8 +336,8 @@ class GoogelEmailAccounts(object):
 	################### this required python 2.6 ######################
 	# list of accounts
 	_AccountDetails = {
-#	  "support@prmax.co.uk": ("support@prmax.co.uk", "RxeuSIw4"),
-#	  "accounts@prmax.co.uk": ("accounts@prmax.co.uk", "nedkelly99"),
+	  "support@prmax.co.uk": ("support@prmax.co.uk", "RxeuSIw4"),
+	  "accounts@prmax.co.uk": ("accounts@prmax.co.uk", "nedkelly99"),
 	}
 
 	def isPrmaxSender(self, emailaddress):

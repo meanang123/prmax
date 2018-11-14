@@ -42,10 +42,12 @@ return declare("research.clippings.linkoutlets",
 	constructor: function()
 	{
 		this._store = new Observable( new JsonRest( {target:'/research/clippings/list_link', idProperty:"outletexternallinkid"}));
+		this._clippingsources = new dojo.data.ItemFileReadStore( {url:"/common/lookups?searchtype=clippingsource&nofilter=1" });
 		this._show_basic_edit_call_back = lang.hitch(this,this._show_basic_edit_call);
 	},
 	postCreate:function()
 	{
+		this.filter_source.set('store', this._clippingsources);
 		var cells =
 		[
 			{label:' ', field:'outletexternallinkid', sortable: false, formatter:utilities2.generic_view,className:"grid-field-image-view"},
@@ -101,7 +103,8 @@ return declare("research.clippings.linkoutlets",
 		this.filter_linkdescription.set("value","");
 		this.filter_url.set("value","");
 		this.not_linked.set("checked",true);
-		this.hide_ignore.set("checked",true)
+		this.hide_ignore.set("checked",true);
+		this.filter_source.set("value",-1);
 	},
 	_execute:function()
 	{
@@ -121,6 +124,9 @@ return declare("research.clippings.linkoutlets",
 
 		if ( this.filter_url.get("value"))
 			query["linkurl"] = this.filter_url.get("value");
+
+		if ( this.filter_source.get("value"))
+			query["clipsource"] = this.filter_source.get("value");
 
 		this.grid.set("query",query);
 		this._clear();

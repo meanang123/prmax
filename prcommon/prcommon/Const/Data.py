@@ -324,9 +324,12 @@ Clipping_Source_IPCB = 1
 Clipping_Source_Cyberwatch = 4
 Clipping_Source_MediaToolKit = 5
 Clipping_Source_Madaptive = 6
+Clipping_Source_PressData = 7
 
 
 KEY1 = '!D5#$4sRg@rc1F7V'
 
 Email_Layout_Standard = 1
 Email_Layout_ByClient = 2
+
+Clipping_PriceCode = 18
