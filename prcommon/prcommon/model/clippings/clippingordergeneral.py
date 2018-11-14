@@ -118,7 +118,7 @@ class ClippingsOrderGeneral(object):
 					session.flush()
 
 			#if clipping order is from IPCB the type should always be Print
-			if params['clippingsourceid'] == 1 or params['clippingsourceid'] == 7:
+			if params['clippingsourceid'] == 1:
 				clippingsordertypes = [1]
 			else:
 				clippingsordertypes = params['clippingstypes']['data']
