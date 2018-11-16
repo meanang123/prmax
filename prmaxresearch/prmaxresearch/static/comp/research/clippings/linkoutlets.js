@@ -89,6 +89,8 @@ return declare("research.clippings.linkoutlets",
 			{
 				case "6":
 				case 6:
+				case "7":
+				case 7:
 					this.mbrain_outlet_link.load(cell.row.data.outletexternallinkid,this._show_basic_edit_call_back);
 					break;
 				default:
