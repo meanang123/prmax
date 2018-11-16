@@ -18,7 +18,7 @@ from random import randint
 import dkim
 import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
-from ttl.ttlemail import SendMessage, SMTPOpenRelay
+from ttl.ttlemail import SendMessage, SMTPOpenRelay, SMTP360Relay
 
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
