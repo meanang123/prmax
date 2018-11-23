@@ -698,6 +698,5 @@ ALTER TABLE userdata.clippings ADD COLUMN reach bigint;
 
 INSERT INTO internal.sourcetypes VALUES (12, 'Dutch');
 
-
-
 INSERT INTO internal.emailservertype (emailservertypeid, emailservertypename) VALUES(3,'Open Relay 365');
+insert into internal.emailservertype(emailservertypeid,emailservertypename) VALUES(4,'Open Relay Basic http');

@@ -809,28 +809,28 @@ class ClippingsLinesChartReport(ReportCommon):
             FROM userdata.clippings AS c
             JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid """
 
-		whereclause = ''
+		whereclause = 'c.customerid=:icustomerid'
 		groupbyclause = 'GROUP BY c.clippingstypeid, ct.clippingstypedescription, c.clip_source_date'
-		
+
 		params = dict(icustomerid = self._reportoptions["customerid"])
 
 		if "clientid" in self._reportoptions and self._reportoptions['clientid'] != '' and self._reportoptions['clientid'] is not None and self._reportoptions['clientid'] != -1 and self._reportoptions['clientid'] != '-1':
 			whereclause = BaseSql.addclause(whereclause, 'c.clientid=%(clientid)s')
-			params['clientid'] = int(self._reportoptions['clientid'])	
-			
+			params['clientid'] = int(self._reportoptions['clientid'])
+
 		if 'issueid' in self._reportoptions and self._reportoptions['issueid'] != '' and self._reportoptions['issueid'] is not None  and self._reportoptions['issueid'] != -1 and self._reportoptions['issueid'] != '-1':
 			whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = %(issueid)s AND ci.clippingid = c.clippingid)')
 			params['issueid'] = int(self._reportoptions['issueid'])
-			
+
 		# tones on the filter
 		if self._reportoptions.get("tones", None):
 			whereclause = BaseSql.addclause(whereclause, "c.clippingstoneid IN (%s)" % ",".join([str(tone) for tone in self._reportoptions["tones"]]))
-	
+
 		#date range
-	
+
 		drange = simplejson.loads(self._reportoptions["drange"])
-		option = TTLConstants.CONVERT_TYPES[drange["option"]]		
-		
+		option = TTLConstants.CONVERT_TYPES[drange["option"]]
+
 		if option == TTLConstants.BEFORE:
 			params["from_date"] = drange['from_date']
 			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date <= %(from_date)s')
@@ -840,7 +840,7 @@ class ClippingsLinesChartReport(ReportCommon):
 		elif option == TTLConstants.BETWEEN:
 			params["from_date"] = drange['from_date']
 			params["to_date"] = drange['to_date']
-			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date BETWEEN %(from_date)s AND %(to_date)s')			
+			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date BETWEEN %(from_date)s AND %(to_date)s')
 
 		is_dict = False if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv else True
 
@@ -855,7 +855,7 @@ class ClippingsLinesChartReport(ReportCommon):
 
 		output.write(report.stream())
 
-		
+
 class PartnersListCustomersReport(ReportCommon):
 	"""Listing Partner's Customers"""
 
@@ -871,18 +871,18 @@ class PartnersListCustomersReport(ReportCommon):
 		FROM internal.customers AS c
 		LEFT OUTER JOIN internal.customerstatus AS cs ON c.customerstatusid = cs.customerstatusid
 		WHERE customersourceid = %(customersourceid)s"""
-				
+
 		customersource = """SELECT customersourcedescription, name, address1, address2, townname, postcode, countryname
 		FROM internal.customersources as cs
-		LEFT OUTER JOIN communications as com ON cs.communicationid = com.communicationid 
+		LEFT OUTER JOIN communications as com ON cs.communicationid = com.communicationid
 		LEFT OUTER JOIN addresses as a ON com.addressid = a.addressid
 		LEFT OUTER JOIN internal.countries as c ON c.countryid = a.countryid
 		WHERE customersourceid = %(customersourceid)s"""
-		
+
 		orderby = ''' ORDER BY c.customername'''
 		andclause= ''
 		if "customerstatusid" in self._reportoptions and 0 != int(self._reportoptions['customerstatusid']):
-			andclause = ''' AND c.customerstatusid = %(customerstatusid)s''' 
+			andclause = ''' AND c.customerstatusid = %(customerstatusid)s'''
 			if Constants.Customer_Active == int(self._reportoptions['customerstatusid']):
 				andclause += ''' AND licence_expire > %(today)s'''
 
@@ -918,16 +918,16 @@ class PartnersStatementReport(ReportCommon):
 		data_payments = """SELECT c.customername, actualdate, invoicenbr, customerpaymenttypename, abs(unallocated) as unallocated
 		FROM internal.customers AS c
 		LEFT OUTER JOIN accounts.customerpayments AS pay ON c.customerid = pay.customerid
-		LEFT OUTER JOIN internal.customerpaymenttypes AS cpt ON cpt.customerpaymenttypeid = pay.paymenttypeid		
-		WHERE unallocated != 0 
+		LEFT OUTER JOIN internal.customerpaymenttypes AS cpt ON cpt.customerpaymenttypeid = pay.paymenttypeid
+		WHERE unallocated != 0
 		AND c.customersourceid = %(customersourceid)s
 		ORDER BY actualdate desc"""
-		
+
 		data_payments_adj = """SELECT c.customername, adjustmentdate, reason, adjustmenttypedescriptions, abs(unallocated) as unallocated
 		FROM internal.customers AS c
 		LEFT OUTER JOIN accounts.adjustments AS adj ON c.customerid = adj.customerid
-		LEFT OUTER JOIN internal.adjustmenttypes AS adjt ON adjt.adjustmenttypeid = adj.adjustmenttypeid		
-		WHERE unallocated != 0 
+		LEFT OUTER JOIN internal.adjustmenttypes AS adjt ON adjt.adjustmenttypeid = adj.adjustmenttypeid
+		WHERE unallocated != 0
 		AND adj.adjustmenttypeid = 6
 		AND c.customersourceid = %(customersourceid)s
 		ORDER BY adjustmentdate desc"""
@@ -942,45 +942,45 @@ class PartnersStatementReport(ReportCommon):
 		data_invoices_adj = """SELECT c.customername, adjustmentdate, reason, adjustmenttypedescriptions, abs(unallocated) as unallocated
 		FROM internal.customers AS c
 		LEFT OUTER JOIN accounts.adjustments AS adj ON c.customerid = adj.customerid
-		LEFT OUTER JOIN internal.adjustmenttypes AS adjt ON adjt.adjustmenttypeid = adj.adjustmenttypeid		
-		WHERE unallocated != 0 
+		LEFT OUTER JOIN internal.adjustmenttypes AS adjt ON adjt.adjustmenttypeid = adj.adjustmenttypeid
+		WHERE unallocated != 0
 		AND adj.adjustmenttypeid != 6
 		AND c.customersourceid = %(customersourceid)s
 		ORDER BY adjustmentdate desc"""
-		
+
 		payments_subtotal = """SELECT sum(abs(unallocated)) as total
 		FROM internal.customers AS c
 		LEFT OUTER JOIN accounts.customerpayments AS pay ON c.customerid = pay.customerid
-		LEFT OUTER JOIN internal.customerpaymenttypes AS cpt ON cpt.customerpaymenttypeid = pay.paymenttypeid		
-		WHERE unallocated != 0 
+		LEFT OUTER JOIN internal.customerpaymenttypes AS cpt ON cpt.customerpaymenttypeid = pay.paymenttypeid
+		WHERE unallocated != 0
 		AND c.customersourceid = %(customersourceid)s"""
 
 		payments_adj_subtotal = """SELECT sum(abs(unallocated)) as total
 		FROM internal.customers AS c
 		LEFT OUTER JOIN accounts.adjustments AS adj ON c.customerid = adj.customerid
-		WHERE unallocated != 0 
+		WHERE unallocated != 0
 		AND adj.adjustmenttypeid = 6
 		AND c.customersourceid = %(customersourceid)s"""
-		
+
 		invoices_subtotal = """SELECT sum(abs(unpaidamount)) as total
 		FROM internal.customers AS c
 		LEFT OUTER JOIN accounts.customerinvoices AS ci ON c.customerid = ci.customerid
 		WHERE unpaidamount != 0
 		AND c.customersourceid = %(customersourceid)s"""
-		
+
 		invoices_adj_subtotal = """SELECT sum(abs(unallocated)) as total
 		FROM internal.customers AS c
 		LEFT OUTER JOIN accounts.adjustments AS adj ON c.customerid = adj.customerid
-		WHERE unallocated != 0 
+		WHERE unallocated != 0
 		AND adj.adjustmenttypeid != 6
 		AND c.customersourceid = %(customersourceid)s"""
-		
+
 		customersource = """SELECT customersourcedescription, name, address1, address2, townname, postcode, countryname
 		FROM internal.customersources as cs
-		LEFT OUTER JOIN communications as com ON cs.communicationid = com.communicationid 
+		LEFT OUTER JOIN communications as com ON cs.communicationid = com.communicationid
 		LEFT OUTER JOIN addresses as a ON com.addressid = a.addressid
 		LEFT OUTER JOIN internal.countries as c ON c.countryid = a.countryid
-		WHERE customersourceid = %(customersourceid)s"""		
+		WHERE customersourceid = %(customersourceid)s"""
 
 		params = dict(customersourceid = self._reportoptions["customersourceid"])
 		is_dict = False if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_3_is_csv \
@@ -1005,13 +1005,13 @@ class PartnersStatementReport(ReportCommon):
 			invoice_total += results_invoice_total[0][0]
 		if results_invoice_adj_total[0][0] and results_invoice_adj_total[0][0] != None:
 			invoice_total += results_invoice_adj_total[0][0]
-						
+
  		data = dict(
-				 invoices = results_invoices, 
-				 invoices_adj = results_invoices_adj, 
-				 payments = results_payments, 
-				 payments_adj = results_payments_adj, 
-				 pay_total = pay_total, 
+				 invoices = results_invoices,
+				 invoices_adj = results_invoices_adj,
+				 payments = results_payments,
+				 payments_adj = results_payments_adj,
+				 pay_total = pay_total,
 				 invoice_total = invoice_total,
 				 customersource = results_customersource
 		 )
