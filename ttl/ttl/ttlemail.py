@@ -634,6 +634,22 @@ class SMTPOpenRelay(SMTPServerBase):
 		                        limit=300,
 		                        starttls=True)
 
+class SMTPBasicOpenRelay(SMTPServerBase):
+	""" handle all http emails
+	"""
+	def __init__(self, host=None):
+		"settings"
+
+		SMTPServerBase.__init__(self,
+		                        host=host,
+		                        port=25,
+		                        https=False,
+		                        authorise=False,
+		                        username="",
+		                        password="",
+		                        limit=300,
+		                        starttls=False)
+
 class SMTP360Relay(SMTPServerBase):
 	""" handle 260 release"""
 	def __init__(self, username, password):
