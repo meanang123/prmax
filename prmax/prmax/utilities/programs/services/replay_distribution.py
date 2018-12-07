@@ -25,7 +25,7 @@ import turbogears
 import dkim
 import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
-from ttl.ttlemail import EmailMessage, SendSupportEmailMessage, SMTPOpenRelay, SMTP360Relay
+from ttl.ttlemail import EmailMessage, SendSupportEmailMessage, SMTPOpenRelay, SMTP360Relay, SMTPBasicOpenRelay
 from ttl.ttlemail import getTestMode, SMTPServer
 from ttl.ttldict import NotTooOften
 from ttl.ttlenv import getConfigFile
@@ -134,7 +134,7 @@ LEFT OUTER JOIN userdata.emailserver AS es ON es.emailserverid = c.emailserverid
 LEFT OUTER JOIN userdata.distributiontemplates AS dtf ON dtf.distributiontemplateid = et.templatefooterid
 LEFT OUTER JOIN userdata.distributiontemplates AS dth ON dth.distributiontemplateid = et.templateheaderid
 
-WHERE es.emailservertypeid IN (2,3) AND lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
+WHERE es.emailservertypeid IN (2,3,4) AND lmd.emailstatusid = 2 AND ( et.embargo IS NULL OR et.embargo < LOCALTIMESTAMP ) AND et.sendpriority = %%(sendpriority)s %s ORDER BY et.embargo"""
 
 _sql_processing_limit = """ LIMIT %(nbr)s """
 
@@ -362,6 +362,10 @@ class WorkerController(threading.Thread):
 						elif record['emailservertypeid'] == 3:
 							# 365 relay
 							openrelay = SMTP360Relay(record["email_username"], record["email_password"])
+							(error, _) = openrelay.send(email, sender)
+						elif record['emailservertypeid'] == 4:
+							# this is an open relay basic
+							openrelay = SMTPBasicOpenRelay(record["email_host"])
 							(error, _) = openrelay.send(email, sender)
 						else:
 							emailserver = SMTPServer(
