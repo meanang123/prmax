@@ -884,7 +884,7 @@ class ClippingsPieChartReport(ReportCommon):
             FROM userdata.clippings AS c
             JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid """
 
-		whereclause = ''
+		whereclause = BaseSql.addclause('', 'c.customerid=%(icustomerid)s')
 		groupbyclause = 'GROUP BY c.clippingstypeid, ct.clippingstypedescription'
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
@@ -943,7 +943,7 @@ class ClippingsLinesChartReport(ReportCommon):
             FROM userdata.clippings AS c
             JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid """
 
-		whereclause = ''
+		whereclause = BaseSql.addclause('', 'c.customerid=%(icustomerid)s')
 		groupbyclause = 'GROUP BY c.clippingstypeid, ct.clippingstypedescription, c.clip_source_date'
 
 		params = dict(icustomerid = self._reportoptions["customerid"])
