@@ -201,7 +201,7 @@ class EmailController(object):
 						if row[COL_SERVERTYPEID] == 2:
 							self._open_relay(emailrec, row[COL_SERVEREMAILHOST], fields)
 						elif row[COL_SERVERTYPEID] == 3:
-							self._365_relay(emailrec, row[COL_USERNAME, COL_PASSWORD])
+							self._365_relay(emailrec, row[COL_USERNAME], row[COL_PASSWORD])
 						elif row[COL_SERVERTYPEID] == 4:
 							self._open_relay_basic(emailrec, row[COL_SERVEREMAILHOST], fields)
 
