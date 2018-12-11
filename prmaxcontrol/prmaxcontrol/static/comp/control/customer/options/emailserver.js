@@ -86,7 +86,13 @@ return declare("control.customer.options.emailserver",
 				domclass.remove(this.email_username.domNode,"prmaxhidden");
 				domclass.remove(this.email_password.domNode,"prmaxhidden");
 				this.email_username.set("required",true);
-			break;
+				break;
+			case "4":
+				domclass.remove(this.hostname.domNode, "prmaxhidden");
+				domclass.remove(this.hostname_label, "prmaxhidden");
+				this.email_username.set("required",false);
+				domclass.add(this.email_username.domNode,"prmaxhidden");
+				break;
 			default:
 				this.email_username.set("required",false);
 				domclass.add(this.email_username.domNode,"prmaxhidden");
