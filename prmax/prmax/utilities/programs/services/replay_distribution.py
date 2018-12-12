@@ -365,6 +365,13 @@ class WorkerController(threading.Thread):
 							(error, _) = openrelay.send(email, sender)
 						elif record['emailservertypeid'] == 4:
 							# this is an open relay basic
+							try:
+								tmp = record["returnaddress"].split("@")
+								email.mainMsg["mailed-by"] = tmp[1]
+								sender = record["returnaddress"]
+							except Exception, ex:
+								print ex
+
 							openrelay = SMTPBasicOpenRelay(record["email_host"])
 							(error, _) = openrelay.send(email, sender)
 						else:
