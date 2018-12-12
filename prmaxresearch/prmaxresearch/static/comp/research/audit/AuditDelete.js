@@ -47,7 +47,7 @@ define([
 			{label: 'Outlet Name', className:"standard",field:"name"},
 			{label: 'Action',width: "60px",field:"actiontypedescription"},
 			{label: 'Reason',className:"standard",field:"reasoncodedescription"},
-			{label: 'User',className:"standard",field:"display_name"},
+			/*{label: 'User',className:"standard",field:"display_name"},*/
 			{label: 'Reason Details',className:"standard",field:"reason"}
 			];
 
