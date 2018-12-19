@@ -63,6 +63,7 @@ Invoice_Monthly_DD = """
 <p>Dear PRmax Customer,</p>
 <p>Thank you for this months payment for your annual subscription. It will be collected by Direct Debit and full details are shown in the attached invoice.</p>
 <p>If you have any questions, please call accounts on 01582 380194 or email us on <a href="mailto:accounts@prmax.co.uk">accounts@prmax.co.uk</a>.</p>
+<p>Please find attached your annual subscription terms and conditions or click <a href="http://app.prmax.co.uk/static/rel/html/tc.pdf">Terms & Conditions</a> to download.</p>
 <br />
 <p>Best regards,</p>
 <p>PRmax Accounts team</p>"""

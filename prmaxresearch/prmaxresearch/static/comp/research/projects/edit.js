@@ -295,6 +295,10 @@ define([
 			this.zone.selectChild ( this.statusedit);
 
 		}
+		else
+		{
+			alert('Please complete the Research details.')
+		}
 	},
 	_search_on_cell_call:function(e)
 	{

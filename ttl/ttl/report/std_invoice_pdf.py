@@ -322,6 +322,8 @@ class InvoicePDF(object):
 			self.append ( Spacer(10,50))
 			self.append(Paragraph(self.page_header["paymentline"] ,DETAILS_CENTER))
 
+		self.append(Paragraph('Your annual subscription terms and conditions are attached.' ,DETAILS_CENTER))
+
 		self.append(FrameBreak())
 		if self._vatline:
 			self.append(Paragraph(self._vatline ,DETAILS_LEFT))

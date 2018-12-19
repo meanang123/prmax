@@ -1580,6 +1580,18 @@ class Freelance(BaseSql):
 								             customerid = -1)
 				session.add(interest)
 			session.flush()
+			
+#			rd = ResearchDetails(surname=p_contact.familyname,
+#			                     firstname=p_contact.firstname if p_contact.firstname else None,
+#			                     title=p_contact.prefix if p_contact.prefix else None,
+#			                     email=com.email,
+#			                     job_title=empl.job_title,
+#			                     researchfrequencyid=5,
+#			                     outletid=out.outletid
+#			                     )
+#			session.add(rd)
+#			session.flush()
+			
 			transaction.commit()
 			return out.outletid
 		except:

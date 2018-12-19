@@ -12,7 +12,8 @@
 
 #-----------------------------------------------------------------------------
 from turbogears.database import session
-from prcommon.model.identity import Customer
+from prcommon.model.identity import Customer, CustomerTypes, CustomerPrmaxDataSets
+from prcommon.model.customer.datasets import PrmaxDataSets
 from prcommon.model.emails import EmailQueue
 from prcommon.model.internal import AuditTrail
 from prcommon.model.communications import Address
@@ -36,6 +37,7 @@ class ConfirmationBase(object):
 		self._data["style"]["pheader"] = "font-family:Verdana;margin:0px;padding:0px;font-weight:bold;font-size:15pt"
 		self._data["style"]["psmall"] = "font-family:Verdana;margin:0px;padding:0px;font-size:9pt"
 		self._data["lu"] = dict(has_user=False, email="", password="")
+		self._data["datasetdescription"] = ""
 		self._email_subject = "PRMax Order Confirmation"
 		self._audittext = "Order Confirmation Sent"
 		self._load_extra_func = None
@@ -134,6 +136,26 @@ class SendOrderConfirmationBuilder(MakoBase, ConfirmationBase):
 
 		self._data["c"] = Customer.query.get(customerid)
 		self._data["a"] = Address.query.get(self._data["c"].addressid)
+		self._data["ct"] = CustomerTypes.query.get(self._data["c"].customertypeid)
+		self._data["cds"] = session.query(PrmaxDataSets).\
+			join(CustomerPrmaxDataSets, CustomerPrmaxDataSets.prmaxdatasetid == PrmaxDataSets.prmaxdatasetid).\
+		    filter(CustomerPrmaxDataSets.customerid == customerid).all()
+		if len(self._data["cds"]) == 1 and self._data['cds'][0] == 1:
+			self._data["datasetdescription"] = self._data['cds'][0].prmaxdatasetdescription
+		elif len(self._data["cds"]) == 12:
+			self._data["datasetdescription"] = 'Global media data'
+		else:
+			datasetlist = []
+			for x in range(0, len(self._data["cds"])):
+				datasetlist.append(self._data["cds"][x].prmaxdatasetid)
+			if len(datasetlist) == 7 and 1 in datasetlist and 2 in datasetlist and 3 in datasetlist and 4 in datasetlist and 5 in datasetlist and 6 in datasetlist and 7 in datasetlist:
+				self._data["datasetdescription"] = 'European'
+			else:
+				for x in range(0,len(self._data["cds"])):
+					if x == 0:
+						self._data["datasetdescription"] = self._data['cds'][x].prmaxdatasetdescription
+					else:
+						self._data["datasetdescription"] = '%s/%s' %(self._data["datasetdescription"], self._data['cds'][x].prmaxdatasetdescription)
 
 		# attach extra data via function
 		if self._load_extra_func:
@@ -204,6 +226,26 @@ class SendOrderConfirmationBuilder(MakoBase, ConfirmationBase):
 		""" get screen display version """
 		self.templatename = "screen_standard.html"
 		self._data["c"] = Customer.query.get(customerid)
+		self._data["ct"] = CustomerTypes.query.get(self._data["c"].customertypeid)
+		self._data["cds"] = session.query(PrmaxDataSets).\
+			join(CustomerPrmaxDataSets, CustomerPrmaxDataSets.prmaxdatasetid == PrmaxDataSets.prmaxdatasetid).\
+		    filter(CustomerPrmaxDataSets.customerid == customerid).all()
+		if len(self._data["cds"]) == 1 and self._data['cds'][0] == 1:
+			self._data["datasetdescription"] = self._data['cds'][0].prmaxdatasetdescription
+		elif len(self._data["cds"]) == 12:
+			self._data["datasetdescription"] = 'Global media data'
+		else:
+			datasetlist = []
+			for x in range(0, len(self._data["cds"])):
+				datasetlist.append(self._data["cds"][x].prmaxdatasetid)
+			if len(datasetlist) == 7 and 1 in datasetlist and 2 in datasetlist and 3 in datasetlist and 4 in datasetlist and 5 in datasetlist and 6 in datasetlist and 7 in datasetlist:
+				self._data["datasetdescription"] = 'European'
+			else:
+				for x in range(0,len(self._data["cds"])):
+					if x == 0:
+						self._data["datasetdescription"] = self._data['cds'][x].prmaxdatasetdescription
+					else:
+						self._data["datasetdescription"] = '%s/%s' %(self._data["datasetdescription"], self._data['cds'][x].prmaxdatasetdescription)
 
 		super(SendOrderConfirmationBuilder, self).run()
 
@@ -223,6 +265,27 @@ class UpgradeConfirmationBuilder(MakoBase, ConfirmationBase):
 		self.templatename = "upgrade.html"
 		self._data["c"] = customer
 		self._data["a"] = Address.query.get(customer.addressid)
+		self._data["ct"] = CustomerTypes.query.get(self._data["c"].customertypeid)
+		self._data["cds"] = session.query(PrmaxDataSets).\
+			join(CustomerPrmaxDataSets, CustomerPrmaxDataSets.prmaxdatasetid == PrmaxDataSets.prmaxdatasetid).\
+		    filter(CustomerPrmaxDataSets.customerid == self._data["c"].customerid).all()
+		if len(self._data["cds"]) == 1 and self._data['cds'][0] == 1:
+			self._data["datasetdescription"] = self._data['cds'][0].prmaxdatasetdescription
+		elif len(self._data["cds"]) == 12:
+			self._data["datasetdescription"] = 'Global media data'
+		else:
+			datasetlist = []
+			for x in range(0, len(self._data["cds"])):
+				datasetlist.append(self._data["cds"][x].prmaxdatasetid)
+			if len(datasetlist) == 7 and 1 in datasetlist and 2 in datasetlist and 3 in datasetlist and 4 in datasetlist and 5 in datasetlist and 6 in datasetlist and 7 in datasetlist:
+				self._data["datasetdescription"] = 'European'
+			else:
+				for x in range(0,len(self._data["cds"])):
+					if x == 0:
+						self._data["datasetdescription"] = self._data['cds'][x].prmaxdatasetdescription
+					else:
+						self._data["datasetdescription"] = '%s/%s' %(self._data["datasetdescription"], self._data['cds'][x].prmaxdatasetdescription)
+
 		self._userid = userid
 
 		super(UpgradeConfirmationBuilder, self).run()
@@ -256,8 +319,28 @@ class SendClippingOrderConfirmationBuilder(MakoBase, ConfirmationBase):
 		self._data["co"] = ClippingsOrder.query.get(clippingsorderid)
 		self._data["c"] = Customer.query.get(self._data["co"].customerid)
 		self._data["a"] = Address.query.get(self._data["c"].addressid)
+		self._data["ct"] = CustomerTypes.query.get(self._data["c"].customertypeid)
 		self._data["cp"] = ClippingsPrices.query.get(self._data["co"].clippingspriceid)
 		self._data["cpsl"] = ClippingPriceServiceLevel.query.get(self._data["cp"].clippingpriceservicelevelid)
+		self._data["cds"] = session.query(PrmaxDataSets).\
+			join(CustomerPrmaxDataSets, CustomerPrmaxDataSets.prmaxdatasetid == PrmaxDataSets.prmaxdatasetid).\
+		    filter(CustomerPrmaxDataSets.customerid == self._data["co"].customerid).all()
+		if len(self._data["cds"]) == 1 and self._data['cds'][0] == 1:
+			self._data["datasetdescription"] = self._data['cds'][0].prmaxdatasetdescription
+		elif len(self._data["cds"]) == 12:
+			self._data["datasetdescription"] = 'Global media data'
+		else:
+			datasetlist = []
+			for x in range(0, len(self._data["cds"])):
+				datasetlist.append(self._data["cds"][x].prmaxdatasetid)
+			if len(datasetlist) == 7 and 1 in datasetlist and 2 in datasetlist and 3 in datasetlist and 4 in datasetlist and 5 in datasetlist and 6 in datasetlist and 7 in datasetlist:
+				self._data["datasetdescription"] = 'European'
+			else:
+				for x in range(0,len(self._data["cds"])):
+					if x == 0:
+						self._data["datasetdescription"] = self._data['cds'][x].prmaxdatasetdescription
+					else:
+						self._data["datasetdescription"] = '%s/%s' %(self._data["datasetdescription"], self._data['cds'][x].prmaxdatasetdescription)
 
 	def run(self, clippingsorderid, emailaddress, preview=False):
 		""" run the confrmation and sent it too thhe customer """

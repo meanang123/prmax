@@ -35,6 +35,7 @@ from datetime import date
 from prcommon.Const.Email_Templates import *
 import simplejson
 import ttl.Constants as TTLConstants
+import urllib2
 
 class ReportCommon(object):
 	""" Comoom report base """
@@ -276,6 +277,7 @@ class InvoiceReport(ReportCommon):
 		           "text/html")
 		email.bcc = Constants.CopyEmail
 		email.addAttachment(self._parent._finaloutput.getvalue() , attachFileName )
+		email.addAttachment(urllib2.urlopen('http://app.prmax.co.uk/static/rel/html/tc.pdf').read(), 'T&Cs.pdf')
 		email.BuildMessage()
 
 		params = dict ( emailaddress = emailaddress ,
