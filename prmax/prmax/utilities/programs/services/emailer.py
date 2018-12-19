@@ -18,7 +18,7 @@ from random import randint
 import dkim
 import prmax.Constants as Constants
 from ttl.postgres import DBCompress, DBConnect
-from ttl.ttlemail import SendMessage, SMTPOpenRelay, SMTP360Relay
+from ttl.ttlemail import SendMessage, SMTPOpenRelay, SMTP360Relay, SMTPBasicOpenRelay
 
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
@@ -144,6 +144,17 @@ class EmailController(object):
 		except Exception, e:
 			print e
 
+	def _open_relay_basic(self, emailrec, host, fields):
+		"""Open Replay Basic version http only """
+
+		try:
+			stmp = SMTPBasicOpenRelay(host)
+
+			stmp.send(emailrec)
+		except Exception, e:
+			print e
+
+
 	def _365_relay(self, emailrec, username, password):
 		"""Open Replay"""
 
@@ -190,7 +201,9 @@ class EmailController(object):
 						if row[COL_SERVERTYPEID] == 2:
 							self._open_relay(emailrec, row[COL_SERVEREMAILHOST], fields)
 						elif row[COL_SERVERTYPEID] == 3:
-							self._365_relay(emailrec, row[COL_USERNAME, COL_PASSWORD])
+							self._365_relay(emailrec, row[COL_USERNAME], row[COL_PASSWORD])
+						elif row[COL_SERVERTYPEID] == 4:
+							self._open_relay_basic(emailrec, row[COL_SERVEREMAILHOST], fields)
 
 						else:
 							self._std_email(emailrec, fields)

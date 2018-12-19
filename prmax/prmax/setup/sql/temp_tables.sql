@@ -701,6 +701,8 @@ INSERT INTO internal.sourcetypes VALUES (12, 'Dutch');
 
 INSERT INTO internal.emailservertype (emailservertypeid, emailservertypename) VALUES(3,'Open Relay 365');
 
+insert into internal.emailservertype(emailservertypeid,emailservertypename) VALUES(4,'Open Relay Basic http');
+
 ALTER TABLE internal.customers ALTER COLUMN confirmation_accepted SET DEFAULT true;
 ALTER TABLE internal.customers ALTER COLUMN licence_start_date SET DEFAULT now();
 
@@ -851,4 +853,5 @@ ALTER TABLE userdata.dashboardsettings OWNER TO postgres;
 GRANT ALL ON TABLE userdata.dashboardsettings TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmaxcontrol;
+
 

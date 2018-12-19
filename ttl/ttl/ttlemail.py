@@ -337,7 +337,7 @@ class GoogelEmailAccounts(object):
 	# list of accounts
 	_AccountDetails = {
 	  "support@prmax.co.uk": ("support@prmax.co.uk", "RxeuSIw4"),
-	  "accounts@prmax.co.uk": ("accounts@prmax.co.uk", "nedkelly99"),
+	  "accounts@prmax.co.uk": ("accounts@prmax.co.uk", "william222"),
 	}
 
 	def isPrmaxSender(self, emailaddress):
@@ -633,6 +633,22 @@ class SMTPOpenRelay(SMTPServerBase):
 		                        password="",
 		                        limit=300,
 		                        starttls=True)
+
+class SMTPBasicOpenRelay(SMTPServerBase):
+	""" handle all http emails
+	"""
+	def __init__(self, host=None):
+		"settings"
+
+		SMTPServerBase.__init__(self,
+		                        host=host,
+		                        port=25,
+		                        https=False,
+		                        authorise=False,
+		                        username="",
+		                        password="",
+		                        limit=300,
+		                        starttls=False)
 
 class SMTP360Relay(SMTPServerBase):
 	""" handle 260 release"""
