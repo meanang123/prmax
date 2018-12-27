@@ -761,8 +761,15 @@ class PRMaxAdmin(BaseSql):
 					reportoptions.pop("advcost")
 					# setup payment line
 					command = Constants.Licence_Line5 if customer.advancefeatures else Constants.Licence_Line4
+					edition = ""
+					if customer.customertypeid == 20:
+						edition = Constants.PressOfficeEdition
+					elif customer.customertypeid == 1 and customer.logins == 1:
+						edition = Constants.FreelanceEdition
+					else:
+						edition = Constants.StandardEdition
 
-					reportoptions['licencedetails'] = command %(customer.logins, customer.licence_start_date.strftime("%d/%m/%y"), customer.licence_expire.strftime("%d/%m/%y"))
+					reportoptions['licencedetails'] = command %(edition, customer.licence_start_date.strftime("%d/%m/%y"), customer.licence_expire.strftime("%d/%m/%y"))
 					reportoptions['total'] = toInt(ftotal)
 					reportoptions['vat'] = toInt(ftotal - fcost)
 					reportoptions['cost'] = toInt(fcost)

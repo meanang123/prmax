@@ -694,9 +694,164 @@ ALTER TABLE clippingstore ADD COLUMN alexapageviews bigint;
 ALTER TABLE clippingstore ADD COLUMN alexarank bigint;
 ALTER TABLE clippingstore ADD COLUMN alexareach bigint;
 
+
 ALTER TABLE userdata.clippings ADD COLUMN reach bigint;
 
 INSERT INTO internal.sourcetypes VALUES (12, 'Dutch');
 
 INSERT INTO internal.emailservertype (emailservertypeid, emailservertypename) VALUES(3,'Open Relay 365');
+
 insert into internal.emailservertype(emailservertypeid,emailservertypename) VALUES(4,'Open Relay Basic http');
+
+ALTER TABLE internal.customers ALTER COLUMN confirmation_accepted SET DEFAULT true;
+ALTER TABLE internal.customers ALTER COLUMN licence_start_date SET DEFAULT now();
+
+CREATE TABLE internal.chartview
+(
+  chartviewid integer NOT NULL,
+  chartviewdescription character varying(255),
+  CONSTRAINT pk_chartviewid PRIMARY KEY (chartviewid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.chartview OWNER TO postgres;
+GRANT ALL ON TABLE internal.chartview TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.chartview TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.chartview TO prmaxcontrol;
+
+CREATE TABLE internal.dateranges
+(
+  daterangeid integer NOT NULL,
+  daterangedescription character varying(255),
+  CONSTRAINT pk_daterangeid PRIMARY KEY (daterangeid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.dateranges OWNER TO postgres;
+GRANT ALL ON TABLE internal.dateranges TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dateranges TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dateranges TO prmaxcontrol;
+
+CREATE TABLE internal.dashboardsettingsmode
+(
+  dashboardsettingsmodeid integer NOT NULL,
+  dashboardsettingsmodedescription character varying(255),
+  CONSTRAINT pk_dashboardsettingsmodeid PRIMARY KEY (dashboardsettingsmodeid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.dashboardsettingsmode OWNER TO postgres;
+GRANT ALL ON TABLE internal.dashboardsettingsmode TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsmode TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsmode TO prmaxcontrol;
+
+CREATE TABLE internal.dashboardsettingsstandard
+(
+  dashboardsettingsstandardid integer NOT NULL,
+  dashboardsettingsstandarddescription character varying(255),
+  CONSTRAINT pk_dashboardsettingsstandardid PRIMARY KEY (dashboardsettingsstandardid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.dashboardsettingsstandard OWNER TO postgres;
+GRANT ALL ON TABLE internal.dashboardsettingsstandard TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandard TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandard TO prmaxcontrol;
+
+
+CREATE TABLE internal.dashboardsettingsstandardsearchby
+(
+  dashboardsettingsstandardsearchbyid integer NOT NULL,
+  dashboardsettingsstandardsearchbydescription character varying(255),
+  CONSTRAINT pk_dashboardsettingsstandardsearchbyid PRIMARY KEY (dashboardsettingsstandardsearchbyid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.dashboardsettingsstandardsearchby OWNER TO postgres;
+GRANT ALL ON TABLE internal.dashboardsettingsstandardsearchby TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandardsearchby TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandardsearchby TO prmaxcontrol;
+
+
+INSERT INTO internal.chartview VALUES (1, 'Pie Chart');
+INSERT INTO internal.chartview VALUES (2, 'Lines Chart');
+INSERT INTO internal.chartview VALUES (3, 'Columns Chart');
+
+INSERT INTO internal.dateranges VALUES (1, 'Last Week');
+INSERT INTO internal.dateranges VALUES (2, 'Last 2 Weeks');
+INSERT INTO internal.dateranges VALUES (3, 'Last 3 Weeks');
+INSERT INTO internal.dateranges VALUES (4, 'Last Month');
+INSERT INTO internal.dateranges VALUES (5, 'Last 3 Months');
+INSERT INTO internal.dateranges VALUES (6, 'Last 6 Months');
+INSERT INTO internal.dateranges VALUES (7, 'Last 9 Months');
+INSERT INTO internal.dateranges VALUES (8, 'Last Year');
+
+INSERT INTO internal.dashboardsettingsmode VALUES (1, 'Standard');
+INSERT INTO internal.dashboardsettingsmode VALUES (2, 'Global Analysis');
+
+INSERT INTO internal.dashboardsettingsstandard VALUES (1, 'Channels');
+INSERT INTO internal.dashboardsettingsstandard VALUES (2, 'Client');
+INSERT INTO internal.dashboardsettingsstandard VALUES (3, 'Issue');
+
+INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (1, 'Nunber of clips');
+INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (2, 'Circulation');
+INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (3, 'EVA');
+
+CREATE TABLE userdata.dashboardsettings
+(
+  customerid integer NOT NULL,
+  windowid integer NOT NULL,
+  dashboardsettingsmodeid integer NOT NULL,
+  dashboardsettingsstandardid integer,
+  dashboardsettingsstandardsearchbyid integer,
+  questionid integer,
+  by_client boolean DEFAULT false,
+  clientid integer,
+  by_issue boolean DEFAULT false,
+  issueid integer,
+  chartviewid integer NOT NULL DEFAULT 1,
+  daterangeid integer NOT NULL DEFAULT 1,
+
+  CONSTRAINT pk_customerid_windowod PRIMARY KEY (customerid, windowid),
+  CONSTRAINT fk_customerid FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_dashboardsettingsmodeid FOREIGN KEY (dashboardsettingsmodeid)
+      REFERENCES internal.dashboardsettingsmode (dashboardsettingsmodeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_dashboardsettingsstandardid FOREIGN KEY (dashboardsettingsstandardid)
+      REFERENCES internal.dashboardsettingsstandard (dashboardsettingsstandardid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_dashboardsettingsstandardsearchbyid FOREIGN KEY (dashboardsettingsstandardsearchbyid)
+      REFERENCES internal.dashboardsettingsstandardsearchby (dashboardsettingsstandardsearchbyid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_questionid FOREIGN KEY (questionid)
+      REFERENCES userdata.questions (questionid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_clientid FOREIGN KEY (clientid)
+      REFERENCES userdata.client (clientid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_issueid FOREIGN KEY (issueid)
+      REFERENCES userdata.issues (issueid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_chartviewid FOREIGN KEY (chartviewid)
+      REFERENCES internal.chartview (chartviewid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_dateranges FOREIGN KEY (daterangeid)
+      REFERENCES internal.dateranges (daterangeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE userdata.dashboardsettings OWNER TO postgres;
+GRANT ALL ON TABLE userdata.dashboardsettings TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmaxcontrol;
+
+

@@ -53,12 +53,20 @@ body {font-family: Arial, Helvetica, sans-serif;}
 				dialog.style.display = "none";
 			}
 		}	
-		document.getElementById("acceptbtn").disabled = false;
 	};
 	function close_dialog()
 	{
-		document.getElementById('tcdialog').style.display = "none";	
-	}
+		document.getElementById('tcdialog').style.display = "none";
+		var agree = document.getElementById('agreetc').checked;
+		if (agree == false ){
+			document.getElementById("acceptbtn").disabled = true;
+			alert("To login to the application you have to agree with Terms and Conditions");
+		}
+		else if (agree == true)
+		{
+			document.getElementById("acceptbtn").disabled = false;
+		}
+	};
 	function sr_confirm()
 	{
 		return confirm("Accept Confirmation");
@@ -69,7 +77,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 <div id="tcdialog" class="dialog">
 	<div class="dialog-content">
 		<div class="dialog-header">
-			<h2>Licence for and Terms and Conditions for use of PRmax</h2>
+			<h2>Licence and Terms and Conditions for use of PRmax</h2>
 		</div>
 		<div class="dialog-body">
 			<p><h3>1. General</h3>
@@ -241,6 +249,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 			as that term is defined in the Data Protection Act 1998. </p></br>
 			<p><h4>Licence for and Terms and Conditions for use of PRmax</h4></p>
 			<p><h4>These Terms and Conditions are to be referred to as dated the "January 2014 Edition" and supersede any previous terms and conditions which may have been issued in relation to PRmax.</h4></p>
+			<p></p>
+			<td><h2><input id="agreetc" name="agreetc" type="checkbox" value='false'>I agree with Terms and Conditions</h2></td>
 		</div>
 		<div class="dialog-footer">
 			<button id="viewpdf" style="width:190px;font-size:1.5em;float:left;" value='View PDF' onclick="window.open('/static/rel/html/tc.pdf', '_blank')" >View PDF</button>

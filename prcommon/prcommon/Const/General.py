@@ -32,8 +32,10 @@ SupportEmail_Email = 'support@prmax.co.uk'
 Licence_Line  = "PRmax subscription licence for %s from the %s"
 Licence_Line2 = "PRmax subscription licence expires on the %s"
 Licence_Line3 = "PRmax subscription licence for %s"
-Licence_Line4 = "PRmax subscription for %d Concurrent User from %s to %s"
-Licence_Line5 = "PRmax subscription including Forward Features for %d Concurrent User from %s to %s"
+Licence_Line4 = "Monthly invoice for your annual subscription to PRmax %s Edition from %s to %s"
+Licence_Line5 = "Monthly invoice for your annual subscription to PRmax %s Edition from %s to %s"
+Licence_Line5_old = "PRmax subscription including Forward Features for %d Concurrent User from %s to %s"
+Licence_Line4_old = "PRmax subscription for %d Concurrent User from %s to %s"
 
 Licence_Line6 = "PRmax subscription including Forward Features Media expires on the %s"
 Licence_Line7 = "PRmax subscription Paid by Montly Direct Debit"
@@ -43,13 +45,17 @@ Payment_Line = "£%.2f paid by %s - thanks"
 Payment_Line2 = "£%.2f paid for %s - thanks"
 Payment_Line3 = "Payment received on %s – thank you"
 
-Payment_Line_dd = "The monthly direct debit payment for your annual subscription will be deducted on, or shortly after %s"
+Payment_Line_dd = "The monthly direct debit payment for your annual subscription will be deducted on, or shortly after %s."
+
+TC_Line = "Your annual subscription terms and conditions are attached."
 
 # This is for P3P security and setting cookies in a iframe ask for by ai media
 # Link is http://adamyoung.net/IE-Blocking-iFrame-Cookies
 Security_P3P = "CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\""
 
-
+PressOfficeEdition = "Press Office"
+FreelanceEdition = "Freelance"
+StandardEdition = "Standard"
 
 PRmax_Professional_Cost = 159500
 PRmax_Professional_Total = 191400

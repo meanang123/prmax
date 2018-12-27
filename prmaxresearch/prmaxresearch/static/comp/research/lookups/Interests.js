@@ -55,7 +55,7 @@ define([
 		var cells =
 		[
 			{label: 'Id',className: "dgrid-column-nbr-right",field:"interestid"},
-			{label: 'Interests',className: "standard", field:"interestname"},
+			{label: 'Keywords',className: "standard", field:"interestname"},
 			{label: 'Parent',className: "standard", field:"parentname"},
 			{label: 'is_section', className:"dgrid-column-type-small", field:'is_section'}
 		];
@@ -166,23 +166,23 @@ define([
 		if ( response.success == "OK" )
 		{
 			topic.publish(PRCOMMON.Events.Interest_Add, response.data);
-			alert("Interest Added");
+			alert("Keyword Added");
 			this._clear_add();
 		}
 		else if ( response.success == "DU" )
 		{
-			alert("Interest all ready exists");
+			alert("Keywords all ready exists");
 		}
 		else
 		{
-			alert("Problem adding interest");
+			alert("Problem adding Keyword");
 		}
 	},
 	_execute_add:function()
 	{
 		if (this.interestname.isValid() == false )
 		{
-			alert("No Interest Specified");
+			alert("No Keywords Specified");
 		}
 		else
 		{
@@ -237,16 +237,16 @@ define([
 			if ( response.success == "OK" )
 			{
 				topic.publish(PRCOMMON.Events.Interest_Delete, response.data.interest.interestid );
-				alert("Interest Delete");
+				alert("Keywords Delete");
 			}
 			else
 			{
-				alert ("Problem Deleting interest may still be in use ");
+				alert ("Problem Deleting Keywords may still be in use ");
 			}
 		},
 		_delete_interest:function()
 		{
-			if (confirm("Delete Interest"))
+			if (confirm("Delete Keywords"))
 			{
 				request.post('/research/admin/interests/research_delete',
 					utilities2.make_params({ data : { interestid: this._interestid}})).
@@ -260,7 +260,7 @@ define([
 			{
 				topic.publish(PRCOMMON.Events.Interest_Update, response.data);
 				dojo.attr(this.interest_name, response.data.interest.interestname);
-				alert("Interest Renamed");
+				alert("Keywords Renamed");
 			}
 			else if ( response.success == "DU" )
 			{
@@ -268,18 +268,18 @@ define([
 			}
 			else
 			{
-				alert ("Problem Renaming interest");
+				alert ("Problem Renaming Keyword");
 			}
 		},
 		_rename_interest:function()
 		{
 			if (this.interestname2.isValid() == false )
 			{
-				alert("No Interest Specified");
+				alert("No Keyword Specified");
 				return false;
 			}
 
-			if (confirm("Update Interest"))
+			if (confirm("Update Keyword"))
 			{
 				var content = {interestname:this.interestname2.get("value"),
 												parentinterestid:this.master_type2.get("value"),
@@ -319,11 +319,11 @@ define([
 				this.interest_employee_used_grid.set("query",{interestid:this._interestid});
 				this._clear_transfer_selection_box();
 				this._transfere();
-				alert("Interest Moved");
+				alert("Keywords Moved");
 			}
 			else
 			{
-				alert("Problem Moving Interest");
+				alert("Problem Moving Keywords");
 			}
 		},
 		_transfere_do:function()
@@ -334,7 +334,7 @@ define([
 				return;
 			}
 
-			if ( confirm ( "Move Interest to " + this.transfer_list.options[this.transfer_list.selectedIndex].text +"?") )
+			if ( confirm ( "Move Keyword to " + this.transfer_list.options[this.transfer_list.selectedIndex].text +"?") )
 			{
 				request.post('/research/admin/interests/research_move_interest',
 					utilities2.make_params({ data: {

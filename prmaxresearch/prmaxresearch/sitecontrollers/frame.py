@@ -57,7 +57,7 @@ class FrameController(SecureControllerExt):
 		            ]),
 						  dict(id=2, type=0, name="Roles", content="research/lookups/Roles"),
 		          dict(id=11, type=0, name="Geographical", content="research/lookups/Geographical"),
-						  dict(id=10, type=0, name="Interests", content="research/lookups/Interests"),
+						  dict(id=10, type=0, name="Keywords", content="research/lookups/Interests"),
 		          dict(id=8, type=0, name="Reason Codes", content="research/lookups/ReasonCodes"),
 						  dict(id=15, type=0, name="People", content="research/employees/People"),
 						  dict(id=3, type=3, name="Outlets", children=[

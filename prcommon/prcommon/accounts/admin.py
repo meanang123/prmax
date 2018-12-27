@@ -783,7 +783,14 @@ class PaymentSystemNew(object):
 
 			(from_d, to_date) =  cls._date_range(customer, inparams["take_date"])
 			template = Constants.Licence_Line5 if customer.isAdvanceActive() else Constants.Licence_Line4
-			reportoptions['message'] = template % (customer.logins, from_d.strftime("%d/%m/%Y"), to_date.strftime("%d/%m/%Y"))
+			edition = ""
+			if customer.customertypeid == 20:
+				edition = Constants.PressOfficeEdition
+			elif customer.customertypeid == 1 and customer.logins == 1:
+				edition = Constants.FreelanceEdition
+			else:
+				edition = Constants.StandardEdition
+			reportoptions['message'] = template % (edition, from_d.strftime("%d/%m/%Y"), to_date.strftime("%d/%m/%Y"))
 
 		reportoptions['message'] = reportoptions['message'].strip()
 		customer.next_invoice_message = ""
@@ -1335,7 +1342,14 @@ class PaymentSystemNew(object):
 					reportoptions['licencedetails'] = Constants.Licence_Line7
 			else:
 				template = Constants.Licence_Line5 if customer.advancefeatures else Constants.Licence_Line4
-				reportoptions['licencedetails'] = template %(customer.logins,
+				edition = ""
+				if customer.customertypeid == 20:
+					edition = Constants.PressOfficeEdition
+				elif customer.customertypeid == 1 and customer.logins == 1:
+					edition = Constants.FreelanceEdition
+				else:
+					edition = Constants.StandardEdition
+				reportoptions['licencedetails'] = template %(edition,
 																                       licence_start_date.strftime("%d/%m/%Y"),
 																                       licence_expire.strftime("%d/%m/%Y"))
 			reportoptions['modules'] = True
