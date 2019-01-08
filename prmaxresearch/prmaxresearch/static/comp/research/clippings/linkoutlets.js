@@ -85,8 +85,19 @@ return declare("research.clippings.linkoutlets",
 
 		if (cell && cell.row)
 		{
-			switch(cell.row.data.linktypeid)
+
+			if ( cell.column.id == "6")
 			{
+				if ( cell.row.data.url.length > 0)
+				{
+					var win = window.open(cell.row.data.url, '_blank');
+					win.focus();
+				}
+			}
+			else
+			{
+				switch(cell.row.data.linktypeid)
+				{
 				case "6":
 				case 6:
 				case "7":
@@ -96,6 +107,7 @@ return declare("research.clippings.linkoutlets",
 				default:
 					this.ipbc_outlet_link.load(cell.row.data.outletexternallinkid,this._show_basic_edit_call_back);
 					break;
+				}
 			}
 		}
 	},
