@@ -83,6 +83,19 @@ class ClippingsGeneral(object):
 	List_Emailtemplate_Data_Count = """SELECT COUNT(*) FROM userdata.clippings AS c
 	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
 
+
+	List_Question_Data = """SELECT
+	c.clippingid,
+	to_char(c.clip_source_date,'DD/MM/YY') as clip_source_date_display,
+	c.clip_title
+
+	FROM userdata.clippings AS c
+	LEFT OUTER JOIN userdata.clippingsanalysis AS ca ON ca.clippingid = c.clippingid
+	"""
+
+	List_Question_Data_Count = """SELECT COUNT(*) FROM userdata.clippings AS c
+	LEFT OUTER JOIN userdata.clippingsanalysis AS ca ON ca.clippingid = c.clippingid"""
+
 	@staticmethod
 	def list_clippings(params):
 		"""list of clippings for customer"""
@@ -186,6 +199,26 @@ class ClippingsGeneral(object):
 		  ClippingsGeneral.List_Emailtemplate_Data + whereclause + BaseSql.Standard_View_Order,
 		  ClippingsGeneral.List_Emailtemplate_Data_Count + whereclause,
 		  Clipping)
+
+	@staticmethod
+	def list_clippings_question(params):
+		"""list of clippings linked with a global analysis question"""
+
+		whereclause = ''
+		
+		if "questionid" in params:
+			whereclause = BaseSql.addclause(whereclause, 'ca.questionid=:questionid')
+		if "customerid" in params:
+			whereclause = BaseSql.addclause(whereclause, 'ca.customerid=:customerid')
+
+		return BaseSql.getGridPage(
+		  params,
+		  'clip_source_date',
+		  'clippingid',
+		  ClippingsGeneral.List_Question_Data + whereclause + BaseSql.Standard_View_Order,
+		  ClippingsGeneral.List_Question_Data_Count + whereclause,
+		  Clipping)
+
 
 	@staticmethod
 	def get_for_edit(clippingid):

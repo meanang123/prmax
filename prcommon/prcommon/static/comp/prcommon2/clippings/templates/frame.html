@@ -5,6 +5,11 @@
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-line-chart fa-3x",showLabel:false,label:"Time"' data-dojo-attach-event="onClick:_time_btn_event"></div>
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-info-circle fa-3x",showLabel:false,label:"Show Details"' data-dojo-attach-event="onClick:_details_btn_event"></div>
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",showLabel:false,label:"Add Private Clipping"' data-dojo-attach-event="onClick:_add_btn_event"></div>
+
+		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-sliders fa-3x",showLabel:false,label:"Options"' data-dojo-attach-event="onClick:_options_btn_event"></div>
+		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-columns fa-3x",showLabel:false,label:"Dashboard"' data-dojo-attach-event="onClick:_dashboard_btn_event"></div>
+		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-cog fa-3x",showLabel:false,label:"Dashboard Settings"' data-dojo-attach-event="onClick:_dashboardsettings_btn_event"></div>
+
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",iconClass:"fa fa-envelope-o fa-3x",showLabel:false,label:"Sent Clippings Emails"' data-dojo-attach-event="onClick:_email_btn_event" data-dojo-attach-point="emailsbtn"></div>
 	</div>
 	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false' >
@@ -13,6 +18,9 @@
 			<div data-dojo-attach-point="clippings_view" data-dojo-type="prcommon2/clippings/detailedviewer" data-dojo-props='style:"width:100%;height:100%",preload:true'></div>
 			<div data-dojo-attach-point="piechart" data-dojo-type="prcommon2/clippings/charts/piechart" data-dojo-props='style:"width:100%;height:100%",back_colour:"${back_panel_colour}",fore_color:"${fore_color}"'></div>
 			<div data-dojo-attach-point="add_private" data-dojo-type="prcommon2/clippings/edit_private" class="scrollpanel"></div>
+			<div data-dojo-attach-point="options_view" data-dojo-type="prcommon2/clippings/optionsviewer" class="scrollpanel"></div>
+			<div data-dojo-attach-point="dashboard_view" data-dojo-type="prcommon2/clippings/dashboard" class="scrollpanel"></div>
+			<div data-dojo-attach-point="dashboardsettings_view" data-dojo-type="prcommon2/clippings/dashboardsettings" class="scrollpanel"></div>
 		</div>
 		<div data-dojo-attach-point="email_dlg" data-dojo-type="dijit/Dialog" title="Email Clippings" data-dojo-props='style:"width:500px"'>
 			<div data-dojo-type="prcommon2/clippings/emails" data-dojo-attach-point="emails_ctrl"></div>

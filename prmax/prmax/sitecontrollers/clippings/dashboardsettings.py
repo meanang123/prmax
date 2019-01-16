@@ -14,25 +14,15 @@ from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrFormSchema, Int2Null, DateRangeValidator, BooleanValidator
 from ttl.base import stdreturn
-from prcommon.model import ClippingsChartGeneral
+from prcommon.model import DashboardSettingsGeneral
 
-class ChartSchema(PrFormSchema):
+class DashboardSettingsSchema(PrFormSchema):
 	"schema"
+	customerid = validators.Int()
+	windowid = validators.Int()
 
-	clientid = Int2Null()
-	issueid = Int2Null()
-	daterange = DateRangeValidator()
-	
-class QuestionChartSchema(PrFormSchema):
+class DashboardSettingsUpdateSchema(PrFormSchema):
 	"schema"
-	questionid = validators.Int() 
-	questiontypeid = validators.Int()
-	option = Int2Null()
-	daterange = DateRangeValidator()
-
-class ChartDashboardSchema(PrFormSchema):
-	"schema"
-
 	windowid = validators.Int()
 	customerid = validators.Int()
 	dashboardsettingsmodeid = validators.Int()
@@ -40,47 +30,39 @@ class ChartDashboardSchema(PrFormSchema):
 	dashboardsettingsstandardsearchbyid = Int2Null()
 	questionid = Int2Null()
 	questiontypeid = Int2Null()
-	daterangeid = validators.Int()
-	chartviewid = validators.Int()
 	by_client = BooleanValidator()
 	by_issue = BooleanValidator()
-	groupbyid = validators.Int()
 	clientid = Int2Null()
 	issueid = Int2Null()
+	chartviewid = validators.Int()
+	daterangeid = validators.Int()
+	groupbyid = validators.Int()
 
 #########################################################
 ## controlllers
 #########################################################
 
-class ChartingController(SecureController):
+class DashboardSettingsController(SecureController):
 	""" Charting Interface """
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=ChartSchema(), state_factory=std_state_factory)
-	def get_chart_data(self, *args, **params):
+	@validate(validators=DashboardSettingsUpdateSchema(), state_factory=std_state_factory)
+	def dashboardsettings_update(self, *args, **params):
 		""" get chart data """
 
-		return stdreturn(data=ClippingsChartGeneral.get_chart_data(params))
+		DashboardSettingsGeneral.settings_update(params)
+	
+		return stdreturn(data=DashboardSettingsGeneral.get_for_edit(params['customerid'],params['windowid']))
+
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=QuestionChartSchema(), state_factory=std_state_factory)
-	def get_questions_chart_data(self, *args, **params):
-		""" get chart data """
+	@validate(validators=DashboardSettingsSchema(), state_factory=std_state_factory)
+	def get_for_edit(self, *args, **params):
+		""" get_for_edit """
 
-		return stdreturn(data=ClippingsChartGeneral.get_questions_chart_data(params))
-
-	@expose("json")
-	@error_handler(pr_form_error_handler)
-	@exception_handler(pr_std_exception_handler)
-	@validate(validators=ChartDashboardSchema(), state_factory=std_state_factory)
-	def get_chart_data2(self, *args, **params):
-		""" get chart data """
-
-		x = stdreturn(data=ClippingsChartGeneral.get_chart_data2(params))
+		x = stdreturn(data=DashboardSettingsGeneral.get_for_edit(params['customerid'],params['windowid']))
 		return x
-
-

@@ -24,6 +24,9 @@ define([
 	"prcommon2/clippings/filter",
 	"prcommon2/clippings/detailedviewer",
 	"prcommon2/clippings/edit_private",
+	"prcommon2/clippings/optionsviewer",
+	"prcommon2/clippings/dashboard",
+	"prcommon2/clippings/dashboardsettings",
 	"prcommon2/clippings/emails",
 	"prcommon2/clippings/add_server",
 	"dijit/form/ValidationTextBox",
@@ -114,8 +117,27 @@ define([
 				domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 				this._add_btn_event();
 				break;
-
 		}
+	},
+	_options_btn_event:function()
+	{
+		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
+		this.controls.selectChild(this.options_view);
+		this._active_page = null;
+	},
+	_dashboard_btn_event:function()
+	{
+		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
+		this.controls.selectChild(this.dashboard_view);
+		this.dashboard_view.load(PRMAX.utils.settings.cid);
+		this._active_page = null;
+	},
+	_dashboardsettings_btn_event:function()
+	{
+		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
+		this.controls.selectChild(this.dashboardsettings_view);
+		this.dashboardsettings_view.load(PRMAX.utils.settings.cid,1);
+		this._active_page = null;
 	}
 });
 });

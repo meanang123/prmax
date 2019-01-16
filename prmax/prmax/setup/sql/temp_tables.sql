@@ -706,6 +706,7 @@ insert into internal.emailservertype(emailservertypeid,emailservertypename) VALU
 ALTER TABLE internal.customers ALTER COLUMN confirmation_accepted SET DEFAULT true;
 ALTER TABLE internal.customers ALTER COLUMN licence_start_date SET DEFAULT now();
 
+drop table userdata.chartview;
 CREATE TABLE internal.chartview
 (
   chartviewid integer NOT NULL,
@@ -720,6 +721,7 @@ GRANT ALL ON TABLE internal.chartview TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.chartview TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.chartview TO prmaxcontrol;
 
+drop table userdata.dateranges;
 CREATE TABLE internal.dateranges
 (
   daterangeid integer NOT NULL,
@@ -734,6 +736,22 @@ GRANT ALL ON TABLE internal.dateranges TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dateranges TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dateranges TO prmaxcontrol;
 
+drop table userdata.groupby;
+CREATE TABLE internal.groupby
+(
+  groupbyid integer NOT NULL,
+  groupbydescription character varying(255),
+  CONSTRAINT pk_groupbyid PRIMARY KEY (groupbyid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.groupby OWNER TO postgres;
+GRANT ALL ON TABLE internal.groupby TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.groupby TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.groupby TO prmaxcontrol;
+
+drop table userdata.dashboardsettingsmode;
 CREATE TABLE internal.dashboardsettingsmode
 (
   dashboardsettingsmodeid integer NOT NULL,
@@ -748,6 +766,7 @@ GRANT ALL ON TABLE internal.dashboardsettingsmode TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsmode TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsmode TO prmaxcontrol;
 
+drop table userdata.dashboardsettingsstandard;
 CREATE TABLE internal.dashboardsettingsstandard
 (
   dashboardsettingsstandardid integer NOT NULL,
@@ -762,7 +781,7 @@ GRANT ALL ON TABLE internal.dashboardsettingsstandard TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandard TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandard TO prmaxcontrol;
 
-
+drop table userdata.dashboardsettingsstandardsearchby;
 CREATE TABLE internal.dashboardsettingsstandardsearchby
 (
   dashboardsettingsstandardsearchbyid integer NOT NULL,
@@ -791,6 +810,10 @@ INSERT INTO internal.dateranges VALUES (6, 'Last 6 Months');
 INSERT INTO internal.dateranges VALUES (7, 'Last 9 Months');
 INSERT INTO internal.dateranges VALUES (8, 'Last Year');
 
+INSERT INTO internal.groupby VALUES (1, 'Days');
+INSERT INTO internal.groupby VALUES (2, 'Weeks');
+INSERT INTO internal.groupby VALUES (3, 'Months');
+
 INSERT INTO internal.dashboardsettingsmode VALUES (1, 'Standard');
 INSERT INTO internal.dashboardsettingsmode VALUES (2, 'Global Analysis');
 
@@ -802,6 +825,7 @@ INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (1, 'Nunber of cli
 INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (2, 'Circulation');
 INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (3, 'EVA');
 
+drop table userdata.dashboardsettings;
 CREATE TABLE userdata.dashboardsettings
 (
   customerid integer NOT NULL,
@@ -810,12 +834,14 @@ CREATE TABLE userdata.dashboardsettings
   dashboardsettingsstandardid integer,
   dashboardsettingsstandardsearchbyid integer,
   questionid integer,
+  questiontypeid integer,
   by_client boolean DEFAULT false,
   clientid integer,
   by_issue boolean DEFAULT false,
   issueid integer,
   chartviewid integer NOT NULL DEFAULT 1,
   daterangeid integer NOT NULL DEFAULT 1,
+  groupbyid integer NOT NULL DEFAULT 1,
 
   CONSTRAINT pk_customerid_windowod PRIMARY KEY (customerid, windowid),
   CONSTRAINT fk_customerid FOREIGN KEY (customerid)
@@ -833,6 +859,9 @@ CREATE TABLE userdata.dashboardsettings
   CONSTRAINT fk_questionid FOREIGN KEY (questionid)
       REFERENCES userdata.questions (questionid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_questiontypeid FOREIGN KEY (questiontypeid)
+      REFERENCES internal.questiontypes (questiontypeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
   CONSTRAINT fk_clientid FOREIGN KEY (clientid)
       REFERENCES userdata.client (clientid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE,
@@ -844,6 +873,9 @@ CREATE TABLE userdata.dashboardsettings
       ON UPDATE NO ACTION ON DELETE CASCADE,
   CONSTRAINT fk_dateranges FOREIGN KEY (daterangeid)
       REFERENCES internal.dateranges (daterangeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT fk_groupby FOREIGN KEY (groupbyid)
+      REFERENCES internal.groupby (groupbyid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE
 )
 WITH (
@@ -853,5 +885,4 @@ ALTER TABLE userdata.dashboardsettings OWNER TO postgres;
 GRANT ALL ON TABLE userdata.dashboardsettings TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmaxcontrol;
-
 

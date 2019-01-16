@@ -14,7 +14,7 @@ from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrFormSchema, RestSchema, Int2Null
 from ttl.base import stdreturn
-from prcommon.model import AnalyseGeneral, ClippingsGeneral, AnalyseGlobal
+from prcommon.model import AnalyseGeneral, ClippingsGeneral, AnalyseGlobal, Question
 
 class ClippingsAnalysisTemplateidSchema(PrFormSchema):
 	"schema"
@@ -48,6 +48,15 @@ class AnalyseController(SecureController):
 		""" list of questions for client/issue"""
 
 		return AnalyseGeneral.list_by_source(params)
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def get_global_list(self, *args, **params):
+		""" list of questions"""
+
+		return AnalyseGeneral.get_global_list(params)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -116,3 +125,4 @@ class AnalyseController(SecureController):
 		""" list of question that are marked as global"""
 
 		return AnalyseGlobal.global_analysis(params)
+

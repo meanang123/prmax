@@ -32,11 +32,13 @@ class AnalyseGeneral(object):
 	List_Data = """SELECT
 	cat.clippingsanalysistemplateid,
 	q.questiontext,
+	q.questiontypeid,
+	q.questionid,
 	qt.questiondescription
 	FROM userdata.clippingsanalysistemplate AS cat
 	JOIN userdata.questions AS q ON q.questionid = cat.questionid
 	JOIN internal.questiontypes AS qt ON qt.questiontypeid = q.questiontypeid """
-
+	
 	List_Data_Count = """SELECT COUNT(*)
 	FROM userdata.clippingsanalysistemplate AS cat
 	JOIN userdata.questions AS q ON q.questionid = cat.questionid
@@ -44,11 +46,23 @@ class AnalyseGeneral(object):
 
 	List_Data_OrderBy = """ORDER BY cat.sortorder ASC"""
 
+	List_Data2 = """SELECT
+	q.questionid as id,
+	q.questiontext as name,
+	q.questiontypeid as typeid
+	FROM userdata.questions AS q
+	JOIN userdata.clippingsanalysistemplate AS cat ON q.questionid = cat.questionid"""
+
+	List_Data2_Count = """SELECT COUNT(*)
+	FROM userdata.questions AS q
+	JOIN userdata.clippingsanalysistemplate AS cat ON q.questionid = cat.questionid"""
+	
 	@staticmethod
 	def list_by_source(params):
 		"""list of clippings for customer"""
 
-		whereclause = ''
+		#whereclause = ' '
+		whereclause = ' WHERE cat.customerid = :customerid'
 		if "clientid" in params:
 			whereclause = BaseSql.addclause(whereclause, 'cat.clientid=:clientid AND q.deleted=false')
 			params['clientid'] = int(params['clientid'])
@@ -57,8 +71,8 @@ class AnalyseGeneral(object):
 			whereclause = BaseSql.addclause(whereclause, 'cat.issueid=:issueid AND q.deleted=false')
 			params['issueid'] = int(params['issueid'])
 
-		if not whereclause:
-			whereclause = BaseSql.addclause('', 'cat.clientid=-1')
+		#if not whereclause:
+		#	whereclause = BaseSql.addclause('', 'cat.clientid=-1')
 
 		params["sortfield"] = "cat.sortorder"
 		params["direction"] = "asc"
@@ -71,6 +85,20 @@ class AnalyseGeneral(object):
 		  AnalyseGeneral.List_Data_Count + whereclause,
 		  ClippingsAnalysisTemplate)
 
+	@staticmethod
+	def get_global_list(params):
+		"""list of clippings for customer"""
+
+		whereclause = ' WHERE q.customerid = :customerid'
+
+		return BaseSql.get_rest_page_base(
+		  params,
+		  'id',
+		  'id',
+		  AnalyseGeneral.List_Data2 + whereclause + BaseSql.Standard_View_Order,
+		  AnalyseGeneral.List_Data2_Count + whereclause,
+		  Question)
+	
 	@staticmethod
 	def get_display_line(clippingsanalysistemplateid):
 		"""Display line"""
@@ -484,3 +512,4 @@ class AnalysisRowHeader(AnalysisRowBase):
 	@property
 	def header(self):
 		return self._header
+	
