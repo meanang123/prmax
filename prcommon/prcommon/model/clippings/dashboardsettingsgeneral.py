@@ -29,40 +29,24 @@ class DashboardSettingsGeneral(object):
         ds = session.query(DashboardSettings).\
             filter(DashboardSettings.customerid == customerid).\
             filter(DashboardSettings.windowid == windowid).scalar()
-        if not ds:
-            ds = DashboardSettings(
-                customerid=customerid,
-                windowid=windowid,
-                dashboardsettingsmodeid=1,
-                dashboardsettingsstandardid=1,
-                dashboardsettingsstandardsearchbyid=1,
-                by_client=False,
-                by_issue=False,
-                chartviewid=1,
-                daterangeid=1,
-                groupbyid=1
-            )   
-            session.add(ds)
-            session.flush()
-            session.commit()
-            
-        r_data = dict(
-            windowid=ds.windowid,
-            dashboardsettingsmodeid=ds.dashboardsettingsmodeid,
-            dashboardsettingsstandardid=ds.dashboardsettingsstandardid,
-            dashboardsettingsstandardsearchbyid=ds.dashboardsettingsstandardsearchbyid,
-            questionid=ds.questionid,
-            questiontypeid=ds.questiontypeid,
-            by_client=ds.by_client,
-            by_issue=ds.by_issue,
-            clientid=ds.clientid,
-            issueid=ds.issueid,
-            chartviewid=ds.chartviewid,
-            daterangeid=ds.daterangeid,
-            groupbyid=ds.groupbyid
-        )
-
-        return r_data
+        if ds:
+            return dict(
+                windowid=ds.windowid,
+                dashboardsettingsmodeid=ds.dashboardsettingsmodeid,
+                dashboardsettingsstandardid=ds.dashboardsettingsstandardid,
+                dashboardsettingsstandardsearchbyid=ds.dashboardsettingsstandardsearchbyid,
+                questionid=ds.questionid,
+                questiontypeid=ds.questiontypeid,
+                by_client=ds.by_client,
+                by_issue=ds.by_issue,
+                clientid=ds.clientid,
+                issueid=ds.issueid,
+                chartviewid=ds.chartviewid,
+                daterangeid=ds.daterangeid,
+                groupbyid=ds.groupbyid
+            )
+        else:
+            return
 
     @staticmethod
     def settings_update(params):
@@ -78,18 +62,18 @@ class DashboardSettingsGeneral(object):
                 ds = DashboardSettings(
                     customerid=params['customerid'],
                     windowid=params['windowid'],
-                    dashboardsettingsmodeid=1,
-                    dashboardsettingsstandardid=1,
-                    dashboardsettingsstandardsearchbyid=1,
-                    questionid=None,
-                    questiontypeid=None,
-                    by_client=False,
-                    by_issue=False,
-                    clientid=None,
-                    issueid=None,
-                    chartviewid=1,
-                    daterangeid=1,
-                    groupbyid=1
+                    dashboardsettingsmodeid=params['dashboardsettingsmodeid'],
+                    dashboardsettingsstandardid=params['dashboardsettingsstandardid'],
+                    dashboardsettingsstandardsearchbyid=params['dashboardsettingsstandardsearchbyid'],
+                    questionid=params['questionid'],
+                    questiontypeid=params['questiontypeid'],
+                    by_client=params['by_client'],
+                    by_issue= params['by_issue'],
+                    clientid=params['clientid'],
+                    issueid=params['issueid'],
+                    chartviewid=params['chartviewid'],
+                    daterangeid=params['daterangeid'],
+                    groupbyid=params['groupbyid']
                     )
                 session.add(ds)
                 session.flush()

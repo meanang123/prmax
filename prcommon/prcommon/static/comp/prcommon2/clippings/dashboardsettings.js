@@ -117,9 +117,29 @@ return declare("prcommon2.clippings.dashboardsettings",
 		{
 			this._windowid = response.data.windowid;
 			this.dashboardsettingsmodeid.set("value", response.data.dashboardsettingsmodeid);
+			if (response.data.dashboardsettingsmodeid == 1)
+			{
+				domclass.add(this.questionlabel, "prmaxhidden");
+				domclass.add(this.questionid.domNode, "prmaxhidden");
+				domclass.remove(this.dashboardsettingsstandardlabel, "prmaxhidden");
+				domclass.remove(this.dashboardsettingsstandardid.domNode, "prmaxhidden");
+				domclass.remove(this.dashboardsettingsstandardsearchbylabel, "prmaxhidden");
+				domclass.remove(this.dashboardsettingsstandardsearchbyid.domNode, "prmaxhidden");
+			}
+			else if (response.data.dashboardsettingsmodeid == 2)
+			{
+				domclass.add(this.dashboardsettingsstandardlabel, "prmaxhidden");
+				domclass.add(this.dashboardsettingsstandardid.domNode, "prmaxhidden");
+				domclass.add(this.dashboardsettingsstandardsearchbylabel, "prmaxhidden");
+				domclass.add(this.dashboardsettingsstandardsearchbyid.domNode, "prmaxhidden");
+				domclass.remove(this.questionlabel, "prmaxhidden");
+				domclass.remove(this.questionid.domNode, "prmaxhidden");
+			}
 			this.dashboardsettingsstandardid.set("value", response.data.dashboardsettingsstandardid);
 			this.dashboardsettingsstandardsearchbyid.set("value", response.data.dashboardsettingsstandardsearchbyid);
 			this.questionid.set("value", response.data.questionid);
+
+			this._change_client_enabled = false;
 			this.by_client.set("value", response.data.by_client);
 			if (response.data.by_client == true)
 			{
@@ -169,6 +189,22 @@ return declare("prcommon2.clippings.dashboardsettings",
 	},
 	clear:function()
 	{
+		this.dashboardsettingsmodeid.set("value", 1);
+		this.dashboardsettingsstandardid.set("value", null);
+		this.dashboardsettingsstandardsearchbyid.set("value", null);
+
+		this.questionid.set("value", null);
+		this.chartviewid.set("value", 1);
+		this.daterangeid.set("value", 1);
+		this.groupbyid.set("value", 1);
+		domclass.add(this.groupby_label, "prmaxhidden");
+		domclass.add(this.groupbyid.domNode, "prmaxhidden");
+		this.by_client.set("checked", false);
+		this.by_issue.set("checked", false);
+		domclass.add(this.client_label_1, "prmaxhidden");
+		domclass.add(this.clientid.domNode, "prmaxhidden");
+		domclass.add(this.issue_label_1, "prmaxhidden");
+		domclass.add(this.issueid.domNode, "prmaxhidden");
 		this._change_client_enabled = false;
 		this.clientid.set("value", null );
 		this.issueid.set("value", null );
@@ -258,7 +294,7 @@ return declare("prcommon2.clippings.dashboardsettings",
 		{
 			alert("Settings saved");
 			this.savesettingsbtn.cancel();
-			topic.publish('/dashboardsettings/update', [response.data]);
+			//topic.publish('/dashboardsettings/update', [response.data]);
 		}
 		else
 		{

@@ -17,6 +17,7 @@ from prcommon.model.lookups import QuestionTypes, DateRanges
 from prcommon.model.clippings.questions import Question
 from prcommon.model.common import BaseSql
 from prcommon.model import Client, Issue
+from prcommon.model.clippings.dashboardsettings import DashboardSettings
 from ttl.tg.validators import DateRangeResult
 
 LOGGER = logging.getLogger("prcommon.model")
@@ -141,6 +142,31 @@ class ClippingsChartGeneral(object):
             LEFT OUTER JOIN userdata.clippings AS c on c.clippingid = ca.clippingid"""
 
     @staticmethod
+    def get_dashboard_chart_data(params):
+
+        retdata = []
+        ds = session.query(DashboardSettings).filter(DashboardSettings.customerid == params['customerid']).all()
+        for i in range(0,len(ds)):
+            params['windowid'] = ds[i].windowid
+            params['dashboardsettingsmodeid'] = ds[i].dashboardsettingsmodeid
+            params['dashboardsettingsstandardid'] = ds[i].dashboardsettingsstandardid
+            params['dashboardsettingsstandardsearchbyid'] = ds[i].dashboardsettingsstandardsearchbyid
+            params['questionid'] = ds[i].questionid
+            params['questiontypeid'] = ds[i].questiontypeid
+            params['daterangeid'] = ds[i].daterangeid
+            params['chartviewid'] = ds[i].chartviewid
+            params['by_client'] = ds[i].by_client
+            params['by_issue'] = ds[i].by_issue
+            params['groupbyid'] = ds[i].groupbyid
+            params['clientid'] = ds[i].clientid
+            params['issueid'] = ds[i].issueid
+
+            data = ClippingsChartGeneral.get_chart_data2(params)
+            retdata.append(data)
+
+        return retdata
+
+    @staticmethod
     def get_chart_data2(params):
         "Chart data builder"
         whereclause = BaseSql.addclause('', 'c.customerid = :customerid')
@@ -162,6 +188,7 @@ class ClippingsChartGeneral(object):
         command = ""
         clientname = ""
         issuename = ""
+        message = "No results found"
         startdate = datetime.date(datetime.today())
         if params['daterangeid'] == 1:
             params["from_date"] = (datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
@@ -198,7 +225,6 @@ class ClippingsChartGeneral(object):
             if 'issueid' in params and params['issueid'] != -1 and params['issueid'] != '-1':
                 whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = :issueid AND ci.clippingid = c.clippingid)')
                 issuename = session.query(Issue.name).filter(Issue.issueid == params['issueid']).scalar()
-
         if params['dashboardsettingsmodeid'] == 1:
             if params['dashboardsettingsstandardid'] == 1:
                 if params['dashboardsettingsstandardsearchbyid'] == 1:
@@ -206,20 +232,24 @@ class ClippingsChartGeneral(object):
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
                         results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                        retdata = _standard_noclips_view(results)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_noclips_view(results)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         groupbyclause += ', c.clip_source_date'
                         command = ClippingsChartGeneral.List_ClippingsType_Data_Date + whereclause + groupbyclause
                         results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                        retdata = _standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Channels", "Clippings Count", clientname, issuename)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Channels", "Clippings Count", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Channels", "Clippings Count", clientname, issuename, message)
                 elif params['dashboardsettingsstandardsearchbyid'] == 2:
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
                         retdata = _standard_circulation_view(results)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         retdata = _standard_circulation_dates_view(results)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Channels", "Circulation", clientname, issuename)
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Channels", "Circulation", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Channels", "Circulation", clientname, issuename, message)
                 elif params['dashboardsettingsstandardsearchbyid'] == 3:
                     if params['chartviewid'] == 1:
                         groupbyclause = 'GROUP BY ct.clippingstypedescription, c.clippingstypeid'
@@ -227,61 +257,72 @@ class ClippingsChartGeneral(object):
                         retdata = _standard_eva_view(results)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         retdata = _standard_eva_dates_view(results)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Channels", "EVA", clientname, issuename)
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Channels", "EVA", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Channels", "EVA", clientname, issuename, message)
             elif params['dashboardsettingsstandardid'] == 2:
                 if params['dashboardsettingsstandardsearchbyid'] == 1:
                     groupbyclause = 'GROUP BY c.clientid, cl.clientname'
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_Client_Data + whereclause + groupbyclause
                         results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                        retdata = _standard_noclips_view(results)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_noclips_view(results)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         groupbyclause += ', c.clip_source_date'
                         command = ClippingsChartGeneral.List_Client_Data_Date + whereclause + groupbyclause
                         results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                        retdata = _standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Clippings Count", clientname, issuename)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Clippings Count", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Clippings Count", clientname, issuename, message)
                 elif params['dashboardsettingsstandardsearchbyid'] == 2:
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
                         _standard_client_circulation_view(params)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         _standard_client_circulation_dates_view(params)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Circulation", clientname, issuename)
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Circulation", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Circulation", clientname, issuename, message)
                 elif params['dashboardsettingsstandardsearchbyid'] == 3:
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
                         _standard_client_eva_view(params)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         _standard_client_eva_dates_view(params)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename)
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename, message)
             elif params['dashboardsettingsstandardid'] == 3:
                 if params['dashboardsettingsstandardsearchbyid'] == 1:
                     groupbyclause = 'GROUP BY i.name'
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_Issue_Data + whereclause + groupbyclause
                         results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                        retdata = _standard_noclips_view(results)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_noclips_view(results)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         groupbyclause += ', c.clip_source_date'
                         command = ClippingsChartGeneral.List_Issue_Data_Date + whereclause + groupbyclause
                         results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                        retdata = _standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Clippings Count", clientname, issuename)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Clippings Count", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Clippings Count", clientname, issuename, message)
                 elif params['dashboardsettingsstandardsearchbyid'] == 2:
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
                         _standard_issue_circulation_view(params)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         _standard_issue_circulation_dates_view(params)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Circulation", clientname, issuename)
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Circulation", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Circulation", clientname, issuename, message)
                 elif params['dashboardsettingsstandardsearchbyid'] == 3:
                     if params['chartviewid'] == 1:
                         command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
                         _standard_issue_eva_view(params)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                         _standard_issue_eva_dates_view(params)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "EVA", clientname, issuename)
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "EVA", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Issues", "EVA", clientname, issuename, message)
         elif params['dashboardsettingsmodeid'] == 2:
             questiontypeid = session.query(QuestionTypes).filter(QuestionTypes.questiontypeid == params['questiontypeid']).scalar()
             questiontext = session.query(Question.questiontext).filter(Question.questionid == params['questionid']).scalar()
@@ -306,8 +347,10 @@ class ClippingsChartGeneral(object):
                 elif params['questiontypeid'] == 6:
                     command = ClippingsChartGeneral.List_QuestionMultiple_Data + whereclause + groupbyclause
                 results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                retdata = _standard_noclips_view(results)
-                retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Q: %s" %(questiontext), "Clippings Count", clientname, issuename)
+                if results:
+                    retdata = ClippingsChartGeneral.standard_noclips_view(results)
+                retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Q: %s" %(questiontext), "Clippings Count", clientname, issuename) if results \
+                    else ClippingsChartGeneral.get_chart_title(datetext, "Q: %s" %(questiontext), "Clippings Count", clientname, issuename, message)
                 #retdata = _questions_view(results)
             elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
                 groupbyclause = '%s, c.clip_source_date ' %groupbyclause
@@ -322,14 +365,14 @@ class ClippingsChartGeneral(object):
                 elif params['questiontypeid'] == 6:
                     command = ClippingsChartGeneral.List_QuestionMultiple_Data_Dates + whereclause + groupbyclause
                 results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
-                retdata = _standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
-                retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Q: %s" %(questiontext), "Clippings Count", clientname, issuename)
-
+                if results:
+                    retdata = ClippingsChartGeneral.standard_noclips_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
+                retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Q: %s" %(questiontext), "Clippings Count", clientname, issuename) if results \
+                    else ClippingsChartGeneral.get_chart_title(datetext, "Q: %s" %(questiontext), "Clippings Count", clientname, issuename, message)
 
         retdata['windowid'] = params['windowid']
         retdata['chartviewid'] = params['chartviewid']
         return retdata
-
 
     @staticmethod
     def get_chart_data(params):
@@ -484,29 +527,150 @@ class ClippingsChartGeneral(object):
             retdata_pie = _get_question_data_piechart(results_pie)
 
         return dict(pie=retdata_pie, lines=retdata_lines)
+
+    @staticmethod
+    def standard_noclips_view(results):
+        retdata = {}
+        retdata['data'] = {}
+        retdata['data']['pie'] = []
+        count = 0
+        for i in range(0, len(results)):
+            count += results[i]['count']
+        y = 0
+        x = ''
+        for i in range(0, len(results)):
+            y = results[i]['count']
+            x = results[i]['name']
+            if count != 0:
+                percent = y*100/count
+            else:
+                percent = 0
+            retdata['data']['pie'].append({"label":x, "y":int(y), "tooltip":str(percent)+'% '+results[i]['name'], "value":int(y), "text":'%s(%s)' %(x, int(y)), "legend":x})
+        return retdata
+
+    @staticmethod
+    def standard_noclips_dates_view(results, startdate, groupbyid, chartviewid):
+        retdata = {}
+        retdata['data'] = {}
+        yaxis = {}
+        dayscount = daycount = {}
+        weekscount = weekcount = {}
+        monthscount = monthcount = {}
+        names = []
+        desc = []
+        startrangedates = 0
+        for x in range(0, len(results)):
+            if results[x]['name'] not in retdata['data']:
+                retdata['data'][results[x]['name']] = {}
+                desc.append(results[x]['name'])
+                retdata['data'][results[x]['name']]['data'] = []
+            if results[x]['name'] not in names:
+                names.append(results[x]['name'])
+
+        numberofdays = (datetime.date(datetime.today()) - startdate).days
+        if numberofdays == 0:
+            numberofdays += 1
+        retdata['dates'] = []
+        if groupbyid == 2:
+            if startdate.weekday() != 0:
+                startdate = startdate - timedelta(days=startdate.weekday())
+            numberofweeks = int(numberofdays/7)
+            weekstartdate = startdate
+            maxweek = 0
+            for week in range(0, numberofweeks+1):
+                for des in desc:
+                    yaxis[des] = 0
+                    weekscount[week] = {}
+                    for name in names:
+                        weekscount[week][name] = 0
+                for daynumber in range(0, 7):
+                    currentdate = weekstartdate + timedelta(days=daynumber)
+                    for res in results:
+                        if res["date"] == currentdate:
+                            weekscount[week][res['name']] = weekscount[week][res['name']] + res['count']
+                        yaxis[res['name']] = weekscount[week][res['name']]
+                        if weekscount[week][res['name']] > maxweek:
+                            maxweek = weekscount[week][res['name']]
+                    for des in desc:
+                        retdata['data'][des]['data'].append({"x":week, "y":int(yaxis[des]), "labelx" : str(weekstartdate), "tooltip":"Week Commencing %s: %s(%s)" %(str(weekstartdate.strftime("%d/%m/%y")),des, int(yaxis[des]))})
+                retdata['dates'].append({"value": week, "label":str(weekstartdate.strftime("%d/%m/%y"))})
+                weekstartdate = weekstartdate+timedelta(days=7)
+            retdata['maxvalue'] = ClippingsChartGeneral.get_max_sum(weekscount) if chartviewid == 3 else ClippingsChartGeneral.get_max_max(weekscount)
+        elif groupbyid == 3:
+            if startdate.day != 1:
+                startdate = startdate - timedelta(days=(startdate.day-1))
+            numberofmonths = int(numberofdays/30) + 1
+            monthstartdate = startdate
+            maxmonth = 0
+            for month in range(0, numberofmonths+1):
+                for des in desc:
+                    yaxis[des] = 0
+                    monthscount[month] = {}
+                    for name in names:
+                        monthscount[month][name] = 0
+                x, currentmonthdays = monthrange(monthstartdate.year, monthstartdate.month)
+                for daynumber in range(0, currentmonthdays):
+                    currentdate = monthstartdate + timedelta(days=daynumber)
+                    for res in results:
+                        if res["date"] == currentdate:
+                            monthscount[month][res['name']] = monthscount[month][res['name']] + res['count']
+                        yaxis[res['name']] = monthscount[month][res['name']]
+                        if monthscount[month][res['name']] > maxmonth:
+                            maxmonth = monthscount[month][res['name']]
+                    for des in desc:
+                        retdata['data'][des]['data'].append({"x":month, "y":int(yaxis[des]), "labelx" : str(monthstartdate), "tooltip":"%s(%s)" %(des, int(yaxis[des]))})
+                retdata['dates'].append({"value": month, "label":str(month_name[monthstartdate.month])})
+                monthstartdate = monthstartdate+timedelta(days=currentmonthdays)
+            retdata['maxvalue'] = ClippingsChartGeneral.get_max_sum(monthscount) if chartviewid == 3 else ClippingsChartGeneral.get_max_max(monthscount)
+        else:
+            maxday = 0
+            for daynumber in range(startrangedates, numberofdays+1):
+                currentdate = startdate + timedelta(days=daynumber)
+                for des in desc:
+                    yaxis[des] = 0
+                    dayscount[daynumber] = {}
+                    for name in names:
+                        dayscount[daynumber][name] = 0
+                for res in results:
+                    if res['date'] == currentdate:
+                        dayscount[daynumber][res['name']] = dayscount[daynumber][res['name']] + res['count']
+                        yaxis[res['name']] = dayscount[daynumber][res['name']]
+                        if dayscount[daynumber][res['name']] > maxday:
+                            maxday = dayscount[daynumber][res['name']]
+                for des in desc:
+                    retdata['data'][des]['data'].append({"x":daynumber, "y":int(yaxis[des]), "labelx" : str(currentdate), "tooltip":"%s: %s(%s)" %(str(currentdate.strftime("%d/%m/%y")), des, int(yaxis[des]))})
+                retdata['dates'].append({"value": daynumber, "label":str(currentdate.strftime("%d/%m/%y"))})
+            retdata['maxvalue'] = ClippingsChartGeneral.get_max_sum(dayscount) if chartviewid == 3 else max([x['count'] for x in results])
+        return retdata
     
     @staticmethod
-    def get_chart_title(datetext, option, searchby, clientname, issuename):
+    def get_chart_title(datetext, option, searchby, clientname, issuename, message=""):
+        title = ""
         if clientname != "" and issuename != "":
-            return '%s > %s > %s > Client: %s, Issue: %s' %(datetext, option, searchby, clientname, issuename)
+            title = '%s > %s > %s<br>Client: %s, Issue: %s' %(datetext, option, searchby, clientname, issuename)
         elif clientname != "" and issuename == "":
-            return '%s > %s > %s > Client: %s' %(datetext, option, searchby, clientname)
+            title = '%s > %s > %s<br>Client: %s' %(datetext, option, searchby, clientname)
         elif clientname == "" and issuename != "":
-            return '%s > %s > %s > Issue: %s' %(datetext, option, searchby, issuename)
+            title = '%s > %s > %s<br>Issue: %s' %(datetext, option, searchby, issuename)
         elif clientname == "" and issuename == "":
-            return '%s > %s > %s' %(datetext, option, searchby)
+            title = '%s > %s > %s' %(datetext, option, searchby)
+        if message != "":
+            title = '%s<br><br><b>%s</b>' %(title, message)
+        return title
 
-def _get_max_sum(count):
-    maxcount = {}
-    for x in range(0, len(count)):
-        maxcount[x] = sum(count.values()[x].values())
-    return max(maxcount.values())
+    @staticmethod
+    def get_max_sum(count):
+        maxcount = {}
+        for x in range(0, len(count)):
+            maxcount[x] = sum(count.values()[x].values())
+        return max(maxcount.values())
 
-def _get_max_max(count):
-    maxcount = {}
-    for x in range(0, len(count)):
-        maxcount[x] = max(count.values()[x].values())
-    return max(maxcount.values())
+    @staticmethod
+    def get_max_max(count):
+        maxcount = {}
+        for x in range(0, len(count)):
+            maxcount[x] = max(count.values()[x].values())
+        return max(maxcount.values())
 
 def _get_question_data_lineschart(results_lines, daterange):
     retdata = {}
@@ -624,122 +788,5 @@ def _get_data_piechart(results, retdata, clippingstypes_db_trans):
         else:
             percent = 0
         retdata['data']['pie'].append({"label":x, "y":int(y), "tooltip":str(percent)+'%', "value":int(y), "text":'%s(%s)' %(x, int(y)), "legend":x, "clippingstypeid":clippingstypes_db_trans[typedesc]})
-
-
-def _standard_noclips_view(results):
-    retdata = {}
-    retdata['data'] = {}
-    retdata['data']['pie'] = []
-    count = 0
-    for i in range(0, len(results)):
-        count += results[i]['count']
-    y = 0
-    x = ''
-    for i in range(0, len(results)):
-        y = results[i]['count']
-        x = results[i]['name']
-        if count != 0:
-            percent = y*100/count
-        else:
-            percent = 0
-        retdata['data']['pie'].append({"label":x, "y":int(y), "tooltip":str(percent)+'% '+results[i]['name'], "value":int(y), "text":'%s(%s)' %(x, int(y)), "legend":x})
-    return retdata
-
-def _standard_noclips_dates_view(results, startdate, groupbyid, chartviewid):
-    retdata = {}
-    retdata['data'] = {}
-    yaxis = {}
-    dayscount = daycount = {}
-    weekscount = weekcount = {}
-    monthscount = monthcount = {}
-    names = []
-    desc = []
-    startrangedates = 0
-    for x in range(0, len(results)):
-        if results[x]['name'] not in retdata['data']:
-            retdata['data'][results[x]['name']] = {}
-            desc.append(results[x]['name'])
-            retdata['data'][results[x]['name']]['data'] = []
-        if results[x]['name'] not in names:
-            names.append(results[x]['name'])
-
-    numberofdays = (datetime.date(datetime.today()) - startdate).days
-    if numberofdays == 0:
-        numberofdays += 1
-    retdata['dates'] = []
-    if groupbyid == 2:
-        if startdate.weekday() != 0:
-            startdate = startdate - timedelta(days=startdate.weekday())
-        numberofweeks = int(numberofdays/7)
-        weekstartdate = startdate
-        maxweek = 0
-        for week in range(0, numberofweeks+1):
-            for des in desc:
-                yaxis[des] = 0
-                weekscount[week] = {}
-                for name in names:
-                    weekscount[week][name] = 0
-            for daynumber in range(0, 7):
-                currentdate = weekstartdate + timedelta(days=daynumber)
-                for res in results:
-                    if res["date"] == currentdate:
-                        weekscount[week][res['name']] = weekscount[week][res['name']] + res['count']
-                    yaxis[res['name']] = weekscount[week][res['name']]
-                    if weekscount[week][res['name']] > maxweek:
-                        maxweek = weekscount[week][res['name']]
-                for des in desc:
-                    retdata['data'][des]['data'].append({"x":week, "y":int(yaxis[des]), "labelx" : str(weekstartdate), "tooltip":"Week Commencing %s: %s(%s)" %(str(weekstartdate.strftime("%d/%m/%y")),des, int(yaxis[des]))})
-            retdata['dates'].append({"value": week, "label":str(weekstartdate.strftime("%d/%m/%y"))})
-            weekstartdate = weekstartdate+timedelta(days=7)
-        retdata['maxvalue'] = _get_max_sum(weekscount) if chartviewid == 3 else _get_max_max(weekscount)
-    elif groupbyid == 3:
-        if startdate.day != 1:
-            startdate = startdate - timedelta(days=(startdate.day-1))
-        numberofmonths = int(numberofdays/30) + 1
-        monthstartdate = startdate
-        maxmonth = 0
-        for month in range(0, numberofmonths+1):
-            for des in desc:
-                yaxis[des] = 0
-                monthscount[month] = {}
-                for name in names:
-                    monthscount[month][name] = 0
-            x, currentmonthdays = monthrange(monthstartdate.year, monthstartdate.month)
-            for daynumber in range(0, currentmonthdays):
-                currentdate = monthstartdate + timedelta(days=daynumber)
-                for res in results:
-                    if res["date"] == currentdate:
-                        monthscount[month][res['name']] = monthscount[month][res['name']] + res['count']
-                    yaxis[res['name']] = monthscount[month][res['name']]
-                    if monthscount[month][res['name']] > maxmonth:
-                        maxmonth = monthscount[month][res['name']]
-                for des in desc:
-                    retdata['data'][des]['data'].append({"x":month, "y":int(yaxis[des]), "labelx" : str(monthstartdate), "tooltip":"%s(%s)" %(des, int(yaxis[des]))})
-            retdata['dates'].append({"value": month, "label":str(month_name[monthstartdate.month])})
-            monthstartdate = monthstartdate+timedelta(days=currentmonthdays)
-        retdata['maxvalue'] = _get_max_sum(monthscount) if chartviewid == 3 else _get_max_max(monthscount)
-    else:
-        maxday = 0
-        for daynumber in range(startrangedates, numberofdays+1):
-            currentdate = startdate + timedelta(days=daynumber)
-            for des in desc:
-                yaxis[des] = 0
-                dayscount[daynumber] = {}
-                for name in names:
-                    dayscount[daynumber][name] = 0
-            for res in results:
-                if res['date'] == currentdate:
-                    dayscount[daynumber][res['name']] = dayscount[daynumber][res['name']] + res['count']
-                    yaxis[res['name']] = dayscount[daynumber][res['name']]
-                    if dayscount[daynumber][res['name']] > maxday:
-                        maxday = dayscount[daynumber][res['name']]
-            for des in desc:
-                retdata['data'][des]['data'].append({"x":daynumber, "y":int(yaxis[des]), "labelx" : str(currentdate), "tooltip":"%s: %s(%s)" %(str(currentdate.strftime("%d/%m/%y")), des, int(yaxis[des]))})
-            retdata['dates'].append({"value": daynumber, "label":str(currentdate.strftime("%d/%m/%y"))})
-        retdata['maxvalue'] = _get_max_sum(dayscount) if chartviewid == 3 else max([x['count'] for x in results])
-    return retdata
-    
-
-
 
 

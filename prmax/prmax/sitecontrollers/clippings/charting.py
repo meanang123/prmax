@@ -30,23 +30,10 @@ class QuestionChartSchema(PrFormSchema):
 	option = Int2Null()
 	daterange = DateRangeValidator()
 
-class ChartDashboardSchema(PrFormSchema):
+class ChartDashboardNewSchema(PrFormSchema):
 	"schema"
 
-	windowid = validators.Int()
 	customerid = validators.Int()
-	dashboardsettingsmodeid = validators.Int()
-	dashboardsettingsstandardid = Int2Null()
-	dashboardsettingsstandardsearchbyid = Int2Null()
-	questionid = Int2Null()
-	questiontypeid = Int2Null()
-	daterangeid = validators.Int()
-	chartviewid = validators.Int()
-	by_client = BooleanValidator()
-	by_issue = BooleanValidator()
-	groupbyid = validators.Int()
-	clientid = Int2Null()
-	issueid = Int2Null()
 
 #########################################################
 ## controlllers
@@ -76,11 +63,10 @@ class ChartingController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
-	@validate(validators=ChartDashboardSchema(), state_factory=std_state_factory)
-	def get_chart_data2(self, *args, **params):
+	@validate(validators=ChartDashboardNewSchema(), state_factory=std_state_factory)
+	def get_dashboard_chart_data(self, *args, **params):
 		""" get chart data """
 
-		x = stdreturn(data=ClippingsChartGeneral.get_chart_data2(params))
-		return x
+		return stdreturn(data=ClippingsChartGeneral.get_dashboard_chart_data(params))
 
 
