@@ -161,13 +161,13 @@ class ClippingsChartGeneral(object):
             params['clientid'] = ds[i].clientid
             params['issueid'] = ds[i].issueid
 
-            data = ClippingsChartGeneral.get_chart_data2(params)
+            data = ClippingsChartGeneral.get_window_chart_data(params)
             retdata.append(data)
 
         return retdata
 
     @staticmethod
-    def get_chart_data2(params):
+    def get_window_chart_data(params):
         "Chart data builder"
         whereclause = BaseSql.addclause('', 'c.customerid = :customerid')
         groupbyclause = ''
@@ -371,7 +371,18 @@ class ClippingsChartGeneral(object):
                     else ClippingsChartGeneral.get_chart_title(datetext, "Q: %s" %(questiontext), "Clippings Count", clientname, issuename, message)
 
         retdata['windowid'] = params['windowid']
+        retdata['dashboardsettingsmodeid'] = params['dashboardsettingsmodeid']
+        retdata['dashboardsettingsstandardid'] = params['dashboardsettingsstandardid']
+        retdata['dashboardsettingsstandardsearchbyid'] = params['dashboardsettingsstandardsearchbyid']
+        retdata['questionid'] = params['questionid']
+        retdata['questiontypeid'] = params['questiontypeid']
+        retdata['daterangeid'] = params['daterangeid']
         retdata['chartviewid'] = params['chartviewid']
+        retdata['by_client'] = params['by_client']
+        retdata['by_issue'] = params['by_issue']
+        retdata['groupbyid'] = params['groupbyid']
+        retdata['clientid'] = params['clientid']
+        retdata['issueid'] = params['issueid']
         return retdata
 
     @staticmethod
@@ -591,8 +602,8 @@ class ClippingsChartGeneral(object):
                         yaxis[res['name']] = weekscount[week][res['name']]
                         if weekscount[week][res['name']] > maxweek:
                             maxweek = weekscount[week][res['name']]
-                    for des in desc:
-                        retdata['data'][des]['data'].append({"x":week, "y":int(yaxis[des]), "labelx" : str(weekstartdate), "tooltip":"Week Commencing %s: %s(%s)" %(str(weekstartdate.strftime("%d/%m/%y")),des, int(yaxis[des]))})
+                for des in desc:
+                    retdata['data'][des]['data'].append({"x":week, "y":int(yaxis[des]), "labelx" : str(weekstartdate), "tooltip":"Week Commencing %s: %s(%s)" %(str(weekstartdate.strftime("%d/%m/%y")),des, int(yaxis[des]))})
                 retdata['dates'].append({"value": week, "label":str(weekstartdate.strftime("%d/%m/%y"))})
                 weekstartdate = weekstartdate+timedelta(days=7)
             retdata['maxvalue'] = ClippingsChartGeneral.get_max_sum(weekscount) if chartviewid == 3 else ClippingsChartGeneral.get_max_max(weekscount)
@@ -617,8 +628,8 @@ class ClippingsChartGeneral(object):
                         yaxis[res['name']] = monthscount[month][res['name']]
                         if monthscount[month][res['name']] > maxmonth:
                             maxmonth = monthscount[month][res['name']]
-                    for des in desc:
-                        retdata['data'][des]['data'].append({"x":month, "y":int(yaxis[des]), "labelx" : str(monthstartdate), "tooltip":"%s(%s)" %(des, int(yaxis[des]))})
+                for des in desc:
+                    retdata['data'][des]['data'].append({"x":month, "y":int(yaxis[des]), "labelx" : str(monthstartdate), "tooltip":"%s(%s)" %(des, int(yaxis[des]))})
                 retdata['dates'].append({"value": month, "label":str(month_name[monthstartdate.month])})
                 monthstartdate = monthstartdate+timedelta(days=currentmonthdays)
             retdata['maxvalue'] = ClippingsChartGeneral.get_max_sum(monthscount) if chartviewid == 3 else ClippingsChartGeneral.get_max_max(monthscount)
@@ -647,7 +658,7 @@ class ClippingsChartGeneral(object):
     def get_chart_title(datetext, option, searchby, clientname, issuename, message=""):
         title = ""
         if clientname != "" and issuename != "":
-            title = '%s > %s > %s<br>Client: %s, Issue: %s' %(datetext, option, searchby, clientname, issuename)
+            title = '%s > %s > %s<br><Client: %s, Issue: %s' %(datetext, option, searchby, clientname, issuename)
         elif clientname != "" and issuename == "":
             title = '%s > %s > %s<br>Client: %s' %(datetext, option, searchby, clientname)
         elif clientname == "" and issuename != "":

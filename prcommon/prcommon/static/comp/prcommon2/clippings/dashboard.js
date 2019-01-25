@@ -51,7 +51,9 @@ define([
 	"prcommon2/outlet/OutletSelect",
 	"prcommon2/date/daterange",
 	"dijit/form/ComboBox",
-	"prcommon2/reports/ReportBuilder"
+	"prcommon2/reports/ReportBuilder",
+	"prcommon2/clippings/windowsettings",
+	"prcommon2/clippings/output"
 	], function(declare, BaseWidgetAMD, template, ContentPane, BorderContainer, Chart,Claro,Tom,PrimaryColors,Pie,Lines,Bars,Columns,StackedColumns,Tooltip,Highlight,MoveSlice,Magnify,Markers,Legend,Default, utilities2, topic, request, JsonRestStore, JsonRest, Observable,lang, domattr,ItemFileReadStore,domclass,domConstruct){
 return declare("prcommon2.clippings.dashboard",
 	[BaseWidgetAMD,BorderContainer],{
@@ -62,8 +64,12 @@ return declare("prcommon2.clippings.dashboard",
 	{
 		this._load_call_back = lang.hitch(this, this._load_call);
 		this._updatesettings_call_back = lang.hitch(this, this._updatesettings_call);
-		//topic.subscribe('/dashboardsettings/update', lang.hitch(this, this._update_dashboard_event));
-
+		this._complete_call_back = lang.hitch(this, this._complete_call);
+		topic.subscribe('/dashboardsettings/update', lang.hitch(this, this._update_dashboard_event));
+		this._windowid = null;
+		this._customerid = PRMAX.utils.settings.cid;
+		this._data = null;
+		this.stam = null;
 	},
 	postCreate:function()
 	{
@@ -79,8 +85,29 @@ return declare("prcommon2.clippings.dashboard",
 	{
 		if (response.success == "OK")
 		{
+			this._data = response.data.reduce((t,c) => {t[c.windowid] = c; return t;},{});
 			for (var i=0; i<response.data.length; i++)
 			{
+				if (response.data[i])
+				{
+					for (var win=1; win<=6; win++)
+					{
+						if (response.data[i].windowid == win)
+						{
+							if (this._is_not_empty_object(response.data[i].data))
+							{
+								var reportbtn = "reportbtn" + win;
+								domclass.remove(this[reportbtn].domNode, "prmaxhidden");
+							}
+							else
+							{
+								var reportbtn = "reportbtn" + win;
+								domclass.add(this[reportbtn].domNode, "prmaxhidden");
+							}							
+							break;
+						}						
+					}
+				}
 				this.show_charts(response.data[i]);
 			}
 		}
@@ -89,6 +116,14 @@ return declare("prcommon2.clippings.dashboard",
 			alert("Problem loading chart data");
 		}
 	},	
+	_is_not_empty_object:function(obj)
+	{
+		for(var key in obj) {
+			if(obj.hasOwnProperty(key))
+				return true;
+		}
+		return false;	
+	},
 	show_charts:function(data)
 	{
 		if (data.chartviewid == 1)
@@ -104,41 +139,61 @@ return declare("prcommon2.clippings.dashboard",
 			this._create_columns(data, data.windowid);
 		}
 	},
+	_update_dashboard_event:function(data)
+	{
+		var content = data[0];
+		content["customerid"] = PRMAX.utils.settings.cid;
 
-	_clear:function()
-	{
-		this.clear();
+		request.post('/clippings/charting/get_window_chart_data',
+			utilities2.make_params({data : content})).
+			then(this._updatesettings_call_back);
 	},
-	clear:function()
+	_updatesettings_call:function(response)
 	{
+		if ( response.success=="OK")
+		{
+
+			if (response.data)
+			{
+				for (var win=1; win<=6; win++)
+				{
+					if (response.data.windowid == win)
+					{
+						if (this._is_not_empty_object(response.data.data))
+						{
+							var reportbtn = "reportbtn" + win;
+							domclass.remove(this[reportbtn].domNode, "prmaxhidden");
+						}
+						else
+						{
+							var reportbtn = "reportbtn" + win;
+							domclass.add(this[reportbtn].domNode, "prmaxhidden");
+						}
+						break;
+					}						
+				}
+				
+				this._data[response.data.windowid].chartviewid = response.data.chartviewid;
+				this._data[response.data.windowid].by_client = response.data.by_client;
+				this._data[response.data.windowid].by_issue = response.data.by_issue;
+				this._data[response.data.windowid].clientid = response.data.clientid;
+				this._data[response.data.windowid].dashboardsettingsmodeid = response.data.dashboardsettingsmodeid;
+				this._data[response.data.windowid].dashboardsettingsstandardid = response.data.dashboardsettingsstandardid;
+				this._data[response.data.windowid].dashboardsettingsstandardsearchbyid = response.data.dashboardsettingsstandardsearchbyid;
+				this._data[response.data.windowid].data = response.data.data;
+				this._data[response.data.windowid].daterangeid = response.data.daterangeid;
+				this._data[response.data.windowid].dates = response.data.dates;
+				this._data[response.data.windowid].groupbyid = response.data.groupbyid;
+				this._data[response.data.windowid].maxvalue = response.data.maxvalue;
+				this._data[response.data.windowid].questionid = response.data.questionid;
+				this._data[response.data.windowid].questiontypeid = response.data.questiontypeid;
+				this._data[response.data.windowid].title = response.data.title;
+				
+			}
+			
+			this.show_charts(response.data)
+		}
 	},
-//	_update_dashboard_event:function(data)
-//	{
-//		var content = data[0];
-//		content["customerid"] = PRMAX.utils.settings.cid;
-//
-//		request.post('/clippings/charting/get_chart_data2',
-//			utilities2.make_params({data : content})).
-//			then(this._updatesettings_call_back);
-//	},
-//	_updatesettings_call:function(response)
-//	{
-//		if ( response.success=="OK")
-//		{
-//			if (response.data.chartviewid == 1)
-//			{
-//				this._create_pie(response.data.data.pie, response.data.windowid, response.data.title);
-//			}
-//			else if (response.data.chartviewid == 2)
-//			{
-//				this._create_lines(response.data, response.data.windowid);
-//			}
-//			else if (response.data.chartviewid == 3)
-//			{
-//				this._create_columns(response.data, response.data.windowid);
-//			}
-//		}
-//	},
 	_create_pie:function(data, windowid, title)
 	{
 		var pie_chart = this["_pieChart_" + windowid ];	
@@ -321,24 +376,116 @@ return declare("prcommon2.clippings.dashboard",
 		columns_chart.render();
 //		legend = new Legend({chart:columns_chart,  horizontal: false}, legend_node);
 	},
+	
+	_rep1:function()
+	{
+		this._windowid = 1;
+		this._report();	
+	},
+	_rep2:function()
+	{
+		this._windowid = 2;
+		this._report();	
+	},
+	_rep3:function()
+	{
+		this._windowid = 3;
+		this._report();	
+	},
+	_rep4:function()
+	{
+		this._windowid = 4;
+		this._report();	
+	},
+	_rep5:function()
+	{
+		this._windowid = 5;
+		this._report();	
+	},
+	_rep6:function()
+	{
+		this._windowid = 6;
+		this._report();	
+	},
+	
+
 	_report:function()
 	{
+		this.output_ctrl.load(this.output_dlg, this._windowid, this._customerid, this._data[this._windowid]);
+		this.output_dlg.show();
+	},	
+	_report2:function()
+	{
 		var content = {};
-
-		content['reportoutputtypeid'] = '';
-		content['reporttemplateid'] = '';
-		content['clientid'] = '';
-		content['issueid'] = '';
-
+		content['data'] = {};
+		content['reportoutputtypeid'] = 0; //pdf
+		content['reporttemplateid'] = 34;
+		content['windowid'] = this._windowid;
+		content['customerid'] = this._customerid;
+		content['dashboardsettingsmodeid'] = this._data[this._windowid].dashboardsettingsmodeid;
+		content['dashboardsettingsstandardid'] = this._data[this._windowid].dashboardsettingsstandardid;
+		content['dashboardsettingsstandardsearchbyid'] = this._data[this._windowid].dashboardsettingsstandardsearchbyid;
+		content['questionid'] = this._data[this._windowid].questionid;
+		content['questiontypeid'] = this._data[this._windowid].questiontypeid;
+		content['daterangeid'] = this._data[this._windowid].daterangeid;
+		content['chartviewid'] = this._data[this._windowid].chartviewid;
+		content['by_client'] = this._data[this._windowid].by_client;
+		content['by_issue'] = this._data[this._windowid].by_issue;
+		content['groupbyid'] = this._data[this._windowid].groupbyid;
+		content['clientid'] = this._data[this._windowid].clientid;
+		content['issueid'] = this._data[this._windowid].issueid;
+		content['data'] = JSON.stringify(this._data[this._windowid]);
+		
 		this.report_dlg.show();
 		this.report_node.SetCompleted(this._complete_call_back);
 		this.report_node.start(content);
 	},
 	_complete_call:function()
 	{
-		this.reportbtn.cancel();
 		this.report_dlg.hide();
-	}
+	},
+	_set1:function()
+	{
+		this._windowid = 1;
+		this._settings();	
+	},
+	_set2:function()
+	{
+		this._windowid = 2;
+		this._settings();	
+	},
+	_set3:function()
+	{
+		this._windowid = 3;
+		this._settings();	
+	},
+	_set4:function()
+	{
+		this._windowid = 4;
+		this._settings();	
+	},
+	_set5:function()
+	{
+		this._windowid = 5;
+		this._settings();	
+	},
+	_set6:function()
+	{
+		this._windowid = 6;
+		this._settings();	
+	},
+	_settings:function()
+	{
+		this.settings_ctrl.load(this.settings_dlg, this._windowid, this._customerid);
+		this.settings_dlg.show();
+	},	
+	
+	_output_function:function()
+	{
+		this.output_ctrl.clear();
+		this.output_ctrl.set("dialog", this.output_dlg);
+		this.output_dlg.show();
+	},	
 
 });
 });

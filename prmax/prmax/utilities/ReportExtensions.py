@@ -13,6 +13,7 @@
 
 import prmax.Constants as Constants
 import datetime
+import json
 from datetime import timedelta
 from ttl.postgres import DBCompress
 from ttl.ttlemail import EmailMessage
@@ -27,6 +28,7 @@ from ttl.report.engagement_report import EngagementPDF
 from ttl.report.activity_report import ActivityPDF
 from ttl.report.clippings_piechart_report import ClippingsPieChartPDF
 from ttl.report.clippings_lineschart_report import ClippingsLinesChartPDF
+from ttl.report.clippings_dashboard_chart_report import ClippingsDashboardPieChartReportPDF, ClippingsDashboardLinesChartReportPDF, ClippingsDashboardColumnsChartReportPDF
 from ttl.report.partners_list_report import PartnersListPDF
 from ttl.report.statistics_report import StatisticsPDF, StatisticsExcel
 from ttl.report.activitylog_report import ActivityLogPDF, ActivityLogExcel
@@ -1295,5 +1297,33 @@ class ActivityLogReport(ReportCommon):
 			report = ActivityLogExcel( self._reportoptions, data['results'], data['dates'], data['criteria'])
 		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
 			report = ActivityLogPDF( self._reportoptions, data['results'], data['dates'], data['criteria'], data['customername'])
+
+		output.write(report.stream())
+
+class ClippingsDashboardChartReport(ReportCommon):
+	"""Clippings Pie chart Reports"""
+
+	def __init__(self, reportoptions, parent):
+		ReportCommon.__init__ (self, reportoptions, parent )
+
+	def load_data(self, db_connect ):
+		"Load Data"
+
+		data = json.loads(self._reportoptions['data'])
+
+		return dict ( data = data )
+
+	def run( self, data , output ) :
+		"run clippings report"
+
+		x = json.loads(self._reportoptions['data'])
+		if x['chartviewid'] == 1:
+			report = ClippingsDashboardPieChartReportPDF( self._reportoptions,  x)
+		elif x['chartviewid'] == 2:
+			report = ClippingsDashboardLinesChartReportPDF( self._reportoptions,  x)
+		elif x['chartviewid'] == 3:
+			report = ClippingsDashboardColumnsChartReportPDF( self._reportoptions,  x)
+			
+			
 
 		output.write(report.stream())

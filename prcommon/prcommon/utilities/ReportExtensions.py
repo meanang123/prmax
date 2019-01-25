@@ -13,6 +13,7 @@
 
 import prcommon.Constants as Constants
 import datetime
+import logging
 from ttl.postgres import DBCompress
 from ttl.ttlemail import EmailMessage
 from ttl.model import BaseSql
@@ -32,6 +33,9 @@ from datetime import date
 from prcommon.Const.Email_Templates import *
 import simplejson
 import ttl.Constants as TTLConstants
+
+LOGGER = logging.getLogger("prcommon.model")
+
 
 class ReportCommon(object):
 	""" Comoom report base """
@@ -1026,3 +1030,7 @@ class PartnersStatementReport(ReportCommon):
 		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
 				report = PartnersStatementPDF( self._reportoptions,  data["invoices"], data["invoices_adj"], data["payments"], data["payments_adj"], data["pay_total"], data["invoice_total"], data["customersource"])
 		output.write(report.stream())
+
+
+
+

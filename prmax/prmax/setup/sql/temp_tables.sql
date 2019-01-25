@@ -886,3 +886,8 @@ GRANT ALL ON TABLE userdata.dashboardsettings TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.dashboardsettings TO prmaxcontrol;
 
+DELETE FROM internal.dashboardsettingsstandardsearchby WHERE dashboardsettingsstandardsearchbyid = 1;
+INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (1, 'Number of clips');
+
+INSERT INTO internal.reportsource VALUES(16, 'Clippings Dashboard Charts');
+INSERT INTO internal.reporttemplates VALUES (34, -1, 'Clippings Dashboard Chart Report', '<queries><query type="CUSTOM"></query></queries>', '', 16, 'ClippingsDashboardChartReport');
