@@ -706,7 +706,7 @@ insert into internal.emailservertype(emailservertypeid,emailservertypename) VALU
 ALTER TABLE internal.customers ALTER COLUMN confirmation_accepted SET DEFAULT true;
 ALTER TABLE internal.customers ALTER COLUMN licence_start_date SET DEFAULT now();
 
-drop table userdata.chartview;
+drop table internal.chartview;
 CREATE TABLE internal.chartview
 (
   chartviewid integer NOT NULL,
@@ -721,7 +721,7 @@ GRANT ALL ON TABLE internal.chartview TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.chartview TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.chartview TO prmaxcontrol;
 
-drop table userdata.dateranges;
+drop table internal.dateranges;
 CREATE TABLE internal.dateranges
 (
   daterangeid integer NOT NULL,
@@ -736,7 +736,7 @@ GRANT ALL ON TABLE internal.dateranges TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dateranges TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dateranges TO prmaxcontrol;
 
-drop table userdata.groupby;
+drop table internal.groupby;
 CREATE TABLE internal.groupby
 (
   groupbyid integer NOT NULL,
@@ -751,7 +751,7 @@ GRANT ALL ON TABLE internal.groupby TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.groupby TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.groupby TO prmaxcontrol;
 
-drop table userdata.dashboardsettingsmode;
+drop table internal.dashboardsettingsmode;
 CREATE TABLE internal.dashboardsettingsmode
 (
   dashboardsettingsmodeid integer NOT NULL,
@@ -766,7 +766,7 @@ GRANT ALL ON TABLE internal.dashboardsettingsmode TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsmode TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsmode TO prmaxcontrol;
 
-drop table userdata.dashboardsettingsstandard;
+drop table internal.dashboardsettingsstandard;
 CREATE TABLE internal.dashboardsettingsstandard
 (
   dashboardsettingsstandardid integer NOT NULL,
@@ -781,7 +781,7 @@ GRANT ALL ON TABLE internal.dashboardsettingsstandard TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandard TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.dashboardsettingsstandard TO prmaxcontrol;
 
-drop table userdata.dashboardsettingsstandardsearchby;
+drop table internal.dashboardsettingsstandardsearchby;
 CREATE TABLE internal.dashboardsettingsstandardsearchby
 (
   dashboardsettingsstandardsearchbyid integer NOT NULL,
