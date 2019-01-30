@@ -34,7 +34,7 @@ from reportlab.graphics.widgets.markers import makeMarker
 from reportlab.pdfbase.pdfmetrics import stringWidth, EmbeddedType1Face, registerTypeFace, Font, registerFont
 from reportlab.graphics.charts.axes import XValueAxis, YValueAxis, AdjYValueAxis, NormalDateXValueAxis
 Table = tables.Table
-
+import xlsxwriter
 
 FONT_TYPE='Helvetica'
 FONT_TYPE_BOLD='Helvetica-Bold'
@@ -91,6 +91,100 @@ GOOGLEPLUS_DB_DESC = 'GooglePlus'
 TUMBLR_DB_DESC = 'Tumblr'
 VKONTAKTE_DB_DESC = 'VKontakte'
 CHAT_DB_DESC = 'Chat' 
+LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P','Q','R','S','T','U','V','W','X','Y','Z']
+
+
+
+class ClippingsChartBuildExcelReports(object):
+
+	@classmethod
+	def build_chart_report(self, finaloutput, results, charttype, chartsubtype=None):
+		wb = xlsxwriter.Workbook(finaloutput)
+		self._sheet = wb.add_worksheet()
+		if chartsubtype:
+			self._chart = wb.add_chart({'type': charttype, 'subtype': chartsubtype})
+		else:
+			self._chart = wb.add_chart({'type': charttype})
+		title = str(results['title'].replace('<br>', ' // '))
+		bold = wb.add_format({'bold': 1})
+		merge_format = wb.add_format({'align':'center', 'bold':True, 'valign':'center', 'font_size':18})
+		merge_format.set_text_wrap()
+		self._sheet.set_row(0, 50)
+		self._sheet.merge_range('A1:M1', title, merge_format)
+		categories = []
+		values = []
+		headings = ''
+		if charttype == 'pie':
+			headings = ['Name', 'Value']
+			num = len(results['data']['pie'])
+			for val in range(0, num):
+				categories.append((results['data']['pie'][val]['label']))
+				values.append((results['data']['pie'][val]['y']))
+			data = [categories, values]
+			self._set_columns_width()
+
+			self._sheet.write_column('A5', data[0])
+			self._sheet.write_column('B5', data[1])
+			column = 'B'
+			name = 'Clippings Pie Chart'
+
+			self._chart.add_series({
+				'categories': '=Sheet1!$A$5:$A$%d' %int(num+5-1),
+				'name': name,
+				'values': '=Sheet1!$%s$5:$%s$%d' %(column, column, int(num+5-1)),
+				'gap': 10,
+				'points': [
+					{'fill': {'color': '#990000'}},
+					],
+			})
+		else:
+			headings = results['data'].keys()
+			headings.insert(0, 'Date')
+			names = results['data'].keys()
+			dates = [x['label'] for x in results['dates']]
+			data = {}
+			for name in names:
+				num = len(results['data'][name]['data'])
+				data[name] = []
+				categories = [x['labelx'] for x in results['data'][name]['data']]
+				values = [x['y'] for x in results['data'][name]['data']]
+				data[name] = [categories, values]
+
+			self._set_columns_width_dates()
+			self._sheet.write_column('A5', dates)
+
+			l = 0
+			for name in names:
+				l += 1
+				column = LETTERS[l]
+				if l > 26:
+					column = '%s%s' %(LETTERS[l/26], LETTERS[(l%26)])
+				self._sheet.write_column('%s5' %column, data[name][1])
+				self._chart.add_series({
+					'categories': '=Sheet1!$A$5:$A$%d' %int(num+5-1),
+					'name': name,
+					'values': '=Sheet1!$%s$5:$%s$%d' %(column, column, int(num+5-1)),
+					'gap': 10,
+					'points': [
+						{'fill': {'color': '#990000'}},
+						],
+				})
+			self._chart.set_x_axis({'name': 'Dates'})
+			self._chart.set_y_axis({'name': 'Number of Clippings'})
+
+		self._sheet.write_row('A4', headings, bold)
+		self._sheet.insert_chart('A%d' %int(num+6), self._chart, {'x_offset': 25, 'y_offset': 10, 'x_scale': 2, 'y_scale': 1.5})
+		wb.close()
+
+	@classmethod
+	def _set_columns_width_dates(self):
+		self._sheet.set_column('A:A', 15)
+		self._sheet.set_column('B:J', 10)
+
+	@classmethod
+	def _set_columns_width(self):
+		self._sheet.set_column('A:A', 35)
+		self._sheet.set_column('B:J', 10)
 
 class ClippingsDashboardPieChartReportPDF(object):
 	""" ClippingsPieChartPDF
@@ -689,7 +783,6 @@ class ColumnsChart(_DrawingEditorMixin,Drawing):
 		for desc in clippings['data']:
 			self.chart.data.append(data[desc])
 
-
 		self.chart.categoryAxis.strokeColor   = PCMYKColor(100,60,0,50,alpha=100)
 		self.chart.categoryAxis.categoryNames = [x['label'] for x in dates]
 		self._add(self,Label(),name='vaxisl',validate=None,desc=None)
@@ -708,3 +801,18 @@ class ColumnsChart(_DrawingEditorMixin,Drawing):
 		numberOfBars = len(clippings['data'])
 		for i in range(1, len(clippings['data'])):
 			self.chart.bars[i].fillColor = self._colors[i]
+
+class ClippingsDashboardChartReportExcel(object):
+	def __init__(self, reportoptions, results, charttype, chartsubtype):
+		self._reportoptions = reportoptions
+		self._results = results
+		self._finaloutput = cStringIO.StringIO()
+		self._charttype = charttype
+		self._chartsubtype = chartsubtype
+
+	def stream(self):
+		self.build_report()
+		return self._finaloutput.getvalue()
+
+	def build_report(self):
+		ClippingsChartBuildExcelReports.build_chart_report(self._finaloutput, self._results, self._charttype, self._chartsubtype)

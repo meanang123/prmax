@@ -28,7 +28,8 @@ from ttl.report.engagement_report import EngagementPDF
 from ttl.report.activity_report import ActivityPDF
 from ttl.report.clippings_piechart_report import ClippingsPieChartPDF
 from ttl.report.clippings_lineschart_report import ClippingsLinesChartPDF
-from ttl.report.clippings_dashboard_chart_report import ClippingsDashboardPieChartReportPDF, ClippingsDashboardLinesChartReportPDF, ClippingsDashboardColumnsChartReportPDF
+from ttl.report.clippings_dashboard_chart_report import ClippingsDashboardPieChartReportPDF, ClippingsDashboardLinesChartReportPDF, \
+     ClippingsDashboardColumnsChartReportPDF, ClippingsDashboardChartReportExcel
 from ttl.report.partners_list_report import PartnersListPDF
 from ttl.report.statistics_report import StatisticsPDF, StatisticsExcel
 from ttl.report.activitylog_report import ActivityLogPDF, ActivityLogExcel
@@ -1316,13 +1317,21 @@ class ClippingsDashboardChartReport(ReportCommon):
 	def run( self, data , output ) :
 		"run clippings report"
 
-		x = json.loads(self._reportoptions['data'])
-		if x['chartviewid'] == 1:
-			report = ClippingsDashboardPieChartReportPDF( self._reportoptions,  x)
-		elif x['chartviewid'] == 2:
-			report = ClippingsDashboardLinesChartReportPDF( self._reportoptions,  x)
-		elif x['chartviewid'] == 3:
-			report = ClippingsDashboardColumnsChartReportPDF( self._reportoptions,  x)
+		res = json.loads(self._reportoptions['data'])
+		if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
+			if res['chartviewid'] == 1:
+				report = ClippingsDashboardPieChartReportPDF( self._reportoptions,  res)
+			elif res['chartviewid'] == 2:
+				report = ClippingsDashboardLinesChartReportPDF( self._reportoptions,  res)
+			elif res['chartviewid'] == 3:
+				report = ClippingsDashboardColumnsChartReportPDF( self._reportoptions,  res)
+		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
+			if res['chartviewid'] == 1:
+				report = ClippingsDashboardChartReportExcel( self._reportoptions,  res, 'pie', None)
+			elif res['chartviewid'] == 2:
+				report = ClippingsDashboardChartReportExcel( self._reportoptions,  res, 'line', None)
+			elif res['chartviewid'] == 3:
+				report = ClippingsDashboardChartReportExcel( self._reportoptions,  res, 'column', 'stacked')
 			
 			
 

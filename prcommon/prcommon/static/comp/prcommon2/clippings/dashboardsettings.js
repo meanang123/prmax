@@ -23,6 +23,7 @@ define([
 	"dojo/_base/lang",
 	"dojo/dom-attr",
 	"dojo/data/ItemFileReadStore",
+	"dojo/data/ItemFileWriteStore",
 	"dojo/dom-class",
 	"dojo/dom-construct",
 	"dijit/form/ValidationTextBox",
@@ -35,7 +36,7 @@ define([
 	"prcommon2/outlet/OutletSelect",
 	"prcommon2/date/daterange",
 	"dijit/form/ComboBox"
-	], function(declare,BaseWidgetAMD,template,ContentPane,BorderContainer,utilities2,topic,request,JsonRestStore,JsonRest,Observable,lang,domattr,ItemFileReadStore,domclass,domConstruct){
+	], function(declare,BaseWidgetAMD,template,ContentPane,BorderContainer,utilities2,topic,request,JsonRestStore,JsonRest,Observable,lang,domattr,ItemFileReadStore,ItemFileWriteStore,domclass,domConstruct){
 return declare("prcommon2.clippings.dashboardsettings",
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
@@ -50,9 +51,14 @@ return declare("prcommon2.clippings.dashboardsettings",
 		this._questions = new JsonRestStore ({target:'/clippings/analyse/get_global_list', idAttribute:'id'});
 		this._clients = new JsonRestStore({target:"/clients/rest_combo", idAttribute:"id"});
 		this._issues = new JsonRestStore({target:"/crm/issues/issues_list_rest", idAttribute:"id"});
-		this._chartview =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=chartview"});		
-		this._dateranges =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dateranges"});		
-		this._groupby =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=groupby"});		
+		this._chartview =  new ItemFileReadStore({url:"/common/lookups?searchtype=chartview"});
+		this._dateranges =  new ItemFileReadStore({url:"/common/lookups?searchtype=dateranges"});
+		this._groupby =  new ItemFileWriteStore({
+			url:"/common/lookups?searchtype=groupby",
+			clearOnClose:true,
+			urlPreventCache:true,
+			nocallback:true
+		});
 		this._dashboardsettingsmode =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsmode"});		
 		this._dashboardsettingsstandard =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandard"});		
 		this._dashboardsettingsstandardsearchby =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandardsearchby"});		
@@ -426,7 +432,23 @@ return declare("prcommon2.clippings.dashboardsettings",
 			domclass.remove(this.groupby_label, "prmaxhidden");
 			domclass.remove(this.groupbyid.domNode, "prmaxhidden");
 		}
-	
+	},
+	_change_daterange:function()
+	{
+		if (this.daterangeid.get("value") >= 6 )
+		{
+			this._groupby.deleteItem(this._groupby._itemsByIdentity[1]);
+			this._groupby.save();
+			if (this.groupbyid.get("value") == 1)
+			{
+				this.groupbyid.set("value", 2);
+			}
+		}
+		else if (this.daterangeid.get("value") < 6)
+		{
+			this._groupby.close();
+			this.groupbyid.set("query",{});
+		}
 	}
 });
 });
