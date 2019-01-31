@@ -69,6 +69,7 @@ return declare("prcommon2.clippings.dashboard",
 		this._windowid = null;
 		this._customerid = PRMAX.utils.settings.cid;
 		this._data = null;
+		this._data2 = null;
 		this.stam = null;
 	},
 	postCreate:function()
@@ -85,7 +86,10 @@ return declare("prcommon2.clippings.dashboard",
 	{
 		if (response.success == "OK")
 		{
-			this._data = response.data.reduce((t,c) => {t[c.windowid] = c; return t;},{});
+			this._data = response.data.reduce(function(total,current){
+				total[current.windowid] = current;
+				return total;},{});
+
 			for (var i=0; i<response.data.length; i++)
 			{
 				if (response.data[i])
@@ -407,39 +411,11 @@ return declare("prcommon2.clippings.dashboard",
 		this._windowid = 6;
 		this._report();	
 	},
-	
-
 	_report:function()
 	{
 		this.output_ctrl.load(this.output_dlg, this._windowid, this._customerid, this._data[this._windowid]);
 		this.output_dlg.show();
 	},	
-	_report2:function()
-	{
-		var content = {};
-		content['data'] = {};
-		content['reportoutputtypeid'] = 0; //pdf
-		content['reporttemplateid'] = 34;
-		content['windowid'] = this._windowid;
-		content['customerid'] = this._customerid;
-		content['dashboardsettingsmodeid'] = this._data[this._windowid].dashboardsettingsmodeid;
-		content['dashboardsettingsstandardid'] = this._data[this._windowid].dashboardsettingsstandardid;
-		content['dashboardsettingsstandardsearchbyid'] = this._data[this._windowid].dashboardsettingsstandardsearchbyid;
-		content['questionid'] = this._data[this._windowid].questionid;
-		content['questiontypeid'] = this._data[this._windowid].questiontypeid;
-		content['daterangeid'] = this._data[this._windowid].daterangeid;
-		content['chartviewid'] = this._data[this._windowid].chartviewid;
-		content['by_client'] = this._data[this._windowid].by_client;
-		content['by_issue'] = this._data[this._windowid].by_issue;
-		content['groupbyid'] = this._data[this._windowid].groupbyid;
-		content['clientid'] = this._data[this._windowid].clientid;
-		content['issueid'] = this._data[this._windowid].issueid;
-		content['data'] = JSON.stringify(this._data[this._windowid]);
-		
-		this.report_dlg.show();
-		this.report_node.SetCompleted(this._complete_call_back);
-		this.report_node.start(content);
-	},
 	_complete_call:function()
 	{
 		this.report_dlg.hide();
@@ -479,13 +455,5 @@ return declare("prcommon2.clippings.dashboard",
 		this.settings_ctrl.load(this.settings_dlg, this._windowid, this._customerid);
 		this.settings_dlg.show();
 	},	
-	
-	_output_function:function()
-	{
-		this.output_ctrl.clear();
-		this.output_ctrl.set("dialog", this.output_dlg);
-		this.output_dlg.show();
-	},	
-
 });
 });
