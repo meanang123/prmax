@@ -66,7 +66,7 @@ return declare("prcommon2.clippings.dashboardsettings",
 		this._change_client_enabled=true;
 		this._windowid = null;
 		this._customerid = PRMAX.utils.settings.cid;
-		
+
 	},
 	postCreate:function()
 	{
@@ -171,6 +171,8 @@ return declare("prcommon2.clippings.dashboardsettings",
 			}
 			this.issueid.set("value", response.data.issueid);
 			this.chartviewid.set("value", response.data.chartviewid);
+			this.daterangeid.set("value", response.data.daterangeid);
+			this.groupbyid.set("value", response.data.groupbyid);
 			if (response.data.chartviewid == 1)
 			{
 				domclass.add(this.groupby_label, "prmaxhidden");	
@@ -180,9 +182,8 @@ return declare("prcommon2.clippings.dashboardsettings",
 			{
 				domclass.remove(this.groupby_label, "prmaxhidden");	
 				domclass.remove(this.groupbyid.domNode, "prmaxhidden");	
+				this._change_daterange();
 			}
-			this.daterangeid.set("value", response.data.daterangeid);
-			this.groupbyid.set("value", response.data.groupbyid);
 		}
 		else
 		{
