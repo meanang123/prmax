@@ -10,6 +10,7 @@ from datetime import date
             <span class="menu-boxes"><a href="http://cardifffilmoffice.co.uk/cymraeg/" target="_blank">Ffilmio yng Nghaerdydd</a></span>
             <span class="menu-boxes-last"><a href="https://www.newyddioncaerdydd.co.uk/contacts_welsh" target="_self">Cysylltu a ni</a></span>
             <span class="menu-boxes" align="right">
+                <a class="rss float-right" target="_blank" href="/rss_welsh.xml"></a>
                 <a class="twitter float-right" target="_blank" href="https://twitter.com/cyngorcaerdydd"></a>
                 <a class="facebook float-right" target="_blank" href="https://www.facebook.com/cardiff.council1/"></a>
             </span>

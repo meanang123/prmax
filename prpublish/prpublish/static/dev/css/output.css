@@ -283,6 +283,14 @@ select {
       background-repeat: no-repeat;
       background-size: 25px 25px;
       cursor: pointer; }
+    .main-header-cardiff .top-bar-newsroom-cardiff .rss {
+      width: 35px;
+      height: 45px;
+      background-image: url(/static/images/rss.svg);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 25px 25px;
+      cursor: pointer; }
   .main-header-cardiff .second-top-bar-newsroom-cardiff {
     background-image: url(/static/images/cardifflogo.png);
     background-color:#AE1A2A;

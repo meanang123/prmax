@@ -19,6 +19,8 @@ from prcommon.model import SEORelease, SEOSite, SEOCategories
 from lib.common import page_settings_basic
 
 CATEGORY_PAGES = SEOCategories.get_page_map()
+CARDIFF_ENGLISH = 25
+CARDIFF_WELSH = 66
 
 class Root(controllers.RootController):
 	"""The root controller of the application."""
@@ -178,6 +180,16 @@ class Root(controllers.RootController):
 
 		if args and args[0].lower() == "bingsiteauth.xml":
 			return """<?xml version="1.0"?><users><user>647F7E6AADD8D311E8505623B5C67405</user></users>"""
+
+		if args and args[0].lower() == "rss_cardiff.xml":
+			response.headers["Content-type"] = "text/xml;charset=utf-8"
+			newsroomid = CARDIFF_ENGLISH
+			return SEOSite.get_rss_cardiff(newsroomid)
+
+		if args and args[0].lower() == "rss_welsh.xml":
+			response.headers["Content-type"] = "text/xml;charset=utf-8"
+			newsroomid = CARDIFF_WELSH
+			return SEOSite.get_rss_cardiff(newsroomid)
 
 		if args and args[0].lower() == "rss.xml":
 			response.headers["Content-type"] = "text/xml;charset=utf-8"
