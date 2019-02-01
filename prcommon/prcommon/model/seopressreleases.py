@@ -1463,7 +1463,6 @@ class SEOSite(object):
 		tmp.flush()
 		return tmp.getvalue()
 
-
 	@staticmethod
 	def get_rss(seocategoryid=None,
 	             clientid=None,
@@ -1527,6 +1526,65 @@ class SEOSite(object):
 			item.appendChild(tmp)
 			tmp = doc.createElement('link')
 			link = webroot + "releases/%d.html" % seo.seoreleaseid
+			tmp.appendChild(doc.createTextNode(link))
+			item.appendChild(tmp)
+			tmp = doc.createElement('pubdate')
+			tmp.appendChild(doc.createTextNode(str(seo.published)))
+			item.appendChild(tmp)
+
+		return doc.toxml("UTF-8")
+
+
+	@staticmethod
+	def get_rss_cardiff(newsroomid=None):
+		""" get the rss feed for the site """
+		webroot = config.get('prpublish.web', '')
+		doc = Document()
+		rss = doc.createElement('rss')
+		rss.setAttribute("version", "2.0")
+		doc.appendChild(rss)
+		channel = doc.createElement('channel')
+		rss.appendChild(channel)
+		if newsroomid == CARDIFF_ENGLISH:
+			title = 'Cardiff News'
+			description = 'Current News From Cardiff'
+		elif newsroomid == CARDIFF_WELSH:
+			title = 'Newyddion Caerdydd'
+			description = 'Newyddion Cyfredol O Gaerdydd'
+		tmp = doc.createElement('title')
+		tmp.appendChild(doc.createTextNode(title))
+		channel.appendChild(tmp)
+		tmp = doc.createElement('link')
+		tmp.appendChild(doc.createTextNode(webroot))
+		channel.appendChild(tmp)
+		tmp = doc.createElement('description')
+		tmp.appendChild(doc.createTextNode(description))
+		channel.appendChild(tmp)
+		tmp = doc.createElement('language')
+		tmp.appendChild(doc.createTextNode('en-uk'))
+		channel.appendChild(tmp)
+
+		if newsroomid:
+			results = session.query(SEORelease).filter(SEORelease.seostatusid == Constants.SEO_Live)\
+				.join(SeoNewsRooms, SeoNewsRooms.seoreleaseid == SEORelease.seoreleaseid)\
+			  .filter(SeoNewsRooms.newsroomid == newsroomid)\
+			  .filter(SEORelease.published <= datetime.datetime.now())\
+			  .order_by(desc(SEORelease.published)).limit(BLOCK_SIZE).all()
+
+		for seo in results:
+			item = doc.createElement('item')
+			channel.appendChild(item)
+			tmp = doc.createElement('title')
+			tmp.appendChild(doc.createTextNode(seo.headline))
+			item.appendChild(tmp)
+			tmp = doc.createElement('description')
+			tmp.appendChild(doc.createTextNode(seo.synopsis))
+			item.appendChild(tmp)
+			tmp = doc.createElement('link')
+			if newsroomid == CARDIFF_ENGLISH:
+				link = webroot + "releases/%s%d/%d.html" % ('c', newsroomid, seo.seoreleaseid)
+			elif newsroomid == CARDIFF_WELSH:
+				link = webroot + "releases/%s%d/%d.html" % ('w', newsroomid, seo.seoreleaseid)
 			tmp.appendChild(doc.createTextNode(link))
 			item.appendChild(tmp)
 			tmp = doc.createElement('pubdate')
