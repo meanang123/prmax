@@ -14,6 +14,7 @@
 from turbogears.database import metadata, mapper, session
 from sqlalchemy import Table, text
 from prcommon.model.common import BaseSql
+from prcommon.model import Customer
 from ttl.postgres import DBCompress
 from ttl.dict import DictExt
 
@@ -162,10 +163,12 @@ class ReportTemplate(BaseSql):
 			kw['reporttemplatename'] = "%"
 
 		if not command:
-			if 'customerid' in kw and (kw['customerid'] == 5730 or kw['customerid'] == 5454): # customers: East Ayrshire/Cardiff
-				command = text(ReportTemplate.List_Std_EastAyrshire)
-			else:
-				command = text(ReportTemplate.List_Std)
+			command = text(ReportTemplate.List_Std)
+
+			if 'customerid' in kw:
+				customertypeid = session.query(Customer.customertypeid).filter(Customer.customerid == kw['customerid']).scalar()
+				if customertypeid == 20:
+					command = text(ReportTemplate.List_Std_EastAyrshire)
 
 		data = cls.sqlExecuteCommand(command,
 									   kw,
