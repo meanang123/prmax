@@ -50,7 +50,11 @@ class NewsRoom(object):
 
 	_standard_pages_images = {"nr_logo_1.png": "",
 	                          "nr_logo_2.png": "",}
-	_standard_pages_rss = {"rss.xml": "",}
+	_standard_pages_rss = {
+	    "rss.xml": "",
+	    "rss_cardiff.xml": "",
+	    "rss_welsh.xml": "",
+	}
 
 	_standard_pages_search_cardiff_welsh = {
 	    "searchcardiff": "searchcardiff",
@@ -118,7 +122,10 @@ class NewsRoom(object):
 				response.headers["Content-Length"] = len(data)
 				data_type = "png"
 		elif self._page[0] in NewsRoom._standard_pages_rss:
-			data = SEOSite.get_rss(None,
+			if self._client[0].newsroomid in (25, 66):
+				data = SEOSite.get_rss_cardiff(self._client[0].newsroomid)
+			else:
+				data = SEOSite.get_rss(None,
 			                       self._client[0].newsroomid,
 			                       title=self._client[1].clientname + " News",
 			                       description='Current News From '+ self._client[1].clientname)
