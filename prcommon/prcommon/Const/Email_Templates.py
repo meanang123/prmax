@@ -1,12 +1,12 @@
 Demo_Subject = "Your PRmax free trial has been activated"
 
 Demo_Body = """
-      <p><b>Welcome to PRmax - The simplest, accurate and most cost effective media database available!</b></p>
+      <p><b>Welcome to PRmax <br>Intelligent PR Software for In-house, Agency and Freelance Communicators</b></p>
       <p>Dear %s</p>
       <p>Thank you for registering with <span style="color:#4F81BD">PRmax</span>!Your free trial is now activated and ready to use.</p>
       <p>Your trial login gives you free access to the full search and save functionality of <span style="color:#4F81BD">PRmax</span> enabling you to research the media and create press lists immediately. Press release distribution, the exporting lists to Excel, the printing of labels and production of reports have all been disabled for the trial period but will be available the moment you subscribe.</p>
-      <p>Although PRmax is extremely simple to use, to ensure you get the most out of your trial it often helps to view the <a href="https://app.prmax.co.uk/static2/movies/PRmax.swf">PRmax Online Tutorial</a> or even better why not have a quick 15 minute one to one training session tomorrow morning?</p>
-      <p>Simply select the time that best suits,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%209.30a.m%%20tomorrow"><span style="color:#4F81BD">9.30am</span></a>,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%2010a.m%%20tomorrow"><span style="color:#4F81BD">10am</span></a>,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%2010.30a.m%%20tomorrow"><span style="color:#4F81BD">10.30am</span></a>,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%2011a.m%%20tomorrow"><span style="color:#4F81BD">11am</span></a> and I (Nick Elliott) or one of my team<b> </b>will take you through <span style="color:#4F81BD">PRmax's</span> full functionality or if tomorrow isn't convenient simply call on <b>01582 380199</b>/<a href="mailto:sales@prmax.co.uk">sales@prmax.co.uk</a> to arrange another time.</p>
+      <p>Although PRmax is extremely simple to use, to ensure you get the most out of your trial it often helps to view the <a href="https://app.prmax.co.uk/static2/movies/PRmax.swf">PRmax Online Tutorial</a> or even better why not have a quick 15 minute one-to-one training session tomorrow morning?</p>
+      <p>Simply select the time that best suits,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%209.30a.m%%20tomorrow"><span style="color:#4F81BD">9.30am</span></a>,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%2010a.m%%20tomorrow"><span style="color:#4F81BD">10am</span></a>,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%2010.30a.m%%20tomorrow"><span style="color:#4F81BD">10.30am</span></a>,&nbsp;<a href="mailto:sales@prmax.co.uk?subject=I%%20would%%20like%%20my%%20free%%20PRmax%%20training%%20at%%2011a.m%%20tomorrow"><span style="color:#4F81BD">11am</span></a> and I or one of my team will take you through <span style="color:#4F81BD">PRmax's</span> full functionality or if tomorrow isn't convenient simply call on <b>01582 380199</b>/<a href="mailto:sales@prmax.co.uk">sales@prmax.co.uk</a> to arrange another time.</p>
       <p><b>To Login simply go to </b><a href="https://app.prmax.co.uk/login">app.prmax.co.uk/login</a> (There is also a link for Client Login from the <span style="color:#4F81BD">PRmax</span> homepage <a href="https://www.prmax.co.uk">www.prmax.co.uk</a> )</p>
       <table cellspacing ="0" cellpadding="0" >
       <tr><td><b><p style="padding:0px;margin:0px">Your login details are</p></b></td><td></td></tr>
@@ -17,16 +17,16 @@ Demo_Body = """
       <br />
       <p>Why choose PRmax?</p>
       <ul>
-        <li>PRmax is the simplest and most cost effective database available</li>
+        <li>PRmax is the simplest, most accurate yet most cost effective database available</li>
         <li>PRmax includes Unlimited press release distribution at no extra cost</li>
         <li>Optional Forward Features, SEO Press Release Distribution and integrated Online Media Monitoring</li>
         <li>PRmax guarantees to beat any media database renewal quote</li>
         <li>PRmax gives peace of mind with prices fixed for 2 years</li>
         <li>PRmax offers flexible subscription and monthly direct debit payment options</li>
       </ul>
-      <p>If all this was not enough PRmax is also offering <b>13 months for the price of 12 </b>if you subscribe before you trial expires so go on, log in and see for yourself just how easy and intuitive PRmax is to use and don't forget, if you have any questions at all please feel free to contact<b> me Nick Elliott </b>or one of my team on on <b>01582 380199</b>.</p>
+      <p>If all this was not enough PRmax is also offering <b>13 months for the price of 12 </b>if you subscribe before you trial expires so go on, log in and see for yourself just how easy and intuitive PRmax is to use and don't forget, if you have any questions at all please feel free to contact<b> me Abby Doherty </b>or one of my team on on <b>01582 380199</b>.</p>
       <p>Best regards</p>
-      <p><a href="https://app.prmax.co.uk/collateral/978.png"><span style="font-size:14.0pt;font-family:Arial;color:gray"></span></a><span style="font-size:14.0pt;font-family:Arial;color:gray"></span><a href="https://app.prmax.co.uk/collateral/979.png"><span style="font-size:14.0pt;font-family:Arial;color:gray">Nick Elliott</span></a><br/></p>"""
+      <p>Abby Doherty<br/></p>"""
 
 Invoice_Body = """
 <p>Dear PRmax Customer,</p>

@@ -1,0 +1,156 @@
+<div>
+	<div data-dojo-attach-point="row1cp" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"top",style:"width:100%;height:50%;background-color:black"'>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:30%;height:98%", "class":"bordered"' data-dojo-attach-point="window1">
+
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_no_data1" >
+				<div data-dojo-attach-point="chart_node_loading" style="height:275px">
+					<table width="100%" height="100%">
+						<tr>
+							<td style="text-align:left;vertical-align:middle"></td>
+							<td style="text-align:center;vertical-align:middle">
+								<p>Loading Chart</p><i class="fa fa-spinner fa-2x fa-pulse" style="color:#0282A9"></i>
+							</td>
+							<td style="text-align:left;vertical-align:middle"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_data1" class="prmaxhidden">
+				<button data-dojo-attach-event="onClick:_rep1" data-dojo-attach-point="reportbtn1" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",style:"float:right",type:"button"'><i class="fa fa-print"></i></button>
+				<button data-dojo-attach-event="onClick:_set1" data-dojo-attach-point="settingsbtn1" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:right",type:"button"'><i class="fa fa-cog"></i></button>
+				<div data-dojo-attach-point="chart_node_1" style="height:275px"></div>
+			</div>
+<!--
+			<div style="height:50px;width:100%;float:right;margin:0 0 0 15px" data-dojo-attach-point="legend_view_1"><br/>
+				<div data-dojo-attach-point="legend_node_outer_1" style="height:50px">
+					<div data-dojo-attach-point="legend_node_1" style="height:50px"></div>
+				</div>
+			</div>
+-->
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",style:"width:30%;height:98%", "class":"bordered"' data-dojo-attach-point="window2">
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_no_data2" >
+				<div data-dojo-attach-point="chart_node_loading" style="height:275px">
+					<table width="100%" height="100%">
+						<tr>
+							<td style="text-align:left;vertical-align:middle"></td>
+							<td style="text-align:center;vertical-align:middle">
+								<p>Loading Chart</p><i class="fa fa-spinner fa-2x fa-pulse" style="color:#0282A9"></i>
+							</td>
+							<td style="text-align:left;vertical-align:middle"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_data2" class="prmaxhidden">
+				<button data-dojo-attach-event="onClick:_rep2" data-dojo-attach-point="reportbtn2" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",style:"float:right",type:"button"'><i class="fa fa-print"></i></button>
+				<button data-dojo-attach-event="onClick:_set2" data-dojo-attach-point="settingsbtn2" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:right",type:"button"'><i class="fa fa-cog"></i></button>
+				<div data-dojo-attach-point="chart_node_2" style="height:275px"></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"right",splitter:true, style:"width:30%;height:98%", "class":"bordered"' data-dojo-attach-point="window3">
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_no_data3" >
+				<div data-dojo-attach-point="chart_node_loading" style="height:275px">
+					<table width="100%" height="100%">
+						<tr>
+							<td style="text-align:left;vertical-align:middle"></td>
+							<td style="text-align:center;vertical-align:middle">
+								<p>Loading Chart</p><i class="fa fa-spinner fa-2x fa-pulse" style="color:#0282A9"></i>
+							</td>
+							<td style="text-align:left;vertical-align:middle"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_data3" class="prmaxhidden">
+				<button data-dojo-attach-event="onClick:_rep3" data-dojo-attach-point="reportbtn3" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",style:"float:right",type:"button"'><i class="fa fa-print"></i></button>
+				<button data-dojo-attach-event="onClick:_set3" data-dojo-attach-point="settingsbtn3" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:right",type:"button"'><i class="fa fa-cog"></i></button>
+				<div data-dojo-attach-point="chart_node_3" style="height:275px"></div>
+			</div>
+		</div>
+	</div>
+
+	<div data-dojo-attach-point="row2cp" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"bottom",style:"width:100%;height:50%;background-color:black"'>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:30%;height:98%", "class":"bordered"' data-dojo-attach-point="window4">
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_no_data4" >
+				<div data-dojo-attach-point="chart_node_loading" style="height:275px">
+					<table width="100%" height="100%">
+						<tr>
+							<td style="text-align:left;vertical-align:middle"></td>
+							<td style="text-align:center;vertical-align:middle">
+								<p>Loading Chart</p><i class="fa fa-spinner fa-2x fa-pulse" style="color:#0282A9"></i>
+							</td>
+							<td style="text-align:left;vertical-align:middle"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_data4" class="prmaxhidden">
+				<button data-dojo-attach-event="onClick:_rep4" data-dojo-attach-point="reportbtn4" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",style:"float:right",type:"button"'><i class="fa fa-print"></i></button>
+				<button data-dojo-attach-event="onClick:_set4" data-dojo-attach-point="settingsbtn4" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:right",type:"button"'><i class="fa fa-cog"></i></button>
+				<div data-dojo-attach-point="chart_node_4" style="height:275px"></div>
+			</div>
+		</div>
+		
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",style:"width:30%;height:98%", "class":"bordered"' data-dojo-attach-point="window5">
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_no_data5" >
+				<div data-dojo-attach-point="chart_node_loading" style="height:275px">
+					<table width="100%" height="100%">
+						<tr>
+							<td style="text-align:left;vertical-align:middle"></td>
+							<td style="text-align:center;vertical-align:middle">
+								<p>Loading Chart</p><i class="fa fa-spinner fa-2x fa-pulse" style="color:#0282A9"></i>
+							</td>
+							<td style="text-align:left;vertical-align:middle"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_data5" class="prmaxhidden">
+				<button data-dojo-attach-event="onClick:_rep5" data-dojo-attach-point="reportbtn5" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",style:"float:right",type:"button"'><i class="fa fa-print"></i></button>
+				<button data-dojo-attach-event="onClick:_set5" data-dojo-attach-point="settingsbtn5" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:right",type:"button"'><i class="fa fa-cog"></i></button>
+				<div data-dojo-attach-point="chart_node_5" style="height:275px"></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"right",splitter:true, style:"width:30%;height:98%", "class":"bordered"' data-dojo-attach-point="window6">
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_no_data6" >
+				<div data-dojo-attach-point="chart_node_loading" style="height:275px">
+					<table width="100%" height="100%">
+						<tr>
+							<td style="text-align:left;vertical-align:middle"></td>
+							<td style="text-align:center;vertical-align:middle">
+								<p>Loading Chart</p><i class="fa fa-spinner fa-2x fa-pulse" style="color:#0282A9"></i>
+							</td>
+							<td style="text-align:left;vertical-align:middle"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div style="height:275px;width:100%;float:left" data-dojo-attach-point="chart_node_loading_data6" class="prmaxhidden">
+				<button data-dojo-attach-event="onClick:_rep6" data-dojo-attach-point="reportbtn6" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",style:"float:right",type:"button"'><i class="fa fa-print"></i></button>
+				<button data-dojo-attach-event="onClick:_set6" data-dojo-attach-point="settingsbtn6" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:right",type:"button"'><i class="fa fa-cog"></i></button>
+				<div data-dojo-attach-point="chart_node_6" style="height:275px"></div>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="report_dlg" data-dojo-type="dijit/Dialog" title="Chart Report" data-dojo-props='style:"width:300px"'>
+		<div data-dojo-type="prcommon2/reports/ReportBuilder" data-dojo-attach-point="report_node"></div>
+	</div>
+		<div data-dojo-attach-point="settings_dlg" data-dojo-type="dijit/Dialog" title="Chart Settings" data-dojo-props='style:"width:750px;height:330px"'>
+		<div data-dojo-type="prcommon2/clippings/windowsettings" data-dojo-attach-point="settings_ctrl"></div>
+	</div>
+
+
+	<div data-dojo-attach-point="output_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Output",style:"width:300px"'>
+		<div data-dojo-type="prcommon2/clippings/output" data-dojo-attach-point="output_ctrl" ></div>
+	</div>
+
+
+	
+</div>

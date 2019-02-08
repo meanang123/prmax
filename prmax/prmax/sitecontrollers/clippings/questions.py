@@ -14,7 +14,7 @@ from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrFormSchema, RestSchema, BooleanValidator, FloatToIntValidator, Int2Null
 from ttl.base import stdreturn, duplicatereturn
-from prcommon.model import QuestionsGeneral, AnalyseGeneral
+from prcommon.model import QuestionsGeneral, AnalyseGeneral, Question
 
 class QuestionAddSchema(PrFormSchema):
 	"schema"
@@ -72,6 +72,7 @@ class QuestionAnswerIdSchema(PrFormSchema):
 class QuestionsController(SecureController):
 	""" Questions Interface """
 
+
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
@@ -83,6 +84,18 @@ class QuestionsController(SecureController):
 			params['questionid'] = int(args[0])
 
 		return QuestionsGeneral.list_by_source(params)
+
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def get_list_rest(self, *args, **params):
+		""" list of questions """
+
+		params["is_combo"] = True
+
+		return Question.get_list_rest(params)
+
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
