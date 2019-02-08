@@ -21,6 +21,7 @@ from prmax.sitecontrollers.clippings.questions import QuestionsController
 from prmax.sitecontrollers.clippings.analyse import AnalyseController
 from prmax.sitecontrollers.clippings.charting import ChartingController
 from prmax.sitecontrollers.clippings.clippingemailsend import ClippingSelectionSenderController
+from prmax.sitecontrollers.clippings.dashboardsettings import DashboardSettingsController
 from prmax.model import EmailTemplates, EmailQueue
 from prcommon.model.clippings.clippingselectionsender import ClippingSelectionSend
 from prcommon.model.queues import ProcessQueue
@@ -81,6 +82,9 @@ class ClippingPrivateUpdateSchema(PrFormSchema):
 
 class ClippingStartFrame(PrFormSchema):
 	as_frame = Int2Null()
+	
+class ClippingsQuestionSchema(RestSchema):
+	questionid = validators.Int()
 
 #########################################################
 ## controlllers
@@ -93,6 +97,7 @@ class ClippingsController(SecureController):
 	analyse = AnalyseController()
 	charting = ChartingController()
 	emailsender = ClippingSelectionSenderController()
+	dashboardsettings = DashboardSettingsController()
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -114,6 +119,17 @@ class ClippingsController(SecureController):
 		""" list of clips linked with a press release"""
 
 		return ClippingsGeneral.list_clippings_emailtemplate(params)
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ClippingsQuestionSchema(), state_factory=std_state_factory)
+	def list_clippings_questions(self, *args, **params):
+		""" list of clips linked with a press release"""
+
+		x =  ClippingsGeneral.list_clippings_question(params)
+		return stdreturn(data=x)
+
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

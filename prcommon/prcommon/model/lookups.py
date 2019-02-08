@@ -846,6 +846,85 @@ class Publishers(BaseSql):
 					for row in data.fetchall()]
 		return cls.sqlExecuteCommand(text(Publishers.List_Types), None, _convert)
 
+class ChartView(BaseSql):
+	"Charts view mode"
+	List_Types = """SELECT chartviewid,chartviewdescription FROM internal.chartview ORDER BY chartviewid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.chartviewid, name=row.chartviewdescription)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(ChartView.List_Types), None, _convert)
+
+class DateRanges(BaseSql):
+	"Date ranges default options"
+	List_Types = """SELECT daterangeid,daterangedescription FROM internal.dateranges ORDER BY daterangeid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.daterangeid, name=row.daterangedescription)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(DateRanges.List_Types), None, _convert)
+
+class GroupBy(BaseSql):
+	"Group daternage by default options"
+	List_Types = """SELECT groupbyid,groupbydescription FROM internal.groupby ORDER BY groupbyid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.groupbyid, name=row.groupbydescription)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(GroupBy.List_Types), None, _convert)
+
+class DashboardSettingsMode(BaseSql):
+	"Clippings charts dashboard options"
+	List_Types = """SELECT dashboardsettingsmodeid,dashboardsettingsmodedescription FROM internal.dashboardsettingsmode ORDER BY dashboardsettingsmodeid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.dashboardsettingsmodeid, name=row.dashboardsettingsmodedescription)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(DashboardSettingsMode.List_Types), None, _convert)
+
+class DashboardSettingsStandard(BaseSql):
+	"Clippings charts dashboard standard view options"
+	List_Types = """SELECT dashboardsettingsstandardid,dashboardsettingsstandarddescription FROM internal.dashboardsettingsstandard ORDER BY dashboardsettingsstandardid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.dashboardsettingsstandardid, name=row.dashboardsettingsstandarddescription)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(DashboardSettingsStandard.List_Types), None, _convert)
+
+class DashboardSettingsStandardSearchBy(BaseSql):
+	"Clippings charts dashboard standard view searchby options"
+	List_Types = """SELECT dashboardsettingsstandardsearchbyid,dashboardsettingsstandardsearchbydescription FROM internal.dashboardsettingsstandardsearchby ORDER BY dashboardsettingsstandardsearchbyid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.dashboardsettingsstandardsearchbyid, name=row.dashboardsettingsstandardsearchbydescription)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(DashboardSettingsStandardSearchBy.List_Types), None, _convert)
+
+
 #########################################################
 # load tables from db
 EmailSendTypes.mapping = Table('emailsendtypes', metadata, autoload=True, schema="internal")
@@ -896,6 +975,14 @@ try:
 	ServerTypes.mapping = Table('servertypes', metadata, autoload=True, schema='internal')
 except:
 	pass
+ChartView.mapping = Table('chartview', metadata, autoload = True, schema='internal')
+DateRanges.mapping = Table('dateranges', metadata, autoload = True, schema='internal')
+GroupBy.mapping = Table('groupby', metadata, autoload = True, schema='internal')
+DashboardSettingsMode.mapping = Table('dashboardsettingsmode', metadata, autoload = True, schema='internal')
+DashboardSettingsStandard.mapping = Table('dashboardsettingsstandard', metadata, autoload = True, schema='internal')
+DashboardSettingsStandardSearchBy.mapping = Table('dashboardsettingsstandardsearchby', metadata, autoload = True, schema='internal')
+
+
 
 mapper(EmailSendTypes, EmailSendTypes.mapping)
 mapper(UnSubscribeReason, UnSubscribeReason.mapping)
@@ -942,5 +1029,11 @@ mapper(TaskTypeStatus, TaskTypeStatus.mapping)
 mapper(Publishers, Publishers.mapping )
 mapper(ServerTypes, ServerTypes.mapping)
 mapper(EmailServerTypes, EmailServerTypes.mapping)
+mapper(ChartView, ChartView.mapping)
+mapper(DateRanges, DateRanges.mapping)
+mapper(GroupBy, DateRanges.mapping)
+mapper(DashboardSettingsMode, DashboardSettingsMode.mapping)
+mapper(DashboardSettingsStandard, DashboardSettingsStandard.mapping)
+mapper(DashboardSettingsStandardSearchBy, DashboardSettingsStandardSearchBy.mapping)
 
 
