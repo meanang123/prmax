@@ -69,8 +69,6 @@ return declare("prcommon2.clippings.dashboard",
 		this._windowid = null;
 		this._customerid = PRMAX.utils.settings.cid;
 		this._data = null;
-		this._data2 = null;
-		this.stam = null;
 	},
 	postCreate:function()
 	{
@@ -90,36 +88,49 @@ return declare("prcommon2.clippings.dashboard",
 				total[current.windowid] = current;
 				return total;},{});
 
-			for (var i=0; i<response.data.length; i++)
+			for (var i=1; i<=6; i++)
 			{
-				if (response.data[i])
+				if (this._data[i])
 				{
-					for (var win=1; win<=6; win++)
+					if (this._is_not_empty_object(this._data[i]))
 					{
-						if (response.data[i].windowid == win)
+						var load_no_data = "chart_node_loading_no_data" + i;
+						domclass.add(this[load_no_data], 'prmaxhidden');
+						var load_data = "chart_node_loading_data" + i;
+						domclass.remove(this[load_data], 'prmaxhidden');
+						if (this._is_not_empty_object(this._data[i].data))
 						{
-							if (this._is_not_empty_object(response.data[i].data))
-							{
-								var reportbtn = "reportbtn" + win;
-								domclass.remove(this[reportbtn].domNode, "prmaxhidden");
-							}
-							else
-							{
-								var reportbtn = "reportbtn" + win;
-								domclass.add(this[reportbtn].domNode, "prmaxhidden");
-							}							
-							break;
-						}						
+							var reportbtn = "reportbtn" + i;
+							domclass.remove(this[reportbtn].domNode, "prmaxhidden");
+						}
+						else
+						{
+							var reportbtn = "reportbtn" + i;
+							domclass.add(this[reportbtn].domNode, "prmaxhidden");
+						}
 					}
+					else
+					{
+						var reportbtn = "reportbtn" + i;
+						domclass.add(this[reportbtn].domNode, "prmaxhidden");
+					}
+					this.show_charts(this._data[i]);
+
 				}
-				this.show_charts(response.data[i]);
+				else
+				{
+					var load_no_data = "chart_node_loading_no_data" + i;
+					domclass.add(this[load_no_data], 'prmaxhidden');
+					var load_data = "chart_node_loading_data" + i;
+					domclass.remove(this[load_data], 'prmaxhidden');
+				}
 			}
 		}
 		else
 		{
 			alert("Problem loading chart data");
 		}
-	},	
+	},
 	_is_not_empty_object:function(obj)
 	{
 		for(var key in obj) {
@@ -145,6 +156,12 @@ return declare("prcommon2.clippings.dashboard",
 	},
 	_update_dashboard_event:function(data)
 	{
+	
+		var load_data = "chart_node_loading_data" + data[0].windowid;
+		domclass.add(this[load_data], 'prmaxhidden');
+		var load_no_data = "chart_node_loading_no_data" + data[0].windowid;
+		domclass.remove(this[load_no_data], 'prmaxhidden');
+	
 		var content = data[0];
 		content["customerid"] = PRMAX.utils.settings.cid;
 
@@ -159,42 +176,46 @@ return declare("prcommon2.clippings.dashboard",
 
 			if (response.data)
 			{
-				for (var win=1; win<=6; win++)
+				var win = response.data.windowid;
+				if (this._is_not_empty_object(response.data))
 				{
-					if (response.data.windowid == win)
+					var load_no_data = "chart_node_loading_no_data" + win;
+					domclass.add(this[load_no_data], 'prmaxhidden');
+					var load_data = "chart_node_loading_data" + win;
+					domclass.remove(this[load_data], 'prmaxhidden');
+					if (this._is_not_empty_object(response.data.data))
 					{
-						if (this._is_not_empty_object(response.data.data))
-						{
-							var reportbtn = "reportbtn" + win;
-							domclass.remove(this[reportbtn].domNode, "prmaxhidden");
-						}
-						else
-						{
-							var reportbtn = "reportbtn" + win;
-							domclass.add(this[reportbtn].domNode, "prmaxhidden");
-						}
-						break;
-					}						
+						var reportbtn = "reportbtn" + win;
+						domclass.remove(this[reportbtn].domNode, "prmaxhidden");
+					}
+					else
+					{
+						var reportbtn = "reportbtn" + win;
+						domclass.add(this[reportbtn].domNode, "prmaxhidden");
+					}					
 				}
-				
-				this._data[response.data.windowid].chartviewid = response.data.chartviewid;
-				this._data[response.data.windowid].by_client = response.data.by_client;
-				this._data[response.data.windowid].by_issue = response.data.by_issue;
-				this._data[response.data.windowid].clientid = response.data.clientid;
-				this._data[response.data.windowid].dashboardsettingsmodeid = response.data.dashboardsettingsmodeid;
-				this._data[response.data.windowid].dashboardsettingsstandardid = response.data.dashboardsettingsstandardid;
-				this._data[response.data.windowid].dashboardsettingsstandardsearchbyid = response.data.dashboardsettingsstandardsearchbyid;
-				this._data[response.data.windowid].data = response.data.data;
-				this._data[response.data.windowid].daterangeid = response.data.daterangeid;
-				this._data[response.data.windowid].dates = response.data.dates;
-				this._data[response.data.windowid].groupbyid = response.data.groupbyid;
-				this._data[response.data.windowid].maxvalue = response.data.maxvalue;
-				this._data[response.data.windowid].questionid = response.data.questionid;
-				this._data[response.data.windowid].questiontypeid = response.data.questiontypeid;
-				this._data[response.data.windowid].title = response.data.title;
-				
+				else
+				{
+					var reportbtn = "reportbtn" + win;
+					domclass.add(this[reportbtn].domNode, "prmaxhidden");
+				}					
+
+				this._data[win].chartviewid = response.data.chartviewid;
+				this._data[win].by_client = response.data.by_client;
+				this._data[win].by_issue = response.data.by_issue;
+				this._data[win].clientid = response.data.clientid;
+				this._data[win].dashboardsettingsmodeid = response.data.dashboardsettingsmodeid;
+				this._data[win].dashboardsettingsstandardid = response.data.dashboardsettingsstandardid;
+				this._data[win].dashboardsettingsstandardsearchbyid = response.data.dashboardsettingsstandardsearchbyid;
+				this._data[win].data = response.data.data;
+				this._data[win].daterangeid = response.data.daterangeid;
+				this._data[win].dates = response.data.dates;
+				this._data[win].groupbyid = response.data.groupbyid;
+				this._data[win].maxvalue = response.data.maxvalue;
+				this._data[win].questionid = response.data.questionid;
+				this._data[win].questiontypeid = response.data.questiontypeid;
+				this._data[win].title = response.data.title;
 			}
-			
 			this.show_charts(response.data)
 		}
 	},
