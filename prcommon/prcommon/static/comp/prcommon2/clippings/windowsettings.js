@@ -55,14 +55,20 @@ return declare("prcommon2.clippings.windowsettings",
 			urlPreventCache:true,
 			nocallback:true
 		});
-		this._dashboardsettingsmode =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsmode"});		
-		this._dashboardsettingsstandard =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandard"});		
-		this._dashboardsettingsstandardsearchby =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandardsearchby"});		
-		
+		this._dashboardsettingsmode =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsmode"});
+		this._dashboardsettingsstandard =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandard"});
+//		this._dashboardsettingsstandardsearchby =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandardsearchby"});
+		this._dashboardsettingsstandardsearchby =  new ItemFileWriteStore({
+			url:"/common/lookups?searchtype=dashboardsettingsstandardsearchby",
+			clearOnClose:true,
+			urlPreventCache:true,
+			nocallback:true
+		});
+
 		this._change_client_enabled=true;
 		this._windowid = null;
 		this._customerid = PRMAX.utils.settings.cid;
-		
+
 	},
 	postCreate:function()
 	{
@@ -97,6 +103,9 @@ return declare("prcommon2.clippings.windowsettings",
 		this._windowid = windowid;
 		this._customerid = customerid;
 		
+		this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[2]);
+		this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[3]);
+
 		request.post('/clippings/dashboardsettings/get_for_edit',
 				utilities2.make_params({ data : {customerid:this._customerid, windowid:this._windowid}})).
 				then (this._load_call_back);		

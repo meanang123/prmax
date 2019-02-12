@@ -61,7 +61,13 @@ return declare("prcommon2.clippings.dashboardsettings",
 		});
 		this._dashboardsettingsmode =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsmode"});		
 		this._dashboardsettingsstandard =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandard"});		
-		this._dashboardsettingsstandardsearchby =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandardsearchby"});		
+//		this._dashboardsettingsstandardsearchby =  new ItemFileReadStore ( { url:"/common/lookups?searchtype=dashboardsettingsstandardsearchby"});
+		this._dashboardsettingsstandardsearchby =  new ItemFileWriteStore({
+			url:"/common/lookups?searchtype=dashboardsettingsstandardsearchby",
+			clearOnClose:true,
+			urlPreventCache:true,
+			nocallback:true
+		});
 		
 		this._change_client_enabled=true;
 		this._windowid = null;
@@ -98,6 +104,10 @@ return declare("prcommon2.clippings.dashboardsettings",
 	{
 		this._customerid = customerid;
 		this._windowid = windowid;
+
+		this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[2]);
+		this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[3]);
+
 		if (windowid == 1)
 		{
 			domattr.set(this.winbtn1, 'label', 'Selected');	
