@@ -80,6 +80,7 @@ dojo.declare("prmax.iadmin.accounts.UpgradeOrderConfirmation",
 		if ( response.success == "OK" )
 		{
 			alert("Upgrade Confirmation Sent");
+			this.sendbtn.cancel();
 			this._dialog.hide();
 			dojo.publish(PRCOMMON.Events.Financial_ReLoad, []);
 		}
@@ -93,6 +94,7 @@ dojo.declare("prmax.iadmin.accounts.UpgradeOrderConfirmation",
 		if (ttl.utilities.formValidator( this.form ) == false )
 		{
 			alert("Please Enter Details");
+			this.sendbtn.cancel();
 			return null;
 		}
 		if (this.media_upgrade.get("value") == false &&
@@ -163,6 +165,7 @@ dojo.declare("prmax.iadmin.accounts.UpgradeOrderConfirmation",
 		dojo.addClass(this.advance_view,"prmaxhidden");
 		dojo.addClass(this.monitoring_view,"prmaxhidden");
 		dojo.addClass(this.international_view,"prmaxhidden");
+		this.sendbtn.cancel();
 	},
 	_Preview:function()
 	{

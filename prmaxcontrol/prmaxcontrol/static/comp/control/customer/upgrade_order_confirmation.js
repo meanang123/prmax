@@ -30,7 +30,8 @@ define([
 	"dijit/form/NumberTextBox",
 	"dijit/form/CurrencyTextBox",
 	"dijit/form/DateTextBox",
-	"dijit/form/Button"
+	"dijit/form/Button",
+	"dojox/form/BusyButton"
 
 	], function(declare, BaseWidgetAMD, template, BorderContainer,request,utilities2,lang,topic,domclass,domattr, ItemFileWriteStore, ItemFileReadStore){
 
@@ -100,6 +101,7 @@ return declare("control.customer.upgrade_order_confirmation",
 		if ( response.success == "OK" )
 		{
 			alert("Upgrade Confirmation Sent");
+			this.sendbtn.cancel();
 			this._dialog.hide();
 			topic.publish(PRCOMMON.Events.Financial_ReLoad, []);
 		}
@@ -113,6 +115,7 @@ return declare("control.customer.upgrade_order_confirmation",
 		if (utilities2.form_validator( this.form ) == false )
 		{
 			alert("Please Enter Details");
+			this.sendbtn.cancel();
 			return null;
 		}
 		if (this.media_upgrade.get("value") == false &&
@@ -181,6 +184,7 @@ return declare("control.customer.upgrade_order_confirmation",
 		domclass.add(this.advance_view,"prmaxhidden");
 		domclass.add(this.monitoring_view,"prmaxhidden");
 		domclass.add(this.international_view,"prmaxhidden");
+		this.sendbtn.cancel();
 	},
 	_Preview:function()
 	{
