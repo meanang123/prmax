@@ -193,8 +193,8 @@ class Root(controllers.RootController):
 					session.flush()
 					session.commit()
 
-					link='http://test.app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
-					#link='http://app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
+					#link='http://test.app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
+					link='http://app.prmax.co.uk/passwordrequest_word?guid=%s' % guid.password_guid
 					#link='http://prmaxtest.localhost/passwordrequest_word?guid=%s' % guid.password_guid
 					expirydate = datetime.strftime(guid.expirydate, "%d/%m/%Y %H:%M")
 					button = '%s' %link
