@@ -44,11 +44,12 @@ class DataClean(object):
         fromdate2 = date.today() - timedelta(days = 365*3)
         customers_todelete = session.query(Customer.customerid).\
             outerjoin(SEORelease, SEORelease.customerid == Customer.customerid).\
-            filter(or_(and_(Customer.customerstatusid == 3, SEORelease.published < fromdate2), 
-                       Customer.licence_expire < fromdate2,  
-                       (and_(Customer.licence_expire > fromdate2, 
-                             Customer.licence_expire < fromdate1, 
-                             SEORelease.published < fromdate2)))).distinct().all()
+            filter(or_(and_(Customer.customerstatusid == 3, SEORelease.published < fromdate2),
+                       Customer.licence_expire < fromdate2,
+                       (and_(Customer.licence_expire > fromdate2,
+                             Customer.licence_expire < fromdate1,
+                             SEORelease.published < fromdate2)))).distinct().\
+        	filter(Customer.isinternal == False).all()
                 #filter(Customer.customerid > 1800).distinct().all()
                 #filter(Customer.customerid == 1134).all()
 
@@ -57,6 +58,7 @@ class DataClean(object):
         counter = 0
         for customerid in customers_todelete:
             counter += 1
+            print '%s: %s' %(counter,customerid)
             session.begin()
             try:
 
@@ -87,7 +89,7 @@ class DataClean(object):
                     session.execute(text('DELETE FROM userdata.clientnewsroomcustumlinks WHERE newsroomid = :newsroomid'), {'newsroomid': newsroomid}, Customer)
                     session.execute(text('DELETE FROM userdata.clientnewsroomimage WHERE newsroomid = :newsroomid'), {'newsroomid': newsroomid}, Customer)
                     session.execute(text('DELETE FROM userdata.clientnewroomcontactdetails WHERE newsroomid = :newsroomid'), {'newsroomid': newsroomid}, Customer)
-                session.flush()		
+                session.flush()
                 session.execute(text('DELETE FROM userdata.clientnewsroom WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.clippings WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.clippingsanalysis WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
@@ -152,7 +154,7 @@ class DataClean(object):
                 if clients and clients_seo:
                     clients_todelete = (list(set(clients) - set(clients_seo)))
                 for clientid in clients_todelete:
-                    session.execute(text('DELETE FROM userdata.client WHERE customerid = :customerid AND clientid = :clientid'), 
+                    session.execute(text('DELETE FROM userdata.client WHERE customerid = :customerid AND clientid = :clientid'),
                                     {'customerid': customerid, 'clientid':clientid}, Customer)
 
                 #transaction = session.begin(subtransactions=True)
@@ -173,20 +175,20 @@ class DataClean(object):
                 if emailtemplates and emailtemplates_seo:
                     emailtemplates_todelete = (list(set(emailtemplates) - set(emailtemplates_seo)))
                 for emailtemplateid in emailtemplates_todelete:
-                    session.execute(text('DELETE FROM userdata.emailtemplates WHERE customerid = :customerid AND emailtemplateid = :emailtemplateid'), 
+                    session.execute(text('DELETE FROM userdata.emailtemplates WHERE customerid = :customerid AND emailtemplateid = :emailtemplateid'),
                                     {'customerid': customerid, 'emailtemplateid':emailtemplateid}, Customer)
 
                 session.flush()
                 session.execute(text('DELETE FROM userdata.list WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
 
-                session.execute(text('DELETE FROM public.tg_user WHERE customerid = :customerid AND user_id != 5732'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM public.tg_user WHERE customerid = :customerid AND user_id != 5732 AND usertypeid = 1'), {'customerid': customerid}, Customer)
 
                 session.commit()
             except:
                 LOGGER.exception("Delete Failure")
                 session.rollback()
-                raise			
-            print '%s: %s' %(counter,customerid)
+                raise
+            # print '%s: %s' %(counter,customerid)
         print 'finished'
 
 class CollateralClean(object):
@@ -207,7 +209,7 @@ class CollateralClean(object):
             for col in collateral_collateral:
                 if col.collateralid not in prmaxcollateral:
                     nbr += 1
-                    session.delete(col_collateral)
+                    session.delete(col)
                     if nbr%50 == 0:
                         session.commit()
                         session.begin()
