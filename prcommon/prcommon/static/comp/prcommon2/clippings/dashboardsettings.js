@@ -105,8 +105,11 @@ return declare("prcommon2.clippings.dashboardsettings",
 		this._customerid = customerid;
 		this._windowid = windowid;
 
-		this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[2]);
-		this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[3]);
+		//this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[2]);
+		if (this._dashboardsettingsstandardsearchby._itemsByIdentity[3] && this._dashboardsettingsstandardsearchby._itemsByIdentity[3] != undefined)
+		{
+			this._dashboardsettingsstandardsearchby.deleteItem(this._dashboardsettingsstandardsearchby._itemsByIdentity[3]);
+		}
 
 		if (windowid == 1)
 		{
@@ -448,7 +451,10 @@ return declare("prcommon2.clippings.dashboardsettings",
 	{
 		if (this.daterangeid.get("value") >= 6 )
 		{
-			this._groupby.deleteItem(this._groupby._itemsByIdentity[1]);
+			if (this._groupby._itemsByIdentity[1] && this._groupby._itemsByIdentity[1] != undefined)
+			{
+				this._groupby.deleteItem(this._groupby._itemsByIdentity[1]);
+			}
 			this._groupby.save();
 			if (this.groupbyid.get("value") == 1)
 			{

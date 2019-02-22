@@ -799,7 +799,7 @@ class ColumnsChart(_DrawingEditorMixin,Drawing):
 
 	def setBars(self, clippings):
 		numberOfBars = len(clippings['data'])
-		for i in range(1, len(clippings['data'])):
+		for i in range(0, numberOfBars):
 			self.chart.bars[i].fillColor = self._colors[i]
 
 class ClippingsDashboardChartReportExcel(object):

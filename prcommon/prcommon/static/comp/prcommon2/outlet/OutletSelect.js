@@ -37,12 +37,14 @@ define([
 	templateString: template,
 	name:"",
 	value:"",
+	mode:"outlet",
 	searchtypeid:6,
 	placeHolder:"Select Outlet",
 	source_url:"/search/list_rest",
 	constructor: function()
 	{
 		this._outletid = null;
+		this._circulation = 0;
 		this._load_call_back = lang.hitch(this, this._load_call);
 		this.show_parentbtn = false;
 
@@ -125,6 +127,7 @@ define([
 		{
 			domattr.set(this.display,"innerHTML",value);
 			domclass.remove(this.display,"PlaceHolder");
+			topic.publish('/outlet/circulation', [this._circulation]);
 		}
 	},
 	_setParentbtnvalueAttr:function(value)
@@ -246,24 +249,25 @@ define([
 
 		this._row = cell.row.data;
 		this._outletid = this._row.outletid;
+		this._circulation = this._row.circulation;
 		if ( cell.column.id  == 5)
 		{
 			this.selectdetails_dlg.startup();
 			this.selectdetails_dlg.show();
-			this.selectdetails_ctrl.load(this._outletid);
+			this.selectdetails_ctrl.load(this._outletid,this.mode);
 		}
 		else
 		{
 			domattr.set(this.display,"innerHTML",this._row.outletname);
 			this.select_dlg.hide();
 			this._set_view();
+			topic.publish('/outlet/circulation', [this._circulation]);
 		}
 
 //		this._outletid = e.rows[0].data.outletid;
 //		domattr.set(this.display,"innerHTML",e.rows[0].data.outletname);
 //		this.select_dlg.hide();
 //		this._set_view();
-	}
-
+	},
 });
 });

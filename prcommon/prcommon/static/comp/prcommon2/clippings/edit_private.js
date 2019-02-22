@@ -45,12 +45,13 @@ return declare("prcommon2.clippings.edit_private",
 		this._liststore = new JsonRestStore({target:"/emails/templates_list_rest", idAttribute:"id"});
 		this._statement = new JsonRestStore({target:"/statement/statement_combo_rest", idAttribute:"id"});
 
-
 		this._change_client_enabled=true;
 
 		this._save_call_back = lang.hitch(this, this._save_call);
 		this._load_call_back = lang.hitch(this, this._load_call);
 		this._delete_call_back = lang.hitch(this, this._delete_call);
+
+		topic.subscribe('/outlet/circulation', lang.hitch(this, this._change_outlet_event));
 	},
 	postCreate:function()
 	{
@@ -96,6 +97,7 @@ return declare("prcommon2.clippings.edit_private",
 		this.clip_article_size.set("value", 0);
 		this.clip_words.set("value", 0);
 		this.clip_circulation.set("value", 0);
+		this.clip_circulation.set("displayedvalue", 0);
 		this.clip_readership.set("value", 0);
 		this.clip_disrate.set("value", 0.00);
 		this.clip_text.set("value", "");
@@ -276,6 +278,16 @@ return declare("prcommon2.clippings.edit_private",
 		}
 
 		this.deletebtn.cancel();
-	}
+	},
+	_change_outlet_event:function(data)
+	{
+		if (this.clip_circulation.value == "" || this.clip_circulation.value == 0 || this.clip_circulation.displayedValue == "" || this.clip_circulation.displayedValue == '0') 
+		{
+			this.clip_circulation.value = data[0];
+			this.clip_circulation.displayedValue = data[0];
+			domattr.set(this.clip_circulation, "displayedValue", data[0]);
+		}
+
+	},
 });
 });
