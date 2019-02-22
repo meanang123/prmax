@@ -230,14 +230,14 @@ return declare("prcommon2.clippings.dashboard",
 		pie_chart = new Chart(chart_node, {
 				title: title,
 				titlePos: "top",
-				titleGap: 25,
+				titleGap: 0,
 				titleFont: "normal normal normal 12pt Arial",
 				titleFontColor: "black"
 		});
 		pie_chart.setTheme(PrimaryColors);
 		pie_chart.addPlot("default", {
 			type: Pie,
-			radius: 70,
+			radius: 80,
 			fontColor: "black",
 			labelOffset: 0,
 			labelStyle: "columns",
@@ -246,7 +246,7 @@ return declare("prcommon2.clippings.dashboard",
 			startAngle: -10
 		});
 		pie_chart.addAxis("x");
-		pie_chart.addAxis("y", {min: 0, vertical: true, fixLower: "major",	fixUpper: "major"});
+		pie_chart.addAxis("y", {min: 0, vertical: true,	fixLower: "major",	fixUpper: "major"});
 		if (data)
 		{
 			pie_chart.addSeries(title,data);
@@ -255,6 +255,8 @@ return declare("prcommon2.clippings.dashboard",
 		var moveslice = new MoveSlice(pie_chart,"default");
 		var magnify = new Magnify(pie_chart, "default", { scale: 1.2 });
 		pie_chart.render();
+		var a = this["window" + windowid];
+		//pie_chart.resize({w:a.l,h:275});
 	},
 	_create_lines:function(data,windowid)
 	{
@@ -268,7 +270,7 @@ return declare("prcommon2.clippings.dashboard",
 		lines_chart = new Chart(chart_node, {
 				title: data.title,
 				titlePos: "top",
-				titleGap: 25,
+				titleGap: 0,
 				titleFont: "normal normal normal 12pt Arial",
 				titleFontColor: "black"
 		});
@@ -298,6 +300,8 @@ return declare("prcommon2.clippings.dashboard",
 			vertical: true,
 			fixLower: "major",
 			fixUpper: "major",
+			natural: true,
+			rotation: max.toString().length >= 4 ? -70 : -30,
 			minorTick: {stroke: "black", length: 2, width:1},
 			majorTick: {color: "red", length: 4, width:1}});
 		if (data.data)
@@ -388,6 +392,7 @@ return declare("prcommon2.clippings.dashboard",
 			vertical: true,
 			fixLower: "major",
 			fixUpper: "major",
+			rotation: max.toString().length >= 4 ? -70 : -30,
 			minorTick: {stroke: "black", length: 2, width:1},
 			majorTick: {color: "red", length: 4, width:1}});
 		if (data.data)

@@ -70,9 +70,14 @@ define([
 	{
 		this._dialog = dialog;
 	},
-	load:function(outletid)
+	load:function(outletid, mode)
 	{
-		request.post('/research/admin/outlets/research_outlet_edit_get',
+		var url = '/research/admin/outlets/research_outlet_edit_get';
+		if (mode == "clippings")
+		{
+			url = '/outlets/research_outlet_edit_get'
+		}
+		request.post(url,
 				utilities2.make_params({ data : {outletid: outletid}})).
 				then ( this._load_call_back);
 

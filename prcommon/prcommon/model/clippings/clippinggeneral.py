@@ -368,7 +368,8 @@ class ClippingsGeneral(object):
 		  icon_name=clippingstype.icon_name,
 		  statementid=clipping.statementid,
 		  emailtemplateid=clipping.emailtemplateid,
-		  issuename=issuename
+		  issuename=issuename,
+		  clip_circulation=clipping.clip_circulation
 		)
 
 	@staticmethod
@@ -505,6 +506,9 @@ class ClippingsGeneral(object):
 			clipping.clip_title = params["clip_title"]
 			clipping.statementid = params["statementid"]
 			clipping.emailtemplateid = params["emailtemplateid"]
+			clipping.clip_link = params["clip_link"]
+			clipping.clippingstypeid = params["clippingstypeid"]
+			clipping.clippingstoneid = params["clippingstoneid"]
 
 			issue = session.query(ClippingsIssues).filter(ClippingsIssues.clippingid == clipping.clippingid).all()
 			# add
