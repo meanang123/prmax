@@ -240,10 +240,7 @@ class WorkerController(threading.Thread):
 				is_valid_email_domain = self._domain.is_valid_domain_email(record["returnaddress"])
 				has_privatekey = self._domain.has_privatekey(record["returnaddress"])
 
-				if is_valid_email_domain:
-					send_address = record["returnaddress"]
-				else:
-					send_address = '"%s" <%s@prmax.co.uk>' % (record["returnname"], record["returnaddress"].replace("@", "="))
+				send_address = record["returnaddress"]
 
 				header = footer = ""
 				if record["footercontent"]:
@@ -321,18 +318,6 @@ class WorkerController(threading.Thread):
 					  self._domain._selectors[dom],
 					  dom,
 					  self._domain._privatekeys[dom],
-					  canonicalize=(dkim.Relaxed, dkim.Relaxed),
-					  include_headers=['from', 'to', 'subject'])
-
-					email.set_dkim(sig[len("DKIM-Signature: "):])
-
-				if not is_valid_email_domain:
-					# sign message
-					sig = dkim.sign(
-					  email.serialise(),
-					  PRMAXSELECTOR,
-					  PRMAXDOMAIN,
-					  PRMAXDKIM,
 					  canonicalize=(dkim.Relaxed, dkim.Relaxed),
 					  include_headers=['from', 'to', 'subject'])
 
