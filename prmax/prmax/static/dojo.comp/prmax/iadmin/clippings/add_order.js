@@ -45,7 +45,9 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 	load:function ( dialog, icustomerid, end_date)
 	{
 		this._dialog = dialog;
-		this.end_date = end_date;
+//		this.end_date = new Date('2035-01-01');
+		//this.end_date = end_date;
+		//this.end_date.set("value", new Date('2035-01-01'));
 		this.icustomerid.set("value",icustomerid);
 		this._icustomerid = icustomerid;
 		this.clientid.set("query",{icustomerid:icustomerid});
@@ -74,7 +76,8 @@ dojo.declare("prmax.iadmin.clippings.add_order",
 	{
 		this.addbtn.cancel();
 		this.startdate.set("value",new Date());
-		this.enddate.set("value",this.end_date);
+		this.enddate.set("value", new Date('2035-01-01'));
+//		this.enddate.set("value",this.end_date);
 		this.keywords.set("value","");
 		this.rss_feed.set("value","");
 		this.purchaseorder.set("value","");
