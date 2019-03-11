@@ -28,39 +28,33 @@ fjs.parentNode.insertBefore(js, fjs);
 		</div>
 		<div class="contact">
 			<div class="name">Jeremy Rhys</div>
-			<div class="jobtitle">Communications officer</div>
+			<div class="jobtitle">Assistant Head of Communications and External Relations</div>
 			<div class="email"><span class="title">Email: </span><span>jeremy.rhys@cardiff.gov.uk</span></div>
 			<div class="tel"><span class="title">Tel: </span><span>029 2087 2639</span></div>
 		</div>
 		<div class="contact">
-			<div class="name">Ian Lloyd-Davies</div>
-			<div class="jobtitle">Media Advisor</div>
-			<div class="email"><span class="title">Email: </span><span>ILloyd-davies@cardiff.gov.uk</span></div>
-			<div class="tel"><span class="title">Tel: </span><span>029 2087 2969</span></div>
-		</div>
-		<div class="contact">
 			<div class="name">Andrea Currie</div>
-			<div class="jobtitle">Media Advisor</div>
+			<div class="jobtitle">Campaign Manager & Media Advisor</div>
 			<div class="email"><span class="title">Email: </span><span>andrea.currie@cardiff.gov.uk</span></div>
 			<div class="tel"><span class="title">Tel: </span><span>029 2087 3107</span></div>
 		</div>
 		<div class="contact">
+			<div class="name">Ian Lloyd-Davies</div>
+			<div class="jobtitle">Campaign Manager & Media Advisor</div>
+			<div class="email"><span class="title">Email: </span><span>ILloyd-davies@cardiff.gov.uk</span></div>
+			<div class="tel"><span class="title">Tel: </span><span>029 2087 2969</span></div>
+		</div>
+		<div class="contact">
 			<div class="name">Danni Janssens</div>
-			<div class="jobtitle">Press Officer</div>
+			<div class="jobtitle">Media Advisor</div>
 			<div class="email"><span class="title">Email: </span><span>danni.janssens@cardiff.gov.uk</span></div>
 			<div class="tel"><span class="title">Tel: </span><span>029 2087 2965</span></div>
 		</div>
 		<div class="contact">
 			<div class="name">Dave Harris</div>
-			<div class="jobtitle">Press Officer</div>
+			<div class="jobtitle">Media Advisor</div>
 			<div class="email"><span class="title">Email: </span><span>davidharris@cardiff.gov.uk</span></div>
 			<div class="tel"><span class="title">Tel: </span><span>029 2087 2409</span></div>
-		</div>
-		<div class="contact">
-			<div class="name">Mark Jacques</div>
-			<div class="jobtitle">Press Officer</div>
-			<div class="email"><span class="title">Email: </span><span>Mark.Jacques3@cardiff.gov.uk</span></div>
-			<div class="tel"><span class="title">Tel: </span><span>029 2087 3580</span></div>
 		</div>
 	</div>
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>		
