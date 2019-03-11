@@ -61,7 +61,7 @@ define([
 		if ( response.success == "OK" )
 		{
 			//topic.publish(PRCOMMON.Events.Employee_Updated,{employeeid: parseInt(this.employeeid.get("value"))});
-			alert("Contact Copied");
+			alert("Contact Copied. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			this._dialog.hide();
 		}
 		else

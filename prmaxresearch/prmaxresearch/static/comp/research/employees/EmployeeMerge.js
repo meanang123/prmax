@@ -82,7 +82,7 @@ define([
 	{
 		if (response.success == "OK")
 		{
-			alert("Merge Completed");
+			alert("Merge Completed. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			topic.publish(PRCOMMON.Events.Employee_Deleted, {has_deleted:true,employeeid : this.employeeid.get("value") } );
 			this._dlg.hide();
 			this.clear();

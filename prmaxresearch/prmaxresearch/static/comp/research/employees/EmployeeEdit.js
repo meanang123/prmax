@@ -55,13 +55,13 @@ define([
 			{
 				this.employeeidnode.set("value",response.employee.employeeid);
 				topic.publish(PRCOMMON.Events.Employee_Add, response.employee);
-				alert("Contact added");
+				alert("Contact added. Please verify the 'Research tab' to make sure these changes haven't effected it");
 				this._close();
 			}
 			else
 			{
 				topic.publish(PRCOMMON.Events.Employee_Updated, response.employee);
-				alert("Contact updated");
+				alert("Contact updated. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			}
 		}
 		else

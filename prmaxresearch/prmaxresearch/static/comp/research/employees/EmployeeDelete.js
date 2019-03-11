@@ -58,9 +58,9 @@ define([
 		{
 			topic.publish(PRCOMMON.Events.Employee_Deleted, response.data);
 			if ( response.data.has_deleted == false )
-				alert("Contact deleted but retained role");
+				alert("Contact deleted but retained role. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			else
-				alert("Contact Deleted");
+				alert("Contact Deleted. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			this.clear();
 			this._dialog.hide()
 		}

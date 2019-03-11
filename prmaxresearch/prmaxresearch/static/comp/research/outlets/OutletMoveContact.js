@@ -62,7 +62,7 @@ define([
 		if ( response.success == "OK" )
 		{
 			topic.publish(PRCOMMON.Events.Employee_Deleted,{has_deleted:true, employeeid: parseInt(this.employeeid.get("value"))});
-			alert("Contact Moved");
+			alert("Contact Moved. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			this._dialog.hide();
 			this.clear();
 		}
