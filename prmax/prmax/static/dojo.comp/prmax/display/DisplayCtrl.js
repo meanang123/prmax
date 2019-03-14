@@ -94,6 +94,10 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		if (button.id==this.advanceView.id && this.loaded_advance===false)
 		{
 			this.loaded_advance = true;
+			if (this.advanceView.get("class") == 'prmaxhidden')
+			{
+				this.advanceView.set("class", "");
+			}
 			this.advancectrl.Load( this.ctrldata.outletid ) ;
 		}
 		if (button.id==this.contactView.id && dojo.isIE==8 && this.iefix == false )
