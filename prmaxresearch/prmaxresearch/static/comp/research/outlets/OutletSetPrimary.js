@@ -57,7 +57,7 @@ define([
 		{
 			if ( response.success == "OK" )
 			{
-				alert("Outlet Primary Contact Changed");
+				alert("Outlet Primary Contact Changed. Please verify the 'Research tab' to make sure these changes haven't effected it");
 				this.clear();
 				topic.publish('/emp/set_primary');
 				this._dialog.hide();

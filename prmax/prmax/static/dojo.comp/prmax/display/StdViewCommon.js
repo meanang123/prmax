@@ -152,7 +152,7 @@ dojo.declare("prmax.display.StdViewCommon",
 				{name: 'Outlet',width: "250px",field:'outletname'},
 				{name: 'Contact',width: "150px",field:'contactname'},
 				{name: 'Title',width: "170px",field:'job_title'},
-				{name: 'Email',width: "250px",field:'email'},
+//				{name: 'Email',width: "250px",field:'email'},
 				{name: 'Country',width: "150px",field:'countryname'}
 			]]
 	},
@@ -164,7 +164,7 @@ dojo.declare("prmax.display.StdViewCommon",
 				{name: 'Outlet',width: "250px",field:'outletname'},
 				{name: 'Contact',width: "150px",field:'contactname'},
 				{name: 'Title',width: "170px",field:'job_title'},
-				{name: 'Email',width: "250px",field:'email'},
+//				{name: 'Email',width: "250px",field:'email'},
 				{name: 'Country',width: "150px",field:'countryname'}
 			]]
 	},

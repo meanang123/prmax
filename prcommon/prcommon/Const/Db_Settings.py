@@ -23,8 +23,21 @@ db_User_Service='prmaxservice'
 db_Password_Service='VVD8MuRF'
 
 db_Host_Release='localhost'
+
+# this is for the new server
+# db_Host_Release='prmaxdb.default.prmax.uk0.bigv.io'
+
 db_Release_User='postgres'
 db_Release_Password='UPR8kqD8'
+
+# new testserver
+db_Release_New_Server = "5.28.62.201"
+
+import platform
+if platform.uname()[1].lower().find(".prmax.uk0.bigv.io") != -1:
+	db_Host=db_Release_New_Server
+	db_Host_Release=db_Release_New_Server
+
 
 db_Command = "dbname='%s' user='%s' host='%s' password='%s'"\
 	   %(db_Name,db_User,db_Host,db_Password)
