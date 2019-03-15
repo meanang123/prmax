@@ -147,7 +147,6 @@ def deploy_app_server_2():
             '/home/prmax/prmax-release/%s-1.0.0.1-py%s.egg' % (fd[1], python_egg ) )
 
 prmax_servers = (
-       'prmax-a01.dh.bytemark.co.uk',
     'prmax-a04.dh.bytemark.co.uk',
     'prmax-a03.dh.bytemark.co.uk',
     'prmax-d2013.dh.bytemark.co.uk',
