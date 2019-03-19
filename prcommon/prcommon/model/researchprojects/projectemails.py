@@ -39,7 +39,7 @@ except:
 
 EMAILSERVERS = {
   119:("researchgroup@prmax.co.uk", "fUnSyXSG4Pnh", Constants.Research_Quest_Email_Rest),
-  -1:("updates@prmax.co.uk", "HE$5nG6DdU8", Constants.Research_Quest_Email)
+  -1:("updates@prmax.co.uk", "!xiQeV8EGJ", Constants.Research_Quest_Email)
 }
 
 BODYTEXTLINK = "<LINK TO DATABASE>"

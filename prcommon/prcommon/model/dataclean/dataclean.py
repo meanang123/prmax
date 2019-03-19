@@ -205,10 +205,12 @@ class DataClean(object):
                     session.begin()
                     # 1 UPDATE all emailtemplates and removelist
                     templates = ",".join([str(row[0]) for row in deletedata])
+                    lists = ",".join([str(row[1]) for row in deletedata])
                     session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND emailtemplateid IN (%s)""" % (templates, )), {'customerid': customer.customerid,}, Customer)
+                    #  error issue
+                    session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND listid IN (%s)""" % (lists, )), {'customerid': customer.customerid,}, Customer)
                     session.flush()
                     # 2 DELETE ALL lists
-                    lists = ",".join([str(row[1]) for row in deletedata])
                     session.execute(text('DELETE FROM userdata.list WHERE customerid = :customerid AND listid IN (%s)' % (lists, )), {'customerid': customer.customerid}, Customer)
                     session.flush()
                     # 3 DELETE ALL emailtemplates
@@ -232,7 +234,9 @@ class DataClean(object):
                             session.commit()
                             session.begin()
                             sys.stdout.write('.')
+                            sys.stdout.flush()
 
+                    sys.stdout.write('\r')
                     session.commit()
                 print "Completed"
             except:
