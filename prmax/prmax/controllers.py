@@ -143,6 +143,12 @@ class Root(controllers.RootController):
 	newsroom = NewsroomController()
 
 	@expose("")
+	def status(self, *args, **kw):
+		"""Load Balancer test point"""
+
+		return "Service Up"
+
+	@expose("")
 	def default(self, *args, **kw):
 		""" Default page handler for a missing page
 		captures and log it"""
