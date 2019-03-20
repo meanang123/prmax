@@ -884,3 +884,29 @@ INSERT INTO internal.dashboardsettingsstandardsearchby VALUES (1, 'Number of cli
 
 INSERT INTO internal.reportsource VALUES(16, 'Clippings Dashboard Charts');
 INSERT INTO internal.reporttemplates VALUES (34, -1, 'Clippings Dashboard Chart Report', '<queries><query type="CUSTOM"></query></queries>', '', 16, 'ClippingsDashboardChartReport');
+
+/*
+--clippings order new expiry year
+UPDATE internal.clippingsorder 
+SET enddate = '2035-12-31' 
+WHERE enddate > now()
+
+--Direct Debit and monthly payments new expiry year
+UPDATE internal.customers 
+SET licence_expire = licence_expire + interval '15 years'
+WHERE customerstatusid = 2
+AND paymentmethodid in (2,3)
+AND licence_expire between '2020-01-01' and '2020-12-31'
+
+UPDATE internal.customers 
+SET advance_licence_expired = advance_licence_expired + interval '15 years'
+WHERE customerstatusid = 2
+AND paymentmethodid in (2,3)
+AND advance_licence_expired between '2020-01-01' and '2020-12-31'
+
+UPDATE internal.customers 
+SET updatum_end_date = updatum_end_date + interval '15 years'
+WHERE customerstatusid = 2
+AND paymentmethodid in (2,3)
+AND updatum_end_date between '2020-01-01' and '2020-12-31'
+*/

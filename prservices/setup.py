@@ -41,12 +41,14 @@ setup(
               "prservices.primport.nijgh",
               "prservices.primport.nijgh.utils",
               "prservices.primport.ayrshire",
+              "prservices.primport.anglianwater",
               "prservices.emplsynchronise",
               "prservices.emplcommunication",
               "prservices.cleanup",
               "prservices.unsubscribe",
               "prservices.bouncemails",
-              "prservices.removeduplicateroles"
+              "prservices.removeduplicateroles",
+              "prservices.other",
               ],
     package_data = {}
     )
