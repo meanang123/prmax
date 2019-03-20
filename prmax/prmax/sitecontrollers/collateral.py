@@ -354,26 +354,29 @@ class ECollateralController(controllers.RootController):
 			print ex
 			return data
 
-		if ext == "pdf":
-			response.headers["Content-disposition"] = "inline; filename=%s.pdf" % collateralid
-			response.headers["Content-Length"] = len(data)
-			response.headers["Content-type"] = "application/pdf"
-		elif ext in Constants.ImageExt:
-			response.headers["Content-disposition"] = "inline; filename=%s.%s" % (collateralid, ext)
-			response.headers["Content-Length"] = len(data)
-			response.headers["Content-type"] = "image/%s" % ext
-		elif ext != None:
-			if ECollateralController._convert_header.has_key(ext.lower()):
+		try:
+			if ext == "pdf":
+				response.headers["Content-disposition"] = "inline; filename=%s.pdf" % collateralid
+				response.headers["Content-Length"] = len(data)
+				response.headers["Content-type"] = "application/pdf"
+			elif ext in Constants.ImageExt:
 				response.headers["Content-disposition"] = "inline; filename=%s.%s" % (collateralid, ext)
 				response.headers["Content-Length"] = len(data)
-				response.headers["Content-type"] = ECollateralController._convert_header[ext.lower()]
+				response.headers["Content-type"] = "image/%s" % ext
+			elif ext != None:
+				if ECollateralController._convert_header.has_key(ext.lower()):
+					response.headers["Content-disposition"] = "inline; filename=%s.%s" % (collateralid, ext)
+					response.headers["Content-Length"] = len(data)
+					response.headers["Content-type"] = ECollateralController._convert_header[ext.lower()]
 
-		tday = datetime.now().strftime("%a, %d %b %Y %M:%H:%S GMT")
-		response.headers["Age"] = 30
-		response.headers["Date"] = tday
-		response.headers["Last-Modified"] = tday
-		response.headers["Expires"] = (datetime.now()+ timedelta(days=1)).strftime("%a, %d %b %Y %M:%H:%S GMT")
-
+			tday = datetime.now().strftime("%a, %d %b %Y %M:%H:%S GMT")
+			response.headers["Age"] = 30
+			response.headers["Date"] = tday
+			response.headers["Last-Modified"] = tday
+			response.headers["Expires"] = (datetime.now()+ timedelta(days=1)).strftime("%a, %d %b %Y %M:%H:%S GMT")
+		except Exception, ex:
+			print ex
+			return "Not Found"
 		return data
 
 

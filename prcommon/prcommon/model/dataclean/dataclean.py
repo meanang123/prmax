@@ -9,7 +9,7 @@
 # Created:     May 2018
 # Copyright:   (c) 2018
 #-----------------------------------------------------------------------------
-
+import sys
 from sqlalchemy import MetaData, Table, text, or_, and_, distinct, not_
 from turbogears import config
 from turbogears.database import metadata, mapper, session, config
@@ -190,6 +190,63 @@ class DataClean(object):
                 raise
             # print '%s: %s' %(counter,customerid)
         print 'finished'
+
+    def start_old_data(self):
+
+        for customer in session.query(Customer).filter(Customer.isinternal == False).all():
+            #  delete all list/distributions thatareover3 years old
+            try:
+                deletedata = session.execute(text("""select emailtemplateid,listid from userdata.emailtemplates where sent_time < current_date - interval '3 years' and listid is not null and customerid = :customerid"""), {'customerid': customer.customerid,}, Customer).fetchall()
+
+                print 'Start', customer.customerid, customer.customername, len(deletedata)
+                totallen =  len(deletedata)
+
+                if totallen >  0 and totallen <= 100:
+                    session.begin()
+                    # 1 UPDATE all emailtemplates and removelist
+                    templates = ",".join([str(row[0]) for row in deletedata])
+                    lists = ",".join([str(row[1]) for row in deletedata])
+                    session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND emailtemplateid IN (%s)""" % (templates, )), {'customerid': customer.customerid,}, Customer)
+                    #  error issue
+                    session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND listid IN (%s)""" % (lists, )), {'customerid': customer.customerid,}, Customer)
+                    session.flush()
+                    # 2 DELETE ALL lists
+                    session.execute(text('DELETE FROM userdata.list WHERE customerid = :customerid AND listid IN (%s)' % (lists, )), {'customerid': customer.customerid}, Customer)
+                    session.flush()
+                    # 3 DELETE ALL emailtemplates
+                    for (emailtemplateid,_) in deletedata:
+                        session.execute(text("""DELETE FROM userdata.emailtemplates WHERE customerid = :customerid AND emailtemplateid  = :emailtemplateid
+                        AND emailtemplateid NOT IN (SELECT emailtemplateid FROM seoreleases.seorelease WHERE emailtemplateid = :emailtemplateid)"""), {'customerid': customer.customerid,  'emailtemplateid': emailtemplateid,}, Customer)
+                    session.commit()
+                elif totallen > 100:
+                    # need to do them in batch's
+                    session.begin()
+                    for (emailtemplateid,listid) in deletedata:
+                        nbr = deletedata.index((emailtemplateid,listid))
+                        session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND listid = :listid"""), {'customerid': customer.customerid,'emailtemplateid': emailtemplateid,}, Customer)
+                        session.flush()
+                        #  error issue
+                        session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND listid = :listid"""), {'customerid': customer.customerid, 'listid': listid,}, Customer)
+                        session.flush()
+                        session.execute(text('DELETE FROM userdata.list WHERE customerid = :customerid AND listid = :listid'), {'customerid': customer.customerid, 'listid': listid}, Customer)
+                        session.flush()
+                        session.execute(text("""DELETE FROM userdata.emailtemplates WHERE customerid = :customerid AND emailtemplateid  = :emailtemplateid
+                        AND emailtemplateid NOT IN (SELECT emailtemplateid FROM seoreleases.seorelease WHERE emailtemplateid = :emailtemplateid)"""), {'customerid': customer.customerid,  'emailtemplateid': emailtemplateid,}, Customer)
+                        session.flush()
+                        if nbr % 40 == 0:
+                            session.commit()
+                            session.begin()
+                            sys.stdout.write('.')
+                            sys.stdout.flush()
+
+                    sys.stdout.write('\r')
+                    session.commit()
+                print "Completed"
+            except:
+                LOGGER.exception("Delete Failure")
+                session.rollback()
+                raise
+        print "finished"
 
 class CollateralClean(object):
     """Clean collateral database """
