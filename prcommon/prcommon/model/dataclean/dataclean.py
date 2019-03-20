@@ -223,7 +223,10 @@ class DataClean(object):
                     session.begin()
                     for (emailtemplateid,listid) in deletedata:
                         nbr = deletedata.index((emailtemplateid,listid))
-                        session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND emailtemplateid = :emailtemplateid"""), {'customerid': customer.customerid,'emailtemplateid': emailtemplateid,}, Customer)
+                        session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND listid = :listid"""), {'customerid': customer.customerid,'emailtemplateid': emailtemplateid,}, Customer)
+                        session.flush()
+                        #  error issue
+                        session.execute(text("""UPDATE userdata.emailtemplates SET listid = NULL WHERE customerid=:customerid AND listid = :listid"""), {'customerid': customer.customerid, 'listid': listid,}, Customer)
                         session.flush()
                         session.execute(text('DELETE FROM userdata.list WHERE customerid = :customerid AND listid = :listid'), {'customerid': customer.customerid, 'listid': listid}, Customer)
                         session.flush()
