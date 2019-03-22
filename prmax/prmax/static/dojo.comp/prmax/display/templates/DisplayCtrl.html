@@ -9,8 +9,8 @@
 					<div dojoAttachPoint="contactdisplay" region="center" dojotype="prmax.employee.EmployeeDisplay" splitter="true" ></div>
 				</div>
 				<div dojoAttachPoint="profileView" dojoType="ttl.layout.ContentPane" title='Profile' preload="false"></div>
-				<div class="prmaxhidden" dojoAttachPoint="advanceView" dojoType="dijit.layout.BorderContainer" title='Features' preload="true">
-						<div dojoAttachPoint="advancectrl" dojotype="prcommon.advance.listview" region="center"></div>
+				<div data-dojo-attach-point="advanceView" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Features",preload:true,"class":"prmaxhidden" '>
+					<div data-dojo-attach-point="advancectrl" data-dojo-type="prcommon.advance.listview" data-dojo-props='region:"center"'></div>
 				</div>
 				<div data-dojo-attach-point="crmView" data-dojo-type="dijit.layout.BorderContainer", data-dojo-props='title:"Engagement",preload:true,"class":"prmaxhidden" '>
 					<div data-dojo-attach-point="crmctrl" data-dojo-type="prcommon.crm.viewer_only" data-dojo-props='region:"center",mode:"outlet"'></div>
