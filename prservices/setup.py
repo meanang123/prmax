@@ -49,6 +49,9 @@ setup(
               "prservices.bouncemails",
               "prservices.removeduplicateroles",
               "prservices.other",
+              "prservices.datainvestigate",
+              "prservices.datainvestigate.france",
+              "prservices.datainvestigate.other"
               ],
     package_data = {}
     )

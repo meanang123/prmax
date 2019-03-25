@@ -38,6 +38,7 @@ SUBJECTCOLUMN = 5
 DETAILSCOLUMN = 6
 RESPONSECOLUMN = 7
 CUSTOMERID = 6883
+#CUSTOMERID = 82
 
 def _run():
 	""" run the application """
@@ -80,9 +81,7 @@ def _run():
 			outletid = outlet.outletid
 		else:
 			print outletname
-		session.commit()
-						
-'''			
+									
 		chissue = session.query(Issue).\
 			filter(Issue.customerid == CUSTOMERID).\
 		    filter(Issue.name.ilike(issue)).scalar()
@@ -131,7 +130,7 @@ def _run():
 			session.add(response)
 			session.flush()
 		session.commit()
-'''	
+
 	
 if __name__ == '__main__':
 	_run()
