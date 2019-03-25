@@ -41,7 +41,7 @@ define([
 				{label: 'Date',className:"dgrid-column-datetime", field:"activitydate"},
 				{label: 'Action',className:"dgrid-column-status-small", field:"actiontypedescription"},
 				{label: 'Reason',className:"standard",field:"reasoncodedescription"},
-				/*{label: 'User',className:"standard",field:"display_name"},*/
+				{label: 'User',className:"standard",field:"display_name"},
 				{label: 'Reason Details',className:"standard",field:"reason"},
 				{label: 'Type',className:"standard",field:"objecttypename"}
 				];
@@ -52,7 +52,7 @@ define([
 				{label: 'Date',className:"dgrid-column-datetime", field:"activitydate"},
 				{label: 'Action',className:"dgrid-column-status-small", field:"actiontypedescription"},
 				{label: 'Reason',className:"standard",field:"reasoncodedescription"},
-				/*{label: 'User',className:"standard",field:"display_name"},*/
+				{label: 'User',className:"standard",field:"display_name"},
 				{label: 'Reason Details',className:"standard",field:"reason"}
 			];
 		}
