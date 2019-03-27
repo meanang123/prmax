@@ -151,6 +151,7 @@ prmax_servers = (
     'prmax-a03.dh.bytemark.co.uk',
     'prmax-d2013.dh.bytemark.co.uk',
     'fe1.default.prmax.uk0.bigv.io',
+    'fe2.default.prmax.uk0.bigv.io',
     'prmaxdb.default.prmax.uk0.bigv.io',
     'prmaxprocess.default.prmax.uk0.bigv.io',
     'prmaxemail.test1.prmax.uk0.bigv.io',
