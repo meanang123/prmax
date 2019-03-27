@@ -57,12 +57,16 @@ def _run():
 	        filter(OutletInterests.outletid == outlet.outletid).all()]
 
 		if prmax_outlettypeid == 1:
+			for outletinterest in outletinterests:
+				if outletinterest not in (NEWSCURRENTAFFAIRS,NATIONALNEWS,INTERNATIONALNEWS):
+					session.query(OutletInterests).filter(OutletInterests.interestid == outletinterest).filter(OutletInterests.outletid == outlet.outletid).delete()
+					session.flush()
 			if NEWSCURRENTAFFAIRS not in outletinterests:
 				outletinterest = OutletInterests(
 				    interestid = NEWSCURRENTAFFAIRS,
 				    outletid = outlet.outletid
 				)
-				session.add(outldetinterest)
+				session.add(outletinterest)
 				session.flush()
 			if NATIONALNEWS not in outletinterests:
 				outletinterest = OutletInterests(
@@ -79,6 +83,10 @@ def _run():
 				session.add(outletinterest)
 				session.flush()
 		elif prmax_outlettypeid == 6:
+			for outletinterest in outletinterests:
+				if outletinterest not in (NEWSCURRENTAFFAIRS,REGIONALNEWS):
+					session.query(OutletInterests).filter(OutletInterests.interestid == outletinterest).filter(OutletInterests.outletid == outlet.outletid).delete()
+					session.flush()
 			if NEWSCURRENTAFFAIRS not in outletinterests:
 				outletinterest = OutletInterests(
 				    interestid = NEWSCURRENTAFFAIRS,
@@ -94,6 +102,10 @@ def _run():
 				session.add(outletinterest)
 				session.flush()
 		elif prmax_outlettypeid == 10:
+			for outletinterest in outletinterests:
+				if outletinterest not in (NEWSCURRENTAFFAIRS,LOCALNEWS):
+					session.query(OutletInterests).filter(OutletInterests.interestid == outletinterest).filter(OutletInterests.outletid == outlet.outletid).delete()
+					session.flush()
 			if NEWSCURRENTAFFAIRS not in outletinterests:
 				outletinterest = OutletInterests(
 				    interestid = NEWSCURRENTAFFAIRS,
