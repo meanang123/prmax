@@ -158,6 +158,15 @@ prmax_servers = (
 
 )
 
+prmax_servers_new = (
+    'fe1.default.prmax.uk0.bigv.io',
+    'fe2.default.prmax.uk0.bigv.io',
+    'prmaxdb.default.prmax.uk0.bigv.io',
+    'prmaxprocess.default.prmax.uk0.bigv.io',
+    'prmaxemail.test1.prmax.uk0.bigv.io',
+)
+
+
 def deploy_to_new_system():
     'global app update'
 
@@ -172,6 +181,23 @@ def deploy_to_new_system():
         run("/home/prmax/scripts/make_backup")
 
         for fd in build_folders(live_location):
+            put('\projects\%s\dist\%s-1.0.0.1-py%s.egg' % (fd[0], fd[1], python_egg),
+                '/home/prmax/prmax-release/%s-1.0.0.1-py%s.egg' % (fd[1], python_egg) )
+
+def deploy_test_to_new_system():
+    'global app update'
+
+    env.password = "mGu9y5x6v4En"
+    env.user = "prmax"
+
+    for app_server in prmax_servers_new:
+        print "Doing - ", app_server
+
+        env.host_string  = app_server
+
+        run("/home/prmax/scripts/make_backup")
+
+        for fd in build_folders(test_location):
             put('\projects\%s\dist\%s-1.0.0.1-py%s.egg' % (fd[0], fd[1], python_egg),
                 '/home/prmax/prmax-release/%s-1.0.0.1-py%s.egg' % (fd[1], python_egg) )
 
