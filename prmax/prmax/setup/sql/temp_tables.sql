@@ -1,9 +1,4 @@
 ﻿/*
---clippings order new expiry year
-UPDATE internal.clippingsorder 
-SET enddate = '2035-12-31' 
-WHERE enddate > now()
-
 --Direct Debit and monthly payments new expiry year
 UPDATE internal.customers 
 SET licence_expire = licence_expire + interval '15 years'
@@ -23,3 +18,6 @@ WHERE customerstatusid = 2
 AND paymentmethodid in (2,3)
 AND updatum_end_date between '2020-01-01' and '2020-12-31'
 */
+
+
+UPDATE internal.outletsearchtypes SET outletsearchtypename = 'B2B Magazines' WHERE outletsearchtypeid = 4;
