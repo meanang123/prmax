@@ -387,15 +387,21 @@ class EmployeeSynchronise(object):
 					session.flush()
 					
 	def get_desk(self, employee):
+		new_desk = None
 		deskname = session.query(OutletDesk.deskname).filter(OutletDesk.outletdeskid == employee.outletdeskid).scalar()
 		desk = session.query(OutletDesk).\
 		    filter(OutletDesk.outletid == self._childoutlet.outletid).\
 		    filter(OutletDesk.deskname == deskname).scalar()
-		return desk
-
-
-
-
+		if desk:
+			new_desk = desk
+		if deskname and not desk:
+			new_desk = OutletDesk(
+			    outletid = self._childoutlet.outletid,
+			    deskname = deskname
+			)
+			session.add(new_desk)
+			session.flush()
+		return new_desk
 
 	@classmethod
 	def status(cls, outletid, processqueueid):
