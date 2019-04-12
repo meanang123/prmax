@@ -13,7 +13,7 @@ define([
 	"ttl/BaseWidgetAMD",
 	"dojo/text!../options/clippings/templates/view.html",
 	"dijit/layout/BorderContainer",
-	"dijit/layout/ContentPane",	
+	"dijit/layout/ContentPane",
 	"ttl/utilities2",
 	"dojo/request",
 	"dojo/_base/lang",
@@ -37,8 +37,8 @@ define([
 return declare("control.customer.options.clippings.view",
 	[BaseWidgetAMD],{
 	templateString:template,
-	constructor: function()	
-	
+	constructor: function()
+
 	{
 		this._clippings_orders_model = new dojox.data.JsonRestStore( {target:'/iadmin/clippings/list_orders', idAttribute:"clippingsorderid"});
 		this._get_model_item_call=dojo.hitch(this,this._get_model_item);
@@ -126,7 +126,7 @@ return declare("control.customer.options.clippings.view",
 	{
 		for (var x =0; x <= this.grid._by_idx.length -1; x++ )
 		{
-			this._clippings_orders_model.setValue(  this.grid._by_idx[x].item, "enddate", enddate, true );	
+			this._clippings_orders_model.setValue(  this.grid._by_idx[x].item, "enddate", enddate, true );
 		}
 	},
 	_get_model_item:function()
@@ -139,4 +139,5 @@ return declare("control.customer.options.clippings.view",
 		this.update_expiry_date_ctrl.load(this.update_expiry_date_dialog, this._icustomerid);
 		this.update_expiry_date_dialog.show();
 	}
+});
 });
