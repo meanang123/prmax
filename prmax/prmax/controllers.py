@@ -337,13 +337,12 @@ class Root(controllers.RootController):
 		return ""
 
 	LOGIN_PAGES = (("blueboo", "prmax.templates.logins/blueboo"),
-	               ("ipcb", "prmax.templates.logins/ipcb"),
-	               ("solidmediagroup", "prmax.templates.logins/solidmedia"),
-	               ("relations", "prmax.templates.logins/solidmedia"),
-	               ("mynewsdesk", "prmax.templates.logins/mynewsdesk"),
 	               ("deperslijst", "prmax.templates.logins/deperslijst"),
 	               ("professional", "mako:prmax.templates.logins.professional"),
-	               ("levelcert", "mako:prmax.templates.logins.levelcert"))
+	               ("levelcert", "mako:prmax.templates.logins.levelcert"),
+	               ("tblueboo", "prmax.templates.logins/blueboo"),
+	               ("tdeperslijst", "prmax.templates.logins/deperslijst"),
+	               ("tprofessional", "mako:prmax.templates.logins.professional"))
 
 	@expose("text/html")
 	def login(self, forward_url=None, previous_url=None, *args, **kw):
