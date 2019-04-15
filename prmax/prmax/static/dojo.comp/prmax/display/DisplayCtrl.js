@@ -639,8 +639,8 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 							this.movetab = false;
 						}
 					}
-					else
-						this.tabControl.selectChild(this.mainView);
+//					else
+//						this.tabControl.selectChild(this.mainView);
 
 				}
 		}
