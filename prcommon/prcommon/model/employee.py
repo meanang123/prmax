@@ -335,6 +335,8 @@ class Employee(BaseSql):
 				contact = Contact.query.get ( employee.contactid )
 				if contact :
 					familyname = contact.familyname
+					contact.firstname = params['firstname']
+					contact.prefix = params['prefix']
 
 			if params["familyname"] != familyname:
 				if params["familyname"]:
