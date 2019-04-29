@@ -12,7 +12,7 @@
 
 import cPickle, types, sets
 from base64 import b64encode,b64decode
-from  types import TupleType
+from  types import TupleType, DictionaryType
 
 class DBCompress(object):
 	""" Compression interface """
@@ -60,6 +60,8 @@ class CustomType(object):
 		# new version?
 		if type(data) == TupleType:
 			return  [ str(row) for row in data]
+		elif type(data) == DictionaryType:
+			return [data["keyname"], data["keytype"]]
 		else:
 			for c in ('"()'):
 				data = data.replace(c,"")
