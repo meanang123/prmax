@@ -37,7 +37,8 @@ define([
 	"prcommon2/web/WebDatesAdd",
 	"prcommon2/circulation/CirculationSourcesAdd",
 	"prcommon2/circulation/CirculationDatesAdd",
-	"prcommon2/web/WebButton"
+	"prcommon2/web/WebButton",
+	"prcommon2/dialogs/SynchroniseDialog"
 	], function(declare, BaseWidgetAMD, template, BorderContainer, topic,  lang, utilities2, request, domattr, JsonRestStore, ItemFileReadStore ){
  return declare("research.outlets.OutletEditMainDetails",
 	[BaseWidgetAMD, BorderContainer],{
@@ -48,8 +49,8 @@ define([
 		this._updated_call_back = lang.hitch ( this , this._updated_call );
 		this._media_only_call_back = lang.hitch(this, this._media_only_call );
 		this._synchronise_call_back = lang.hitch ( this, this._synchronise_call);
-		this._complete_call_back = lang.hitch(this, this._complete_call);		
-		
+		this._complete_call_back = lang.hitch(this, this._complete_call);
+
 		this._circulationsources = new JsonRestStore( {target:'/research/admin/circulationsources/list', labelAttribute:"circulationsourcedescription",idProperty:"circulationsourceid"});
 		this._circulationauditdates = new JsonRestStore( {target:'/research/admin/circulationdates/list', labelAttribute:"circulationauditdatedescription",idProperty:"circulationauditdateid"});
 		this._websources = new JsonRestStore( {target:'/research/admin/websources/list', labelAttribute:"websourcedescription",idProperty:"websourceid"});
@@ -77,7 +78,7 @@ define([
 
 		this.outletpriceid.set("store", this._costs);
 		this.mediaaccesstypeid.set("store", this._mediaaccesstypes);
-		
+
 		this.www_show.set("source", this.www);
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
@@ -262,7 +263,7 @@ define([
 		this.synchronise_dlg.show();
 		this.synchronise_node.SetCompleted(this._complete_call_back);
 		this.synchronise_node.start(content);
-		
+
 	},
 	_synchronise_call:function( response )
 	{
@@ -280,7 +281,7 @@ define([
 	{
 		this.synchrbtn.cancel();
 		this.synchronise_dlg.hide();
-	}	
+	}
 
 });
 });
