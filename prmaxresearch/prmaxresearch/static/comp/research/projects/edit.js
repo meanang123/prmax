@@ -290,8 +290,8 @@ define([
 		{
 			this.researchprojectitemid.set("value", response.data.item.researchprojectitemid );
 			this.researchprojectstatusid.set("value", response.data.item.researchprojectstatusid);
-			this.researcheddate.set("checked",false);
-			this.notes.set("value", response.data.item.notes);
+//			this.researcheddate.set("checked",false);
+//			this.notes.set("value", response.data.item.notes);
 			this.zone.selectChild ( this.statusedit);
 
 		}
@@ -346,8 +346,8 @@ define([
 	{
 		this.researchprojectitemid.set("researchprojectitemid",-1);
 		this.researchprojectstatusid.set("value",1);
-		this.researcheddate.set("checked",true);
-		this.notes.set("value","");
+//		this.researcheddate.set("checked",true);
+//		this.notes.set("value","");
 	},
 	_update_call:function ( response )
 	{

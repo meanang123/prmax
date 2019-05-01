@@ -389,21 +389,21 @@ class ResearchProjectItems(BaseSql):
 			rpi.researchprojectstatusid = args["researchprojectstatusid"]
 			rpi.lastationdate = datetime.datetime.now()
 			rpi.lastactionownerid = args["userid"]
-			if "notes" in args:
-				rpi.notes = args["notes"]
+#			if "notes" in args:
+#				rpi.notes = args["notes"]
 
 			# update complete
-			if args["researcheddate"]:
-				rcr = ResearchControRecord.query.filter_by(
-				  objectid=rpi.outletid,
-				  objecttypeid=Constants.Object_Type_Outlet).one()
-				rcr.last_research_date = datetime.datetime.now()
-				research = session.query(ResearchDetails).filter(ResearchDetails.outletid == rpi.outletid).scalar()
-				if research:
-					research.last_research_date = datetime.date.today()
-				else:
-					session.add(ResearchDetails(outletid=rpi.outletid,
-					                            last_research_date=datetime.date.today()))
+#			if args["researcheddate"]:
+			rcr = ResearchControRecord.query.filter_by(
+		      objectid=rpi.outletid,
+		      objecttypeid=Constants.Object_Type_Outlet).one()
+			rcr.last_research_date = datetime.datetime.now()
+			research = session.query(ResearchDetails).filter(ResearchDetails.outletid == rpi.outletid).scalar()
+			if research:
+				research.last_research_date = datetime.date.today()
+			else:
+				session.add(ResearchDetails(outletid=rpi.outletid,
+			                                last_research_date=datetime.date.today()))
 
 			transaction.commit()
 		except:

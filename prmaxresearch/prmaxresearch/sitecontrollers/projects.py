@@ -72,7 +72,7 @@ class ProjectItemUpdateSchema(PrFormSchema):
 	""" schema"""
 	researchprojectitemid = validators.Int()
 	researchprojectstatusid = validators.Int()
-	researcheddate = BooleanValidator()
+	#researcheddate = BooleanValidator()
 
 class ProjectItemSchema(PrFormSchema):
 	""" schema"""
@@ -250,7 +250,7 @@ class ProjectsController(SecureController):
 
 		ResearchProjectItems.research_completed(params["researchprojectitemid"],
 		                                        params["userid"],
-		                                        params["notes"])
+		                                        params["notes"] if ('notes' in params and params['notes'] != '') else None)
 
 		return stdreturn(data=ResearchProjectItems.get(params["researchprojectitemid"]))
 

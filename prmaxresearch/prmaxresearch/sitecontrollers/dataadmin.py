@@ -92,7 +92,7 @@ class ProjectItemUpdateSchema(PrFormSchema):
 	""" schema"""
 	researchprojectitemid = validators.Int()
 	researchprojectstatusid = validators.Int()
-	researcheddate = BooleanValidator()
+	#researcheddate = BooleanValidator()
 
 class DataAdminController(SecureController):
 	""" internal security user must be part of admin group """

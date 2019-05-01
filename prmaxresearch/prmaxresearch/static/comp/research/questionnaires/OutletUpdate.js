@@ -66,8 +66,8 @@ define([
 		[
 			{label: ' ', field:"menu", className:"grid-field-image-view", formatter:utilities2.format_row_ctrl},
 			{label: 'Done?',field:"applied", className:"dgrid-column-status-small", formatter:this._action_done_function},
-			{label: 'Job Title',className:"standard",field:"job_title"},
 			{label: 'Contact',className:"standard",field:"contactname"},
+			{label: 'Job Title',className:"standard",field:"job_title"},
 			{label: 'Action',field:"actiontypedescription", className:"dgrid-column-statusl"}
 		];
 		this.grid = new Grid({
