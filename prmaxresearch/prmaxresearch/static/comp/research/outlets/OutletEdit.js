@@ -56,6 +56,7 @@ define([
 		this.private_menu = null;
 		this.std_menu = null;
 		this.private_menu_limited = null;
+		this.deleted_menu = null;
 
 		this.outlet_contact_model = new Observable( new JsonRest( {target:'/research/admin/employees/contactlist_rest', idProperty:"employeeid"}));
 
@@ -142,6 +143,15 @@ define([
 			this.std_menu.addChild(new dijit.MenuItem({label:"Add Contact", onClick:lang.hitch(this,this._add_employee),iconClass:"dijitPrmaxIcon dijitPrmaxEmployee"}));
 			this.std_menu.startup();
 		}
+		if (this.deleted_menu === null)
+		{
+			this.deleted_menu = new dijit.Menu();
+			this.deleted_menu.addChild(new dijit.MenuItem({label:"Add Contact", onClick:lang.hitch(this,this._add_employee),iconClass:"dijitPrmaxIcon dijitPrmaxEmployee"}));
+			this.deleted_menu.addChild(new dijit.MenuItem({label:"Delete Contact", onClick:lang.hitch(this,this._delete_employee),iconClass:"dijitPrmaxIcon dijitPrmaxEmployee"}));
+			this.deleted_menu.startup();
+		}
+
+
 
 		if (this.private_menu===null)
 		{
@@ -160,14 +170,14 @@ define([
 		{
 			this.private_menu_limited = new dijit.Menu();
 			this.private_menu_limited.addChild(new dijit.MenuItem({label:"Add Contact", onClick:lang.hitch(this,this._add_employee),iconClass:"dijitPrmaxIcon dijitPrmaxEmployee"}));
-			this.private_menu_limited.addChild(new dijit.MenuItem({label:"Move to Publication", onClick:lang.hitch(this,this._move_to_other_outlet)}));
+			//this.private_menu_limited.addChild(new dijit.MenuItem({label:"Move to Publication", onClick:lang.hitch(this,this._move_to_other_outlet)}));
 			this.private_menu_limited.addChild(new dijit.MenuItem({label:"Copy to Publication", onClick:lang.hitch(this,this._copy_to_other_outlet)}));
 			this.private_menu_limited.startup();
 		}
 
 		if ( this._row.prmaxstatusid == 2 )
 		{
-			this.std_menu._openMyself(e);
+			this.deleted_menu._openMyself(e);
 		}
 		else
 		{
