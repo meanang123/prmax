@@ -1,8 +1,10 @@
 <div>
 	<form data-dojo-attach-point="privatechannels_form" data-dojo-type="dijit.form.Form" data-dojo-props='"onSubmit":"return false", name:"privatechannels_form", style:"margin:5px"'>
 		<table width="99%" border="0" cellpadding="0" cellspacing="1" >
+			<tr><td>&nbsp</td></tr>
 			<tr><td align="right" class="prmaxrowtag">Description</td><td><input data-dojo-props='style:"width:400px", "class":"prmaxrequired", name:"prmax_outlettypename", type:"text", maxLength:45, trim:true, required:true, invalidMessage:"Description field must be filled in"' data-dojo-attach-point="prmax_outlettypename" data-dojo-type="dijit.form.ValidationTextBox"/></td></tr>
-			<tr><td colspan = "2" align="left"><button data-dojo-props='"class":"prmaxbutton prmaxhidden", label:"Close", type:"button"' data-dojo-attach-point="clearNode" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Close"></button></td>
+			<tr><td>&nbsp</td></tr>
+			<tr><td align="left"><button data-dojo-props='"class":"prmaxbutton prmaxhidden", label:"Close", type:"button"' data-dojo-attach-point="clearNode" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Close"></button></td>
 				<td align="right"><button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Add"' data-dojo-attach-point="saveNode" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Add"></button></td>
 			</tr>
 		</table>
