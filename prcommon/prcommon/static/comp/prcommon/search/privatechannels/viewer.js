@@ -72,6 +72,7 @@ dojo.declare("prcommon.search.privatechannels.viewer",
 		this.prmax_outlettypeid.set("value",this._row.i.prmax_outlettypeid);
 		this.prmax_outlettypename.set("value",this._row.prmax_outlettypename);
 		this.grid.selection.clickSelectEvent(e);
+		this.privatechannels_view_ctrl.selectChild(this.tabcont);
 		this.tabcont.selectChild(this.details);
 
 		this._ShowDetails();
@@ -85,6 +86,7 @@ dojo.declare("prcommon.search.privatechannels.viewer",
 	},
 	_AddPrivateChannel:function()
 	{
+		this.privatechannels_view_ctrl.selectChild(this.blank_view);
 		this.addprivatechannelctrl.Load(this.add_privatechannel_dlg);
 		this.add_privatechannel_dlg.show();
 
@@ -155,8 +157,7 @@ dojo.declare("prcommon.search.privatechannels.viewer",
 		{
 			alert("Private Media Channel Deleted");
 			this.grid.setQuery(ttl.utilities.getPreventCache({}));
-			this.prmax_outlettypename.set("value", "");
-			
+			this.privatechannels_view_ctrl.selectChild(this.blank_view);
 		}
 		else
 		{
