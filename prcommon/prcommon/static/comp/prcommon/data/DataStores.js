@@ -16,7 +16,7 @@ dojo.declare("prcommon.data.DataStores", null,
 {
 	constructor: function(/* Object */ params)
 	{
-		this._prmaxoutlettypes = new dojo.data.ItemFileReadStore({ url:"/common/lookups?searchtype=prmaxoutlettypes"} );
+		this._prmaxoutlettypes = new dojo.data.ItemFileReadStore({ url:"/common/lookups?searchtype=privatechannels"} );
 		this._frequencies = new dojo.data.ItemFileReadStore(	{ url:"/common/lookups?searchtype=frequencies"} );
 		this._reasoncode_data_upd = new dojo.data.ItemFileReadStore ({ url:"/common/lookups?searchtype=reasoncodes&reasoncategoryid=2"});
 		this._reasoncode_data_add = new dojo.data.ItemFileReadStore ({ url:"/common/lookups?searchtype=reasoncodes&reasoncategoryid=1"});

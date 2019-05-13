@@ -1,4 +1,4 @@
-/*
+﻿/*
 --Direct Debit and monthly payments new expiry year
 UPDATE internal.customers
 SET licence_expire = licence_expire + interval '15 years'
@@ -27,3 +27,12 @@ CREATE INDEX ON userdata.clippings (customerid ASC NULLS LAST, created_date ASC 
 
 INSERT INTO internal.prmax_outlettypes (prmax_outlettypeid,prmax_outlettypename,outletsearchtypeid, prmax_outletgroupid) VALUES(75,'Podcast',8, 'internet');
 
+INSERT INTO internal.outletsearchtypes VALUES('Private Media Channels', 13);
+
+ALTER TABLE internal.prmax_outlettypes ADD COLUMN customerid integer NOT NULL DEFAULT -1;
+ALTER TABLE internal.prmax_outlettypes ADD CONSTRAINT fk_customerid FOREIGN KEY (customerid) REFERENCES internal.customers (customerid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
+
+ALTER TABLE internal.prmax_outlettypes DROP CONSTRAINT un_prmax_outlettypename;
+ALTER TABLE internal.prmax_outlettypes ADD CONSTRAINT un_prmax_outlettypename UNIQUE (prmax_outlettypename, customerid);
+
+UPDATE internal.prmax_outlettypes SET customerid = -1;

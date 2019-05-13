@@ -117,7 +117,7 @@ class Selection(BaseSql):
 
 class PRmaxOutletTypes(BaseSql):
 	""" outlet types """
-	List_Types = """SELECT i.prmax_outlettypeid,i.prmax_outlettypename,prmax_outletgroupid FROM internal.prmax_outlettypes as i ORDER BY i.prmax_outlettypename"""
+	List_Types = """SELECT i.prmax_outlettypeid,i.prmax_outlettypename,prmax_outletgroupid FROM internal.prmax_outlettypes as i WHERE i.customerid = -1 ORDER BY i.prmax_outlettypename"""
 
 	@classmethod
 	def getLookUp(cls, params):

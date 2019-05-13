@@ -18,6 +18,7 @@ dojo.require("prmax.customer.activity.viewer");
 dojo.require("prmax.pressrelease.distributiontemplate.viewer");
 dojo.require("prmax.prrequest.viewer");
 dojo.require("prcommon.clippings.questions.globalsetup");
+dojo.require("prcommon.search.privatechannels.viewer");
 
 dojo.declare("prmax.professional.banner",
 	[ prmax.display.CommonBanner ],

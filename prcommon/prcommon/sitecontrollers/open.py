@@ -20,7 +20,7 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
      ResearchFrequencies, PRMaxRoles, EmailSendTypes, Languages, Continents, ContactHistoryStatus,\
      ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, ServerTypes, \
      ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes, Statements, ChartView, DateRanges, GroupBy, DashboardSettingsMode, \
-     DashboardSettingsStandard, DashboardSettingsStandardSearchBy
+     DashboardSettingsStandard, DashboardSettingsStandardSearchBy, Prmax_Outlettypes
 from prcommon.model.hostspf import Hostspf
 from prcommon.model.emails import EmailFooter, EmailHeader, EmailLayout
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
@@ -121,7 +121,8 @@ class OpenController(OpenSecureController):
 	              "groupby": GroupBy,
 	              "dashboardsettingsmode": DashboardSettingsMode,
 	              "dashboardsettingsstandard": DashboardSettingsStandard,
-	              "dashboardsettingsstandardsearchby": DashboardSettingsStandardSearchBy
+	              "dashboardsettingsstandardsearchby": DashboardSettingsStandardSearchBy,
+	              "privatechannels":Prmax_Outlettypes
 		            }
 
 	_AddFilter = ("taskstatus", "users", "tasktype", "tasktags", "countrytypes", "seostatus", "newsfeedtypes", "customertypes",

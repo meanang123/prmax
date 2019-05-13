@@ -70,6 +70,7 @@ from prcommon.sitecontrollers.crm.statements import StatementController
 from prcommon.sitecontrollers.activity import ActivityController
 from prcommon.sitecontrollers.emailserver import EmailServerController
 from prcommon.sitecontrollers.newsrooms import NewsroomController
+from prcommon.sitecontrollers.prmax_outlettypes import Prmax_OutlettypesController
 from ttl.tg.validators import std_state_factory, PrFormSchema
 from ttl.tg.errorhandlers import pr_std_exception_handler_text
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
@@ -141,6 +142,7 @@ class Root(controllers.RootController):
 	activity = ActivityController()
 	emailserver = EmailServerController()
 	newsroom = NewsroomController()
+	prmax_outlettypes = Prmax_OutlettypesController()
 
 	@expose("")
 	def status(self, *args, **kw):

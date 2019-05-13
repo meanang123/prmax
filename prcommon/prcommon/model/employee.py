@@ -956,6 +956,31 @@ class Employee(BaseSql):
 			transaction.rollback()
 			raise
 
+	@classmethod
+	def research_copy_interests(cls, params):
+		"""Copy interests from outlet to employee"""
+
+		from prcommon.model.outlet import OutletInterests
+
+		transaction = cls.sa_get_active_transaction( )
+
+		try:
+			existing_employee_interests = [ei.interestid for ei in session.query(EmployeeInterests).filter(EmployeeInterests.employeeid == params['employeeid']).all()]
+			outletinterests = [oi.interestid for oi in OutletInterests.get_list(params['outletid'])]
+			for eei in existing_employee_interests:
+				if eei not in outletinterests:
+					outletinterests.append(eei)
+			cls._interests(params['employeeid'], -1, outletinterests, params['outletid'])
+
+			transaction.commit()
+			return dict (interests = dict(data = session.query(EmployeeInterestView).filter_by(employeeid = params['employeeid'],interesttypeid = Constants.Interest_Type_Standard).all()))
+
+		except:
+			LOGGER.exception("research_copy_interests_outlet_to_employee")
+			transaction.rollback()
+			raise
+
+
 class EmployeeDisplay(BaseSql):
 	""" EmployeeDisplay """
 	Employee_Display_Query = """
@@ -1301,7 +1326,6 @@ class EmployeeInterests( BaseSql ):
 			LOGGER.exception("research_contact_interests")
 			transaction.rollback()
 			raise
-
 
 
 class EmployeeCustomer(object):

@@ -218,6 +218,8 @@ from prcommon.model.dataclean.dataclean import DataClean
 
 from prcommon.model.customer.customeraccesslog import CustomerAccessLog
 
+from prcommon.model.prmax_outlettypes import Prmax_Outlettypes
+
 __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView", "InterestGroups", "BaseSql", "MessageTypes",
            "MessageUser", "AdHocQuery", "User", "UserSession", "RunInTransaction", "LoginTokens", "CustomerTypes", "UserTypes",
            "SortOrder", "Customer", "List", "ListMembers", "Visit", "VisitIdentity", "Group", "Permission", "AuditTrail", "Terms",
@@ -261,5 +263,5 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "CustomerAccessLog", "ClippingsChartGeneral", "DashboardSettingsGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
            "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
            "AnalyseGlobal", "Statements", "EmailServer"
-           ,"Newsrooms"
+           ,"Newsrooms", "Prmax_Outlettypes"
 					 ]

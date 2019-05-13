@@ -224,7 +224,7 @@ class LayoutController(SecureController):
 	  "prrequest": "layout",  #pprrequests
 	  "clients":"layout", # client view
 	  "issues":"layout",  # issues view
-	  "statements":"layout",  # issues view
+	  "statements":"layout",  # statements view
 	  "crm_view":"layout", # crm viewer
 	  "monitoring": "layout", # layout view
 	  "tasks": "layout", # task view
@@ -235,6 +235,7 @@ class LayoutController(SecureController):
 	  "global_analysis_questions": "layout",
 	  "activity": "layout",
 	  "newsrooms":"layout",  # newsrooms view
+	  "privatechannels":"layout",  # private media channels view
 
 	  # embedded version
 	  "ai_start_view":"layout", # ai

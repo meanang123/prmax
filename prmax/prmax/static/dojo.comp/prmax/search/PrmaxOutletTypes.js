@@ -30,10 +30,10 @@ dojo.declare("prmax.search.PrmaxOutletTypes",
 		templatePath: dojo.moduleUrl( "prmax.search","templates/PrmaxOutletTypes.html"),
 		constructor: function()
 		{
-			this._fieldList = [1,2,3,4,5,6,7,8,9];
+			this._fieldList = [1,2,3,4,5,6,7,8,9,13];
 			this._values = "";
 			this.items = new dojo.data.ItemFileReadStore (
-				{ url:"/common/lookups?searchtype=prmaxoutlettypes"});
+				{ url:"/common/lookups?searchtype=privatechannels"});
 			this.items.fetch();
 			this._ClearSelectionListCall = dojo.hitch ( this, this._ClearSelectionList ) ;
 			this._LoadSelectionCall = dojo.hitch ( this, this._LoadSelection ) ;
@@ -49,6 +49,7 @@ dojo.declare("prmax.search.PrmaxOutletTypes",
 			this._GroupTypes.add(7,'internet');
 			this._GroupTypes.add(8,'news');
 			this._GroupTypes.add(9,'parliamentary');
+			this._GroupTypes.add(13,'privatechannels');
 
 			this._Primary = new dojox.collections.Dictionary();
 			this._Primary.add(1,1);
@@ -60,6 +61,7 @@ dojo.declare("prmax.search.PrmaxOutletTypes",
 			this._Primary.add(7,null);
 			this._Primary.add(8,43);
 			this._Primary.add(9,null);
+			this._Primary.add(13,null);
 
 		},
 		postCreate:function()

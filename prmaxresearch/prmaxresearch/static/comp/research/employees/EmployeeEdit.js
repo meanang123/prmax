@@ -42,6 +42,7 @@ define([
 	{
 		this._saved_call = lang.hitch(this,this._saved);
 		this._load_call = lang.hitch(this,this._load);
+		this._copy_interests_call = lang.hitch(this, this._copy_interests);
 		this._desklist = null;
 
 		this.reasoncode_data_add = PRCOMMON.utils.stores.Research_Reason_Add_Codes();
@@ -110,6 +111,7 @@ define([
 	_load:function(response)
 	{
 		this.employeeidnode.set("value", response.data.employee.employeeid);
+		this.outletidnode.set("value", response.data.employee.outletid);
 		this.job_title.set("value", response.data.employee.job_title);
 		this.email.set("value", response.data.comm.email);
 		this.tel.set("value", response.data.comm.tel);
@@ -250,6 +252,19 @@ define([
 	_delete_contact:function()
 	{
 		topic.publish("/employee/delete_request", this.employeeidnode.get("value"), this._sourceid);
+	},
+	_copy_keywords_btn:function()
+	{
+		request.post('/research/admin/employees/research_copy_interests_outlet_to_employee',
+				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletidnode.get('value')}})).then
+				(this._copy_interests_call);
+	},
+	_copy_interests:function(response)
+	{
+		if (response.success == 'OK')
+		{
+			this.interests.set("value", response.data.interests);
+		}
 	}
 });
 });

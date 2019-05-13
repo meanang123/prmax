@@ -56,6 +56,10 @@ class PrMergeEmployeeSchema(PrFormSchema):
 	employeeid = validators.Int()
 	newemployeeid = validators.Int()
 
+class PrCopyInterestsEmployeeSchema(PrFormSchema):
+	""" schema """
+	employeeid = validators.Int()
+	outletid = validators.Int()
 
 #########################################################
 ## Employee controllers
@@ -292,6 +296,16 @@ class EmployeeController(SecureController):
 		return stdreturn( employee = Employee.research_merge_contacts(params))
 
 
+
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrCopyInterestsEmployeeSchema(), state_factory=std_state_factory)
+	def research_copy_interests_outlet_to_employee(self, *argv, **params):
+		""" Copy interests from outlet to employee """
+
+		return stdreturn(data = Employee.research_copy_interests(params))
 
 
 
