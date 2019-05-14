@@ -140,7 +140,7 @@ _sql_processing_limit = """ LIMIT %(nbr)s """
 
 _sql_set_processing = """ UPDATE userdata.listmemberdistribution SET emailstatusid = %(emailstatusid)s,queued_time = LOCALTIMESTAMP WHERE listmemberdistributionid = %(listmemberdistributionid)s"""
 
-_sql_get_attachments = """ SELECT collateralid,content,filename FROM userdata.emailtemplatesattachements WHERE emailtemplateid = %(emailtemplateid)s"""
+_sql_get_attachments = """ SELECT collateralid,content,filename FROM userdata.emailtemplatesattachements WHERE emailtemplateid = %(emailtemplateid)s AND size < 4000000"""
 _sql_get_collateral = """ SELECT data FROM collateralfiles WHERE collateralid = %(collateralid)s """
 _sql_add_queue = """ INSERT INTO queues.emailqueue( emailaddress, subject, emailqueuetypeid, message, customerid,statusid,error)
 VALUES( %(emailaddress)s, %(subject)s, %(emailqueuetypeid)s, %(message)s, %(customerid)s, %(statusid)s, %(error)s)"""
