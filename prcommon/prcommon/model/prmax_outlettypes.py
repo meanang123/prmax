@@ -67,7 +67,7 @@ class Prmax_Outlettypes(BaseSql):
 		""" check to see a specufuc role exists """
 
 		data = session.query(Prmax_Outlettypes).\
-		    filter(Prmax_Outlettypes.prmax_outlettypename == prmax_outlettypename).\
+		    filter(Prmax_Outlettypes.prmax_outlettypename.ilike(prmax_outlettypename)).\
 		    filter(Prmax_Outlettypes.customerid == customerid)
 		return True if data.count() > 0 else False
 

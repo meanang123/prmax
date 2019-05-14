@@ -232,7 +232,7 @@ define([
 	},
 	_expand_nrsreadership:function()
 	{
-		this.text_view_ctrl.show_control( this.nrsreadership, this.text_view_dlg, "Nrs readership");
+		this.text_view_ctrl.show_control( this.nrsreadership, this.text_view_dlg, "PAMco");
 	},
 	_expand_jicreg_readership:function()
 	{

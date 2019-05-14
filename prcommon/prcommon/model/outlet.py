@@ -127,6 +127,13 @@ class OutletInterests(BaseSql):
 			transaction.rollback()
 			raise
 
+	@classmethod
+	def get_list(cls, outletid):
+
+		outletinterests = session.query(OutletInterests).\
+		    filter(OutletInterests.outletid == outletid).all()
+		return outletinterests
+
 class Outlet(BaseSql):
 	"""Outlet class
 	"""

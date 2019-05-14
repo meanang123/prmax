@@ -23,7 +23,7 @@ from ttl.ttlmako import isnull, text_html
 <tr><td valign="top" class="prmaxrowtag" >Readership/Audience</td><td class="prmaxrowdisplay_profile">${text_html(pr['profile'].readership)}</td></tr>
 %endif
 %if pr["profile"].nrsreadership:
-<tr><td valign="top" class="prmaxrowtag" >NRS Readership</td><td class="prmaxrowdisplay_profile">${text_html(pr['profile'].nrsreadership)}</td></tr>
+<tr><td valign="top" class="prmaxrowtag" >PAMco</td><td class="prmaxrowdisplay_profile">${text_html(pr['profile'].nrsreadership)}</td></tr>
 %endif
 %if pr["coverage"] and pr["outlet"].prmax_outlettypeid not in (1,41):
 	<tr><td class="prmaxrowtag"  valign="top">Coverage</td><td class="prmaxrowdisplay_profile">${", ".join(pr['coverage'])}</td></tr>
