@@ -18,48 +18,50 @@ define([
 	"dojo/data/ItemFileReadStore",
 	"dojo/topic",
 	"dojo/dom-class",
+	"dojo/dom-style",
+	"dojo/_base/lang",
 	"dijit/form/TextBox",
 	"dijit/form/CheckBox",
 	"dijit/form/Button",
 	"dijit/form/ValidationTextBox",
 	"dijit/form/Form",
 	"prcommon2/interests/Interests"
-	], function(declare, BaseWidgetAMD, template, request, utilities2, json,ItemFileReadStore, topic, domclass ){
+	], function(declare, BaseWidgetAMD, template, request, utilities2, json,ItemFileReadStore, topic, domclass,domstyle,lang){
  return declare("prcommon2.geographical.GeographicalEdit",
 	[BaseWidgetAMD],{
 	templateString:template,
 		constructor: function()
 		{
 			this.geographical_types = new ItemFileReadStore ({ url:"/common/lookups?searchtype=geographicallookuptypes&typesonly=0"});
-			this._collect_details_call_back = dojo.hitch(this,this._collect_details_call);
-			this._add_call_back = dojo.hitch(this,this._add_call);
-			this._update_call_back = dojo.hitch(this,this._update_call);
-			this._load_selection_call_back = dojo.hitch(this,this._load_selection_call);
-			this._load_child_selection_call_back = dojo.hitch(this,this._load_child_selection_call);
-			this._transfer_selection_call_back= dojo.hitch(this,this._transfer_selection_call);
-			this._delete_call_back = dojo.hitch(this,this._delete_call);
-			this._transfer_call_back = dojo.hitch(this,this._transfer_call);
+			this._collect_details_call_back = lang.hitch(this,this._collect_details_call);
+			this._add_call_back = lang.hitch(this,this._add_call);
+			this._update_call_back = lang.hitch(this,this._update_call);
+			this._load_selection_call_back = lang.hitch(this,this._load_selection_call);
+			this._load_child_selection_call_back = lang.hitch(this,this._load_child_selection_call);
+			this._transfer_selection_call_back= lang.hitch(this,this._transfer_selection_call);
+			this._delete_call_back = lang.hitch(this,this._delete_call);
+			this._transfer_call_back = lang.hitch(this,this._transfer_call);
 			this._geographicalid = -1;
 		},
 		postCreate:function()
 		{
 			this.geographicallookuptypeid.set("store",this.geographical_types);
-			dojo.connect(this.geographical_list_select.domNode,"onkeyup" ,  dojo.hitch(this,this._geographical_select));
-			dojo.connect(this.child_list_select.domNode,"onkeyup" ,  dojo.hitch(this,this._child_geog_select));
+			dojo.connect(this.geographical_list_select.domNode,"onkeyup" ,  lang.hitch(this,this._geographical_select));
+			dojo.connect(this.child_list_select.domNode,"onkeyup" ,  lang.hitch(this,this._child_geog_select));
 
-			dojo.connect(this.geographical_list,"onchange" ,  dojo.hitch(this,this._geographical_update_selection));
-			dojo.connect(this.geographical_list,"ondblclick" ,  dojo.hitch(this,this._geographical_select_dbl));
-			dojo.connect(this.geographical_select,"ondblclick" ,  dojo.hitch(this,this._geographical_select_delete_dbl));
-			dojo.connect(this.geographical_select,"onchange" ,  dojo.hitch(this,this._geographical_update_selection));
+			dojo.connect(this.geographical_list,"onchange" ,  lang.hitch(this,this._geographical_update_selection));
+			dojo.connect(this.geographical_list,"ondblclick" ,  lang.hitch(this,this._geographical_select_dbl));
+			dojo.connect(this.geographical_select,"ondblclick" ,  lang.hitch(this,this._geographical_select_delete_dbl));
+			dojo.connect(this.geographical_select,"onchange" ,  lang.hitch(this,this._geographical_update_selection));
 
-			dojo.connect(this.child_list,"onchange" ,  dojo.hitch(this,this._child_update_selection));
-			dojo.connect(this.child_list,"ondblclick" ,  dojo.hitch(this,this._child_select_dbl));
-			dojo.connect(this.child_select,"ondblclick" ,  dojo.hitch(this,this._child_select_delete_dbl));
-			dojo.connect(this.child_select,"onchange" ,  dojo.hitch(this,this._child_update_selection));
+			dojo.connect(this.child_list,"onchange" ,  lang.hitch(this,this._child_update_selection));
+			dojo.connect(this.child_list,"ondblclick" ,  lang.hitch(this,this._child_select_dbl));
+			dojo.connect(this.child_select,"ondblclick" ,  lang.hitch(this,this._child_select_delete_dbl));
+			dojo.connect(this.child_select,"onchange" ,  lang.hitch(this,this._child_update_selection));
 
 
-			dojo.connect(this.transfer_list_select.domNode,"onkeyup" ,  dojo.hitch(this,this._transfer_select));
-			dojo.connect(this.transfer_list,"onchange" ,  dojo.hitch(this,this._transfer_selection_options));
+			dojo.connect(this.transfer_list_select.domNode,"onkeyup" ,  lang.hitch(this,this._transfer_select));
+			dojo.connect(this.transfer_list,"onchange" ,  lang.hitch(this,this._transfer_selection_options));
 
 		},
 		_geographical_update_selection:function()
@@ -262,7 +264,7 @@ define([
 		},
 		_transfere:function()
 		{
-			dojo.toggleClass(this.show_transfer,"prmaxhidden");
+			domclass.add(this.show_transfer,"prmaxhidden");
 		},
 		_delete_call:function( response )
 		{
@@ -375,14 +377,14 @@ define([
 		},
 		_make_new:function()
 		{
-			dojo.style( this.transfer.domNode,"display","none");
-			dojo.style( this.deletebtn.domNode,"display","none");
+			domstyle.set( this.transfer.domNode,"display","none");
+			domstyle.set( this.deletebtn.domNode,"display","none");
 			this.save.set("label","Add");
 		},
 		_make_edit:function()
 		{
-			dojo.style( this.transfer.domNode,"display","");
-			dojo.style( this.deletebtn.domNode,"display","");
+			domstyle.set( this.transfer.domNode,"display","");
+			domstyle.set( this.deletebtn.domNode,"display","");
 			this.save.set("label","Save");
 
 		},

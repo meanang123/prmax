@@ -20,6 +20,7 @@ define([
 	"ttl/utilities2",
 	"dojo/json",
 	"dojo/data/ItemFileReadStore",
+	"dojo/_base/lang",
 	"dijit/layout/ContentPane",
 	"dijit/Toolbar",
 	"dijit/form/DropDownButton",
@@ -33,7 +34,7 @@ define([
 	"prcommon2/interests/Interests",
 	"prcommon2/geographical/GeographicalEdit",
 	"dijit/layout/TabContainer"
-	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, request, utilities2, json, ItemFileReadStore ){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, request, utilities2, json, ItemFileReadStore,lang ){
  return declare("research.lookup.Geographical",
 	[BaseWidgetAMD, BorderContainer],{
 	templateString: template,
@@ -46,10 +47,10 @@ define([
 		this._coverage_store = new JsonRest( {target:'/research/admin/geographical/coverage', idProperty:"coverageid"});
 		this.children_store = new JsonRest( {target:'/research/admin/geographical/geographical_children', idProperty:"geographicalareaid"});
 
-		dojo.subscribe(PRCOMMON.Events.Geographical_Area_Delete, dojo.hitch(this,this._geog_delete_event));
-		dojo.subscribe(PRCOMMON.Events.Geographical_Area_Update, dojo.hitch(this,this._geog_update_event));
-		dojo.subscribe(PRCOMMON.Events.Geographical_Area_Add, dojo.hitch(this,this._geog_add_event));
-		dojo.subscribe(PRCOMMON.Events.Coverage_Moved, dojo.hitch(this,this._coverage_moved_event));
+		dojo.subscribe(PRCOMMON.Events.Geographical_Area_Delete, lang.hitch(this,this._geog_delete_event));
+		dojo.subscribe(PRCOMMON.Events.Geographical_Area_Update, lang.hitch(this,this._geog_update_event));
+		dojo.subscribe(PRCOMMON.Events.Geographical_Area_Add, lang.hitch(this,this._geog_add_event));
+		dojo.subscribe(PRCOMMON.Events.Coverage_Moved, lang.hitch(this,this._coverage_moved_event));
 	},
 	postCreate:function()
 	{
@@ -70,7 +71,7 @@ define([
 			sort: [{ attribute: "geographicalname", descending: false }]
 		})
 
-		this.geographical_grid.on("dgrid-select", dojo.hitch(this,this._on_geographical_grid_call));
+		this.geographical_grid.on("dgrid-select", lang.hitch(this,this._on_geographical_grid_call));
 
 		var cells = [ {label: 'Outlet',className: "standard",field:'outletname'} ];
 
