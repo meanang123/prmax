@@ -45,6 +45,51 @@ def _run():
 		print "Missing Source Directory"
 		return
 
+	inserts_frequencies = []
+	workbook_frequencies = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
+	xls_sheet_frequencies = workbook_frequencies.sheet_by_name('frequency')
+	for rnum in xrange(1, xls_sheet_frequencies.nrows):
+		if type(xls_sheet_frequencies.cell_value(rnum, 0)) is float:
+			sourcetext = str(int(xls_sheet_frequencies.cell_value(rnum, 0))).strip()
+		else:
+			sourcetext = str(xls_sheet_frequencies.cell_value(rnum, 0)).strip()
+		#sourcetext = xls_sheet_frequencies.cell_value(rnum, 0)
+		translation = int(xls_sheet_frequencies.cell_value(rnum, 1))
+		english = xls_sheet_frequencies.cell_value(rnum, 2).lower().strip()
+
+		inserts_frequencies.append({"fieldname": "frequency-type",
+		                            "sourcetext": sourcetext,
+		                            "sourcetypeid" : Constants.Source_Type_Stamm,
+		                            "translation" : translation,
+		                            "english" : english
+		                            })
+	if inserts_frequencies:
+		session.begin()
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_frequencies)
+		session.commit()
+
+	inserts_circulationauditdate = []
+	workbook_circulation = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
+	xls_sheet_circulation = workbook_circulation.sheet_by_name('circulation-audit-period')
+	for rnum in xrange(1, xls_sheet_circulation.nrows):
+		sourcetext = xls_sheet_circulation.cell_value(rnum, 0).strip()
+		translation = int(xls_sheet_circulation.cell_value(rnum, 1))
+		english = xls_sheet_circulation.cell_value(rnum, 2).lower().strip()
+
+		inserts_circulationauditdate.append({"fieldname": "circulation-audit-period",
+	                                         "sourcetext": sourcetext,
+	                                         "sourcetypeid" : Constants.Source_Type_Stamm,
+	                                         "translation" : translation,
+	                                         "english" : english
+	                                         })
+	if inserts_circulationauditdate:
+		session.begin()
+		session.execute(DataSourceTranslations.mapping.insert(), inserts_circulationauditdate)
+		session.commit()
+
+
+
+'''
 	inserts_priority_jobtitles = []
 	workbook_pjobtitles = xlrd.open_workbook(os.path.join(sourcedir, "priority_jobtitles.xlsx"))
 	xls_sheet_pjobtitles = workbook_pjobtitles.sheet_by_name('jobtitles')
@@ -87,30 +132,6 @@ def _run():
 		session.execute(DataSourceTranslations.mapping.insert(), inserts_languages)
 		session.commit()
 
-
-	inserts_frequencies = []
-	workbook_frequencies = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
-	xls_sheet_frequencies = workbook_frequencies.sheet_by_name('frequency')
-	for rnum in xrange(1, xls_sheet_frequencies.nrows):
-		if type(xls_sheet_frequencies.cell_value(rnum, 0)) is float:
-			sourcetext = str(int(xls_sheet_frequencies.cell_value(rnum, 0))).strip()
-		else:
-			sourcetext = str(xls_sheet_frequencies.cell_value(rnum, 0)).strip()
-		#sourcetext = xls_sheet_frequencies.cell_value(rnum, 0)
-		translation = int(xls_sheet_frequencies.cell_value(rnum, 1))
-		english = xls_sheet_frequencies.cell_value(rnum, 2).lower().strip()
-
-		inserts_frequencies.append({"fieldname": "frequency-type",
-		                            "sourcetext": sourcetext,
-		                            "sourcetypeid" : Constants.Source_Type_Stamm,
-		                            "translation" : translation,
-		                            "english" : english
-		                            })
-	if inserts_frequencies:
-		session.begin()
-		session.execute(DataSourceTranslations.mapping.insert(), inserts_frequencies)
-		session.commit()
-
 	inserts_circulationsources = []
 	workbook_circulation = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
 	xls_sheet_circulation = workbook_circulation.sheet_by_name('circulation')
@@ -133,26 +154,6 @@ def _run():
 		session.begin()
 		session.execute(DataSourceTranslations.mapping.insert(), inserts_circulationsources)
 		session.commit()
-
-	inserts_circulationauditdate = []
-	workbook_circulation = xlrd.open_workbook(os.path.join(sourcedir, "StammTranslations.xlsx"))
-	xls_sheet_circulation = workbook_circulation.sheet_by_name('circulation-audit-period')
-	for rnum in xrange(1, xls_sheet_circulation.nrows):
-		sourcetext = xls_sheet_circulation.cell_value(rnum, 0).strip()
-		translation = int(xls_sheet_circulation.cell_value(rnum, 1))
-		english = xls_sheet_circulation.cell_value(rnum, 2).lower().strip()
-
-		inserts_circulationauditdate.append({"fieldname": "circulation-audit-period",
-	                                "sourcetext": sourcetext,
-	                                "sourcetypeid" : Constants.Source_Type_Stamm,
-	                                "translation" : translation,
-	                                "english" : english
-	                                })
-	if inserts_circulationauditdate:
-		session.begin()
-		session.execute(DataSourceTranslations.mapping.insert(), inserts_circulationauditdate)
-		session.commit()
-
 
 	# media channels
 	inserts = []
@@ -253,6 +254,6 @@ def _run():
 		session.begin()
 		session.execute(DataSourceTranslations.mapping.insert(), inserts)
 		session.commit()
-
+'''
 if __name__ == '__main__':
 	_run()
