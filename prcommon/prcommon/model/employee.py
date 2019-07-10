@@ -30,8 +30,8 @@ from datetime import datetime
 LOGGER = logging.getLogger("prmax.model")
 
 COMMAND1 = """SELECT
-	JSON(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
-	JSON(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
+	JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
+	JSON_ENCODE(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
 	CASE WHEN oca.address1 IS NULL THEN oa.address1	ELSE oca.address1 END as address1,
 	CASE WHEN oca.address1 IS NULL THEN oa.address2	ELSE oca.address2 END as address2,
 	CASE WHEN oca.address1 IS NULL THEN oa.townname	ELSE oca.townname END as townname,
