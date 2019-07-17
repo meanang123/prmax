@@ -15,9 +15,16 @@ from turbogears.database import session
 from prcommon.model.outlet import Outlet, Activity, ActivityDetails, OutletProfile
 from prcommon.model.communications import Communication, Address
 from prcommon.model.outletlanguages import OutletLanguages
+from prcommon.model.language import Languages
 from prcommon.model.research import ResearchControRecord, ResearchDetails
 from prcommon.model.advance import AdvanceFeature
 from prcommon.model.clippings.clipping import Clipping
+from prcommon.model.lookups import Frequencies, Countries, Publishers, OutletPrices, MediaAccessTypes, PRmaxOutletTypes
+from prcommon.model.circulationsources import CirculationSources
+from prcommon.model.circulationdates import CirculationDates
+from prcommon.model.websources import WebSources
+from prcommon.model.webdates import WebDates
+from prcommon.model.productioncompany import ProductionCompany
 from prcommon.lib.caching import Invalidate_Cache_Object_Research
 import prcommon.Constants as Constants
 from prcommon.model.queues import ProcessQueue
@@ -60,17 +67,55 @@ class OutletGeneral(object):
 			ActivityDetails.AddChange(profile.readership, params["readership"], activity.activityid, Constants.Field_Readership)
 			ActivityDetails.AddChange(profile.nrsreadership, params["nrsreadership"], activity.activityid, Constants.Field_Nrsreadership)
 			ActivityDetails.AddChange(profile.jicregreadership, params["jicregreadership"], activity.activityid, Constants.Field_Jicregreadership)
-			ActivityDetails.AddChange(profile.deadline, params["deadline"], activity.activityid, Constants.Field_Deadline)
 			ActivityDetails.AddChange(profile.broadcasttimes, params["broadcasttimes"], activity.activityid, Constants.Field_Broadcasttimes)
-			ActivityDetails.AddChange(profile.productioncompanyid, params["productioncompanyid"], activity.activityid, Constants.Field_Productioncompany)
-			ActivityDetails.AddChange(outlet.publisherid, params["publisherid"], activity.activityid, Constants.Field_Publisher)
+
+			old_productioncompanydescription = new_productioncompanydescription = ""
+			if profile.productioncompanyid:
+				old_productioncompany = ProductionCompany.query.get(profile.productioncompanyid)
+				old_productioncompanydescription = old_productioncompany.productioncompanydescription
+			if 'productioncompanyid' in params and params['productioncompanyid'] != None:
+				new_productioncompany = ProductionCompany.query.get(int(params['productioncompanyid']))
+				new_productioncompanydescription = new_productioncompany.productioncompanydescription
+			ActivityDetails.AddChange(old_productioncompanydescription, new_productioncompanydescription, activity.activityid, Constants.Field_Productioncompany)
+
+			old_languagename1 = new_languagename1 = ""
+			language1 = session.query(OutletLanguages).\
+					      filter(OutletLanguages.outletid == outlet.outletid).\
+			              filter(OutletLanguages.isprefered == 1).scalar()
+			if language1:
+				old_language = Languages.query.get(language1.languageid)
+				old_languagename1 = old_language.languagename
+			if 'language1id' in params and params['language1id'] != -1 and params['language1id'] != '-1' and params['language1id'] != '':
+				new_language1 = Languages.query.get(int(params['language1id']))
+				new_languagename1 = new_language1.languagename
+			ActivityDetails.AddChange(old_languagename1, new_languagename1, activity.activityid, Constants.Field_Language1)
+
+			old_languagename2 = new_languagename2 = ""
+			language2 = session.query(OutletLanguages).\
+					      filter(OutletLanguages.outletid == outlet.outletid).\
+			              filter(OutletLanguages.isprefered == 0).scalar()
+			if language2:
+				old_language = Languages.query.get(language2.languageid)
+				old_languagename2 = old_language.languagename
+			if 'language2id' in params and params['language2id'] != -1 and params['language2id'] != '-1' and params['language2id'] != '':
+				new_language2 = Languages.query.get(int(params['language2id']))
+				new_languagename2 = new_language2.languagename
+			ActivityDetails.AddChange(old_languagename2, new_languagename2, activity.activityid, Constants.Field_Language2)
+
+			old_publishername = new_publishername = ""
+			if outlet.publisherid:
+				old_publisher = Publishers.query.get(outlet.publisherid)
+				old_publishername = old_publisher.publishername
+			if 'publisherid' in params and params['publisherid'] != None:
+				new_publisher = Publishers.query.get(int(params['publisherid']))
+				new_publishername = new_publisher.publishername
+			ActivityDetails.AddChange(old_publishername, new_publishername, activity.activityid, Constants.Field_PublisherName)
 			ActivityDetails.AddChange(profile.web_profile_link, params["web_profile_link"], activity.activityid, Constants.Field_Web_Profile)
 
 			profile.editorialprofile = params['editorialprofile']
 			profile.readership = params["readership"]
 			profile.nrsreadership = params["nrsreadership"]
 			profile.jicregreadership = params["jicregreadership"]
-			profile.deadline = params["deadline"]
 			profile.broadcasttimes = params["broadcasttimes"]
 			profile.productioncompanyid = params["productioncompanyid"]
 			profile.web_profile_link = params["web_profile_link"]
@@ -106,13 +151,31 @@ class OutletGeneral(object):
 			raise
 
 	@staticmethod
+	def _fix_number(countryid, number):
+		if countryid == 1:
+			if number is not None and number != '' and not number.startswith('+44'):
+				number = '+44 (0)%s' % number
+		if countryid == 3 :
+			if number is not None and number != '' and not number.startswith('+353'):
+				number = '+353 (0)%s' % number
+		return number
+
+	@staticmethod
 	def research_main_update(params):
 		""" resarch system update the main part of a cotact record """
 		transaction = BaseSql.sa_get_active_transaction()
 		try:
 			outlet = Outlet.query.get(params['outletid'])
+			if outlet.researchdetailid:
+				researchdetails = ResearchDetails.query.get(outlet.researchdetailid)
+			else:
+				researchdetails = session.query(ResearchDetails).filter(ResearchDetails.outletid == params["outletid"]).scalar()
 			comm = Communication.query.get(outlet.communicationid)
 			address = Address.query.get(comm.addressid)
+			if 'tel' in params:
+				params['tel'] = OutletGeneral._fix_number(params['countryid'], params['tel'])
+			if 'fax' in params:
+				params['fax'] = OutletGeneral._fix_number(params['countryid'], params['fax'])
 
 			# add the audit trail header record
 			activity = Activity(reasoncodeid=params["reasoncodeid"],
@@ -131,20 +194,84 @@ class OutletGeneral(object):
 			outlet.sourcetypeid = Constants.Research_Source_Prmax
 			outlet.sourcekey = outlet.outletid
 
-
 			ActivityDetails.AddChange(outlet.outletname, params['outletname'], activity.activityid, Constants.Field_Outlet_Name)
 			ActivityDetails.AddChange(outlet.sortname, params['sortname'], activity.activityid, Constants.Field_Outlet_SortName)
 			ActivityDetails.AddChange(outlet.www, params['www'], activity.activityid, Constants.Field_Address_Www)
 			ActivityDetails.AddChange(outlet.circulation, params['circulation'], activity.activityid, Constants.Field_Circulation)
 			ActivityDetails.AddChange(outlet.webbrowsers, params['webbrowsers'], activity.activityid, Constants.Field_WebBrowsers)
-			ActivityDetails.AddChange(outlet.frequencyid, params['frequencyid'], activity.activityid, Constants.Field_Frequency)
-			ActivityDetails.AddChange(outlet.countryid, params['countryid'], activity.activityid, Constants.Field_CountryId)
-			ActivityDetails.AddChange(outlet.circulationsourceid, params['circulationsourceid'], activity.activityid, Constants.Field_Outlet_Circulation_Source)
-			ActivityDetails.AddChange(outlet.circulationauditdateid, params['circulationauditdateid'], activity.activityid, Constants.Field_Outlet_Circulation_Dates)
-			ActivityDetails.AddChange(outlet.websourceid, params['websourceid'], activity.activityid, Constants.Field_Outlet_Web_Source)
-			ActivityDetails.AddChange(outlet.webauditdateid, params['webauditdateid'], activity.activityid, Constants.Field_Outlet_Web_Dates)
-			ActivityDetails.AddChange(outlet.outletpriceid, params['outletpriceid'], activity.activityid, Constants.Field_Outlet_Price)
-			ActivityDetails.AddChange(outlet.mediaaccesstypeid, params['mediaaccesstypeid'], activity.activityid, Constants.Field_Media_Access_Types)
+			old_frequencyname = new_frequencyname = ""
+			if outlet.frequencyid:
+				old_frequency = Frequencies.query.get(outlet.frequencyid)
+				old_frequencyname = old_frequency.frequencyname
+			if 'frequencyid' in params and params['frequencyid'] != None:
+				new_frequency = Frequencies.query.get(int(params['frequencyid']))
+				new_frequencyname = new_frequency.frequencyname
+			ActivityDetails.AddChange(old_frequencyname, new_frequencyname, activity.activityid, Constants.Field_Frequency)
+
+			old_countryname = new_countryname = ""
+			if outlet.countryid:
+				old_country = Countries.query.get(outlet.countryid)
+				old_countryname = old_country.countryname
+			if 'countryid' in params and params['countryid'] != None:
+				new_country = Countries.query.get(int(params['countryid']))
+				new_countryname = new_country.countryname
+			ActivityDetails.AddChange(old_countryname, new_countryname, activity.activityid, Constants.Field_CountryId)
+
+			old_circulationsourcedescription = new_circulationsourcedescription = ""
+			if outlet.circulationsourceid:
+				old_circulationsource = CirculationSources.query.get(outlet.circulationsourceid)
+				old_circulationsourcedescription = old_circulationsource.circulationsourcedescription
+			if 'circulationsourceid' in params and params['circulationsourceid'] != None:
+				new_circulationsource = CirculationSources.query.get(int(params['circulationsourceid']))
+				new_circulationsourcedescription = new_circulationsource.circulationsourcedescription
+			ActivityDetails.AddChange(old_circulationsourcedescription, new_circulationsourcedescription, activity.activityid, Constants.Field_Outlet_Circulation_Source)
+
+			old_circulationauditdatedescription = new_circulationauditdatedescription = ""
+			if outlet.circulationauditdateid:
+				old_circulationauditdate = CirculationDates.query.get(outlet.circulationauditdateid)
+				old_circulationauditdatedescription = old_circulationauditdate.circulationauditdatedescription
+			if 'circulationauditdateid' in params and params['circulationauditdateid'] != None:
+				new_circulationauditdate = CirculationDates.query.get(int(params['circulationauditdateid']))
+				new_circulationauditdatedescription = new_circulationauditdate.circulationauditdatedescription
+			ActivityDetails.AddChange(old_circulationauditdatedescription, new_circulationauditdatedescription, activity.activityid, Constants.Field_Outlet_Circulation_Dates)
+
+			old_websourcedescription = new_websourcedescription = ""
+			if outlet.websourceid:
+				old_websource = WebSources.query.get(outlet.websourceid)
+				old_websourcedescription = old_websource.websourcedescription
+			if 'websourceid' in params and params['websourceid'] != None:
+				new_websource = WebSources.query.get(int(params['websourceid']))
+				new_websourcedescription = new_websource.websourcedescription
+			ActivityDetails.AddChange(old_websourcedescription, new_websourcedescription, activity.activityid, Constants.Field_Outlet_Web_Source)
+
+			old_webauditdatedescription = new_webauditdatedescription = ""
+			if outlet.webauditdateid:
+				old_webdate = WebDates.query.get(outlet.webauditdateid)
+				old_webauditdatedescription = old_webdate.webauditdatedescription
+			if 'webauditdateid' in params and params['webauditdateid'] != None:
+				new_webdate = WebDates.query.get(int(params['webauditdateid']))
+				new_webauditdatedescription = new_webdate.webauditdatedescription
+			ActivityDetails.AddChange(old_webauditdatedescription, new_webauditdatedescription, activity.activityid, Constants.Field_Outlet_Web_Dates)
+
+			old_outletpricedescription = new_outletpricedescription = ""
+			if outlet.outletpriceid:
+				old_outletprice = OutletPrices.query.get(outlet.outletpriceid)
+				old_outletpricedescription = old_outletprice.outletpricedescription
+			if 'outletpriceid' in params and params['outletpriceid'] != None:
+				new_outletprice = OutletPrices.query.get(int(params['outletpriceid']))
+				new_outletpricedescription = new_outletprice.outletpricedescription
+			ActivityDetails.AddChange(old_outletpricedescription, new_outletpricedescription, activity.activityid, Constants.Field_Cost)
+
+			old_mediaaccesstypedescription = new_mediaaccesstypedescription = ""
+			if outlet.mediaaccesstypeid:
+				old_mediaaccesstype = MediaAccessTypes.query.get(outlet.mediaaccesstypeid)
+				old_mediaaccesstypedescription = old_mediaaccesstype.mediaaccesstypedescription
+			if 'mediaaccesstypeid' in params and params['mediaaccesstypeid'] != None:
+				new_mediaaccesstype = MediaAccessTypes.query.get(int(params['mediaaccesstypeid']))
+				new_mediaaccesstypedescription = new_mediaaccesstype.mediaaccesstypedescription
+			ActivityDetails.AddChange(old_mediaaccesstype.mediaaccesstypedescription, new_mediaaccesstype.mediaaccesstypedescription, activity.activityid, Constants.Field_Media_Access_Types)
+
+			ActivityDetails.AddChange(researchdetails.no_sync, params["no_sync"], activity.activityid, Constants.Field_Research_No_Sync)
 
 			if 'address1' in params:
 				ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
@@ -206,6 +333,8 @@ class OutletGeneral(object):
 
 			outlet.mediaaccesstypeid = params["mediaaccesstypeid"]
 
+			researchdetails.no_sync = params["no_sync"]
+
 			if 'address1' in params:
 				address.address1 = params['address1']
 			if 'address2' in params:
@@ -263,7 +392,9 @@ class OutletGeneral(object):
 			outlet.sourcetypeid = Constants.Research_Source_Prmax
 			outlet.sourcekey = outlet.outletid
 
-			ActivityDetails.AddChange(outlet.prmax_outlettypeid, params['prmax_outlettypeid'], activity.activityid, Constants.Field_Outlet_Type)
+			old_prmax_outlettype = PRmaxOutletTypes.query.get(outlet.prmax_outlettypeid)
+			new_prmax_outlettype = PRmaxOutletTypes.query.get(int(params['prmax_outlettypeid']))
+			ActivityDetails.AddChange(old_prmax_outlettype.prmax_outlettypename, new_prmax_outlettype.prmax_outlettypename, activity.activityid, Constants.Field_Outlet_Type)
 
 			outlet.prmax_outlettypeid = params['prmax_outlettypeid']
 
@@ -276,8 +407,23 @@ class OutletGeneral(object):
 			OutletGeneral.update_parent(profile.seriesparentid, params.get("seriesparentid", None))
 			OutletGeneral.update_parent(profile.supplementofid, params.get("supplementofid", None))
 
-			ActivityDetails.AddChange(profile.seriesparentid, params.get("seriesparentid", None), activity.activityid, Constants.Field_Series_Parent)
-			ActivityDetails.AddChange(profile.supplementofid, params.get("supplementofid", None), activity.activityid, Constants.Field_Supplement_Of)
+			old_seriesparentname = new_seriesparentname = ''
+			if profile.seriesparentid:
+				old_seriesparent = Outlet.query.get(profile.seriesparentid)
+				old_seriesparentname = old_seriesparent.outletname
+			if 'seriesparentid' in params:
+				new_seriesparent = Outlet.query.get(int(params['seriesparentid']))
+				new_seriesparentname = new_seriesparent.outletname
+			ActivityDetails.AddChange(old_seriesparentname, new_seriesparentname, activity.activityid, Constants.Field_Series_Parent)
+
+			old_supplementofname = new_supplementofname = ''
+			if profile.supplementofid:
+				old_supplementof = Outlet.query.get(profile.supplementofid)
+				old_supplementofname = old_supplementof.outletname
+			if 'supplementofid' in params:
+				new_supplementof = Outlet.query.get(int(params['supplementofid']))
+				new_supplementofname = new_supplementof.outletname
+			ActivityDetails.AddChange(old_supplementofname, new_supplementofname, activity.activityid, Constants.Field_Supplement_Of)
 
 			profile.seriesparentid = params.get("seriesparentid", None)
 			profile.supplementofid = params.get("supplementofid", None)
@@ -382,7 +528,9 @@ class OutletGeneral(object):
 			session.add(activity)
 			session.flush()
 
-			ActivityDetails.AddChange(outlet.prmax_outlettypeid, params['prmax_outlettypeid'], activity.activityid, Constants.Field_Outlet_Type)
+			old_prmax_outlettype = PRmaxOutletTypes.query.get(outlet.prmax_outlettypeid)
+			new_prmax_outlettype = PRmaxOutletTypes.query.get(int(params['prmax_outlettypeid']))
+			ActivityDetails.AddChange(old_prmax_outlettype.prmax_outlettypename, new_prmax_outlettype.prmax_outlettypename, activity.activityid, Constants.Field_Outlet_Type)
 
 			outlet.prmax_outlettypeid = params["prmax_outlettypeid"]
 			com = Communication.query.get(outlet.communicationid)

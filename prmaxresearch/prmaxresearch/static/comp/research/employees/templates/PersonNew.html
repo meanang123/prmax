@@ -2,10 +2,11 @@
 <form  data-dojo-props='onsubmit:"return false","class":"prmaxdefault"' data-dojo-attach-point="form" data-dojo-type="dijit/form/Form">
 	<table cellspacing ="0" cellpadding="0" width="100%">
 		<tr><td class="prmaxrowtag">${displayname}</td><td></tr>
-		<tr><td align="right" class="prmaxrowtag" >Prefix</td><td ><input  data-dojo-attach-point="prefix" data-dojo-props='"class":"prmaxinput",name:"prefix",style:"width: 2em;",type:"text",trim:true'  data-dojo-attach-point="prefix" data-dojo-type="dijit/form/TextBox" ></input></td></tr>
+		<tr><td align="right" class="prmaxrowtag">Prefix</td><td ><input  data-dojo-attach-point="prefix" data-dojo-props='"class":"prmaxinput",name:"prefix",style:"width: 2em;",type:"text",trim:true'  data-dojo-attach-point="prefix" data-dojo-type="dijit/form/TextBox" ></input></td></tr>
 		<tr><td align="right" class="prmaxrowtag">First Name</td><td ><input data-dojo-props='style:"width: 5em;","class":"prmaxinput",name:"firstname",type:"text",trim:true' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="firstname" ></input></td></tr>
 		<tr><td align="right" class="prmaxrowtag">Surname</td><td><input data-dojo-attach-point="familyname"  data-dojo-props='"class":"prmaxrequired",name:"familyname",type:"text",trim:true,required:true,style:"width: 12em"' data-dojo-type="dijit/form/ValidationTextBox"></input></td></tr>
-		<tr><td align="right" class="prmaxrowtag" >Reason</td><td ><select data-dojo-type ="dijit/form/FilteringSelect" data-dojo-attach-point="reasoncodeid" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html",style:"width:98%","class":"prmaxrequired"'  /></td></tr>
+		<tr><td align="right" class="prmaxrowtag">Source</td><td ><select data-dojo-type ="dijit/form/FilteringSelect" data-dojo-attach-point="sourcetypeid" data-dojo-props='name:"sourcetypeid",searchAttr:"name",labelType:"html",style:"width:98%","class":"prmaxrequired"'  /></td></tr>
+		<tr><td align="right" class="prmaxrowtag">Reason</td><td ><select data-dojo-type ="dijit/form/FilteringSelect" data-dojo-attach-point="reasoncodeid" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html",style:"width:98%","class":"prmaxrequired"'  /></td></tr>
 		<tr><td colspan="2" align="right" valign="bottom" ><button data-dojo-attach-event="onClick:_add_contact" data-dojo-attach-point="addcontactnode" type="button" data-dojo-type="dijit/form/Button" label="Add"></button></td></tr>
 	</table>
 </form>

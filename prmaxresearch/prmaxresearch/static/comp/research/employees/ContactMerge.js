@@ -66,8 +66,8 @@ define([
 		if (confirm("Merge Contacts"))
 		{
 			var data = {};
-			data['contactid'] = this._contactid;
-			data['sourcecontactid'] = this.contactlist.item.contactid;
+			data['contactid'] = this.contactlist.item.contactid;
+			data['sourcecontactid'] = this._contactid;
 			this._sourcecontactid = data['sourcecontactid'];
 			request.post('/research/admin/contacts/research_merge',
 				utilities2.make_params({ data: data} )).
@@ -79,9 +79,9 @@ define([
 		if (response.success == "OK")
 		{
 			alert("Merge Completed");
-			topic.publish('contacts/merge_contact', {has_deleted:true, contactid:this._contactid, sourcecontactid:this._sourcecontactid} );
+			topic.publish('contacts/merge_contact', {has_deleted:true, contactid:response.contact.contactid, sourcecontactid:this._sourcecontactid, contact:response.contact} );
 			this._dlg.hide();
-//			this.clear();
+			//this.clear();
 		}
 		else
 		{

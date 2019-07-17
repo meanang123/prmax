@@ -29,7 +29,7 @@ from prcommon.model.lookups import CustomerTypes, UserTypes, SortOrder, Frequenc
      NewsFeedTypes, UnSubscribeReason, OutletPrices, EmailSendTypes, IssueStatus, ContactHistoryStatus, QuestionTypes, \
      ClippingPriceServiceLevel, ClippingStatus, ClippingSource, DistributionTemplateTypes, ClippingsTypes, ClippingsTone, MediaAccessTypes, \
      CustomerProducts, TaskTypeStatus, ServerTypes, ChartView, DateRanges, GroupBy, DashboardSettingsMode, DashboardSettingsStandard, \
-     DashboardSettingsStandardSearchBy
+     DashboardSettingsStandardSearchBy, Sourcetypes
 
 from prcommon.model.list import List, ListMembers, ExclusionList
 

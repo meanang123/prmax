@@ -18,6 +18,7 @@ outlet_searchtypeid=5
 outlet_interest = 6
 outlet_outlettypeid = 23
 outlet_countryid = 24
+outlet_publisher = 137
 
 # employee index
 employee_contact_employeeid = 10
@@ -28,6 +29,7 @@ employee_contactfull_employeeid = 22
 employee_outletid_countryid = 27
 employee_countryid = 131
 employee_contact_ext_employeeid = 133
+employee_contactfull_ext_employeeid = 138
 
 # freelance index
 freelance_employeeid_interestid = 14
@@ -36,6 +38,7 @@ freelance_employee_outletid = 16
 freelance_employeeid = 17
 freelance_countryid = 25
 freelance_employeeid_countryid = 51
+freelance_contact_ext_employeeid = 136
 
 # mp index
 mp_employeeid_interestid = 18
@@ -84,9 +87,9 @@ seo_keywords = 130
 crm_subject = 134
 taken_dates = 135
 
-# next id 136
+# next id 139
 
-HIGHEST_INDEX_ID = 133
+HIGHEST_INDEX_ID = 138
 
 isListOfKeys = ( outlet_interest, outlet_searchtypeid, outlet_circulationid,
 				 outlet_searchtypeid, employee_employeeid_interestid,
@@ -95,7 +98,7 @@ isListOfKeys = ( outlet_interest, outlet_searchtypeid, outlet_circulationid,
                  outlet_job_role, employee_job_role, employee_prmaxoutlettypeid,
                  advance_pub_date, advance_interest, advance_outlettypeid,
                  outlet_countryid, employee_outletid_countryid, freelance_countryid, freelance_employeeid_countryid, employee_countryid,
-                 employee_contact_ext_employeeid)
+                 employee_contact_ext_employeeid, freelance_contact_ext_employeeid, employee_contactfull_ext_employeeid)
 
 Search_Data_IsOutlet = (outlet_name, outlet_statusid, outlet_frequencyid,
 	outlet_circulationid, outlet_searchtypeid, outlet_interest,
@@ -115,5 +118,5 @@ isTelNumber = (freelance_tel, employee_tel, outlet_tel,quick_search_tel)
 isProfile = ( outlet_profile, freelance_profile )
 isQuickProcedure = (quick_search_countryid, )
 
-FAMILY_INDEX = ( mp_employeeid, employee_contact_employeeid, freelance_employeeid, employee_contactfull_employeeid , freelance_employee_outletid)
+FAMILY_INDEX = ( mp_employeeid, employee_contact_employeeid, freelance_employeeid, employee_contactfull_employeeid, freelance_employee_outletid)
 FAMILY_OUTLET_INDEX = ( freelance_employee_outletid, mp_employee_outletid, employee_contact_outletid )

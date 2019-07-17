@@ -391,6 +391,37 @@ def doOutletTel(SD, plpy, customerid, data, byemployeeid):
 
 	return entry
 
+def doOutletPublisher(SD, plpy, customerid, data, byemployeeid):
+	"doOutletPublisher"
+	if SD.has_key("search_outlet_publisher_plan"):
+		plan = SD['search_outlet_publisher_plan']
+	else:
+		plan = plpy.prepare("""select o.primaryemployeeid as employeeid,o.outletid
+		from outlets as o
+		join communications as c ON c.communicationid = o.communicationid
+		left outer join outletcustomers as oc ON oc.customerid = $1 and oc.outletid = o.outletid
+		left outer join communications as ecc ON ecc.communicationid = oc.communicationid
+		WHERE
+		  ((o.customerid=-1 AND o.countryid IN (SELECT pc.countryid
+		  		FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+		      WHERE cpd.customerid = $1))
+		      OR o.customerid=$1 ) AND
+		  (o.outlettypeid !=19 AND o.outlettypeid !=41 ) AND
+		  ( o.customerid=-1 OR o.customerid=$1) AND
+		  (o.publisherid = $2)""", ["int", "int"])
+		SD['search_outlet_publisher_plan'] = plan
+
+	entry = IndexEntry()
+	if byemployeeid:
+		keyfield = "employeeid"
+	else:
+		keyfield = "outletid"
+
+	for row in plpy.execute(plan, [customerid, int(data)]):
+		entry.index.add(row[keyfield])
+
+	return entry
+
 def doFreelanceEmail(SD, plpy, customerid, data, byemployeeid):
 	"doFreelanceEmail"
 	if SD.has_key("search_outlet_tel_plan"):
@@ -799,5 +830,86 @@ def SearchEmployeeContactExt(SD, plpy, customerid, data, byemployeeid):
 			entry.index.add(row[keyfield])
 	else:
 		entry = doIndexGroup(SD,plpy, True, Constants.Search_Or, [(obj["data"]["surname"].lower(), Constants.employee_contact_employeeid), ],customerid)
+
+	return entry
+
+def SearchFreelanceContactExt(SD, plpy, customerid, data, byemployeeid):
+	""" do employee email """
+	if SD.has_key("search_freelance_contact_ext_plan"):
+		plan = SD['search_freelance_contact_ext_plan']
+	else:
+		plan = plpy.prepare("""SELECT e.employeeid,e.outletid
+		FROM employees AS e
+		JOIN outlets as o on e.outletid = o.outletid
+		JOIN contacts AS c ON c.contactid = e.contactid
+		LEFT OUTER JOIN employeecustomers as ec ON ec.customerid = $1 AND ec.employeeid = e.employeeid
+		LEFT OUTER JOIN communications as ecc ON ecc.communicationid = ec.communicationid
+		WHERE
+			o.outlettypeid IN ( 19, 41 ) AND
+			(
+		  (e.customerid=-1 AND o.countryid IN (SELECT pc.countryid
+		  		FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+		      WHERE cpd.customerid = $1))
+		      OR e.customerid=$1) AND
+		      c.familyname ILIKE $2 AND
+		      c.firstname ILIKE $3""", ["int", "text", "text"])
+		SD['search_freelance_contact_ext_plan'] = plan
+
+	controlSettings = PostGresControl(plpy)
+	controlSettings.doDebug(data)
+
+	obj = DBCompress.decode(data)
+
+	entry = IndexEntry()
+	if byemployeeid:
+		keyfield = "employeeid"
+	else:
+		keyfield = "outletid"
+
+	if obj["data"]["firstname"]:
+		for row in plpy.execute(plan, [ customerid, obj["data"]["surname"] + "%", obj["data"]["firstname"] + "%"]):
+			entry.index.add(row[keyfield])
+	else:
+		entry = doIndexGroup(SD,plpy, True, Constants.Search_Or, [(obj["data"]["surname"].lower(), Constants.freelance_employeeid), ],customerid)
+
+	return entry
+
+def SearchEmployeeContactFullExt(SD, plpy, customerid, data, byemployeeid):
+	""" do employee email """
+	if SD.has_key("search_employee_contactfull_ext_plan"):
+		plan = SD['search_employee_contactfull_ext_plan']
+	else:
+		plan = plpy.prepare("""SELECT e.employeeid,e.outletid
+		FROM employees AS e
+		JOIN outlets as o on e.outletid = o.outletid
+		JOIN contacts AS c ON c.contactid = e.contactid
+		LEFT OUTER JOIN employeecustomers as ec ON ec.customerid = $1 AND ec.employeeid = e.employeeid
+		LEFT OUTER JOIN communications as ecc ON ecc.communicationid = ec.communicationid
+		WHERE
+			(
+		  (e.customerid=-1 AND o.countryid IN (SELECT pc.countryid
+		  		FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+		      WHERE cpd.customerid = $1))
+		      OR e.customerid=$1) AND
+		      c.familyname ILIKE $2 AND
+		      c.firstname ILIKE $3""", ["int", "text", "text"])
+		SD['search_employee_contactfull_ext_plan'] = plan
+
+	#controlSettings = PostGresControl(plpy)
+	#controlSettings.doDebug(data)
+
+	obj = DBCompress.decode(data)
+
+	entry = IndexEntry()
+	if byemployeeid:
+		keyfield = "employeeid"
+	else:
+		keyfield = "outletid"
+
+	if obj["data"]["firstname"]:
+		for row in plpy.execute(plan, [ customerid, obj["data"]["surname"] + "%", obj["data"]["firstname"] + "%"]):
+			entry.index.add(row[keyfield])
+	else:
+		entry = doIndexGroup(SD,plpy, True, Constants.Search_Or, [(obj["data"]["surname"].lower(), Constants.employee_contactfull_employeeid), ],customerid)
 
 	return entry

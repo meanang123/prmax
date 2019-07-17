@@ -40,7 +40,15 @@ define([
 	},
 	_open_url_new_tab:function()
 	{
-		url = this.webbutton.get("value");
+		var url = "";
+		if (typeof this.webbutton == 'string')
+		{
+			url = this.webbutton;
+		}
+		else
+		{
+			url = this.webbutton.get("value");
+		}
 		if (url && url != '')
 		{
 			var win = window.open(url, '_blank');

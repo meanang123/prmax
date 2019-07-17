@@ -477,7 +477,7 @@ class CustomerStatus(BaseSql):
 		if params.get('filter'):
 			lines.insert(0, dict(id=-1, name="No Filter"))
 		if "show_all" in params:
-			lines.insert(0, dict(id=0,name='Show All'))
+			lines.insert(0, dict(id=0, name='Show All'))
 		return lines
 
 class OutletSearchType(BaseSql):
@@ -777,7 +777,7 @@ class ClippingsTypes(object):
 		        for row in session.query(ClippingsTypes).order_by(ClippingsTypes.clippingstypeid).all()]
 
 		if "show_all" in params:
-			data.insert(0, dict(id=-1,name='<i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;All Types'))
+			data.insert(0, dict(id=-1, name='<i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;All Types'))
 
 		return data
 
@@ -835,7 +835,7 @@ class TaskTypeStatus(BaseSql):
 
 class Publishers(BaseSql):
 	"Publishers"
-	List_Types = """SELECT publisherid,publishername FROM internal.publishers ORDER BY publisherid"""
+	List_Types = """SELECT publisherid,publishername FROM internal.publishers ORDER BY publishername"""
 
 	@classmethod
 	def getLookUp(cls, params):
@@ -924,6 +924,18 @@ class DashboardSettingsStandardSearchBy(BaseSql):
 					for row in data.fetchall()]
 		return cls.sqlExecuteCommand(text(DashboardSettingsStandardSearchBy.List_Types), None, _convert)
 
+class Sourcetypes(BaseSql):
+	"sourcetypes"
+	List_Types = """SELECT sourcetypeid, sourcename FROM internal.sourcetypes ORDER BY sourcetypeid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.sourcetypeid, name=row.sourcename)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(Sourcetypes.List_Types), None, _convert)
 
 #########################################################
 # load tables from db
@@ -969,18 +981,19 @@ ClippingsTone.mapping = Table('clippingstone', metadata, autoload=True, schema='
 ClippingsTypes.mapping = Table('clippingstype', metadata, autoload=True, schema='internal')
 MediaAccessTypes.mapping = Table('mediaaccesstypes', metadata, autoload=True, schema='internal')
 TaskTypeStatus.mapping = Table('tasktypestatus', metadata, autoload=True, schema='internal')
-Publishers.mapping = Table('publishers', metadata, autoload = True, schema='internal')
-EmailServerTypes.mapping = Table('emailservertype', metadata, autoload = True, schema='internal')
+Publishers.mapping = Table('publishers', metadata, autoload=True, schema='internal')
+EmailServerTypes.mapping = Table('emailservertype', metadata, autoload=True, schema='internal')
 try:
 	ServerTypes.mapping = Table('servertypes', metadata, autoload=True, schema='internal')
 except:
 	pass
-ChartView.mapping = Table('chartview', metadata, autoload = True, schema='internal')
-DateRanges.mapping = Table('dateranges', metadata, autoload = True, schema='internal')
-GroupBy.mapping = Table('groupby', metadata, autoload = True, schema='internal')
-DashboardSettingsMode.mapping = Table('dashboardsettingsmode', metadata, autoload = True, schema='internal')
-DashboardSettingsStandard.mapping = Table('dashboardsettingsstandard', metadata, autoload = True, schema='internal')
-DashboardSettingsStandardSearchBy.mapping = Table('dashboardsettingsstandardsearchby', metadata, autoload = True, schema='internal')
+ChartView.mapping = Table('chartview', metadata, autoload=True, schema='internal')
+DateRanges.mapping = Table('dateranges', metadata, autoload=True, schema='internal')
+GroupBy.mapping = Table('groupby', metadata, autoload=True, schema='internal')
+DashboardSettingsMode.mapping = Table('dashboardsettingsmode', metadata, autoload=True, schema='internal')
+DashboardSettingsStandard.mapping = Table('dashboardsettingsstandard', metadata, autoload=True, schema='internal')
+DashboardSettingsStandardSearchBy.mapping = Table('dashboardsettingsstandardsearchby', metadata, autoload=True, schema='internal')
+Sourcetypes.mapping = Table('sourcetypes', metadata, autoload=True, schema='internal')
 
 
 
@@ -1026,7 +1039,7 @@ mapper(ClippingsTone, ClippingsTone.mapping)
 mapper(ClippingsTypes, ClippingsTypes.mapping)
 mapper(MediaAccessTypes, MediaAccessTypes.mapping)
 mapper(TaskTypeStatus, TaskTypeStatus.mapping)
-mapper(Publishers, Publishers.mapping )
+mapper(Publishers, Publishers.mapping)
 mapper(ServerTypes, ServerTypes.mapping)
 mapper(EmailServerTypes, EmailServerTypes.mapping)
 mapper(ChartView, ChartView.mapping)
@@ -1035,5 +1048,6 @@ mapper(GroupBy, DateRanges.mapping)
 mapper(DashboardSettingsMode, DashboardSettingsMode.mapping)
 mapper(DashboardSettingsStandard, DashboardSettingsStandard.mapping)
 mapper(DashboardSettingsStandardSearchBy, DashboardSettingsStandardSearchBy.mapping)
+mapper(Sourcetypes, Sourcetypes.mapping)
 
 

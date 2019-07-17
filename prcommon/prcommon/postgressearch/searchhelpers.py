@@ -119,6 +119,12 @@ def doIndexGroup(SD, plpy, extended, logic, indexs, customerid):
 	#control system
 	controlSettings = PostGresControl(plpy)
 	controlSettings.doDebug("doIndexGroup")
+	controlSettings.doDebug(SD)
+	controlSettings.doDebug(plpy)
+	controlSettings.doDebug(extended)
+	controlSettings.doDebug(logic)
+	controlSettings.doDebug(indexs)
+	controlSettings.doDebug(customerid)
 
 	def _formatword(word):
 		""" format word"""
@@ -354,6 +360,39 @@ def doOutletTel(SD, plpy, customerid, data, byemployeeid):
 
 	return entry
 
+def doOutletPublisher(SD, plpy, customerid, data, byemployeeid):
+	"doOutletPublisher"
+	if SD.has_key("search_outlet_publisher_plan"):
+		plan = SD['search_outlet_publisher_plan']
+	else:
+		if data == None:
+			data = -1
+		plan = plpy.prepare("""select o.primaryemployeeid as employeeid,o.outletid
+		from outlets as o
+		join communications as c ON c.communicationid = o.communicationid
+		left outer join outletcustomers as oc ON oc.customerid = $1 and oc.outletid = o.outletid
+		left outer join communications as ecc ON ecc.communicationid = oc.communicationid
+		WHERE
+		  ((o.customerid=-1 AND o.countryid IN (SELECT pc.countryid
+		  FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+		      WHERE cpd.customerid = $1))
+		      OR o.customerid=$1 ) AND
+		  (o.outlettypeid !=19 AND o.outlettypeid !=41 ) AND
+		  ( o.customerid=-1 OR o.customerid=$1) AND
+		  (o.publisherid = $2)""", ["int", "int"])
+		SD['search_outlet_publisher_plan'] = plan
+
+	entry = IndexEntry()
+	if byemployeeid:
+		keyfield = "employeeid"
+	else:
+		keyfield = "outletid"
+
+	for row in plpy.execute(plan, [customerid, int(data)]):
+		entry.index.add(row[keyfield])
+
+	return entry
+
 def doFreelanceEmail(SD, plpy, customerid, data, byemployeeid):
 	"doFreelanceEmail"
 	if SD.has_key("search_outlet_tel_plan"):
@@ -493,9 +532,10 @@ def doCommonSearch(commands, plpy, byemployeedid=True):
 
 	controlSettings = PostGresControl(plpy)
 
-	controlSettings.doDebug("doCommonSearch " + byemailtext)
+	controlSettings.doDebug("doCommonSearch222 " + byemailtext)
 	for command in commands.rows:
 		controlSettings.doDebug("command.keytypeid " + str(command.keytypeid))
+		controlSettings.doDebug("command.keytypeid " + str(type(command.keytypeid)))
 		if type(command.keytypeid) == StringType:
 			data = _EncodeTypeData(command.word)
 			controlSettings.doDebug("Encodeed Data " + str(data))
@@ -507,12 +547,12 @@ def doCommonSearch(commands, plpy, byemployeedid=True):
 			result = plpy.execute(action.encode("utf-8"))[0]
 			itemkey = command.keytypeid.lower()
 		else:
-			controlSettings.doDebug("command.keytypeid " + str(command.word))
+			controlSettings.doDebug("command.keytypeid1 " + str(command.word))
 
 			indexItems = ",".join(["('%s',%d)::IndexElement"%
 								   (value, command.keytypeid)
 								   for value in command.word])
-			controlSettings.doDebug("doCommonSearch " + str(indexItems))
+			controlSettings.doDebug("doCommonSearch333 " + str(indexItems))
 
 			#logic = Constants.Search_Or if command.partial else command.logic
 			controlSettings.doDebug("pre doIndex")
@@ -521,9 +561,8 @@ def doCommonSearch(commands, plpy, byemployeedid=True):
 									commands.customerid,
 									command.logic,
 									command.partial))[0]
-			itemkey = "doindexgroup"
+			itemkey = "doindexgroup1"
 			controlSettings.doDebug("post doIndex")
-
 
 		controlSettings.doDebug("command.type " + str(command.type))
 

@@ -44,6 +44,9 @@ define([
 		this._error_handler_call_back = lang.hitch(this,this._error_handler);
 		this._add_call_back = lang.hitch(this,this._add_call);
 		this._firsttime = true;
+		this._has_address_old = null;
+		this._has_address_new = null;
+		
 	},
 	postCreate:function()
 	{
@@ -123,6 +126,7 @@ define([
 			if (response.data.alt_address == false)
 			{
 				this.no_address.set("checked",false) ;
+				this._has_address_old = false;
 				this._address_show_do ( false ) ;
 				this.address1.set("value","");
 				this.address2.set("value","");
@@ -133,6 +137,7 @@ define([
 			else
 			{
 				this.no_address.set("checked", true) ;
+				this._has_address_old = true;
 				this._address_show_do ( true ) ;
 				this.address1.set("value",response.data.address1);
 				this.address2.set("value",response.data.address2);
@@ -284,6 +289,16 @@ define([
 	_address_show:function()
 	{
 		this._address_show_do ( this.no_address.get("checked") ) ;
+		if (this.no_address.get('checked'))
+		{
+			this._has_address_old = false;
+			this._has_address_new = true;
+		}
+		else
+		{
+			this._has_address_old = true;
+			this._has_address_new = false;	
+		}		
 	},
 	_address_show_do:function ( show_it )
 	{

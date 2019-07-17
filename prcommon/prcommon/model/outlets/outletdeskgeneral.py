@@ -12,6 +12,9 @@ from turbogears.database import session
 from prcommon.model.outlets.outletdesk import OutletDesk
 from prcommon.model.research import ResearchDetailsDesk
 from prcommon.model.communications import Communication, Address
+from prcommon.model.research import Activity, ActivityDetails, ResearchFrequencies
+from prcommon.model.lookups import Months
+import prcommon.Constants as Constants
 from ttl.ttldate import to_json_date
 from ttl.model import BaseSql
 
@@ -40,6 +43,17 @@ class OutletDeskGeneral(object):
 		  items=[],
 		  identifier='outletdeskid'
 		)
+
+	@staticmethod
+	def _fix_number(countryid, number):
+		if countryid == 1:
+			if number is not None and number != '' and not number.startswith('+44'):
+				number = '+44 (0)%s' % number
+		if countryid == 3:
+			if number is not None and number != '' and not number.startswith('+353'):
+				number = '+353 (0)%s' % number
+		return number
+
 	@staticmethod
 	def get_list_desks(params):
 		""" get rest page  of  desk for outlet"""
@@ -105,7 +119,14 @@ class OutletDeskGeneral(object):
 
 		transaction = BaseSql.sa_get_active_transaction()
 
+
 		try:
+			from prcommon.model import Outlet
+			countryid = session.query(Outlet.countryid).filter(Outlet.outletid == params['outletid']).scalar()
+			if 'tel' in params:
+				params['tel'] = OutletDeskGeneral._fix_number(countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = OutletDeskGeneral._fix_number(countryid, params['fax'])
 			comms = Communication(email=params['email'],
 				                      tel=params['tel'],
 				                      fax=params['fax'],
@@ -154,6 +175,33 @@ class OutletDeskGeneral(object):
 				quest_month_4=params['quest_month_4']
 				)
 				session.add(researchoutletdesk)
+
+			# add the audit trail header record
+			if "researchprojectitemid" in  params:
+				activity = Activity(
+					reasoncodeid=Constants.ReasonCode_Questionnaire,
+					reason="",
+					objecttypeid=Constants.Object_Type_Desk,
+					objectid=outletdesk.outletdeskid,
+					actiontypeid=Constants.Research_Record_Add,
+					userid=params['userid'],
+					parentobjectid=outletdesk.outletid,
+					parentobjecttypeid=Constants.Object_Type_Outlet
+				)
+
+			else:
+				activity = Activity(
+					reasoncodeid=5,
+					reason="",
+					objecttypeid=Constants.Object_Type_Desk,
+					objectid=outletdesk.outletdeskid,
+					actiontypeid=Constants.Research_Record_Add,
+					userid=params['userid'],
+					parentobjectid=outletdesk.outletid,
+					parentobjecttypeid=Constants.Object_Type_Outlet
+				)
+			session.add(activity)
+			session.flush()
 			transaction.commit()
 
 			return outletdesk.outletdeskid
@@ -215,17 +263,68 @@ class OutletDeskGeneral(object):
 		""" update desk """
 
 		transaction = BaseSql.sa_get_active_transaction()
+		from prcommon.model import Outlet
 
 		try:
 			outletdesk = OutletDesk.query.get(params["outletdeskid"])
+
+			if "researchprojectitemid" in  params:
+				activity = Activity(
+					reasoncodeid=Constants.ReasonCode_Questionnaire,
+					reason="",
+					objecttypeid=Constants.Object_Type_Desk,
+					objectid=outletdesk.outletdeskid,
+					actiontypeid=Constants.Research_Record_Update,
+					userid=params['userid'],
+					parentobjectid=outletdesk.outletid,
+					parentobjecttypeid=Constants.Object_Type_Outlet
+				)
+			else:
+				# add the audit trail header record
+				activity = Activity(reasoncodeid=5,
+				                    reason=params.get("reason", ""),
+				                    objecttypeid=Constants.Object_Type_Desk,
+				                    objectid=outletdesk.outletdeskid,
+				                    actiontypeid=Constants.Research_Record_Update,
+				                    userid=params['userid'],
+				                    parentobjectid=outletdesk.outletid,
+				                    parentobjecttypeid=Constants.Object_Type_Outlet
+				                    )
+			session.add(activity)
+			session.flush()
+
+			ActivityDetails.AddChange(outletdesk.deskname, params['deskname'], activity.activityid, Constants.Field_DeskName)
 			outletdesk.deskname = params["deskname"]
+
+			countryid = session.query(Outlet.countryid).filter(Outlet.outletid == outletdesk.outletid).scalar()
+			if 'tel' in params:
+				params['tel'] = OutletDeskGeneral._fix_number(countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = OutletDeskGeneral._fix_number(countryid, params['fax'])
+
 			if outletdesk.communicationid:
 				comms = Communication.query.get(outletdesk.communicationid)
+				ActivityDetails.AddChange(comms.email, params['email'], activity.activityid, Constants.Field_Email)
+				ActivityDetails.AddChange(comms.tel, params['tel'], activity.activityid, Constants.Field_Tel)
+				ActivityDetails.AddChange(comms.fax, params['fax'], activity.activityid, Constants.Field_Fax)
+				ActivityDetails.AddChange(comms.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
+				ActivityDetails.AddChange(comms.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
+				ActivityDetails.AddChange(comms.instagram, params['instagram'], activity.activityid, Constants.Field_Instagram)
+				ActivityDetails.AddChange(comms.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
 			else:
 				comms = Communication()
 				session.add(comms)
 				session.flush()
+				ActivityDetails.AddChange('', params['email'], activity.activityid, Constants.Field_Email)
+				ActivityDetails.AddChange('', params['tel'], activity.activityid, Constants.Field_Tel)
+				ActivityDetails.AddChange('', params['fax'], activity.activityid, Constants.Field_Fax)
+				ActivityDetails.AddChange('', params['twitter'], activity.activityid, Constants.Field_Twitter)
+				ActivityDetails.AddChange('', params['facebook'], activity.activityid, Constants.Field_Facebook)
+				ActivityDetails.AddChange('', params['instagram'], activity.activityid, Constants.Field_Instagram)
+				ActivityDetails.AddChange('', params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
 				outletdesk.communicationid = comms.communicationid
+
+			ActivityDetails.AddChange('Checked' if params['has_address_old'] else 'Unchecked', 'Checked' if params['has_address_new'] else 'Unchecked', activity.activityid, Constants.Field_No_Address)
 			if params['has_address']:
 				if comms.addressid:
 					address = Address.query.get(comms.addressid)
@@ -234,6 +333,12 @@ class OutletDeskGeneral(object):
 					address.county = params['county']
 					address.postcode = params['postcode']
 					address.townname = params['townname']
+
+					ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
+					ActivityDetails.AddChange(address.address2, params['address2'], activity.activityid, Constants.Field_Address_2)
+					ActivityDetails.AddChange(address.county, params['county'], activity.activityid, Constants.Field_Address_County)
+					ActivityDetails.AddChange(address.postcode, params['postcode'], activity.activityid, Constants.Field_Address_Postcode)
+					ActivityDetails.AddChange(address.townname, params['townname'], activity.activityid, Constants.Field_Address_Town)
 				else:
 					address = Address(address1=params['address1'],
 									          address2=params['address2'],
@@ -243,6 +348,11 @@ class OutletDeskGeneral(object):
 									          addresstypeid=Address.editorialAddress)
 					session.add(address)
 					session.flush()
+					ActivityDetails.AddChange('', params['address1'], activity.activityid, Constants.Field_Address_1)
+					ActivityDetails.AddChange('', params['address2'], activity.activityid, Constants.Field_Address_2)
+					ActivityDetails.AddChange('', params['county'], activity.activityid, Constants.Field_Address_County)
+					ActivityDetails.AddChange('', params['postcode'], activity.activityid, Constants.Field_Address_Postcode)
+					ActivityDetails.AddChange('', params['townname'], activity.activityid, Constants.Field_Address_Town)
 					comms.addressid = address.addressid
 			else:
 				if comms.addressid:
@@ -260,6 +370,8 @@ class OutletDeskGeneral(object):
 			researchoutletdesk = session.query(ResearchDetailsDesk).\
 			  filter(ResearchDetailsDesk.outletdeskid == outletdesk.outletdeskid).scalar()
 			# update research details
+
+			ActivityDetails.AddChange('Checked' if params['required_old'] else 'Unchecked', 'Checked' if params['required_new'] else 'Unchecked', activity.activityid, Constants.Field_Research_Details_Required)
 			if params['research_required']:
 				if not researchoutletdesk:
 					researchoutletdesk = ResearchDetailsDesk(
@@ -280,7 +392,68 @@ class OutletDeskGeneral(object):
 					    notes=params["notes"],
 					    last_research_date=params["last_research_completed"])
 					session.add(researchoutletdesk)
+					ActivityDetails.AddChange('', params['research_surname'], activity.activityid, Constants.Field_Research_Surname)
+					ActivityDetails.AddChange('', params['research_firstname'], activity.activityid, Constants.Field_Research_Firstname)
+					ActivityDetails.AddChange('', params['research_prefix'], activity.activityid, Constants.Field_Research_Prefix)
+					ActivityDetails.AddChange('', params['research_email'], activity.activityid, Constants.Field_Research_Email)
+					ActivityDetails.AddChange('', params['research_tel'], activity.activityid, Constants.Field_Research_Tel)
+					ActivityDetails.AddChange('', params['research_job_title'], activity.activityid, Constants.Field_Research_Job_Title)
+					new_frequency = ResearchFrequencies.query.get(int(params['researchfrequencyid']))
+					ActivityDetails.AddChange('', new_frequency.researchfrequencyname, activity.activityid, Constants.Field_Reseach_Frequency)
+
+					ActivityDetails.AddChange('', Months.getDescription(int(params['quest_month_1'])), activity.activityid, Constants.Field_Month1)
+					ActivityDetails.AddChange('', Months.getDescription(int(params['quest_month_2'])), activity.activityid, Constants.Field_Month2)
+					ActivityDetails.AddChange('', Months.getDescription(int(params['quest_month_3'])), activity.activityid, Constants.Field_Month3)
+					ActivityDetails.AddChange('', Months.getDescription(int(params['quest_month_4'])), activity.activityid, Constants.Field_Month4)
+					ActivityDetails.AddChange('', params['last_questionaire_sent'], activity.activityid, Constants.Field_Research_Last_Questionaire_Sent)
+					ActivityDetails.AddChange('', params['notes'], activity.activityid, Constants.Field_Research_Notes)
+					ActivityDetails.AddChange('', params['last_research_completed'], activity.activityid, Constants.Field_Research_Last_Researched_Completed)
 				else:
+					ActivityDetails.AddChange(researchoutletdesk.surname, params['research_surname'], activity.activityid, Constants.Field_Research_Surname)
+					ActivityDetails.AddChange(researchoutletdesk.firstname, params['research_firstname'], activity.activityid, Constants.Field_Research_Firstname)
+					ActivityDetails.AddChange(researchoutletdesk.prefix, params['research_prefix'], activity.activityid, Constants.Field_Research_Prefix)
+					ActivityDetails.AddChange(researchoutletdesk.email, params['research_email'], activity.activityid, Constants.Field_Research_Email)
+					ActivityDetails.AddChange(researchoutletdesk.tel, params['research_tel'], activity.activityid, Constants.Field_Research_Tel)
+					ActivityDetails.AddChange(researchoutletdesk.job_title, params['research_job_title'], activity.activityid, Constants.Field_Research_Job_Title)
+
+					old_frequencyname = new_frequencyname = ''
+					if researchoutletdesk.researchfrequencyid:
+						old_frequency = ResearchFrequencies.query.get(researchoutletdesk.researchfrequencyid)
+						old_frequencyname = old_frequency.researchfrequencyname
+					if 'researchfrequencyid' in params and params['researchfrequencyid'] != '':
+						new_frequency = ResearchFrequencies.query.get(int(params['researchfrequencyid']))
+						new_frequencyname = new_frequency.researchfrequencyname
+					ActivityDetails.AddChange(old_frequencyname, new_frequencyname, activity.activityid, Constants.Field_Reseach_Frequency)
+
+					old_month1 = new_month1 = ''
+					if researchoutletdesk.quest_month_1:
+						old_month1 = Months.getDescription(researchoutletdesk.quest_month_1)
+					if 'quest_month_1' in params and params['quest_month_1'] != '' and params['quest_month_1'] != None:
+						new_month1 = Months.getDescription(int(params['quest_month_1']))
+					ActivityDetails.AddChange(old_month1, new_month1, activity.activityid, Constants.Field_Month1)
+					old_month2 = new_month2 = ''
+					if researchoutletdesk.quest_month_2:
+						old_month2 = Months.getDescription(researchoutletdesk.quest_month_2)
+					if 'quest_month_2' in params and params['quest_month_2'] != '' and params['quest_month_2'] != None:
+						new_month2 = Months.getDescription(int(params['quest_month_2']))
+					ActivityDetails.AddChange(old_month2, new_month2, activity.activityid, Constants.Field_Month2)
+					old_month3 = new_month3 = ''
+					if researchoutletdesk.quest_month_3:
+						old_month3 = Months.getDescription(researchoutletdesk.quest_month_3)
+					if 'quest_month_3' in params and params['quest_month_3'] != '' and params['quest_month_3'] != None:
+						new_month3 = Months.getDescription(int(params['quest_month_3']))
+					ActivityDetails.AddChange(old_month3, new_month3, activity.activityid, Constants.Field_Month3)
+					old_month4 = new_month4 = ''
+					if researchoutletdesk.quest_month_4:
+						old_month4 = Months.getDescription(researchoutletdesk.quest_month_4)
+					if 'quest_month_4' in params and params['quest_month_4'] != '' and params['quest_month_4'] != None:
+						new_month4 = Months.getDescription(int(params['quest_month_4']))
+					ActivityDetails.AddChange(old_month4, new_month4, activity.activityid, Constants.Field_Month4)
+
+					ActivityDetails.AddChange(researchoutletdesk.last_questionaire_sent, params['last_questionaire_sent'], activity.activityid, Constants.Field_Research_Last_Questionaire_Sent)
+					ActivityDetails.AddChange(researchoutletdesk.notes, params['notes'], activity.activityid, Constants.Field_Research_Notes)
+					ActivityDetails.AddChange(researchoutletdesk.last_research_date, params['last_research_completed'], activity.activityid, Constants.Field_Research_Last_Researched_Completed)
+
 					researchoutletdesk.surname = params['research_surname']
 					researchoutletdesk.firstname = params['research_firstname']
 					researchoutletdesk.prefix = params['research_prefix']
@@ -309,14 +482,42 @@ class OutletDeskGeneral(object):
 			raise
 
 	@staticmethod
-	def delete(outletdeskid):
+	def delete(params):
 		""" delete desk """
 
 		transaction = BaseSql.sa_get_active_transaction()
 
 		try:
-			outletdesk = OutletDesk.query.get(outletdeskid)
+			outletdesk = OutletDesk.query.get(params['outletdeskid'])
+
+			if "researchprojectitemid" in  params:
+				activity = Activity(
+					reasoncodeid=Constants.ReasonCode_Questionnaire,
+					reason="",
+					objecttypeid=Constants.Object_Type_Desk,
+					objectid=outletdesk.outletdeskid,
+					actiontypeid=Constants.Research_Record_Delete,
+					userid=params['userid'],
+					parentobjectid=outletdesk.outletid,
+					parentobjecttypeid=Constants.Object_Type_Outlet,
+				    name=outletdesk.deskname
+				)
+			else:
+				activity = Activity(
+					reasoncodeid=5,
+					reason="",
+					objecttypeid=Constants.Object_Type_Desk,
+					objectid=outletdesk.outletdeskid,
+					actiontypeid=Constants.Research_Record_Delete,
+					userid=params['userid'],
+					parentobjectid=outletdesk.outletid,
+					parentobjecttypeid=Constants.Object_Type_Outlet,
+				    name='Desk: ' + outletdesk.deskname
+				)
+			session.add(activity)
+			session.flush()
 			session.delete(outletdesk)
+
 			transaction.commit()
 		except:
 			LOGGER.exception("OutletDesk delete")

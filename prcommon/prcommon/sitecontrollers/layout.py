@@ -111,6 +111,7 @@ class LayoutController(SecureController):
 		"std_search_quick" : "search", # quick search form
 		"std_search_employee" : "search", # employee search form
 		"std_search_mps" : "search", # mps search form
+	    "std_search_freelance" : "search", # employee search form
 		"std_search_advance" : "search", # advance features
 		"std_search_crm" : "search", # crm
 		# help system

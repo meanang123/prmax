@@ -259,7 +259,7 @@ define([
 	{
 		this._row_data = null;
 		this.employee_change_ctrl.set("dialog", this.employee_change_dlg );
-		this.employee_change_ctrl.load (  -1 ,  this._outletid ) ;
+		this.employee_change_ctrl.load (  -1 ,  this._outletid, '', 'add' ) ;
 		this.employee_change_dlg.show();
 		this.contact_edit_container.selectChild( this.blank_cont_view );
 	},

@@ -24,6 +24,7 @@ from sqlalchemy import Table
 from sqlalchemy.sql import text
 from prcommon.model import BaseSql
 from prcommon.model.internal import LockedObject
+from prcommon.model.lookups import Months, AdvanceFeaturesStatus
 from prcommon.lib.bouncedemails import AnalysisMessage
 import prcommon.Constants as Constants
 from ttl.ttlcsv import ToCsv
@@ -202,7 +203,7 @@ class FrequencyCodes(BaseSql):
 class Activity(BaseSql):
 	""" Activity audit for reseach system """
 
-	Grid_View = """select to_char(a.activitydate,'DD-MM-YY HH24:MI:SS') as activitydate,u.display_name,o.actiontypedescription,a.activityid,
+	Grid_View = """select to_char(a.activitydate, 'YYYY-MM-DD HH24:MI:SS') as activitydate,u.display_name,o.actiontypedescription,a.activityid,
 	rc.reasoncodedescription,
 	a.reason,
 	ob.objecttypename
@@ -218,7 +219,7 @@ class Activity(BaseSql):
 	Grid_View_Where_Std = """ WHERE a.activitydate >= :filterdate AND a.objecttypeid = :objecttypeid AND objectid = :objectid """
 	Grid_View_Where_Base = """ WHERE a.activitydate >= :filterdate AND parentobjecttypeid = :objecttypeid AND parentobjectid = :objectid """
 
-	Grid_View_Deleted = """select to_char(a.activitydate,'DD-MM-YY HH24:MI:SS') as activitydate,u.display_name,o.actiontypedescription,a.activityid,
+	Grid_View_Deleted = """select to_char(a.activitydate,'YYYY-MM-DD HH24:MI:SS') as activitydate,u.display_name,o.actiontypedescription,a.activityid,
 	rc.reasoncodedescription,
 	a.reason,
 	ob.objecttypename,
@@ -379,6 +380,37 @@ class ActivityDetails(BaseSql):
 				                                fieldname=cname,
 				                                fromvalue=job_title,
 				                                tovalue=""))
+
+			if activity.objecttypeid == Constants.Object_Type_Desk:
+				deskname = ""
+				if activity.actiontypeid == Constants.Research_Record_Delete:
+					deskname = activity.name
+				else:
+					from prcommon.model.outlets.outletdesk import OutletDesk
+
+					outletdesk = OutletDesk.query.get(activity.objectid)
+					deskname = outletdesk.deskname
+				data["numRows"] = data["numRows"] + 1
+				data["items"].insert(0, dict(activitydetailid=-1,
+			                                    fieldname='Desk: ' + deskname,
+			                                    fromvalue="",
+			                                    tovalue=""))
+
+			if activity.objecttypeid == Constants.Object_Type_Advance:
+				summary = ""
+				if activity.actiontypeid == Constants.Research_Record_Delete:
+					summary = activity.name
+				else:
+					from prcommon.model.advance import AdvanceFeature
+
+					advancefeature = AdvanceFeature.query.get(activity.objectid)
+					summary = advancefeature.feature
+				data["numRows"] = data["numRows"] + 1
+				data["items"].insert(0, dict(activitydetailid=-1,
+			                                    fieldname='Feature: ' + summary,
+			                                    fromvalue="",
+			                                    tovalue=""))
+
 			return data
 
 	@classmethod
@@ -440,6 +472,30 @@ class ResearchControRecord(BaseSql):
 		try:
 			rcr = ResearchControRecord.query.filter_by(objectid=params["outletid"],
 			                                           objecttypeid=Constants.Object_Type_Outlet).one()
+			activity = Activity(reasoncodeid=5,
+					            reason="",
+					            objecttypeid=Constants.Object_Type_Outlet,
+					            objectid=rcr.objectid,
+					            actiontypeid=Constants.Research_Reason_Update,
+					            userid=params['userid'],
+					            parentobjectid=rcr.objectid,
+					            parentobjecttypeid=Constants.Object_Type_Outlet
+					            )
+			session.add(activity)
+			session.flush()
+
+			ActivityDetails.AddChange(rcr.advance_url, params["advance_url"], activity.activityid, Constants.Field_Feature_Research_URL)
+			ActivityDetails.AddChange(rcr.advance_notes, params["advance_notes"], activity.activityid, Constants.Field_Feature_Research_Info)
+			ActivityDetails.AddChange(rcr.advance_last_contact.strftime("%Y-%m-%d") if rcr.advance_last_contact else None, str(params["advance_last_contact"]), activity.activityid, Constants.Field_Feature_Research_Date)
+			old_featurestatusdescription = new_featurestatusdescription = ""
+			if rcr.advancefeaturestatusid != None:
+				old_featurestatus = AdvanceFeaturesStatus.query.get(rcr.advancefeaturestatusid)
+				old_featurestatusdescription = old_featurestatus.advancefeaturesstatusdescription
+			if "advancefeaturestatusid" in params and params["advancefeaturestatusid"] != None and params["advancefeaturestatusid"] != '':
+				new_featurestatus = AdvanceFeaturesStatus.query.get(int(params["advancefeaturestatusid"]))
+				new_featurestatusdescription = new_featurestatus.advancefeaturesstatusdescription
+			ActivityDetails.AddChange(old_featurestatusdescription, new_featurestatusdescription, activity.activityid, Constants.Field_Feature_Research_Outlet_Status)
+
 
 			rcr.advance_url = params["advance_url"]
 			rcr.advance_notes = params["advance_notes"]
@@ -462,7 +518,7 @@ class ResearchDetails(BaseSql):
 		             firstname=self.firstname,
 		             prefix=self.prefix,
 		             email=self.email,
-		             tel=self.tel,
+		             #tel=self.tel,
 		             job_title=self.job_title,
 		             outletid=self.outletid,
 		             researchfrequencyid=self.researchfrequencyid,
@@ -570,6 +626,16 @@ class ResearchDetails(BaseSql):
 
 		control.set_research_updated()
 
+	@staticmethod
+	def _fix_number(countryid, number):
+		if countryid == 1:
+			if number is not None and number != '' and not number.startswith('+44'):
+				number = '+44 (0)%s' % number
+		if countryid == 3:
+			if number is not None and number != '' and not number.startswith('+353'):
+				number = '+353 (0)%s' % number
+		return number
+
 	@classmethod
 	def update(cls, params):
 		""" update/add the research contact details """
@@ -591,6 +657,11 @@ class ResearchDetails(BaseSql):
 
 			ptype = Constants.Object_Type_Freelance if outlet.outlettypeid == Constants.Outlet_Type_Freelance else Constants.Object_Type_Outlet
 
+			if 'tel' in params:
+				params['tel'] = ResearchDetails._fix_number(outlet.countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = ResearchDetails._fix_number(outlet.countryid, params['fax'])
+
 			if researchdetails:
 				activity = Activity(reasoncodeid=5,
 				                reason="",
@@ -607,21 +678,57 @@ class ResearchDetails(BaseSql):
 				ActivityDetails.AddChange(researchdetails.firstname, params["firstname"], activity.activityid, Constants.Field_Firstname)
 				ActivityDetails.AddChange(researchdetails.prefix, params["prefix"], activity.activityid, Constants.Field_Prefix)
 				ActivityDetails.AddChange(researchdetails.email, params["email"], activity.activityid, Constants.Field_Email)
-				ActivityDetails.AddChange(researchdetails.tel, params["tel"], activity.activityid, Constants.Field_Tel)
+				#ActivityDetails.AddChange(researchdetails.tel, params["tel"], activity.activityid, Constants.Field_Tel)
 				ActivityDetails.AddChange(researchdetails.job_title, params["job_title"], activity.activityid, Constants.Field_Job_Title)
-				ActivityDetails.AddChange(researchdetails.researchfrequencyid, params["researchfrequencyid"], activity.activityid, Constants.Field_Reseach_Frequency)
-				ActivityDetails.AddChange(researchdetails.notes, params["notes"], activity.activityid, Constants.Field_Profile)
-				ActivityDetails.AddChange(researchdetails.no_sync, params["no_sync"], activity.activityid, Constants.Field_Profile)
+
+				old_researchfrequencyname = new_researchfrequencyname = ''
+				if researchdetails.researchfrequencyid:
+					old_reseaerchfrequency = ResearchFrequencies.query.get(researchdetails.researchfrequencyid)
+					old_researchfrequencyname = old_reseaerchfrequency.researchfrequencyname
+				if 'researchfrequencyid' in params and params['researchfrequencyid'] != '':
+					new_reseaerchfrequency = ResearchFrequencies.query.get(int(params['researchfrequencyid']))
+					new_researchfrequencyname = new_reseaerchfrequency.researchfrequencyname
+				ActivityDetails.AddChange(old_researchfrequencyname, new_researchfrequencyname, activity.activityid, Constants.Field_Reseach_Frequency)
+
+				old_month1 = new_month1 = ''
+				if researchdetails.quest_month_1:
+					old_month1 = Months.getDescription(researchdetails.quest_month_1)
+				if 'quest_month_1' in params and params['quest_month_1'] != '' and params['quest_month_1'] != None:
+					new_month1 = Months.getDescription(int(params['quest_month_1']))
+				ActivityDetails.AddChange(old_month1, new_month1, activity.activityid, Constants.Field_Month1)
+				old_month2 = new_month2 = ''
+				if researchdetails.quest_month_2:
+					old_month2 = Months.getDescription(researchdetails.quest_month_2)
+				if 'quest_month_2' in params and params['quest_month_2'] != '' and params['quest_month_2'] != None:
+					new_month2 = Months.getDescription(int(params['quest_month_2']))
+				ActivityDetails.AddChange(old_month2, new_month2, activity.activityid, Constants.Field_Month2)
+				old_month3 = new_month3 = ''
+				if researchdetails.quest_month_3:
+					old_month3 = Months.getDescription(researchdetails.quest_month_3)
+				if 'quest_month_3' in params and params['quest_month_3'] != '' and params['quest_month_3'] != None:
+					new_month3 = Months.getDescription(int(params['quest_month_3']))
+				ActivityDetails.AddChange(old_month3, new_month3, activity.activityid, Constants.Field_Month3)
+				old_month4 = new_month4 = ''
+				if researchdetails.quest_month_4:
+					old_month4 = Months.getDescription(researchdetails.quest_month_4)
+				if 'quest_month_4' in params and params['quest_month_4'] != '' and params['quest_month_4'] != None:
+					new_month4 = Months.getDescription(int(params['quest_month_4']))
+				ActivityDetails.AddChange(old_month4, new_month4, activity.activityid, Constants.Field_Month4)
+
+				ActivityDetails.AddChange(researchdetails.last_questionaire_sent, params['last_questionaire_sent'], activity.activityid, Constants.Field_Research_Last_Questionaire_Sent)
+				ActivityDetails.AddChange(researchdetails.notes, params['notes'], activity.activityid, Constants.Field_Research_Notes)
+				ActivityDetails.AddChange(researchdetails.last_research_date, params['last_research_completed'], activity.activityid, Constants.Field_Research_Last_Researched_Completed)
+				#ActivityDetails.AddChange(researchdetails.no_sync, params["no_sync"], activity.activityid, Constants.Field_Profile)
 
 				researchdetails.surname = params["surname"]
 				researchdetails.firstname = params["firstname"]
 				researchdetails.prefix = params["prefix"]
 				researchdetails.email = params["email"]
-				researchdetails.tel = params["tel"]
+				#researchdetails.tel = params["tel"]
 				researchdetails.job_title = params["job_title"]
 				researchdetails.researchfrequencyid = params["researchfrequencyid"]
 				researchdetails.notes = params["notes"]
-				researchdetails.no_sync = params["no_sync"]
+				#researchdetails.no_sync = params["no_sync"]
 				if params["last_research_completed"]:
 					researchdetails.last_research_date = params["last_research_completed"]
 				if params["last_questionaire_sent"]:
@@ -638,12 +745,12 @@ class ResearchDetails(BaseSql):
 								       firstname=params["firstname"],
 								       prefix=params["prefix"],
 								       email=params["email"],
-								       tel=params["tel"],
+								       #tel=params["tel"],
 								       job_title=params["job_title"],
 								       researchfrequencyid=params["researchfrequencyid"],
 				               last_questionaire_sent=params["last_questionaire_sent"],
-								       notes=params["notes"],
-				                       no_sync=params["no_sync"]
+								       notes=params["notes"]
+				                       #no_sync=params["no_sync"]
 								      )
 
 				if params["last_research_completed"]:

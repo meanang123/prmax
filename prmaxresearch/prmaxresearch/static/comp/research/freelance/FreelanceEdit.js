@@ -19,6 +19,7 @@ define([
 	"dojo/data/ItemFileReadStore",
 	"dojo/_base/lang",
 	"dojo/topic",
+	"dojo/dom-attr",	
 	"dijit/layout/ContentPane",
 	"dijit/form/Form",
 	"dijit/form/TextBox",
@@ -33,8 +34,9 @@ define([
 	"research/audit/AuditViewer",
 	"research/ResearchDetails",
 	"research/freelance/FreelanceDelete",
+	"prcommon2/web/WebButton",
 	"prcommon2/web/WebButton"
-	], function(declare, BaseWidgetAMD, template, BorderContainer, request, utilities2, json, ItemFileReadStore, lang, topic ){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, request, utilities2, json, ItemFileReadStore, lang, topic, domattr ){
  return declare("research.freelance.FreelanceEdit",
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
@@ -54,6 +56,8 @@ define([
 		this.countryid.set("store",PRCOMMON.utils.stores.Countries());
 		this.delete_ctrl.set("dialog", this.delete_dlg);
 
+		this.blog_show.set("source",this.blog);
+		this.www_show.set("source",this.www);
 		this.facebook_show.set("source",this.facebook);
 		this.twitter_show.set("source",this.twitter);
 		this.linkedin_show.set("source",this.linkedin);
@@ -140,7 +144,8 @@ define([
 
 			this._name = data.contact.familyname;
 
-			this.selectcontact.set("value",data.employee.contactid);
+			this.selectcontact.contactid.set("value",data.employee.contactid);
+			domattr.set(this.selectcontact.contactid.display, "innerHTML", data.contactname);
 			this.sortname.set("value",data.outlet.sortname);
 			this.job_title.set("value",data.employee.job_title);
 			this.outletid.set("value",data.outlet.outletid);

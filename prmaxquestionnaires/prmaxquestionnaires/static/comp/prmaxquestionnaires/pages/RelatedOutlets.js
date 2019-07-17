@@ -57,7 +57,7 @@ define([
 				this.firstname.set("value", outlet.research.research_firstname );
 				this.prefix.set("value", outlet.research.research_prefix );
 				this.email.set("value", outlet.research.research_email );
-				this.tel.set("value", outlet.research.research_tel );
+//				this.tel.set("value", outlet.research.research_tel );
 				this.job_title.set("value", outlet.research.research_job_title );
 			}
 		}

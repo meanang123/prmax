@@ -20,6 +20,7 @@ define([
 	"dojo/topic",
 	"ttl/grid/Grid",
 	"dojo/dom-class",	
+	"dojo/data/ItemFileReadStore",		
 	"dijit/layout/BorderContainer",
 	"dijit/layout/ContentPane",
 	"dijit/form/TextBox",
@@ -31,7 +32,7 @@ define([
 	"research/employees/PersonDelete",
 	"research/audit/AuditViewer",
 	"research/employees/ContactMerge",
-	], function(declare, BaseWidgetAMD, template, request, utilities2, JsonRest, json, lang, topic, Grid, domclass,BorderContainer ){
+	], function(declare, BaseWidgetAMD, template, request, utilities2, JsonRest, json, lang, topic, Grid, domclass, ItemFileReadStore, BorderContainer ){
  return declare("research.employees.PersonEdit",
 	[BaseWidgetAMD,BorderContainer],{
 	displayname:"Person Edit",
@@ -46,6 +47,7 @@ define([
 		this._updated_call_back = lang.hitch(this, this._updated_call);
 		
 		this.people_employee_model = new JsonRest({target:'/research/admin/contacts/research_contact_employee', idProperty:"employeesid"});
+		this._sourcetypes = new ItemFileReadStore ({ url:"/common/lookups?searchtype=sourcetypes"});
 
 		topic.subscribe(PRCOMMON.Events.Person_Update, lang.hitch(this,this._person_update_event));
 		topic.subscribe(PRCOMMON.Events.Person_Delete, lang.hitch(this,this._person_delete_event));		
@@ -75,6 +77,8 @@ define([
 		
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Update_Codes());
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
+		this.sourcetypeid.set("store", this._sourcetypes);
+		
 		this.inherited(arguments);
 	},
 	startup:function()
@@ -105,6 +109,8 @@ define([
 		this.firstname.set("value","");
 		this.familyname.set("value","");
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
+		this.sourcetypeid.set("value", 2);
+		this.contactid.set("value", "");
 	},
 	_setCallbackAttr:function( func)
 	{
@@ -120,6 +126,7 @@ define([
 		this.firstname.set("disabled",status);
 		this.familyname.set("disabled",status);
 		this.reasoncodeid.set("disabled",status);
+		this.sourcetypeid.set("disabled",status);
 	},
 	_delete_contact:function()
 	{
@@ -143,10 +150,12 @@ define([
 	{
 		if ( response.success=="OK")
 		{
+			this.contactid.set("value", response.contact.contactid );
 			this.prefix.set("value", response.contact.prefix );
 			this.firstname.set("value", response.contact.firstname );
 			this.familyname.set("value", response.contact.familyname );
 			this.middlename.set("value", response.contact.middlename);
+			this.sourcetypeid.set("value", response.contact.sourcetypeid);
 			this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 			if ( response.contact.inuse == true )
 				domclass.add(this.deletebtn.domNode,"prmaxhidden");
@@ -165,6 +174,13 @@ define([
 	},
 	_contact_merge_event:function(contact)
 	{
+		this.contactid.set("value", contact.contactid);
+		this.prefix.set("value", contact.contact.prefix);
+		this.firstname.set("value", contact.contact.firstname);
+		this.familyname.set("value", contact.contact.familyname);
+		this.middlename.set("value", contact.contact.middlename);
+		this.sourcetypeid.set("value", contact.contact.sourcetypeid);
+
 		this.people_details_employee_grid.set( "query", {contactid:contact.contactid });
 		this.audit_ctrl.load(contact.contactid) ;
 	},	

@@ -13,7 +13,7 @@
 
 from sqlalchemy import Table
 from sqlalchemy.sql import text
-from turbogears.database import  metadata, mapper, session
+from turbogears.database import  metadata, mapper, session, config
 from md_Common import BaseSql
 from prmax.prmaxmodel.md_Caching import CacheQueue
 import prmax.Constants as Constants
@@ -59,6 +59,9 @@ class Search(BaseSql):
 	    Constants.advance_search_name_outletid:"SearchOutletAdvanceCount",
 	    Constants.quick_search_countryid: "SearchQuickCountryCount",
 	    Constants.employee_contact_ext_employeeid: "SearchEmployeeContactExtCount",
+	    Constants.outlet_publisher: "SearchOutletPublisherCount",
+	    Constants.freelance_contact_ext_employeeid: "SearchFreelanceContactExtCount",
+	    Constants.employee_contactfull_ext_employeeid: "SearchEmployeeContactFullExtCount",
 	}
 
 	Search_Count_Single = """SELECT IFNULL(SUM(si.nbr),0) as nbr from userdata.setindex as si WHERE ( si.customerid=-1 OR customerid = :customerid) AND keytypeid = :keytypeid AND keyname = :keyname AND prmaxdatasetid in ( SELECT prmaxdatasetid FROM internal.customerprmaxdatasets WHERE customerid = :customerid)"""
@@ -71,6 +74,7 @@ class Search(BaseSql):
 		this specific search
 		"""
 		command = None
+		pythonversion = config.get('python.version')
 		if kw.keytypeid in Constants.Search_Extended_Data:
 			array = ",".join(["('%s',%d)::IndexElement"%(value, kw.keytypeid)
 							  for value in kw['keyname']['data']])
@@ -82,7 +86,7 @@ class Search(BaseSql):
 		elif kw.keytypeid in Search._countproc:
 			if kw.keytypeid in (Constants.quick_search_interests, ):
 				kw.data = ",".join([str(r) for r in kw.keyname['data']])
-			elif kw.keytypeid in (Constants.outlet_coverage, Constants.employee_contact_ext_employeeid):
+			elif kw.keytypeid in (Constants.outlet_coverage, Constants.employee_contact_ext_employeeid, Constants.freelance_contact_ext_employeeid, Constants.employee_contactfull_ext_employeeid):
 				kw.data = DBCompress.encode2 ( kw.keyname )
 			elif kw.keytypeid in Constants.isEmailAddress or \
 			     kw.keytypeid in Constants.isTelNumber or \
@@ -90,20 +94,36 @@ class Search(BaseSql):
 				if type(kw.keyname) == types.ListType:
 					kw.keyname = "".join ( kw.keyname )
 				kw.data = "%" + kw.keyname + "%"
+			elif kw.keytypeid == Constants.outlet_publisher or kw.keytypeid == Constants.outlet_frequencyid:
+				kw.data = str(kw.keyname)
 			elif kw.keytypeid == Constants.advance_outletname:
 				if type ( kw.keyname ) == types.ListType :
 					ddata = kw.keyname
 				else:
 					ddata = [encodeforpostgres( kw.keyname.lower())]
-				commands = PostGresSearch(kw["customerid"])
-				command = PostGresSearchGroup(
-				  Constants.outlet_name,
-				  ddata,
-				  kw.logic,
-				  kw["partial"] ,
-				  Constants.Search_And)
-				commands.rows.append(command)
-				kw.data  = DBCompress.encode2 ( commands )
+				if pythonversion == 3:
+					commands = {}
+					commands['customerid'] = kw["customerid"]
+					commands['rows'] = []
+					command = {}
+					command['keytypeid'] = Constants.outlet_name
+					command['word'] = ddata
+					command['logic'] = kw.logic
+					command['partial'] = kw['partial']
+					command['grouplogic'] = Constants.Search_And
+					command['type'] = Constants.Search_Data_Advance
+					commands['rows'].append(command)
+					kw.data  = DBCompress.encode2 ( commands )
+				else:
+					commands = PostGresSearch(kw["customerid"])
+					command = PostGresSearchGroup(
+					  Constants.outlet_name,
+					  ddata,
+					  kw.logic,
+					  kw["partial"] ,
+					  Constants.Search_And)
+					commands.rows.append(command)
+					kw.data  = DBCompress.encode2 ( commands )
 			elif kw.keytypeid in (Constants.advance_outlettypeid, Constants.advance_search_name_outletid):
 
 				nid = Constants.outlet_outlettypeid
@@ -113,15 +133,29 @@ class Search(BaseSql):
 				else:
 					nData = kw.keyname["data"]
 
-				commands = PostGresSearch(kw["customerid"])
-				command = PostGresSearchGroup(
-				  nid,
-				  nData,
-				  kw.logic,
-				  kw["partial"] ,
-				  Constants.Search_Or)
-				commands.rows.append(command)
-				kw.data  = DBCompress.encode2 ( commands )
+				if pythonversion == 3:
+					commands = {}
+					commands['customerid'] = kw["customerid"]
+					commands['rows'] = []
+					command = {}
+					command['keytypeid'] = nid
+					command['word'] = nData
+					command['logic'] = kw.logic
+					command['partial'] = kw['partial']
+					command['grouplogic'] = Constants.Search_Or
+					command['type'] = Constants.Search_Data_Advance
+					commands['rows'].append(command)
+					kw.data  = DBCompress.encode2 ( commands )
+				else:
+					commands = PostGresSearch(kw["customerid"])
+					command = PostGresSearchGroup(
+					  nid,
+					  nData,
+					  kw.logic,
+					  kw["partial"] ,
+					  Constants.Search_Or)
+					commands.rows.append(command)
+					kw.data  = DBCompress.encode2 ( commands )
 			elif kw.keytypeid == Constants.advance_pub_date:
 				kw.data = _minisearch_advance_pub_date ( kw.keyname , kw )["data"]
 			elif kw.keytypeid == Constants.quick_search_countryid:
@@ -260,14 +294,30 @@ def _minisearch_outlet_advance(data, kw ):
 
 
 def _search_Common(kw, keytypeid, data, logic):
-	commands = PostGresSearch(kw["customerid"])
-	command = PostGresSearchGroup(
-	  keytypeid,
-	  data,
-	  logic,
-	  kw["partial"] ,
-	  logic)
-	commands.rows.append(command)
+	pythonversion = config.get('python.version')
+	commands = {}
+	commands['customerid'] = kw['customerid']
+	commands['rows'] = []
+	
+	if pythonversion == 3:
+		command = {}
+		command['keytypeid'] = keytypeid
+		command['word'] = data
+		command['logic'] = logic
+		command['partial'] = kw['partial']
+		command['grouplogic'] = logic
+		command['type'] = Constants.Search_Data_Advance
+		commands['rows'].append(command)
+	else:
+		
+		commands = PostGresSearch(kw["customerid"])
+		command = PostGresSearchGroup(
+		  keytypeid,
+		  data,
+		  logic,
+		  kw["partial"] ,
+		  logic)
+		commands.rows.append(command)
 	return DictExt(dict( logic = Constants.Search_And ,
 	             data = DBCompress.encode2 ( commands ) ))
 
@@ -307,6 +357,7 @@ class Searching(BaseSql):
 	_quick_kw = (
 		('quick_contact', Constants.employee_contactfull_employeeid, _convertdatalower, Constants.Search_Data_Employee,True),
 	    ('quick_contact_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
+	    ('quick_contactfull_ext', "SearchEmployeeContactFullExt",_convertobj, None, True ),
 		('quick_types', Constants.outlet_searchtypeid, _covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_outlettypes', Constants.outlet_outlettypeid,_covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_interests',"SearchInterestsAll", _listostring, Constants.Search_Data_Employee, False ),
@@ -327,9 +378,10 @@ class Searching(BaseSql):
 		('outlet_profile','SearchOutletProfile',_noconvertnolistdata, None, False ),
 		('outlet_tags',Constants.outlet_interest,_convertdata, None, False ),
 		('outlet_roles', Constants.outlet_job_role,_convertdata, None, False ),
-	  ('outlet_frequency', Constants.outlet_frequencyid,_convertNumber, None, False ),
-	  ('outlet_advance_feature',"SearchOutletAdvance",_minisearch_outlet_advance, None, True),
-		('outlet_countryid',Constants.outlet_countryid,_convertdata, None, False )
+	    ('outlet_frequency', Constants.outlet_frequencyid,_convertNumber, None, False ),
+	    ('outlet_advance_feature',"SearchOutletAdvance",_minisearch_outlet_advance, None, True),
+		('outlet_countryid',Constants.outlet_countryid,_convertdata, None, False ),
+	    ('outlet_publisher', "SearchOutletPublisher", _convertdata, None, False)
 		#('outlet_tel', 'SearchOutletTel', _convertdata_tel, None , True ),
 		#('outlet_email', 'SearchOutletEmail',_convertdata_email, None, True ),
 	)
@@ -346,6 +398,7 @@ class Searching(BaseSql):
 	)
 	_freelance_kw = (
 		('freelance_searchname',Constants.freelance_employeeid,_convertdatalower, None, True ),
+	    ('freelance_searchname_ext', "SearchFreelanceContactExt",_convertobj, None, True ),
 		('freelance_email',"SearchFreelanceEmail",_convertdata_email, None, True),
 		('freelance_tel',"SearchFreelanceTel",_convertdata_tel, None, True ),
 		('freelance_interests',Constants.freelance_employeeid_interestid,_convertdata, None, False ),
@@ -405,9 +458,15 @@ class Searching(BaseSql):
 		the procedure is used to chnage the output """
 		partial = int(kw.get('search_partial','0'))
 		kw["partial"] = partial
+		pythonversion = config.get('python.version')
 		customerid = -1 if "research" in kw else kw['customerid']
 		criteriaset = Searching._searchs[kw.search_type]
-		commands = PostGresSearch(customerid)
+		if pythonversion == 3:
+			commands = {}
+			commands['customerid'] = customerid
+			commands['rows'] = []
+		else:
+			commands = PostGresSearch(customerid)
 		for cri in criteriaset[0]:
 			if cri[0] not in kw or not len(kw[cri[0]]):
 				continue
@@ -419,23 +478,43 @@ class Searching(BaseSql):
 				continue
 
 			data = cri[2](kw.get(cri[0]), kw)
-			command = PostGresSearchGroup(
-				cri[1],
-				data.data,
-				data.logic,
-				partial if cri[4] else 0 ,
-				Constants.Search_And)
-			command.type = criteriaset[1]
-			commands.rows.append(command)
+			if pythonversion == 3:
+				command = {}
+				command['keytypeid'] = cri[1]
+				command['word'] = data.data
+				command['logic'] = data.logic
+				command['partial'] = partial if cri[4] else 0
+				command['grouplogic'] = Constants.Search_And
+				command['type'] = criteriaset[1]
+				commands['rows'].append(command)
+			else:
+				command = PostGresSearchGroup(
+					cri[1],
+					data.data,
+					data.logic,
+					partial if cri[4] else 0 ,
+					Constants.Search_And)
+				command.type = criteriaset[1]
+				commands.rows.append(command)
+
 			if cri[3] != None:
-				command.type = cri[3]
+				if pythonversion == 3:
+					command['type'] = cri[3]
+				else:
+					command.type = cri[3]
 
 		searchtypeid = kw.get("searchtypeid", Constants.Search_Standard_Type)
 		# no criteria return no results
-		if len(commands.rows)==0:
-			return SearchSession.getSessionCount (
-				dict(userid=kw['user_id'],
-					 searchtypeid = searchtypeid))
+		if pythonversion == 3:
+			if len(commands['rows'])==0:
+				return SearchSession.getSessionCount (
+					dict(userid=kw['user_id'],
+					     searchtypeid = searchtypeid))
+		else:
+			if len(commands.rows)==0:
+				return SearchSession.getSessionCount (
+					dict(userid=kw['user_id'],
+					     searchtypeid = searchtypeid))
 
 
 		# do actual search

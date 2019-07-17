@@ -42,7 +42,19 @@ class PublisherController( object ):
 		if len(args) > 0:
 			params["publisherid"] = int(args[0])
 
-		return  Publisher.get_list_publisher ( params )
+		return Publisher.get_list_publisher ( params )
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def search_list(self, *args, **params):
+		""" list of publisher when search """
+
+		if len(args) > 0:
+			params["publisherid"] = int(args[0])
+
+		return Publisher.get_search_list_publisher(params)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

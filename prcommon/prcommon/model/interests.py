@@ -11,13 +11,12 @@
 # Copyright:   (c) 2010
 
 #-----------------------------------------------------------------------------
+import logging
 from turbogears.database import metadata, mapper, session
-from sqlalchemy import Table, Column, Integer, text
-
+from sqlalchemy import Table, Column, Integer, text, not_
 from ttl.model import BaseSql
 import prcommon.Constants as Constants
 
-import logging
 LOGGER = logging.getLogger("prcommon.model")
 
 
@@ -36,23 +35,23 @@ class InterestGroups(BaseSql):
 		""" get lookups for igroups"""
 
 		if "customerid" not  in params:
-			params["customerid"] =  -1
+			params["customerid"] = -1
 
 		def _convert(data):
 			"internal"
 
 			if "sections" in params:
-				return  [dict(id = -1, name = "All Categories")]  +\
-				        [dict(id = row.childinterestid, name = row.interestname)
+				return  [dict(id=-1, name="All Categories")] +\
+				        [dict(id=row.childinterestid, name=row.interestname)
 				         for row in data.fetchall()]
 			else:
-				return  [dict(id = -1, name = "No Filter")]  +\
-				        [dict(id = row.childinterestid, name = row.interestname)
+				return  [dict(id=-1, name="No Filter")] +\
+				        [dict(id=row.childinterestid, name=row.interestname)
 				         for row in data.fetchall()]
 
-		return cls.sqlExecuteCommand ( text(InterestGroups.List_Top_Groups),
-									   params,
-									   _convert)
+		return cls.sqlExecuteCommand(text(InterestGroups.List_Top_Groups),
+		                            params,
+		                            _convert)
 
 class Interests(BaseSql):
 	"""Interests"""
@@ -93,7 +92,7 @@ class Interests(BaseSql):
 	GROUP BY i.interestname,i.interestid
 	ORDER BY i.interestname"""
 
-	Interest_User_Selection_All_Level_NoNbr_Restrict  = """
+	Interest_User_Selection_All_Level_NoNbr_Restrict = """
 	SELECT i.interestname,i.interestid from interestwords as iw
 	JOIN interests as i ON i.interestid = iw.interestid
 	LEFT OUTER JOIN interestgroups as ig on ig.childinterestid=i.interestid
@@ -115,7 +114,7 @@ class Interests(BaseSql):
 	GROUP BY i.interestname,i.interestid
 	ORDER BY i.interestname"""
 
-	Interest_User_Selection_All_Level_Restrict_Range_NoNbr  = """
+	Interest_User_Selection_All_Level_Restrict_Range_NoNbr = """
 	SELECT i.interestname,i.interestid from interestwords as iw
 	JOIN interests as i ON i.interestid = iw.interestid
 	LEFT OUTER JOIN interestgroups as ig on ig.childinterestid=i.interestid
@@ -154,19 +153,19 @@ class Interests(BaseSql):
 		def _convert(data):
 			"internal"
 			try:
-				rdata  = [(row.interestname, row.interestid)
+				rdata = [(row.interestname, row.interestid)
 					         for row in data.fetchall()]
-			except :
+			except:
 				rdata = []
 
-			if params["word"] == "*%" and params["filter"] != -1 :
+			if params["word"] == "*%" and params["filter"] != -1:
 				i = Interests.query.get(params["filter"])
-				rdata.append((i.interestname , i.interestid))
-				rdata.sort ( _sort_funct )
+				rdata.append((i.interestname, i.interestid))
+				rdata.sort(_sort_funct)
 
 			return rdata
 
-		if params["word"] == "*%" and ( params["filter"] != -1 or \
+		if params["word"] == "*%" and (params["filter"] != -1 or \
 						params["interesttypeid"] == Constants.Interest_Type_Tag):
 			if params["interesttypeid"] == Constants.Interest_Type_Tag:
 				command = text(Interests.Interest_User_Selection_All_Tags)
@@ -176,15 +175,15 @@ class Interests(BaseSql):
 				else:
 					command = text(Interests.Interest_User_Selection_All_Level)
 
-			return cls.sqlExecuteCommand ( command,
-										   params, _convert)
+			return cls.sqlExecuteCommand(command,
+										 params, _convert)
 		else:
 			if params["restrict"] == "0":
 				command = text(Interests.Interest_User_Selection_NoNbr_Restrict)
 			else:
 				command = text(Interests.Interest_User_Selection)
 
-			return cls.sqlExecuteCommand ( command, params, _convert)
+			return cls.sqlExecuteCommand(command, params, _convert)
 
 
 	@classmethod
@@ -192,27 +191,25 @@ class Interests(BaseSql):
 		""" get the details of a specific interest/tag"""
 		interest = Interests.query.get(interestid)
 		parent = session.query(InterestGroups).filter_by(
-		    childinterestid = interestid).first()
+		    childinterestid=interestid).first()
 		if parent and parent.parentinterestid:
-			parentinterest = Interests.query.get( parent.parentinterestid)
+			parentinterest = Interests.query.get(parent.parentinterestid)
 		else:
-			parentinterest =  None
+			parentinterest = None
 
-		data = dict ( interest = interest ,
-		              interestid = interest.interestid,
-		              interestname = interest.interestname,
-		              parentinterest = parent,
-		              parentinterest_d = parentinterest)
+		data = dict(interest=interest,
+		            interestid=interest.interestid,
+		            interestname=interest.interestname,
+		            parentinterest=parent,
+		            parentinterest_d=parentinterest)
 
 		if parentinterest:
 			data["parentinterestid"] = parentinterest.interestid
 			data["parentname"] = parentinterest.interestname
 		interestgroup = session.query(InterestGroups).\
-		  filter( InterestGroups.childinterestid == interest.interestid).\
-		  filter( InterestGroups.parentinterestid == None).all()
+		  filter(InterestGroups.childinterestid == interest.interestid).\
+		  filter(InterestGroups.parentinterestid is None).all()
 		data["is_section"] = True if interestgroup else False
-
-
 
 		return data
 
@@ -223,9 +220,9 @@ class Interests(BaseSql):
 		""" Interest Tree """
 
 
-		def _child_node ( interest1 ) :
+		def _child_node(interest1):
 			"""Cheild function"""
-			data = {'$ref' : interest1.interestid, 'name' : interest1.interestidname, 'id' : interest1.interestidid}
+			data = {'$ref':interest1.interestid, 'name':interest1.interestidname, 'id':interest1.interestidid}
 			if interest1.counts:
 				data['children'] = True
 			return data
@@ -235,12 +232,13 @@ class Interests(BaseSql):
 
 
 	@classmethod
-	def tag_exists(cls, interestname, customerid, interesttypeid = Constants.Interest_Type_Tag):
+	def tag_exists(cls, interestname, customerid, interesttypeid=Constants.Interest_Type_Tag):
 		""" check to see if a specific tag exists or the customer"""
 
 		result = session.query(Interests.interestid).filter_by(
-			interestname = interestname,customerid = customerid,
-			interesttypeid = interesttypeid)
+			interestname=interestname,
+		    customerid=customerid,
+			interesttypeid=interesttypeid)
 		return True if result.count() else False
 
 	@classmethod
@@ -252,16 +250,16 @@ class Interests(BaseSql):
 		transaction = cls.sa_get_active_transaction()
 		try:
 			# add interest record
-			interest = Interests(interestname = interestname,
-						  customerid = customerid,
-						  interesttypeid = Constants.Interest_Type_Tag)
-			session.add( interest )
+			interest = Interests(interestname=interestname,
+						  customerid=customerid,
+						  interesttypeid=Constants.Interest_Type_Tag)
+			session.add(interest)
 			session.flush()
 			# need to add the interest to the tag list
 			parentinterestid = session.query(Interests.interestid).filter_by(
-				interestname = Constants.Interest_Tag_Root_Name).first()[0]
-			interestgroup = InterestGroups ( parentinterestid = parentinterestid,
-								  childinterestid = interest.interestid)
+				interestname=Constants.Interest_Tag_Root_Name).first()[0]
+			interestgroup = InterestGroups(parentinterestid=parentinterestid,
+								  childinterestid=interest.interestid)
 			session.add(interestgroup)
 			session.flush()
 			transaction.commit()
@@ -270,9 +268,9 @@ class Interests(BaseSql):
 		except:
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
-			LOGGER.exception( "Interest add tag")
+			LOGGER.exception("Interest add tag")
 			raise
 
 	@classmethod
@@ -283,14 +281,14 @@ class Interests(BaseSql):
 		transaction = cls.sa_get_active_transaction()
 		try:
 			# get interest  and delete
-			result = session.query(Interests).filter_by(interestid = interestid).first()
+			result = session.query(Interests).filter_by(interestid=interestid).first()
 			session.delete(result)
 			session.flush()
 			transaction.commit()
 		except:
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
 			LOGGER.exception("Interest delete tag")
 			raise
@@ -309,7 +307,7 @@ class Interests(BaseSql):
 		except:
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
 			LOGGER.exception("Interest update tag")
 			raise
@@ -323,20 +321,20 @@ class Interests(BaseSql):
 
 		try:
 			# add interest record
-			interest = Interests(interestname = params["interestname"],
-						  customerid = -1,
-						  interesttypeid = Constants.Interest_Type_Standard)
+			interest = Interests(interestname=params["interestname"],
+						  customerid=-1,
+						  interesttypeid=Constants.Interest_Type_Standard)
 			session.add(interest)
 			session.flush()
 			if params["parentinterestid"] != -1:
-				interestgroup = InterestGroups (
-				  parentinterestid = params["parentinterestid"],
-				  childinterestid = interest.interestid)
+				interestgroup = InterestGroups(
+				  parentinterestid=params["parentinterestid"],
+				  childinterestid=interest.interestid)
 				session.add(interestgroup)
 
 			if params.has_key("is_section"):
-				interestgroup = InterestGroups ( childinterestid = interest.interestid )
-				session.add( interestgroup)
+				interestgroup = InterestGroups(childinterestid=interest.interestid)
+				session.add(interestgroup)
 
 			transaction.commit()
 			# returns new tags id
@@ -344,7 +342,7 @@ class Interests(BaseSql):
 		except:
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
 			LOGGER.exception("research_add_interest")
 			raise
@@ -354,10 +352,10 @@ class Interests(BaseSql):
 		""" check to see if a specific tag exists or the customer"""
 
 		result = session.query(Interests.interestid).filter_by(
-		    interestname = interestname).filter_by(
-		    customerid = -1).filter(
+		    interestname=interestname).filter_by(
+		    customerid=-1).filter(
 		    not_(Interests.interestid == interestid)).filter_by(
-			interesttypeid = Constants.Interest_Type_Standard)
+			interesttypeid=Constants.Interest_Type_Standard)
 		return True if result.count() else False
 
 
@@ -370,42 +368,42 @@ class Interests(BaseSql):
 
 		try:
 			# add interest record
-			interest = Interests.query.get( params["interestid"] )
+			interest = Interests.query.get(params["interestid"])
 			i.interestname = params["interestname"]
 
 			# find filter
 			result = session.query(InterestGroups).filter_by(
-			    childinterestid = interest.interestid).all()
+			    childinterestid=interest.interestid).all()
 
-			if result and params["parentinterestid"]  != result[0].parentinterestid:
+			if result and params["parentinterestid"] != result[0].parentinterestid:
 				# filter exists and chnaged
 				if params["parentinterestid"] == -1:
-					session.delete ( result[0] )
+					session.delete(result[0])
 				else:
 					result[0].parentinterestid = params["parentinterestid"]
-			elif not result and ( params["parentinterestid"] != -1 and  params["parentinterestid"] != None):
+			elif not result and (params["parentinterestid"] != -1 and  params["parentinterestid"] != None):
 				# no filter but filter added
-				interestgroup = InterestGroups ( parentinterestid = params["parentinterestid"],
-				                      childinterestid = interest.interestid)
+				interestgroup = InterestGroups(parentinterestid=params["parentinterestid"],
+				                      childinterestid=interest.interestid)
 
 			result = session.query(InterestGroups).filter_by(
-			  childinterestid = interest.interestid, parentinterestid = None).all()
+			  childinterestid=interest.interestid, parentinterestid=None).all()
 			if params.has_key("is_section"):
 				if not result:
-					session.add ( InterestGroups ( childinterestid = interest.interestid ) )
+					session.add(InterestGroups(childinterestid=interest.interestid))
 			else:
 				if result:
-					session.delete ( result[0] )
+					session.delete(result[0])
 
-			Invalidate_Cache_Object_Research(cls, None ,
-			                                 Constants.Cache_Search_Outlet_Interests )
+			Invalidate_Cache_Object_Research(cls, None,
+			                                 Constants.Cache_Search_Outlet_Interests)
 
 			transaction.commit()
 			return interest.interestid
 		except:
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
 			LOGGER.exception("research_update_interest")
 			raise
@@ -434,4 +432,4 @@ InterestGroups.mapping = Table('interestgroups', metadata, autoload=True)
 mapper(Interests, Interests.mapping)
 mapper(OutletInterestView, OutletInterestView.mapping)
 mapper(EmployeeInterestView, EmployeeInterestView.mapping)
-mapper(InterestGroups, InterestGroups.mapping )
+mapper(InterestGroups, InterestGroups.mapping)

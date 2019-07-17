@@ -8,11 +8,11 @@
 # Created:     28/02/2013
 # Copyright:   (c) 2013
 #-----------------------------------------------------------------------------
+import logging
 from turbogears.database import metadata, mapper
 from sqlalchemy import Table
 from ttl.model import BaseSql
 
-import logging
 LOGGER = logging.getLogger("prcommon")
 
 class OutletDesk(BaseSql):

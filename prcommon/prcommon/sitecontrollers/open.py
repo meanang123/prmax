@@ -20,7 +20,7 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
      ResearchFrequencies, PRMaxRoles, EmailSendTypes, Languages, Continents, ContactHistoryStatus,\
      ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, ServerTypes, \
      ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes, Statements, ChartView, DateRanges, GroupBy, DashboardSettingsMode, \
-     DashboardSettingsStandard, DashboardSettingsStandardSearchBy, Prmax_Outlettypes
+     DashboardSettingsStandard, DashboardSettingsStandardSearchBy, Prmax_Outlettypes, Sourcetypes
 from prcommon.model.hostspf import Hostspf
 from prcommon.model.emails import EmailFooter, EmailHeader, EmailLayout
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
@@ -122,12 +122,13 @@ class OpenController(OpenSecureController):
 	              "dashboardsettingsmode": DashboardSettingsMode,
 	              "dashboardsettingsstandard": DashboardSettingsStandard,
 	              "dashboardsettingsstandardsearchby": DashboardSettingsStandardSearchBy,
-	              "privatechannels":Prmax_Outlettypes
+	              "privatechannels":Prmax_Outlettypes,
+	              "sourcetypes":Sourcetypes
 		            }
 
 	_AddFilter = ("taskstatus", "users", "tasktype", "tasktags", "countrytypes", "seostatus", "newsfeedtypes", "customertypes",
 	              "reasoncategories", "countries", "researchprojectstatus", "languages", "contacthistorystatus",
-	              "briefingnotesstatus", "customerstatus", "financialstatus", "clippingsource", "customersources")
+	              "briefingnotesstatus", "customerstatus", "financialstatus", "clippingsource", "customersources", "sourcetypes")
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -144,6 +145,8 @@ class OpenController(OpenSecureController):
 		else:
 			data = []
 		if params['searchtype'] == "frequencies" and "ignoreoption" in params:
+			data.insert(0, dict(id=-1, name="All"))
+		if params['searchtype'] == "publishers" and "ignoreoption" in params:
 			data.insert(0, dict(id=-1, name="All"))
 
 		if params['searchtype'] in OpenController._AddFilter and "nofilter" in params:

@@ -73,7 +73,7 @@ define([
 		{
 			this.employeeid.set("value", -1 ) ;
 			this.reasoncodes.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
-			this.reason.set("value","");
+//			this.reason.set("value","");
 			domattr.set(this.heading,"innerHTML" , "" ) ;
 		},
 		load:function( employeeid, employeename, job_title, dialog)
@@ -82,12 +82,12 @@ define([
 			this.employeeid.set("value", employeeid );
 			domattr.set(this.heading,"innerHTML" , employeename ) ;
 			this.reasoncodes.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
-			this.reason.focus();
+//			this.reason.focus();
 		},
-		focus:function()
-		{
-			this.reason.focus();
-		}
+//		focus:function()
+//		{
+//			this.reason.focus();
+//		}
 });
 });
 

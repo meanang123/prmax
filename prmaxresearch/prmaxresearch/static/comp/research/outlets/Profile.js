@@ -84,7 +84,7 @@ define([
 			this.editorialprofile.set("value", profile.profile.editorialprofile);
 			this.nrsreadership.set("value", profile.profile.nrsreadership);
 			this.jicregreadership.set("value", profile.profile.jicregreadership);
-			this.deadline.set("value", profile.profile.deadline);
+//			this.deadline.set("value", profile.profile.deadline);
 			this.broadcasttimes.set("value", profile.profile.broadcasttimes);
 			this.productioncompanyid.set("value", profile.profile.productioncompanyid);
 			this.web_profile_link.set("value",profile.profile.web_profile_link);
@@ -95,7 +95,7 @@ define([
 			this.editorialprofile.set("value", "");
 			this.nrsreadership.set("value", "");
 			this.jicregreadership.set("value", "");
-			this.deadline.set("value", "");
+//			this.deadline.set("value", "");
 			this.broadcasttimes.set("value", "");
 			this.productioncompanyid.set("value", null);
 			this.web_profile_link.set("value","");
@@ -183,10 +183,10 @@ define([
 	{
 		this.text_view_ctrl.show_control( this.broadcasttimes, this.text_view_dlg, "Broadcast Times");
 	},
-	_expand_deadline:function()
-	{
-		this.text_view_ctrl.show_control( this.deadline, this.text_view_dlg, "Deadlines");
-	},
+//	_expand_deadline:function()
+//	{
+//		this.text_view_ctrl.show_control( this.deadline, this.text_view_dlg, "Deadlines");
+//	},
 	_expand_profile:function()
 	{
 		this.text_view_ctrl.show_control( this.editorialprofile, this.text_view_dlg, "Editorial Profile");

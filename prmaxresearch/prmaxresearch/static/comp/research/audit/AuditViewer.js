@@ -38,22 +38,22 @@ define([
 		if (this.objectisbase==true)
 		{
 			cells = [
-				{label: 'Date',className:"dgrid-column-datetime", field:"activitydate"},
+				{label: 'Date',className:"standard", field:"activitydate"},
 				{label: 'Action',className:"dgrid-column-status-small", field:"actiontypedescription"},
 				{label: 'Reason',className:"standard",field:"reasoncodedescription"},
 				{label: 'User',className:"standard",field:"display_name"},
-				{label: 'Reason Details',className:"standard",field:"reason"},
+				//{label: 'Reason Details',className:"standard",field:"reason"},
 				{label: 'Type',className:"standard",field:"objecttypename"}
 				];
 		}
 		else
 		{
 			cells = [
-				{label: 'Date',className:"dgrid-column-datetime", field:"activitydate"},
+				{label: 'Date',className:"standard", field:"activitydate"},
 				{label: 'Action',className:"dgrid-column-status-small", field:"actiontypedescription"},
 				{label: 'Reason',className:"standard",field:"reasoncodedescription"},
 				{label: 'User',className:"standard",field:"display_name"},
-				{label: 'Reason Details',className:"standard",field:"reason"}
+				//{label: 'Reason Details',className:"standard",field:"reason"}
 			];
 		}
 

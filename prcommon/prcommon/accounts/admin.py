@@ -1231,11 +1231,11 @@ class PaymentSystemNew(object):
 				fields = dict(customerpaymentid = payment.customerpaymentid)
 
 				session.add(AuditTrail(
-					audittypeid = Constants.audit_dd_rejected,
+					audittypeid=Constants.audit_dd_rejected,
 					audittext="Payment Rejected",
-					userid = params["user_id"],
-					customerid = params["icustomerid"],
-					auditextfields = DBCompress.encode2(fields)))
+					userid=params["user_id"],
+					customerid=params["icustomerid"],
+					auditextfields=DBCompress.encode2(fields)))
 
 			transaction.commit()
 		except:

@@ -38,6 +38,10 @@ define([
 		this._update_call_back = lang.hitch(this, this._update_call);
 		this._delete_call_back = lang.hitch(this, this._delete_call);
 		this._dialog = null;
+		this._required_old = null;
+		this._required_new = null;
+		this._has_address_old = null;
+		this._has_address_new = null;
 
 		this._months = new ItemFileReadStore({url:"/common/lookups?searchtype=months&ignore=1"});
 
@@ -85,6 +89,18 @@ define([
 		{
 			if ( confirm("Update Desk?"))
 			{
+				data["required_old"] = this._required_old;
+				data["required_new"] = this._required_new;
+				data["has_address_old"] = this._has_address_old;
+				if (this._has_address_new != null)
+				{
+					data["has_address_new"] = this._has_address_new;
+				}
+				else
+				{
+					data["has_address_new"] = this._has_address_old;
+				}
+
 				request.post('/research/admin/desks/update',
 					utilities2.make_params({ data : data })).
 					then(this._update_call_back);
@@ -105,6 +121,8 @@ define([
 			if (this._dialog)
 				this._dialog("hide");
 			topic.publish(PRCOMMON.Events.Desk_Added, response.data);
+			this._has_address_old = this._has_address_new;
+			this._required_old = this._required_new;
 		}
 		else if ( response.success == "DU")
 		{
@@ -123,6 +141,12 @@ define([
 		{
 			alert("Desk Updated");
 			topic.publish(PRCOMMON.Events.Desk_Updated, response.data);
+			this._has_address_old = this._has_address_new;
+			this._required_old = this._required_new;
+			if (this._has_address_new == false)
+			{
+				this._clear_address();	
+			}
 		}
 		else if ( response.success == "DU")
 		{
@@ -134,6 +158,15 @@ define([
 				alert("Failed");
 		}
 		this.savenode.cancel();
+	},
+	_clear_address:function()
+	{
+		this._address_show_do(false);
+		this.address1.set("value", "");
+		this.address2.set("value", "");
+		this.townname.set("value", "");
+		this.county.set("value", "");
+		this.postcode.set("value","");	
 	},
 	clear:function()
 	{
@@ -155,12 +188,14 @@ define([
 		this.research_required.set("checked",true);
 		this.researchfrequencyid.set("value",4);
 		this.has_address.set("checked", false );
-		this._address_show_do(false);
-		this.address1.set("value", "");
-		this.address2.set("value", "");
-		this.townname.set("value", "");
-		this.county.set("value", "");
-		this.postcode.set("value","");
+		//this._has_address_new = false;
+		//this._address_show_do(false);
+		this._clear_address();
+//		this.address1.set("value", "");
+//		this.address2.set("value", "");
+//		this.townname.set("value", "");
+//		this.county.set("value", "");
+//		this.postcode.set("value","");
 
 		this.notes.set("value", "" );
 		this.last_questionaire_sent.set("value",null);
@@ -226,6 +261,7 @@ define([
 			if (response.data.deskaddress != null )
 			{
 				this.has_address.set("checked", true );
+				this._has_address_old = true;
 				this._address_show_do(true);
 				this.address1.set("value", response.data.deskaddress.address1);
 				this.address2.set("value", response.data.deskaddress.address2);
@@ -236,6 +272,7 @@ define([
 			else
 			{
 				this.has_address.set("checked", false );
+				this._has_address_old = false;
 				this._address_show_do(false);
 				this.address1.set("value", "");
 				this.address2.set("value", "");
@@ -248,6 +285,7 @@ define([
 			if (response.data.researchoutletdesk)
 			{
 				this.research_required.set("checked",true);
+				this._required_old = true;
 				tmp_research_required = true;
 				this.research_surname.set("value", response.data.researchoutletdesk.surname);
 				this.research_firstname.set("value", response.data.researchoutletdesk.firstname);
@@ -270,6 +308,7 @@ define([
 			else
 			{
 				this.research_required.set("checked",false);
+				this._required_old = false;
 				this.research_surname.set("value", "");
 				this.research_firstname.set("value", "");
 				this.research_prefix.set("value", "");
@@ -331,7 +370,14 @@ define([
 		var domcommand = domclass.add;
 
 		if (this.research_required.get("checked"))
-			domcommand = domclass.remove;
+			{
+				domcommand = domclass.remove;
+				this._required_new = true;
+			}
+		else
+			{
+				this._required_new = false;
+			}
 
 		for (var count = 1; count < 12; ++count)
 			domcommand(this["research_required_" + count],"prmaxhidden");
@@ -425,6 +471,16 @@ define([
 	_address_show:function()
 	{
 		this._address_show_do ( this.has_address.get("checked") ) ;
+		if (this.has_address.get('checked'))
+		{
+			this._has_address_old = false;
+			this._has_address_new = true;
+		}
+		else
+		{
+			this._has_address_old = true;
+			this._has_address_new = false;
+		}
 	},
 	_address_show_do:function ( show_it )
 	{

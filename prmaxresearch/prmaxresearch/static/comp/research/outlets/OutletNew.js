@@ -45,12 +45,12 @@ define([
 	postCreate:function()
 	{
 		this.prmax_outlettypeid.set("store", PRCOMMON.utils.stores.OutletTypes_noFreelancer());
-		this.frequency.set("store",PRCOMMON.utils.stores.Frequency());
+//		this.frequency.set("store",PRCOMMON.utils.stores.Frequency());
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Add_Codes());
 		this.countryid.set("store",PRCOMMON.utils.stores.Countries())
 
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
-		this.frequency.set("value", 5);
+//		this.frequency.set("value", 5);
 		this.countryid.set("value", 1);
 
 		this.inherited(arguments);
@@ -83,32 +83,32 @@ define([
 	},
 	clear:function()
 	{
-		this.frequency.set("value", 5);
+//		this.frequency.set("value", 5);
 		this.countryid.set("value", 1);
 		this.outletname.set("value","");
 		this.prmax_outlettypeid.set("value", null ) ;
 		this.selectcontact.clear();
 		this.jobtitle.set("value","");
-		this.address1.set("value","");
-		this.address2.set("value","");
-		this.townname.set("value","");
-		this.county.set("value","");
-		this.postcode.set("value","");
-		this.www.set("value","");
-		this.email.set("value","");
-		this.tel.set("value","");
-		this.fax.set("value","");
-		this.circulation.set("value",0);
-		this.webbrowsers.set("value",0);
-		this.interests.set("value","");
-		this.coverage.set("value","");
-		this.reason.set("value","");
+//		this.address1.set("value","");
+//		this.address2.set("value","");
+//		this.townname.set("value","");
+//		this.county.set("value","");
+//		this.postcode.set("value","");
+//		this.www.set("value","");
+//		this.email.set("value","");
+//		this.tel.set("value","");
+//		this.fax.set("value","");
+//		this.circulation.set("value",0);
+//		this.webbrowsers.set("value",0);
+//		this.interests.set("value","");
+//		this.coverage.set("value","");
+//		this.reason.set("value","");
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
-		this.twitter.set("value","");
-		this.facebook.set("value","");
-		this.linkedin.set("value","");
-		this.instagram.set("value","");
-		this.profile.set("value","");
+//		this.twitter.set("value","");
+//		this.facebook.set("value","");
+//		this.linkedin.set("value","");
+//		this.instagram.set("value","");
+//		this.profile.set("value","");
 		this.savebtn.cancel();
 	}
 });

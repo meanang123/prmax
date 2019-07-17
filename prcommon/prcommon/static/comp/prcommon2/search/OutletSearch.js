@@ -19,6 +19,7 @@ define([
 	"prcommon2/geographical/Geographical",
 	"prcommon2/search/Circulation",
 	"prcommon2/search/Frequency",
+	"prcommon2/search/Publisher",
 	"prcommon2/search/Countries"
 	], function(declare, BaseWidgetAMD, template, ContentPane){
  return declare("prcommon2.search.OutletSearch",

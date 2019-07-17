@@ -3,9 +3,9 @@
 		<form data-dojo-props='"class":"prmaxdefault",name:"std_search_person",cellspacing:"0",cellpadding:"0",formid:"std_search_person_form",onsubmit:"return false"' data-dojo-type="ttl.Form" data-dojo-attach-point="form_name">
 			<input data-dojo-props='type:"hidden",value:"quick",name:"search_type"' data-dojo-type="dijit.form.TextBox" />
 			<div class="paddingrow">&nbsp;</div>
-			<div data-dojo-props='usepartial:true,search:"quick_contact_ext",keytypeid:133, name:"quick_contact_ext"' data-dojo-type="prmax.search.person" data-dojo-attach-point="std_search_employee_name_ext"></div>
+			<div data-dojo-props='usepartial:true,search:"std_search_quick",keytypeid:138, name:"quick_contactfull_ext"' data-dojo-type="prmax.search.person" data-dojo-attach-point="quick_contactfull_ext"></div>
 			<hr/>
-			<div  data-dojo-props='usepartial:true,displayname:"Outlet Name",keytypeid:1,name:"quick_searchname",value:""' data-dojo-attach-point="std_search_outlet_outlet_name" data-dojo-type="prmax.search.standard"></div>
+			<div  data-dojo-props='usepartial:true,search:"std_search_quick", displayname:"Outlet Name",keytypeid:1,name:"quick_searchname",value:""' data-dojo-attach-point="std_search_outlet_outlet_name" data-dojo-type="prmax.search.standard"></div>
 			<hr/><br/>
 			<button data-dojo-attach-event="onClick:_clear" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Clear","class":"btnleft",style:"float:left",iconClass:"fa fa-eraser fa-2x"'></button>
 			<button data-dojo-attach-event="onClick:_search" data-dojo-attach-point="searchbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Search","class":"btnright",style:"float:right", iconClass:"fa fa-search fa-2x"'></button><br style="clear:both"/>

@@ -38,6 +38,10 @@ class OutletDeskUpdateSchema(PrFormSchema):
 	has_address = BooleanValidator()
 	last_research_completed = ISODateValidator()
 	last_questionaire_sent = ISODateValidator()
+	required_old = BooleanValidator()
+	required_new = BooleanValidator()
+	has_address_old = BooleanValidator()
+	has_address_new = BooleanValidator()
 
 class OutletDeskGetSchema(PrFormSchema):
 	""" schema """
@@ -119,6 +123,6 @@ class OutletDeskController(object):
 	def delete(self, *args, **params):
 		""" delete """
 
-		OutletDeskGeneral.delete(params["outletdeskid"])
+		OutletDeskGeneral.delete(params)
 
 		return stdreturn()

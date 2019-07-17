@@ -9,11 +9,11 @@
 # Copyright:   (c) 2012
 #
 #-----------------------------------------------------------------------------
+import logging
 from turbogears.database import  metadata, mapper, session
 from sqlalchemy import Table, text
 from prcommon.model.common import BaseSql
 
-import logging
 LOGGER = logging.getLogger("prcommon.model")
 
 class Publisher(BaseSql):
@@ -30,15 +30,15 @@ class Publisher(BaseSql):
 		SELECT COUNT(*) FROM  internal.publishers """
 
 	@classmethod
-	def get_list_publisher(cls, params ) :
+	def get_list_publisher(cls, params):
 		""" get rest page  """
-		whereused =  ""
+		whereused = ""
 
 		if "publishername" in params:
 			whereused = BaseSql.addclause("", "publishername ilike :publishername")
 			if params["publishername"]:
-				params["publishername"] =  params["publishername"].replace("*", "")
-				params["publishername"] = params["publishername"] +  "%"
+				params["publishername"] = params["publishername"].replace("*", "")
+				params["publishername"] = params["publishername"] + "%"
 
 		if "publisherid" in  params:
 			whereused = BaseSql.addclause(whereused, "publisherid = :publisherid")
@@ -50,31 +50,57 @@ class Publisher(BaseSql):
 									'publishername',
 									Publisher.ListData + whereused + BaseSql.Standard_View_Order,
 									Publisher.ListDataCount + whereused,
-									cls )
+									cls)
 
 	@classmethod
-	def exists(cls , publishername,  publisherid = -1) :
+	def get_search_list_publisher(cls, params):
+		""" get rest page  """
+		whereused = ""
+		unionclause = ""
+
+		if "publishername" in params:
+			whereused = BaseSql.addclause("", "publishername ilike :publishername")
+			if params["publishername"]:
+				params["publishername"] = params["publishername"].replace("*", "")
+				params["publishername"] = params["publishername"] + "%"
+
+		if "publisherid" in  params:
+			whereused = BaseSql.addclause(whereused, "publisherid = :publisherid")
+
+		if "publisherid" in params and params['publisherid'] == -1:
+			unionclause = " UNION SELECT -1 as publisherid, -1 as id , 'All' as publishername, '' as www "
+
+		return cls.get_rest_page_base(
+									params,
+									'publisherid',
+									'publishername',
+									Publisher.ListData + whereused + unionclause + BaseSql.Standard_View_Order,
+									Publisher.ListDataCount + whereused,
+									cls)
+
+	@classmethod
+	def exists(cls, publishername, publisherid=-1):
 		""" check to see a specufuc role exists """
 
-		data = session.query ( Publisher ).filter_by( publishername = publishername )
-		if data and  publisherid != -1:
+		data = session.query(Publisher).filter_by(publishername=publishername)
+		if data and publisherid != -1:
 			for row in data:
-				if row.publisherid !=  publisherid:
+				if row.publisherid != publisherid:
 					return True
 			else:
 				return False
 		else:
-			return True if data.count()>0 else False
+			return True if data.count() > 0 else False
 
 	@classmethod
-	def add ( cls, params ) :
+	def add(cls, params):
 		""" add a new role to the system """
 		transaction = BaseSql.sa_get_active_transaction()
 
 		try:
-			publisher = Publisher( publishername = params["publishername"],
-			                       www = params["www"])
-			session.add( publisher )
+			publisher = Publisher(publishername=params["publishername"],
+			                       www=params["www"])
+			session.add(publisher)
 			session.flush()
 			transaction.commit()
 			return publisher.publisherid
@@ -82,35 +108,35 @@ class Publisher(BaseSql):
 			LOGGER.exception("Publisher Add")
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
 			raise
 
 	@classmethod
-	def delete   ( cls, params ) :
+	def delete(cls, params):
 		""" add a new role to the system """
 		transaction = BaseSql.sa_get_active_transaction()
 
 		try:
-			publisher = Publisher.query.get ( params["publisherid"] )
-			session.delete( publisher )
+			publisher = Publisher.query.get(params["publisherid"])
+			session.delete(publisher)
 			transaction.commit()
 		except:
 			LOGGER.exception("Publisher Delete")
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
 			raise
 
 	@classmethod
-	def update ( cls, params ) :
+	def update(cls, params):
 		""" update new role to the system """
 
 		transaction = BaseSql.sa_get_active_transaction()
 
 		try:
-			publisher = Publisher.query.get( params["publisherid"])
+			publisher = Publisher.query.get(params["publisherid"])
 
 			publisher.www = params["www"]
 			if publisher.publishername != params["publishername"]:
@@ -119,32 +145,30 @@ class Publisher(BaseSql):
 
 			publisher.publishername = params["publishername"]
 
-
-
 			transaction.commit()
 		except:
 			LOGGER.exception("Publisher Update")
 			try:
 				transaction.rollback()
-			except :
+			except:
 				pass
 			raise
 
 
 	@classmethod
-	def get( cls , publisherid) :
+	def get(cls, publisherid):
 		""" Get prmaxrole details and extended details"""
 
 		from prcommon.model.outlet import Outlet
 
-		return dict(publisher = Publisher.query.get ( publisherid),
-		            inuse = True if session.query(Outlet.publisherid).filter(Outlet.publisherid == publisherid).all() else False )
+		return dict(publisher=Publisher.query.get(publisherid),
+		            inuse=True if session.query(Outlet.publisherid).filter(Outlet.publisherid == publisherid).all() else False)
 
 
 #########################################################
 ## Map object to db
 #########################################################
 
-Publisher.mapping = Table('publishers', metadata, autoload = True, schema='internal')
+Publisher.mapping = Table('publishers', metadata, autoload=True, schema='internal')
 
-mapper(Publisher, Publisher.mapping )
+mapper(Publisher, Publisher.mapping)

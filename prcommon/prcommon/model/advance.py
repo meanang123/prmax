@@ -10,15 +10,18 @@
 # RCS-ID:      $Id:  $
 # Copyright:   (c) 2010
 #-----------------------------------------------------------------------------
+import logging
 from turbogears.database import metadata, mapper, session
 from sqlalchemy import Table, Column, Integer, text
 from ttl.dates import DateExtended
-from common import BaseSql
-from list import List
-from research import Activity
+from prcommon.model.research import Activity, ActivityDetails
+from prcommon.model.contact import Contact
+from prcommon.model.employee import Employee
+from prcommon.model.interests import Interests
+from prcommon.model.common import BaseSql
+from prcommon.model.list import List
 import prcommon.Constants as Constants
 
-import logging
 LOGGER = logging.getLogger("prmax")
 
 class AdvanceFeature(BaseSql):
@@ -54,45 +57,45 @@ class AdvanceFeature(BaseSql):
 				props[key] = getattr(self, key)
 
 		props["editorial_date_full"] = self.editorial_date_full
-		props["cover_date_full"]  = self.cover_date_full
+		props["cover_date_full"] = self.cover_date_full
 		props["publication_date_full"] = self.publication_date_full
 
-		data = AdvanceFeature.sqlExecuteCommand (
+		data = AdvanceFeature.sqlExecuteCommand(
 		  AdvanceFeature.ListDataOutletSingle,
-		  dict ( advancefeatureid = self.advancefeatureid),
-		  BaseSql._singleResultAsDict )
-		props.update ( data )
+		  dict(advancefeatureid=self.advancefeatureid),
+		  BaseSql._singleResultAsDict)
+		props.update(data)
 
 		return props
 
 	@classmethod
-	def getExt(cls, kw ):
+	def getExt(cls, kw):
 		""" get the details """
 
 		interests = session.query(AdvanceFeatureInterestsView).filter_by(
-		  advancefeatureid = kw["advancefeatureid"]).all()
+		  advancefeatureid=kw["advancefeatureid"]).all()
 
-		return dict ( advance = AdvanceFeature.query.get( kw["advancefeatureid"] ),
-		              interests = interests,
-		              interests_text = ", ".join ( [ interest.interestname for interest in interests] ))
+		return dict(advance=AdvanceFeature.query.get(kw["advancefeatureid"]),
+		            interests=interests,
+		            interests_text=", ".join([interest.interestname for interest in interests]))
 
 	@property
 	def editorial_date_full(self):
 		""" combined details editorial date """
-		return DateExtended.to_json_obj(self,"editorial")
+		return DateExtended.to_json_obj(self, "editorial")
 
 	@property
 	def cover_date_full(self):
 		""" full cover date"""
-		return DateExtended.to_json_obj(self,"cover")
+		return DateExtended.to_json_obj(self, "cover")
 
 	@property
 	def publication_date_full(self):
 		""" publication date"""
-		return DateExtended.to_json_obj(self,"publicationdate")
+		return DateExtended.to_json_obj(self, "publicationdate")
 
 	@classmethod
-	def research_new(cls, kw ) :
+	def research_new(cls, kw):
 		""" Create a new record for research """
 
 		try:
@@ -108,27 +111,27 @@ class AdvanceFeature(BaseSql):
 			advance = AdvanceFeature(**kw)
 			# force to internal customerid
 			advance.customerid = -1
-			session.add ( advance )
+			session.add(advance)
 			session.flush()
 			#  interests
-			for interestid in kw['interests']  if kw['interests']  else []:
-				interest = AdvanceFeatureInterests(advancefeatureid = advance.advancefeatureid ,
-				                                   interestid = interestid,
-				                                   customerid = -1)
+			for interestid in kw['interests'] if kw['interests'] else []:
+				interest = AdvanceFeatureInterests(advancefeatureid=advance.advancefeatureid,
+				                                   interestid=interestid,
+				                                   customerid=-1)
 				session.add(interest)
 
 			# activy record
-			activity = Activity ( reasoncodeid = kw["reasoncodeid"] ,
-			                reason = kw.get("reason", ""),
-			                objecttypeid = Constants.Object_Type_Advance,
-			                objectid = advance.advancefeatureid,
-			                actiontypeid = Constants.Research_Reason_Add,
-			                userid = kw['userid'],
-			                parentobjectid = advance.outletid,
-			                parentobjecttypeid = Constants.Object_Type_Outlet,
-			                name = advance.feature
+			activity = Activity(reasoncodeid=kw["reasoncodeid"],
+			                reason=kw.get("reason", ""),
+			                objecttypeid=Constants.Object_Type_Advance,
+			                objectid=advance.advancefeatureid,
+			                actiontypeid=Constants.Research_Reason_Add,
+			                userid=kw['userid'],
+			                parentobjectid=advance.outletid,
+			                parentobjecttypeid=Constants.Object_Type_Outlet,
+			                name=advance.feature
 			                )
-			session.add ( activity )
+			session.add(activity)
 
 			transaction.commit()
 			return advance.advancefeatureid
@@ -146,19 +149,19 @@ class AdvanceFeature(BaseSql):
 			transaction = cls.sa_get_active_transaction()
 
 			# get record and activity record
-			a = AdvanceFeature.query.get ( kw["advancefeatureid"] )
-			ac = Activity ( reasoncodeid = kw["reasoncodeid"] ,
-			                reason = kw["reason"],
-			                objecttypeid = Constants.Object_Type_Advance,
-			                objectid = kw["advancefeatureid"],
-			                actiontypeid = Constants.Research_Reason_Delete,
-			                userid = kw['userid'],
-			                parentobjectid = a.outletid,
-			                parentobjecttypeid = Constants.Object_Type_Outlet,
-			                name = a.feature
+			a = AdvanceFeature.query.get(kw["advancefeatureid"])
+			ac = Activity(reasoncodeid=kw["reasoncodeid"],
+			                reason=kw["reason"],
+			                objecttypeid=Constants.Object_Type_Advance,
+			                objectid=kw["advancefeatureid"],
+			                actiontypeid=Constants.Research_Reason_Delete,
+			                userid=kw['userid'],
+			                parentobjectid=a.outletid,
+			                parentobjecttypeid=Constants.Object_Type_Outlet,
+			                name=a.feature
 			                )
-			session.add ( ac )
-			session.delete ( a )
+			session.add(ac)
+			session.delete(a)
 			transaction.commit()
 		except:
 			LOGGER.exception("Delete")
@@ -166,7 +169,7 @@ class AdvanceFeature(BaseSql):
 			raise
 
 	@classmethod
-	def research_update(cls, kw ) :
+	def research_update(cls, kw):
 		""" Update record for research """
 		try:
 			advancefeatureid = kw["advancefeatureid"]
@@ -178,11 +181,47 @@ class AdvanceFeature(BaseSql):
 
 			transaction = cls.sa_get_active_transaction()
 
-			a = AdvanceFeature.query.get ( advancefeatureid )
+			a = AdvanceFeature.query.get(advancefeatureid)
+			activity = Activity(reasoncodeid=kw["reasoncodeid"],
+			                    reason=kw.get("reason", ""),
+			                    objecttypeid=Constants.Object_Type_Advance,
+			                    objectid=advancefeatureid,
+			                    actiontypeid=Constants.Research_Reason_Update,
+			                    userid=kw['userid'],
+			                    parentobjectid=a.outletid,
+			                    parentobjecttypeid=Constants.Object_Type_Outlet,
+			                    name=a.feature
+			                    )
+			session.add(activity)
+			session.flush()
+
+			ActivityDetails.AddChange(a.editorial_partial, kw["editorial_partial"], activity.activityid, Constants.Field_Editorial_Partial)
+			ActivityDetails.AddChange(a.editorial_date, kw["editorial_date"], activity.activityid, Constants.Field_Editorial_Date)
+			ActivityDetails.AddChange(a.editorial_description, kw["editorial_description"], activity.activityid, Constants.Field_Editorial_Description)
+			ActivityDetails.AddChange(a.cover_description, kw["cover_description"], activity.activityid, Constants.Field_Cover_Partial)
+			ActivityDetails.AddChange(a.cover_partial, kw["cover_partial"], activity.activityid, Constants.Field_Cover_Date)
+			ActivityDetails.AddChange(a.cover_date, kw["cover_date"], activity.activityid, Constants.Field_Cover_Description)
+			ActivityDetails.AddChange(a.publicationdate_partial, kw["publicationdate_partial"], activity.activityid, Constants.Field_Publicationdate_Partial)
+			ActivityDetails.AddChange(a.publicationdate_date, kw["publicationdate_date"], activity.activityid, Constants.Field_Publicationdate_Date)
+			ActivityDetails.AddChange(a.publicationdate_description, kw["editorial_description"], activity.activityid, Constants.Field_Publicationdate_Description)
+			ActivityDetails.AddChange(a.featuredescription, kw["featuredescription"], activity.activityid, Constants.Field_Feature_Description)
+			ActivityDetails.AddChange(a.feature, kw["feature"], activity.activityid, Constants.Field_Feature)
+			old_employeename = new_employeename = 'No Contact'
+			if a.employeeid != -1 and a.employeeid != None:
+				old_employee = session.query(Contact).\
+				    join(Employee, Employee.contactid == Contact.contactid).\
+				    filter(Employee.employeeid == a.employeeid).scalar()
+				old_employeename = old_employee.getName()
+			if 'employeeid' in kw and kw['employeeid'] != None:
+				new_employee = session.query(Contact).\
+				    join(Employee, Employee.contactid == Contact.contactid).\
+				    filter(Employee.employeeid == int(kw['employeeid'])).scalar()
+				new_employeename = new_employee.getName()
+			ActivityDetails.AddChange(old_employeename, new_employeename, activity.activityid, Constants.Field_Feature_Contact)
+
 			a.editorial_partial = kw["editorial_partial"]
 			a.editorial_date = kw["editorial_date"]
 			a.editorial_description = kw["editorial_description"]
-			a.publicationdate_description = kw["editorial_description"]
 			a.cover_description = kw["cover_description"]
 			a.cover_partial = kw["cover_partial"]
 			a.cover_date = kw["cover_date"]
@@ -194,33 +233,26 @@ class AdvanceFeature(BaseSql):
 			a.employeeid = kw["employeeid"] if kw.has_key("employeeid") else None
 
 			dbinterest = session.query(AdvanceFeatureInterestsView).filter_by(
-			    advancefeatureid = advancefeatureid).all()
+			    advancefeatureid=advancefeatureid).all()
 			dbinterest2 = []
-			interests  = kw['interests'] if kw['interests'] else []
+			interests = kw['interests'] if kw['interests'] else []
 			for advanceinterest in dbinterest:
 				dbinterest2.append(advanceinterest.interestid)
 				if not advanceinterest.interestid in interests:
 					tmp = AdvanceFeatureInterests.query.get(advanceinterest.advancefeatureinterestid)
+					del_interest = Interests.query.get(tmp.interestid)
+					ActivityDetails.AddDelete(del_interest.interestname, activity.activityid, Constants.Field_Feature_Interest)
 					session.delete(tmp)
 
 			for interestid in interests:
 				if not interestid in dbinterest2:
 					interest = AdvanceFeatureInterests(
-						advancefeatureid = advancefeatureid,
-						interestid = interestid)
+						advancefeatureid=advancefeatureid,
+						interestid=interestid)
+					add_interest = Interests.query.get(interestid)
+					ActivityDetails.AddAdd(add_interest.interestname, activity.activityid, Constants.Field_Feature_Interest)
 					session.add(interest)
 
-			ac = Activity ( reasoncodeid = kw["reasoncodeid"] ,
-			                reason = kw.get("reason", ""),
-			                objecttypeid = Constants.Object_Type_Advance,
-			                objectid = advancefeatureid,
-			                actiontypeid = Constants.Research_Reason_Add,
-			                userid = kw['userid'],
-			                parentobjectid = a.outletid,
-			                parentobjecttypeid = Constants.Object_Type_Outlet,
-			                name = a.feature
-			                )
-			session.add ( ac )
 			transaction.commit()
 			return advancefeatureid
 		except:
@@ -229,11 +261,11 @@ class AdvanceFeature(BaseSql):
 			raise
 
 	@classmethod
-	def research_duplicate(cls, kw ) :
+	def research_duplicate(cls, kw):
 		""" Duplicate Record """
 
 		try:
-			old = AdvanceFeature.query.get( kw["advancefeatureid"] )
+			old = AdvanceFeature.query.get(kw["advancefeatureid"])
 			props = {}
 			for key in old.__dict__:
 				if not key.startswith('_sa_') and key != "advancefeatureid":
@@ -243,26 +275,26 @@ class AdvanceFeature(BaseSql):
 
 			props["feature"] = kw["feature"]
 			advance = AdvanceFeature(**props)
-			session.add ( advance )
+			session.add(advance)
 			session.flush()
 			#  interests
 			for interest in session.query(AdvanceFeatureInterestsView).filter_by(
-			  advancefeatureid = old.advancefeatureid ).all():
-				i = AdvanceFeatureInterests(advancefeatureid = advance.advancefeatureid ,
-				                                   interestid = interest.interestid,
-				                                   customerid = -1)
+			    advancefeatureid=old.advancefeatureid).all():
+				i = AdvanceFeatureInterests(advancefeatureid=advance.advancefeatureid,
+				                            interestid=interest.interestid,
+				                            customerid=-1)
 				session.add(i)
 
-			activity = Activity ( reasoncodeid = kw["reasoncodeid"] ,
-			                reason = kw.get("reason", ""),
-			                objecttypeid = Constants.Object_Type_Advance,
-			                objectid = advance.advancefeatureid,
-			                actiontypeid = Constants.Research_Reason_Add,
-			                userid = kw['userid'],
-			                parentobjectid = advance.outletid,
-			                parentobjecttypeid = Constants.Object_Type_Outlet,
-			                name = advance.feature
-			                )
+			activity = Activity(reasoncodeid=kw["reasoncodeid"],
+			                    reason=kw.get("reason", ""),
+			                    objecttypeid=Constants.Object_Type_Advance,
+			                    objectid=advance.advancefeatureid,
+			                    actiontypeid=Constants.Research_Reason_Add,
+			                    userid=kw['userid'],
+			                    parentobjectid=advance.outletid,
+			                    parentobjecttypeid=Constants.Object_Type_Outlet,
+			                    name=advance.feature
+			                    )
 			session.add(activity)
 
 			transaction.commit()
@@ -289,9 +321,9 @@ class AdvanceFeature(BaseSql):
 		""" List of featured for an outlet """
 
 		if not "outletid" in kw:
-			return  dict (numRows  = 0,	items = [],  identifier = 'advancefeatureid')
+			return  dict(numRows=0,	items=[], identifier='advancefeatureid')
 
-		if kw["sortfield"] == "pub_date_display" :
+		if kw["sortfield"] == "pub_date_display":
 			kw["sortfield"] = "a.publicationdate_date %s, UPPER(a.feature) " % kw["direction"]
 
 		if not kw['sortfield']:
@@ -299,15 +331,15 @@ class AdvanceFeature(BaseSql):
 			kw["sortfield"] = "a.publicationdate_date %s, UPPER(a.feature) " % kw["direction"]
 
 
-		return BaseSql.getGridPage( kw,
+		return BaseSql.getGridPage(kw,
 								"a.publicationdate_date %s, UPPER(a.feature) " % kw["direction"],
 								'advancefeatureid',
 								AdvanceFeature.ListDataOutlet,
 								AdvanceFeature.ListDataOutletCount,
-								cls )
+								cls)
 
 	@classmethod
-	def get_rest_outlet(cls,  params):
+	def get_rest_outlet(cls, params):
 		"""get list of features """
 
 		return cls.grid_to_rest_ext(
@@ -349,24 +381,24 @@ class AdvanceFeaturesList(BaseSql):
 			raise
 
 	@classmethod
-	def fixUpdateId(cls, kw ) :
+	def fixUpdateId(cls, kw):
 		""" Fix up thhe list id """
 		if kw.get("advancefeatureslistid", -1) == -1 or kw.get("advancefeatureslistid", "") == "-1":
-			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId( kw["userid"], kw["customerid"] )
+			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 		else:
 			kw["advancefeatureslistid"] = int(kw["advancefeatureslistid"])
 
 	@classmethod
-	def getDefaultListId(cls, userid, customerid ) :
+	def getDefaultListId(cls, userid, customerid):
 		""" get the default internal list for a specufuc user """
 
-		a = session.query(AdvanceFeaturesList).filter_by( userid = userid,
-		              advancefeatureslisttypeid = 2 ).all()
-		if not a :
-			a = AdvanceFeaturesList( userid = userid ,
-			                         customerid = customerid,
-			                         advancefeatureslistdescription = "Search Results",
-			                         advancefeatureslisttypeid = 2 )
+		a = session.query(AdvanceFeaturesList).filter_by(userid=userid,
+		              advancefeatureslisttypeid=2).all()
+		if not a:
+			a = AdvanceFeaturesList(userid=userid,
+			                        customerid=customerid,
+			                        advancefeatureslistdescription="Search Results",
+			                        advancefeatureslisttypeid=2)
 			session.flush()
 		else:
 			a = a[0]
@@ -375,11 +407,11 @@ class AdvanceFeaturesList(BaseSql):
 
 	_Count_All = "SELECT * FROM advancecount(:advancefeatureslistid)"
 	@classmethod
-	def getCount(cls, kw ):
+	def getCount(cls, kw):
 		""" return the statistics for a advance list """
 
 		if kw.get("advancefeatureslistid", -1) == -1 or kw.get("advancefeatureslistid", "") == "-1":
-			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId( kw["userid"], kw["customerid"] )
+			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 
 		return cls.sqlExecuteCommand(
 		  text(AdvanceFeaturesList._Count_All),
@@ -387,17 +419,17 @@ class AdvanceFeaturesList(BaseSql):
 		  BaseSql.SingleResultAsEncodedDict)
 
 	@classmethod
-	def Exists ( cls, kw ):
+	def Exists(cls, kw):
 		""" Check too see if a list name already exists  """
 		result = session.query(AdvanceFeaturesList.advancefeatureslistid).filter_by(
-		  advancefeatureslistdescription = kw["listname"])
+		  advancefeatureslistdescription=kw["listname"])
 		return result.all()[0][0] if result.count() else None
 
 	@classmethod
-	def Exists2 ( cls, kw ):
+	def Exists2(cls, kw):
 		""" Check too see if a list name already exists  """
 		result = session.query(AdvanceFeaturesList.advancefeatureslistid).filter(
-		  AdvanceFeaturesList.advancefeatureslistdescription == kw["listname"]).filter (
+		  AdvanceFeaturesList.advancefeatureslistdescription == kw["listname"]).filter(
 		  AdvanceFeaturesList.advancefeatureslistid != kw["advancefeatureslistid"])
 		return result.all()[0][0] if result.count() else None
 
@@ -406,17 +438,17 @@ class AdvanceFeaturesList(BaseSql):
 	_Append_List = """SELECT advance_list_append(:advancefeatureslistid,:destinationid,:selection);"""
 
 	@classmethod
-	def Copy( cls, kw):
+	def Copy(cls, kw):
 		""" Copy a list from one list to another always delete what their """
 
 		try:
 			transaction = cls.sa_get_active_transaction()
 			command = AdvanceFeaturesList._Copy_List if kw["overwrite"] == 1 else AdvanceFeaturesList._Append_List
 
-			if kw.get("advancefeatureslistid",-1) == -1 or kw.get("advancefeatureslistid","") == "-1":
-				kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId( kw["userid"], kw["customerid"] )
+			if kw.get("advancefeatureslistid", -1) == -1 or kw.get("advancefeatureslistid", "") == "-1":
+				kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 
-			cls.sqlExecuteCommand(text( command ),kw, None )
+			cls.sqlExecuteCommand(text(command), kw, None)
 
 			transaction.commit()
 			return kw["destinationid"]
@@ -426,24 +458,24 @@ class AdvanceFeaturesList(BaseSql):
 			raise
 
 	@classmethod
-	def AddCopy( cls, kw):
+	def AddCopy(cls, kw):
 		""" Add a new list and then copy a list into it"""
 
 		try:
 			transaction = cls.sa_get_active_transaction()
 
-			s = AdvanceFeaturesList (
-			  customerid = kw["customerid"],
-			  userid = kw["userid"] ,
-			  advancefeatureslistdescription = kw["listname"] )
-			session.add ( s )
+			s = AdvanceFeaturesList(
+			  customerid=kw["customerid"],
+			  userid=kw["userid"],
+			  advancefeatureslistdescription=kw["listname"])
+			session.add(s)
 			session.flush()
 			kw["destinationid"] = s.advancefeatureslistid
 
-			if kw.get("advancefeatureslistid",-1) == -1 or kw.get("advancefeatureslistid","") == "-1":
-				kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId( kw["userid"], kw["customerid"] )
+			if kw.get("advancefeatureslistid", -1) == -1 or kw.get("advancefeatureslistid", "") == "-1":
+				kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 
-			cls.sqlExecuteCommand(text( AdvanceFeaturesList._Copy_List ),kw, None )
+			cls.sqlExecuteCommand(text(AdvanceFeaturesList._Copy_List), kw, None)
 
 			transaction.commit()
 			return kw["destinationid"]
@@ -453,16 +485,16 @@ class AdvanceFeaturesList(BaseSql):
 			raise
 
 	@classmethod
-	def Add ( cls , kw ):
+	def Add(cls, kw):
 		""" Add a new list to the system """
 
 		transaction = cls.sa_get_active_transaction()
 		try:
-			s = AdvanceFeaturesList (
-			  customerid = kw["customerid"],
-			  userid = kw["userid"] ,
-			  advancefeatureslistdescription = kw["listname"] )
-			session.add ( s )
+			s = AdvanceFeaturesList(
+			  customerid=kw["customerid"],
+			  userid=kw["userid"],
+			  advancefeatureslistdescription=kw["listname"])
+			session.add(s)
 			session.flush()
 			transaction.commit()
 			return s.advancefeatureslistid
@@ -472,12 +504,12 @@ class AdvanceFeaturesList(BaseSql):
 			raise
 
 	@classmethod
-	def Rename ( cls , kw ):
+	def Rename(cls, kw):
 		""" Rename list  """
 
 		transaction = cls.sa_get_active_transaction()
 		try:
-			s = AdvanceFeaturesList.query.get( kw["advancefeatureslistid"] )
+			s = AdvanceFeaturesList.query.get(kw["advancefeatureslistid"])
 			s.advancefeatureslistdescription = kw["listname"]
 			transaction.commit()
 		except:
@@ -486,13 +518,13 @@ class AdvanceFeaturesList(BaseSql):
 			raise
 
 	@classmethod
-	def Delete ( cls , listid ):
+	def Delete(cls, listid):
 		""" Delete a advance list """
 
 		transaction = cls.sa_get_active_transaction()
 		try:
-			s = AdvanceFeaturesList.query.get ( listid )
-			session.delete ( s )
+			s = AdvanceFeaturesList.query.get(listid)
+			session.delete(s)
 			session.flush()
 			transaction.commit()
 		except:
@@ -500,22 +532,21 @@ class AdvanceFeaturesList(BaseSql):
 			LOGGER.exception("Advance_list_Delete")
 			raise
 
-
 	_FeaturesListForDelete = """SELECT l.advancefeatureslistid FROM userdata.advancefeatureslist AS l
 		LEFT OUTER JOIN userdata.advancelistusers AS lu ON l.advancefeatureslistid = lu.advancefeatureslistid AND lu.userid = :userid
 		WHERE l.advancefeatureslisttypeid = 1 AND l.userid = :userid AND lu.selected = true """
 
 	@classmethod
-	def deleteSelectedList ( cls , kw ):
+	def deleteSelectedList(cls, kw):
 		""" delete the selected advance lists """
 
 		lists = []
 		transaction = cls.sa_get_active_transaction()
 		try:
 			for row in session.execute(text(AdvanceFeaturesList._FeaturesListForDelete), kw, cls):
-				lists.append( row[0] )
-				s = AdvanceFeaturesList.query.get ( row[0] )
-				session.delete ( s )
+				lists.append(row[0])
+				s = AdvanceFeaturesList.query.get(row[0])
+				session.delete(s)
 				session.flush()
 			transaction.commit()
 		except:
@@ -525,19 +556,18 @@ class AdvanceFeaturesList(BaseSql):
 		return lists
 
 	@classmethod
-	def get (cls, advancefeatureslistid):
+	def get(cls, advancefeatureslistid):
 		""" get the details oof a specific list """
 
-		return AdvanceFeaturesList.query.get( advancefeatureslistid )
+		return AdvanceFeaturesList.query.get(advancefeatureslistid)
 
 	@classmethod
-	def getExt (cls, advancefeatureslistid):
+	def getExt(cls, advancefeatureslistid):
 		""" get the details of a specific list """
 
-		qty = session.query ( AdvanceFeaturesListMembers.advancefeatureslistid ).filter_by(advancefeatureslistid=advancefeatureslistid).count()
-		return dict ( advance = AdvanceFeaturesList.query.get( advancefeatureslistid ),
-		              qty = qty )
-
+		qty = session.query(AdvanceFeaturesListMembers.advancefeatureslistid).filter_by(advancefeatureslistid=advancefeatureslistid).count()
+		return dict(advance=AdvanceFeaturesList.query.get(advancefeatureslistid),
+		            qty=qty)
 
 	__List_Lists = """
 	SELECT l.advancefeatureslistid,
@@ -549,7 +579,7 @@ class AdvanceFeaturesList(BaseSql):
 	LEFT OUTER JOIN userdata.advancelistusers AS lu ON l.advancefeatureslistid = lu.advancefeatureslistid AND lu.userid = :userid
 	WHERE l.advancefeatureslisttypeid = 1 AND l.userid = :userid """
 
-	__Lists_Lists_Order  = """ORDER BY %s %s
+	__Lists_Lists_Order = """ORDER BY %s %s
 	LIMIT :count OFFSET :start"""
 
 	__List_Lists_Count = """
@@ -557,7 +587,7 @@ class AdvanceFeaturesList(BaseSql):
 	WHERE advancefeatureslisttypeid = 1 AND userid = :userid """
 
 	@classmethod
-	def getGridPage(cls, kw ) :
+	def getGridPage(cls, kw):
 		""" get list of lists """
 
 		whereclause = " "
@@ -570,13 +600,12 @@ class AdvanceFeaturesList(BaseSql):
 			if kw["sortfield"] == "advancefeatureslistdescription":
 				kw["sortfield"] = def_sort
 
-		return BaseSql.getGridPage( kw,
+		return BaseSql.getGridPage(kw,
 		    def_sort,
 		    'advancefeatureslistid',
 		    AdvanceFeaturesList.__List_Lists + whereclause + AdvanceFeaturesList.__Lists_Lists_Order,
 		    AdvanceFeaturesList.__List_Lists_Count + whereclause,
-		    cls )
-
+		    cls)
 
 	__Command_List_Count_All = """SELECT * FROM advancelistmaintcount(:customerid,:userid)"""
 
@@ -586,74 +615,73 @@ class AdvanceFeaturesList(BaseSql):
 
 		return cls.sqlExecuteCommand(
 			text(AdvanceFeaturesList.__Command_List_Count_All),
-			dict(customerid = customerid, userid = userid),
+			dict(customerid=customerid, userid=userid),
 			BaseSql._singleResultAsDict)
 
-
 	@classmethod
-	def Open(cls, kw ):
+	def Open(cls, kw):
 		""" if this is a single list then just specificed list else open all the list and ... """
 
-		lists = [ listid for listid in kw["lists"] if listid]
+		lists = [listid for listid in kw["lists"] if listid]
 
-		if len ( lists ) == 1:
+		if len(lists) == 1:
 			kw["advancefeatureslistid"] = lists[0]
 		else:
 			kw["advancefeatureslistid"] = -1
-			lists = [ row[0] for row in session.query(AdvanceListUser.advancefeatureslistid).filter_by ( userid = kw["userid"], selected = True ).all()]
+			lists = [row[0] for row in session.query(AdvanceListUser.advancefeatureslistid).filter_by(userid=kw["userid"], selected=True).all()]
 
 			transaction = cls.sa_get_active_transaction()
 			try:
-				command  = text( AdvanceFeaturesList._Copy_List)
-				params = dict ( destinationid = AdvanceFeaturesList.getDefaultListId ( kw["userid"], kw["customerid"] ) )
-				AdvanceFeaturesListMembers.Clear ( params["destinationid"] )
+				command = text(AdvanceFeaturesList._Copy_List)
+				params = dict(destinationid=AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"]))
+				AdvanceFeaturesListMembers.Clear(params["destinationid"])
 				for listid in lists:
 					params["advancefeatureslistid"] = listid
-					cls.sqlExecuteCommand(command, params, None )
+					cls.sqlExecuteCommand(command, params, None)
 			except:
 				transaction.rollback()
 				LOGGER.exception("Features Open")
 				raise
 
-		return AdvanceFeaturesList.getCount ( kw )
+		return AdvanceFeaturesList.getCount(kw)
 
 
 	_Copy_Advance_To_Standing_List = """SELECT advance_to_standing(:advancefeatureslistid,:listid,:prmaxroleid,:selection );"""
 
 	@classmethod
-	def SaveToStanding(cls, kw ) :
+	def SaveToStanding(cls, kw):
 		""" Copy an advance list to a specific standing list """
 
 		kw["prmaxroleid"] = -1
 		if kw["advancefeatureslistid"] == -1:
-			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId ( kw["userid"], kw["customerid"] )
+			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 
 		transaction = cls.sa_get_active_transaction()
 		try:
-			cls.sqlExecuteCommand(text( AdvanceFeaturesList._Copy_Advance_To_Standing_List), kw, None )
+			cls.sqlExecuteCommand(text(AdvanceFeaturesList._Copy_Advance_To_Standing_List), kw, None)
 		except:
 			transaction.rollback()
 			LOGGER.exception("Features SaveToStanding")
 			raise
 
 	@classmethod
-	def SaveToNewStanding(cls, kw ) :
+	def SaveToNewStanding(cls, kw):
 		""" Copy an advance list to a specific new standing list """
 
 		kw["prmaxroleid"] = -1
 		if kw["advancefeatureslistid"] == -1:
-			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId ( kw["userid"], kw["customerid"] )
+			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 
 		transaction = cls.sa_get_active_transaction()
 		try:
 			# create new list
-			l = List(customerid = kw["customerid"],
-			         listname = kw["listname"])
+			l = List(customerid=kw["customerid"],
+			         listname=kw["listname"])
 			session.add(l)
 			session.flush()
 			kw["listid"] = l.listid
 			# copy too list
-			session.execute ( text( AdvanceFeaturesList._Copy_Advance_To_Standing_List), kw , cls )
+			session.execute(text(AdvanceFeaturesList._Copy_Advance_To_Standing_List), kw, cls)
 		except:
 			transaction.rollback()
 			LOGGER.exception("Features SaveToStanding")
@@ -661,13 +689,13 @@ class AdvanceFeaturesList(BaseSql):
 
 	_Save_Advance_Results_To_List = """SELECT advance_list_append(:sourceid,:advancefeatureslistid,:selection);"""
 	@classmethod
-	def ResultsTolist(cls, kw ) :
+	def ResultsTolist(cls, kw):
 		""" Save the search result to a specific list """
 
-		kw["sourceid"] = AdvanceFeaturesList.getDefaultListId( kw["userid"], kw["customerid"])
+		kw["sourceid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 		transaction = cls.sa_get_active_transaction()
 		try:
-			cls.sqlExecuteCommand(text( AdvanceFeaturesList._Save_Advance_Results_To_List), kw, None )
+			cls.sqlExecuteCommand(text(AdvanceFeaturesList._Save_Advance_Results_To_List), kw, None)
 		except:
 			transaction.rollback()
 			LOGGER.exception("Features ResultsTolist")
@@ -678,14 +706,14 @@ class AdvanceFeaturesListMembers(BaseSql):
 
 	_Delete_Selection = "SELECT * FROM advance_deleteselection(:advancefeatureslistid, :deleteoptions)"
 	@classmethod
-	def DeleteSelection(cls, kw ) :
+	def DeleteSelection(cls, kw):
 		""" Delete memebers of the list based upon the selection """
 
 		if kw["advancefeatureslistid"] == -1:
-			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId ( kw["userid"], kw["customerid"] )
+			kw["advancefeatureslistid"] = AdvanceFeaturesList.getDefaultListId(kw["userid"], kw["customerid"])
 
-		return cls.sqlExecuteCommand (
-		  text(AdvanceFeaturesListMembers._Delete_Selection) ,
+		return cls.sqlExecuteCommand(
+		  text(AdvanceFeaturesListMembers._Delete_Selection),
 		  kw,
 		  BaseSql._singleResultAsDict,
 		  True)
@@ -694,19 +722,19 @@ class AdvanceFeaturesListMembers(BaseSql):
 	@classmethod
 	def Clear(cls, advancefeatureslistid):
 		""" Delete all the data in an advance features list """
-		return cls.sqlExecuteCommand (
-		  text(AdvanceFeaturesListMembers._Clear) ,
-		  dict(advancefeatureslistid = advancefeatureslistid ) ,
+		return cls.sqlExecuteCommand(
+		  text(AdvanceFeaturesListMembers._Clear),
+		  dict(advancefeatureslistid=advancefeatureslistid),
 		  None)
 
 
 	@classmethod
-	def DeleteMembers(cls, kw ):
+	def DeleteMembers(cls, kw):
 		""" Delete all the members of a list """
-		AdvanceFeaturesList.fixUpdateId (kw )
+		AdvanceFeaturesList.fixUpdateId(kw)
 		transaction = cls.sa_get_active_transaction()
 		try:
-			cls.sqlExecuteCommand(text( AdvanceFeaturesListMembers._Clear), kw, None )
+			cls.sqlExecuteCommand(text(AdvanceFeaturesListMembers._Clear), kw, None)
 		except:
 			transaction.rollback()
 			LOGGER.exception("Features DeleteMembers")

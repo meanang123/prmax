@@ -115,6 +115,13 @@ class CustomerExternal(BaseSql):
 			advancefeatures = True if params.get("advancefeatures") else False
 			crm = True if params.get("crm") else False
 
+			if addr.countryid == 1:
+				if 'tel' in params and params['tel'] is not None and params['tel'] != '' and not params['tel'].startswith('+44'):
+					params['tel'] = '+44 (0)%s' % params['tel']
+			if addr.countryid == 3:
+				if params['tel'] is not None and params['tel'] != '' and not params['tel'].startswith('+353'):
+					params['tel'] = '+353 (0)%s' % params['tel']
+
 			cust = CustomerExternal(
 				advancefeatures=advancefeatures,
 				crm=crm,
@@ -572,7 +579,7 @@ class PRMaxAdmin(BaseSql):
 			customer.renewal_date = licence_expire
 
 			# only do this is we are sending ot the order confirmation
-			if params["saveonly"] == False:
+			if params["saveonly"] is False:
 				# reset all status to live
 				customer.remove_demo_status()
 
@@ -742,7 +749,7 @@ class PRMaxAdmin(BaseSql):
 				customer.customerorderstatusid = Constants.Financial_Order_Status_A_DD_NOT_A
 				customer.financialstatusid = Constants.Customer_Financial_Payment_Overdue
 
-			if params["saveonly"] == False:
+			if params["saveonly"] is False:
 				contacthistory = ContactHistory(ref_customerid=params["icustomerid"],
 														 userid=params["userid"],
 														 details=details,
@@ -831,7 +838,7 @@ class PRMaxAdmin(BaseSql):
 							ref_customerid=params["icustomerid"]))
 
 					# update existing task and move too accounts
-					if params["saveonly"] == False:
+					if params["saveonly"] is False:
 						data = session.query(User).filter_by(email_address="accounts@paperround.net").all()
 						if data:
 							task.userid = data[0].user_id

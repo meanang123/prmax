@@ -97,7 +97,7 @@ dojo.declare("prmax.search.PersonSelect",
 	},
 	_clear:function()
 	{
-		this.std_search_employee_name_ext.Clear();
+		this.quick_contactfull_ext.Clear();
 		this.std_search_outlet_outlet_name.Clear();
 
 		dojo.xhrPost(

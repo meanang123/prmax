@@ -17,6 +17,7 @@ define([
 	"dojo/json",
 	"dojo/_base/lang",
 	"dojo/topic",
+	"dojo/data/ItemFileReadStore",
 	"dijit/layout/ContentPane",
 	"dijit/form/TextBox",
 	"dijit/form/Button",
@@ -24,14 +25,17 @@ define([
 	"dijit/form/Textarea",
 	"dijit/form/ValidationTextBox",
 	"dijit/form/FilteringSelect"
-	], function(declare, BaseWidgetAMD, template, request, utilities2, json, lang, topic ){
+	], function(declare, BaseWidgetAMD, template, request, utilities2, json, lang, topic, ItemFileReadStore ){
  return declare("research.employees.PersonNew",
 	[BaseWidgetAMD],{
 	displayname:"New Person",
 	templateString: template,
 	constructor: function()
 	{
+		this._sourcetypes = new ItemFileReadStore ({ url:"/common/lookups?searchtype=sourcetypes"});
+
 		this._add_call_back = lang.hitch(this,this._add_call);
+		this._exist_call_back = lang.hitch(this,this._exist_call);
 		this._parentcallback = null;
 		this._dialog = null;
 	},
@@ -39,6 +43,10 @@ define([
 	{
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Add_Codes());
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
+
+		this.sourcetypeid.set("store", this._sourcetypes);
+		this.sourcetypeid.set("value", 2);
+
 		this.inherited(arguments);
 	},
 	_add_contact:function()
@@ -51,9 +59,27 @@ define([
 
 		if ( confirm("Add Contact?"))
 		{
-			request.post('/research/admin/contacts/research_addnew',
+			request.post('/research/admin/contacts/research_exist',
 				utilities2.make_params({ data : this.form.get("value")})).
-				then(this._add_call_back);
+				then(this._exist_call_back);
+		}		
+		
+//		{
+//			request.post('/research/admin/contacts/research_addnew',
+//				utilities2.make_params({ data : this.form.get("value")})).
+//				then(this._add_call_back);
+//		}
+	},
+	_exist_call:function(response)
+	{
+		if (response.success == "OK")
+		{
+			if ((response.exist == true && confirm("Contact already exist with same Firstname and Surname. Do you want to proceed?")) || response.exist == false)
+			{
+				request.post('/research/admin/contacts/research_addnew',
+					utilities2.make_params({ data : this.form.get("value")})).
+					then(this._add_call_back);				
+			}
 		}
 	},
 	_add_call:function( response )
@@ -85,6 +111,7 @@ define([
 		this.firstname.set("value","");
 		this.familyname.set("value","");
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
+		this.sourcetypeid.set("value", 2);
 	},
 	_setCallbackAttr:function( func)
 	{
@@ -100,6 +127,7 @@ define([
 		this.firstname.set("disabled",status);
 		this.familyname.set("disabled",status);
 		this.reasoncodeid.set("disabled",status);
+		this.sourcetypeid.set("disabled", status);
 	}
 });
 });

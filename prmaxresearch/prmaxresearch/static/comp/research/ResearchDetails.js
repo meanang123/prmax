@@ -72,7 +72,7 @@ define([
 				this.firstname.set("value", response.data.research.firstname );
 				this.prefix.set("value", response.data.research.prefix );
 				this.email.set("value", response.data.research.email );
-				this.tel.set("value", response.data.research.tel );
+//				this.tel.set("value", response.data.research.tel );
 				this.researchfrequencyid.set("value", response.data.research.researchfrequencyid );
 				this.notes.set("value", response.data.research.notes );
 				this.job_title.set("value", response.data.research.job_title );
@@ -82,7 +82,7 @@ define([
 				domattr.set(this.last_research_changed_date,"innerHTML", response.data.last_research_changed_date);
 				domattr.set(this.last_customer_questionaire_action,"innerHTML", response.data.last_customer_questionaire_action);
 				domattr.set(this.last_sync,"innerHTML", response.data.research.last_sync);
-				this.no_sync.set("value", response.data.research.no_sync);
+//				this.no_sync.set("value", response.data.research.no_sync);
 
 				this.quest_month_1.set("value",response.data.research.quest_month_1==null?-1:response.data.research.quest_month_1);
 				this.quest_month_2.set("value",response.data.research.quest_month_2==null?-1:response.data.research.quest_month_2);
@@ -97,10 +97,10 @@ define([
 			this.savebtn.set("disabled",false);
 		}
 	},
-	_setCheckedAttr:function( value )
-	{
-		this.no_sync.set("checked",value);
-	},
+//	_setCheckedAttr:function( value )
+//	{
+//		this.no_sync.set("checked",value);
+//	},
 	_show_months:function()
 	{
 		var tmp = this.researchfrequencyid.get("value");
@@ -174,7 +174,7 @@ define([
 		this.firstname.set("value", "" );
 		this.prefix.set("value", "" );
 		this.email.set("value", "" );
-		this.tel.set("value", "" );
+//		this.tel.set("value", "" );
 		this.job_title.set("value","");
 		this.researchfrequencyid.set("value", null );
 		this.notes.set("value", "" );
@@ -187,7 +187,7 @@ define([
 		this.quest_month_4.set("value",-1);
 		this._show_months();
 		domattr.set(this.last_research_changed_date,"innerHTML", "");
-		this.no_sync.set("checked", false);
+//		this.no_sync.set("checked", false);
 
 	},
 	_update:function()
@@ -201,7 +201,7 @@ define([
 		var tmp = this.form.get("value");
 		tmp["last_research_completed"] = utilities2.to_json_date(this.last_research_completed.get("value"));
 		tmp["last_questionaire_sent"] = utilities2.to_json_date(this.last_questionaire_sent.get("value"));
-		tmp["no_sync"] = this.no_sync.get("checked");
+//		tmp["no_sync"] = this.no_sync.get("checked");
 
 		request.post('/research/admin/reseach_details_update',
 				utilities2.make_params({ data:tmp })).then

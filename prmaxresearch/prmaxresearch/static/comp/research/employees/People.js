@@ -18,6 +18,7 @@ define([
 	"dojo/store/Cache",
 	"dojo/store/Observable",
 	"dojo/store/Memory",
+	"dojo/data/ItemFileReadStore",	
 	"dojo/request",
 	"ttl/utilities2",
 	"dojo/json",
@@ -38,7 +39,7 @@ define([
 	"research/employees/PersonDelete",
 	"research/audit/AuditViewer",
 	"research/employees/ContactMerge",
-	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Cache, Observable, Memory, request, utilities2, json,  lang, topic, domattr, domclass ){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Cache, Observable, Memory, ItemFileReadStore, request, utilities2, json,  lang, topic, domattr, domclass ){
  return declare("research.employees.People",
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
@@ -47,6 +48,8 @@ define([
 	{
 		this._store = new Observable(new JsonRest({target:'/research/admin/contacts/research_contactlist', idProperty:"contactid"}));
 		this.people_employee_model = new JsonRest({target:'/research/admin/contacts/research_contact_employee', idProperty:"employeesid"});
+		this._sourcetypes = new ItemFileReadStore ({ url:"/common/lookups?searchtype=sourcetypes&nofilter=1"});
+		this._sourcetypes2 = new ItemFileReadStore ({ url:"/common/lookups?searchtype=sourcetypes"});
 
 		this._GetEntryCallBack = lang.hitch(this, this._get_contact_entry);
 		this._load_call_back = lang.hitch(this, this._load_call);
@@ -93,6 +96,9 @@ define([
 
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Update_Codes());
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
+		this.filter_sourcetype.set("store", this._sourcetypes);
+		this.filter_sourcetype.set("value", -1);
+		this.sourcetypeid.set("store", this._sourcetypes2);
 
 		this.inherited(arguments);
 	},
@@ -124,6 +130,7 @@ define([
 			this.firstname.set("value", response.contact.firstname );
 			this.familyname.set("value", response.contact.familyname );
 			this.middlename.set("value", response.contact.middlename);
+			this.sourcetypeid.set("value", response.contact.sourcetypeid);
 			this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 			if ( response.contact.inuse == true )
 				domclass.add(this.deletebtn.domNode,"prmaxhidden");
@@ -139,6 +146,8 @@ define([
 			query["filter"] = arguments[0].filter;
 		if (arguments[0].filter_personid.length>0)
 			query["contactid"] = arguments[0].filter_personid;
+		if (arguments[0].filter_sourcetype != -1)
+			query["sourcetypeid"] = arguments[0].filter_sourcetype;
 
 		this.people_grid.set("query", query);
 	},
@@ -146,6 +155,7 @@ define([
 	{
 		this.filter.set("value","");
 		this.filter_personid.set("value","");
+		this.filter_sourcetype.set("value",-1);
 	},
 	_add:function()
 	{
@@ -210,8 +220,14 @@ define([
 	_contact_merge_event:function(contact)
 	{
 		this._store.remove ( contact.sourcecontactid);
-		this.people_details_employee_grid.set( "query", {contactid:this._row.contactid});
-		this.audit_ctrl.load(this._row.contactid);
+		this.contactid.set("value", contact.contactid);
+		this.prefix.set("value", contact.contact.prefix);
+		this.firstname.set("value", contact.contact.firstname);
+		this.familyname.set("value", contact.contact.familyname);
+		this.middlename.set("value", contact.contact.middlename);
+		this.sourcetypeid.set("value", contact.contact.sourcetypeid);
+		this.people_details_employee_grid.set( "query", {contactid:contact.contactid});
+		this.audit_ctrl.load(contact.contactid);
 	},
 });
 });

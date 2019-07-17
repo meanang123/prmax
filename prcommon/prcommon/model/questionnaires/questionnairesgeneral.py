@@ -25,9 +25,10 @@ from prcommon.model.research import ResearchDetailsDesk
 from prcommon.model.employee import Employee, EmployeeInterests
 from prcommon.model.contact import Contact
 from prcommon.model.queues import ProcessQueue
-from prcommon.model.lookups import Countries, PRmaxOutletTypes
-from prcommon.model.interests import EmployeeInterestView, OutletInterestView
+from prcommon.model.lookups import Countries, PRmaxOutletTypes, OutletPrices, MediaAccessTypes, Frequencies
+from prcommon.model.interests import EmployeeInterestView, OutletInterestView, Interests
 from prcommon.model.publisher import Publisher
+from prcommon.model import CirculationDates, CirculationSources, WebDates, WebSources
 from prcommon.lib.caching import Invalidate_Cache_Object_Research
 from ttl.model import  BaseSql
 
@@ -647,7 +648,7 @@ class QuestionnairesGeneral(object):
 	  ("research_firstname", Constants.Field_Research_Firstname),
 	  ("research_prefix", Constants.Field_Research_Prefix),
 	  ("research_email", Constants.Field_Research_Email),
-	  ("research_tel", Constants.Field_Research_Tel),
+#	  ("research_tel", Constants.Field_Research_Tel),
 	  ("research_job_title", Constants.Field_Research_Job_Title),
 	  ("right_person", Constants.Field_Research_Right_Person)
 
@@ -789,6 +790,16 @@ class QuestionnairesGeneral(object):
 		return retdata
 
 	@staticmethod
+	def _fix_number(countryid, number):
+		if countryid == 1:
+			if number is not None and number != '' and not number.startswith('+44'):
+				number = '+44 (0)%s' % number
+		if countryid == 3 :
+			if number is not None and number != '' and not number.startswith('+353'):
+				number = '+353 (0)%s' % number
+		return number
+
+	@staticmethod
 	def save_user_feedback(params):
 		""" resarch system update the main part of a cotact record """
 
@@ -802,7 +813,6 @@ class QuestionnairesGeneral(object):
 			profile = OutletProfile.query.get(projectitem.outletid)
 			if not profile:
 				profile = OutletProfile(outletid=projectitem.outletid)
-
 
 			# add the audit trail header record
 			activity = Activity(
@@ -821,14 +831,54 @@ class QuestionnairesGeneral(object):
 			outlet.sourcetypeid = Constants.Research_Source_Prmax
 			outlet.sourcekey = outlet.outletid
 
+			if 'tel' in params:
+				params['tel'] = QuestionnairesGeneral._fix_number(outlet.countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = QuestionnairesGeneral._fix_number(outlet.countryid, params['fax'])
 			ActivityDetails.AddChange(outlet.outletname, params['outletname'], activity.activityid, Constants.Field_Outlet_Name)
 			ActivityDetails.AddChange(outlet.sortname, params['sortname'], activity.activityid, Constants.Field_Outlet_SortName)
 			ActivityDetails.AddChange(outlet.www, params['www'], activity.activityid, Constants.Field_Address_Www)
-			ActivityDetails.AddChange(outlet.outletpriceid, params['outletpriceid'], activity.activityid, Constants.Field_Cost)
-			ActivityDetails.AddChange(outlet.countryid, params['countryid'], activity.activityid, Constants.Field_CountryId)
-			ActivityDetails.AddChange(outlet.frequencyid, params['frequencyid'], activity.activityid, Constants.Field_Frequency)
-			ActivityDetails.AddChange(outlet.circulationauditdateid, params['circulationauditdateid'], activity.activityid, Constants.Field_Outlet_Circulation_Dates)
-			ActivityDetails.AddChange(outlet.circulationsourceid, params['circulationsourceid'], activity.activityid, Constants.Field_Outlet_Circulation_Source)
+
+			old_outletpricedescription = new_outletpricedescription = ''
+			if outlet.outletpriceid:
+				old_outletprice = OutletPrices.query.get(outlet.outletpriceid)
+				old_outletpricedescription = old_outletprice.outletpricedescription
+			if 'outletpriceid' in params and params['outletpriceid'] != '':
+				new_outletprice = OutletPrices.query.get(int(params['outletpriceid']))
+				new_outletpricedescription = new_outletprice.outletpricedescription
+			ActivityDetails.AddChange(old_outletpricedescription, new_outletpricedescription, activity.activityid, Constants.Field_Cost)
+
+			old_country = Countries.query.get(outlet.countryid)
+			new_country = Countries.query.get(int(params['countryid']))
+			ActivityDetails.AddChange(old_country.countryname, new_country.countryname, activity.activityid, Constants.Field_CountryId)
+
+			old_frequencyname = new_frequencyname = ''
+			if outlet.frequencyid:
+				old_frequency = Frequencies.query.get(outlet.frequencyid)
+				old_frequencyname = old_frequency.frequencyname
+			if 'frequencyid' in params and params['frequencyid'] != '':
+				new_frequency = Frequencies.query.get(int(params['frequencyid']))
+				new_frequencyname = new_frequency.frequencyname
+			ActivityDetails.AddChange(old_frequencyname, new_frequencyname, activity.activityid, Constants.Field_Frequency)
+
+			old_circulationauditdatedescription = new_circulationauditdatedescription = ''
+			if outlet.circulationauditdateid:
+				old_circulationauditdate = CirculationDates.query.get(outlet.circulationauditdateid)
+				old_circulationauditdatedescription = old_circulationauditdate.circulationauditdatedescription
+			if 'circulationauditdateid' in params and params['circulationauditdateid'] != '':
+				new_circulationauditdate = CirculationDates.query.get(int(params['circulationauditdateid']))
+				new_circulationauditdatedescription = new_circulationauditdate.circulationauditdatedescription
+			ActivityDetails.AddChange(old_circulationauditdatedescription, new_circulationauditdatedescription, activity.activityid, Constants.Field_Outlet_Circulation_Dates)
+
+			old_circulationsourcedescription = new_circulationsourcedescription = ''
+			if outlet.circulationsourceid:
+				old_circulationsource = CirculationSources.query.get(outlet.circulationsourceid)
+				old_circulationsourcedescription = old_circulationsource.circulationsourcedescription
+			if 'circulationsourceid' in params and params['circulationsourceid'] != '':
+				new_circulationsource = CirculationSources.query.get(int(params['circulationsourceid']))
+				new_circulationsourcedescription = new_circulationsource.circulationsourcedescription
+			ActivityDetails.AddChange(old_circulationsource.circulationsourcedescription, new_circulationsource.circulationsourcedescription, activity.activityid, Constants.Field_Outlet_Circulation_Source)
+
 			ActivityDetails.AddChange(outlet.circulation, params['circulation'], activity.activityid, Constants.Field_Circulation)
 
 			ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
@@ -933,8 +983,15 @@ class QuestionnairesGeneral(object):
 			ActivityDetails.AddChange(profile.jicregreadership, params['jicregreadership'], activity.activityid, Constants.Field_Jicregreadership)
 			ActivityDetails.AddChange(profile.deadline, params['deadline'], activity.activityid, Constants.Field_Deadline)
 			ActivityDetails.AddChange(profile.broadcasttimes, params['broadcasttimes'], activity.activityid, Constants.Field_Broadcasttimes)
-			ActivityDetails.AddChange(outlet.publisherid, params['publisherid'], activity.activityid, Constants.Field_Publisher)
 
+			old_publishername = new_publishername = ''
+			if outlet.publisherid:
+				old_publisher = Publisher.query.get(outlet.publisherid)
+				old_publishername = old_publisher.publishername
+			if 'publisherid' in params and params['publisherid'] != '':
+				new_publisher = Publisher.query.get(int(params['publisherid']))
+				new_publishername = new_publisher.publishername
+			ActivityDetails.AddChange(old_publishername, new_publishername, activity.activityid, Constants.Field_PublisherName)
 
 			outlet.publisherid = params['publisherid']
 
@@ -999,7 +1056,9 @@ class QuestionnairesGeneral(object):
 			outlet.sourcetypeid = Constants.Research_Source_Prmax
 			outlet.sourcekey = outlet.outletid
 
-			ActivityDetails.AddChange(outlet.prmax_outlettypeid, params['prmax_outlettypeid'], activity.activityid, Constants.Field_Outlet_Type)
+			old_prmax_outlettype = PRmaxOutletTypes.query.get(outlet.prmax_outlettypeid)
+			new_prmax_outlettype = PRmaxOutletTypes.query.get(int(params['prmax_outlettypeid']))
+			ActivityDetails.AddChange(old_prmax_outlettype.prmax_outlettypename, new_prmax_outlettype.prmax_outlettypename, activity.activityid, Constants.Field_Outlet_Type)
 
 			outlet.prmax_outlettypeid = params['prmax_outlettypeid']
 
@@ -1008,8 +1067,23 @@ class QuestionnairesGeneral(object):
 				profile = OutletProfile(outletid=outlet.outletid)
 				session.add(profile)
 
-			ActivityDetails.AddChange(profile.seriesparentid, params.get("seriesparentid", None), activity.activityid, Constants.Field_Series_Parent)
-			ActivityDetails.AddChange(profile.supplementofid, params.get("supplementofid", None), activity.activityid, Constants.Field_Supplement_Of)
+			old_seriesparentname = new_seriesparentname = ''
+			if profile.seriesparentid:
+				old_seriesparent = Outlet.query.get(profile.seriesparentid)
+				old_seriesparentname = old_seriesparent.outletname
+			if 'seriesparentid' in params:
+				new_seriesparent = Outlet.query.get(int(params['seriesparentid']))
+				new_seriesparentname = new_seriesparent.outletname
+			ActivityDetails.AddChange(old_seriesparentname, new_seriesparentname, activity.activityid, Constants.Field_Series_Parent)
+
+			old_supplementofname = new_supplementofname = ''
+			if profile.supplementofid:
+				old_supplementof = Outlet.query.get(profile.supplementofid)
+				old_supplementofname = old_supplementof.outletname
+			if 'supplementofid' in params:
+				new_supplementof = Outlet.query.get(int(params['supplementofid']))
+				new_supplementofname = new_supplementof.outletname
+			ActivityDetails.AddChange(old_supplementofname, new_supplementofname, activity.activityid, Constants.Field_Supplement_Of)			
 
 			profile.seriesparentid = params.get("seriesparentid", None)
 			profile.supplementofid = params.get("supplementofid", None)
@@ -1093,7 +1167,7 @@ class QuestionnairesGeneral(object):
 					research.firstname = params["firstname"]
 					research.prefix = params["prefix"]
 					research.email = params["email"]
-					research.tel = params["tel"]
+					#research.tel = params["tel"]
 					research.job_title = params["job_title"]
 			else:
 				research = session.query(ResearchDetails).filter(ResearchDetails.outletid == projectitem.outletid).all()
@@ -1106,7 +1180,7 @@ class QuestionnairesGeneral(object):
 					research.firstname = params["firstname"]
 					research.prefix = params["prefix"]
 					research.email = params["email"]
-					research.tel = params["tel"]
+					#research.tel = params["tel"]
 					research.job_title = params["job_title"]
 
 			transaction.commit()
@@ -1744,10 +1818,13 @@ class QuestionnairesGeneral(object):
 			  parentobjectid=outlet.outletid,
 			  parentobjecttypeid=Constants.Object_Type_Freelance
 			)
-
 			session.add(activity)
 			session.flush()
 
+			if 'tel' in params:
+				params['tel'] = QuestionnairesGeneral._fix_number(outlet.countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = QuestionnairesGeneral._fix_number(outlet.countryid, params['fax'])
 			ActivityDetails.AddChange(comm.tel, params['tel'], activity.activityid, Constants.Field_Tel)
 			ActivityDetails.AddChange(comm.email, params['email'], activity.activityid, Constants.Field_Email)
 			ActivityDetails.AddChange(comm.fax, params['fax'], activity.activityid, Constants.Field_Fax)
@@ -1790,7 +1867,10 @@ class QuestionnairesGeneral(object):
 			outlet.outletname = contact.getName()
 
 			ActivityDetails.AddChange(outlet.www, params['www'], activity.activityid, Constants.Field_Address_Www)
-			ActivityDetails.AddChange(outlet.countryid, params['countryid'], activity.activityid, Constants.Field_CountryId)
+
+			old_country = Countries.query.get(outlet.countryid)
+			new_country = Countries.query.get(int(params['countryid']))
+			ActivityDetails.AddChange(old_country.countryname, new_country.countryname, activity.activityid, Constants.Field_CountryId)
 
 			profile = params.get('profile', "")
 			if not profile:
@@ -1810,7 +1890,9 @@ class QuestionnairesGeneral(object):
 			outlet.sortname = params["sortname"]
 
 			if 'prmax_outlettypeid' in params:
-				ActivityDetails.AddChange(outlet.prmax_outlettypeid, params['prmax_outlettypeid'], activity.activityid, Constants.Field_Outlet_Type)
+				old_prmax_outlettype = PRmaxOutletTypes.query.get(outlet.prmax_outlettypeid)
+				new_prmax_outlettype = PRmaxOutletTypes.query.get(int(params['prmax_outlettypeid']))
+				ActivityDetails.AddChange(old_prmax_outlettype.prmax_outlettypename, new_prmax_outlettype.prmax_outlettypename, activity.activityid, Constants.Field_Outlet_Type)
 				outlet.prmax_outlettypeid = params["prmax_outlettypeid"]
 
 			ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
@@ -1834,7 +1916,8 @@ class QuestionnairesGeneral(object):
 			for outletinterest in dbinterest:
 				dbinterest2.append(outletinterest.interestid)
 				if not outletinterest.interestid in interests:
-					ActivityDetails.AddDelete(outletinterest.interestid, activity.activityid, Constants.Field_Interest)
+					del_interest = Interests.query.get(outletinterest.interestid)
+					ActivityDetails.AddDelete(del_interest.interestname, activity.activityid, Constants.Field_Interest)
 					session.delete(outletinterest)
 
 			for interestid in interests:
@@ -1844,7 +1927,8 @@ class QuestionnairesGeneral(object):
 					    outletid=outlet.outletid,
 						interestid=interestid)
 					session.add(interest)
-					ActivityDetails.AddAdd(interestid, activity.activityid, Constants.Field_Interest)
+					add_interest = Interests.query.get(interestid)
+					ActivityDetails.AddAdd(add_interest.interestname, activity.activityid, Constants.Field_Interest)
 
 			# set source to us
 			outlet.sourcetypeid = Constants.Research_Source_Prmax
@@ -1879,6 +1963,11 @@ class QuestionnairesGeneral(object):
 			outlet = Outlet.query.get(outletdesk.outletid)
 			outletcomm = Communication.query.get(outlet.communicationid)
 			outletaddress = Address.query.get(outletcomm.addressid)
+
+			if 'tel' in params:
+				params['tel'] = QuestionnairesGeneral._fix_number(outlet.countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = QuestionnairesGeneral._fix_number(outlet.countryid, params['fax'])
 
 			deskcomm = Communication.query.get(outletdesk.communicationid)
 

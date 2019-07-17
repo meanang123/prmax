@@ -39,6 +39,9 @@ define([
 		this._saved_call = lang.hitch(this,this._saved);
 		this._error_call_back = lang.hitch(this, this._error_call);
 
+		this._has_address_old = null;
+		this._has_address_new = null;
+
 	},
 	_saved:function(response)
 	{
@@ -61,6 +64,11 @@ define([
 				}
 				alert("Contact updated");
 			}
+			this._has_address_old = this._has_address_new;
+			if (this._has_address_new == false)
+			{
+				this._clear_address();	
+			}			
 		}
 		else
 		{
@@ -117,10 +125,10 @@ define([
 			this.outletdeskid.set("store",this._desklist);
 			this.outletdeskid.set("value", (data.employee.outletdeskid == null)? -1 : data.employee.outletdeskid);
 			
-			if (data.contact_name_display != undefined)
-				domattr.set(this.contact_name_display,"innerHTML", data.contact_name_display);
-			else
-				domattr.set(this.contact_name_display,"innerHTML", "");
+			//if (data.contact_name_display != undefined)
+			//	domattr.set(this.contact_name_display,"innerHTML", data.contact_name_display);
+			//else
+			//	domattr.set(this.contact_name_display,"innerHTML", "");
 
 			if (data.employee.contactid==null)
 			{
@@ -129,11 +137,13 @@ define([
 			else
 			{
 				this.selectcontact.set("checked",false);
-				this.selectcontact.set("value",data.employee.contactid);
+				this.selectcontact.contactid.set("value",data.employee.contactid);
+				domattr.set(this.selectcontact.contactid.display, "innerHTML", data.contactname);				
 			}
 			if (data.employee.communicationid == null )
 			{
 				this.no_address.set("checked", false );
+				this._has_address_old = false;
 				this._address_show_do(false);
 			}
 			else
@@ -141,6 +151,7 @@ define([
 				if (data.address != null )
 				{
 					this.no_address.set("checked", true );
+					this._has_address_old = true;
 					this._address_show_do(true);
 					this.address1.set("value", data.address.address1);
 					this.address2.set("value", data.address.address2);
@@ -151,12 +162,8 @@ define([
 				else
 				{
 					this.no_address.set("checked", false );
-					this._address_show_do(false);
-					this.address1.set("value", "");
-					this.address2.set("value", "");
-					this.townname.set("value", "");
-					this.county.set("value", "");
-					this.postcode.set("value","");
+					this._has_address_old = false;
+					this._clear_address();
 				}
 			}
 			for (var key in user_changes)
@@ -265,7 +272,15 @@ define([
 			alert("Not all required field filled in");
 			throw "N";
 		}
-
+		formdata["has_address_old"] = this._has_address_old;
+		if (this._has_address_new != null)
+		{
+			formdata["has_address_new"] = this._has_address_new;
+		}
+		else 
+		{
+			formdata["has_address_new"] = this._has_address_old;
+		}
 		url = (this.employeeid == -1 ) ? '/research/admin/projects/new_employee' :  '/research/admin/projects/update_employee' ;
 		request.post(url,utilities2.make_params({ data : this.formnode.get("value")})).then
 			(this._saved_call, this._error_call_back);
@@ -283,24 +298,29 @@ define([
 		this.selectcontact.clear();
 		this.reason.set("value","");
 		this.no_address.set("checked", false);
-		this._address_show_do ( false );
-		this.address1.set("value","");
-		this.address2.set("value","");
-		this.townname.set("value","");
-		this.county.set("value","");
-		this.postcode.set("value","");
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
 		this.instagram.set("value","");
 		this.outletdeskid.set("value",-1);
 		this.interests_org.set("");
+		this._clear_address();
 		domattr.set(this.interests,"innerHTML","");
 		this.jobroles.clear();
 	},
 	_address_show:function()
 	{
 		this._address_show_do ( this.no_address.get("checked") ) ;
+		if (this.no_address.get('checked'))
+		{
+			this._has_address_old = false;
+			this._has_address_new = true;
+		}
+		else
+		{
+			this._has_address_old = true;
+			this._has_address_new = false;	
+		}		
 	},
 	_address_show_do:function ( show_it )
 	{
@@ -320,6 +340,15 @@ define([
 	_error_call:function()
 	{
 		this.savenode.cancel();
-	}
+	},
+	_clear_address:function()
+	{
+		this._address_show_do(false);
+		this.address1.set("value", "");
+		this.address2.set("value", "");
+		this.townname.set("value", "");
+		this.county.set("value", "");
+		this.postcode.set("value","");	
+	},	
 });
 });

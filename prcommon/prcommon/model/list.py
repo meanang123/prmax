@@ -25,27 +25,31 @@ LOGGER = logging.getLogger("prcommon.model")
 
 class List(BaseSql):
 	""" Class that handles the control of the lsit system """
-	Where_Used_Data = """SELECT l.listid, l.listname, lt.listtypedescription, l.update_time
+	Where_Used_Data = """SELECT l.listid, l.listname, lt.listtypedescription,
+	CASE WHEN lt.listtypeid = 2 THEN et.sent_time ELSE Null END as update_time
 	FROM
 	userdata.listmembers as lm
 	JOIN userdata.list as l ON l.listid = lm.listid
 	JOIN outlets as o ON o.outletid = lm.outletid AND lm.outletid = ( SELECT outletid from employees WHERE employeeid = :employeeid LIMIT 1)
 	JOIN internal.listtypes AS lt ON lt.listtypeid = l.listtypeid
+	JOIN userdata.emailtemplates AS et ON et.listid = l.listid
 
 	WHERE ( ( lm.employeeid = :employeeid) OR ( lm.employeeid IS NULL AND o.primaryemployeeid=:employeeid)) AND l.customerid = :customerid
-	GROUP BY  l.listid, l.listname, lt.listtypedescription, l.update_time
+	GROUP BY  l.listid, l.listname, lt.listtypedescription, lt.listtypeid, update_time, et.sent_time
 	ORDER BY  %s %s
 	LIMIT :limit OFFSET :offset
 	"""
-	Where_Used_Data_Count = """SELECT COUNT(*) FROM (SELECT l.listid, l.listname, lt.listtypedescription, l.update_time
+	Where_Used_Data_Count = """SELECT COUNT(*) FROM (SELECT l.listid, l.listname, lt.listtypedescription,
+	CASE WHEN lt.listtypeid = 2 THEN et.sent_time ELSE Null END as update_time
 	FROM
 	userdata.listmembers as lm
 	JOIN userdata.list as l ON l.listid = lm.listid
 	JOIN outlets as o ON o.outletid = lm.outletid AND lm.outletid = ( SELECT outletid from employees WHERE employeeid = :employeeid LIMIT 1)
 	JOIN internal.listtypes AS lt ON lt.listtypeid = l.listtypeid
+	JOIN userdata.emailtemplates AS et ON et.listid = l.listid
 
 	WHERE ( ( lm.employeeid = :employeeid) OR ( lm.employeeid IS NULL AND o.primaryemployeeid=:employeeid)) AND l.customerid = :customerid
-	GROUP BY  l.listid, l.listname, lt.listtypedescription, l.update_time) AS t """
+	GROUP BY  l.listid, l.listname, lt.listtypedescription, lt.listtypeid, update_time, et.sent_time) AS t """
 
 	Command_List_Data = """SELECT CASE WHEN o.selected is NULL THEN false ELSE o.selected END as selected,l.listname as name, l.listid as listid FROM userdata.list as l left outer join userdata.listusers as o ON o.listid = l.listid AND o.userid = :userid  WHERE l.customerid = :customerid ORDER BY l.listname LIMIT :limit OFFSET :offset"""
 	Command_List_Count = """SELECT COUNT(*) FROM userdata.list  WHERE customerid = :customerid AND listname ILIKE :listname %s"""

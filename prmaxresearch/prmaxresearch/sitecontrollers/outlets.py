@@ -16,7 +16,7 @@ import ttl.tg.validators as tgvalidators
 from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import PrOutletIdFormSchema
-from ttl.tg.validators import std_state_factory, PrFormSchema, IntNull, RestSchema
+from ttl.tg.validators import std_state_factory, PrFormSchema, IntNull, RestSchema, BooleanValidator
 from ttl.base import  stdreturn
 from prmax.utilities.common import addConfigDetails
 from prcommon.model import Communication, Outlet, Freelance, SearchSession, OutletGeneral
@@ -43,11 +43,11 @@ class OutletResearchSaveSchema(PrFormSchema):
 	"""validates form for outler save """
 	outletid = validators.Int()
 	prmax_outlettypeid = validators.Int()
-	interests = tgvalidators.JSONValidatorInterests()
-	coverage = tgvalidators.JSONValidatorInterests()
-	circulation = validators.Int()
-	webbrowsers = validators.Int()
-	frequencyid = validators.Int()
+	#interests = tgvalidators.JSONValidatorInterests()
+	#coverage = tgvalidators.JSONValidatorInterests()
+	#circulation = validators.Int()
+	#webbrowsers = validators.Int()
+	#frequencyid = validators.Int()
 	countryid = validators.Int()
 
 class OutletResearchSave2Schema(PrFormSchema):
@@ -63,6 +63,7 @@ class OutletResearchSave2Schema(PrFormSchema):
 	webauditdateid = IntNull()
 	outletpriceid = IntNull()
 	mediaaccesstypeid = IntNull()
+	no_sync = BooleanValidator()
 
 class OutletResearchCodingSchema(PrFormSchema):
 	"""validates form for outler save """

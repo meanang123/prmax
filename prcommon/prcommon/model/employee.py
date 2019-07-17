@@ -11,6 +11,8 @@
 # Copyright:   (c) 2011
 
 #-----------------------------------------------------------------------------
+import logging
+from datetime import datetime
 from turbogears.database import metadata, mapper, session
 from sqlalchemy import Table, Column, Integer, not_
 from sqlalchemy.sql import text
@@ -19,19 +21,19 @@ from prcommon.model.common import BaseSql
 from prcommon.model.contact import Contact
 from prcommon.model.communications import Communication, Address
 from prcommon.model.caching import CacheStore, CacheControl
-from prcommon.model.interests import EmployeeInterestView
+from prcommon.model.interests import EmployeeInterestView, Interests
 from prcommon.model.research import ResearchDetails
 from prcommon.model.research import Activity, ActivityDetails
-from ttl.dict import DictExt
+from prcommon.model.outlets.outletdesk import OutletDesk
+from prcommon.model.roles import PRMaxRoles
 import prcommon.Constants as Constants
-import logging
-from datetime import datetime
+from ttl.dict import DictExt
 
 LOGGER = logging.getLogger("prmax.model")
 
 COMMAND1 = """SELECT
-	JSON(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
-	JSON(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
+	JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname,
+	JSON_ENCODE(CASE WHEN o.outlettypeid=19 THEN '' WHEN o.prmax_outlettypeid in (50,51,52,53,54,55,56,57,58,59,60,61,62) THEN '' ELSE o.outletname END)as outletname,
 	CASE WHEN oca.address1 IS NULL THEN oa.address1	ELSE oca.address1 END as address1,
 	CASE WHEN oca.address1 IS NULL THEN oa.address2	ELSE oca.address2 END as address2,
 	CASE WHEN oca.address1 IS NULL THEN oa.townname	ELSE oca.townname END as townname,
@@ -157,13 +159,13 @@ class Employee(BaseSql):
 
 		if "id" in params and params["id"] == "-1":
 			if "nocontact" in params:
-				return dict ( identifier ="employeeid" ,
-				              numRows  = 1,
-				              items = [{"displayname": "No Contact", "employeeid": -1, "id": -1,}])
+				return dict(identifier="employeeid",
+				            numRows=1,
+				            items=[{"displayname": "No Contact", "employeeid": -1, "id": -1,}])
 			else:
-				return dict ( identifier ="employeeid" ,
-				              numRows  = 1,
-				              items = [{"displayname": "No Selection", "employeeid": -1, "id": -1}])
+				return dict(identifier="employeeid",
+				            numRows=1,
+				            items=[{"displayname": "No Selection", "employeeid": -1, "id": -1}])
 
 		command = Employee.Employee_ListData
 		if "extended" in params:
@@ -179,35 +181,34 @@ class Employee(BaseSql):
 					else:
 						params["displayname"] += "%"
 
-		items = cls.sqlExecuteCommand (
-			text(command) ,
+		items = cls.sqlExecuteCommand(
+			text(command),
 			params,
 			BaseSql.ResultAsEncodedDict)
 
 		if "nocontact" in params and "id" not  in params:
-			items.insert ( 1, dict (employeeid = -1 , displayname = "No Contact", id=-1))
+			items.insert(1, dict(employeeid=-1, displayname="No Contact", id=-1))
 
-
-		return dict ( identifier ="employeeid" ,
-					  numRows  = len(items),
-					  items = items)
+		return dict(identifier="employeeid",
+		            numRows=len(items),
+		            items=items)
 
 	@classmethod
-	def get_look_up_list(cls,  params):
+	def get_look_up_list(cls, params):
 		"""Return as a json rest store """
 
 		return cls.grid_to_rest(
 		  cls.getLookUpList(params),
 		  params["offset"],
-		  True if "id" in params else False )
+		  True if "id" in params else False)
 
 	@classmethod
-	def getEmployeeExt( cls, employeeid , restricted = False):
+	def getEmployeeExt(cls, employeeid, restricted=False):
 		""" Get and employee record and include the customer name """
 
-		return cls.sqlExecuteCommand (
-			text(Employee.Employee_Ext_Details_Limited  if restricted else Employee.Employee_Ext_Details) ,
-			dict( employeeid = employeeid),
+		return cls.sqlExecuteCommand(
+			text(Employee.Employee_Ext_Details_Limited if restricted else Employee.Employee_Ext_Details),
+			dict(employeeid=employeeid),
 				  BaseSql.ResultAsEncodedDict)[0]
 
 	@classmethod
@@ -215,29 +216,53 @@ class Employee(BaseSql):
 		""" return the list of details for and employee overrides """
 		# get contact details
 		employee = session.query(EmployeeCustomerView).filter_by(
-			employeeid = employeeid, customerid = customerid).all()
+			employeeid=employeeid, customerid=customerid).all()
 		if employee:
 			employee = employee[0]
 		else:
 			employee = None
 		interests = session.query(EmployeeInterestView).filter_by(
-			employeeid = employeeid,
+			employeeid=employeeid,
 			interesttypeid=Constants.Interest_Type_Tag).all()
-		return dict ( data = dict(employee=employee,
-								  interests = interests ))
+		return dict(data=dict(employee=employee,
+		                      interests=interests))
+
+	@staticmethod
+	def _fix_number(countryid, number):
+		if countryid == 1:
+			if number is not None and number != '' and not number.startswith('+44'):
+				number = '+44 (0)%s' % number
+		if countryid == 3:
+			if number is not None and number != '' and not number.startswith('+353'):
+				number = '+353 (0)%s' % number
+		return number
 
 	@classmethod
 	def saveOverrides(cls, params):
 		""" save the employee overrides """
 		# get outlet details
 		transaction = session.begin(subtransactions=True)
+
 		try:
+			from prcommon.model import Outlet
 			employeerecord = Employee.query.get(params['employeeid'])
+			employeerecord_countryid = session.query(Outlet.countryid).filter(Outlet.outletid == employeerecord.outletid).scalar()
+
+			if 'tel' in params:
+				params['tel'] = Employee._fix_number(employeerecord_countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = Employee._fix_number(employeerecord_countryid, params['fax'])
 
 			employee = session.query(EmployeeCustomer).filter_by(
-				employeeid = params['employeeid'],
-				customerid = params['customerid']).all()
+				employeeid=params['employeeid'],
+				customerid=params['customerid']).all()
 			if employee:
+				employee_countryid = session.query(Outlet.countryid).filter(Outlet.outletid == employee.outletid).scalar()
+				if 'tel' in params:
+					params['tel'] = Employee._fix_number(employee_countryid, params['tel'])
+				if 'fax' in params:
+					params['fax'] = Employee._fix_number(employee_countryid, params['fax'])
+
 				employee = employee[0]
 				employee.profile = params['profile']
 				employee.changed = datetime.now()
@@ -248,18 +273,18 @@ class Employee(BaseSql):
 				comm.fax = params['fax']
 				comm.mobile = params["mobile"]
 			else:
-				comm = Communication ( tel = params['tel'],
-						      email = params['email'],
-						      fax = params['fax'],
-				          mobile = params["mobile"],
-						      webphone = "")
+				comm = Communication(tel=params['tel'],
+				                    email=params['email'],
+				                    fax=params['fax'],
+				                    mobile=arams["mobile"],
+				                    webphone="")
 				session.add(comm)
 				session.flush()
-				empcust = EmployeeCustomer( profile = params['profile'],
-									   outletid = employeerecord.outletid,
-									   employeeid = params['employeeid'],
-									   customerid = params['customerid'],
-									   communicationid = comm.communicationid)
+				empcust = EmployeeCustomer(profile=params['profile'],
+									   outletid=employeerecord.outletid,
+									   employeeid=params['employeeid'],
+									   customerid=params['customerid'],
+									   communicationid=comm.communicationid)
 				session.add(empcust)
 			# Handle  tags
 			cls._interests(params['employeeid'], params['customerid'], params['interests'], employeerecord.outletid)
@@ -277,34 +302,40 @@ class Employee(BaseSql):
 	def add(cls, params):
 		""" add a new employee """
 		transaction = session.begin(subtransactions=True)
+		from prcommon.model import Outlet
 		try:
 			contactid = None
 			if "contactid" in params and params["contactid"] > 0:
 				contactid = params["contactid"]
 			elif params["familyname"]:
-				contactid = Contact.find ( params )
+				contactid = Contact.find(params)
 				if not contactid:
-					contactid = Contact.addprivate ( params )
+					contactid = Contact.addprivate(params)
 
-			comm = Communication( email = params['email'],
-								  tel = params['tel'],
-								  fax = params['fax'],
-								  mobile = params['mobile'],
-			            twitter = params["twitter"],
-			            facebook = params["facebook"],
-			            instagram = params["instagram"],
-			            linkedin = params["linkedin"])
+			employee_countryid = session.query(Outlet.countryid).filter(Outlet.outletid == params['outletid']).scalar()
+			if 'tel' in params:
+				params['tel'] = Employee._fix_number(employee_countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = Employee._fix_number(employee_countryid, params['fax'])
+			comm = Communication(email=params['email'],
+			                    tel=params['tel'],
+			                    fax=params['fax'],
+			                    mobile=params['mobile'],
+			                    twitter=params["twitter"],
+			                    facebook=params["facebook"],
+			                    instagram=params["instagram"],
+			                    linkedin=params["linkedin"])
 			session.add(comm)
 			session.flush()
 
 			employee = Employee(
-				communicationid = comm.communicationid,
-				customerid = params['customerid'],
-				contactid = contactid,
-				job_title = params['job_title'],
-				outletid = params['outletid'],
-				profile = params['profile'],
-			    sourcetypeid = params["sourcetypeid"])
+				communicationid=comm.communicationid,
+				customerid=params['customerid'],
+				contactid=contactid,
+				job_title=params['job_title'],
+				outletid=params['outletid'],
+				profile=params['profile'],
+			    sourcetypeid=params["sourcetypeid"])
 			session.add(employee)
 			session.flush()
 
@@ -323,6 +354,7 @@ class Employee(BaseSql):
 	def update(cls, params):
 		""" update an employee"""
 		transaction = session.begin(subtransactions=True)
+		from prcommon.model import Outlet
 		try:
 			employee = Employee.query.get(params['employeeid'])
 			comm = Communication.query.get(employee.communicationid)
@@ -332,24 +364,30 @@ class Employee(BaseSql):
 			contactid = employee.contactid
 			familyname = ""
 			if employee.contactid:
-				contact = Contact.query.get ( employee.contactid )
-				if contact :
+				contact = Contact.query.get(employee.contactid)
+				if contact:
 					familyname = contact.familyname
 					contact.firstname = params['firstname']
 					contact.prefix = params['prefix']
 
 			if params["familyname"] != familyname:
 				if params["familyname"]:
-					contact = Contact ( familyname=params['familyname'],
-					                    firstname=params['firstname'],
-					                    prefix=params['prefix'],
-					                    customerid = params['customerid'],
-					                    sourcetypeid = Constants.Research_Source_Private)
+					contact = Contact(familyname=params['familyname'],
+					                  firstname=params['firstname'],
+					                  prefix=params['prefix'],
+					                  customerid=params['customerid'],
+					                  sourcetypeid=Constants.Research_Source_Private)
 					session.add(contact)
 					session.flush()
 					contactid = contact.contactid
 				else:
 					contactid = None
+
+			employee_countryid = session.query(Outlet.countryid).filter(Outlet.outletid == employee.outletid).scalar()
+			if 'tel' in params:
+				params['tel'] = Employee._fix_number(employee_countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = Employee._fix_number(employee_countryid, params['fax'])
 
 			employee.contactid = contactid
 			employee.job_title = params['job_title']
@@ -365,7 +403,7 @@ class Employee(BaseSql):
 
 			cls._interests(params['employeeid'], params['customerid'], params['interests'], employee.outletid)
 
-			CacheControl.Invalidate_Cache_Object_Research( params['employeeid'] , Constants.Cache_Employee_Objects )
+			CacheControl.Invalidate_Cache_Object_Research(params['employeeid'], Constants.Cache_Employee_Objects)
 
 			session.flush()
 			transaction.commit()
@@ -384,35 +422,36 @@ class Employee(BaseSql):
 
 		"""
 		transaction = BaseSql.sa_get_active_transaction()
+		from prcommon.model import Outlet
 		try:
 			# get current details
 			employee = Employee.query.get(params['employeeid'])
 			comm = Communication.query.get(employee.communicationid)
+			employee_countryid = session.query(Outlet.countryid).filter(Outlet.outletid == employee.outletid).scalar()
 
 			if "researchprojectitemid" in  params:
-				activity = Activity (
-				  reasoncodeid = Constants.ReasonCode_Questionnaire,
-				  reason = "",
-				  objecttypeid = Constants.Object_Type_Employee,
-				  objectid = employee.employeeid,
-				  actiontypeid = Constants.Research_Record_Update,
-				  userid = params['userid'],
-				  parentobjectid = employee.outletid,
-				  parentobjecttypeid = Constants.Object_Type_Outlet
+				activity = Activity(
+				  reasoncodeid=Constants.ReasonCode_Questionnaire,
+				  reason="",
+				  objecttypeid=Constants.Object_Type_Employee,
+				  objectid=employee.employeeid,
+				  actiontypeid=Constants.Research_Record_Update,
+				  userid=params['userid'],
+				  parentobjectid=employee.outletid,
+				  parentobjecttypeid=Constants.Object_Type_Outlet
 				  )
-
 			else:
 				# add the audit trail header record
-				activity = Activity ( reasoncodeid = params["reasoncodeid"] ,
-				                reason = params.get("reason", ""),
-				                objecttypeid = Constants.Object_Type_Employee,
-				                objectid = employee.employeeid,
-				                actiontypeid = Constants.Research_Record_Update,
-				                userid = params['userid'],
-				                parentobjectid = employee.outletid,
-				                parentobjecttypeid = Constants.Object_Type_Outlet
-				                )
-			session.add ( activity )
+				activity = Activity(reasoncodeid=params["reasoncodeid"],
+				                    reason=params.get("reason", ""),
+				                    objecttypeid=Constants.Object_Type_Employee,
+				                    objectid=employee.employeeid,
+				                    actiontypeid=Constants.Research_Record_Update,
+				                    userid=params['userid'],
+				                    parentobjectid=employee.outletid,
+				                    parentobjecttypeid=Constants.Object_Type_Outlet
+				                    )
+			session.add(activity)
 			session.flush()
 
 			# set source to us
@@ -420,23 +459,43 @@ class Employee(BaseSql):
 			employee.sourcekey = employee.employeeid
 
 			# handle contact change
-			tcontactid  = employee.contactid
+			tcontactid = employee.contactid
 			if params['contacttype'] == "N":
 				employee.contactid = None
 			else:
 				employee.contactid = int(params['contactid'])
 
+			if 'tel' in params:
+				params['tel'] = Employee._fix_number(employee_countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = Employee._fix_number(employee_countryid, params['fax'])
 			# add the change details to the audit record
-			ActivityDetails.AddChange ( tcontactid , employee.contactid , activity.activityid , Constants.Field_Contactid )
-			ActivityDetails.AddChange ( employee.job_title , params['job_title'] , activity.activityid , Constants.Field_Job_Title )
-			ActivityDetails.AddChange ( comm.email , params['email'] , activity.activityid , Constants.Field_Email)
-			ActivityDetails.AddChange ( comm.tel , params['tel'] , activity.activityid , Constants.Field_Tel)
-			ActivityDetails.AddChange ( comm.fax , params['fax'] , activity.activityid , Constants.Field_Fax)
-			ActivityDetails.AddChange ( comm.mobile , params['mobile'] , activity.activityid , Constants.Field_Mobile)
-			ActivityDetails.AddChange ( comm.twitter , params['twitter'] , activity.activityid , Constants.Field_Twitter)
-			ActivityDetails.AddChange ( comm.facebook , params['facebook'] , activity.activityid , Constants.Field_Facebook)
-			ActivityDetails.AddChange ( comm.linkedin , params['linkedin'] , activity.activityid , Constants.Field_LinkedIn)
-			ActivityDetails.AddChange ( comm.instagram , params['instagram'] , activity.activityid , Constants.Field_Instagram)
+			old_contactname = new_contactname = ''
+			if tcontactid:
+				old_contact = Contact.query.get(tcontactid)
+				old_contactname = old_contact.getName()
+			if employee.contactid:
+				new_contact = Contact.query.get(employee.contactid)
+				new_contactname = new_contact.getName()
+			ActivityDetails.AddChange(old_contactname, new_contactname, activity.activityid, Constants.Field_Contactid)
+			ActivityDetails.AddChange(employee.job_title, params['job_title'], activity.activityid, Constants.Field_Job_Title)
+			ActivityDetails.AddChange(comm.email, params['email'], activity.activityid, Constants.Field_Email)
+			ActivityDetails.AddChange(comm.tel, params['tel'], activity.activityid, Constants.Field_Tel)
+			ActivityDetails.AddChange(comm.fax, params['fax'], activity.activityid, Constants.Field_Fax)
+			ActivityDetails.AddChange(comm.mobile, params['mobile'], activity.activityid, Constants.Field_Mobile)
+			ActivityDetails.AddChange(comm.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
+			ActivityDetails.AddChange(comm.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
+			ActivityDetails.AddChange(comm.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
+			ActivityDetails.AddChange(comm.instagram, params['instagram'], activity.activityid, Constants.Field_Instagram)
+
+			old_deskname = new_deskname = "No desk"
+			if employee.outletdeskid:
+				old_desk = OutletDesk.query.get(employee.outletdeskid)
+				old_deskname = old_desk.deskname
+			if 'outletdeskid' in params and params['outletdeskid'] != -1 and params['outletdeskid'] != '-1' and params['outletdeskid'] != '' and params['outletdeskid'] != None:
+				new_desk = OutletDesk.query.get(int(params['outletdeskid']))
+				new_deskname = new_desk.deskname
+			ActivityDetails.AddChange(old_deskname, new_deskname, activity.activityid, Constants.Field_DeskName)
 
 			# update the the record
 			employee.job_title = params['job_title']
@@ -452,38 +511,41 @@ class Employee(BaseSql):
 
 			# handles address
 			# missing from audit trail
-			if params.get("no_address", False) == True :
+			if 'has_address_old' in params and 'has_address_new' in params:
+				ActivityDetails.AddChange('Checked' if params['has_address_old'] == 'true' else 'Unchecked', 'Checked' if params['has_address_new'] == 'true' else 'Unchecked', activity.activityid, Constants.Field_No_Address)
+
+			if params.get("no_address", False) is True:
 
 				# get the main address and make sure this isn't linked to it
 				# if it is then create a new record
-				oaddressid = cls.sqlExecuteCommand (
-				  text ( """SELECT c.addressid FROM outlets AS o JOIN communications AS c on c.communicationid = o.communicationid WHERE o.outletid = :outletid"""),
-				         dict ( outletid = employee.outletid ),
-				         BaseSql.singleFieldInteger)
+				oaddressid = cls.sqlExecuteCommand(
+				  text("""SELECT c.addressid FROM outlets AS o JOIN communications AS c on c.communicationid = o.communicationid WHERE o.outletid = :outletid"""),
+				  dict(outletid=employee.outletid),
+				  BaseSql.singleFieldInteger)
 
-				if comm.addressid == None or comm.addressid == oaddressid:
-					ActivityDetails.AddChange ( "" , params['address1'] , activity.activityid , Constants.Field_Address_1)
-					ActivityDetails.AddChange ( "" , params['address2'] , activity.activityid , Constants.Field_Address_2)
-					ActivityDetails.AddChange ( "" , params['county'] , activity.activityid , Constants.Field_Address_County)
-					ActivityDetails.AddChange ( "" , params['postcode'] , activity.activityid , Constants.Field_Address_Postcode)
-					ActivityDetails.AddChange ( "" , params['townname'] , activity.activityid , Constants.Field_Address_Town)
+				if comm.addressid is None or comm.addressid == oaddressid:
+					ActivityDetails.AddChange("", params['address1'], activity.activityid, Constants.Field_Address_1)
+					ActivityDetails.AddChange("", params['address2'], activity.activityid, Constants.Field_Address_2)
+					ActivityDetails.AddChange("", params['county'], activity.activityid, Constants.Field_Address_County)
+					ActivityDetails.AddChange("", params['postcode'], activity.activityid, Constants.Field_Address_Postcode)
+					ActivityDetails.AddChange("", params['townname'], activity.activityid, Constants.Field_Address_Town)
 
-					address = Address(address1 = params['address1'],
-					            address2 = params['address2'],
-					            county = params['county'],
-					            postcode = params['postcode'],
-					            townname = params['townname'],
-				            addresstypeid = Address.editorialAddress)
+					address = Address(address1=params['address1'],
+					                  address2=params['address2'],
+					                  county=params['county'],
+					                  postcode=params['postcode'],
+					                  townname=params['townname'],
+					                  addresstypeid=Address.editorialAddress)
 					session.add(address)
 					session.flush()
 					comm.addressid = address.addressid
 				else:
-					address = Address.query.get ( comm.addressid )
-					ActivityDetails.AddChange ( address.address1 , params['address1'] , activity.activityid , Constants.Field_Address_1)
-					ActivityDetails.AddChange ( address.address2 , params['address2'] , activity.activityid , Constants.Field_Address_2)
-					ActivityDetails.AddChange ( address.county , params['county'] , activity.activityid , Constants.Field_Address_County)
-					ActivityDetails.AddChange ( address.postcode , params['postcode'] , activity.activityid , Constants.Field_Address_Postcode)
-					ActivityDetails.AddChange ( address.townname , params['townname'] , activity.activityid , Constants.Field_Address_Town)
+					address = Address.query.get(comm.addressid)
+					ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
+					ActivityDetails.AddChange(address.address2, params['address2'], activity.activityid, Constants.Field_Address_2)
+					ActivityDetails.AddChange(address.county, params['county'], activity.activityid, Constants.Field_Address_County)
+					ActivityDetails.AddChange(address.postcode, params['postcode'], activity.activityid, Constants.Field_Address_Postcode)
+					ActivityDetails.AddChange(address.townname, params['townname'], activity.activityid, Constants.Field_Address_Town)
 
 					address.address1 = params['address1']
 					address.address2 = params['address2']
@@ -492,19 +554,18 @@ class Employee(BaseSql):
 					address.townname = params['townname']
 			else:
 				if comm.addressid:
-					address = Address.query.get ( comm.addressid )
-					ActivityDetails.AddChange ( address.address1 , "" , activity.activityid , Constants.Field_Address_1)
+					address = Address.query.get(comm.addressid)
+					ActivityDetails.AddChange(address.address1, "", activity.activityid, Constants.Field_Address_1)
 					comm.addressid = None
 					session.flush()
 					# only if the address is not used
-					if not session.query ( Communication).filter_by ( addressid = address.addressid ).limit(1).all():
-						session.delete ( address )
+					if not session.query(Communication).filter_by(addressid=address.addressid).limit(1).all():
+						session.delete(address)
 
 			cls._interests(params['employeeid'], -1, params['interests'], employee.outletid, activity.activityid)
-			cls._jobroles(params['employeeid'], -1, params['jobroles'], employee.outletid,  activity.activityid)
+			cls._jobroles(params['employeeid'], -1, params['jobroles'], employee.outletid, activity.activityid)
 
-			CacheControl.Invalidate_Cache_Object_Research( params['employeeid'] , Constants.Cache_Employee_Objects )
-
+			CacheControl.Invalidate_Cache_Object_Research(params['employeeid'], Constants.Cache_Employee_Objects)
 
 			ResearchDetails.set_research_modified(employee.outletid)
 			transaction.commit()
@@ -518,28 +579,29 @@ class Employee(BaseSql):
 			raise
 
 	@classmethod
-	def research_update_interests(cls, params ):
+	def research_update_interests(cls, params):
 		""" Update a empolyees interest only don't take ownership etc """
 
 		transaction = cls.sa_get_active_transaction()
+		from prcommon.model import Outlet
 		try:
 
 			employee = Employee.query.get(params['employeeid'])
 			# add the audit trail header record
-			activity = Activity ( reasoncodeid = params["reasoncodeid"] ,
-			                reason = params["reason"],
-			                objecttypeid = Constants.Object_Type_Employee,
-			                objectid = employee.employeeid,
-			                actiontypeid = Constants.Research_Record_Update,
-			                userid = params['userid'],
-			                parentobjectid = employee.outletid,
-			                parentobjecttypeid = Constants.Object_Type_Outlet
-			                )
-			session.add ( activity )
+			activity = Activity(reasoncodeid=params["reasoncodeid"],
+			                    reason=params["reason"],
+			                    objecttypeid=Constants.Object_Type_Employee,
+			                    objectid=employee.employeeid,
+			                    actiontypeid=Constants.Research_Record_Update,
+			                    userid=params['userid'],
+			                    parentobjectid=employee.outletid,
+			                    parentobjecttypeid=Constants.Object_Type_Outlet
+			                    )
+			session.add(activity)
 			session.flush()
 
 			cls._interests(params['employeeid'], params['customerid'], params['interests'], employee.outletid, activity.activityid)
-			CacheControl.Invalidate_Cache_Object_Research( params['employeeid'] , Constants.Cache_Employee_Objects )
+			CacheControl.Invalidate_Cache_Object_Research(params['employeeid'], Constants.Cache_Employee_Objects)
 			ResearchDetails.set_research_modified(employee.outletid)
 
 			transaction.commit()
@@ -552,7 +614,7 @@ class Employee(BaseSql):
 			raise
 
 	@classmethod
-	def research_update_media(cls, params ):
+	def research_update_media(cls, params):
 		""" Update solia media fields with no chnage of ownership"""
 
 		transaction = cls.sa_get_active_transaction()
@@ -561,22 +623,22 @@ class Employee(BaseSql):
 			employee = Employee.query.get(params['employeeid'])
 			comm = Communication.query.get(employee.communicationid)
 			# add the audit trail header record
-			activity = Activity ( reasoncodeid = params["reasoncodeid"] ,
-			                reason = params["reason"],
-			                objecttypeid = Constants.Object_Type_Employee,
-			                objectid = employee.employeeid,
-			                actiontypeid = Constants.Research_Record_Update,
-			                userid = params['userid'],
-			                parentobjectid = employee.outletid,
-			                parentobjecttypeid = Constants.Object_Type_Outlet
+			activity = Activity(reasoncodeid=params["reasoncodeid"],
+			                reason=params["reason"],
+			                objecttypeid=Constants.Object_Type_Employee,
+			                objectid=employee.employeeid,
+			                actiontypeid=Constants.Research_Record_Update,
+			                userid=params['userid'],
+			                parentobjectid=employee.outletid,
+			                parentobjecttypeid=Constants.Object_Type_Outlet
 			                )
-			session.add ( activity )
+			session.add(activity)
 			session.flush()
 
-			ActivityDetails.AddChange ( comm.twitter , params['twitter'] , activity.activityid , Constants.Field_Twitter)
-			ActivityDetails.AddChange ( comm.facebook , params['facebook'] , activity.activityid , Constants.Field_Facebook)
-			ActivityDetails.AddChange ( comm.linkedin , params['linkedin'] , activity.activityid , Constants.Field_LinkedIn)
-			ActivityDetails.AddChange ( comm.instagram , params['instagram'] , activity.activityid , Constants.Field_Instagram)
+			ActivityDetails.AddChange(comm.twitter, params['twitter'], activity.activityid, Constants.Field_Twitter)
+			ActivityDetails.AddChange(comm.facebook, params['facebook'], activity.activityid, Constants.Field_Facebook)
+			ActivityDetails.AddChange(comm.linkedin, params['linkedin'], activity.activityid, Constants.Field_LinkedIn)
+			ActivityDetails.AddChange(comm.instagram, params['instagram'], activity.activityid, Constants.Field_Instagram)
 
 			# update the the record
 			comm.twitter = params['twitter']
@@ -584,7 +646,7 @@ class Employee(BaseSql):
 			comm.linkedin = params['linkedin']
 			comm.instagram = params['instagram']
 
-			CacheControl.Invalidate_Cache_Object_Research( params['employeeid'] , Constants.Cache_Employee_Objects )
+			CacheControl.Invalidate_Cache_Object_Research(params['employeeid'], Constants.Cache_Employee_Objects)
 			ResearchDetails.set_research_modified(employee.outletid)
 
 			transaction.commit()
@@ -600,45 +662,52 @@ class Employee(BaseSql):
 	def research_add(cls, params):
 		""" add a new employee for research  """
 		transaction = cls.sa_get_active_transaction()
+		from prcommon.model import Outlet
 
 		try:
-			if params.get("contacttype","")=="N":
+			if params.get("contacttype", "") == "N":
 				contactid = None
 			else:
 				contactid = params.get('contactid', None)
 
 			addressid = None
-			if params.get("no_address", False) == True :
+			if params.get("no_address", False) is True:
 				address = Address(
-				  address1 = params['address1'],
-				  address2 = params['address2'],
-				  county = params['county'],
-				  postcode = params['postcode'],
-				  townname = params['townname'],
-				  addresstypeid = Address.editorialAddress)
+				    address1=params['address1'],
+				    address2=params['address2'],
+				    county=params['county'],
+				    postcode=params['postcode'],
+				    townname=params['townname'],
+				    addresstypeid=Address.editorialAddress)
 				session.add(address)
 				session.flush()
 				addressid = address.addressid
 
+			countryid = session.query(Outlet.countryid).filter(Outlet.outletid == params['outletid']).scalar()
+			if 'tel' in params:
+				params['tel'] = Employee._fix_number(countryid, params['tel'])
+			if 'fax' in params:
+				params['fax'] = Employee._fix_number(countryid, params['fax'])
+
 			comm = Communication(
-			  email = params['email'],
-			  tel = params['tel'],
-			  fax = params['fax'],
-			  mobile= params['mobile'],
-			  twitter = params["twitter"],
-			  linkedin = params["linkedin"],
-			  facebook = params["facebook"],
-			  instagram = params["instagram"],
-			  addressid = addressid)
+			    email=params['email'],
+			    tel=params['tel'],
+			    fax=params['fax'],
+			    mobile=params['mobile'],
+			    twitter=params["twitter"],
+			    linkedin=params["linkedin"],
+			    facebook=params["facebook"],
+			    instagram=params["instagram"],
+			    addressid=addressid)
 			session.add(comm)
 			session.flush()
 
 			employee = Employee(
-			  communicationid = comm.communicationid,
-			  contactid = contactid,
-				job_title = params['job_title'],
-			  outletid = params['outletid'],
-			  sourcetypeid = Constants.Research_Source_Prmax
+			    communicationid=comm.communicationid,
+			    contactid=contactid,
+			    job_title=params['job_title'],
+			    outletid=params['outletid'],
+			    sourcetypeid=Constants.Research_Source_Prmax
 			)
 			if params["outletdeskid"] != -1:
 				employee.outletdeskid = params["outletdeskid"]
@@ -651,33 +720,32 @@ class Employee(BaseSql):
 
 			# do jobroles
 			if params['jobroles']:
-				cls._jobroles(employee.employeeid, -1, params['jobroles'], params['outletid'] )
+				cls._jobroles(employee.employeeid, -1, params['jobroles'], params['outletid'])
 
 			# add the audit trail header record
-			if "researchprojectitemid" in  params:
-				activity = Activity (
-				  reasoncodeid = Constants.ReasonCode_Questionnaire,
-				  reason = "",
-				  objecttypeid = Constants.Object_Type_Employee,
-				  objectid = employee.employeeid,
-				  actiontypeid = Constants.Research_Record_Add,
-				  userid = params['userid'],
-				  parentobjectid = employee.outletid,
-				  parentobjecttypeid = Constants.Object_Type_Outlet
+			if "researchprojectitemid" in params:
+				activity = Activity(
+				  reasoncodeid=Constants.ReasonCode_Questionnaire,
+				  reason="",
+				  objecttypeid=Constants.Object_Type_Employee,
+				  objectid=employee.employeeid,
+				  actiontypeid=Constants.Research_Record_Add,
+				  userid=params['userid'],
+				  parentobjectid=employee.outletid,
+				  parentobjecttypeid=Constants.Object_Type_Outlet
 				  )
-
 			else:
-				activity = Activity (
-				  reasoncodeid = params["reasoncodeid"] ,
-				  reason = params.get("reason", ""),
-				  objecttypeid = Constants.Object_Type_Employee,
-				  objectid = employee.employeeid,
-				  actiontypeid = Constants.Research_Record_Add,
-				  userid = params['userid'],
-				  parentobjectid = employee.outletid,
-				  parentobjecttypeid = Constants.Object_Type_Outlet
+				activity = Activity(
+				  reasoncodeid=params["reasoncodeid"],
+				  reason=params.get("reason", ""),
+				  objecttypeid=Constants.Object_Type_Employee,
+				  objectid=employee.employeeid,
+				  actiontypeid=Constants.Research_Record_Add,
+				  userid=params['userid'],
+				  parentobjectid=employee.outletid,
+				  parentobjecttypeid=Constants.Object_Type_Outlet
 				)
-			session.add ( activity )
+			session.add(activity)
 
 			ResearchDetails.set_research_modified(employee.outletid)
 
@@ -692,14 +760,14 @@ class Employee(BaseSql):
 	def getForEdit(cls, params):
 		""" return the data need to edit a private employee"""
 		employee = Employee.query.get(params['employeeid'])
-		contact = Contact.getContactForEdit ( employee.contactid )
+		contact = Contact.getContactForEdit(employee.contactid)
 
-		return dict ( 	employee = employee,
-						  comm = Communication.query.get(employee.communicationid),
-		          contact = contact,
-		          interests = dict(data = session.query(EmployeeInterestView).filter_by(
-							  employeeid = params['employeeid'],
-		            interesttypeid = Constants.Interest_Type_Standard).all()))
+		return dict(employee=employee,
+		            comm=Communication.query.get(employee.communicationid),
+		            contact=contact,
+		            interests=dict(data=session.query(EmployeeInterestView).filter_by(
+		                employeeid=params['employeeid'],
+		                interesttypeid=Constants.Interest_Type_Standard).all()))
 
 	@classmethod
 	def research_get_edit(cls, params):
@@ -711,7 +779,7 @@ class Employee(BaseSql):
 		outlet = Outlet.query.get(employee.outletid)
 		comm = Communication.query.get(employee.communicationid)
 		address = None
-		if comm.addressid > 0 :
+		if comm.addressid > 0:
 			address = Address.query.get(comm.addressid)
 		if employee.contactid:
 			contact = Contact.query.get(employee.contactid)
@@ -720,20 +788,20 @@ class Employee(BaseSql):
 			contactname = None
 		# job roles
 		jobroles = session.query(EmployeeRoleView).\
-		  filter( EmployeeRoleView.employeeid == params["employeeid"]).all()
+		  filter(EmployeeRoleView.employeeid == params["employeeid"]).all()
 
-		return dict (
-		  employeeid = params['employeeid'],
-		  employee = employee,
-		  comm = comm,
-		  outlet = outlet,
-		  contactname = contactname,
-		  address = address,
-		  jobroles = jobroles,
-		  interests = dict(data = session.query(EmployeeInterestView).filter_by(
-		    employeeid = params['employeeid'],
-		    interesttypeid = Constants.Interest_Type_Standard).all()),
-		  isprimary = True if outlet.primaryemployeeid == employee.employeeid else False )
+		return dict(
+		  employeeid=params['employeeid'],
+		  employee=employee,
+		  comm=comm,
+		  outlet=outlet,
+		  contactname=contactname,
+		  address=address,
+		  jobroles=jobroles,
+		  interests=dict(data=session.query(EmployeeInterestView).filter_by(
+		    employeeid=params['employeeid'],
+		    interesttypeid=Constants.Interest_Type_Standard).all()),
+		  isprimary=True if outlet.primaryemployeeid == employee.employeeid else False)
 
 	@staticmethod
 	def get_for_display(params):
@@ -774,7 +842,7 @@ class Employee(BaseSql):
 		""" delete a employee record from the  database in the reasech system
 		Logs the action and if prn add to ignore list """
 
-		transaction = cls.sa_get_active_transaction( )
+		transaction = cls.sa_get_active_transaction()
 
 		try:
 			employee = Employee.query.get(params['employeeid'])
@@ -841,12 +909,12 @@ class Employee(BaseSql):
 			raise
 
 	@classmethod
-	def _interests(cls, employeeid, customerid, interests, outletid, activityid = None):
+	def _interests(cls, employeeid, customerid, interests, outletid, activityid=None):
 		""" interests"""
 		# Handle  tags
-		dbinterest = session.query(EmployeeInterestView).filter_by( employeeid = employeeid )
+		dbinterest = session.query(EmployeeInterestView).filter_by(employeeid=employeeid)
 		dbinterest2 = []
-		interests  = interests if interests else []
+		interests = interests if interests else []
 		# do deletes
 		for employeeinterest in dbinterest:
 			dbinterest2.append(employeeinterest.interestid)
@@ -855,45 +923,51 @@ class Employee(BaseSql):
 				out = EmployeeInterests.query.get(
 					employeeinterest.employeeinterestid)
 				# only delete if source is local
-				if out.sourceid == Constants.Employee_Interests_Local or out.sourceid == None:
+				if out.sourceid == Constants.Employee_Interests_Local or out.sourceid is None:
 					if activityid:
-						ActivityDetails.AddDelete ( out.interestid, activityid, Constants.Field_Interest )
+						del_interest = Interests.query.get(out.interestid)
+						ActivityDetails.AddDelete(del_interest.interestname, activityid, Constants.Field_Interest)
 					session.delete(out)
 
 		for interestid in interests:
 			if not interestid in dbinterest2:
 				interest = EmployeeInterests(
-					employeeid = employeeid,
-					interestid = interestid,
-					customerid = customerid,
-				    outletid = outletid,
-					interesttypeid = Constants.Interest_Type_Tag)
+					employeeid=employeeid,
+					interestid=interestid,
+					customerid=customerid,
+				    outletid=outletid,
+					interesttypeid=Constants.Interest_Type_Tag)
 
 				session.add(interest)
 				session.flush()
 				if activityid:
-					ActivityDetails.AddChange (None, interestid, activityid, Constants.Field_Interest )
+					new_interest = Interests.query.get(interestid)
+					ActivityDetails.AddChange(None, new_interest.interestname, activityid, Constants.Field_Interest)
 
 	@classmethod
-	def _jobroles(cls, employeeid, customerid, jobroles, outletid,  activityid = None):
+	def _jobroles(cls, employeeid, customerid, jobroles, outletid, activityid=None):
 		""" interests"""
 
 		jobroles = jobroles if jobroles else []
-		dbroles = session.query(EmployeePrmaxRole).filter( EmployeePrmaxRole.employeeid == employeeid ).all()
+		dbroles = session.query(EmployeePrmaxRole).filter(EmployeePrmaxRole.employeeid == employeeid).all()
 		dbroles2 = {}
 
 		# do deletes
 		for role in dbroles:
 			dbroles2[role.prmaxroleid] = True
 			if not role.prmaxroleid in jobroles:
-					session.delete(role)
+				del_jobrole = PRMaxRoles.query.get(role.prmaxroleid)
+				ActivityDetails.AddDelete(del_jobrole.prmaxrole, activityid, Constants.Field_Role)
+				session.delete(role)
 
 		for roleid in jobroles:
 			if not roleid in dbroles2:
 				role = EmployeePrmaxRole(
-				  employeeid = employeeid,
-				  outletid = outletid,
-				  prmaxroleid = roleid)
+				  employeeid=employeeid,
+				  outletid=outletid,
+				  prmaxroleid=roleid)
+				add_jobrole = PRMaxRoles.query.get(role.prmaxroleid)
+				ActivityDetails.AddChange(None, add_jobrole.prmaxrole, activityid, Constants.Field_Role)
 				session.add(role)
 				session.flush()
 
@@ -914,7 +988,7 @@ class Employee(BaseSql):
 			if outlet.primaryemployeeid == employee.employeeid:
 				raise Exception("Is Primary")
 
-			transaction = BaseSql.sa_get_active_transaction( )
+			transaction = BaseSql.sa_get_active_transaction()
 			# merge lists
 			# get list of each employee and then work out what to do
 			in_lists = {}
@@ -930,14 +1004,14 @@ class Employee(BaseSql):
 			session.query(ListMembers).\
 			  filter(ListMembers.employeeid == params["employeeid"]).\
 			  filter(not_(ListMembers.listid.in_(in_lists.keys()))).\
-			  update ({"employeeid": params["newemployeeid"]},
-			          synchronize_session='fetch')
+			  update({"employeeid": params["newemployeeid"]},
+			         synchronize_session='fetch')
 			if outlet.primaryemployeeid == params["newemployeeid"]:
 				# need to delete duplicate entries from list
 				pass
 
 			#update contacthistory
-			session.execute(text("UPDATE userdata.contacthistory SET employeeid = :newemployeeid WHERE employeeid = :employeeid" ), params, Contact)
+			session.execute(text("UPDATE userdata.contacthistory SET employeeid = :newemployeeid WHERE employeeid = :employeeid"), params, Contact)
 
 			# delete employee
 			#session.execute(text(Employee.Delete_Employee), params, Employee)
@@ -962,18 +1036,35 @@ class Employee(BaseSql):
 
 		from prcommon.model.outlet import OutletInterests
 
-		transaction = cls.sa_get_active_transaction( )
+		transaction = cls.sa_get_active_transaction()
 
 		try:
-			existing_employee_interests = [ei.interestid for ei in session.query(EmployeeInterests).filter(EmployeeInterests.employeeid == params['employeeid']).all()]
-			outletinterests = [oi.interestid for oi in OutletInterests.get_list(params['outletid'])]
-			for eei in existing_employee_interests:
-				if eei not in outletinterests:
-					outletinterests.append(eei)
-			cls._interests(params['employeeid'], -1, outletinterests, params['outletid'])
+			employee = Employee.query.get(params['employeeid']) if params['employeeid'] != -1 else None
+			# add the audit trail header record
+			activity = Activity(reasoncodeid=params.get("reasoncodeid", None),
+			                    reason=params.get("reason", None),
+			                    objecttypeid=Constants.Object_Type_Employee,
+			                    objectid=employee.employeeid,
+			                    actiontypeid=Constants.Research_Record_Update,
+			                    userid=params['userid'],
+			                    parentobjectid=employee.outletid,
+			                    parentobjecttypeid=Constants.Object_Type_Outlet
+			                    )
+			session.add(activit)
+			session.flush()
 
+			#existing_employee_interests = []
+			#if params['employeeid'] != -1:
+			#	existing_employee_interests = [ei.interestid for ei in session.query(EmployeeInterests).filter(EmployeeInterests.employeeid == params['employeeid']).all()]
+			outletinterests = [oi.interestid for oi in OutletInterests.get_list(params['outletid'])]
+			#for eei in existing_employee_interests:
+			#	if eei not in outletinterests:
+			#		outletinterests.append(eei)
+			cls._interests(params['employeeid'], -1, outletinterests, params['outletid'], activity.activityid)
+			CacheControl.Invalidate_Cache_Object_Research(params['employeeid'], Constants.Cache_Employee_Objects)
+			ResearchDetails.set_research_modified(employee.outletid)
 			transaction.commit()
-			return dict (interests = dict(data = session.query(EmployeeInterestView).filter_by(employeeid = params['employeeid'],interesttypeid = Constants.Interest_Type_Standard).all()))
+			return dict(interests=dict(data=session.query(EmployeeInterestView).filter_by(employeeid=params['employeeid'], interesttypeid=Constants.Interest_Type_Standard).all()))
 
 		except:
 			LOGGER.exception("research_copy_interests_outlet_to_employee")
@@ -1065,7 +1156,7 @@ class EmployeeDisplay(BaseSql):
 	WHERE
 		(customerid=-1 or customerid=:customerid) AND employeeid =:employeeid AND
 		interesttypeid=2"""
-	SortFields = { "contactname": "c.familyname"}
+	SortFields = {"contactname": "c.familyname"}
 	EmployeeDisplay_ListData = """
 	SELECT
 		e.customerid ,
@@ -1114,7 +1205,7 @@ class EmployeeDisplay(BaseSql):
 
 
 	@classmethod
-	def getDisplayPage( cls, params ):
+	def getDisplayPage(cls, params):
 		""" getDisplayPage """
 		if "outletid" in params:
 			extrawhere = ""
@@ -1134,21 +1225,21 @@ class EmployeeDisplay(BaseSql):
 				extrawhere += " e.job_title ilike :job_title "
 				params["job_title"] = params["job_title"]
 
-			items = cls.sqlExecuteCommand (
+			items = cls.sqlExecuteCommand(
 				text(EmployeeDisplay.EmployeeDisplay_ListData +\
 			         EmployeeDisplay.EmployeeDisplay_ListData_Where % extrawhere  +\
-					EmployeeDisplay.EmployeeDisplay_ListData_Order %  (params['sortby'],params['direction'])) ,
-				params,
-				BaseSql.ResultAsEncodedDict)
+			         EmployeeDisplay.EmployeeDisplay_ListData_Order %  (params['sortby'], params['direction'])),
+			    params,
+			    BaseSql.ResultAsEncodedDict)
 
-			numrows = cls.sqlExecuteCommand (
+			numrows = cls.sqlExecuteCommand(
 				text(EmployeeDisplay.EmployeeDisplay_Count  +\
-			         EmployeeDisplay.EmployeeDisplay_ListData_Where % extrawhere  ),
+			         EmployeeDisplay.EmployeeDisplay_ListData_Where % extrawhere),
 				params,
 				BaseSql.singleFieldInteger)
 		elif "id" in params:
-			items = cls.sqlExecuteCommand (
-				text(EmployeeDisplay.EmployeeDisplay_ListData_Single) ,
+			items = cls.sqlExecuteCommand(
+				text(EmployeeDisplay.EmployeeDisplay_ListData_Single),
 				params,
 				BaseSql.ResultAsEncodedDict)
 			numrows = len(items)
@@ -1156,18 +1247,17 @@ class EmployeeDisplay(BaseSql):
 			items = []
 			numrows = 0
 
-
-		return dict (
-			identifier ="employeeid",
-			numRows  = numrows,
-			items = items)
+		return dict(
+			identifier="employeeid",
+			numRows=numrows,
+			items=items)
 
 	@classmethod
-	def get_display_page(cls,  param):
+	def get_display_page(cls, param):
 		"""display page  """
 
 		return cls.grid_to_rest(
-		  cls.getDisplayPage( param),
+		  cls.getDisplayPage(param),
 		  param["offset"],
 		  False
 		)
@@ -1176,22 +1266,22 @@ class EmployeeDisplay(BaseSql):
 	def getPageDisplayParams(cls, params):
 		""" Get parameters for search display data page"""
 
-		sortby = params.get('sort','UPPER(c.familyname)')
-		if sortby.find("contactname")!=-1:
-			sortby = sortby.replace('contactname','UPPER(c.familyname)')
+		sortby = params.get('sort', 'UPPER(c.familyname)')
+		if sortby.find("contactname") != -1:
+			sortby = sortby.replace('contactname', 'UPPER(c.familyname)')
 
 		direction = "asc"
 		if sortby[0] == '-':
 			direction = "desc"
 			sortby = sortby[1:]
 
-		retparams = DictExt (  dict(
-			userid = params['user_id'],
-			customerid = params['customerid'],
-			limit = int(params.get("count","100")),
-			offset = int(params.get("start","0")),
-			direction = direction,
-			sortby = sortby))
+		retparams = DictExt(dict(
+		    userid=params['user_id'],
+		    customerid=params['customerid'],
+		    limit=int(params.get("count", "100")),
+		    offset=int(params.get("start", "0")),
+		    direction=direction,
+		    sortby=sortby))
 
 		if "extended" in params:
 			retparams["extended"] = 1
@@ -1203,42 +1293,40 @@ class EmployeeDisplay(BaseSql):
 			retparams["extraemployeeid"] = int(params["extraemployeeid"])
 
 		if "job_title" in params:
-			retparams["job_title"] = params["job_title"].replace ("*",  "%")
-
+			retparams["job_title"] = params["job_title"].replace("*", "%")
 
 		return retparams
 
 	@classmethod
 	def _convertInterestDisplay(cls, results):
 		"""_convertInterestDisplay"""
-		return ",".join([ row['interestname'].decode('utf-8') for row in  results.fetchall()])
-
+		return ",".join([row['interestname'].decode('utf-8') for row in results.fetchall()])
 
 	@classmethod
 	def getEmployeeDisplay(cls, params):
 		""" Get the employee display details"""
 
 		#check cackhe for data
-		data = CacheStore.getDisplayStore ( params['customerid'],
-											params['employeeid'],
-											params['productid'],
-											Constants.Cache_Display_Employee )
-		if data :
+		data = CacheStore.getDisplayStore(params['customerid'],
+		                                  params['employeeid'],
+		                                  params['productid'],
+		                                  Constants.Cache_Display_Employee)
+		if data:
 			return data
 		else:
 			# no cache buid data, cache and return
-			data = JSONEncoder().encode(cls._GetEmployeeDisplay (params))
+			data = JSONEncoder().encode(cls._GetEmployeeDisplay(params))
 			CacheStore.addToCache(params['customerid'], params['employeeid'],
 								  params['productid'],
 								  Constants.Cache_Display_Employee,
-								  data  )
+								  data)
 			# should add commit as this point to reduce transaction length
 			return data
 
 	@classmethod
 	def _GetEmployeeDisplay(cls, params):
 		"""getEmployeeDisplay  """
-		details = cls.sqlExecuteCommand (
+		details = cls.sqlExecuteCommand(
 			text(EmployeeDisplay.Employee_Display_Query),
 			params,
 			BaseSql.SingleResultAsEncodedDict)
@@ -1247,44 +1335,44 @@ class EmployeeDisplay(BaseSql):
 
 		employee_display_roles = ""
 		result = session.query(EmployeeRoleView.rolename).\
-			   filter_by( employeeid = params["employeeid"]).\
+			   filter_by(employeeid=params["employeeid"]).\
 			   order_by(EmployeeRoleView.rolename).all()
-		employee_display_roles = ", ".join( [ row[0] for row in result] )
+		employee_display_roles = ", ".join([row[0] for row in result])
 
 		result = session.query(EmployeeInterestView.interestname).\
-			   filter_by( employeeid = params["employeeid"]).\
+			   filter_by(employeeid=params["employeeid"]).\
 			   order_by(EmployeeInterestView.interestname).all()
-		employee_display_interests = ", ".join( [ row[0] for row in result if len(row[0])] )
+		employee_display_interests = ", ".join([row[0] for row in result if len(row[0])])
 
 		return dict(employee=details,
-					employee_display_roles = employee_display_roles ,
-		      employee_display_interests = employee_display_interests)
+					employee_display_role=employee_display_roles,
+		            employee_display_interests=employee_display_interests)
 
 	@classmethod
 	def interests_display(cls, params):
-		return dict (
-		    interests = cls.sqlExecuteCommand (
+		return dict(
+		    interests=cls.sqlExecuteCommand(
 		        text(EmployeeDisplay.Employee_Display_Interest),
 		        params,
 		        BaseSql.ResultAsEncodedDict),
 
-		    tags = cls.sqlExecuteCommand (
+		    tags=cls.sqlExecuteCommand(
 		        text(EmployeeDisplay.Employee_Display_Tags),
 		        params,
 		        BaseSql.ResultAsEncodedDict)
 		)
 
-class EmployeeInterests( BaseSql ):
+class EmployeeInterests(BaseSql):
 	""" EmployeeInterests """
 	@classmethod
-	def delete(cls, params ):
+	def delete(cls, params):
 		""" Delete an employee interest record by employeeid/interestid"""
 		transaction = cls.sa_get_active_transaction()
 		try:
 			for item in session.query(EmployeeInterests).filter_by(
-			    employeeid = params["employeeid"],
-			    interestid = params["interestid"]):
-				session.delete (  item )
+			    employeeid=params["employeeid"],
+			    interestid=params["interestid"]):
+				session.delete(item)
 			transaction.commit()
 		except:
 			LOGGER.exception("EmployeeInterests_delete")
@@ -1306,18 +1394,18 @@ class EmployeeInterests( BaseSql ):
 	def research_contact_interests(cls, params):
 		""" Change the interest on a list """
 
-		transaction = cls.sa_get_active_transaction( )
+		transaction = cls.sa_get_active_transaction()
 
 		try:
 			if params["append_mode"]:
 				# need to delete all keywords exept private and jobrole
-				cls.sqlExecuteCommand (
+				cls.sqlExecuteCommand(
 				  text(EmployeeInterests._Interest_Delete_Batch),
 				  params)
 
 			for interestid in params["interests"] if params["interests"] else []:
 				params["interestid"] = interestid
-				cls.sqlExecuteCommand (
+				cls.sqlExecuteCommand(
 				  text(EmployeeInterests._Interest_Add_Batch),
 				  params)
 
@@ -1348,10 +1436,10 @@ class EmployeePrmaxRole(BaseSql):
 	"""Employee job roles """
 	pass
 
-EmployeePrmaxRole.mapping = Table('employeeprmaxroles', metadata, autoload = True)
-EmployeeRoles.mapping = Table('employeeroles', metadata, autoload = True)
+EmployeePrmaxRole.mapping = Table('employeeprmaxroles', metadata, autoload=True)
+EmployeeRoles.mapping = Table('employeeroles', metadata, autoload=True)
 Employee.mapping = Table('employees', metadata, autoload=True)
-EmployeeInterests.mapping = Table('employeeinterests', metadata, autoload = True)
+EmployeeInterests.mapping = Table('employeeinterests', metadata, autoload=True)
 EmployeeCustomer.mapping = Table('employeecustomers', metadata, autoload=True)
 EmployeeCustomerView.mapping = Table('employeecustomer_view', metadata,
                             Column("employeeid", Integer, primary_key=True),

@@ -38,6 +38,8 @@ class PrEmployeeChangeForm(PrFormSchema):
 	interests = tgvalidators.JSONValidatorInterests()
 	jobroles = tgvalidators.JSONValidatorInterests()
 	no_address = tgvalidators.BooleanValidator()
+#	has_address_old = tgvalidators.BooleanValidator()
+#	has_address_new = tgvalidators.BooleanValidator()
 	outletdeskid = validators.Int()
 
 class PrDeleteEmployeeIdFormSchema(PrFormSchema):

@@ -5,8 +5,10 @@
 	<div data-dojo-attach-point="selectcontactform" class="prmaxvisible prmaxdefault" >
 		<table style="width:100%" class="prmaxtable" cellspacing="0" cellpadding="0">
 			<tr><td class="prmaxrowtag" data-dojo-attach-point="displayname_ctrl">Person</td><td>
+<!--				
 				<select data-dojo-attach-point="contactlist" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"contactid",autoComplete:false,searchAttr:"contactname",labelAttr:"contactname",pageSize:20,required:"${required}",labelType:"html",	style:"width:20em"'></select></td>
-				<td><button data-dojo-type="prcommon2/contact/ContactSelect" data-dojo-props='type:"button",label:"Select"' data-dojo-attach-point="selectContactId"></button></td>
+-->				
+				<td><div data-dojo-type="prcommon2/contact/ContactSelectMain" data-dojo-props='name:"contactid"' data-dojo-attach-point="contactid"></div></td>
 			</tr>
 		</table>
 	</div>

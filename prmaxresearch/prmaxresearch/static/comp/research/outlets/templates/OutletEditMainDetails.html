@@ -44,7 +44,12 @@
 						<span><div data-dojo-attach-point="instagram_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
 					</td>
 				</tr>
-				<tr><td align="right" class="prmaxrowtag">Circulation</td><td><input data-dojo-attach-point="circulation" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='"class":"prmaxinput",name:"circulation",type:"text",value:0,constraints:{min:0,max:999999999}, trim:true'/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Circulation</td>
+					<td>
+						<span><input data-dojo-attach-point="circulation" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='"class":"prmaxinput",name:"circulation",type:"text",value:0,constraints:{min:0,max:999999999}, trim:true'/></span>
+						<span><div data-dojo-attach-point="circulation_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
 				<tr><td align="right" class="prmaxrowtag">Circulation Source</td><td><select data-dojo-props='style:"width:15em",name:"circulationsourceid",autoComplete:true,searchAttr:"circulationsourcedescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationsourceid"></select></td></tr>
 				<tr><td align="right" class="prmaxrowtag">Circulation Date</td><td><select data-dojo-props='style:"width:15em",name:"circulationauditdateid",autoComplete:true,searchAttr:"circulationauditdatedescription",required:false,placeHolder:"No Selection",pageSize:20' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationauditdateid"></select></td></tr>
 
@@ -56,6 +61,9 @@
 				<tr><td align="right" class="prmaxrowtag" valign="top">Frequency Notes</td><td ><div class="stdtextframe" ><textarea data-dojo-attach-point="frequencynotes" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"frequencynotes",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
 				<tr><td align="right" class="prmaxrowtag">Cost</td><td><select data-dojo-props='style:"width:10em",name:"outletpriceid",autoComplete:true,searchAttr:"name",required:false,placeHolder:""' data-dojo-type="dijit/form/Select" data-dojo-attach-point="outletpriceid"></select></td></tr>
 				<tr><td align="right" class="prmaxrowtag">Media Access Type</td><td><select data-dojo-props='style:"width:10em",name:"mediaaccesstypeid",autoComplete:true,searchAttr:"name",required:false,placeHolder:""' data-dojo-type="dijit/form/Select" data-dojo-attach-point="mediaaccesstypeid"></select></td></tr>
+				
+				<tr><td align="right" class="prmaxrowtag">Do not sunchronise</td><td><p data-dojo-attach-point="no_sync" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox"' ></p></td></tr>
+
 			</table>
 		</form>
 	</div>

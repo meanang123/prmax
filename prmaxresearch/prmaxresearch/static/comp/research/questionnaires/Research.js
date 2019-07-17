@@ -46,7 +46,7 @@ define([
 		this.firstname_modified.clear();
 		this.prefix_modified.clear();
 		this.email_modified.clear();
-		this.tel_modified.clear();
+//		this.tel_modified.clear();
 		this.job_title_modified.clear();
 
 	},
@@ -59,7 +59,7 @@ define([
 		this.firstname.set("value", research.firstname );
 		this.prefix.set("value", research.prefix );
 		this.email.set("value", research.email );
-		this.tel.set("value", research.tel );
+//		this.tel.set("value", research.tel );
 		this.job_title.set("value", research.job_title )
 
 		for (var key in user_changes)
@@ -80,9 +80,9 @@ define([
 				case 58:
 					this.email_modified.load(change_record.value, research.email, this.email);
 					break;
-				case 59:
-					this.tel_modified.load(change_record.value, research.tel, this.tel);
-					break;
+//				case 59:
+//					this.tel_modified.load(change_record.value, research.tel, this.tel);
+//					break;
 				case 60:
 					this.job_title_modified.load(change_record.value, research.job_title, this.job_title);
 					break;

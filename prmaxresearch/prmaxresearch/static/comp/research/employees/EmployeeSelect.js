@@ -25,6 +25,7 @@ define([
 	"dijit/form/Button",
 	"research/employees/PersonNew",
 	"prcommon2/contact/ContactSelect",
+	"prcommon2/contact/ContactSelectMain",
 	"research/employees/ContactMerge",
 	], function(declare, BaseWidgetAMD, template, request, utilities2, json, lang, topic, JsonRestStore, Observable, domattr ,domclass){
  return declare("research.employees.EmployeeSelect",
@@ -42,28 +43,32 @@ define([
 	},
 	postCreate:function()
 	{
-		this.contactlist.set("store",this.contactstore );
+		//this.contactlist.set("store",this.contactstore );
 		domattr.set(this.nocontactlabel,'for',this.nocontactnode.id);
 		domattr.set(this.selectcontactlabel, 'for', this.selectcontactnode.id);
-		this.selectContactId.set("callback", lang.hitch(this, this._selected_from_extended));
+		this.contactid.set("callback", lang.hitch(this, this._selected_from_extended));
 		if ( this.mustexists==true )
 		{
 			domclass.add(this.select_view,"prmaxhidden");
 			this.selectcontactnode.set("checked",true);
 			domclass.add(this.displayname_ctrl,"prmaxhidden");
-			domclass.add(this.contactlist.domNode,"prmaxrequired");
+			//domclass.add(this.contactlist.domNode,"prmaxrequired");
 		}
-		if ( this.required == true )
-		{
-			domclass.add(this.contactlist.domNode,"prmaxrequired");
-		}
+		//if ( this.required == true )
+		//{
+		//	domclass.add(this.contactlist.domNode,"prmaxrequired");
+		//}
 
 		this.inherited(arguments);
 
 	},
-	_add_event:function ( contact )
+	//_add_event:function ( contact )
+	//{
+		//this.contactlist.set("value",contact.contactid);
+	//},
+	add_event:function(contact)
 	{
-		this.contactlist.set("value",contact.contactid);
+		this.contactid.set("value", contact.contactid);
 	},
 	_setCheckedAttr:function( value )
 	{
@@ -76,20 +81,32 @@ define([
 		this.nocontactnode.set("checked",true);
 		this._change_mode(true);
 	},
+	//_getValueAttr:function( )
+	//{
+	//	return this.contactlist.get("value");
+	//},
+	//_setValueAttr:function( value )
+	//{
+	//	this.contactlist.set("value", value );
+	//},
 	_getValueAttr:function( )
 	{
-		return this.contactlist.get("value");
+		return this.contactid._contact.contactid.get("value");
 	},
 	_setValueAttr:function( value )
 	{
-		this.contactlist.set("value", value );
+		this.contactid.set("value", value );
 	},
 	isValid:function()
 	{
 		var rvalid = true ;
 		var valid = true;
 
-		var v = this.contactlist.get("value");
+		//var v = this.contactlist.get("value");
+		//if ( v=="" || v == -1 || v==0 || v==null)
+		//	valid = false;
+
+		var v = this.contactid.get("value");
 		if ( v=="" || v == -1 || v==0 || v==null)
 			valid = false;
 		if (this.required==true)
@@ -110,13 +127,18 @@ define([
 	{
 		return true;
 	},
+	//focus: function()
+	//{
+	//	this.contactlist.focus();
+	//},
 	focus: function()
 	{
-		this.contactlist.focus();
+		this.contactid.focus();
 	},
 	clear:function()
 	{
-		this.contactlist.set("value",null);
+	//	this.contactlist.set("value",null);
+		this.contactid.set("value",null);
 		this._shopadd = false;
 	},
 	_contact_mode_no_contact:function()
@@ -132,23 +154,35 @@ define([
 		domclass.remove(this.selectcontactform, mode?"prmaxvisible":"prmaxhidden");
 		domclass.add(this.selectcontactform, mode?"prmaxhidden":"prmaxvisible");
 
-		if (mode)
-			domclass.remove(this.contactlist, "prmaxrequired");
-		else
-			domclass.add(this.contactlist, "prmaxrequired");
+		//if (mode)
+		//	domclass.remove(this.contactlist, "prmaxrequired");
+		//else
+		//	domclass.add(this.contactlist, "prmaxrequired");
 
-		this.contactlist.set("disabled" , mode);
+		//this.contactlist.set("disabled" , mode);
+
+		if (mode)
+			domclass.remove(this.contactid, "prmaxrequired");
+		else
+			domclass.add(this.contactid, "prmaxrequired");
+
+		this.contactid.set("disabled" , mode);
 		this._shopadd = false;
 	},
 	_update_after_add:function(contact)
 	{
-		this.contactlist.set("value",contact.contactid);
+		//this.contactlist.set("value",contact.contactid);
+		this.contactid.set("value",contact.contactid);
 		this._shopadd = false;
 		this._add_contact_show();
 	},
+	//_selected_from_extended:function(contact)
+	//{
+		//this.contactlist.set("value",contact.contactid);
+	//},
 	_selected_from_extended:function(contact)
 	{
-		this.contactlist.set("value",contact.contactid);
+		this.contactid.set("value",contact.contactid);
 	},
 });
 });

@@ -11,13 +11,18 @@
 			<div class="paddingrow">&nbsp;</div>
 			<div id="std_search_quick_outletname" usepartial="true" search="std_search_quick" displayname="Outlet Name" keytypeid="${prmax.search_indexes.outlet_name}" name="quick_searchname" dojoType="prmax.search.standard"></div>
 			<hr />
-			<div search="std_search_quick" usepartial="true"  displayname="Surname" keytypeid="${prmax.search_indexes.employee_contactfull_employeeid}" name="quick_contact" dojoType="prmax.search.standard"></div>
+<!--
+			<div search="std_search_quick" usepartial="true" displayname="Surname" keytypeid="${prmax.search_indexes.employee_contactfull_employeeid}" name="quick_contact" dojoType="prmax.search.standard"></div>
 			<hr/>
+-->
+			<div usepartial="true" search="std_search_quick" id="std_search_quick_contact_ext" keytypeid="${prmax.search_indexes.employee_contactfull_ext_employeeid}" name="quick_contactfull_ext" dojoType="prmax.search.person"></div>
+			<hr/>
+			
 			<div search="std_search_quick" style="width:99%" keytypeid="${prmax.search_indexes.outlet_outlettypeid}" name="quick_outlettypes" dojoType="prmax.search.PrmaxOutletTypes"></div>
 			<hr/>
-			<div   search="std_search_quick" id="std_search_quick_interests" style="width:99%" keytypeid="${prmax.search_indexes.quick_search_interests}" restrict="0"  name="quick_interests" dojoType="prcommon.interests.Interests"></div>
+			<div search="std_search_quick" id="std_search_quick_interests" style="width:99%" keytypeid="${prmax.search_indexes.quick_search_interests}" restrict="0"  name="quick_interests" dojoType="prcommon.interests.Interests"></div>
 			<hr/>
-			<div  search="std_search_quick" style="width:99%" keytypeid="${prmax.search_indexes.outlet_coverage}" name="quick_coverage"  id="quick_coverage" dojoType="prmax.geographical.Geographical" title="Geo. Coverage"></div>
+			<div search="std_search_quick" style="width:99%" keytypeid="${prmax.search_indexes.outlet_coverage}" name="quick_coverage"  id="quick_coverage" dojoType="prmax.geographical.Geographical" title="Geo. Coverage"></div>
 			<hr/>
 			<div search="std_search_quick" displayname="Tel" keytypeid="${prmax.search_indexes.quick_search_tel}" name="quick_tel" min="4" dojoType="prmax.search.standard"></div>
 			<hr/>

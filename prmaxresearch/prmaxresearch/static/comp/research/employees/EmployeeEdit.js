@@ -44,6 +44,8 @@ define([
 		this._load_call = lang.hitch(this,this._load);
 		this._copy_interests_call = lang.hitch(this, this._copy_interests);
 		this._desklist = null;
+		this._has_address_old = null;
+		this._has_address_new = null;
 
 		this.reasoncode_data_add = PRCOMMON.utils.stores.Research_Reason_Add_Codes();
 		this.reasoncode_data_upd = PRCOMMON.utils.stores.Research_Reason_Update_Codes();
@@ -63,6 +65,11 @@ define([
 			{
 				topic.publish(PRCOMMON.Events.Employee_Updated, response.employee);
 				alert("Contact updated. Please verify the 'Research tab' to make sure these changes haven't effected it");
+			}
+			this._has_address_old = this._has_address_new;
+			if (this._has_address_new == false)
+			{
+				this._clear_address();	
 			}
 		}
 		else
@@ -94,6 +101,7 @@ define([
 		}
 		if (this.employeeid!=-1)
 		{
+			domclass.remove(this.copy_keywords_btn, "prmaxhidden");
 			this.reasoncodeid.store = this.reasoncode_data_upd;
 			request.post('/research/admin/employees/research_get_edit',
 				utilities2.make_params({data:{employeeid:this.employeeid}})).then
@@ -101,6 +109,7 @@ define([
 		}
 		else
 		{
+			domclass.add(this.copy_keywords_btn, "prmaxhidden");
 			this.reasoncodeid.store = this.reasoncode_data_add;
 			this.clear();
 			this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
@@ -135,11 +144,14 @@ define([
 		else
 		{
 			this.selectcontact.set("checked",false);
-			this.selectcontact.set("value",response.data.employee.contactid);
+			this.selectcontact.contactid.set("value",response.data.employee.contactid);
+			domattr.set(this.selectcontact.contactid.display, "innerHTML", response.data.contactname);
+//			this.contactid.set("value", response.data.employee.contactid);
 		}
 		if (response.data.employee.communicationid == null )
 		{
 			this.no_address.set("checked", false );
+			this._has_address_old = false;
 			this._address_show_do(false);
 		}
 		else
@@ -147,6 +159,7 @@ define([
 			if (response.data.address != null )
 			{
 				this.no_address.set("checked", true );
+				this._has_address_old = true;
 				this._address_show_do(true);
 				this.address1.set("value", response.data.address.address1);
 				this.address2.set("value", response.data.address.address2);
@@ -157,12 +170,8 @@ define([
 			else
 			{
 				this.no_address.set("checked", false );
-				this._address_show_do(false);
-				this.address1.set("value", "");
-				this.address2.set("value", "");
-				this.townname.set("value", "");
-				this.county.set("value", "");
-				this.postcode.set("value","");
+				this._has_address_old = false;
+				this._clear_address();
 			}
 		}
 
@@ -190,6 +199,15 @@ define([
 		var formdata = this.formnode.get("value");
 
 		formdata["reasoncodeid"] = this.reasoncodeid.get("value");
+		formdata["has_address_old"] = this._has_address_old;
+		if (this._has_address_new != null)
+		{
+			formdata["has_address_new"] = this._has_address_new;
+		}
+		else 
+		{
+			formdata["has_address_new"] = this._has_address_old;
+		}
 
 		url = (this.employeeid == -1 ) ? '/research/admin/employees/research_new' :  '/research/admin/employees/research_update' ;
 		request.post(url,utilities2.make_params({ data : formdata})).then
@@ -207,12 +225,6 @@ define([
 		this.interests.set("value","");
 		this.selectcontact.clear();
 		this.no_address.set("checked", false);
-		this._address_show_do ( false );
-		this.address1.set("value","");
-		this.address2.set("value","");
-		this.townname.set("value","");
-		this.county.set("value","");
-		this.postcode.set("value","");
 		this.twitter.set("value","");
 		this.facebook.set("value","");
 		this.linkedin.set("value","");
@@ -220,6 +232,7 @@ define([
 		this.jobroles.clear();
 		this.outletdeskid.set("value",-1);
 		this._desklist = null;
+		this._clear_address();
 	},
 	_close:function()
 	{
@@ -233,6 +246,16 @@ define([
 	_address_show:function()
 	{
 		this._address_show_do ( this.no_address.get("checked") ) ;
+		if (this.no_address.get('checked'))
+		{
+			this._has_address_old = false;
+			this._has_address_new = true;
+		}
+		else
+		{
+			this._has_address_old = true;
+			this._has_address_new = false;	
+		}
 	},
 	_address_show_do:function ( show_it )
 	{
@@ -256,7 +279,7 @@ define([
 	_copy_keywords_btn:function()
 	{
 		request.post('/research/admin/employees/research_copy_interests_outlet_to_employee',
-				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletidnode.get('value')}})).then
+				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletidnode.get('value'), reasoncodeid:this.reasoncodeid.get('value')}})).then
 				(this._copy_interests_call);
 	},
 	_copy_interests:function(response)
@@ -265,6 +288,15 @@ define([
 		{
 			this.interests.set("value", response.data.interests);
 		}
-	}
+	},
+	_clear_address:function()
+	{
+		this._address_show_do(false);
+		this.address1.set("value", "");
+		this.address2.set("value", "");
+		this.townname.set("value", "");
+		this.county.set("value", "");
+		this.postcode.set("value","");	
+	},	
 });
 });

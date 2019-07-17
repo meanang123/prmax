@@ -72,6 +72,8 @@ IS_EMPLOYEE = (
              Constants.employee_prmaxoutlettypeid,
              Constants.employee_countryid,
              Constants.employee_contact_ext_employeeid,
+             Constants.freelance_contact_ext_employeeid,
+             Constants.employee_contactfull_ext_employeeid
 
 )
 

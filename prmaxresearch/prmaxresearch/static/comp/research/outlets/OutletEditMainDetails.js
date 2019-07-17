@@ -84,6 +84,7 @@ define([
 		this.twitter_show.set("source",this.twitter);
 		this.linkedin_show.set("source",this.linkedin);
 		this.instagram_show.set("source",this.instagram);
+		this.circulation_show.set("source", "https://www.abc.org.uk/");
 
 		this.inherited(arguments)
 	},
@@ -162,12 +163,16 @@ define([
 			this.incorporating.set("value", "");
 			this.frequencynotes.set("value", "");
 		}
-
+		this.no_sync.set("value", outlet.researchdetails.no_sync);
 
 
 		this.outletid.set("value",outlet.outlet.outletid);
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 	},
+	_setCheckedAttr:function( value )
+	{
+		this.no_sync.set("checked",value);
+	},	
 	_update: function()
 	{
 		if ( utilities2.form_validator(this.form)==false)
@@ -176,10 +181,11 @@ define([
 			this.updatebtn.cancel();
 			throw "N"
 		}
-
+		
 		// add the reason code
 		var tmp_data = this.form.get("value");
 		tmp_data["reasoncodeid"] = this.reasoncodeid.get("value");
+		tmp_data["no_sync"] = this.no_sync.get("checked");
 
 		 request.post('/research/admin/outlets/research_main_update',
 			utilities2.make_params({ data : tmp_data})).

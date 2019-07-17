@@ -13,7 +13,7 @@
 import logging
 import types
 from sqlalchemy.sql import text
-from turbogears.database import session
+from turbogears.database import session, config
 from simplejson import JSONDecoder
 from prcommon.model.common import BaseSql
 from prcommon.model.caching import CacheQueue
@@ -287,6 +287,7 @@ class ApiSearching(object):
 	_quick_kw = (
 		('quick_contact', Constants.employee_contactfull_employeeid, _convertdatalower, Constants.Search_Data_Employee, True),
 	    ('quick_contact_ext', "SearchEmployeeContactExt",_convertobj, None, True ),
+	    ('quick_contactfull_ext', "SearchEmployeeContactFullExt",_convertobj, None, True ),
 		('quick_types', Constants.outlet_searchtypeid, _covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_outlettypes', Constants.outlet_outlettypeid, _covertdata_or_logic, Constants.Search_Data_Outlet, False),
 		('quick_interests', "SearchInterestsAll", _listostring, Constants.Search_Data_Employee, False),
@@ -326,6 +327,7 @@ class ApiSearching(object):
 	)
 	_freelance_kw = (
 		('freelance_searchname', Constants.freelance_employeeid, _convertdatalower, None, True),
+	    ('freelance_searchname_ext', "SearchFreelanceContactExt",_convertobj, None, True ),
 		('freelance_email', "SearchFreelanceEmail", _convertdata_email, None, True),
 		('freelance_tel', "SearchFreelanceTel", _convertdata_tel, None, True),
 		('freelance_interests', Constants.freelance_employeeid_interestid, _convertdata, None, False),
@@ -389,6 +391,7 @@ class ApiSearching(object):
 		the procedure is used to chnage the output """
 		partial = int(params.get('search_partial', '0'))
 		params["partial"] = partial
+		pythonversion = config.get('python.version')
 		customerid = -1 if "research" in params else params['customerid']
 		criteriaset = ApiSearching._searchs[params.search_type]
 		commands = PostGresSearch(customerid)
@@ -403,23 +406,37 @@ class ApiSearching(object):
 				continue
 
 			data = cri[2](params.get(cri[0]), params)
-			command = PostGresSearchGroup(
-				cri[1],
-				data.data,
-				data.logic,
-				partial if cri[4] else 0,
-				Constants.Search_And)
-			command.type = criteriaset[1]
-			commands.rows.append(command)
+
+			if pythonversion == 3:
+				command = {}
+				command['keytypeid'] = cri[1]
+				command['word'] = data.data
+				command['logic'] = data.logic
+				command['partial'] = partial if cri[4] else 0
+				command['grouplogic'] = Constants.Search_And
+				command['type'] = criteriaset[1]
+				commands['rows'].append(command)
+			else:
+				command = PostGresSearchGroup(
+					cri[1],
+					data.data,
+					data.logic,
+					partial if cri[4] else 0 ,
+					Constants.Search_And)
+				command.type = criteriaset[1]
+				commands.rows.append(command)
+
 			if cri[3] != None:
-				command.type = cri[3]
+				if pythonversion == 3:
+					command['type'] = cri[3]
+				else:
+					command.type = cri[3]
 
 		searchtypeid = params.get("searchtypeid", Constants.Search_Standard_Type)
 		# no criteria return no results
 		if len(commands.rows) == 0:
 			return SearchSession.getSessionCount(
 				dict(userid=params['user_id'], searchtypeid=searchtypeid))
-
 
 		# do actual search
 		command = "SELECT * FROM %s(:data,:userid,:searchtypeid,:newsession,:searchby)" % criteriaset[3] if procedure == None else procedure

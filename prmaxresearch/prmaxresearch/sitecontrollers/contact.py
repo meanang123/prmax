@@ -118,6 +118,17 @@ class ContactController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	@identity.require(identity.in_group("dataadmin"))
+	def research_exist(self, *argv, **params):
+		""" check if a contact exists """
+
+		params['customerid'] = -1
+		return stdreturn(exist=Contact.exists(params))
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
 	@validate(validators=PrContactFormSchema(), state_factory=std_state_factory)
 	@identity.require(identity.in_group("dataadmin"))
 	def research_update(self, *argv, **params):

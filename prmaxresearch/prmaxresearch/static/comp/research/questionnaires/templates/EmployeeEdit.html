@@ -5,7 +5,9 @@
 		<input data-dojo-attach-point="researchprojectitemid" data-dojo-props='name:"researchprojectitemid",type:"hidden"' data-dojo-type="dijit/form/TextBox"></input>
 		<input data-dojo-attach-point="researchprojectitemchangeid" data-dojo-props='name:"researchprojectitemchangeid",type:"hidden"' data-dojo-type="dijit/form/TextBox"></input>
 		<table style="width:97%;border-collapse:collapse;" cellspacing="0" cellpadding="0" border="0">
-			<tr><td width="15%" class="prmaxrowtag" valign="top"align="right">Person</td><td><div data-dojo-props='"class":"prmaxrequired"' data-dojo-type="research/employees/EmployeeSelect" data-dojo-attach-point="selectcontact"></div><div data-dojo-attach-point="contact_name_display" style="color:red;font-weight:bold"></div></td></tr>
+			
+			<tr><td width="15%" class="prmaxrowtag" valign="top"align="right">Person</td><td><div data-dojo-props='"class":"prmaxrequired"' data-dojo-type="research/employees/EmployeeSelect" data-dojo-attach-point="selectcontact"></div></td></tr>
+
 			<tr><td align="right" class="prmaxrowtag">Job Title</td><td><input data-dojo-attach-point="job_title" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxrequired",name:"job_title",type:"text",maxlength:80,trim:true,required:false,style:"width:98%"'/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="job_title_modified"></div></td></tr>
 			<tr><td align="right" class="prmaxrowtag" valign="top">Job Roles</td><td><div data-dojo-attach-point="jobroles" data-dojo-type="prcommon2/roles/Roles" data-dojo-props='name:"jobroles",value:"",startopen:true, size:6, searchmode:true, selectonly:true' ></div></td></tr>
 			<tr><td align="right" class="prmaxrowtag">Desk</td><td><select data-dojo-attach-point="outletdeskid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"outletdeskid",searchAttr:"deskname",labelType:"html","class":"prmaxrequired"' /></td></tr>
