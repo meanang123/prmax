@@ -1050,7 +1050,7 @@ class Employee(BaseSql):
 			                    parentobjectid=employee.outletid,
 			                    parentobjecttypeid=Constants.Object_Type_Outlet
 			                    )
-			session.add(activit)
+			session.add(activity)
 			session.flush()
 
 			#existing_employee_interests = []

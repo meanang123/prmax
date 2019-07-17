@@ -125,7 +125,7 @@ class ProjectEmails(object):
 	def get_link(istest):
 		"return link for mode"
 		if istest:
-			return "http://test.questionnaire.prmax.co.uk"
+			return "https://questionnaire.pr-max.net"
 		else:
 			return "https://questionnaire.prmax.co.uk"
 
