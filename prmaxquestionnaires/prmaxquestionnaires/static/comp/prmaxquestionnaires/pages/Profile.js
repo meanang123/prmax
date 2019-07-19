@@ -87,7 +87,7 @@ define([
 			this.language1id.set("value", outlet.language1id);
 			this.language2id.set("value", outlet.language2id);
 			this.relatedoutlets.set("value", outlet.relatedoutlets);
-			this.publishername.set("value", outlet.publishername);
+			//this.publishername.set("value", outlet.publishername);
 
 			if (outlet.outletprofile.profile)
 			{
