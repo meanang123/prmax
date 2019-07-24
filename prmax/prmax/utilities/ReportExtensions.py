@@ -33,6 +33,7 @@ from ttl.report.clippings_dashboard_chart_report import ClippingsDashboardPieCha
 from ttl.report.partners_list_report import PartnersListPDF
 from ttl.report.statistics_report import StatisticsPDF, StatisticsExcel
 from ttl.report.activitylog_report import ActivityLogPDF, ActivityLogExcel
+from ttl.report.clippings_std_report import ClippingsStdPDF, ClippingsStdExcel
 from ttl.report.pdf_fields import *
 from datetime import date
 from prcommon.Const.Email_Templates import *
@@ -1209,11 +1210,11 @@ class ActivityLogReport(ReportCommon):
 	"""Statistics Report"""
 
 	def __init__(self, reportoptions, parent):
-		ReportCommon.__init__ (self, reportoptions, parent )
+		ReportCommon.__init__(self, reportoptions, parent)
 #		self._byissue = False
 		self._byclient = False
 
-	def load_data(self, db_connect ):
+	def load_data(self, db_connect):
 		"Load Data"
 
 		data_command = """SELECT to_char(a.activitydate, 'DD/MM/YYYY HH24:MI:SS') as activitydate, a.description, at.actiontypedescription,
@@ -1238,7 +1239,7 @@ class ActivityLogReport(ReportCommon):
 		whereclause = ''
 		orderbyclause = ' ORDER BY a.activitydate ASC'
 
-		params = dict(customerid = self._reportoptions["customerid"])
+		params = dict(customerid=self._reportoptions["customerid"])
 		is_dict = False if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv else True
 
 		if "user" in self._reportoptions and self._reportoptions['user'] != '' \
@@ -1286,18 +1287,18 @@ class ActivityLogReport(ReportCommon):
 		else:
 			params['to_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['to_date'], "%Y-%m-%d"), "%d/%m/%Y")
 		dates = dict(from_date=params['from_date'], to_date=params['to_date'])
-		criteria = dict(dates = dates, user = params.get('username', None), objecttype = params.get('typedescription', None))
+		criteria = dict(dates=dates, user=params.get('username', None), objecttype=params.get('typedescription', None))
 
 		customername = db_connect.executeAll(customername, params, is_dict)
 		return dict(results = results_data, dates = dates, criteria = criteria, customername = customername)
 
-	def run( self, data , output ) :
+	def run(self, data, output):
 		"run daily report"
 
 		if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
-			report = ActivityLogExcel( self._reportoptions, data['results'], data['dates'], data['criteria'])
+			report = ActivityLogExcel(self._reportoptions, data['results'], data['dates'], data['criteria'])
 		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
-			report = ActivityLogPDF( self._reportoptions, data['results'], data['dates'], data['criteria'], data['customername'])
+			report = ActivityLogPDF(self._reportoptions, data['results'], data['dates'], data['criteria'], data['customername'])
 
 		output.write(report.stream())
 
@@ -1305,16 +1306,16 @@ class ClippingsDashboardChartReport(ReportCommon):
 	"""Clippings Pie chart Reports"""
 
 	def __init__(self, reportoptions, parent):
-		ReportCommon.__init__ (self, reportoptions, parent )
+		ReportCommon.__init__(self, reportoptions, parent)
 
 	def load_data(self, db_connect ):
 		"Load Data"
 
 		data = json.loads(self._reportoptions['data'])
 
-		return dict ( data = data )
+		return dict(data=data)
 
-	def run( self, data , output ) :
+	def run(self, data, output) :
 		"run clippings report"
 
 		res = json.loads(self._reportoptions['data'])
@@ -1332,7 +1333,72 @@ class ClippingsDashboardChartReport(ReportCommon):
 				report = ClippingsDashboardChartReportExcel( self._reportoptions,  res, 'line', None)
 			elif res['chartviewid'] == 3:
 				report = ClippingsDashboardChartReportExcel( self._reportoptions,  res, 'column', 'stacked')
-			
-			
+
+		output.write(report.stream())
+
+class ClippingsStdReport(ReportCommon):
+	"""Clippings Standard Report"""
+
+	def __init__(self, reportoptions, parent):
+		ReportCommon.__init__(self, reportoptions, parent)
+
+	def load_data(self, db_connect ):
+		"Load Data"
+
+		data_command = """SELECT to_char(c.clip_source_date, 'DD/MM/YYYY') as clip_source_date, ct.clippingstypedescription,
+		cl.clientname, o.outletname, clip_title, clip_abstract, clip_text, clip_link
+		FROM userdata.clippings AS c
+		LEFT OUTER JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
+		LEFT OUTER JOIN userdata.client AS cl ON cl.clientid = c.clientid
+		LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
+
+		customername = """SELECT customername FROM internal.customers WHERE customerid = %(customerid)s"""
+		whereclause = BaseSql.addclause('', 'c.customerid=%(customerid)s')
+		orderbyclause = ' ORDER BY c.clip_source_date ASC'
+
+		params = dict(customerid=self._reportoptions["customerid"], userid=self._reportoptions["user_id"])
+		is_dict = False if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv else True
+		dates = {}
+		if self._reportoptions['source'] == 'selected':
+			whereclause = BaseSql.addclause( whereclause, 'c.clippingid in (SELECT clippingid FROM userdata.clippingselection WHERE userid = %(userid)s)')
+		else:
+			drange = simplejson.loads(self._reportoptions["drange"])
+			option = TTLConstants.CONVERT_TYPES[drange["option"]]
+			if option == TTLConstants.BEFORE:
+				params["from_date"] = drange["from_date"]
+				whereclause = whereclause
+			elif option == TTLConstants.AFTER:
+				# After
+				params["from_date"] = drange["from_date"]
+				whereclause = BaseSql.addclause( whereclause, 'c.clip_source_date  >= %(from_date)s')
+			elif option == TTLConstants.BETWEEN:
+				# ABetween
+				params["from_date"] = drange["from_date"]
+				params["to_date"] = drange["to_date"]
+				whereclause = BaseSql.addclause( whereclause, 'c.clip_source_date  BETWEEN %(from_date)s AND %(to_date)s')
+
+			if 'from_date' not in params:
+				params['from_date'] = 'Start'
+			else:
+				params['from_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['from_date'], "%Y-%m-%d"), "%d/%m/%Y")
+			if 'to_date' not in params:
+				params['to_date'] = datetime.datetime.now().strftime('%d/%m/%Y')
+			else:
+				params['to_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['to_date'], "%Y-%m-%d"), "%d/%m/%Y")
+			dates = dict(from_date=params['from_date'], to_date=params['to_date'])
+
+		results_data = db_connect.executeAll(data_command + whereclause + orderbyclause, params, is_dict)
+		if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv:
+			results_data.insert(0, ('Date', 'Type', 'Client', 'Publication', 'Title', 'Abstract', 'Text', 'URL'))
+
+		return dict(results=results_data, dates=dates, customername=customername)
+
+	def run(self, data, output):
+		"run clippings report"
+
+		if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
+			report = ClippingsStdPDF(self._reportoptions, data['results'], data['dates'], data['customername'])
+		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
+			report = ClippingsStdExcel(self._reportoptions, data['results'], data['dates'])
 
 		output.write(report.stream())

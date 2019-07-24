@@ -739,6 +739,28 @@ dojo.declare("prmax.display.CommonBanner",
 		var args =
 			{
 				key:"clippings.html",
+				href:"/clippings/open_clipping_view",
+				style:"width:100%;height:100%;padding:0px;margin:0px;overflow:hidden;"
+			};
+
+		var page = this.mainpanel.getPage("clippings.html");
+		if (page==null)
+		{
+			page = this.mainpanel.addPage ( args ) ;
+			ttl.utilities.resize ( page ) ;
+		}
+		else
+		{
+			this.mainpanel.showPage(page);
+		}
+	},
+/*
+	_show_clippings:function()
+	{
+		this.loadLinks();
+		var args =
+			{
+				key:"clippings.html",
 				href:"/layout/clippings_view",
 				style:"width:100%;height:100%"
 			};
@@ -754,6 +776,7 @@ dojo.declare("prmax.display.CommonBanner",
 			this.mainpanel.showPage(page);
 		}
 	},
+*/
 	_question:function(filter_type)
 	{
 		this.loadLinks();

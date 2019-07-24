@@ -5,12 +5,11 @@
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-line-chart fa-3x",showLabel:false,label:"Time"' data-dojo-attach-event="onClick:_time_btn_event"></div>
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-info-circle fa-3x",showLabel:false,label:"Show Details"' data-dojo-attach-event="onClick:_details_btn_event"></div>
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",showLabel:false,label:"Add Private Clipping"' data-dojo-attach-event="onClick:_add_btn_event"></div>
-
-		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-sliders fa-3x",showLabel:false,label:"Options"' data-dojo-attach-event="onClick:_options_btn_event"></div>
-		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-columns fa-3x",showLabel:false,label:"Dashboard"' data-dojo-attach-event="onClick:_dashboard_btn_event"></div>
-		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-cog fa-3x",showLabel:false,label:"Dashboard Settings"' data-dojo-attach-event="onClick:_dashboardsettings_btn_event"></div>
-
+		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-sliders fa-3x",showLabel:false,label:"Options"' data-dojo-attach-event="onClick:_options_btn_event" data-dojo-attach-point="options_btn"></div>
+		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-columns fa-3x",showLabel:false,label:"Dashboard"' data-dojo-attach-event="onClick:_dashboard_btn_event" data-dojo-attach-point="dashboard_btn"></div>
+		<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-cog fa-3x",showLabel:false,label:"Dashboard Settings"' data-dojo-attach-event="onClick:_dashboardsettings_btn_event" data-dojo-attach-point="dashboardsettings_btn"></div>
 		<div data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",iconClass:"fa fa-envelope-o fa-3x",showLabel:false,label:"Sent Clippings Emails"' data-dojo-attach-event="onClick:_email_btn_event" data-dojo-attach-point="emailsbtn"></div>
+		<div data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxhidden",iconClass:"fa fa-print fa-3x",showLabel:false,label:"Output"' data-dojo-attach-event="onClick:_output_std_btn_event" data-dojo-attach-point="outputbtn"></div>
 	</div>
 	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false' >
 		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="controls" data-dojo-props="region:'center',preload:false">
@@ -24,6 +23,9 @@
 		</div>
 		<div data-dojo-attach-point="email_dlg" data-dojo-type="dijit/Dialog" title="Email Clippings" data-dojo-props='style:"width:500px"'>
 			<div data-dojo-type="prcommon2/clippings/emails" data-dojo-attach-point="emails_ctrl"></div>
+		</div>
+		<div data-dojo-attach-point="output_std_dlg" data-dojo-type="dijit/Dialog" title="Output" data-dojo-props='style:"width:500px;height:300px"'>
+			<div data-dojo-type="prcommon2/clippings/output_std" data-dojo-attach-point="output_std_ctrl"></div>
 		</div>
 	</div>
 </div>

@@ -197,3 +197,9 @@ UPDATE employeeinterests SET employeeprmaxroleid = null where employeeprmaxrolei
 DROP TRIGGER outletprmaxroles_update ON employeeprmaxroles;
 DROP TRIGGER outletprmaxroles_delete ON employeeprmaxroles;
 DROP TRIGGER outletprmaxroles_add ON employeeprmaxroles;
+
+INSERT INTO internal.reportsource VALUES (17, 'Clippings Standard');
+INSERT INTO internal.reporttemplates VALUES (35, -1, 'Clippings Standard Report', '<queries><query type="CUSTOM"></query></queries>', '', 17, 'ClippingsStdReport');
+
+
+

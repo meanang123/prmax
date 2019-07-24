@@ -1,0 +1,27 @@
+<div>
+<span class="common_prmax_layout"><br/>
+	<form data-dojo-attach-point="form_output" data-dojo-type="dijit/form/Form" data-dojo-props='onSubmit:"return false", style:"height:300px;width:500px"'>
+		<label class="label_1">Output Format</label>
+		<label data-dojo-attach-point="pdf_label">Pdf&nbsp;<input data-dojo-attach-point="pdf" data-dojo-props="name:'reportoutputtypeid',value:'0',type:'radio',checked:true" data-dojo-type="dijit/form/RadioButton"></label>
+		<label data-dojo-attach-point="csv_label">Csv&nbsp;<input data-dojo-attach-point="csv" data-dojo-props="name:'reportoutputtypeid',value:'2',type:'radio'" data-dojo-type="dijit/form/RadioButton"></label>
+		<label data-dojo-attach-point="excel_label">Excel&nbsp;<input data-dojo-attach-point="excel" data-dojo-props="name:'reportoutputtypeid',value:'4',type:'radio'" data-dojo-type="dijit/form/RadioButton"></label><br/><br/>
+		
+		<label class="label_1">Source</label>
+		<label data-dojo-attach-point="selected_label">Selected&nbsp;<input data-dojo-attach-point="source_selected" data-dojo-props="type:'radio',checked:true" data-dojo-type="dijit/form/RadioButton" data-dojo-attach-event="onClick:_change_source"></label>
+		<label data-dojo-attach-point="criteria_label">Criteria&nbsp;<input data-dojo-attach-point="source_criteria" data-dojo-props="type:'radio'" data-dojo-type="dijit/form/RadioButton"  data-dojo-attach-event="onClick:_change_source"></label></br></br>
+		
+		<label data-dojo-attach-point="client_label" class="label_1 prmaxhidden"></label><select data-dojo-props='"class":"prmaxhidden", placeHolder:"No Selection",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"width:8em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="clientid"></select></br>
+		<label data-dojo-attach-point="issue_label" class="label_1 prmaxhidden"></label><select data-dojo-props='"class":"prmaxhidden",placeHolder:"No Selection",name:"issueid",autoComplete:true,searchAttr:"name",required:false,invalidMessage:"Select",labelType:"html",style:"width:8em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="issueid"></select></br>
+		<label data-dojo-attach-point="drange_label" class="label_1 prmaxhidden">Dates</label><div data-dojo-props='"class":"prmaxhidden"' data-dojo-type="prcommon2/date/daterange" data-dojo-attach-point="drange"></div></br></br>
+
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Close","class":"btnleft",iconClass:"fa fa-close fa-2x"'></button>
+		<button data-dojo-attach-event="onClick:_do_report" data-dojo-attach-point="reportbtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Generate","class":"btnright",iconClass:"fa fa-print fa-2x"'></button>
+
+		<br/><br/>
+	</form>
+</span>
+	<div data-dojo-attach-point="report_dlg" data-dojo-type="dijit/Dialog" title="Clippings Report" data-dojo-props='style:"width:300px"'>
+		<div data-dojo-type="prcommon2/reports/ReportBuilder" data-dojo-attach-point="report_node"></div>
+	</div>
+
+</div>
