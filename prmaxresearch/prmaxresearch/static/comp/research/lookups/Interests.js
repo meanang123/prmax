@@ -21,6 +21,10 @@ define([
 	"ttl/utilities2",
 	"dojo/json",
 	"dojo/topic",
+	"dojo/_base/lang",
+	"dojo/dom-attr",
+	"dojo/dom-class",
+	"dojo/on",
 	"dijit/layout/ContentPane",
 	"dijit/Toolbar",
 	"dijit/form/DropDownButton",
@@ -31,7 +35,7 @@ define([
 	"dijit/form/ValidationTextBox",
 	"dijit/form/Form",
 	"prcommon2/interests/Interests"
-	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, Memory, request, utilities2, json, topic ){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, Memory, request, utilities2, json, topic,lang,domattr,domclass,on){
  return declare("research.lookup.Interests",
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
@@ -42,13 +46,13 @@ define([
 		this.interest_outlet_used = new Observable( new JsonRest( {target:'/research/admin/interests/research_where_used_outlet', idProperty:"outletid"}));
 		this.interest_employee_used = new Observable( new JsonRest( {target:'/research/admin/interests/research_where_used_employee', idProperty:"employeeid"}));
 
-		this._add_interest_call_back = dojo.hitch ( this, this._add_interest_call ) ;
-		this._rename_interest_call_back = dojo.hitch ( this, this._rename_interest_call ) ;
-		this._delete_interest_call_back = dojo.hitch ( this, this._delete_interest_call ) ;
-		this._delete_outlet_call_back = dojo.hitch ( this, this._delete_outlet_call ) ;
-		this._delete_employee_call_back = dojo.hitch ( this, this._delete_employee_call ) ;
-		this._transfer_selection_call_back = dojo.hitch ( this, this._transfer_selection_call ) ;
-		this._transfer_call_back = dojo.hitch(this, this._transfer_call);
+		this._add_interest_call_back = lang.hitch ( this, this._add_interest_call ) ;
+		this._rename_interest_call_back = lang.hitch ( this, this._rename_interest_call ) ;
+		this._delete_interest_call_back = lang.hitch ( this, this._delete_interest_call ) ;
+		this._delete_outlet_call_back = lang.hitch ( this, this._delete_outlet_call ) ;
+		this._delete_employee_call_back = lang.hitch ( this, this._delete_employee_call ) ;
+		this._transfer_selection_call_back = lang.hitch ( this, this._transfer_selection_call ) ;
+		this._transfer_call_back = lang.hitch(this, this._transfer_call);
 	},
 		postCreate:function()
 		{
@@ -66,7 +70,7 @@ define([
 			sort: [{ attribute: "interestname", descending: false }]
 		})
 		this.interest_grid_view.set("content", this.interest_grid);
-		this.interest_grid.on("dgrid-select", dojo.hitch(this,this._on_cell_call));
+		this.interest_grid.on("dgrid-select", lang.hitch(this,this._on_cell_call));
 		this.interest_grid.set("query",{});
 
 		var cells =
@@ -80,7 +84,7 @@ define([
 			store: this.interest_outlet_used
 		})
 		this.interest_outlet_used_grid_view.set("content", this.interest_outlet_used_grid);
-		this.interest_outlet_used_grid.on("dgrid-select", dojo.hitch(this,this._outlet_where_used));
+		this.interest_outlet_used_grid.on("dgrid-select", lang.hitch(this,this._outlet_where_used));
 
 		var cells =
 		[
@@ -95,19 +99,19 @@ define([
 			store: this.interest_employee_used,
 			query:{}
 		})
-		this.interest_employee_used_grid.on("dgrid-select", dojo.hitch(this,this._contact_where_used));
+		this.interest_employee_used_grid.on("dgrid-select", lang.hitch(this,this._contact_where_used));
 
 		this.master_type.set("store",PRCOMMON.utils.stores.Interest_Filter());
 		this.master_type.set("value", -1 ) ;
 		this.master_type2.set("store",PRCOMMON.utils.stores.Interest_Filter());
 		this.master_type2.set("value", -1 ) ;
 
-		dojo.connect(this.transfer_list_select.domNode,"onkeyup" , dojo.hitch(this,this._transfer_select));
-		dojo.connect(this.transfer_list,"onchange" ,  dojo.hitch(this,this._transfer_selection_options));
+		on(this.transfer_list_select.domNode,"onkeyup" , lang.hitch(this,this._transfer_select));
+		on(this.transfer_list,"onchange" ,  lang.hitch(this,this._transfer_selection_options));
 
-		topic.subscribe(PRCOMMON.Events.Interest_Delete, dojo.hitch(this,this._interest_delete_event));
-		topic.subscribe(PRCOMMON.Events.Interest_Update, dojo.hitch(this,this._interest_update_event));
-		topic.subscribe(PRCOMMON.Events.Interest_Add, dojo.hitch(this,this._interest_add_event));
+		topic.subscribe(PRCOMMON.Events.Interest_Delete, lang.hitch(this,this._interest_delete_event));
+		topic.subscribe(PRCOMMON.Events.Interest_Update, lang.hitch(this,this._interest_update_event));
+		topic.subscribe(PRCOMMON.Events.Interest_Add, lang.hitch(this,this._interest_add_event));
 
 		this.inherited(arguments);
 	},
@@ -223,7 +227,7 @@ define([
 		this.interest_outlet_used_grid.set( "query", {interestid:row.interestid});
 		this.interest_employee_used_grid.set( "query", {interestid:row.interestid});
 		this._interestid = row.interestid;
-		dojo.attr(this.interest_name, row.interestname);
+		domattr.set(this.interest_name, "innerHTML",row.interestname);
 		this.is_section.set("value", row.is_section);
 		this.interestname2.set("value",row.interestname);
 		if (row.parentinterestid == null || row.parentinterestid == "")
@@ -259,7 +263,7 @@ define([
 			if ( response.success == "OK" )
 			{
 				topic.publish(PRCOMMON.Events.Interest_Update, response.data);
-				dojo.attr(this.interest_name, response.data.interest.interestname);
+				domattr.set(this.interest_name, "innerHTML", response.data.interest.interestname);
 				alert("Keywords Renamed");
 			}
 			else if ( response.success == "DU" )
@@ -309,7 +313,7 @@ define([
 		},
 		_transfere:function()
 		{
-			dojo.toggleClass(this.show_transfer,"prmaxhidden");
+			domclass.toggle(this.show_transfer,"prmaxhidden");
 		},
 		_transfer_call:function( response )
 		{
