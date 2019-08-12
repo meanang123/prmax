@@ -332,7 +332,7 @@ class DataExport(object):
 
 		output_outlets = CsvTable(self._export_dir, outfilename + "_outlets")
 		output_contacts = CsvTable(self._export_dir, outfilename + "_contacts")
-		contacts_interest = CsvTable(self._export_dir, outfilename + "_employee_interests")
+		contacts_interest = CsvTable(self._export_dir, outfilename + "_contact_interests")
 		outlet_interest = CsvTable(self._export_dir, outfilename + "_outlet_interests")
 		outlet_coverage = CsvTable(self._export_dir, outfilename + "_outlet_coverages")
 
@@ -598,7 +598,7 @@ class DataExport(object):
 
 	EXPORTOUTLET = (
 	  (("outletid", "outletname", "countryid", ("outlettypeid", "prmax_outlettypeid"), "frequencyid", "circulation", \
-	    "www", "publisherid", "circulationauditdateid", "circulationsourceid", "outletpriceid"), 0),
+	    "www", "publisherid", "circulationauditdateid", "circulationsourceid", "outletpriceid", "primaryemployeeid"), 0),
 	  (("email", "tel", "fax", "mobile", "facebook", "linkedin", "twitter", "blog"), 1),
 	  (("address1", "address2", "county", "postcode", "townname"), 2)
 	)
