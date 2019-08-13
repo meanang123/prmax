@@ -67,6 +67,12 @@ class Publisher(BaseSql):
 		if "publisherid" in  params:
 			whereused = BaseSql.addclause(whereused, "publisherid = :publisherid")
 
+		# add country's for dataset
+		whereused = BaseSql.addclause(whereused,
+		"""countryid IN (SELECT pc.countryid
+						FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+					  WHERE cpd.customerid = :userid)""")
+
 		if "publisherid" in params and params['publisherid'] == -1:
 			unionclause = " UNION SELECT -1 as publisherid, -1 as id , 'All' as publishername, '' as www "
 
