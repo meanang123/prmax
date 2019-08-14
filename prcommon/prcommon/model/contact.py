@@ -500,7 +500,8 @@ class Contact(BaseSql):
 	LEFT OUTER JOIN internal.sourcetypes as st ON st.sourcetypeid = e.sourcetypeid
 	LEFT OUTER JOIN internal.countries AS c ON c.countryid = o.countryid
 
-	WHERE  e.contactid = :contactid
+	WHERE  e.contactid = :contactid AND e.customerid=-1
+	AND e.sourcetypeid in (1,2,3)
 	ORDER BY %s %s
 	LIMIT :count OFFSET :start"""
 
