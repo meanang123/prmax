@@ -49,6 +49,10 @@ define([
 
 		this.inherited(arguments);
 	},
+	load:function(dialog)
+	{
+		this._dialog = dialog;
+	},
 	_add_contact:function()
 	{
 		if ( utilities2.form_validator(this.form)==false)

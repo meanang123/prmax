@@ -89,7 +89,7 @@ class QuestionnairesGeneral(object):
 	  Constants.Field_Interest: "interests",
 	  Constants.Field_Profile: "editorialprofile",
 	  Constants.Field_RelatedOutlets: "relatedoutlets",
-	  Constants.Field_PublisherName: "publishername",
+	  Constants.Field_NewPublisherName: "publishername",
 	}
 
 	@staticmethod
@@ -865,7 +865,7 @@ class QuestionnairesGeneral(object):
 			if outlet.circulationauditdateid:
 				old_circulationauditdate = CirculationDates.query.get(outlet.circulationauditdateid)
 				old_circulationauditdatedescription = old_circulationauditdate.circulationauditdatedescription
-			if 'circulationauditdateid' in params and params['circulationauditdateid'] != '':
+			if 'circulationauditdateid' in params and params['circulationauditdateid'] != '' and params['circulationauditdateid'] != None:
 				new_circulationauditdate = CirculationDates.query.get(int(params['circulationauditdateid']))
 				new_circulationauditdatedescription = new_circulationauditdate.circulationauditdatedescription
 			ActivityDetails.AddChange(old_circulationauditdatedescription, new_circulationauditdatedescription, activity.activityid, Constants.Field_Outlet_Circulation_Dates)
@@ -874,10 +874,10 @@ class QuestionnairesGeneral(object):
 			if outlet.circulationsourceid:
 				old_circulationsource = CirculationSources.query.get(outlet.circulationsourceid)
 				old_circulationsourcedescription = old_circulationsource.circulationsourcedescription
-			if 'circulationsourceid' in params and params['circulationsourceid'] != '':
+			if 'circulationsourceid' in params and params['circulationsourceid'] != '' and params['circulationsourceid'] != None:
 				new_circulationsource = CirculationSources.query.get(int(params['circulationsourceid']))
 				new_circulationsourcedescription = new_circulationsource.circulationsourcedescription
-			ActivityDetails.AddChange(old_circulationsource.circulationsourcedescription, new_circulationsource.circulationsourcedescription, activity.activityid, Constants.Field_Outlet_Circulation_Source)
+			ActivityDetails.AddChange(old_circulationsourcedescription, new_circulationsourcedescription, activity.activityid, Constants.Field_Outlet_Circulation_Source)
 
 			ActivityDetails.AddChange(outlet.circulation, params['circulation'], activity.activityid, Constants.Field_Circulation)
 
@@ -988,7 +988,7 @@ class QuestionnairesGeneral(object):
 			if outlet.publisherid:
 				old_publisher = Publisher.query.get(outlet.publisherid)
 				old_publishername = old_publisher.publishername
-			if 'publisherid' in params and params['publisherid'] != '':
+			if 'publisherid' in params and params['publisherid'] != '' and params['publisherid'] != None:
 				new_publisher = Publisher.query.get(int(params['publisherid']))
 				new_publishername = new_publisher.publishername
 			ActivityDetails.AddChange(old_publishername, new_publishername, activity.activityid, Constants.Field_PublisherName)
@@ -1482,7 +1482,7 @@ class QuestionnairesGeneral(object):
 	  ("frequencynotes", Constants.Field_Frequency_Notes),
 	  ("outletpriceid", Constants.Field_Cost),
 	  ("relatedoutlets", Constants.Field_RelatedOutlets),
-	  ("publishername", Constants.Field_PublisherName)
+	  ("publishername", Constants.Field_NewPublisherName)
 	  )
 
 	@staticmethod
@@ -1627,6 +1627,7 @@ class QuestionnairesGeneral(object):
 			elif params["objectid"][0] == 'E':
 				employee = Employee.query.get(int(params["objectid"][1:]))
 
+			series = session.query(OutletProfile).filter(OutletProfile.seriesparentid == employee.outletid).all()
 			if params["delete_option"] == 2:
 				comm = Communication.query.get(employee.communicationid)
 				if comm:
@@ -1681,6 +1682,7 @@ class QuestionnairesGeneral(object):
 				session.flush()
 
 			transaction.commit()
+			return dict(series=True if len(series) > 0 else False)			
 		except:
 			LOGGER.exception("delete_employee_feedback")
 			transaction.rollback()

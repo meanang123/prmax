@@ -353,9 +353,9 @@ class ProjectsController(SecureController):
 	def delete_employee_feedback(self, *args, **params):
 		""" Save user feed back from questionaiires to live """
 
-		QuestionnairesGeneral.delete_employee_feedback(params)
-
-		return stdreturn(data=params["objectid"])
+		data = QuestionnairesGeneral.delete_employee_feedback(params)
+		data['objectid'] = params['objectid']
+		return stdreturn(data=data)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

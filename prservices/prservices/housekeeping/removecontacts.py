@@ -26,6 +26,7 @@ read_config(os.getcwd(), None, None)
 database.bind_meta_data()
 
 from prcommon.model.employee import Employee
+from prcommon.model import ContactHistory, ContactHistoryGeneral
 from prcommon.model import Contact
 import prcommon.Constants as Constants
 
@@ -42,7 +43,7 @@ def _run():
 			check = True
 	
 	notlinkedcontacts = [row[0] for row in session.execute(except_(session.query(Contact.contactid),
-	                                            session.query(Employee.contactid).distinct())).fetchall()]
+	                                            session.query(Employee.contactid).distinct(), session.query(ContactHistory.contactid).distinct())).fetchall()]
 	
 	for notlinkedcontactid in notlinkedcontacts:
 		session.begin()

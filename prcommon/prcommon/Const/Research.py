@@ -104,7 +104,6 @@ Field_Research_Right_Person = 61
 Field_Outlet_SortName = 62
 Field_Web_Profile = 63
 Field_RelatedOutlets = 64
-Field_PublisherName = 65
 Field_DeskName = 66
 Field_WebBrowsers = 67
 Field_Outlet_Web_Source = 68
@@ -139,4 +138,5 @@ Field_Feature_Research_Info = 96
 Field_Research_Last_Questionaire_Sent = 97
 Field_Research_Last_Researched_Completed = 98
 Field_Research_Notes = 99
-
+Field_NewPublisherName = 100
+Field_PublisherName = 65

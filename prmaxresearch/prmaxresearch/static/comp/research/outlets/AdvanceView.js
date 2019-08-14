@@ -99,7 +99,7 @@ define([
 		this._outletid = outletid;
 		this.viewfeature.load(-1, outletid ) ;
 		this.newfeature.load(-1, outletid ) ;
-		this.researchadvance.load ( outletid ) ;
+		//this.researchadvance.load ( outletid ) ;
 		this.outlet_advance_grid.set("query",{outletid:this._outletid});
 	},
 	_advance_add_event:function ( newdata)

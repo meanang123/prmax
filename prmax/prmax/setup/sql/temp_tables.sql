@@ -202,4 +202,75 @@ INSERT INTO internal.reportsource VALUES (17, 'Clippings Standard');
 INSERT INTO internal.reporttemplates VALUES (35, -1, 'Clippings Standard Report', '<queries><query type="CUSTOM"></query></queries>', '', 17, 'ClippingsStdReport');
 
 
+/*
+-- Table: internal.deletionhistorytype
 
+-- DROP TABLE internal.deletionhistorytype;
+CREATE TABLE internal.deletionhistorytype
+(
+  deletionhistorytypeid integer NOT NULL,
+  deletionhistorytypedescription character varying NOT NULL,
+
+  CONSTRAINT deletionhistorytype_pkey PRIMARY KEY (deletionhistorytypeid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.deletionhistorytype OWNER TO postgres;
+GRANT ALL ON TABLE internal.deletionhistorytype TO postgres;
+GRANT ALL ON TABLE internal.deletionhistorytype TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.deletionhistorytype TO prmaxcontrol;
+
+
+
+-- Table: userdata.deletionhistory
+
+-- DROP TABLE userdata.deletionhistory;
+
+CREATE TABLE userdata.deletionhistory
+(
+  deletionhistoryid serial NOT NULL,
+  deletionhistorydescription character varying,
+  outletname character varying(255),
+  firstname character varying(255),
+  familyname character varying(255),
+  domain character varying(255),
+  researchprojectid integer,
+  reasoncodeid integer NOT NULL,
+  deletionhistorytypeid integer NOT NULL,
+  userid integer NOT NULL,
+  deletiondate timestamp without time zone NOT NULL DEFAULT now(),
+
+
+  CONSTRAINT deletionhistory_pkey PRIMARY KEY (deletionhistoryid),
+  CONSTRAINT deletionhistory_userid_fkey FOREIGN KEY (userid)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT fk_researchprojectid FOREIGN KEY (researchprojectid)
+      REFERENCES research.researchprojects (researchprojectid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT fk_reasoncodeid FOREIGN KEY (reasoncodeid)
+      REFERENCES internal.reasoncodes (reasoncodeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT fk_deletionhistorytype FOREIGN KEY (deletionhistorytypeid)
+      REFERENCES internal.deletionhistorytype (deletionhistorytypeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE userdata.deletionhistory OWNER TO postgres;
+GRANT ALL ON TABLE userdata.deletionhistory TO postgres;
+GRANT ALL ON TABLE userdata.deletionhistory TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.deletionhistory TO prmaxcontrol;
+
+
+INSERT INTO internal.deletionhistorytype VALUES (1, 'outlet');
+INSERT INTO internal.deletionhistorytype VALUES (2, 'freelance');
+INSERT INTO internal.deletionhistorytype VALUES (3, 'contact');
+
+INSERT INTO internal.reasoncategories VALUES (8, 'Deletion History');
+INSERT INTO internal.reasoncodes VALUES (29, 'Outlet request to remove', 8);
+INSERT INTO internal.reasoncodes VALUES (30, 'Contact request to remove', 8);
+*/
+INSERT INTO research.fields VALUES (100, 'New Publisher Name');

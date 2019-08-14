@@ -46,7 +46,11 @@ define([
 			this.dialog_ctrl.hide();
 			this.objectid.set("value","-1");
 			domattr.set(this.employee_name,"text","");
-			topic.publish("/quest/emp_del", response.data);
+			if (response.data.series == true)
+			{
+				alert("Series members were affected. Please run employee synchronisation process");
+			}
+			topic.publish("/quest/emp_del", response.data.objectid);
 		}
 		else
 		{

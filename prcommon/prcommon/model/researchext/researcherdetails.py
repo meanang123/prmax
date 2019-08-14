@@ -24,11 +24,11 @@ class ResearcherDetails(object):
 		              research_job_title = "",
 		              research_email = "",
 		              research_tel = "")
-		if research:
-			result["research_display_name"] = research.research_display_name
-			result["research_job_title"] = research.research_job_title
-			result["research_email"] = research.research_email
-			result["research_tel"] = research.research_tel
+		#if research:
+		#	result["research_display_name"] = research.research_display_name
+		#	result["research_job_title"] = research.research_job_title
+		#	result["research_email"] = research.research_email
+		#	result["research_tel"] = research.research_tel
 
 		return result
 
@@ -36,13 +36,13 @@ class ResearcherDetails(object):
 	def update(params):
 		"""Update or create record """
 		research = session.query(ResearcherDetails).filter(ResearcherDetails.userid == params["userid"]).scalar()
-		if research:
-			research.research_display_name = params["research_display_name"]
-			research.research_job_title = params["research_job_title"]
-			research.research_email = params["research_email"]
-			research.research_tel = params["research_tel"]
-		else:
-			session.add(ResearcherDetails(**params))
+		#if research:
+		#	research.research_display_name = params["research_display_name"]
+		#	research.research_job_title = params["research_job_title"]
+		#	research.research_email = params["research_email"]
+		#	research.research_tel = params["research_tel"]
+		#else:
+		session.add(ResearcherDetails(**params))
 
 ResearcherDetails.mapping = Table('researcher_details', metadata, autoload = True, schema='research')
 

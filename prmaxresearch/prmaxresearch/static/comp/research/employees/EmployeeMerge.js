@@ -83,6 +83,10 @@ define([
 		if (response.success == "OK")
 		{
 			alert("Merge Completed. Please verify the 'Research tab' to make sure these changes haven't effected it");
+			if (response.employee.series == true)
+			{
+				alert("Series members were affected. Please run employee synchronisation process");
+			}			
 			topic.publish(PRCOMMON.Events.Employee_Deleted, {has_deleted:true,employeeid : this.employeeid.get("value") } );
 			this._dlg.hide();
 			//this.clear();

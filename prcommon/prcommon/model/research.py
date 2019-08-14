@@ -229,11 +229,13 @@ class Activity(BaseSql):
 	LEFT OUTER JOIN internal.actiontypes AS o ON o.actiontypeid = a.actiontypeid
 	LEFT OUTER JOIN internal.reasoncodes AS rc ON rc.reasoncodeid = a.reasoncodeid
 	LEFT OUTER JOIN internal.objecttypes AS ob ON a.objecttypeid = ob.objecttypeid
-	WHERE a.activitydate >= :filterdate AND a.objecttypeid = :objecttypeid AND a.actiontypeid = 3
-	ORDER BY  %s %s LIMIT :limit  OFFSET :offset"""
+	WHERE a.objecttypeid = :objecttypeid AND a.actiontypeid = 3
+	"""
 
 	Grid_View_Deleted_Count = """select COUNT(*)	FROM research.activity AS a
-	WHERE a.activitydate >= :filterdate AND a.objecttypeid = :objecttypeid AND a.actiontypeid = 3"""
+	WHERE a.objecttypeid = :objecttypeid AND a.actiontypeid = 3"""
+
+	List_View_Deleted = """select a.activityid, a.name FROM research.activity AS a"""
 
 	@classmethod
 	def getGridPage(cls, params):
@@ -277,19 +279,54 @@ class Activity(BaseSql):
 		  False)
 
 	@classmethod
+	def get_list_deleted(cls, params):
+		"""list for dropdown list"""
+
+		whereused = " WHERE a.actiontypeid = 3 "
+		if 'objecttypeid' in params:
+			whereused = BaseSql.addclause(whereused, "a.objecttypeid >= :objecttypeid")
+		if "name" in params:
+			whereused = BaseSql.addclause(whereused, "name ilike :name")
+			if params["name"]:
+				params["name"] = params["name"].replace("*", "")
+				if "extended_search" in  params:
+					params["name"] = "%" + params["name"] + "%"
+				else:
+					params["name"] = params["name"] + "%"
+		else:
+			return Activity.grid_to_rest(dict(numRows=0, items=[], identity="objectid"),
+			                           params["offset"],
+			                           False)
+
+		return Activity.get_rest_page_base(
+		    params,
+		    'activityid',
+		    'name',
+		    Activity.List_View_Deleted + whereused + BaseSql.Standard_View_Order,
+		    Activity.Grid_View_Count + whereused,
+		    cls)
+
+	@classmethod
 	def getGridPageDeleted(cls, params):
 		""" grid based on date"""
 
-		if "filterdate" not in params:
+		andclause = ''
+#		if "activityid" in params and params["activityid"] != '':
+#			andclause += " AND a.activityid = :activityid "
+		if "filteroutlet" in params and params["filteroutlet"] != '':
+			params['filteroutlet'] = "%" + params["filteroutlet"] +  "%"
+			andclause += " AND a.name ilike :filteroutlet"
+		if "filterdate" in params and params["filterdate"] != '':
+			andclause += " AND a.activitydate >= :filterdate "
+		if "filterdate" not in params and "activityid" not in params:
 			return dict(numRows=0, items=[], identifier="activityid")
 		else:
 			return BaseSql.getGridPage(params,
 			                            'activitydate',
 			                            'activityid',
-			                            Activity.Grid_View_Deleted,
-			                            Activity.Grid_View_Deleted_Count,
+			                            Activity.Grid_View_Deleted + andclause + Activity.Grid_View_Order,
+			                            Activity.Grid_View_Deleted_Count + andclause,
 			                            cls)
-
 
 
 class ActivityDetails(BaseSql):

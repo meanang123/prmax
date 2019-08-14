@@ -436,16 +436,17 @@ class ProjectEmails(object):
 	def get_research_footer(user, countryid, research):
 		"""Gte footer for email based on user"""
 
-		if research:
-			ret_string = ""
-			if research.research_display_name:
-				ret_string += "<p>%s</p>" % research.research_display_name
-			if research.research_job_title:
-				ret_string += "<p>%s</p>" % research.research_job_title
-			if research.research_tel:
-				ret_string += "<p>Tel :%s</p>" % research.research_tel
-			return ret_string + "<br/>" + ProjectEmails.STANDARD_EMAIL_FOOTER
-		elif user:
+		#if research:
+		#	ret_string = ""
+		#	if research.research_display_name:
+		#		ret_string += "<p>%s</p>" % research.research_display_name
+		#	if research.research_job_title:
+		#		ret_string += "<p>%s</p>" % research.research_job_title
+		#	if research.research_tel:
+		#		ret_string += "<p>Tel :%s</p>" % research.research_tel
+		#	return ret_string + "<br/>" + ProjectEmails.STANDARD_EMAIL_FOOTER
+		#elif user:
+		if user:
 			ret_string = ""
 			if user.display_name:
 				ret_string += "<p>%s</p>" % user.display_name

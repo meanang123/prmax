@@ -38,10 +38,12 @@ define([
 	{
 		this._saved_call = lang.hitch(this,this._saved);
 		this._error_call_back = lang.hitch(this, this._error_call);
-
+		this._copy_interests_call = lang.hitch(this, this._copy_interests);
+		this._desklist = null;
+		this._count_desks = 0;		
 		this._has_address_old = null;
 		this._has_address_new = null;
-
+		this._series_parent = false;
 	},
 	_saved:function(response)
 	{
@@ -50,7 +52,7 @@ define([
 			if (this.employeeidnode.get("value")==-1)
 			{
 				topic.publish(PRCOMMON.Events.Employee_Quest_Add, "A" + response.objectid);
-				alert("Contact added");
+				alert("Contact added. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			}
 			else
 			{
@@ -62,13 +64,27 @@ define([
 				{
 					alert(e);
 				}
-				alert("Contact updated");
+				alert("Contact updated. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			}
+			
+			if (response.data.series == true)
+			{
+				alert("Series members were affected. Please run employee synchronisation process");
+			}	
+			
 			this._has_address_old = this._has_address_new;
 			if (this._has_address_new == false)
 			{
 				this._clear_address();	
-			}			
+			}		
+			if (response.data.tel != this.tel.get("value"))
+			{
+				this.tel.set("value", response.data.tel);	
+			}
+			if (response.data.fax != this.fax.get("value"))
+			{
+				this.fax.set("value", response.data.fax);	
+			}
 		}
 		else
 		{
@@ -97,15 +113,20 @@ define([
 		this.linkedin_modified.clear();
 		this.instagram_modified.clear();
 	},
-	load:function( data, user_changes )
+	load:function( data, user_changes, outletdesks )
 	{
 		this._reset_fields();
 		this.employeeid = -1;
+		if (outletdesks)
+		{
+			this._count_desks = outletdesks.length;
+		}
 
 		if ( data.employeeid)
 		{
 			this.employeeid = data.employee.employeeid;
 			this.employeeidnode.set("value",data.employee.employeeid);
+			this.outletidnode.set("value", data.outlet.outletid);
 			this.researchprojectitemid.set("value", data.researchprojectitemid);
 			this.researchprojectitemchangeid.set("value",data.researchprojectitemchangeid);
 			this.job_title.set("value", data.employee.job_title);
@@ -124,11 +145,12 @@ define([
 			this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+ data.employee.outletid + "/", idProperty:"outletdeskid"});
 			this.outletdeskid.set("store",this._desklist);
 			this.outletdeskid.set("value", (data.employee.outletdeskid == null)? -1 : data.employee.outletdeskid);
+			domclass.remove(this.copy_keywords_btn, "prmaxhidden");
 			
-			//if (data.contact_name_display != undefined)
-			//	domattr.set(this.contact_name_display,"innerHTML", data.contact_name_display);
-			//else
-			//	domattr.set(this.contact_name_display,"innerHTML", "");
+			if (data.contact_name_display != undefined)
+				domattr.set(this.contact_name_display,"innerHTML", data.contact_name_display);
+			else
+				domattr.set(this.contact_name_display,"innerHTML", "");
 
 			if (data.employee.contactid==null)
 			{
@@ -253,15 +275,17 @@ define([
 			this.postcode.set("value", data.postcode);
 			domattr.set(this.interests,"innerHTML", data.interests);
 			this.interests_org.set("value", null );
-			if (data.contact_name_display == undefined)
-				domattr.set(this.contact_name_display,"innerHTML", "");
-			else
+			if (data.contact_name_display != undefined)
 				domattr.set(this.contact_name_display,"innerHTML", data.contact_name_display);
+			else
+				domattr.set(this.contact_name_display,"innerHTML", "");
 			this.selectcontact.set("checked",false);
 			this.selectcontact.set("value",null);
+			domattr.set(this.selectcontact.contactid.display, "innerHTML", "Select Contact");
 			this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+ data.outletid + "/", idProperty:"outletdeskid"});
 			this.outletdeskid.set("store",this._desklist);
 			this.outletdeskid.set("value", (data.outletdeskid == null)? -1 : data.outletdeskid);
+			domclass.add(this.copy_keywords_btn, "prmaxhidden");
 		}
 		this.savenode.cancel();
 	},
@@ -272,6 +296,15 @@ define([
 			alert("Not all required field filled in");
 			throw "N";
 		}
+		
+		if (this._count_desks != 0 && (this.outletdeskid.get("value") == '-1' || this.outletdeskid.get("value") == -1))
+		{
+			alert('Please enter Desk');
+			this.savenode.cancel();
+			throw "N";
+		}
+		
+		var formdata = this.formnode.get("value");
 		formdata["has_address_old"] = this._has_address_old;
 		if (this._has_address_new != null)
 		{
@@ -282,7 +315,7 @@ define([
 			formdata["has_address_new"] = this._has_address_old;
 		}
 		url = (this.employeeid == -1 ) ? '/research/admin/projects/new_employee' :  '/research/admin/projects/update_employee' ;
-		request.post(url,utilities2.make_params({ data : this.formnode.get("value")})).then
+		request.post(url,utilities2.make_params({ data : formdata})).then
 			(this._saved_call, this._error_call_back);
 	},
 	clear:function()
@@ -349,6 +382,20 @@ define([
 		this.townname.set("value", "");
 		this.county.set("value", "");
 		this.postcode.set("value","");	
+	},	
+	_copy_keywords_btn:function()
+	{
+		//reasoncodeid = 8 --> Prmax Research
+		request.post('/research/admin/employees/research_copy_interests_outlet_to_employee',
+				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletidnode.get('value'), reasoncodeid:8}})).then
+				(this._copy_interests_call);
+	},	
+	_copy_interests:function(response)
+	{
+		if (response.success == 'OK')
+		{
+			this.interests_org.set("value", response.data.interests);
+		}
 	},	
 });
 });

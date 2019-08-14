@@ -57,6 +57,7 @@ define([
 		this.std_menu = null;
 		this.private_menu_limited = null;
 		this.deleted_menu = null;
+		this._outletdesks = 0;
 
 		this.outlet_contact_model = new Observable( new JsonRest( {target:'/research/admin/employees/contactlist_rest', idProperty:"employeeid"}));
 
@@ -209,7 +210,7 @@ define([
 			}
 			else
 			{
-				this.contact_edit.load( this._row.employeeid, this._row.outletid, this.id );
+				this.contact_edit.load( this._row.employeeid, this._row.outletid, this.id, this._outletdesks );
 				this.contact_edit_container.selectChild(this.contact_edit);
 			}
 		}
@@ -236,13 +237,14 @@ define([
 	},
 	_add_employee:function()
 	{
-		this.employee_change_ctrl.load (-1, this._outletid);
+		this.employee_change_ctrl.load (-1, this._outletid, '', this._outletdesks);
 		this.employee_change_dlg.show();
 	},
 	_load_call:function(response)
 	{
 		if ( response.success=="OK")
 		{
+			this._outletdesks = response.outlet.outletdesks;
 			if (response.outlet.profile.profile != null && response.outlet.profile.profile.seriesparentid && response.outlet.researchdetails.no_sync == false)
 			{
 				this.contact_grid.selectChild(this.outlet_contact_no_edit_view);
@@ -285,6 +287,7 @@ define([
 			this.contact_edit.clear();
 			var tmp = response.outlet.outlet.outletid+" - " + response.outlet.outlet.outletname;
 			domattr.set(this.outlet_details_view,"innerHTML",  tmp );
+			//this._desklist = response.outlet.outletdesks;
 		}
 	},
 	load:function ( outletid, prefix )

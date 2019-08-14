@@ -44,11 +44,17 @@ define([
 		this._load_call = lang.hitch(this,this._load);
 		this._copy_interests_call = lang.hitch(this, this._copy_interests);
 		this._desklist = null;
+		this._count_desks = 0;
 		this._has_address_old = null;
 		this._has_address_new = null;
+		this._series_parent = false;
 
 		this.reasoncode_data_add = PRCOMMON.utils.stores.Research_Reason_Add_Codes();
 		this.reasoncode_data_upd = PRCOMMON.utils.stores.Research_Reason_Update_Codes();
+		
+		topic.subscribe(PRCOMMON.Events.Employee_Add, lang.hitch(this,this._employee_add_update_event));
+		topic.subscribe(PRCOMMON.Events.Employee_Updated, lang.hitch(this,this._employee_add_update_event));
+
 	},
 	_saved:function(response)
 	{
@@ -66,6 +72,12 @@ define([
 				topic.publish(PRCOMMON.Events.Employee_Updated, response.employee);
 				alert("Contact updated. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			}
+			
+			if (response.employee.series == true)
+			{
+				alert("Series members were affected. Please run employee synchronisation process");
+			}	
+			
 			this._has_address_old = this._has_address_new;
 			if (this._has_address_new == false)
 			{
@@ -79,6 +91,17 @@ define([
 
 		this.savenode.cancel();
 	},
+	_employee_add_update_event:function(employee)
+	{
+		if (employee.tel != this.tel.get("value"))
+		{
+			this.tel.set("value", employee.tel)		
+		}
+		if (employee.fax != this.fax.get("value"))
+		{
+			this.fax.set("value", employee.fax)		
+		}
+	},
 	postCreate:function()
 	{
 		this.facebook_show.set("source",this.facebook);
@@ -87,13 +110,14 @@ define([
 		this.instagram_show.set("source",this.instagram);
 		this.inherited(arguments);
 	},
-	load:function( employeeid, outletid, sourceid )
+	load:function( employeeid, outletid, sourceid, outletdesks )
 	{
 		this._sourceid = sourceid;
 		this.outletid = outletid;
 		this.employeeid = employeeid;
 		this.outletidnode.set("value",this.outletid);
 		this.employeeidnode.set("value",this.employeeid);
+		this._count_desks = outletdesks.length;
 		if (outletid != null )
 		{
 			this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+outletid + "/", idProperty:"outletdeskid"});
@@ -136,7 +160,8 @@ define([
 		this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+response.data.employee.outletid + "/", idProperty:"outletdeskid"});
 		this.outletdeskid.set("store",this._desklist);
 		this.outletdeskid.set("value", (response.data.employee.outletdeskid == null)? -1 : response.data.employee.outletdeskid);
-
+		//this._count_desks = response.data.outlet.outletdesks;
+		
 		if (response.data.employee.contactid==null)
 		{
 			this.selectcontact.set_no_contact();
@@ -195,7 +220,19 @@ define([
 			alert("Not all required field filled in");
 			throw "N";
 		}
-
+		//if (this.outletidnode.value != null && this._count_desks == 0)
+		//{
+		//	this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+this.outletidnode.value + "/", idProperty:"outletdeskid"});
+		//	var count_desks = function(items, request){this._count_desks = items.length;};
+		//	this._desklist.fetch({onComplete:count_desks});			
+		//}
+		
+		if (this._count_desks != 0 && (this.outletdeskid.get("value") == '-1' || this.outletdeskid.get("value") == -1))
+		{
+			alert('Please enter Desk');
+			this.savenode.cancel();
+			throw "N";
+		}
 		var formdata = this.formnode.get("value");
 
 		formdata["reasoncodeid"] = this.reasoncodeid.get("value");
@@ -231,7 +268,8 @@ define([
 		this.instagram.set("value","");
 		this.jobroles.clear();
 		this.outletdeskid.set("value",-1);
-		this._desklist = null;
+		//this._desklist = null;
+		//this._count_desks = 0;
 		this._clear_address();
 	},
 	_close:function()

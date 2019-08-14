@@ -66,7 +66,7 @@ define([
 	//{
 		//this.contactlist.set("value",contact.contactid);
 	//},
-	add_event:function(contact)
+	_add_event:function(contact)
 	{
 		this.contactid.set("value", contact.contactid);
 	},

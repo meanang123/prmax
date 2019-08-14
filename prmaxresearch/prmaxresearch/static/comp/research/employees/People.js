@@ -160,6 +160,7 @@ define([
 	_add:function()
 	{
 		this.person_add_ctrl.clear();
+		this.person_add_ctrl.load(this.person_add_dlg);		
 		this.person_add_dlg.show();
 	},
 	_person_add_event:function ( contact )

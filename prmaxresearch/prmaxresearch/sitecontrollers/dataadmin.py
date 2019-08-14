@@ -47,6 +47,8 @@ from prcommon.model.outlets.emplsynchronisation import EmployeeSynchronise
 from prcommon.model.outlet import OutletProfile
 from prcommon.model.research import ResearchDetails
 
+#from prmaxresearch.sitecontrollers.deletionhistory import DeletionHistoryController
+
 class PRMaxRolesSchema(PrFormSchema):
 	""" prmax role schema"""
 	prmaxroleid = validators.Int()
@@ -116,6 +118,7 @@ class DataAdminController(SecureController):
 	projects = ProjectsController()
 	desks = OutletDeskController()
 	subjects = SubjectController()
+#	deletionhistory = DeletionHistoryController()
 
 
 	@expose("json")
@@ -165,6 +168,14 @@ class DataAdminController(SecureController):
 		""" get the deleted outlets audit trails """
 
 		return Activity.get_grid_page_deleted(params)
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def audit_delete_trail_list(self, *args, **params):
+		""" List of deleted outlets for research"""
+
+		return Activity.get_list_deleted(params)
 
 	@expose("json")
 	@exception_handler(pr_std_exception_handler)

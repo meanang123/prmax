@@ -25,8 +25,8 @@ dojo.declare("prcommon.advance.advance",
 	},
 	postCreate:function()
 	{
-		this.reasoncodeid.store = PRCOMMON.utils.stores.Research_Reason_Update_Codes();
-		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
+//		this.reasoncodeid.store = PRCOMMON.utils.stores.Research_Reason_Update_Codes();
+//		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 
 		this.modelemployees = new dojox.data.QueryReadStore (
 				{url:'/employees/listcombo?extended=1&nocontact=1',
@@ -108,7 +108,7 @@ dojo.declare("prcommon.advance.advance",
 			this.publication_date.set("value", response.data.advance.publication_date_full );
 			this.feature.set("value", response.data.advance.feature ) ;
 			this.featuredescription.set("value", response.data.advance.featuredescription);
-			this.interests.set("value", response.data.interests);
+//			this.interests.set("value", response.data.interests);
 			if ( response.data.advance.employeeid != null )
 
 				this.employeeid.set("value", response.data.advance.employeeid ) ;
@@ -131,8 +131,8 @@ dojo.declare("prcommon.advance.advance",
 		this.publication_date.set("value",null);
 		this.feature.set("value","");
 		this.featuredescription.set("value","");
-		this.interests.set("value","");
-		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
+//		this.interests.set("value","");
+//		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 		this.reason.set("value","");
 		this.employeeid.set("value", -1 ) ;
 	},

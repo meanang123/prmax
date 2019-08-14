@@ -870,8 +870,11 @@ class Outlet(BaseSql):
 			if researchdetails:
 				outlet.researchdetailid = researchdetails.researchdetailid
 
+		outletdesks = [outletdeskid for outletdeskid in session.query(OutletDesk.outletdeskid).filter(OutletDesk.outletid == outlet.outletid).all()]
+
 		return dict(
 		    outlet=dict(outlet=outlet,
+		                outletdesks=outletdesks,
 		                languages=dict(
 		                    language1id=language1id,
 		                    language2id=language2id
@@ -900,6 +903,7 @@ class Outlet(BaseSql):
 	def getBasicDetails(cls, params):
 		""" get the very basic details for an outlet """
 		outlet = Outlet.query.get(params['outletid'])
+		comm = Communication.query.get(outlet.communicationid)
 		employee = Employee.query.get(outlet.primaryemployeeid)
 		if employee.contactid:
 			contactname = Contact.query.get(employee.contactid).getName()
@@ -908,6 +912,8 @@ class Outlet(BaseSql):
 
 		return dict(outlet=dict(outletid=outlet.outletid,
 		                        outletname=outlet.outletname),
+				    comm=dict(tel=comm.tel,
+		                      fax=comm.fax),
 		            employee=dict(job_title=employee.job_title,
 		                        contactname=contactname),
 		            search=SearchSession.outlet_where_used(params))
@@ -1094,6 +1100,9 @@ class Outlet(BaseSql):
 		try:
 			employee = Employee.query.get(params["employeeid"])
 			contact = Contact.query.get(employee.contactid)
+			
+			source_series = session.query(OutletProfile).filter(OutletProfile.seriesparentid == employee.outletid).all()
+			destination_series = session.query(OutletProfile).filter(OutletProfile.seriesparentid == int(params['outletid'])).all()
 			index_fields_employeeid = (
 			  (Constants.freelance_employeeid, 'familyname', StandardIndexerInternal.standardise_string, None),
 			  (Constants.mp_employeeid, 'familyname', StandardIndexerInternal.standardise_string, None),
@@ -1227,6 +1236,8 @@ class Outlet(BaseSql):
 				indexer.run_indexer()
 
 			transaction.commit()
+			
+			return dict(source_series=True if len(source_series) > 0 else False, destination_series=True if len(destination_series) > 0 else False)
 		except:
 			LOGGER.exception("research_move_contact")
 			transaction.rollback()
@@ -1241,6 +1252,9 @@ class Outlet(BaseSql):
 		try:
 			#copy from
 			employee = Employee.query.get(params["employeeid"])
+			source_series = session.query(OutletProfile).filter(OutletProfile.seriesparentid == employee.outletid).all()
+			destination_series = session.query(OutletProfile).filter(OutletProfile.seriesparentid == int(params['outletid'])).all()
+			
 			if employee.contactid:
 				contact = Contact.query.get(employee.contactid)
 			else:
@@ -1351,6 +1365,8 @@ class Outlet(BaseSql):
 					session.flush()
 
 			transaction.commit()
+			return dict(source_series=True if len(source_series) > 0 else False, destination_series=True if len(destination_series) > 0 else False)			
+			
 		except:
 			LOGGER.exception("research_copy_contact")
 			transaction.rollback()

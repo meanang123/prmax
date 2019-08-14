@@ -40,7 +40,7 @@ define([
 	templateString: template,
 	name:"",
 	value:"",
-	placeHolder:"Select Contact",	
+	placeHolder:"",	
 	searchtypeid:6,
 	constructor: function()
 	{
@@ -150,6 +150,7 @@ define([
 	_add_contact:function( )
 	{
 		this.person_add_ctrl.clear();
+		this.person_add_ctrl.load(this.person_add_dlg);
 		this.person_add_dlg.show();
 	},
 	_add_event:function ( contact )

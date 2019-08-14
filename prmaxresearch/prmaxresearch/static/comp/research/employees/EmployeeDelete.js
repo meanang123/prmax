@@ -61,6 +61,10 @@ define([
 				alert("Contact deleted but retained role. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			else
 				alert("Contact Deleted. Please verify the 'Research tab' to make sure these changes haven't effected it");
+			if (response.data.series == true)
+			{
+				alert("Series members were affected. Please run employee synchronisation process");
+			}				
 			this.clear();
 			this._dialog.hide()
 		}

@@ -121,7 +121,7 @@ class AdvanceFeature(BaseSql):
 				session.add(interest)
 
 			# activy record
-			activity = Activity(reasoncodeid=kw["reasoncodeid"],
+			activity = Activity(reasoncodeid=kw.get("reasoncodeid", None),
 			                reason=kw.get("reason", ""),
 			                objecttypeid=Constants.Object_Type_Advance,
 			                objectid=advance.advancefeatureid,
@@ -182,7 +182,7 @@ class AdvanceFeature(BaseSql):
 			transaction = cls.sa_get_active_transaction()
 
 			a = AdvanceFeature.query.get(advancefeatureid)
-			activity = Activity(reasoncodeid=kw["reasoncodeid"],
+			activity = Activity(reasoncodeid=kw.get("reasoncodeid",None),
 			                    reason=kw.get("reason", ""),
 			                    objecttypeid=Constants.Object_Type_Advance,
 			                    objectid=advancefeatureid,

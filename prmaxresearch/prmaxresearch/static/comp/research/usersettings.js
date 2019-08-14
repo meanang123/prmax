@@ -47,10 +47,10 @@ define([
 			this.email_address.set("value",response.user.email_address);
 			this.tel.set("value",response.user.tel);
 
-			this.research_display_name.set("value",response.user.research_display_name);
-			this.research_job_title.set("value",response.user.research_job_title);
-			this.research_email.set("value",response.user.research_email);
-			this.research_tel.set("value",response.user.research_tel);
+			//this.research_display_name.set("value",response.user.research_display_name);
+			//this.research_job_title.set("value",response.user.research_job_title);
+			//this.research_email.set("value",response.user.research_email);
+			//this.research_tel.set("value",response.user.research_tel);
 
 			this.savenode.set("disabled",false);
 		}

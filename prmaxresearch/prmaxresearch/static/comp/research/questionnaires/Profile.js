@@ -77,7 +77,7 @@ define([
 		this.broadcasttimes_modified.clear();
 		this.language1id_modified.clear();
 		this.language2id_modified.clear();
-		domattr.set(this.publishername, "innerHTML", "");
+		domattr.set(this.publishername_view, "innerHTML", "");
 
 	},
 	load:function( projectitem, outlet, user_changes)
@@ -142,9 +142,9 @@ define([
 					this.language2id_modified.load(change_record.value, outlet.languages.language2id, this.language2id);
 					language2id_set = true;
 					break;
-				case 65:
+				case 100:
 					domclass.remove(this.publishername_view,"prmaxhidden");
-					domattr.set(this.publishername, "innerHTML", change_record.value);
+					domattr.set(this.publishername_view, "innerHTML", change_record.value);
 					break
 			}
 		}

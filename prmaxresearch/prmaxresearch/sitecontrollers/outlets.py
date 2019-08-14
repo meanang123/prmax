@@ -457,7 +457,17 @@ class OutletController(SecureController):
 		""" List of outlets for research"""
 
 		#params["prmaxdatasetids"] = "(1,)"
-		return OutletGeneral.get_research_list(params)
+		#return OutletGeneral.get_research_list(params)
+		return OutletGeneral.get_research_only_parents_list(params)
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def list_deleted_research(self, *args, **params):
+		""" List of deleted outlets for research"""
+
+		return OutletGeneral.get_research_deleted_list(params)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -467,9 +477,9 @@ class OutletController(SecureController):
 	def research_move_contact(self, *args, **params):
 		""" Move a contact between outlets"""
 
-		Outlet.research_move_contact(params)
+		data = Outlet.research_move_contact(params)
 
-		return stdreturn()
+		return stdreturn(data=data)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -490,10 +500,8 @@ class OutletController(SecureController):
 	def research_copy_contact(self, *args, **params):
 		""" Copy a contact to an outlet"""
 
-		Outlet.research_copy_contact(params)
-
-		return stdreturn()
-
+		data = Outlet.research_copy_contact(params)
+		return stdreturn(data=data)
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

@@ -62,6 +62,18 @@ define([
 		{
 			//topic.publish(PRCOMMON.Events.Employee_Updated,{employeeid: parseInt(this.employeeid.get("value"))});
 			alert("Contact Copied. Please verify the 'Research tab' to make sure these changes haven't effected it");
+			if (response.data.source_series == true && response.data.destination_series == false)
+			{
+				alert("Series members were affected. Please run employee synchronisation process");
+			}				
+			else if (response.data.source_series == false && response.data.destination_series == true)
+			{
+				alert("Series members of DESTINATION publication were affected. Please run employee synchronisation process for DESTINATION publication");
+			}				
+			else if (response.data.source_series == true && response.data.destination_series == true)
+			{
+				alert("Series members of BOTH source AND destination publications were affected. Please run employee synchronisation process for both of them");
+			}			
 			this._dialog.hide();
 		}
 		else

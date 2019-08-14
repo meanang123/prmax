@@ -25,6 +25,7 @@ from prcommon.model.interests import EmployeeInterestView, Interests
 from prcommon.model.research import ResearchDetails
 from prcommon.model.research import Activity, ActivityDetails
 from prcommon.model.outlets.outletdesk import OutletDesk
+from prcommon.model.outletprofile import OutletProfile
 from prcommon.model.roles import PRMaxRoles
 import prcommon.Constants as Constants
 from ttl.dict import DictExt
@@ -77,9 +78,14 @@ class Employee(BaseSql):
 	  od.deskname,
 	  st.sourcename,
 	  e.prmaxstatusid,
-		CASE WHEN o.primaryemployeeid =e.employeeid THEN true ELSE false END as prn_primary
+	  com.tel,
+	  com.fax,
+		CASE WHEN o.primaryemployeeid =e.employeeid THEN true ELSE false END as prn_primary,
+		CASE WHEN (select count(*) from outletprofile as op where op.seriesparentid = e.outletid) > 0 THEN true ELSE false END as series
+	    
 		FROM employees as e
 	  JOIN outlets AS o ON e.outletid = o.outletid
+	  JOIN communications AS com ON com.communicationid = e.communicationid
 		LEFT OUTER JOIN contacts as c on e.contactid = c.contactid
 	  LEFT OUTER JOIN outletdesk AS od ON od.outletdeskid = e.outletdeskid
 	  LEFT OUTER JOIN internal.sourcetypes AS st ON st.sourcetypeid = e.sourcetypeid
@@ -94,10 +100,14 @@ class Employee(BaseSql):
 	  od.deskname,
 	  st.sourcename,
 	  e.prmaxstatusid,
-		CASE WHEN o.primaryemployeeid =e.employeeid THEN true ELSE false END as prn_primary
+	  com.tel,
+	  com.fax,	  
+		CASE WHEN o.primaryemployeeid =e.employeeid THEN true ELSE false END as prn_primary,
+		CASE WHEN (select count(*) from outletprofile as op where op.seriesparentid = e.outletid) > 0 THEN true ELSE false END as series
 
 	  		FROM employees as e
 	  JOIN outlets AS o ON e.outletid = o.outletid
+	  JOIN communications AS com ON com.communicationid = e.communicationid	  
 		LEFT OUTER JOIN contacts as c on e.contactid = c.contactid
 	  LEFT OUTER JOIN outletdesk AS od ON od.outletdeskid = e.outletdeskid
 	  LEFT OUTER JOIN internal.sourcetypes AS st ON st.sourcetypeid = e.sourcetypeid
@@ -989,6 +999,8 @@ class Employee(BaseSql):
 				raise Exception("Is Primary")
 
 			transaction = BaseSql.sa_get_active_transaction()
+
+			series = session.query(OutletProfile).filter(OutletProfile.seriesparentid == employee.outletid).all()
 			# merge lists
 			# get list of each employee and then work out what to do
 			in_lists = {}
@@ -1024,6 +1036,7 @@ class Employee(BaseSql):
 
 			transaction.commit()
 			session.expunge_all()
+			return dict(series=True if len(series) > 0 else False)
 
 		except:
 			LOGGER.exception("research_merge_contacts")

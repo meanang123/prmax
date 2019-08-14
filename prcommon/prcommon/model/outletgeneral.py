@@ -221,7 +221,7 @@ class OutletGeneral(object):
 			if outlet.circulationsourceid:
 				old_circulationsource = CirculationSources.query.get(outlet.circulationsourceid)
 				old_circulationsourcedescription = old_circulationsource.circulationsourcedescription
-			if 'circulationsourceid' in params and params['circulationsourceid'] != None:
+			if 'circulationsourceid' in params and params['circulationsourceid'] != None and params['circulationsourceid'] != '':
 				new_circulationsource = CirculationSources.query.get(int(params['circulationsourceid']))
 				new_circulationsourcedescription = new_circulationsource.circulationsourcedescription
 			ActivityDetails.AddChange(old_circulationsourcedescription, new_circulationsourcedescription, activity.activityid, Constants.Field_Outlet_Circulation_Source)
@@ -230,7 +230,7 @@ class OutletGeneral(object):
 			if outlet.circulationauditdateid:
 				old_circulationauditdate = CirculationDates.query.get(outlet.circulationauditdateid)
 				old_circulationauditdatedescription = old_circulationauditdate.circulationauditdatedescription
-			if 'circulationauditdateid' in params and params['circulationauditdateid'] != None:
+			if 'circulationauditdateid' in params and params['circulationauditdateid'] != None and params['circulationauditdateid'] != '':
 				new_circulationauditdate = CirculationDates.query.get(int(params['circulationauditdateid']))
 				new_circulationauditdatedescription = new_circulationauditdate.circulationauditdatedescription
 			ActivityDetails.AddChange(old_circulationauditdatedescription, new_circulationauditdatedescription, activity.activityid, Constants.Field_Outlet_Circulation_Dates)
@@ -475,6 +475,56 @@ class OutletGeneral(object):
 	ListDataCount = """
 		SELECT COUNT(*) FROM  outlets """
 
+	ListDataParents = """
+		SELECT
+		o.outletid,
+	    o.outletid AS id,
+		o.outletname
+		FROM outlets AS o
+	    LEFT OUTER JOIN outletprofile AS op ON op.outletid = o.outletid
+	    WHERE op.seriesparentid is null"""
+
+	ListDataParentsCount = """
+		SELECT COUNT(*) FROM  outlets AS o
+	    LEFT OUTER JOIN outletprofile AS op ON op.outletid = o.outletid
+	    WHERE op.seriesparentid is null"""
+
+
+
+	@staticmethod
+	def get_research_only_parents_list(params):
+		"""list for dropdown list"""
+
+		whereused = BaseSql.addclause(" ", "o.customerid = -1 AND o.sourcetypeid IN(1,2)")
+		if "prmaxdatasetids" in params:
+			whereused = BaseSql.addclause(whereused, "countryid IN (SELECT countryid FROM internal.prmaxdatasetcountries WHERE prmaxdatasetid IN %s)" % params["prmaxdatasetids"])
+		if "ioutletid" in params:
+			whereused = BaseSql.addclause(whereused, "countryid IN (SELECT countryid FROM outlets WHERE outletid=:ioutletid)" )
+			params["ioutletid"] = int(params["ioutletid"])
+		primaryid = False
+
+		if "outletname" in params:
+			whereused = BaseSql.addclause(whereused, "outletname ilike :outletname")
+			if params["outletname"]:
+				params["outletname"] = params["outletname"].replace("*", "")
+				if "extended_search" in  params:
+					params["outletname"] = "%" + params["outletname"] + "%"
+				else:
+					params["outletname"] = params["outletname"] + "%"
+		else:
+			return Outlet.grid_to_rest(dict(numRows=0, items=[], identity="outletid"),
+			                          params["offset"],
+			                          True if primaryid in  params else False)
+
+		return Outlet.get_rest_page_base(
+									params,
+									'o.outletid',
+									'outletname',
+									OutletGeneral.ListDataParents + whereused + BaseSql.Standard_View_Order,
+									OutletGeneral.ListDataParentsCount + whereused,
+									Outlet)
+
+
 	@staticmethod
 	def get_research_list(params):
 		"""list for dropdown list"""
@@ -507,6 +557,34 @@ class OutletGeneral(object):
 									OutletGeneral.ListData + whereused + BaseSql.Standard_View_Order,
 									OutletGeneral.ListDataCount + whereused,
 									Outlet)
+
+	@staticmethod
+	def get_research_deleted_list(params):
+		"""list for dropdown list"""
+
+		whereused = ""
+		if "outletname" in params:
+			whereused = BaseSql.addclause(whereused, "outletname ilike :outletname")
+			if params["outletname"]:
+				params["outletname"] = params["outletname"].replace("*", "")
+				if "extended_search" in  params:
+					params["outletname"] = "%" + params["outletname"] + "%"
+				else:
+					params["outletname"] = params["outletname"] + "%"
+		else:
+			return Outlet.grid_to_rest(dict(numRows=0, items=[], identity="outletid"),
+			                          params["offset"],
+			                          True if primaryid in  params else False)
+
+		return Outlet.get_rest_page_base(
+									params,
+									'outletid',
+									'outletname',
+									OutletGeneral.ListData + whereused + BaseSql.Standard_View_Order,
+									OutletGeneral.ListDataCount + whereused,
+									Outlet)
+
+
 
 	@staticmethod
 	def update_international(params):

@@ -58,6 +58,8 @@ define([
 		this._costs = new ItemFileReadStore ({ url:"/common/lookups?searchtype=outletprices"});
 		this._mediaaccesstypes = new ItemFileReadStore ({ url:"/common/lookups?searchtype=mediaaccesstypes"});
 
+		topic.subscribe(PRCOMMON.Events.Outlet_Updated, lang.hitch(this,this._outlet_update_event));
+
 	},
 	postCreate:function()
 	{
@@ -101,6 +103,17 @@ define([
 			alert("Failed to updated");
 		}
 		this.updatebtn.cancel();
+	},
+	_outlet_update_event:function(data)
+	{
+		if (data.comm.tel != this.tel.get("value"))
+		{
+			this.tel.set("value", data.comm.tel)	
+		}
+		if (data.comm.fax != this.fax.get("value"))
+		{
+			this.fax.set("value", data.comm.fax)
+		}
 	},
 	clear:function()
 	{

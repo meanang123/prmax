@@ -140,7 +140,7 @@ class Statements(BaseSql):
                 """ get a statement"""
 
                 statementid = params['statementid']
-                statement = Hostspf.query.get(statementid)
+                statement = Statements.query.get(statementid)
                 return dict(statementdescripiton=statement.statementid,
                             clientid=statement.clientid,
                             issueid=statement.issueid)

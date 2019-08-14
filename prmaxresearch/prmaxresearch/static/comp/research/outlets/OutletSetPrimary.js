@@ -58,6 +58,10 @@ define([
 			if ( response.success == "OK" )
 			{
 				alert("Outlet Primary Contact Changed. Please verify the 'Research tab' to make sure these changes haven't effected it");
+				if (response.employee.series == true)
+				{
+					alert("Series members were affected. Please run employee synchronisation process");
+				}
 				this.clear();
 				topic.publish('/emp/set_primary');
 				this._dialog.hide();

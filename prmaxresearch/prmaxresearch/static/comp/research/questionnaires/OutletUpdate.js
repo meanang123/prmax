@@ -57,6 +57,7 @@ define([
 		topic.subscribe('/emp/set_primary', lang.hitch(this, this._employee_set_primary_event));
 		topic.subscribe("/quest/emp_del", lang.hitch(this, this._employee_delete_event));
 		this._row_data = null;
+		this._outletdesks = null;
 		this.std_menu = null;
 		this.std_menu_primary = null;
 	},
@@ -64,7 +65,7 @@ define([
 	{
 		var cells =
 		[
-			{label: ' ', field:"menu", className:"grid-field-image-view", formatter:utilities2.format_row_ctrl},
+			{label: ' ', field:"isprimary", className:"grid-field-image-view", formatter:this._row_button_small},
 			{label: 'Done?',field:"applied", className:"dgrid-column-status-small", formatter:this._action_done_function},
 			{label: 'Contact',className:"standard",field:"contactname"},
 			{label: 'Job Title',className:"standard",field:"job_title"},
@@ -81,6 +82,18 @@ define([
 
 		this.inherited(arguments);
 	},
+	_row_button_small:function ( prn_primary )
+	{
+
+		if ( prn_primary == null )
+			return "...";
+
+		if (prn_primary)
+			return '<p style="background-color:red;padding:0x;margin:0px">&nbsp; </p>';
+
+		return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrl.gif"></img>';
+
+	},	
 	_action_done_function:function( applied)
 	{
 		if ( applied == 1)
@@ -106,7 +119,7 @@ define([
 
 		if ( cell == null || cell.row == null) return ;
 
-		if ( cell.column.field =="menu")
+		if ( cell.column.field =="isprimary")
 		{
 			if (cell.row.data.actiontypeid == 2 || cell.row.data.actiontypeid == -1)
 			{
@@ -155,7 +168,7 @@ define([
 	{
 		if ( response.success == "OK")
 		{
-			this.contact_edit.load (  response.data.data , response.data.user_changes );
+			this.contact_edit.load (  response.data.data , response.data.user_changes, this._outletdesks );
 			this.contact_edit_container.selectChild( this.contact_edit );
 		}
 		else
@@ -187,6 +200,7 @@ define([
 			var tmp = response.data.outlet.outlet.outletid+" - " + response.data.outlet.outlet.outletname;
 			domattr.set(this.outlet_details_view,"innerHTML",  tmp );
 			this._outletid = response.data.outlet.outlet.outletid;
+			this._outletdesks = response.data.outlet.outletdesks;
 		}
 	},
 	load:function ( researchprojectitemid)
@@ -259,7 +273,7 @@ define([
 	{
 		this._row_data = null;
 		this.employee_change_ctrl.set("dialog", this.employee_change_dlg );
-		this.employee_change_ctrl.load (  -1 ,  this._outletid, '', 'add' ) ;
+		this.employee_change_ctrl.load (  -1 ,  this._outletid, '', this._outletdesks) ;
 		this.employee_change_dlg.show();
 		this.contact_edit_container.selectChild( this.blank_cont_view );
 	},
