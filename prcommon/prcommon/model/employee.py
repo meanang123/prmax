@@ -1356,7 +1356,7 @@ class EmployeeDisplay(BaseSql):
 		employee_display_interests = ", ".join([row[0] for row in result if len(row[0])])
 
 		return dict(employee=details,
-					employee_display_role=employee_display_roles,
+					employee_display_roles=employee_display_roles,
 		            employee_display_interests=employee_display_interests)
 
 	@classmethod
