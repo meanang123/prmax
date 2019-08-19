@@ -932,12 +932,10 @@ class Employee(BaseSql):
 				# need to get
 				out = EmployeeInterests.query.get(
 					employeeinterest.employeeinterestid)
-				# only delete if source is local
-				if out.sourceid == Constants.Employee_Interests_Local or out.sourceid is None:
-					if activityid:
-						del_interest = Interests.query.get(out.interestid)
-						ActivityDetails.AddDelete(del_interest.interestname, activityid, Constants.Field_Interest)
-					session.delete(out)
+				if activityid:
+					del_interest = Interests.query.get(out.interestid)
+					ActivityDetails.AddDelete(del_interest.interestname, activityid, Constants.Field_Interest)
+				session.delete(out)
 
 		for interestid in interests:
 			if not interestid in dbinterest2:
