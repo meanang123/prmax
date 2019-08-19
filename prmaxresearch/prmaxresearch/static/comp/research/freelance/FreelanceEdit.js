@@ -69,6 +69,14 @@ define([
 		if (response.success=="OK")
 		{
 			alert("Freelance Updated");
+			if (response.data.comm.tel != this.tel.get("value"))
+			{
+				this.tel.set("value", response.data.comm.tel)
+			}
+			if (response.data.comm.fax != this.fax.get("value"))
+			{
+				this.fax.set("value", response.data.comm.fax)
+			}
 			this._clear_reason();
 		}
 		else
