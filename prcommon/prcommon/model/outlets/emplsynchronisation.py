@@ -44,7 +44,7 @@ class EmployeeSynchronise(object):
 		childoutlets = session.query(OutletProfile).\
 		    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 		    filter(OutletProfile.seriesparentid != None).\
-		    filter(ResearchDetails.no_sync is False).\
+		    filter(ResearchDetails.no_sync == False).\
 		    filter(OutletProfile.seriesparentid == parentoutletid).all()
 
 		if len(childoutlets) > 0:
@@ -52,12 +52,12 @@ class EmployeeSynchronise(object):
 			start = 0
 			stop = len(childoutlets)
 
-		while exists is True:
+		while exists == True:
 			for child in childoutlets[start:stop]:
 				more_children = session.query(OutletProfile).\
 					join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 					filter(OutletProfile.seriesparentid != None).\
-					filter(ResearchDetails.no_sync is False).\
+					filter(ResearchDetails.no_sync == False).\
 					filter(OutletProfile.seriesparentid == child.outletid).all()
 				if len(more_children) > 0:
 					childoutlets.extend(more_children)
@@ -77,7 +77,7 @@ class EmployeeSynchronise(object):
 		all_childoutlets = session.query(OutletProfile).\
 			    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 			    filter(OutletProfile.seriesparentid != None).\
-			    filter(ResearchDetails.no_sync is False).all()
+			    filter(ResearchDetails.no_sync == False).all()
 #		        filter(OutletProfile.outletid.in_((130637,130636,130675,71453))).all()
 		results = []
 
@@ -91,7 +91,7 @@ class EmployeeSynchronise(object):
 		bottom_children = session.query(OutletProfile).\
 	            join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 	            filter(OutletProfile.seriesparentid != None).\
-	            filter(ResearchDetails.no_sync is False).\
+	            filter(ResearchDetails.no_sync == False).\
 				filter(OutletProfile.outletid.in_(all_children)).\
 			    filter(OutletProfile.outletid.notin_(all_parents)).all()
 
@@ -104,7 +104,7 @@ class EmployeeSynchronise(object):
 			child_series.append(child)
 			#we use the done to have all outlets that have already are in the list of those that would be synchronised (to avoid duplicates)
 			done.append(child.outletid)
-			while exists is True:
+			while exists == True:
 				series = session.query(OutletProfile).\
 			        join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 			        filter(OutletProfile.outletid == child_series[0].seriesparentid).\
@@ -123,7 +123,7 @@ class EmployeeSynchronise(object):
 			parent_allow_sync = session.query(OutletProfile).\
 		        join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 		        filter(OutletProfile.outletid == childoutlet.seriesparentid).\
-		        filter(ResearchDetails.no_sync is False).scalar()
+		        filter(ResearchDetails.no_sync == False).scalar()
 			if parent_allow_sync:
 				resultdata = None
 				try:
@@ -198,7 +198,7 @@ class EmployeeSynchronise(object):
 		   parent_com.fax != child_com.fax:
 			session.execute(text("UPDATE communications SET tel = :tel, fax = :fax WHERE communicationid = :communicationid"),\
 			                {'tel': parent_com.tel, 'fax': parent_com.fax, 'communicationid':child_com.communicationid}, Communication)
-		if (child_com.email is None or child_com.email == "") and parent_com.email:
+		if (child_com.email == None or child_com.email == "") and parent_com.email:
 			session.execute(text("UPDATE communications SET email = :email WHERE communicationid = :communicationid"),\
 			                {'email': parent_com.email, 'communicationid':child_com.communicationid}, Communication)
 
