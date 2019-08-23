@@ -63,7 +63,7 @@ define([
 
 		if ( confirm("Add Contact?"))
 		{
-			request.post('/research/admin/contacts/research_exist',
+			request.post('/research/admin/contacts/research_check',
 				utilities2.make_params({ data : this.form.get("value")})).
 				then(this._exist_call_back);
 		}		
@@ -76,7 +76,14 @@ define([
 	},
 	_exist_call:function(response)
 	{
-		if (response.success == "OK")
+		if (response.success == "DEL")
+		{
+			alert("Contact '" + response.data.firstname+ " " + response.data.familyname + "' has previously asked to be deleted");
+			this._clear_add_form();
+			if (this._dialog)
+				this._dialog.hide();
+		}
+		else if (response.success == "OK")
 		{
 			if ((response.exist == true && confirm("Contact already exist with same Firstname and Surname. Do you want to proceed?")) || response.exist == false)
 			{

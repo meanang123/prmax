@@ -220,6 +220,14 @@ class ProjectsController(SecureController):
 	@expose("json")
 	@exception_handler(pr_std_exception_handler)
 	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def get_list(self, *args, **params):
+		""" list of project for service"""
+
+		return ResearchProjects.get_list(params)
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
 	def projects_members(self, *args, **params):
 		""" list of project for service"""
 

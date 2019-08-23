@@ -20,6 +20,7 @@ from ttl.tg.validators import std_state_factory, PrFormSchema, IntNull, RestSche
 from ttl.base import  stdreturn
 from prmax.utilities.common import addConfigDetails
 from prcommon.model import Communication, Outlet, Freelance, SearchSession, OutletGeneral
+from prcommon.model.deletionhistory import DeletionHistory
 from prcommon.lib.Security import check_access_rights
 import prcommon.Constants as Constants
 
@@ -314,9 +315,13 @@ class OutletController(SecureController):
 	def research_add_main(self, *args, **params):
 		""" Add a new global outlet"""
 
-		params["outletid"] = Outlet.research_main_add(params)
 
-		return dict(success="OK", data=Outlet.getBasicDetails(params))
+		deletionhistory = DeletionHistory.exist(params)
+		if deletionhistory:
+			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		else:
+			params["outletid"] = Outlet.research_main_add(params)
+			return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 
 	@expose("json")
@@ -341,9 +346,12 @@ class OutletController(SecureController):
 	def freelance_research_add(self, *args, **params):
 		""" save an freelance record for the research system """
 
-		params['outletid'] = Freelance.research_add(params)
-
-		return dict(success="OK", data=Outlet.getBasicDetails(params))
+		deletionhistory = DeletionHistory.exist(params)
+		if deletionhistory:
+			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		else:
+			params['outletid'] = Freelance.research_add(params)
+			return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

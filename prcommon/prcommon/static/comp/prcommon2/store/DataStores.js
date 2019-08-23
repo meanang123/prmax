@@ -32,6 +32,7 @@ define([
 		this._customertypes_model = new ItemFileReadStore ( { url:"/common/lookups?searchtype=customertypes"});
 		this._customertypes_model_ext = new ItemFileReadStore ( { url:"/common/lookups?searchtype=customertypes&include_no_option=1"});
 		this._researchprojectstatus = new ItemFileReadStore ( { url:"/common/lookups?searchtype=researchprojectstatus"});
+		this._reasoncode_del_hist = new ItemFileReadStore ({ url:"/common/lookups?searchtype=reasoncodes&reasoncategoryid=8"});
 	},
 	Reason_Add_Default:5,
 	Reason_Upd_Default:8,
@@ -79,6 +80,10 @@ define([
 	Research_Reason_Del_Codes:function()
 	{
 		return this._reasoncode_data_del;
+	},
+	Research_Reason_Del_Hist_Codes:function()
+	{
+		return this._reasoncode_del_hist;
 	},
 	Research_Reason_Add_Email:function()
 	{

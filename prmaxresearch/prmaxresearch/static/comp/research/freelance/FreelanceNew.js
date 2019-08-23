@@ -54,7 +54,11 @@ define([
 	},
 	_saved:function(response)
 	{
-		if (response.success=="OK")
+		if (response.success == "DEL")
+		{
+			alert("Freelance '" + response.data.outletname + "' has previously asked to be deleted");
+		}
+		else if (response.success=="OK")
 		{
 			alert("Freelance Added");
 			this.new_freelance();

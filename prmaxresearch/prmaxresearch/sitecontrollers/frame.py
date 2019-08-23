@@ -54,6 +54,7 @@ class FrameController(SecureControllerExt):
 		            dict(_reference=69),
 		            dict(_reference=32),
 		            dict(_reference=33),
+		            dict(_reference=41)
 		            ]),
 						  dict(id=2, type=0, name="Roles", content="research/lookups/Roles"),
 		          dict(id=11, type=0, name="Geographical", content="research/lookups/Geographical"),
@@ -97,6 +98,7 @@ class FrameController(SecureControllerExt):
 		          dict(id=37, type=0, name="Subjects", content="research/translations/Subjects"),
 		          dict(id=38, type=0, name="Translations", content="research/translations/translations"),
 		          dict(id=39, type=3, name="Clippings", children=[dict(_reference=40),]),
-		          dict(id=40, type=0, name="Clipping Outlets", content="research/clippings/linkoutlets"),
+		          dict(id=40, type=0, name="Clipping Outlets", content="research/clippings/linkoutlets")
+		          ,dict(id=41, type=0, name="Deletion History", content="research/lookups/DeletionHistory")
 		        ] )
 

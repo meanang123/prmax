@@ -33,6 +33,8 @@ dojo.declare("prcommon.data.DataStores", null,
 		this._customertypes_model_ext = new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=customertypes&include_no_option=1"});
 		this._researchprojectstatus = new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=researchprojectstatus"});
 		this._customersources = new dojo.data.ItemFileReadStore ( { url:"/common/lookups?searchtype=customersources&include_no_option=1"});
+		this._reasoncode_del_hist = new dojo.data.ItemFileReadStore ({ url:"/common/lookups?searchtype=reasoncodes&reasoncategoryid=8"});
+
 	},
 	Reason_Add_Default:5,
 	Reason_Upd_Default:8,
@@ -76,6 +78,10 @@ dojo.declare("prcommon.data.DataStores", null,
 	Research_Reason_Del_Codes:function()
 	{
 		return this._reasoncode_data_del;
+	},
+	Research_Reason_Del_Hist_Codes:function()
+	{
+		return this._reasoncode_del_hist;
 	},
 	Research_Reason_Add_Email:function()
 	{

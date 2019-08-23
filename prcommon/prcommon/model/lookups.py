@@ -937,6 +937,19 @@ class Sourcetypes(BaseSql):
 					for row in data.fetchall()]
 		return cls.sqlExecuteCommand(text(Sourcetypes.List_Types), None, _convert)
 
+class DeletionHistoryType(BaseSql):
+	"deletionhistorytype"
+	List_Types = """SELECT deletionhistorytypeid, deletionhistorytypedescription FROM internal.deletionhistorytype ORDER BY deletionhistorytypeid"""
+
+	@classmethod
+	def getLookUp(cls, params):
+		""" get a lookup list """
+		def _convert(data):
+			""""local convert"""
+			return [dict(id=row.deletionhistorytypeid, name=row.deletionhistorytypedescription)
+					for row in data.fetchall()]
+		return cls.sqlExecuteCommand(text(DeletionHistoryType.List_Types), None, _convert)
+
 #########################################################
 # load tables from db
 EmailSendTypes.mapping = Table('emailsendtypes', metadata, autoload=True, schema="internal")
@@ -994,6 +1007,7 @@ DashboardSettingsMode.mapping = Table('dashboardsettingsmode', metadata, autoloa
 DashboardSettingsStandard.mapping = Table('dashboardsettingsstandard', metadata, autoload=True, schema='internal')
 DashboardSettingsStandardSearchBy.mapping = Table('dashboardsettingsstandardsearchby', metadata, autoload=True, schema='internal')
 Sourcetypes.mapping = Table('sourcetypes', metadata, autoload=True, schema='internal')
+DeletionHistoryType.mapping = Table('deletionhistorytype', metadata, autoload=True, schema='internal')
 
 
 
@@ -1049,5 +1063,6 @@ mapper(DashboardSettingsMode, DashboardSettingsMode.mapping)
 mapper(DashboardSettingsStandard, DashboardSettingsStandard.mapping)
 mapper(DashboardSettingsStandardSearchBy, DashboardSettingsStandardSearchBy.mapping)
 mapper(Sourcetypes, Sourcetypes.mapping)
+mapper(DeletionHistoryType, DeletionHistoryType.mapping)
 
 

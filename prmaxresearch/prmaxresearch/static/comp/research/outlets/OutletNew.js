@@ -14,6 +14,7 @@ define([
 	"dojo/text!../outlets/templates/OutletNew.html",
 	"dijit/layout/BorderContainer",
 	"ttl/grid/Grid",
+	"dojox/data/JsonRestStore",
 	"ttl/store/JsonRest",
 	"dojo/store/Observable",
 	"dojo/request",
@@ -34,23 +35,22 @@ define([
 	"dijit/form/Textarea",
 	"dojox/form/BusyButton",
 	"dijit/form/NumberTextBox"
-	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, request, utilities2, json, ItemFileReadStore, lang, topic ){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRestStore, JsonRest, Observable, request, utilities2, json, ItemFileReadStore, lang, topic ){
  return declare("research.outlets.OutletNew",
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
 	constructor: function()
 	{
 		this._updated_call_back = dojo.hitch ( this , this._updated_call );
+		this._store = new ItemFileReadStore({target:'/research/admin/deletionhistory/list', idProperty:"deletionhistoryid"});
 	},
 	postCreate:function()
 	{
 		this.prmax_outlettypeid.set("store", PRCOMMON.utils.stores.OutletTypes_noFreelancer());
-//		this.frequency.set("store",PRCOMMON.utils.stores.Frequency());
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Add_Codes());
 		this.countryid.set("store",PRCOMMON.utils.stores.Countries())
 
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
-//		this.frequency.set("value", 5);
 		this.countryid.set("value", 1);
 
 		this.inherited(arguments);
@@ -74,6 +74,10 @@ define([
 			this.savebtn.cancel();
 			this.clear();
 			this.outletname.focus();
+		}
+		else if (response.success == "DEL")
+		{
+			alert("Outlet '" + response.data.outletname + "' has previously asked to be deleted");
 		}
 		else
 		{

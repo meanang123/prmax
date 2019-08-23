@@ -196,6 +196,16 @@ class ResearchProjects(BaseSql):
 	Grid_View_Order = """ ORDER BY  %s %s LIMIT :limit OFFSET :offset"""
 	Grid_View_Count = """SELECT COUNT(*) FROM research.researchprojects AS p """
 
+	ListData = """
+		SELECT
+		researchprojectid,
+	    researchprojectid AS id,
+	    researchprojectname
+		FROM research.researchprojects"""
+
+	ListDataCount = """
+		SELECT COUNT(*) FROM research.researchprojects """
+
 	@classmethod
 	def getgridpage(cls, args):
 		""" get a list of the research projects"""
@@ -228,6 +238,28 @@ class ResearchProjects(BaseSql):
 		                        params["offset"],
 		                        True if "researchprojectid" in params else False)
 
+	@classmethod
+	def get_list(cls, params):
+		""" get list  """
+		whereused = ""
+
+		if "researchprojectname" in params:
+			whereused = BaseSql.addclause("", "researchprojectname ilike :researchprojectname")
+			if params["researchprojectname"]:
+				params["researchprojectname"] = params["researchprojectname"].replace("*", "")
+				params["researchprojectname"] = params["researchprojectname"] +  "%"
+
+		if "researchprojectid" in  params:
+			whereused = BaseSql.addclause(whereused, "researchprojectid = :researchprojectid")
+
+
+		return cls.get_rest_page_base(
+		    params,
+		    'researchprojectid',
+		    'researchprojectname',
+		    ResearchProjects.ListData + whereused + BaseSql.Standard_View_Order,
+		    ResearchProjects.ListDataCount + whereused,
+		    cls)
 
 	@classmethod
 	def get(cls, researchprojectid):

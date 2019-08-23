@@ -39,10 +39,7 @@ define([
 	constructor: function()
 	{
 
-//		this._outlets = new JsonRest( {target:'/research/admin/outlets/list_deleted_research', labelAttribute:"outletname",idProperty:"outletid"});
 		this._activities = new JsonRest( {target:'/research/admin/audit_delete_trail_list', labelAttribute:"name",idProperty:"activityid"});
-
-	
 	},
 	postCreate:function()
 	{
@@ -52,7 +49,6 @@ define([
 			{label: 'Outlet Name', className:"standard",field:"name"},
 			{label: 'Action',width: "60px",field:"actiontypedescription"},
 			{label: 'Reason',className:"standard",field:"reasoncodedescription"},
-			/*{label: 'User',className:"standard",field:"display_name"},*/
 			{label: 'Reason Details',className:"standard",field:"reason"}
 			];
 
@@ -66,8 +62,6 @@ define([
 		this.result_grid_view.set("content", this.result_grid);
 		this.filterdate.set("value", new Date());
 		this.filteroutlet.set("value", "");
-//		this.activityid.set("store", this._activities);
-		
 
 		this.inherited(arguments);
 	},
@@ -76,12 +70,6 @@ define([
 		this.clear();
 		this._objectid = objectid;
 	},
-//	_filter:function()
-//	{
-//		var d = this.filterdate.get("value");
-//		this.result_grid.set( "query",{filterdate:d.getFullYear() + "-" + (d.getMonth() + 1 )  + "-" + d.getDate(),
-//				objecttypeid: this.objecttypeid, outletid: this.outletid.get("value")});
-//	},
 	clear:function()
 	{
 		this.result_grid.set("query",{});
@@ -90,7 +78,6 @@ define([
 	{
 		this.filterdate.set("value", Date.now());
 		this.filteroutlet.set("value", "");	
-//		this.activityid.set("value", "");	
 	},
 	_execute:function()
 	{
@@ -100,9 +87,6 @@ define([
 			query["filterdate"] = arguments[0].filterdate.getFullYear() + "-" + (arguments[0].filterdate.getMonth() + 1 )  + "-" + arguments[0].filterdate.getDate();
 		if (arguments[0].filteroutlet != "")
 			query["filteroutlet"] = arguments[0].filteroutlet;
-//		if (arguments[0].activityid.length != -1)
-//			query["activityid"] = arguments[0].activityid;
-		
 		this.result_grid.set( "query",query);
 	},
 });

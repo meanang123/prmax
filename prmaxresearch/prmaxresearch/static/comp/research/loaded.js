@@ -37,6 +37,7 @@ define([
 	"prcommon2/query/query",
 	"research/translations/translations",
 	"research/clippings/linkoutlets",
-	"research/organisation/organisationnew"
+	"research/organisation/organisationnew",
+	"research/lookups/DeletionHistory"
 
 ], function( ){});

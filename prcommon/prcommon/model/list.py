@@ -32,7 +32,7 @@ class List(BaseSql):
 	JOIN userdata.list as l ON l.listid = lm.listid
 	JOIN outlets as o ON o.outletid = lm.outletid AND lm.outletid = ( SELECT outletid from employees WHERE employeeid = :employeeid LIMIT 1)
 	JOIN internal.listtypes AS lt ON lt.listtypeid = l.listtypeid
-	JOIN userdata.emailtemplates AS et ON et.listid = l.listid
+	LEFT OUTER JOIN userdata.emailtemplates AS et ON (et.listid = l.listid AND et.customerid = :customerid)
 
 	WHERE ( ( lm.employeeid = :employeeid) OR ( lm.employeeid IS NULL AND o.primaryemployeeid=:employeeid)) AND l.customerid = :customerid
 	GROUP BY  l.listid, l.listname, lt.listtypedescription, lt.listtypeid, update_time, et.sent_time
@@ -46,7 +46,7 @@ class List(BaseSql):
 	JOIN userdata.list as l ON l.listid = lm.listid
 	JOIN outlets as o ON o.outletid = lm.outletid AND lm.outletid = ( SELECT outletid from employees WHERE employeeid = :employeeid LIMIT 1)
 	JOIN internal.listtypes AS lt ON lt.listtypeid = l.listtypeid
-	JOIN userdata.emailtemplates AS et ON et.listid = l.listid
+	LEFT OUTER JOIN userdata.emailtemplates AS et ON (et.listid = l.listid AND et.customerid = :customerid)
 
 	WHERE ( ( lm.employeeid = :employeeid) OR ( lm.employeeid IS NULL AND o.primaryemployeeid=:employeeid)) AND l.customerid = :customerid
 	GROUP BY  l.listid, l.listname, lt.listtypedescription, lt.listtypeid, update_time, et.sent_time) AS t """

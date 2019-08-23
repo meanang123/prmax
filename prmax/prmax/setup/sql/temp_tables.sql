@@ -39,8 +39,8 @@ UPDATE internal.prmax_outlettypes SET customerid = -1;
 
 UPDATE internal.outletprices SET outletpricedescription = '' WHERE outletpriceid = 1;
 
-ALTER TABLE internal.customers ADD COLUMN send_dist_through_prmax boolean NOT NULL DEFAULT true;
-UPDATE internal.customers SET send_dist_through_prmax = True;
+-- ALTER TABLE internal.customers ADD COLUMN send_dist_through_prmax boolean NOT NULL DEFAULT true;
+-- UPDATE internal.customers SET send_dist_through_prmax = True;
 
 -- Function: searchoutletpublisher(integer, text, boolean, integer)
 
@@ -202,7 +202,7 @@ INSERT INTO internal.reportsource VALUES (17, 'Clippings Standard');
 INSERT INTO internal.reporttemplates VALUES (35, -1, 'Clippings Standard Report', '<queries><query type="CUSTOM"></query></queries>', '', 17, 'ClippingsStdReport');
 
 
-/*
+
 -- Table: internal.deletionhistorytype
 
 -- DROP TABLE internal.deletionhistorytype;
@@ -239,7 +239,7 @@ CREATE TABLE userdata.deletionhistory
   reasoncodeid integer NOT NULL,
   deletionhistorytypeid integer NOT NULL,
   userid integer NOT NULL,
-  deletiondate timestamp without time zone NOT NULL DEFAULT now(),
+  deletiondate date DEFAULT now(),
 
 
   CONSTRAINT deletionhistory_pkey PRIMARY KEY (deletionhistoryid),
@@ -264,13 +264,19 @@ GRANT ALL ON TABLE userdata.deletionhistory TO postgres;
 GRANT ALL ON TABLE userdata.deletionhistory TO prmax;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE userdata.deletionhistory TO prmaxcontrol;
 
+GRANT ALL ON TABLE userdata.deletionhistory_deletionhistoryid_seq TO postgres;
+GRANT UPDATE ON TABLE userdata.deletionhistory_deletionhistoryid_seq TO prmax;
+GRANT UPDATE ON TABLE userdata.deletionhistory_deletionhistoryid_seq TO prmaxcontrol;
 
-INSERT INTO internal.deletionhistorytype VALUES (1, 'outlet');
-INSERT INTO internal.deletionhistorytype VALUES (2, 'freelance');
-INSERT INTO internal.deletionhistorytype VALUES (3, 'contact');
+INSERT INTO internal.deletionhistorytype VALUES (1, 'Outlet');
+INSERT INTO internal.deletionhistorytype VALUES (2, 'Freelance');
+INSERT INTO internal.deletionhistorytype VALUES (3, 'Contact');
 
 INSERT INTO internal.reasoncategories VALUES (8, 'Deletion History');
 INSERT INTO internal.reasoncodes VALUES (29, 'Outlet request to remove', 8);
 INSERT INTO internal.reasoncodes VALUES (30, 'Contact request to remove', 8);
-*/
+
 INSERT INTO research.fields VALUES (100, 'New Publisher Name');
+
+INSERT INTO internal.dashboardsettingsstandard VALUES (4, 'Tone');
+

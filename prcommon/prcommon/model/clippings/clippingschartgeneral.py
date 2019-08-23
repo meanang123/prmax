@@ -232,6 +232,63 @@ class ClippingsChartGeneral(object):
             LEFT OUTER JOIN userdata.clippingsissues AS ci ON ci.clippingid = c.clippingid
             LEFT OUTER JOIN userdata.issues AS i ON i.issueid = ci.issueid"""
 
+
+
+    #Mode: Standard, Options: Tone, Results By: Number of clips
+    List_Tone_Data = """SELECT COUNT(c.clippingid) as count, ct.clippingstonedescription as name
+            FROM userdata.clippings AS c
+            LEFT OUTER JOIN internal.clippingstone AS ct ON ct.clippingstoneid = c.clippingstoneid"""
+    List_Tone_Data_Date = """SELECT COUNT(c.clippingid) as count, ct.clippingstonedescription as name,
+            c.clip_source_date as date
+            FROM userdata.clippings AS c
+            LEFT OUTER JOIN internal.clippingstone AS ct ON ct.clippingstoneid = c.clippingstoneid"""
+
+    #Mode: Standard, Options: Tone, Results By: Circulation
+    List_Tone_Circulation_Data = """SELECT
+            CASE
+            WHEN SUM(
+                CASE WHEN c.clip_circulation is null THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    WHEN c.clip_circulation = 0 THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    ELSE c.clip_circulation
+                END) is null
+            THEN 0
+            WHEN SUM(
+                CASE WHEN c.clip_circulation is null THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    WHEN c.clip_circulation = 0 THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    ELSE c.clip_circulation
+                END) is not null
+            THEN SUM(CASE WHEN c.clip_circulation is null THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                        WHEN c.clip_circulation = 0 THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                        ELSE c.clip_circulation
+                    END)
+            END AS count,
+            ct.clippingstonedescription as name
+            FROM userdata.clippings AS c
+            LEFT OUTER JOIN internal.clippingstone AS ct ON ct.clippingstoneid = c.clippingstoneid"""
+    List_Tone_Circulation_Data_Date = """SELECT
+            CASE
+            WHEN SUM(
+                CASE WHEN c.clip_circulation is null THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    WHEN c.clip_circulation = 0 THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    ELSE c.clip_circulation
+                END) is null
+            THEN 0
+            WHEN SUM(
+                CASE WHEN c.clip_circulation is null THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    WHEN c.clip_circulation = 0 THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                    ELSE c.clip_circulation
+                END) is not null
+            THEN SUM(CASE WHEN c.clip_circulation is null THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                        WHEN c.clip_circulation = 0 THEN (SELECT o.circulation FROM outlets AS o WHERE o.outletid = c.outletid)
+                        ELSE c.clip_circulation
+                    END)
+            END AS count,
+            ct.clippingstonedescription as name,
+            c.clip_source_date as date
+            FROM userdata.clippings AS c
+            LEFT OUTER JOIN internal.clippingstone AS ct ON ct.clippingstoneid = c.clippingstoneid"""
+
+
     #Mode: Global Analysis, QuestionType: List
     List_QuestionList_Data = """SELECT questiontext, answertext as name, count(answer_answerid)
             FROM userdata.questions as q
@@ -385,6 +442,7 @@ class ClippingsChartGeneral(object):
                 whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = :issueid AND ci.clippingid = c.clippingid)')
                 issuename = session.query(Issue.name).filter(Issue.issueid == params['issueid']).scalar()
         if params['dashboardsettingsmodeid'] == 1:
+            
             if params['dashboardsettingsstandardid'] == 1:
                 if params['dashboardsettingsstandardsearchbyid'] == 1:
                     groupbyclause = 'GROUP BY ct.clippingstypedescription, c.clippingstypeid'
@@ -456,14 +514,14 @@ class ClippingsChartGeneral(object):
                             retdata = ClippingsChartGeneral.standard_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
                     retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Circulation", clientname, issuename) if results \
                         else ClippingsChartGeneral.get_chart_title(datetext, "Clients", "Circulation", clientname, issuename, message)
-                elif params['dashboardsettingsstandardsearchbyid'] == 3:
-                    if params['chartviewid'] == 1:
-                        command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
-                        _standard_client_eva_view(params)
-                    elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
-                        _standard_client_eva_dates_view(params)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename) if results \
-                        else ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename, message)
+                #elif params['dashboardsettingsstandardsearchbyid'] == 3:
+                #    if params['chartviewid'] == 1:
+                #        command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
+                #        _standard_client_eva_view(params)
+                #    elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
+                #        _standard_client_eva_dates_view(params)
+                #    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename) if results \
+                #        else ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename, message)
             elif params['dashboardsettingsstandardid'] == 3:
                 if params['dashboardsettingsstandardsearchbyid'] == 1:
                     groupbyclause = 'GROUP BY i.name'
@@ -495,14 +553,53 @@ class ClippingsChartGeneral(object):
                             retdata = ClippingsChartGeneral.standard_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
                     retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Circulation", clientname, issuename) if results \
                         else ClippingsChartGeneral.get_chart_title(datetext, "Issues", "Circulation", clientname, issuename, message)
-                elif params['dashboardsettingsstandardsearchbyid'] == 3:
+                #elif params['dashboardsettingsstandardsearchbyid'] == 3:
+                #    if params['chartviewid'] == 1:
+                #        command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
+                #        _standard_issue_eva_view(params)
+                #    elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
+                #        _standard_issue_eva_dates_view(params)
+                #    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "EVA", clientname, issuename) if results \
+                #        else ClippingsChartGeneral.get_chart_title(datetext, "Issues", "EVA", clientname, issuename, message)
+            elif params['dashboardsettingsstandardid'] == 4:
+                if params['dashboardsettingsstandardsearchbyid'] == 1:
+                    groupbyclause = 'GROUP BY ct.clippingstonedescription'
                     if params['chartviewid'] == 1:
-                        command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
-                        _standard_issue_eva_view(params)
+                        command = ClippingsChartGeneral.List_Tone_Data + whereclause + groupbyclause
+                        results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_view(results)
                     elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
-                        _standard_issue_eva_dates_view(params)
-                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Issues", "EVA", clientname, issuename) if results \
-                        else ClippingsChartGeneral.get_chart_title(datetext, "Issues", "EVA", clientname, issuename, message)
+                        groupbyclause += ', c.clip_source_date'
+                        command = ClippingsChartGeneral.List_Tone_Data_Date + whereclause + groupbyclause
+                        results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Tones", "Clippings Count", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Tones", "Clippings Count", clientname, issuename, message)
+                elif params['dashboardsettingsstandardsearchbyid'] == 2:
+                    groupbyclause = 'GROUP BY ct.clippingstonedescription'
+                    if params['chartviewid'] == 1:
+                        command = ClippingsChartGeneral.List_Tone_Circulation_Data + whereclause + groupbyclause
+                        results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_view(results)
+                    elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
+                        groupbyclause += ', c.clip_source_date'
+                        command = ClippingsChartGeneral.List_Tone_Circulation_Data_Date + whereclause + groupbyclause
+                        results = Clipping.sqlExecuteCommand(text(command), params, BaseSql.ResultAsEncodedDict)
+                        if results:
+                            retdata = ClippingsChartGeneral.standard_dates_view(results, startdate, params['groupbyid'], params['chartviewid'])
+                    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Tones", "Circulation", clientname, issuename) if results \
+                        else ClippingsChartGeneral.get_chart_title(datetext, "Tones", "Circulation", clientname, issuename, message)
+                #elif params['dashboardsettingsstandardsearchbyid'] == 3:
+                #    if params['chartviewid'] == 1:
+                #        command = ClippingsChartGeneral.List_ClippingsType_Data + whereclause + groupbyclause
+                #       _standard_client_eva_view(params)
+                #    elif params['chartviewid'] == 2 or params['chartviewid'] == 3:
+                #        _standard_client_eva_dates_view(params)
+                #    retdata['title'] = ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename) if results \
+                #        else ClippingsChartGeneral.get_chart_title(datetext, "Clients", "EVA", clientname, issuename, message)
         elif params['dashboardsettingsmodeid'] == 2:
             questiontypeid = session.query(QuestionTypes).filter(QuestionTypes.questiontypeid == params['questiontypeid']).scalar()
             questiontext = session.query(Question.questiontext).filter(Question.questionid == params['questionid']).scalar()

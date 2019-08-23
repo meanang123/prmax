@@ -47,7 +47,7 @@ from prcommon.model.outlets.emplsynchronisation import EmployeeSynchronise
 from prcommon.model.outlet import OutletProfile
 from prcommon.model.research import ResearchDetails
 
-#from prmaxresearch.sitecontrollers.deletionhistory import DeletionHistoryController
+from prmaxresearch.sitecontrollers.deletionhistory import DeletionHistoryController
 
 class PRMaxRolesSchema(PrFormSchema):
 	""" prmax role schema"""
@@ -118,7 +118,7 @@ class DataAdminController(SecureController):
 	projects = ProjectsController()
 	desks = OutletDeskController()
 	subjects = SubjectController()
-#	deletionhistory = DeletionHistoryController()
+	deletionhistory = DeletionHistoryController()
 
 
 	@expose("json")
