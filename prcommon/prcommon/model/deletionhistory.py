@@ -159,18 +159,17 @@ class DeletionHistory(BaseSql):
 
 	@classmethod
 	def exist(cls, params):
-		if 'contactid' in params:
-			contact = Contact.query.get(params["contactid"])
-
-			deletionhistory = session.query(DeletionHistory).\
-			    filter(DeletionHistory.outletname.ilike(contact.getName())).\
-			    filter(DeletionHistory.firstname.ilike(contact.firstname)).\
-			    filter(DeletionHistory.familyname.ilike(contact.familyname)).\
-			    filter(DeletionHistory.deletionhistorytypeid == 2).first()
-		elif 'outletname' in params and params['outletname'] != None:
+		if 'outletname' in params and params['outletname'] != None:
 			deletionhistory = session.query(DeletionHistory).\
 			    filter(DeletionHistory.outletname.ilike(params['outletname'])).\
 			    filter(DeletionHistory.deletionhistorytypeid == 1).first()
+		elif 'contactid' in params:
+			contact = Contact.query.get(params["contactid"])
+			deletionhistory = session.query(DeletionHistory).\
+		        filter(DeletionHistory.outletname.ilike(contact.getName())).\
+		        filter(DeletionHistory.firstname.ilike(contact.firstname)).\
+		        filter(DeletionHistory.familyname.ilike(contact.familyname)).\
+		        filter(DeletionHistory.deletionhistorytypeid == 2).first()
 		elif 'firstname' in params and params['firstname'] != None \
 		   and 'familyname' in params and params['familyname'] != None:
 			deletionhistory = session.query(DeletionHistory).\
