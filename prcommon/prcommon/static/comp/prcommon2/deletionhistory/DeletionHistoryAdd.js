@@ -159,6 +159,7 @@ define([
 	{
 		if (response.success == "OK")
 		{
+			this.deletiondate.set("value", response.data.deletiondate);
 			this.deletionhistoryid.set("value", response.data.deletionhistoryid);
 			this.deletionhistorydescription.set("value", response.data.deletionhistorydescription);
 			this.outletname.set("value", response.data.outletname);

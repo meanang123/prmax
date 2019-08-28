@@ -61,7 +61,7 @@ define([
 			{label: 'Domain',className: "standard",field:'domain'},
 			{label: 'Project',className: "standard",field:'researchprojectname'},
 			{label: 'Reason',className: "standard",field:'reasoncodedescription'},
-			{label: 'Type',className: "standard",field:'deletionhistorydescription'},
+			{label: 'Type',className: "standard",field:'deletionhistorytypedescription'},
 			{label: 'User',className: "standard",field:'user_name'}
 			
 		];
