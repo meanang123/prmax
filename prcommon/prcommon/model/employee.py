@@ -82,7 +82,7 @@ class Employee(BaseSql):
 	  com.fax,
 		CASE WHEN o.primaryemployeeid =e.employeeid THEN true ELSE false END as prn_primary,
 		CASE WHEN (select count(*) from outletprofile as op where op.seriesparentid = e.outletid) > 0 THEN true ELSE false END as series
-	    
+
 		FROM employees as e
 	  JOIN outlets AS o ON e.outletid = o.outletid
 	  JOIN communications AS com ON com.communicationid = e.communicationid
@@ -101,13 +101,13 @@ class Employee(BaseSql):
 	  st.sourcename,
 	  e.prmaxstatusid,
 	  com.tel,
-	  com.fax,	  
+	  com.fax,
 		CASE WHEN o.primaryemployeeid =e.employeeid THEN true ELSE false END as prn_primary,
 		CASE WHEN (select count(*) from outletprofile as op where op.seriesparentid = e.outletid) > 0 THEN true ELSE false END as series
 
 	  		FROM employees as e
 	  JOIN outlets AS o ON e.outletid = o.outletid
-	  JOIN communications AS com ON com.communicationid = e.communicationid	  
+	  JOIN communications AS com ON com.communicationid = e.communicationid
 		LEFT OUTER JOIN contacts as c on e.contactid = c.contactid
 	  LEFT OUTER JOIN outletdesk AS od ON od.outletdeskid = e.outletdeskid
 	  LEFT OUTER JOIN internal.sourcetypes AS st ON st.sourcetypeid = e.sourcetypeid
@@ -286,7 +286,7 @@ class Employee(BaseSql):
 				comm = Communication(tel=params['tel'],
 				                    email=params['email'],
 				                    fax=params['fax'],
-				                    mobile=arams["mobile"],
+				                    mobile=params["mobile"],
 				                    webphone="")
 				session.add(comm)
 				session.flush()
