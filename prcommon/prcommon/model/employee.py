@@ -267,13 +267,13 @@ class Employee(BaseSql):
 				employeeid=params['employeeid'],
 				customerid=params['customerid']).all()
 			if employee:
+				employee = employee[0]
 				employee_countryid = session.query(Outlet.countryid).filter(Outlet.outletid == employee.outletid).scalar()
 				if 'tel' in params:
 					params['tel'] = Employee._fix_number(employee_countryid, params['tel'])
 				if 'fax' in params:
 					params['fax'] = Employee._fix_number(employee_countryid, params['fax'])
 
-				employee = employee[0]
 				employee.profile = params['profile']
 				employee.changed = datetime.now()
 				# update all record
