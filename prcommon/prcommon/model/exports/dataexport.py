@@ -125,13 +125,14 @@ class CsvTable(object):
 class DataExport(object):
 	"""Export Data to XML """
 
-	def __init__(self, export_dir, limit = None, sql_filter = None, zipped_file = False, zip_password=None, countryid=None, is_csv=False):
+	def __init__(self, export_dir, limit = None, sql_filter = None, zipped_file = False, zip_password=None, countryid=None, is_csv=False, employee_filter=None):
 		""" get the basic settings """
 
 		# setup the root for the exrpot
 		self._limit = limit
 		self._sql_filter = sql_filter
 		self._zipped_file = zipped_file
+		self._employee_filter = employee_filter
 		self._export_dir = export_dir
 		self._zip_password = zip_password
 		self._nbrexported = 0
@@ -254,11 +255,13 @@ class DataExport(object):
 			command = self._get_base_query(self._limit)
 			print "To Export   : %d" % command.count()
 			export_command(command, "1%s" % ext)
+			print "Export Complete"
 		else:
 			if self._countryid:
 				command = self._get_base_query(None, None, self._countryid)
 				print "To Export   : %d" % command.count()
 				export_command(command, "%d.%s" % (self._countryid, ext))
+				print "Export %d Completed" % (self._countryid, )
 
 	def _export_outlet_query(self, command, outfilename):
 		"export set of outlets"
@@ -369,14 +372,18 @@ class DataExport(object):
 				for field in fields[0]:
 					output_outlets.add_record(outlet[fields[1]], field)
 
-			# export contact
-			for employee in session.query(Employee, Communication, Address, Contact).\
+			contact_command = session.query(Employee, Communication, Address, Contact, Outlet).\
 					outerjoin(Communication, Communication.communicationid == Employee.communicationid ).\
 			    outerjoin(Address, Communication.addressid == Address.addressid ).\
 			    outerjoin(Contact, Contact.contactid==Employee.contactid).\
+			    outerjoin(Outlet, Outlet.outletid==Employee.outletid).\
 			    filter(Employee.outletid == outlet[0].outletid).\
 			    filter(Employee.prmaxstatusid==1).\
-			    filter(Employee.customerid==-1).all():
+			    filter(Employee.customerid==-1)
+			if self._employee_filter:
+				contact_command = contact_command.filter(text(self._employee_filter))
+			# export contact
+			for employee in contact_command.all():
 				output_contacts.new_row()
 				for field in DataExport.EXPORTCSVEMPLOYEE:
 					output_contacts.add_record(employee[0], field)
@@ -623,11 +630,17 @@ class DataExport(object):
 				command += " --limit=%d" % self._limit
 			if self._is_csv:
 				command += " --csv"
+			if self._sql_filter:
+				command += ' --filter="%s"' % (self._sql_filter.replace("%", "%%").replace("\n", " "), )
+			if self._employee_filter:
+				command += ' --employee_filter="%s"' % (self._employee_filter.replace("%", "%%").replace("\n", " "), )
 
+			print command % (countryid[0], self._export_dir)
 			os.system(command % (countryid[0], self._export_dir))
 
 	def export(self):
 		"""Export All Data for each set"""
+
 
 		if not self._countryid:
 			# export lookups

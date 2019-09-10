@@ -158,6 +158,7 @@ CustomerType_LevelCert 	 	= 21
 CustomerType_StereoTribes = 22
 CustomerType_PressData = 23
 CustomerType_PressDataOffice = 24
+CustomerType_Prmax2 = 25
 
 Customer_Has_Private_Data = (
   CustomerType_PRmax, CustomerType_NewsLive, CustomerType_Updatum,   CustomerType_Fens, CustomerType_KantarMedia, \
