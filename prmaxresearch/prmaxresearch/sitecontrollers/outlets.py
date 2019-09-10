@@ -290,9 +290,17 @@ class OutletController(SecureController):
 	def research_main_update(self, *args, **params):
 		""" Save an outlet"""
 
-		OutletGeneral.research_main_update(params)
+		params['mode'] = 'outlet'
+		deletionhistory = DeletionHistory.exist(params)
+		if deletionhistory:
+			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		else:
+			OutletGeneral.research_main_update(params)
+			return stdreturn(data=Outlet.getBasicDetails(params))
+		
+#		OutletGeneral.research_main_update(params)
 
-		return stdreturn(data=Outlet.getBasicDetails(params))
+#		return stdreturn(data=Outlet.getBasicDetails(params))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -315,7 +323,7 @@ class OutletController(SecureController):
 	def research_add_main(self, *args, **params):
 		""" Add a new global outlet"""
 
-
+		params['mode'] = 'outlet'
 		deletionhistory = DeletionHistory.exist(params)
 		if deletionhistory:
 			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
@@ -346,6 +354,7 @@ class OutletController(SecureController):
 	def freelance_research_add(self, *args, **params):
 		""" save an freelance record for the research system """
 
+		params['mode'] = 'freelance'
 		deletionhistory = DeletionHistory.exist(params)
 		if deletionhistory:
 			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
@@ -361,9 +370,16 @@ class OutletController(SecureController):
 	def freelance_research_update(self, *args, **params):
 		""" save an outlet"""
 
-		Freelance.research_update(params)
-
-		return stdreturn(data=Outlet.getBasicDetails(params))
+		params['mode'] = 'freelance'
+		deletionhistory = DeletionHistory.exist(params)
+		if deletionhistory:
+			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		else:
+			Freelance.research_update(params)
+			return stdreturn(data=Outlet.getBasicDetails(params))
+		
+#		Freelance.research_update(params)
+#		return stdreturn(data=Outlet.getBasicDetails(params))
 
 
 	@expose("json")

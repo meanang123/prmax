@@ -17,6 +17,7 @@ define([
 	"dojo/json",
 	"dojo/_base/lang",
 	"dojo/dom-class",
+	"dojo/dom-attr",	
 	"dojo/topic",
 	"dojo/data/ItemFileReadStore",	
 	"dojox/data/JsonRestStore",
@@ -25,7 +26,7 @@ define([
 	"dijit/form/Form",
 	"dojox/form/BusyButton",
 	"dijit/form/DateTextBox"
-	], function(declare, BaseWidgetAMD, template, request, utilities2, json, lang, domclass, topic, ItemFileReadStore, JsonRestStore){
+	], function(declare, BaseWidgetAMD, template, request, utilities2, json, lang, domclass, domattr, topic, ItemFileReadStore, JsonRestStore){
  return declare("prcommon2.deletionhistory.DeletionHistoryAdd",
 	[BaseWidgetAMD],{
 	templateString: template,
@@ -38,7 +39,9 @@ define([
 		this._add_call_back = lang.hitch(this,this._add_call);
 		this._load_call_back = lang.hitch(this, this._load_call);
 		this._update_call_back = lang.hitch(this, this._update_call);
+		this._delete_call_back = lang.hitch(this, this._delete_call);
 		this._dialog = null;
+		this._deletionhistoryid = null;
 	},
 	postCreate:function()
 	{
@@ -51,6 +54,8 @@ define([
 		this.reasoncodeid.set("value", 29);
 		this.researchprojectid.set("store", this._researchprojects);
 		this.inherited(arguments);
+		domclass.remove(this.close_button, "prmaxhidden");
+		domclass.add(this.delete_button,"prmaxhidden");
 	},
 	_add_deletionhistory:function()
 	{
@@ -86,12 +91,13 @@ define([
 	_add_call:function(response)
 	{
 		if (response.success=="OK")
-	{
+		{
 			alert("Deletion Added");
 			this.clear();
 			if (this._dialog)
 				this._dialog.hide();
 			topic.publish('deletionhistory/add', response.deletionhistory);
+			this._deletionhistoryid = response.deletionhistory.deletionhistoryid;
 		}
 		else if (response.success == "DU")
 		{
@@ -113,6 +119,8 @@ define([
 			this.clear();
 			if (this._dialog)
 				this._dialog.hide();
+			this._deletionhistoryid = response.deletionhistory.deletionhistoryid;
+
 		}
 		else if (response.success == "DU")
 		{
@@ -150,6 +158,9 @@ define([
 	load:function(deletionhistoryid)
 	{
 		this.clear();
+		domclass.add(this.close_button, "prmaxhidden");
+		domclass.remove(this.delete_button, "prmaxhidden");
+		this._deletionhistoryid = deletionhistoryid;
 
 		request.post('/research/admin/deletionhistory/deletionhistory_get',
 				utilities2.make_params({data: {deletionhistoryid: deletionhistoryid}})).
@@ -189,5 +200,24 @@ define([
 		if ( this._dialog)
 			this._dialog.hide();
 	},
+	_delete:function()
+	{
+		request.post('/research/admin/deletionhistory/deletionhistory_delete',
+				utilities2.make_params({data: {deletionhistoryid: this._deletionhistoryid}})).
+				then(this._delete_call_back);	
+	},
+	_delete_call:function(response)
+	{
+		if (response.success == "OK")
+		{
+			alert("Deletion deleted");
+			topic.publish('deletionhistory/delete', [this._deletionhistoryid]);
+		}
+		else
+		{
+			alert("Failed");
+		}
+		this._dialog.hide();		
+	}
 });
 });

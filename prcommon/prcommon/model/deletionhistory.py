@@ -159,19 +159,30 @@ class DeletionHistory(BaseSql):
 
 	@classmethod
 	def exist(cls, params):
-		if 'outletname' in params and params['outletname'] != None:
-			deletionhistory = session.query(DeletionHistory).\
-			    filter(DeletionHistory.outletname.ilike(params['outletname'])).\
-			    filter(DeletionHistory.deletionhistorytypeid == 1).first()
-		elif 'contactid' in params:
+		if params['mode'] == 'outlet':
+			if 'www' in params and params['www'] != '' and params['www'] != None:
+				if 'www.' in params['www']:
+					params['domain'] = params['www'].split("www.")[1].lower()
+				elif params['www'].startswith('http://'):
+					params['domain'] = params['www'][7:]
+				elif params['www'].startswith('https://'):
+					params['domain'] = params['www'][8:]
+				params["domain"] = "%" + params["domain"] + "%"
+				deletionhistory = session.query(DeletionHistory).\
+				    filter(DeletionHistory.domain.ilike(params['domain'])).\
+				    filter(DeletionHistory.deletionhistorytypeid == 1).first()
+			else:
+				deletionhistory = session.query(DeletionHistory).\
+				    filter(DeletionHistory.outletname.ilike(params['outletname'])).\
+				    filter(DeletionHistory.deletionhistorytypeid == 1).first()
+		elif params['mode'] == 'freelance':
 			contact = Contact.query.get(params["contactid"])
 			deletionhistory = session.query(DeletionHistory).\
 		        filter(DeletionHistory.outletname.ilike(contact.getName())).\
 		        filter(DeletionHistory.firstname.ilike(contact.firstname)).\
 		        filter(DeletionHistory.familyname.ilike(contact.familyname)).\
 		        filter(DeletionHistory.deletionhistorytypeid == 2).first()
-		elif 'firstname' in params and params['firstname'] != None \
-		   and 'familyname' in params and params['familyname'] != None:
+		elif params['mode'] == 'contact':
 			deletionhistory = session.query(DeletionHistory).\
 			    filter(DeletionHistory.firstname.ilike(params['firstname'].lower())).\
 			    filter(DeletionHistory.familyname.ilike(params['familyname'].lower())).\
@@ -180,6 +191,22 @@ class DeletionHistory(BaseSql):
 		if deletionhistory:
 			return deletionhistory
 
+	@classmethod
+	def delete(cls, deletionhistoryid):
+		""" Delete deletionhistory record """
+		transaction = BaseSql.sa_get_active_transaction()
+
+		try:
+			deletionhistory = DeletionHistory.query.get(deletionhistoryid)
+			session.delete(deletionhistory)
+			transaction.commit()
+		except:
+			LOGGER.exception("Deletion History Delete")
+			try:
+				transaction.rollback()
+			except :
+				pass
+			raise
 
 	@classmethod
 	def get(cls, deletionhistoryid):

@@ -90,3 +90,14 @@ class DeletionHistoryController(SecureController):
 		""" get list of deleted outlets """
 
 		return DeletionHistory.get_list_outlets(params)
+
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=DeletionHistoryGetSchema(), state_factory=std_state_factory)
+	def deletionhistory_delete(self, *args, **params):
+		""" delete a deletionhistory record  """
+
+		DeletionHistory.delete(params['deletionhistoryid'])
+		return stdreturn()

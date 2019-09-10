@@ -137,6 +137,7 @@ class ContactController(SecureController):
 		""" check if a contact exists """
 
 		params['customerid'] = -1
+		params['mode'] = 'contact'
 		deletionhistory = DeletionHistory.exist(params)
 		if deletionhistory:
 			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
@@ -152,9 +153,16 @@ class ContactController(SecureController):
 		""" update a contact id"""
 
 		params['customerid'] = -1
-		Contact.research_update(params)
-
-		return stdreturn(contact=Contact.getContactExt(params['contactid']))
+		params['mode'] = 'contact'
+		deletionhistory = DeletionHistory.exist(params)
+		if deletionhistory:
+			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		else:
+			Contact.research_update(params)
+			return stdreturn(contact=Contact.getContactExt(params['contactid']))	
+		
+#		Contact.research_update(params)
+#		return stdreturn(contact=Contact.getContactExt(params['contactid']))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

@@ -46,6 +46,7 @@ define([
 
 		topic.subscribe('deletionhistory/update', lang.hitch(this, this._update_event));
 		topic.subscribe('deletionhistory/add', lang.hitch(this, this._add_event));
+		topic.subscribe('deletionhistory/delete', lang.hitch(this, this._delete_event));
 	},
 	postCreate:function()
 	{
@@ -144,7 +145,11 @@ define([
 	_add_event:function(deletionhistory)
 	{
 		this._store.add(deletionhistory);
-	}
+	},
+	_delete_event:function(deletionhistoryid)
+	{
+		this._store.remove(deletionhistoryid);
+	}	
 });
 });
 

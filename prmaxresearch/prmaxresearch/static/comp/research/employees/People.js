@@ -197,7 +197,12 @@ define([
 	},
 	_updated_call:function ( response )
 	{
-		if ( response.success == "OK" )
+	
+		if (response.success == "DEL")
+		{
+			alert("Contact '" + response.data.firstname+ " " + response.data.familyname + "' has previously asked to be deleted");
+		}	
+		else if ( response.success == "OK" )
 		{
 			alert("Contact Updated") ;
 			topic.publish(PRCOMMON.Events.Person_Update, response.contact);

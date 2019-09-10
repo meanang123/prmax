@@ -98,6 +98,10 @@ define([
 			topic.publish(PRCOMMON.Events.Outlet_Updated,response.data);
 			this._clear_reason();
 		}
+		else if (response.success=="DEL")
+		{
+			alert("Outlet '" + response.data.outletname + "' with domain '" + response.data.domain + "' has previously asked to be deleted");		
+		}
 		else
 		{
 			alert("Failed to updated");
