@@ -25,6 +25,7 @@ from prcommon.model.communications import Communication, Address
 from prcommon.model.employee import Employee
 from prcommon.model.contact import Contact
 from prcommon.model.geographical import GeographicalLookupView, GeographicalTree
+from prcommon.model.outlets.outletdesk import OutletDesk
 from xml.etree.ElementTree import Element, SubElement, Comment, ElementTree
 from datetime import date
 import zipfile
@@ -338,6 +339,7 @@ class DataExport(object):
 		contacts_interest = CsvTable(self._export_dir, outfilename + "_contact_interests")
 		outlet_interest = CsvTable(self._export_dir, outfilename + "_outlet_interests")
 		outlet_coverage = CsvTable(self._export_dir, outfilename + "_outlet_coverages")
+		outlet_desks = CsvTable(self._export_dir, outfilename + "_outlet_desks")
 
 		# add headings
 		headings = []
@@ -364,6 +366,7 @@ class DataExport(object):
 		contacts_interest.add_header(DataExport.EXPORTEMPLOYEEINTERESTS)
 		outlet_interest.add_header(DataExport.EXPORTOUTLETINTERESTS)
 		outlet_coverage.add_header(DataExport.EXPORTOUTLETCOVERAGE)
+		outlet_desks.add_header(DataExport.EXPORTDESKS + DataExport.EXPORTCOMMS)
 
 		for outlet in command.all():
 			self._nbrexported += 1
@@ -371,6 +374,17 @@ class DataExport(object):
 			for fields in DataExport.EXPORTOUTLET:
 				for field in fields[0]:
 					output_outlets.add_record(outlet[fields[1]], field)
+
+			# export desks
+			for desk in session.query(OutletDesk, Communication).\
+				outerjoin(Communication, Communication.communicationid == OutletDesk.communicationid ).\
+				filter(OutletDesk.outletid == outlet[0].outletid).all():
+					outlet_desks.new_row()
+					for field in DataExport.EXPORTDESKS:
+						outlet_desks.add_record(desk[0], field)
+					for field in DataExport.EXPORTCOMMS:
+						outlet_desks.add_record(desk[1], field)
+					outlet_desks.end_row()
 
 			contact_command = session.query(Employee, Communication, Address, Contact, Outlet).\
 					outerjoin(Communication, Communication.communicationid == Employee.communicationid ).\
@@ -431,6 +445,7 @@ class DataExport(object):
 		contacts_interest.write()
 		outlet_interest.write()
 		outlet_coverage.write()
+		outlet_desks.write()
 
 
 	def _add_item_simple(self, root, data, s_field):
@@ -616,6 +631,8 @@ class DataExport(object):
 	EXPORTCSVEMPLOYEE = ("outletid", "employeeid", "job_title")
 
 	EXPORTEMPLOYEEINTERESTS = ("employeeid", "interestname", "interestid")
+
+	EXPORTDESKS = ("outletid", "deskname")
 
 	def _export_by_country(self):
 		"export by country"
