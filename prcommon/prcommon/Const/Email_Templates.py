@@ -24,9 +24,9 @@ Demo_Body = """
         <li>PRmax gives peace of mind with prices fixed for 2 years</li>
         <li>PRmax offers flexible subscription and monthly direct debit payment options</li>
       </ul>
-      <p>If all this was not enough PRmax is also offering <b>13 months for the price of 12 </b>if you subscribe before you trial expires so go on, log in and see for yourself just how easy and intuitive PRmax is to use and don't forget, if you have any questions at all please feel free to contact<b> me Abby Doherty </b>or one of my team on on <b>01582 380199</b>.</p>
+      <p>If all this was not enough PRmax is also offering <b>13 months for the price of 12 </b>if you subscribe before you trial expires so go on, log in and see for yourself just how easy and intuitive PRmax is to use and don't forget, if you have any questions at all please feel free to contact<b> me Katy Quinn </b>or one of my team on on <b>01582 380199</b>.</p>
       <p>Best regards</p>
-      <p>Abby Doherty<br/></p>"""
+      <p>Katy Quinn<br/></p>"""
 
 Invoice_Body = """
 <p>Dear PRmax Customer,</p>
