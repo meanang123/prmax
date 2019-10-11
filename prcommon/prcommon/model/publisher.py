@@ -34,9 +34,9 @@ class Publisher(BaseSql):
 	@classmethod
 	def get_list_publisher_questionnaires(cls, params):
 		""" get rest page  """
-		
+
 		from prcommon.model import CustomerPrmaxDataSets
-		
+
 		whereused = ""
 
 		if "publishername" in params:
@@ -52,14 +52,14 @@ class Publisher(BaseSql):
 			questionnaire = ResearchProjectItems.query.get(int(params['questionnaireid']))
 			outlet = Outlet.query.get(questionnaire.outletid)
 			params['countryid'] = outlet.countryid
-			whereused = BaseSql.addclause(whereused, 
-			"""(countryid IN (SELECT countryid 
-			                  FROM internal.prmaxdatasetcountries 
-			                  WHERE prmaxdatasetid in (SELECT distinct(prmaxdatasetid) 
-			                                           FROM internal.prmaxdatasetcountries 
-			                                           WHERE countryid = :countryid) 
-			    OR countryid is null))""")
-		
+			whereused = BaseSql.addclause(whereused,
+			"""(countryid IN (SELECT countryid
+			                  FROM internal.prmaxdatasetcountries
+			                  WHERE prmaxdatasetid in (SELECT distinct(prmaxdatasetid)
+			                                           FROM internal.prmaxdatasetcountries
+			                                           WHERE countryid = :countryid))
+			    OR countryid is null)""")
+
 		return cls.get_rest_page_base(
 									params,
 									'publisherid',
@@ -71,9 +71,9 @@ class Publisher(BaseSql):
 	@classmethod
 	def get_list_publisher(cls, params):
 		""" get rest page  """
-		
+
 		from prcommon.model import CustomerPrmaxDataSets
-		
+
 		whereused = ""
 
 		if "publishername" in params:
@@ -91,7 +91,7 @@ class Publisher(BaseSql):
 				            FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
 				          WHERE cpd.customerid = :customerid)
 				OR countryid is null)""")
-		
+
 		return cls.get_rest_page_base(
 									params,
 									'publisherid',

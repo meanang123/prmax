@@ -62,7 +62,9 @@ define([
 		this.frequency.set("store",PRCOMMON.utils.stores.Frequency());
 		this.circulationsourceid.set("store", this._circulationsources);
 		this.circulationauditdateid.set("store", this._circulationauditdates);
+		this.publisherid.set("query",{questionnaireid:PRMAX.questionnaire.questionnaireid});
 		this.publisherid.set("store", this._publishers);
+
 		this.productioncompanyid.set("store", this._productioncompanies);
 
 		this.language1id.set("store", this._languages);
@@ -70,7 +72,6 @@ define([
 
 		this._show_fields_by_type();
 		this.load(PRMAX.questionnaire);
-		this._publishers.query("questionnaireid="+PRMAX.questionnaire.questionnaireid);
 
 	},
 	load:function( questionnaire )

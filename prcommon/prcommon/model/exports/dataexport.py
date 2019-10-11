@@ -627,7 +627,7 @@ class DataExport(object):
 	EXPORTOUTLETINTERESTS = ("outletid", "interestname", "interestid")
 	EXPORTOUTLETCOVERAGE = ("outletid", "geographicalname", "geographicalid")
 
-	EXPORTEMPLOYEE = ("employeeid", "job_title")
+	EXPORTEMPLOYEE = ("employeeid", "job_title", "outletdeskid")
 	EXPORTCSVEMPLOYEE = ("outletid", "employeeid", "job_title")
 
 	EXPORTEMPLOYEEINTERESTS = ("employeeid", "interestname", "interestid")
