@@ -226,9 +226,12 @@ class QuestionnaireidController(OpenSecureController):
 		""" list of publisher  """
 
 		if len(args) > 0:
-			params["publisherid"] = int(args[0])
+			if args[0].startswith('questionnaireid'):
+				params['questionnaireid'] = args[0][16:len(args[0])]
+			else:
+				params["publisherid"] = int(args[0])
 
-		return Publisher.get_list_publisher(params)
+		return Publisher.get_list_publisher_questionnaires(params)
 
 
 	@expose("json")

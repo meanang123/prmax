@@ -22,6 +22,7 @@ define([
 	"dojo/request",
 	"dojox/data/JsonRestStore",
 	"dojo/data/ItemFileReadStore",
+	"dojo/query",
 	"dijit/layout/ContentPane",
 	"dijit/form/Form",
 	"dijit/form/TextBox",
@@ -31,17 +32,17 @@ define([
 	"dijit/Dialog",
 	"dijit/form/Textarea",
 	"dijit/form/NumberTextBox"
-	], function(declare, BaseWidgetAMD, template, BorderContainer, ContentPane, topic,  lang, domattr,domclass, utilities2, request , JsonRestStore, ItemFileReadStore){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, ContentPane, topic,  lang, domattr,domclass, utilities2, request , JsonRestStore, ItemFileReadStore, query){
  return declare("prmaxquestionnaires.pages.Profile",
 	[BaseWidgetAMD, BorderContainer],{
 	templateString: template,
 	gutters:false,
 	constructor: function()
 	{
-		this._publishers = new JsonRestStore( {target:'/questionnaire/list_publisher', labelAttribute:"publishername",idProperty:"publisherid"});
-		this._circulationsources = new JsonRestStore( {target:'/questionnaire/list_circulationsources', labelAttribute:"circulationsourcedescription", idProperty : "circulationsourceid"});
-		this._circulationauditdates = new JsonRestStore( {target:'/questionnaire/list_circulationdates', labelAttribute:"circulationauditdatedescription", idProperty : "circulationauditdateid"});
-		this._productioncompanies = new JsonRestStore( {target:'/questionnaire/list_production', idProperty:"productioncompanyid"});
+		this._publishers = new JsonRestStore({target:'/questionnaire/list_publisher', labelAttribute:"publishername",idProperty:"publisherid"});
+		this._circulationsources = new JsonRestStore({target:'/questionnaire/list_circulationsources', labelAttribute:"circulationsourcedescription", idProperty : "circulationsourceid"});
+		this._circulationauditdates = new JsonRestStore({target:'/questionnaire/list_circulationdates', labelAttribute:"circulationauditdatedescription", idProperty : "circulationauditdateid"});
+		this._productioncompanies = new JsonRestStore({target:'/questionnaire/list_production', idProperty:"productioncompanyid"});
 
 
 		this._costs = new ItemFileReadStore ({ url:"/common/lookups?searchtype=outletprices"});
@@ -69,6 +70,7 @@ define([
 
 		this._show_fields_by_type();
 		this.load(PRMAX.questionnaire);
+		this._publishers.query("questionnaireid="+PRMAX.questionnaire.questionnaireid);
 
 	},
 	load:function( questionnaire )
