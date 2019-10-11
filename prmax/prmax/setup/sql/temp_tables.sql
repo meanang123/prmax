@@ -280,3 +280,98 @@ INSERT INTO research.fields VALUES (100, 'New Publisher Name');
 
 INSERT INTO internal.dashboardsettingsstandard VALUES (4, 'Tone');
 
+GRANT SELECT ON TABLE internal.prmaxdatasetcountries TO prmaxquestionnaires;
+
+/*
+ALTER TABLE employees ADD COLUMN countryid integer;
+ALTER TABLE employees ADD CONSTRAINT fk_countryid FOREIGN KEY (countryid) REFERENCES internal.countries (countryid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
+
+UPDATE employees SET countryid = (SELECT countryid FROM outlets AS o WHERE o.outletid = employees.outletid);
+
+ALTER TABLE contacts ADD COLUMN countryid integer;
+ALTER TABLE contacts ADD CONSTRAINT fk_countryid FOREIGN KEY (countryid) REFERENCES internal.countries (countryid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
+
+ALTER TABLE userdata.deletionhistory ADD COLUMN objectid integer NOT NULL;
+--ALTER TABLE research.researchprojectitem DROP CONSTRAINT fk_outletid;
+
+ALTER TABLE userdata.deletionhistory DROP COLUMN outletname;
+ALTER TABLE userdata.deletionhistory ADD COLUMN outlet_name character varying(255);
+
+
+-- Table: internal.researchprojectitemhistorytype
+
+-- DROP TABLE internal.researchprojectitemhistorytype;
+CREATE TABLE internal.researchprojectitemhistorytype
+(
+  researchprojectitemhistorytypeid integer NOT NULL,
+  researchprojectitemhistorytypedescription character varying NOT NULL,
+
+  CONSTRAINT researchprojectitemhistorytype_pkey PRIMARY KEY (researchprojectitemhistorytypeid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.researchprojectitemhistorytype OWNER TO postgres;
+GRANT ALL ON TABLE internal.researchprojectitemhistorytype TO postgres;
+GRANT ALL ON TABLE internal.researchprojectitemhistorytype TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.researchprojectitemhistorytype TO prmaxcontrol;
+
+-- Table: research.researchprojectitemhistory
+
+-- DROP TABLE research.researchprojectitemhistory;
+
+CREATE TABLE research.researchprojectitemhistory
+(
+  researchprojectitemhistoryid serial NOT NULL,
+  researchprojectitemhistorynotes character varying,
+  researchprojectitemhistorytypeid integer NOT NULL,
+  researchprojectitemid integer NOT NULL,
+  owner_id integer NOT NULL,
+  follow_up_view_check boolean DEFAULT false,
+  follow_up_date date,
+  follow_up_owner_id integer,
+  follow_up_reason character varying,
+  researchprojectitemhistorydate date DEFAULT now(),
+
+  CONSTRAINT researchprojectitemhistory_pkey PRIMARY KEY (researchprojectitemhistoryid),
+  CONSTRAINT researchprojectitemhistory_ownerid_fkey FOREIGN KEY (owner_id)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT researchprojectitemhistory_follow_up_ownerid_fkey FOREIGN KEY (follow_up_owner_id)
+      REFERENCES tg_user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT fk_researchprojectitemid FOREIGN KEY (researchprojectitemid)
+      REFERENCES research.researchprojectitem (researchprojectitemid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT fk_researchprojectitemhistorytypeid FOREIGN KEY (researchprojectitemhistorytypeid)
+      REFERENCES internal.researchprojectitemhistorytype (researchprojectitemhistorytypeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE research.researchprojectitemhistory OWNER TO postgres;
+GRANT ALL ON TABLE research.researchprojectitemhistory TO postgres;
+GRANT ALL ON TABLE research.researchprojectitemhistory TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE research.researchprojectitemhistory TO prmaxcontrol;
+
+GRANT ALL ON TABLE research.researchprojectitemhistory_researchprojectitemhistoryid_seq TO postgres;
+GRANT UPDATE ON TABLE research.researchprojectitemhistory_researchprojectitemhistoryid_seq TO prmax;
+GRANT UPDATE ON TABLE research.researchprojectitemhistory_researchprojectitemhistoryid_seq TO prmaxcontrol;
+
+INSERT INTO internal.researchprojectitemhistorytype VALUES (1, 'Telephone');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (2, 'Email');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (3, 'Phone and Email');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (4, 'Website');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (5, 'Other');
+
+
+ALTER TABLE research.researchprojectitem ADD COLUMN owner_id integer ;
+ALTER TABLE research.researchprojectitem ADD CONSTRAINT fk_owner_id FOREIGN KEY (owner_id) REFERENCES tg_user (user_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+INSERT INTO internal.reportsource VALUES (18, 'Projects');
+INSERT INTO internal.reporttemplates VALUES (36, -1, 'Projects Report', '<queries><query type="CUSTOM"></query></queries>', '', 18, 'ProjectReport');
+
+UPDATE internal.researchprojectstatus SET researchprojectstatusdescription = 'Phone Follow Up' WHERE researchprojectstatusid = 9;
+UPDATE internal.researchprojectstatus SET researchprojectstatusdescription = 'Non-Responder' WHERE researchprojectstatusid = 10;
+*/
