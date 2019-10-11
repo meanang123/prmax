@@ -13,6 +13,8 @@ import logging
 from turbogears.database import  metadata, mapper, session
 from sqlalchemy import Table, text
 from prcommon.model.common import BaseSql
+from prcommon.model import ResearchProjectItems, Outlet
+
 
 LOGGER = logging.getLogger("prcommon.model")
 
@@ -21,17 +23,20 @@ class Publisher(BaseSql):
 	ListData = """
 		SELECT
 		publisherid,
-	  publisherid AS id,
+	    publisherid AS id,
 		publishername,
-	  www
+	    www
 		FROM internal.publishers """
 
 	ListDataCount = """
 		SELECT COUNT(*) FROM  internal.publishers """
 
 	@classmethod
-	def get_list_publisher(cls, params):
+	def get_list_publisher_questionnaires(cls, params):
 		""" get rest page  """
+		
+		from prcommon.model import CustomerPrmaxDataSets
+		
 		whereused = ""
 
 		if "publishername" in params:
@@ -43,7 +48,50 @@ class Publisher(BaseSql):
 		if "publisherid" in  params:
 			whereused = BaseSql.addclause(whereused, "publisherid = :publisherid")
 
+		if 'questionnaireid' in params:
+			questionnaire = ResearchProjectItems.query.get(int(params['questionnaireid']))
+			outlet = Outlet.query.get(questionnaire.outletid)
+			params['countryid'] = outlet.countryid
+			whereused = BaseSql.addclause(whereused, 
+			"""(countryid IN (SELECT countryid 
+			                  FROM internal.prmaxdatasetcountries 
+			                  WHERE prmaxdatasetid in (SELECT distinct(prmaxdatasetid) 
+			                                           FROM internal.prmaxdatasetcountries 
+			                                           WHERE countryid = :countryid) 
+			    OR countryid is null))""")
+		
+		return cls.get_rest_page_base(
+									params,
+									'publisherid',
+									'publishername',
+									Publisher.ListData + whereused + BaseSql.Standard_View_Order,
+									Publisher.ListDataCount + whereused,
+									cls)
 
+	@classmethod
+	def get_list_publisher(cls, params):
+		""" get rest page  """
+		
+		from prcommon.model import CustomerPrmaxDataSets
+		
+		whereused = ""
+
+		if "publishername" in params:
+			whereused = BaseSql.addclause("", "publishername ilike :publishername")
+			if params["publishername"]:
+				params["publishername"] = params["publishername"].replace("*", "")
+				params["publishername"] = params["publishername"] + "%"
+
+		if "publisherid" in  params:
+			whereused = BaseSql.addclause(whereused, "publisherid = :publisherid")
+
+		if 'customerid' in params:
+			whereused = BaseSql.addclause(whereused,
+			"""(countryid IN (SELECT pc.countryid
+				            FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+				          WHERE cpd.customerid = :customerid)
+				OR countryid is null)""")
+		
 		return cls.get_rest_page_base(
 									params,
 									'publisherid',
@@ -71,7 +119,7 @@ class Publisher(BaseSql):
 		whereused = BaseSql.addclause(whereused,
 		"""(countryid IN (SELECT pc.countryid
 						FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
-					  WHERE cpd.customerid = :userid)
+					  WHERE cpd.customerid = :customerid)
 		    OR countryid is null)""")
 
 		if "publisherid" in params and params['publisherid'] == -1:
