@@ -291,14 +291,19 @@ class QuestionsGeneral(object):
 	def answers_list(params):
 		"""list of answers for a question """
 
-		if "questionid" not in params:
-			whereclause = BaseSql.addclause('', 'a.questionid=-1')
-		else:
-			whereclause = BaseSql.addclause('', 'a.questionid=:questionid AND a.deleted = false')
-			params["questionid"] = int(params["questionid"])
+		if 'questionanswerid' in params:
+			whereclause = BaseSql.addclause('', 'a.questionanswerid =:questionanswerid')
+			params["questionanswerid"] = int(params["questionanswerid"])
 
-			if "questionanswerid" in params:
-				whereclause = BaseSql.addclause(whereclause, 'a.questionanswerid =:questionanswerid')
+			if "questionid" in params:
+				whereclause = BaseSql.addclause(whereclause, 'a.questionid=:questionid AND a.deleted = false')
+				params["questionid"] = int(params["questionid"])
+		else:
+			if "questionid" not in params:
+				whereclause = BaseSql.addclause('', 'a.questionid=-1')
+			else:
+				whereclause = BaseSql.addclause('', 'a.questionid=:questionid AND a.deleted = false')
+				params["questionid"] = int(params["questionid"])
 
 		return BaseSql.get_rest_page_base(
 		  params,
