@@ -283,6 +283,30 @@ select {
       background-repeat: no-repeat;
       background-size: 25px 25px;
       cursor: pointer; }
+    .main-header-cardiff .top-bar-newsroom-cardiff .instagram {
+      width: 35px;
+      height: 45px;
+      background-image: url(/static/images/instagram.svg);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 25px 25px;
+      cursor: pointer; }
+    .main-header-cardiff .top-bar-newsroom-cardiff .linkedin {
+      width: 35px;
+      height: 45px;
+      background-image: url(/static/images/linkedin.png);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 25px 25px;
+      cursor: pointer; }
+    .main-header-cardiff .top-bar-newsroom-cardiff .youtube {
+      width: 35px;
+      height: 45px;
+      background-image: url(/static/images/youtube.png);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 30px 30px;
+      cursor: pointer; }
     .main-header-cardiff .top-bar-newsroom-cardiff .rss {
       width: 35px;
       height: 45px;
