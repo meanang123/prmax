@@ -205,7 +205,7 @@ dojo.declare("prmax.editor.CollateralDialog", dijit._editor._Plugin,{
 								ext  : this.tmp_row.ext };
 			var template = "";
 			var ext = this.tmp_row.ext.toLowerCase()
-			if ( ext == '.jpg' || ext == '.gif'|| ext == '.bmp' || ext == ".tif" || ext == ".tiff" || ext == '.jpeg')
+			if ( ext == '.jpg' || ext == '.gif'|| ext == '.bmp' || ext == ".tif" || ext == ".tiff" || ext == '.jpeg' || ext == ".png")
 			{
 			var embedded = true ;
 				if ( confirm ( "To add as a link press OK\nTo add as an image press Cancel?"))
