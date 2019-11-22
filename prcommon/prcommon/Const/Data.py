@@ -159,12 +159,13 @@ CustomerType_StereoTribes = 22
 CustomerType_PressData = 23
 CustomerType_PressDataOffice = 24
 CustomerType_Prmax2 = 25
+CustomerType_PressOffice = 26
 
 Customer_Has_Private_Data = (
   CustomerType_PRmax, CustomerType_NewsLive, CustomerType_Updatum,   CustomerType_Fens, CustomerType_KantarMedia, \
-  CustomerType_BlueBoo, CustomerType_PressDataOffice, CustomerType_PrmaxPressOffice)
+  CustomerType_BlueBoo, CustomerType_PressDataOffice, CustomerType_PrmaxPressOffice, CustomerType_PressOffice)
 
-Customer_Token_Login = (CustomerType_AIMedia, CustomerType_KantarMedia, CustomerType_StereoTribes, CustomerType_PressData, CustomerType_PressDataOffice)
+Customer_Token_Login = (CustomerType_AIMedia, CustomerType_KantarMedia, CustomerType_StereoTribes, CustomerType_PressData, CustomerType_PressDataOffice, CustomerType_PressOffice)
 
 
 Customer_Is_Partner = (CustomerType_AIMedia, CustomerType_NewsLive,
