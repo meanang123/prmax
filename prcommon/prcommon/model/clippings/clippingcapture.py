@@ -45,7 +45,12 @@ def execute_capture_pressdata():
 					for filename in os.listdir(customerpath):
 						if not os.path.exists(os.path.join(startpath, 'processed', customerdirname)):
 							os.makedirs(os.path.join(startpath, 'processed', customerdirname))
-						shutil.move(os.path.join(customerpath, filename),  os.path.join(startpath, 'processed', customerdirname))
+						backupfolder = os.path.join(startpath, 'processed', customerdirname)
+						if os.path.exists(os.path.join(backupfolder, 'processed', filename)):
+							#  file allread exists in the archive
+							filename = filename + ".1"
+
+						shutil.move(os.path.join(customerpath, filename), os.path.join(startpath, 'processed', customerdirname))
 				else:
 					SendSupportEmailMessage("Press Data Clippings Failure",
 									        "No Directory called '%s' found to match the clipping order description '%s' for AccountNo %d" % (customerdirname, order.description, order.customerid),

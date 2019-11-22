@@ -44,12 +44,12 @@ def addConfigDetails(inDict, nocache = True):
 				release = config.get('prmax.release'),
 				dojoversion= config.get('prmax.dojoversion'),
 				prodpath = config.get('prmax.prodpath','rel'),
-			  url = config.get('prmax.web'),
-			  url_web_app = config.get('prmax.web_app'),
+				url = config.get('prmax.web'),
+				url_web_app = config.get('prmax.web_app'),
 				copyright =  config.get('prmax.copyright').decode('utf-8'),
 				search_indexes= createModuleDict(Constants_Search_Indexes.__dict__),
 				field_info= createModuleDict(Constants_Db_Fields_Sizes.__dict__),
-			  search_options = createModuleDict(Constants_Search_Options.__dict__))
+				search_options = createModuleDict(Constants_Search_Options.__dict__))
 			)
 
 		# add settings
