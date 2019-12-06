@@ -18,6 +18,8 @@ from prcommon.model.common import BaseSql
 from prcommon.model.research import Activity, ActivityDetails
 from prcommon.model.internal import SourceType
 from prcommon.model.indexer import IndexerQueue, StandardIndexer
+from prcommon.model.deletionhistory import DeletionHistory
+from prcommon.model import Customer
 
 import prcommon.Constants as Constants
 
@@ -205,7 +207,8 @@ class Contact(BaseSql):
 			                  firstname=params['firstname'],
 			                  prefix=params['prefix'],
 			                  customerid=-1,
-			                  sourcetypeid=params['sourcetypeid'] if 'sourcetypeid' in params else Constants.Research_Source_Prmax)
+			                  sourcetypeid=params['sourcetypeid'] if 'sourcetypeid' in params else Constants.Research_Source_Prmax,
+			                  countryid=params['countryid'])
 			session.add(contact)
 			session.flush()
 			contactid = contact.contactid
@@ -283,6 +286,8 @@ class Contact(BaseSql):
 			# set source to us
 			contact.sourcetypeid = int(params['sourcetypeid'])
 			contact.sourcekey = contact.contactid
+			
+			contact.countryid = params.get('countryid', '')
 
 			session.flush()
 			transaction.commit()
@@ -355,6 +360,15 @@ class Contact(BaseSql):
 			                name=contact.getName()
 			                )
 			session.add(activity)
+			
+			deletionhistory = DeletionHistory(objectid=contact.contactid,
+					                          familyname=contact.familyname,
+			                                  firstname=contact.firstname,
+					                          reasoncodeid=30, #Contact request to remove
+					                          deletionhistorytypeid=3, #Contact
+					                          userid=params['userid']
+					                          )
+			session.add(deletionhistory)
 			# force delete  of index
 			Contact.do_index_contact(contact, None, True)
 
@@ -480,6 +494,16 @@ class Contact(BaseSql):
 			if "sourcetypeid" in params:
 				whereclause = " AND con.sourcetypeid=:sourcetypeid"
 				params['sourcetypeid'] = int(params["sourcetypeid"])
+
+			if 'customerid' in params:
+				customer = Customer.query.get(params['customerid'])
+				params['countryid'] = customer.countryid
+				whereclause = """ AND (con.countryid in (SELECT countryid 
+				                                         FROM internal.prmaxdatasetcountries
+				                                         WHERE prmaxdatasetid in (SELECT distinct(prmaxdatasetid)
+				                                                                  FROM internal.prmaxdatasetcountries
+				                                                                  WHERE countryid = :countryid)
+				                       OR con.countryid is null))"""
 
 			data = BaseSql.get_grid_page(
 			  params,

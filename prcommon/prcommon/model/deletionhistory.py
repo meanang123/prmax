@@ -12,7 +12,6 @@
 from turbogears.database import  metadata, mapper, session
 from sqlalchemy import Table
 from prcommon.model.common import BaseSql
-from prcommon.model.contact import Contact
 
 import logging
 LOGGER = logging.getLogger("prcommon.model")
@@ -20,7 +19,7 @@ LOGGER = logging.getLogger("prcommon.model")
 class DeletionHistory(BaseSql):
 	""" Deletionhistory Record"""
 	ListData = """
-		SELECT deletionhistoryid, deletionhistorydescription, outletname, firstname, familyname, domain, 
+		SELECT deletionhistoryid, objectid, deletionhistorydescription, outlet_name, firstname, familyname, domain, 
 	    researchprojectname, reasoncodedescription, deletionhistorytypedescription, user_name, 
 	    to_char(deletiondate, 'YYYY-MM-DD') as deletiondate
 		FROM userdata.deletionhistory AS dh
@@ -33,7 +32,7 @@ class DeletionHistory(BaseSql):
 	ListDataCount = """
 		SELECT COUNT(*) FROM userdata.deletionhistory AS dh """
 
-	ListDataNames = """SELECT deletionhistoryid, outletname
+	ListDataNames = """SELECT deletionhistoryid, outlet_name
 		FROM userdata.deletionhistory AS dh"""
 	ListDataNamesCount = """SELECT COUNT(*) FROM userdata.deletionhistory AS dh """
 
@@ -51,11 +50,11 @@ class DeletionHistory(BaseSql):
 			if params["deletionhistorydescription"]:
 				params["deletionhistorydescription"] = params["deletionhistorydescription"].replace("*", "")
 				params["deletionhistorydescription"] = "%" + params["deletionhistorydescription"] +  "%"
-		if "outletname" in params:
-			whereused = BaseSql.addclause(whereused, "dh.outletname ilike :outletname")
-			if params["outletname"]:
-				params["outletname"] = params["outletname"].replace("*", "")
-				params["outletname"] = "%" + params["outletname"] +  "%"
+		if "outlet_name" in params:
+			whereused = BaseSql.addclause(whereused, "dh.outlet_name ilike :outlet_name")
+			if params["outlet_name"]:
+				params["outlet_name"] = params["outlet_name"].replace("*", "")
+				params["outlet_name"] = "%" + params["outlet_name"] +  "%"
 		if "firstname" in params:
 			whereused = BaseSql.addclause(whereused, "dh.firstname ilike :firstname")
 			if params["firstname"]:
@@ -106,15 +105,16 @@ class DeletionHistory(BaseSql):
 		try:
 			deletionhistory = DeletionHistory(
 			    deletionhistorydescription=params["deletionhistorydescription"],
-			    outletname = params["outletname"],
-			    firstname = params["firstname"],
-			    familyname = params["familyname"],
-			    domain = params["domain"],
-			    researchprojectid = params["researchprojectid"],
-			    reasoncodeid = params["reasoncodeid"],
-			    deletionhistorytypeid = params["deletionhistorytypeid"],
-			    userid = params["iuserid"] if ("iuserid" in params and int(params['iuserid']) != -1) else params['user_id'],
-			    deletiondate = params["deletiondate"]
+			    outlet_name=params["outlet_name"],
+			    firstname=params["firstname"],
+			    familyname=params["familyname"],
+			    domain=params["domain"],
+			    researchprojectid=params["researchprojectid"],
+			    reasoncodeid=params["reasoncodeid"],
+			    deletionhistorytypeid=params["deletionhistorytypeid"],
+			    userid=params["iuserid"] if ("iuserid" in params and int(params['iuserid']) != -1) else params['user_id'],
+			    deletiondate=params["deletiondate"],
+			    objectid=params['objectid']
 			)
 			session.add(deletionhistory)
 			session.flush()
@@ -138,7 +138,7 @@ class DeletionHistory(BaseSql):
 			deletionhistory = DeletionHistory.query.get(params["deletionhistoryid"])
 
 			deletionhistory.deletionhistorydescription = params["deletionhistorydescription"]
-			deletionhistory.outletname = params["outletname"]
+			deletionhistory.outlet_name = params["outlet_name"]
 			deletionhistory.firstname = params["firstname"]
 			deletionhistory.familyname = params["familyname"]
 			deletionhistory.domain = params["domain"]
@@ -147,6 +147,7 @@ class DeletionHistory(BaseSql):
 			deletionhistory.deletionhistorytypeid = params["deletionhistorytypeid"]
 			deletionhistory.userid = params["iuserid"] if ("iuserid" in params and int(params['iuserid']) != -1) else params['user_id']
 			deletionhistory.deletiondate = params["deletiondate"]
+			deletionhistory.objectid = params["objectid"]
 
 			transaction.commit()
 		except:
@@ -173,12 +174,14 @@ class DeletionHistory(BaseSql):
 				    filter(DeletionHistory.deletionhistorytypeid == 1).first()
 			else:
 				deletionhistory = session.query(DeletionHistory).\
-				    filter(DeletionHistory.outletname.ilike(params['outletname'])).\
+				    filter(DeletionHistory.outlet_name.ilike(params['outletname'])).\
 				    filter(DeletionHistory.deletionhistorytypeid == 1).first()
 		elif params['mode'] == 'freelance':
+			from prcommon.model.contact import Contact
+			
 			contact = Contact.query.get(params["contactid"])
 			deletionhistory = session.query(DeletionHistory).\
-		        filter(DeletionHistory.outletname.ilike(contact.getName())).\
+		        filter(DeletionHistory.outlet_name.ilike(contact.getName())).\
 		        filter(DeletionHistory.firstname.ilike(contact.firstname)).\
 		        filter(DeletionHistory.familyname.ilike(contact.familyname)).\
 		        filter(DeletionHistory.deletionhistorytypeid == 2).first()

@@ -124,6 +124,8 @@ dojo.declare("prcommon.clippings.questions.edit",
 	load:function(questionid, show_function)
 	{
 		this._show_function = show_function;
+		this.default_answer_answerid.set("query",{questionid:questionid});
+
 
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
@@ -150,9 +152,11 @@ dojo.declare("prcommon.clippings.questions.edit",
 				this.default_answer_questionid.set("value", data.questionid);
 				this.rename_answer_questionid.set("value", data.questionid);
 				this.answer_grid.setQuery(ttl.utilities.getPreventCache({questionid:data.questionid}));
-				this.default_answer_answerid.set("query",{questionid:data.questionid});
+				//this.default_answer_answerid.set("query",{questionid:data.questionid});
 				this.default_answer_text.set("value",data.default_answer_text);
 				this.default_answer_answerid.set("value",data.default_answerid);
+				this.default_answer_answerid.value = data.default_answerid;
+				
 				this.default_answer_boolean.set("check",data.default_answer_boolean);
 				this.default_answer_number.set("value",data.default_answer_number);
 				this.default_answer_currency.set("value",data.default_answer_currency);

@@ -488,6 +488,15 @@ class OutletController(SecureController):
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
 	@validate(validators=RestSchema(), state_factory=std_state_factory)
+	def list_outlet_rest(self, *args, **params):
+		""" Simple search based on the outletname
+		"""
+		return OutletGeneral.get_research_list(params)
+	
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=RestSchema(), state_factory=std_state_factory)
 	def list_deleted_research(self, *args, **params):
 		""" List of deleted outlets for research"""
 
@@ -538,4 +547,3 @@ class OutletController(SecureController):
 		OutletGeneral.update_international(params)
 
 		return stdreturn()
-

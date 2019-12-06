@@ -136,7 +136,7 @@ define([
 	clear:function()
 	{
 		this.deletionhistoryid.set("value", -1);
-		this.outletname.set("value", "");
+		this.outlet_name.set("value", "");
 		this.firstname.set("value", "");
 		this.familyname.set("value", "");
 		this.domain.set("value", "");
@@ -144,6 +144,7 @@ define([
 		this.reasoncodeid.set("value", 29);
 		this.deletionhistorytypeid.set("value", 1);
 		this.iuserid.set("value", -1);
+		this.objectid.set("value", "");
 		this.savenode.cancel();
 	},
 	focus:function()
@@ -171,9 +172,10 @@ define([
 		if (response.success == "OK")
 		{
 			this.deletiondate.set("value", response.data.deletiondate);
+			this.objectid.set("value", response.data.objectid);
 			this.deletionhistoryid.set("value", response.data.deletionhistoryid);
 			this.deletionhistorydescription.set("value", response.data.deletionhistorydescription);
-			this.outletname.set("value", response.data.outletname);
+			this.outlet_name.set("value", response.data.outlet_name);
 			this.firstname.set("value", response.data.firstname);
 			this.familyname.set("value", response.data.familyname);
 			this.domain.set("value", response.data.domain);

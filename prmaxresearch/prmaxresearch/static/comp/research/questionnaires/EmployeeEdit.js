@@ -79,11 +79,11 @@ define([
 			}		
 			if (response.data.tel != this.tel.get("value"))
 			{
-				this.tel.set("value", response.data.tel);	
+				this.tel.set("value", response.data.tel);
 			}
 			if (response.data.fax != this.fax.get("value"))
 			{
-				this.fax.set("value", response.data.fax);	
+				this.fax.set("value", response.data.fax);
 			}
 		}
 		else

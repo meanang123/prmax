@@ -38,6 +38,7 @@ from prcommon.lib.caching import Invalidate_Cache_Object_Research
 from prcommon.model.list import ListMembers
 from prcommon.model.queues import ProcessQueue
 from prcommon.model.geographical import Geographical
+from prcommon.model.deletionhistory import DeletionHistory
 LOGGER = logging.getLogger("prmax.model")
 
 class OutletCoverage(BaseSql):
@@ -796,6 +797,15 @@ class Outlet(BaseSql):
 			                    )
 			session.add(activity)
 
+			deletionhistory = DeletionHistory(objectid=outlet.outletid,
+			                                  outlet_name=outlet.outletname,
+			                                  domain=outlet.www,
+			                                  reasoncodeid=29, #Outlet request to remove
+			                                  deletionhistorytypeid=2 if outlet.prmax_outlettypeid == 42 else 1, #1=Outlet, 2=Freelancer
+			                                  userid=params['userid']
+			                                  )
+			session.add(deletionhistory)
+
 			# get profile and then re-build parent profile
 			profile = OutletProfile.query.get(outlet.outletid)
 			if profile and profile.seriesparentid:
@@ -1203,7 +1213,7 @@ class Outlet(BaseSql):
 				# set all primary to emplyeeid
 				session.query(ListMembers).\
 								filter(ListMembers.outletid == outlet.outletid).\
-								filter(ListMembers.employeeid is None).\
+								filter(ListMembers.employeeid == None).\
 				        update({"employeeid" : params["employeeid"]})
 				session.flush()
 

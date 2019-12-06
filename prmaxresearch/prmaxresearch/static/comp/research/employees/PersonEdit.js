@@ -78,6 +78,7 @@ define([
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Update_Codes());
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 		this.sourcetypeid.set("store", this._sourcetypes);
+		this.countryid.set("store",PRCOMMON.utils.stores.Countries());
 		
 		this.inherited(arguments);
 	},
@@ -110,6 +111,7 @@ define([
 		this.familyname.set("value","");
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 		this.sourcetypeid.set("value", 2);
+		this.countryid.set("value", "");
 		this.contactid.set("value", "");
 	},
 	_setCallbackAttr:function( func)
@@ -156,6 +158,7 @@ define([
 			this.familyname.set("value", response.contact.familyname );
 			this.middlename.set("value", response.contact.middlename);
 			this.sourcetypeid.set("value", response.contact.sourcetypeid);
+			this.countryid.set("value", response.contact.countryid);
 			this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 			if ( response.contact.inuse == true )
 				domclass.add(this.deletebtn.domNode,"prmaxhidden");

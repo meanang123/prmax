@@ -56,7 +56,7 @@ define([
 	{
 		if (response.success == "DEL")
 		{
-			alert("Freelance '" + response.data.outletname + "' has previously asked to be deleted");
+			alert("Freelance '" + response.data.outlet_name + "' has previously asked to be deleted");
 		}
 		else if (response.success=="OK")
 		{

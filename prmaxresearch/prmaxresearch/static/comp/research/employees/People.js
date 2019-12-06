@@ -99,6 +99,7 @@ define([
 		this.filter_sourcetype.set("store", this._sourcetypes);
 		this.filter_sourcetype.set("value", -1);
 		this.sourcetypeid.set("store", this._sourcetypes2);
+		this.countryid.set("store",PRCOMMON.utils.stores.Countries());
 
 		this.inherited(arguments);
 	},
@@ -131,6 +132,7 @@ define([
 			this.familyname.set("value", response.contact.familyname );
 			this.middlename.set("value", response.contact.middlename);
 			this.sourcetypeid.set("value", response.contact.sourcetypeid);
+			this.countryid.set("value", response.contact.countryid);
 			this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 			if ( response.contact.inuse == true )
 				domclass.add(this.deletebtn.domNode,"prmaxhidden");

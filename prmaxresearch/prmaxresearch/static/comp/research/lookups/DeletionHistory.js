@@ -55,8 +55,9 @@ define([
 		[
 			{label:' ', field:'deletionhistoryid', sortable: false, formatter:utilities2.generic_view,className:"grid-field-image-view"},
 			{label: 'Date',className: "standard",field:'deletiondate'},
+			{label: 'ID',className: "standard",field:'objectid'},
 			{label: 'Description',className: "standard",field:'deletionhistorydescription'},
-			{label: 'Outletname',className: "standard",field:'outletname'},
+			{label: 'Outletname',className: "standard",field:'outlet_name'},
 			{label: 'Firstname',className: "standard",field:'firstname'},
 			{label: 'Surname',className: "standard",field:'familyname'},
 			{label: 'Domain',className: "standard",field:'domain'},
@@ -101,8 +102,8 @@ define([
 			query["deletiondate"] = arguments[0].filter_deletiondate.getFullYear() + "-" + (arguments[0].filter_deletiondate.getMonth() + 1 )  + "-" + arguments[0].filter_deletiondate.getDate();
 		if (arguments[0].filter_deletionhistorydescription)
 			query["deletionhistorydescription"] = arguments[0].filter_deletionhistorydescription;
-		if (arguments[0].filter_outletname)
-			query["outletname"] = arguments[0].filter_outletname;
+		if (arguments[0].filter_outlet_name)
+			query["outlet_name"] = arguments[0].filter_outlet_name;
 		if (arguments[0].filter_firstname)
 			query["firstname"] = arguments[0].filter_firstname;
 		if (arguments[0].filter_familyname)
@@ -129,7 +130,7 @@ define([
 	{
 		this.filter_deletiondate.set("value", null);		
 		this.filter_deletionhistorydescription.set("value", "");		
-		this.filter_outletname.set("value", "");		
+		this.filter_outlet_name.set("value", "");		
 		this.filter_firstname.set("value", "");		
 		this.filter_familyname.set("value", "");		
 		this.filter_domain.set("value", "");		

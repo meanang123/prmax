@@ -46,6 +46,8 @@ define([
 
 		this.sourcetypeid.set("store", this._sourcetypes);
 		this.sourcetypeid.set("value", 2);
+		
+		this.countryid.set("store",PRCOMMON.utils.stores.Countries());
 
 		this.inherited(arguments);
 	},
