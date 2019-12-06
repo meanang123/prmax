@@ -344,7 +344,8 @@ class Root(controllers.RootController):
 	               ("levelcert", "mako:prmax.templates.logins.levelcert"),
 	               ("tblueboo", "prmax.templates.logins/blueboo"),
 	               ("tdeperslijst", "prmax.templates.logins/deperslijst"),
-	               ("tprofessional", "mako:prmax.templates.logins.professional"))
+	               ("tprofessional", "mako:prmax.templates.logins.professional"),
+				   ("pressdata", "mako:prmax.templates.logins.pressdata"))
 
 	@expose("text/html")
 	def login(self, forward_url=None, previous_url=None, *args, **kw):
