@@ -282,7 +282,7 @@ INSERT INTO internal.dashboardsettingsstandard VALUES (4, 'Tone');
 
 GRANT SELECT ON TABLE internal.prmaxdatasetcountries TO prmaxquestionnaires;
 
-/*
+
 ALTER TABLE employees ADD COLUMN countryid integer;
 ALTER TABLE employees ADD CONSTRAINT fk_countryid FOREIGN KEY (countryid) REFERENCES internal.countries (countryid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
 
@@ -292,12 +292,12 @@ ALTER TABLE contacts ADD COLUMN countryid integer;
 ALTER TABLE contacts ADD CONSTRAINT fk_countryid FOREIGN KEY (countryid) REFERENCES internal.countries (countryid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
 
 ALTER TABLE userdata.deletionhistory ADD COLUMN objectid integer NOT NULL;
---ALTER TABLE research.researchprojectitem DROP CONSTRAINT fk_outletid;
+ALTER TABLE research.researchprojectitem DROP CONSTRAINT fk_outletid;
 
 ALTER TABLE userdata.deletionhistory DROP COLUMN outletname;
 ALTER TABLE userdata.deletionhistory ADD COLUMN outlet_name character varying(255);
 
-
+/*
 -- Table: internal.researchprojectitemhistorytype
 
 -- DROP TABLE internal.researchprojectitemhistorytype;
@@ -374,4 +374,59 @@ INSERT INTO internal.reporttemplates VALUES (36, -1, 'Projects Report', '<querie
 
 UPDATE internal.researchprojectstatus SET researchprojectstatusdescription = 'Phone Follow Up' WHERE researchprojectstatusid = 9;
 UPDATE internal.researchprojectstatus SET researchprojectstatusdescription = 'Non-Responder' WHERE researchprojectstatusid = 10;
+
+ALTER TABLE tg_user ADD COLUMN isuserresearcher boolean NOT NULL DEFAULT false;
+UPDATE tg_user SET isuserresearcher = false;
+
+ALTER TABLE research.researchprojectitemhistory ALTER COLUMN owner_id DROP NOT NULL;
+
+INSERT INTO internal.customertypes VALUES (26, 'Press Office', '', 5, 14);
+
+UPDATE internal.researchprojectitemhistorytype SET researchprojectitemhistorytypedescription = 'Email - Incoming' WHERE researchprojectitemhistorytypeid = 2;
+UPDATE internal.researchprojectitemhistorytype SET researchprojectitemhistorytypedescription = 'Email - Outgoing' WHERE researchprojectitemhistorytypeid = 3;
+
+ALTER TABLE research.researchprojectitemhistory ADD COLUMN researchprojectitemhistorydescription character varying(80);
+
+--- drop table research.researchprojectitememail
+CREATE TABLE research.researchprojectitememail
+(
+  researchprojectitememailid serial NOT NULL,
+  researchprojectitemid integer NOT NULL,
+  researchprojectitemhistoryid integer NOT NULL,
+  researchprojectitemhistorytypeid integer NOT NULL,
+  researchprojectitememailfrom character varying NOT NULL,
+  researchprojectitememailto character varying NOT NULL,
+  researchprojectitememailsubject character varying,
+  researchprojectitememailbody character varying,
+  researchprojectitememaildate date DEFAULT now(),
+
+  CONSTRAINT researchprojectitememail_pkey PRIMARY KEY (researchprojectitememailid),
+  CONSTRAINT fk_researchprojectitemid_fkey FOREIGN KEY (researchprojectitemid)
+      REFERENCES research.researchprojectitem (researchprojectitemid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT fk_researchprojectitemhistoryid_fkey FOREIGN KEY (researchprojectitemhistoryid)
+      REFERENCES research.researchprojectitemhistory (researchprojectitemhistoryid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT fk_researchprojectitemhistorytypeid FOREIGN KEY (researchprojectitemhistorytypeid)
+      REFERENCES internal.researchprojectitemhistorytype (researchprojectitemhistorytypeid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE research.researchprojectitememail OWNER TO postgres;
+GRANT ALL ON TABLE research.researchprojectitememail TO postgres;
+GRANT ALL ON TABLE research.researchprojectitememail TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE research.researchprojectitememail TO prmaxcontrol;
+
+GRANT ALL ON TABLE research.researchprojectitememail_researchprojectitememailid_seq TO postgres;
+GRANT UPDATE ON TABLE research.researchprojectitememail_researchprojectitememailid_seq TO prmax;
+GRANT UPDATE ON TABLE research.researchprojectitememail_researchprojectitememailid_seq TO prmaxcontrol;
+
 */
+
+ALTER TABLE internal.publishers DROP CONSTRAINT un_publisher;
+ALTER TABLE internal.publishers ADD CONSTRAINT un_publisher UNIQUE (publishername, countryid);
+
+UPDATE employees SET countryid = (SELECT countryid FROM outlets AS o WHERE o.outletid = employees.outletid) 
+WHERE employees.countryid is null;
