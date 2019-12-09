@@ -240,10 +240,10 @@ class Employee(BaseSql):
 	@staticmethod
 	def _fix_number(countryid, number):
 		if countryid == 1:
-			if number is not None and number != '' and not number.startswith('+44'):
+			if number is not None and number.strip() != '' and not number.startswith('+44'):
 				number = '+44 (0)%s' % number
 		if countryid == 3:
-			if number is not None and number != '' and not number.startswith('+353'):
+			if number is not None and number.strip() != '' and not number.startswith('+353'):
 				number = '+353 (0)%s' % number
 		return number
 

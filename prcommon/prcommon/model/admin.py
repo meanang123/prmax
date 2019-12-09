@@ -116,10 +116,10 @@ class CustomerExternal(BaseSql):
 			crm = True if params.get("crm") else False
 
 			if addr.countryid == 1:
-				if 'tel' in params and params['tel'] is not None and params['tel'] != '' and not params['tel'].startswith('+44'):
+				if 'tel' in params and params['tel'] is not None and params['tel'].strip() != '' and not params['tel'].startswith('+44'):
 					params['tel'] = '+44 (0)%s' % params['tel']
 			if addr.countryid == 3:
-				if params['tel'] is not None and params['tel'] != '' and not params['tel'].startswith('+353'):
+				if params['tel'] is not None and params['tel'].strip() != '' and not params['tel'].startswith('+353'):
 					params['tel'] = '+353 (0)%s' % params['tel']
 
 			cust = CustomerExternal(
@@ -155,6 +155,16 @@ class CustomerExternal(BaseSql):
 				cust.has_news_rooms = True
 				cust.has_global_newsroom = True
 
+			# ispressoffice version
+#			if "ispressoffice" in  params and  params["ispressoffice"] == '1':
+#				cust.advancefeatures = True
+#				cust.crm = True
+#				cust.updatum = True
+#				cust.seo = True
+#				cust.is_bundle = True
+#				cust.has_news_rooms = True
+#				cust.has_global_newsroom = True
+#
 			session.flush()
 
 			customer = Customer.query.get(cust.customerid)
