@@ -62,14 +62,14 @@ class PublisherController( object ):
 	@validate(validators=PublisherAddSchema(), state_factory=std_state_factory)
 	@identity.require(identity.in_group("dataadmin"))
 	def add(self, *args, **params):
-		""" Save the details about an advance feature  """
+		""" Save the details about a publisher """
 
-		if Publisher.exists ( params["publishername"]):
+		if Publisher.exists(params["publishername"], params['customerid']):
 			return duplicatereturn()
 
 		publisherid = Publisher.add( params)
 
-		return stdreturn( data = Publisher.get( publisherid ))
+		return stdreturn(data = Publisher.get( publisherid ))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -77,14 +77,14 @@ class PublisherController( object ):
 	@validate(validators=PublisherGetSchema(), state_factory=std_state_factory)
 	@identity.require(identity.in_group("dataadmin"))
 	def update(self, *args, **params):
-		""" Save the details about an advance feature  """
+		""" Update details about a publisher """
 
-		if Publisher.exists ( params["publishername"],  params["publisherid"]):
+		if Publisher.exists(params["publishername"],  params['customerid'], params["publisherid"]):
 			return duplicatereturn()
 
-		Publisher.update( params)
+		Publisher.update(params)
 
-		return stdreturn( data = Publisher.get( params["publisherid"] ))
+		return stdreturn(data = Publisher.get(params["publisherid"] ))
 
 
 	@expose("json")

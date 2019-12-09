@@ -134,18 +134,24 @@ class Publisher(BaseSql):
 									cls)
 
 	@classmethod
-	def exists(cls, publishername, publisherid=-1):
-		""" check to see a specufuc role exists """
+	def exists(cls, publishername, customerid, publisherid=-1):
+		""" check to see if a specific publisher exists """
 
-		data = session.query(Publisher).filter_by(publishername=publishername)
-		if data and publisherid != -1:
+		command = """SELECT publisherid FROM internal.publishers
+		WHERE publishername ilike :publishername
+		AND (countryid IN (SELECT pc.countryid
+		                  FROM internal.customerprmaxdatasets AS cpd JOIN internal.prmaxdatasetcountries AS pc ON cpd.prmaxdatasetid = pc.prmaxdatasetid
+		                  WHERE cpd.customerid = :customerid)
+		                  OR countryid is null)"""
+		data = session.execute(text(command), {'publishername': publishername, 'customerid': customerid}, Publisher).fetchall()
+		if len(data) > 0 and publisherid != -1:
 			for row in data:
-				if row.publisherid != publisherid:
+				if row[0] != publisherid:
 					return True
 			else:
 				return False
 		else:
-			return True if data.count() > 0 else False
+			return True if len(data) > 0 else False
 
 	@classmethod
 	def add(cls, params):
