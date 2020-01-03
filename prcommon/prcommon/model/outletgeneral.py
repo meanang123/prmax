@@ -615,11 +615,20 @@ class OutletGeneral(object):
 			if com:
 				address = Address.query.get(com.addressid)
 				if address:
+					ActivityDetails.AddChange(address.address1, params['address1'], activity.activityid, Constants.Field_Address_1)
+					ActivityDetails.AddChange(address.address2, params['address2'], activity.activityid, Constants.Field_Address_2)
+					ActivityDetails.AddChange(address.townname, params['townname'], activity.activityid, Constants.Field_Address_Town)
+					ActivityDetails.AddChange(address.county, params['county'], activity.activityid, Constants.Field_Address_County)
+					ActivityDetails.AddChange(address.postcode, params['postcode'], activity.activityid, Constants.Field_Address_Postcode)
 					address.address1 = params['address1']
 					address.address2 = params['address2']
 					address.townnamd = params['townname']
 					address.county = params['county']
 					address.postcode = params['postcode']
+
+				ActivityDetails.AddChange(com.email, params['email'], activity.activityid, Constants.Field_Email)
+				ActivityDetails.AddChange(com.tel, params['tel'], activity.activityid, Constants.Field_Tel)
+				ActivityDetails.AddChange(com.fax, params['fax'], activity.activityid, Constants.Field_Fax)
 				com.email = params['email']
 				com.tel = params['tel']
 				com.fax = params['fax']
