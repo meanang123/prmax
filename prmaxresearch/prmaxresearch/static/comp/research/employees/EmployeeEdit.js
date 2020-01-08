@@ -140,6 +140,7 @@ define([
 			this.savenode.set('disabled',false);
 			domclass.add(this.delete_button,"prmaxhidden");
 		}
+		this.selectcontact.set_outletid(outletid);
 	},
 	_load:function(response)
 	{
@@ -161,7 +162,7 @@ define([
 		this.outletdeskid.set("store",this._desklist);
 		this.outletdeskid.set("value", (response.data.employee.outletdeskid == null)? -1 : response.data.employee.outletdeskid);
 		//this._count_desks = response.data.outlet.outletdesks;
-		
+		this.selectcontact.set_outletid(response.data.employee.outletid);
 		if (response.data.employee.contactid==null)
 		{
 			this.selectcontact.set_no_contact();

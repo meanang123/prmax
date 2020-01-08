@@ -27,9 +27,19 @@ class Publisher(BaseSql):
 		publishername,
 	    www
 		FROM internal.publishers """
+	ListData2 = """
+		SELECT
+		p.publisherid,
+	    p.publisherid AS id,
+		p.publishername,
+	    p.www,
+	    p.sourcetypeid,
+	    s.sourcename
+		FROM internal.publishers AS p
+	    LEFT OUTER JOIN internal.sourcetypes AS s ON s.sourcetypeid = p.sourcetypeid"""
 
 	ListDataCount = """
-		SELECT COUNT(*) FROM  internal.publishers """
+		SELECT COUNT(*) FROM  internal.publishers AS p"""
 
 	@classmethod
 	def get_list_publisher_questionnaires(cls, params):
@@ -99,6 +109,35 @@ class Publisher(BaseSql):
 									Publisher.ListData + whereused + BaseSql.Standard_View_Order,
 									Publisher.ListDataCount + whereused,
 									cls)
+
+	@classmethod
+	def get_list_publisher2(cls, params):
+		""" get rest page  """
+
+		from prcommon.model import CustomerPrmaxDataSets
+
+		whereused = ""
+
+		if "publishername" in params:
+			whereused = BaseSql.addclause("", "p.publishername ilike :publishername")
+			if params["publishername"]:
+				params["publishername"] = params["publishername"].replace("*", "")
+				params["publishername"] = params["publishername"] + "%"
+
+		if "publisherid" in  params:
+			whereused = BaseSql.addclause(whereused, "p.publisherid = :publisherid")
+
+		if 'sourcetypeid' in params:
+			whereused = BaseSql.addclause(whereused, "p.sourcetypeid = :sourcetypeid")
+
+		return cls.get_rest_page_base(
+									params,
+									'publisherid',
+									'publishername',
+									Publisher.ListData2 + whereused + BaseSql.Standard_View_Order,
+									Publisher.ListDataCount + whereused,
+									cls)
+
 
 	@classmethod
 	def get_search_list_publisher(cls, params):

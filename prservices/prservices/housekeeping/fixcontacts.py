@@ -81,7 +81,7 @@ def _update_sourcetype_freelancers(workbook):
 					session.execute(text("UPDATE employees SET sourcetypeid = 2 where employeeid = :employeeid"),{'employeeid': employee.employeeid}, Employee)
 	
 		session.commit()			
-			
+	print 'End _update_sourcetype_freelancers'			
 	
 def _duplicate_contacts2(workbook, xls_sheet):
 

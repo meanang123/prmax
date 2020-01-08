@@ -37,13 +37,11 @@ define([
 	mustexists:false,
 	constructor: function()
 	{
-		this.contactstore =  new JsonRestStore({target:"/research/admin/contacts/research_lookuplist_rest", idProperty:"contactid",  labelAttribute:"contactname"});
 		this._shopadd = true;
 		topic.subscribe(PRCOMMON.Events.Person_Added,lang.hitch(this, this._add_event));
 	},
 	postCreate:function()
 	{
-		//this.contactlist.set("store",this.contactstore );
 		domattr.set(this.nocontactlabel,'for',this.nocontactnode.id);
 		domattr.set(this.selectcontactlabel, 'for', this.selectcontactnode.id);
 		this.contactid.set("callback", lang.hitch(this, this._selected_from_extended));
@@ -52,20 +50,14 @@ define([
 			domclass.add(this.select_view,"prmaxhidden");
 			this.selectcontactnode.set("checked",true);
 			domclass.add(this.displayname_ctrl,"prmaxhidden");
-			//domclass.add(this.contactlist.domNode,"prmaxrequired");
 		}
-		//if ( this.required == true )
-		//{
-		//	domclass.add(this.contactlist.domNode,"prmaxrequired");
-		//}
-
 		this.inherited(arguments);
-
 	},
-	//_add_event:function ( contact )
-	//{
-		//this.contactlist.set("value",contact.contactid);
-	//},
+	set_outletid:function(outletid)
+	{
+		this.outletid.set("value", outletid);
+		this.contactid._outletid = outletid;
+	},
 	_add_event:function(contact)
 	{
 		this.contactid.set("value", contact.contactid);
@@ -81,14 +73,6 @@ define([
 		this.nocontactnode.set("checked",true);
 		this._change_mode(true);
 	},
-	//_getValueAttr:function( )
-	//{
-	//	return this.contactlist.get("value");
-	//},
-	//_setValueAttr:function( value )
-	//{
-	//	this.contactlist.set("value", value );
-	//},
 	_getValueAttr:function( )
 	{
 		return this.contactid._contact.contactid.get("value");
@@ -101,11 +85,6 @@ define([
 	{
 		var rvalid = true ;
 		var valid = true;
-
-		//var v = this.contactlist.get("value");
-		//if ( v=="" || v == -1 || v==0 || v==null)
-		//	valid = false;
-
 		var v = this.contactid.get("value");
 		if ( v=="" || v == -1 || v==0 || v==null)
 			valid = false;
@@ -127,17 +106,12 @@ define([
 	{
 		return true;
 	},
-	//focus: function()
-	//{
-	//	this.contactlist.focus();
-	//},
 	focus: function()
 	{
 		this.contactid.focus();
 	},
 	clear:function()
 	{
-	//	this.contactlist.set("value",null);
 		this.contactid.set("value",null);
 		this._shopadd = false;
 	},
@@ -154,13 +128,6 @@ define([
 		domclass.remove(this.selectcontactform, mode?"prmaxvisible":"prmaxhidden");
 		domclass.add(this.selectcontactform, mode?"prmaxhidden":"prmaxvisible");
 
-		//if (mode)
-		//	domclass.remove(this.contactlist, "prmaxrequired");
-		//else
-		//	domclass.add(this.contactlist, "prmaxrequired");
-
-		//this.contactlist.set("disabled" , mode);
-
 		if (mode)
 			domclass.remove(this.contactid, "prmaxrequired");
 		else
@@ -171,15 +138,10 @@ define([
 	},
 	_update_after_add:function(contact)
 	{
-		//this.contactlist.set("value",contact.contactid);
 		this.contactid.set("value",contact.contactid);
 		this._shopadd = false;
 		this._add_contact_show();
 	},
-	//_selected_from_extended:function(contact)
-	//{
-		//this.contactlist.set("value",contact.contactid);
-	//},
 	_selected_from_extended:function(contact)
 	{
 		this.contactid.set("value",contact.contactid);

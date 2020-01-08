@@ -15,6 +15,7 @@ define([
 	"ttl/grid/Grid",
 	"ttl/store/JsonRest",
 	"dojo/store/Observable",
+	"dojo/data/ItemFileReadStore",	
 	"dojo/request",
 	"ttl/utilities2",
 	"dojo/json",
@@ -30,18 +31,20 @@ define([
 	"dijit/form/Form",
 	"prcommon2/publisher/PublisherAdd",
 	"dijit/Dialog"
-	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, request, utilities2, json, topic, lang ){
+	], function(declare, BaseWidgetAMD, template, BorderContainer, Grid, JsonRest, Observable, ItemFileReadStore, request, utilities2, json, topic, lang ){
  return declare("research.lookup.Publishers",
 	[BaseWidgetAMD,BorderContainer],{
 	templateString: template,
 	gutters:true,
 	constructor: function()
 	{
-		this._store = new Observable( new JsonRest( {target:'/research/admin/publisher/list', idProperty:"publisherid"}));
+		this._store = new Observable( new JsonRest( {target:'/research/admin/publisher/list2', idProperty:"publisherid"}));
+		this._sourcetypes = new ItemFileReadStore ({ url:"/common/lookups?searchtype=sourcetypes"});
 
 		topic.subscribe(PRCOMMON.Events.Publisher_Update, lang.hitch(this, this._update_event));
 		topic.subscribe(PRCOMMON.Events.Publisher_Added, lang.hitch(this, this._add_event));
 		topic.subscribe(PRCOMMON.Events.Publisher_Deleted, lang.hitch(this, this._deleted_event));
+
 	},
 	postCreate:function()
 	{
@@ -49,7 +52,8 @@ define([
 		[
 			{label:' ', field:'publisherid', sortable: false, formatter:utilities2.generic_view,className:"grid-field-image-view"},
 			{label: 'Publisher ',className: "standard",field:'publishername'},
-			{label: 'www ',className: "standard",field:'www'}
+			{label: 'www ',className: "standard",field:'www'},
+			{label: 'Source ',className: "standard",field:'sourcename'}
 		];
 		this.grid = new Grid({
 			columns: cells,
@@ -61,6 +65,9 @@ define([
 
 		this.publisher_add_ctrl.set("dialog", this.publisher_add_dlg);
 		this.publisher_update_ctrl.set("dialog", this.publisher_update_dlg);
+		this.filter_sourcetype.set("store", this._sourcetypes);
+		this.filter_sourcetype.set("value", -1);
+
 
 		this.inherited(arguments);
 	},
@@ -80,6 +87,9 @@ define([
 
 		if (arguments[0].filter)
 			query["publishername"] = arguments[0].filter;
+		if (arguments[0].filter_sourcetype != -1)
+			query["sourcetypeid"] = arguments[0].filter_sourcetype;
+			
 
 		this.grid.set("query",query);
 	},
