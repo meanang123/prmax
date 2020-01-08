@@ -468,6 +468,8 @@ class Contact(BaseSql):
 	SELECT COUNT(*) FROM contacts AS con
 	WHERE con.familyname ILIKE :filter AND con.customerid=-1 AND con.sourcetypeid IN (1,2) %s"""
 
+	EMPTYGRID = dict (numRows = 0, items = [], identifier = 'activityid')
+
 	@classmethod
 	def getGridPageResearch(cls, params):
 		""" Return a page of contactsd for the research system"""
@@ -489,16 +491,17 @@ class Contact(BaseSql):
 		else:
 			whereclause = ""
 			if "contactid" in params:
-				whereclause = " AND con.contactid=:contactid"
+				whereclause += " AND con.contactid=:contactid"
 				params["contactid"] = int(params["contactid"])
 			if "sourcetypeid" in params:
-				whereclause = " AND con.sourcetypeid=:sourcetypeid"
+				whereclause += " AND con.sourcetypeid=:sourcetypeid"
 				params['sourcetypeid'] = int(params["sourcetypeid"])
 
-			if 'customerid' in params:
-				customer = Customer.query.get(params['customerid'])
-				params['countryid'] = customer.countryid
-				whereclause = """ AND (con.countryid in (SELECT countryid 
+			if 'outletid' in params:
+				from prcommon.model.outlet import Outlet
+				outlet = Outlet.query.get(int(params['outletid']))
+				params['countryid'] = outlet.countryid
+				whereclause += """ AND (con.countryid in (SELECT countryid 
 				                                         FROM internal.prmaxdatasetcountries
 				                                         WHERE prmaxdatasetid in (SELECT distinct(prmaxdatasetid)
 				                                                                  FROM internal.prmaxdatasetcountries
@@ -514,7 +517,6 @@ class Contact(BaseSql):
 			  cls)
 		return cls.grid_to_rest(data, params["offset"], False)
 
-
 	__Contact_List_Research_Employee_1 = """
 	SELECT e.employeeid, o.outletname, e.job_title, ot.prmax_outlettypename,ot.prmax_outlettypeid,st.sourcename,
 	c.countryname
@@ -525,7 +527,7 @@ class Contact(BaseSql):
 	LEFT OUTER JOIN internal.countries AS c ON c.countryid = o.countryid
 
 	WHERE  e.contactid = :contactid AND e.customerid=-1
-	AND e.sourcetypeid in (1,2,3)
+	--AND e.sourcetypeid in (1,2,3)
 	ORDER BY %s %s
 	LIMIT :count OFFSET :start"""
 

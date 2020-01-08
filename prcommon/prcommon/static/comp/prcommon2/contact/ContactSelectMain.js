@@ -47,6 +47,7 @@ define([
 		this._contactid = null;
 		this._contact = null;
 		this._selected_call_back = null;
+		this._outletid = null;
 
 		this.model = new Observable( new JsonRest( {target:'/research/admin/contacts/research_contactlist', idProperty:"contactid"}));
 		this.people_employee_model = new JsonRest({target:'/research/admin/contacts/research_contact_employee', idProperty:"employeesid"});
@@ -70,7 +71,8 @@ define([
 		this.people_grid = new Grid({
 			columns: cells,
 			selectionMode: "single",
-			store: this.model
+			store: this.model,
+			query:utilities2.EMPTYGRID
 		});
 
 		this.people_grid_view.set("content", this.people_grid);
@@ -82,7 +84,11 @@ define([
 	},
 	_setValueAttr:function( value)
 	{
-		this._contactid = value ;
+		this._contactid = value;
+	},
+	_setOutletidvalueAttr:function(value)
+	{
+		this._outletid = value;
 	},
 	_setDisplayvalueAttr:function( value)
 	{
@@ -118,7 +124,8 @@ define([
 			query["filter"] = this.filter.get("value");
 		if (this.filter_personid.get("value").length>0)
 			query["contactid"] = this.filter_personid.get("value");
-
+		if (this._outletid)
+			query["outletid"] = this._outletid;
 		this.people_grid.set("query", query);
 		this.searchbutton.cancel();
 	},
