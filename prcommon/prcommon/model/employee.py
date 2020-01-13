@@ -345,6 +345,7 @@ class Employee(BaseSql):
 				job_title=params['job_title'],
 				outletid=params['outletid'],
 				profile=params['profile'],
+			    countryid=employee_countryid,
 			    sourcetypeid=params["sourcetypeid"])
 			session.add(employee)
 			session.flush()
@@ -717,6 +718,7 @@ class Employee(BaseSql):
 			    contactid=contactid,
 			    job_title=params['job_title'],
 			    outletid=params['outletid'],
+			    countryid=countryid,
 			    sourcetypeid=Constants.Research_Source_Prmax
 			)
 			if params["outletdeskid"] != -1:
@@ -1171,6 +1173,7 @@ class EmployeeDisplay(BaseSql):
 	EmployeeDisplay_ListData = """
 	SELECT
 		e.customerid ,
+	    e.outletid,
 		c.customerid as ccustomerid,
 		CASE WHEN e.contactid is NULL THEN '' ELSE JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) END as contactname,
 		JSON_ENCODE(e.job_title) as job_title,
@@ -1195,6 +1198,7 @@ class EmployeeDisplay(BaseSql):
 	EmployeeDisplay_ListData_Single = """
 	SELECT
 		e.customerid ,
+	    e.outletid,
 		c.customerid as ccustomerid,
 		CASE WHEN e.contactid is NULL THEN '' ELSE JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) END as contactname,
 		JSON_ENCODE(e.job_title) as job_title,

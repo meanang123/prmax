@@ -208,7 +208,7 @@ class Contact(BaseSql):
 			                  prefix=params['prefix'],
 			                  customerid=-1,
 			                  sourcetypeid=params['sourcetypeid'] if 'sourcetypeid' in params else Constants.Research_Source_Prmax,
-			                  countryid=params['countryid'])
+			                  countryid=params['countryid'] if 'countryid' in params else None)
 			session.add(contact)
 			session.flush()
 			contactid = contact.contactid
