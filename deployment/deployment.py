@@ -201,6 +201,25 @@ def deploy_test_to_new_system():
             put('\projects\%s\dist\%s-1.0.0.1-py%s.egg' % (fd[0], fd[1], python_egg),
                 '/home/prmax/prmax-release/%s-1.0.0.1-py%s.egg' % (fd[1], python_egg) )
 
+
+def deploy_live_to_new_system():
+    'global app update'
+
+    env.password = "mGu9y5x6v4En"
+    env.user = "prmax"
+
+    for app_server in prmax_servers_new:
+        print "Doing - ", app_server
+
+        env.host_string  = app_server
+
+        run("/home/prmax/scripts/make_backup")
+
+        for fd in build_folders(live_location):
+            put('\projects\%s\dist\%s-1.0.0.1-py%s.egg' % (fd[0], fd[1], python_egg),
+                '/home/prmax/prmax-release/%s-1.0.0.1-py%s.egg' % (fd[1], python_egg) )
+
+
 @hosts("prmax2013.dh.bytemark.co.uk")
 def deploy_backup():
     # copy to live
