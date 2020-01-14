@@ -238,6 +238,14 @@ define([
 
 		formdata["reasoncodeid"] = this.reasoncodeid.get("value");
 		formdata["has_address_old"] = this._has_address_old;
+		if (this.outletid != null)
+		{
+			formdata['outletid'] = this.outletid;
+		}
+		else
+		{
+			formdata['outletid'] = this.outletidnode.get("value");
+		}
 		if (this._has_address_new != null)
 		{
 			formdata["has_address_new"] = this._has_address_new;
