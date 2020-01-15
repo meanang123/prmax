@@ -51,7 +51,7 @@ define([
 
 		this.reasoncode_data_add = PRCOMMON.utils.stores.Research_Reason_Add_Codes();
 		this.reasoncode_data_upd = PRCOMMON.utils.stores.Research_Reason_Update_Codes();
-		
+
 		topic.subscribe(PRCOMMON.Events.Employee_Add, lang.hitch(this,this._employee_add_update_event));
 		topic.subscribe(PRCOMMON.Events.Employee_Updated, lang.hitch(this,this._employee_add_update_event));
 
@@ -72,16 +72,16 @@ define([
 				topic.publish(PRCOMMON.Events.Employee_Updated, response.employee);
 				alert("Contact updated. Please verify the 'Research tab' to make sure these changes haven't effected it");
 			}
-			
+
 			if (response.employee.series == true)
 			{
 				alert("Series members were affected. Please run employee synchronisation process");
-			}	
-			
+			}
+
 			this._has_address_old = this._has_address_new;
 			if (this._has_address_new == false)
 			{
-				this._clear_address();	
+				this._clear_address();
 			}
 		}
 		else
@@ -95,11 +95,11 @@ define([
 	{
 		if (employee.tel != this.tel.get("value"))
 		{
-			this.tel.set("value", employee.tel)		
+			this.tel.set("value", employee.tel)
 		}
 		if (employee.fax != this.fax.get("value"))
 		{
-			this.fax.set("value", employee.fax)		
+			this.fax.set("value", employee.fax)
 		}
 	},
 	postCreate:function()
@@ -115,12 +115,11 @@ define([
 		this._sourceid = sourceid;
 		this.outletid = outletid;
 		this.employeeid = employeeid;
-		this.outletidnode.set("value",this.outletid);
 		this.employeeidnode.set("value",this.employeeid);
 		this._count_desks = outletdesks.length;
 		if (outletid != null )
 		{
-			this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+outletid + "/", idProperty:"outletdeskid"});
+			this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+ outletid + "/", idProperty:"outletdeskid"});
 			this.outletdeskid.set("store",this._desklist);
 		}
 		if (this.employeeid!=-1)
@@ -140,12 +139,14 @@ define([
 			this.savenode.set('disabled',false);
 			domclass.add(this.delete_button,"prmaxhidden");
 		}
+
 		this.selectcontact.set_outletid(outletid);
 	},
 	_load:function(response)
 	{
 		this.employeeidnode.set("value", response.data.employee.employeeid);
-		this.outletidnode.set("value", response.data.employee.outletid);
+		this.outletid = response.data.employee.outletid;
+
 		this.job_title.set("value", response.data.employee.job_title);
 		this.email.set("value", response.data.comm.email);
 		this.tel.set("value", response.data.comm.tel);
@@ -221,13 +222,7 @@ define([
 			alert("Not all required field filled in");
 			throw "N";
 		}
-		//if (this.outletidnode.value != null && this._count_desks == 0)
-		//{
-		//	this._desklist = new JsonRestStore ( {target:'/research/admin/desks/list_outlet_desks/'+this.outletidnode.value + "/", idProperty:"outletdeskid"});
-		//	var count_desks = function(items, request){this._count_desks = items.length;};
-		//	this._desklist.fetch({onComplete:count_desks});			
-		//}
-		
+
 		if (this._count_desks != 0 && (this.outletdeskid.get("value") == '-1' || this.outletdeskid.get("value") == -1))
 		{
 			alert('Please enter Desk');
@@ -238,19 +233,13 @@ define([
 
 		formdata["reasoncodeid"] = this.reasoncodeid.get("value");
 		formdata["has_address_old"] = this._has_address_old;
-		if (this.outletid != null)
-		{
-			formdata['outletid'] = this.outletid;
-		}
-		else
-		{
-			formdata['outletid'] = this.outletidnode.get("value");
-		}
+		formdata['outletid'] = this.outletid;
+
 		if (this._has_address_new != null)
 		{
 			formdata["has_address_new"] = this._has_address_new;
 		}
-		else 
+		else
 		{
 			formdata["has_address_new"] = this._has_address_old;
 		}
@@ -301,7 +290,7 @@ define([
 		else
 		{
 			this._has_address_old = true;
-			this._has_address_new = false;	
+			this._has_address_new = false;
 		}
 	},
 	_address_show_do:function ( show_it )
@@ -326,7 +315,7 @@ define([
 	_copy_keywords_btn:function()
 	{
 		request.post('/research/admin/employees/research_copy_interests_outlet_to_employee',
-				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletidnode.get('value'), reasoncodeid:this.reasoncodeid.get('value')}})).then
+				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletid, reasoncodeid:this.reasoncodeid.get('value')}})).then
 				(this._copy_interests_call);
 	},
 	_copy_interests:function(response)
@@ -343,7 +332,7 @@ define([
 		this.address2.set("value", "");
 		this.townname.set("value", "");
 		this.county.set("value", "");
-		this.postcode.set("value","");	
-	},	
+		this.postcode.set("value","");
+	},
 });
 });

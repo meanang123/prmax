@@ -1,13 +1,12 @@
 <div>
 	<div data-dojo-attach-point="data_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"overflow:auto;overflow-x:hidden",region:"center"' >
 		<form data-dojo-attach-point="formnode" data-dojo-type="dijit/form/Form" data-dojo-props='onSubmit:"return false","class":"prmaxdefault"' >
-			<input data-dojo-attach-point="outletidnode" data-dojo-props='type:"hidden",name:"outletid"' data-dojo-type="dijit/form/TextBox"></input>
 			<input data-dojo-attach-point="employeeidnode" data-dojo-props='name:"employeeid",type:"hidden"' data-dojo-type="dijit/form/TextBox"></input>
 			<table style="width:97%;border-collapse:collapse;" cellspacing="0" cellpadding="0" border="0">
 				<tr><td align="right" class="prmaxrowtag">Job Title</td><td><input data-dojo-attach-point="job_title" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxrequired",name:"job_title",type:"text",maxlength:80,trim:true,required:true,style:"width:98%"'/></td></tr>
-				
+
 				<tr><td width="15%" class="prmaxrowtag" valign="top"align="right">Person</td><td><div data-dojo-props='"class":"prmaxrequired"' data-dojo-type="research/employees/EmployeeSelect" data-dojo-attach-point="selectcontact"></div></td></tr>
-				
+
 				<tr><td align="right" class="prmaxrowtag" valign="top">Job Roles</td><td><div data-dojo-attach-point="jobroles" data-dojo-type="prcommon2/roles/Roles" data-dojo-props='orderbtns:false,name:"jobroles",value:"",startopen:true, size:6, searchmode:true, selectonly:true' ></div></td></tr>
 				<tr><td align="right" class="prmaxrowtag">Desk</td><td><select data-dojo-attach-point="outletdeskid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"outletdeskid",searchAttr:"deskname",labelType:"html","class":"prmaxrequired"' /></td></tr>
 				<tr><td align="right" class="prmaxrowtag">Email</td><td ><input data-dojo-attach-point="email"  data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",pattern:dojox.validate.regexp.emailAddress,trim:true,invalidMessage:"invalid email address",style:"width:98%",maxlength:70'></td></tr>

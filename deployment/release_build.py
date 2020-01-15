@@ -17,7 +17,7 @@ import codecs
 
 # path to test/live environment
 vpath_test = "test"
-vpath_live = "2"
+vpath_live = "live"
 
 # standard files
 valid_folders = ('_firebug','nls','resources','images','resources\\images')
@@ -37,7 +37,7 @@ def buildRelease(build, islive, version, module ):
 
    # set up correct build profile
    out = open(profile_dest,"w")
-   out.write(open( profile_source,"r").read().replace("test",vpath_live if islive else vpath_test ))
+   out.write(open( profile_source,"r").read().replace("development",vpath_live if islive else vpath_test ))
    out.close()
 
    # execute dojo builder
