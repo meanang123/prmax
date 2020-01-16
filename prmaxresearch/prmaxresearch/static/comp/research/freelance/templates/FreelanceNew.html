@@ -6,7 +6,6 @@
 	</div>
 	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"overflow:auto;overflow-x:hidden",region:"center"' >
 	<form  data-dojo-props='"class":"prmaxdefault"' data-dojo-attach-point="requirednode" data-dojo-type="dijit/form/Form">
-	<input data-dojo-attach-point="outletnode" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"hidden",name:"outletid",value:"-1"'/>
 	<table style="width:100%" class="prmaxtable" border="0" cellspacing="0" cellpadding="0">
 	<tr><td width="9em" align="right" class="prmaxrowtag">Person</td><td><div data-dojo-type="research/employees/EmployeeSelect" data-dojo-attach-point="selectcontact" data-dojo-props='displayname:"",mustexists:true,required:true,invalidMessage:"Person Must be selected"'></div></td></tr>
 	<tr><td class="prmaxrowtag" align="right" >Country</td><td><select data-dojo-props='style:"width:200px","class":"prmaxrequired",name:"countryid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Please select Country Name",labelType:"html" ' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="countryid"></select></td></tr>

@@ -72,14 +72,16 @@ define([
 	},
 	_save:function()
 	{
+		var data = {};
 		if ( utilities2.form_validator(this.requirednode)==false)
 		{
 			alert("Not all required field filled in");
 			throw "N";
 		}
-
+		data = 	this.requirednode.get("value");
+		data['outletid'] = this.outletid;
 		request.post('/research/admin/outlets/freelance_research_add',
-			utilities2.make_params( {data:this.requirednode.get("value")})).then
+			utilities2.make_params( {data:data})).then
 			(this._saved_call_back);
 	},
 	new_freelance:function()
@@ -90,7 +92,6 @@ define([
 	{
 		this.savenode.cancel();
 		this.selectcontact.clear();
-		this.outletnode.set("value",-1);
 		this.countryid.set("value", 1);
 		this.address1.set("value","");
 		this.address2.set("value","");
