@@ -44,6 +44,7 @@ define([
 		this._has_address_old = null;
 		this._has_address_new = null;
 		this._series_parent = false;
+		this.outletid = -1;
 	},
 	_saved:function(response)
 	{
@@ -125,8 +126,8 @@ define([
 		if ( data.employeeid)
 		{
 			this.employeeid = data.employee.employeeid;
+			this.outletid = data.outlet.outletid;
 			this.employeeidnode.set("value",data.employee.employeeid);
-			this.outletidnode.set("value", data.outlet.outletid);
 			this.researchprojectitemid.set("value", data.researchprojectitemid);
 			this.researchprojectitemchangeid.set("value",data.researchprojectitemchangeid);
 			this.job_title.set("value", data.employee.job_title);
@@ -251,7 +252,7 @@ define([
 		else
 		{
 			this.employeeidnode.set("value", -1);
-			this.outletidnode.set("value", data.outletid);
+			this.outletid = data.outletid;
 			this.researchprojectitemid.set("value", data.researchprojectitemid);
 			this.researchprojectitemchangeid.set("value",data.researchprojectitemchangeid);
 			this.job_title.set("value", data.job_title);
@@ -306,6 +307,7 @@ define([
 		
 		var formdata = this.formnode.get("value");
 		formdata["has_address_old"] = this._has_address_old;
+		formdata['outletid'] = this.outletid;
 		if (this._has_address_new != null)
 		{
 			formdata["has_address_new"] = this._has_address_new;
@@ -387,7 +389,7 @@ define([
 	{
 		//reasoncodeid = 8 --> Prmax Research
 		request.post('/research/admin/employees/research_copy_interests_outlet_to_employee',
-				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletidnode.get('value'), reasoncodeid:8}})).then
+				utilities2.make_params({data:{employeeid:this.employeeid, outletid:this.outletid, reasoncodeid:8}})).then
 				(this._copy_interests_call);
 	},	
 	_copy_interests:function(response)

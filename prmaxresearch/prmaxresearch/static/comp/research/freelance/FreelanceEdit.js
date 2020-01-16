@@ -103,6 +103,7 @@ define([
 
 		var tmp = this.requirednode.get("value");
 		tmp["reasoncodeid"] = this.reasoncodeid.get("value");
+		tmp['outletid'] = this.outletid;
 
 		request.post('/research/admin/outlets/freelance_research_update' ,
 					utilities2.make_params({ data: tmp })).then
@@ -116,7 +117,7 @@ define([
 	{
 		this.savenode.cancel();
 		this.selectcontact.clear();
-		this.outletid.set("value",-1);
+		this.outletid = -1;
 		this.address1.set("value","");
 		this.address2.set("value","");
 		this.townname.set("value","");
@@ -140,9 +141,9 @@ define([
 	},
 	load:function( outletid )
 	{
-		this._outletid = outletid;
+		this.outletid = outletid;
 		this._name = "";
-		this.outlet_audit_ctrl.load ( this._outletid ) ;
+		this.outlet_audit_ctrl.load ( this.outletid ) ;
 
 		request.post ('/research/admin/outlets/freelance_get_for_load',
 			utilities2.make_params({ data : {outletid: outletid} })).then
@@ -160,7 +161,7 @@ define([
 			domattr.set(this.selectcontact.contactid.display, "innerHTML", data.contactname);
 			this.sortname.set("value",data.outlet.sortname);
 			this.job_title.set("value",data.employee.job_title);
-			this.outletid.set("value",data.outlet.outletid);
+			this.outletid = data.outlet.outletid;
 			this.address1.set("value",data.address.address1);
 			this.address2.set("value",data.address.address2);
 			this.townname.set("value",data.address.townname);
@@ -192,7 +193,7 @@ define([
 	},
 	_delete:function()
 	{
-		this.delete_ctrl.load ( this._outletid ,this._name);
+		this.delete_ctrl.load ( this.outletid ,this._name);
 		this.delete_dlg.show();
 	}
 });
