@@ -58,7 +58,7 @@ def _run():
 	tovalue text)""" %(fromdate, todate)
 
 	rows = session.execute(text(query), None, Outlet).fetchall()
-	rows.insert(0, ('Date', 'Action', 'Reason', 'User', 'Outlet', 'Job Title', 'Contact', 'Type', 'Field', 'From Value', 'To Value'))
+	rows.insert(0, ('Date', 'Action', 'Reason Code', 'Reason Text', 'User', 'Outlet', 'Job Title', 'Contact', 'Type', 'Field', 'From Value', 'To Value'))
 	output = StringIO.StringIO()
 	csv_write = csv.writer(output)
 	csv_write.writerows(rows)
