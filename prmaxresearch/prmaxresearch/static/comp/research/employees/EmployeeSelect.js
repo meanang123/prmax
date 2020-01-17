@@ -55,7 +55,7 @@ define([
 	},
 	set_outletid:function(outletid)
 	{
-		this.outletid.set("value", outletid);
+		this.outletid = outletid;
 		this.contactid._outletid = outletid;
 	},
 	_add_event:function(contact)

@@ -112,7 +112,7 @@ define([
 	{
 		if (data.comm.tel != this.tel.get("value"))
 		{
-			this.tel.set("value", data.comm.tel)	
+			this.tel.set("value", data.comm.tel)
 		}
 		if (data.comm.fax != this.fax.get("value"))
 		{
@@ -189,7 +189,7 @@ define([
 	_setCheckedAttr:function( value )
 	{
 		this.no_sync.set("checked",value);
-	},	
+	},
 	_update: function()
 	{
 		if ( utilities2.form_validator(this.form)==false)
@@ -198,7 +198,7 @@ define([
 			this.updatebtn.cancel();
 			throw "N"
 		}
-		
+
 		// add the reason code
 		var tmp_data = this.form.get("value");
 		tmp_data["reasoncodeid"] = this.reasoncodeid.get("value");
