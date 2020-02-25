@@ -1,0 +1,16 @@
+<div>
+<span class="common_prmax_layout"><br/>
+	<form data-dojo-attach-point="form_output" data-dojo-type="dijit/form/Form" data-dojo-props='onSubmit:"return false"'>
+		<label data-dojo-attach-point="all_label">All Channels&nbsp;<input data-dojo-attach-point="all_channels" data-dojo-props="name:'channels',value:'0',type:'radio',checked:true" data-dojo-type="dijit/form/RadioButton" data-dojo-attach-event="onClick:_change_preferences"/></label><br>
+		<label data-dojo-attach-point="selected_label">Selected Channels&nbsp;<input data-dojo-attach-point="selected_channels" data-dojo-props="name:'channels',value:'1',type:'radio'" data-dojo-type="dijit/form/RadioButton"  data-dojo-attach-event="onClick:_change_preferences"/></label><br><br>
+
+
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Close",style:"float:left;align:left"'></button>
+		<button data-dojo-attach-event="onClick:_report" data-dojo-attach-point="reportbtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Report",style:"float:right;align:right"'></button>
+		<div data-dojo-attach-point="report_preferences_report_dlg" data-dojo-type="dijit/Dialog" title="Clippings Report" data-dojo-props='style:"width:300px"'>
+			<div data-dojo-type="prcommon2/reports/ReportBuilder" data-dojo-attach-point="report_preferences"></div>
+		</div>
+		<br/><br/>
+	</form>
+</span>
+</div>

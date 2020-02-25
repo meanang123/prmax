@@ -903,6 +903,10 @@ class ClippingsPieChartReport(ReportCommon):
 			whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = %(issueid)s AND ci.clippingid = c.clippingid)')
 			params['issueid'] = int(self._reportoptions['issueid'])
 
+		if 'channels' in self._reportoptions and self._reportoptions['channels'] != '' and self._reportoptions['channels'] is not None:
+			whereclause = BaseSql.addclause(whereclause, 'ct.clippingstypedescription in %(clippingstypedescription)s')
+			params['clippingstypedescription'] = tuple(self._reportoptions['channels'])
+
 		# tones on the filter
 		if self._reportoptions.get("tones", None):
 			whereclause = BaseSql.addclause(whereclause, "c.clippingstoneid IN (%s)" % ",".join([str(tone) for tone in self._reportoptions["tones"]]))
@@ -961,6 +965,10 @@ class ClippingsLinesChartReport(ReportCommon):
 		if 'issueid' in self._reportoptions and self._reportoptions['issueid'] != '' and self._reportoptions['issueid'] is not None  and self._reportoptions['issueid'] != -1 and self._reportoptions['issueid'] != '-1':
 			whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = %(issueid)s AND ci.clippingid = c.clippingid)')
 			params['issueid'] = int(self._reportoptions['issueid'])
+
+		if 'channels' in self._reportoptions and self._reportoptions['channels'] != '' and self._reportoptions['channels'] is not None:
+			whereclause = BaseSql.addclause(whereclause, 'ct.clippingstypedescription in %(clippingstypedescription)s')
+			params['clippingstypedescription'] = tuple(self._reportoptions['channels'])
 
 		# tones on the filter
 		if self._reportoptions.get("tones", None):

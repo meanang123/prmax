@@ -25,7 +25,8 @@ define([
 	"dojo/dom-construct",
 	"dijit/Dialog",
 	"prcommon2/clippings/filter",
-	"prcommon2/reports/ReportBuilder"
+	"prcommon2/reports/ReportBuilder",
+	"prcommon2/clippings/charts/preferences",
 	], function(declare, BaseWidgetAMD, template, BorderContainer,Chart,Claro,Tom,PrimaryColors,Pie,Observable,Memory,Tooltip,MoveSlice,Magnify,Markers,Legend,Default,request,utilities2,lang,topic,domattr,domclass,domConstruct, dialog){
  return declare("prcommon2.clippings.charts.piechart",
 	[BaseWidgetAMD,BorderContainer],{
@@ -40,7 +41,7 @@ define([
 		this._show_call_back = lang.hitch(this, this._show_call);
 		this._error_call_back = lang.hitch(this, this._error_call);
 		this._chart_event_call_back = lang.hitch(this, this._chart_event_call);
-		this._complete_call_back = lang.hitch(this, this._complete_call);
+//		this._complete_call_back = lang.hitch(this, this._complete_call);
 	},
 	startup:function()
 	{
@@ -138,7 +139,7 @@ define([
 			topic.publish("/clipping/change_view", "clippings_view");
 		}
 	},
-	_report:function()
+	_preferences:function()
 	{
 		var filters = this.filter_view._get_filters(false,true);
 		var content = {};
@@ -150,14 +151,16 @@ define([
 		content['clientid'] = filters.clientid;
 		content['issueid'] = filters.issueid;
 
-		this.report_dlg.show();
-		this.report_node.SetCompleted(this._complete_call_back);
-		this.report_node.start(content);
+		var selected_channels = [];
+		for (var i =0; i <= this._leg._cbs.length-1; i++)
+		{
+			if (this._leg._cbs[i].checked)
+			{
+				selected_channels.push(this._leg.legends[i].innerText);
+			}
+		}
+		this.preferences_ctrl._load(this.preferences_dlg, content, selected_channels);
+		this.preferences_dlg.show();
 	},
-	_complete_call:function()
-	{
-		this.reportbtn.cancel();
-		this.report_dlg.hide();
-	}
 });
 });

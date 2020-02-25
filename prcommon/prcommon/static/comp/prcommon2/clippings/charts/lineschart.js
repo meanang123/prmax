@@ -23,8 +23,9 @@ define([
     "dojo/dom-attr",
     "dojo/dom-class",
     "dojo/dom-construct",
-    "prcommon2/clippings/filter",
-    "prcommon2/reports/ReportBuilder"
+	"prcommon2/clippings/filter",
+	"prcommon2/reports/ReportBuilder",
+	"prcommon2/clippings/charts/preferences",
     ], function(declare, BaseWidgetAMD, template, BorderContainer,Chart,Claro,Tom,PrimaryColors,Lines,Observable,Memory,Tooltip,MoveSlice,Magnify,Markers,Legend,Default,request,utilities2,lang,topic,domattr,domclass,domConstruct){
  return declare("prcommon2.clippings.charts.lineschart",
     [BaseWidgetAMD,BorderContainer],{
@@ -187,10 +188,11 @@ define([
             topic.publish("/clipping/change_view", "clippings_view");
         }
     },
-    _report:function()
-    {
-        var content = {};
-        var filters = this.filter_view._get_filters(false,true);
+	_preferences:function()
+	{
+		var filters = this.filter_view._get_filters(false,true);
+		var content = {};
+
         content['reportoutputtypeid'] = 0;
         content['reporttemplateid'] = 26;
         content['drange'] = filters.drange;
@@ -198,15 +200,17 @@ define([
         content['clientid'] = filters.clientid;
         content['issueid'] = filters.issueid;
 
+		var selected_channels = [];
+		for (var i =0; i <= this._leg._cbs.length-1; i++)
+		{
+			if (this._leg._cbs[i].checked)
+			{
+				selected_channels.push(this._leg.legends[i].innerText);
+			}
+		}
 
-        this.report_dlg.show();
-        this.report_node.SetCompleted(this._complete_call_back);
-        this.report_node.start(content);
-    },
-    _complete_call:function()
-    {
-        this.reportbtn.cancel();
-        this.report_dlg.hide();
-    }
+		this.preferences_ctrl._load(this.preferences_dlg, content, selected_channels);
+		this.preferences_dlg.show();
+	},
 });
 });
