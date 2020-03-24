@@ -74,10 +74,10 @@ class ProjectEmails(object):
 	%(researcher)s
 	"""
 
-	STANDARD_EMAIL_FOOTER = """<p>Diss Business Park</p>
-			<p>Hopper Way, Sandy Lane</p>
-			<p>Diss</p>
-			<p>Norfolk IP22 4GT</p>
+	STANDARD_EMAIL_FOOTER = """<p>Causeway House</p>
+			<p>13 The Causeway</p>
+			<p>Teddington</p>
+			<p>TW11 0JR</p>
 			<p>United Kingdom</p><br/>
 			<img height="51px" width="118px" src="cid:cid1" alt="PRmax Logo">"""
 
