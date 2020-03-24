@@ -5,5 +5,5 @@
 %if chi['si']:
 <label class="label_1">Primary Issue</label><p>${",".join([issue.name for issue in chi['si']])}</p><br/>
 %endif
-<label class="label_1">Details</label><p>${ch.details}</p><br/>
+<label class="label_1">Details</label><br/><textarea style="width:98%">${ch.details}</textarea><br/>
 </div>
