@@ -499,7 +499,11 @@ class OutletGeneral(object):
 		if "prmaxdatasetids" in params:
 			whereused = BaseSql.addclause(whereused, "countryid IN (SELECT countryid FROM internal.prmaxdatasetcountries WHERE prmaxdatasetid IN %s)" % params["prmaxdatasetids"])
 		if "ioutletid" in params:
-			whereused = BaseSql.addclause(whereused, "countryid IN (SELECT countryid FROM outlets WHERE outletid=:ioutletid)" )
+			countryid = session.query(Outlet.countryid).filter(Outlet.outletid == int(params['ioutletid'])).scalar()
+			if countryid in (1,3):
+				whereused = BaseSql.addclause(whereused, "countryid IN (1,3)" )
+			else:
+				whereused = BaseSql.addclause(whereused, "countryid IN (SELECT countryid FROM outlets WHERE outletid=:ioutletid)" )
 			params["ioutletid"] = int(params["ioutletid"])
 		primaryid = False
 
