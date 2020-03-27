@@ -87,7 +87,7 @@ class ClippingsStdPDF(object):
 
 		x_centre = doc.width/2.0 + 1.5*cm
 		ypos = ypos + -0.3*cm
-		canvas.drawCentredString(x_centre, ypos, "Clippings Report")
+		#canvas.drawCentredString(x_centre, ypos, "Clippings Report")
 
 		canvas.setFont(FONT_TYPE, 10)
 		right_text = 'Page %d'%self.page_count
@@ -120,7 +120,7 @@ class ClippingsStdPDF(object):
 
 			self.parent.logo_and_header(canvas, doc)
 
-	def __init__(self, page_header, results, dates, customername):
+	def __init__(self, page_header, results, dates, customername, reporttitle):
 
 		self.report = cStringIO.StringIO()
 		self.document = BaseDocTemplate(self.report,
@@ -143,6 +143,7 @@ class ClippingsStdPDF(object):
 		self._data = results
 		self._dates = dates
 		self._customername = customername
+		self._reporttitle = reporttitle
 
 		col_width = self.document.width/10
 		self.col_widths2 = (col_width*1, col_width*1, col_width*2.5, col_width*2.5, col_width*3)
@@ -167,6 +168,8 @@ class ClippingsStdPDF(object):
 		"builds"
 		# do the header:
 		self.new_page()
+		
+		self.append(Paragraph("%s" %(self._reporttitle), HEADING_STYLE))
 
 		if self.page_header['source'] == 'criteria':
 			self.append(Paragraph("Clippings From: %s To: %s" %(self._dates['from_date'], self._dates['to_date']), HEADING_STYLE2))
@@ -228,11 +231,12 @@ class MLine(Flowable):
 class ClippingsStdExcel(object):
 	"""Partners List Excel"""
 
-	def __init__(self, reportoptions, results, dates):
+	def __init__(self, reportoptions, results, dates, reporttitle):
 
 		self._reportoptions = reportoptions
 		self._data = results
 		self._dates = dates
+		self._reporttitle = reporttitle
 		self._finaloutput = cStringIO.StringIO()
 
 	def stream(self):
@@ -245,6 +249,7 @@ class ClippingsStdExcel(object):
 	def build_report(self):
 
 		self._row = 0
+		reporttitle = self._reporttitle
 		header_dates = 'Clippings'
 		if self._reportoptions['source'] == 'criteria':
 			header_dates = "Clippings From: %s  To: %s" %(self._dates['from_date'], self._dates['to_date'])
@@ -256,7 +261,8 @@ class ClippingsStdExcel(object):
 		merge_format.set_text_wrap()
 
 		self._sheet = wb.add_worksheet("Clippings")
-		self._sheet.merge_range('A1:H1', header_dates, merge_format)
+		self._sheet.merge_range('A1:H1', reporttitle, merge_format)
+		self._sheet.merge_range('A2:H2', header_dates, merge_format)
 		self._set_columns_width(self._sheet)
 		self._sheet.set_row(0, 30, merge_format)
 		self._row += 2

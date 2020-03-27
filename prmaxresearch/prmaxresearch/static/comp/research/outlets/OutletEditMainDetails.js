@@ -50,6 +50,7 @@ define([
 		this._media_only_call_back = lang.hitch(this, this._media_only_call );
 		this._synchronise_call_back = lang.hitch ( this, this._synchronise_call);
 		this._complete_call_back = lang.hitch(this, this._complete_call);
+		this._deleted_call_back = lang.hitch(this,this._deleted_call);
 
 		this._circulationsources = new JsonRestStore( {target:'/research/admin/circulationsources/list', labelAttribute:"circulationsourcedescription",idProperty:"circulationsourceid"});
 		this._circulationauditdates = new JsonRestStore( {target:'/research/admin/circulationdates/list', labelAttribute:"circulationauditdatedescription",idProperty:"circulationauditdateid"});
@@ -90,6 +91,34 @@ define([
 
 		this.inherited(arguments)
 	},
+
+	_deleted_call:function(response)
+	{
+		if (response.success == "DEL")
+		{
+			if (confirm("Outlet '" + response.data.outlet_name + "' with domain '" + response.data.domain + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				var data = this.form.get("value");
+				data["reasoncodeid"] = this.reasoncodeid.get("value");
+				data["no_sync"] = this.no_sync.get("checked");
+				request.post('/research/admin/outlets/research_main_update',
+					utilities2.make_params({ data : data})).
+					then ( this._updated_call_back);			
+			}
+		}
+		else
+		{
+			var data = this.form.get("value");
+			data["reasoncodeid"] = this.reasoncodeid.get("value");
+			data["no_sync"] = this.no_sync.get("checked");
+			request.post('/research/admin/outlets/research_main_update',
+				utilities2.make_params({ data : data})).
+				then ( this._updated_call_back);			
+		}
+		this.updatebtn.cancel();
+	},
+
+	
 	_updated_call: function( response)
 	{
 		if ( response.success=="OK")
@@ -97,10 +126,6 @@ define([
 			alert("Updated");
 			topic.publish(PRCOMMON.Events.Outlet_Updated,response.data);
 			this._clear_reason();
-		}
-		else if (response.success=="DEL")
-		{
-			alert("Outlet '" + response.data.outlet_name + "' with domain '" + response.data.domain + "' has previously asked to be deleted");		
 		}
 		else
 		{
@@ -199,14 +224,21 @@ define([
 			throw "N"
 		}
 
-		// add the reason code
-		var tmp_data = this.form.get("value");
-		tmp_data["reasoncodeid"] = this.reasoncodeid.get("value");
-		tmp_data["no_sync"] = this.no_sync.get("checked");
+		var data = this.form.get("value");
+		data["no_sync"] = this.no_sync.get("checked");
+		request.post('/research/admin/outlets/research_check',
+			utilities2.make_params({ data : data})).
+			then(this._deleted_call_back);
 
-		 request.post('/research/admin/outlets/research_main_update',
-			utilities2.make_params({ data : tmp_data})).
-			then (this._updated_call_back);
+
+		// add the reason code
+//		var tmp_data = this.form.get("value");
+//		tmp_data["reasoncodeid"] = this.reasoncodeid.get("value");
+//		tmp_data["no_sync"] = this.no_sync.get("checked");
+
+//		 request.post('/research/admin/outlets/research_main_update',
+//			utilities2.make_params({ data : tmp_data})).
+//			then (this._updated_call_back);
 	},
 	_delete:function()
 	{

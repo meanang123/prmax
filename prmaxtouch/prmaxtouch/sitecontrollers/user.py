@@ -36,6 +36,4 @@ class UserController(SecureController):
 		""" list of uses for drop down  """
 
 		params["icustomerid"] = params["customerid"]
-		x = UserGeneral.user_list(params)
-		return x
-
+		return UserGeneral.user_list(params)

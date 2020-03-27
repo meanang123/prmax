@@ -35,7 +35,7 @@ define([
 		this._sourcetypes = new ItemFileReadStore ({ url:"/common/lookups?searchtype=sourcetypes"});
 
 		this._add_call_back = lang.hitch(this,this._add_call);
-		this._exist_call_back = lang.hitch(this,this._exist_call);
+		this._check_call_back = lang.hitch(this,this._check_call);
 		this._parentcallback = null;
 		this._dialog = null;
 	},
@@ -67,32 +67,47 @@ define([
 		{
 			request.post('/research/admin/contacts/research_check',
 				utilities2.make_params({ data : this.form.get("value")})).
-				then(this._exist_call_back);
+				then(this._check_call_back);
 		}		
-		
-//		{
-//			request.post('/research/admin/contacts/research_addnew',
-//				utilities2.make_params({ data : this.form.get("value")})).
-//				then(this._add_call_back);
-//		}
 	},
-	_exist_call:function(response)
+	_check_call:function(response)
 	{
 		if (response.success == "DEL")
 		{
-			alert("Contact '" + response.data.firstname+ " " + response.data.familyname + "' has previously asked to be deleted");
-			this._clear_add_form();
-			if (this._dialog)
-				this._dialog.hide();
+			if (confirm("Contact '" + response.data.firstname+ " " + response.data.familyname + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				request.post('/research/admin/contacts/research_addnew',
+					utilities2.make_params( {data:this.form.get("value")})).then
+					(this._add_call_back);			
+			}
 		}
-		else if (response.success == "OK")
+		else if (response.success == 'DU')
 		{
-			if ((response.exist == true && confirm("Contact already exist with same Firstname and Surname. Do you want to proceed?")) || response.exist == false)
+			if ((response.exist == true && confirm("Contact already exist with same Firstname and Surname.\nDo you want to proceed?")) || response.exist == false)
 			{
 				request.post('/research/admin/contacts/research_addnew',
 					utilities2.make_params({ data : this.form.get("value")})).
 					then(this._add_call_back);				
+			}		
+		}
+		else if (response.success == 'DEL+DU')
+		{
+			if (confirm("Contact '" + response.data.deletionhistory.firstname+ " " + response.data.deletionhistory.familyname + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				if ((response.data.exist == true && confirm("Contact already exist with same Firstname and Surname.\nDo you want to proceed?")) || response.data.exist == false)
+				{
+					request.post('/research/admin/contacts/research_addnew',
+						utilities2.make_params({ data : this.form.get("value")})).
+						then(this._add_call_back);				
+				}
 			}
+		}
+		else if (response.success == 'OK')
+		{
+			request.post('/research/admin/contacts/research_addnew',
+				utilities2.make_params({ data : this.form.get("value")})).
+				then(this._add_call_back);				
+		
 		}
 	},
 	_add_call:function( response )

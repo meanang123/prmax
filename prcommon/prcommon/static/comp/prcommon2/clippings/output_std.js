@@ -82,6 +82,7 @@ return declare("prcommon2.clippings.output_std",
 		{
 			content['reportoutputtypeid'] = this.csv.get("value");
 		}
+		content['reporttitle'] = this.reporttitle.get("value");
 		if (this.source_selected.checked)
 		{
 			content['source'] = 'selected';
@@ -90,8 +91,8 @@ return declare("prcommon2.clippings.output_std",
 		{
 			content['source'] = 'criteria';
 			content['drange'] = this.drange.get("value");
-			content['clientid'] = this.clientid;
-			content['issueid'] = this.issueid;
+			content['clientid'] = this.clientid.get("value");
+			content['issueid'] = this.issueid.get("value");
 		}
 		content['reporttemplateid'] = 35;
 		content['customerid'] = this._customerid;
@@ -141,6 +142,19 @@ return declare("prcommon2.clippings.output_std",
 			domclass.remove(this.issueid.domNode, "prmaxhidden");
 			domclass.remove(this.drange_label, "prmaxhidden");
 			domclass.remove(this.drange.domNode, "prmaxhidden");
+		}
+	},
+	_change_format:function()
+	{
+		if (this.pdf.checked || this.excel.checked)
+		{
+			domclass.remove(this.reporttitle_label, "prmaxhidden");
+			domclass.remove(this.reporttitle.domNode, "prmaxhidden");
+		}
+		else
+		{
+			domclass.add(this.reporttitle_label, "prmaxhidden");
+			domclass.add(this.reporttitle.domNode, "prmaxhidden");
 		}
 	}
 });

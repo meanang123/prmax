@@ -65,6 +65,28 @@ class ClippingsGeneral(object):
 	JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
 	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
 
+	List_Customer_Data2 = """SELECT
+	c.clippingid,
+	CASE WHEN (csel.clippingid IS NULL) THEN false ELSE true END as selected
+	FROM userdata.clippings AS c
+	JOIN internal.clippingstatus AS cs ON cs.clippingsstatusid = c.clippingsstatusid
+	JOIN internal.clippingsource AS css ON css.clippingsourceid = c.clippingsourceid
+	JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
+	LEFT OUTER JOIN internal.clippingstone AS cto ON cto.clippingstoneid = c.clippingstoneid
+	LEFT OUTER JOIN userdata.client AS cl ON cl.clientid = c.clientid
+	LEFT OUTER JOIN userdata.clippingsissues AS ci ON ci.clippingid = c.clippingid
+	LEFT OUTER JOIN userdata.issues AS i ON i.issueid = ci.issueid
+	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid
+	LEFT OUTER JOIN userdata.clippingselection AS csel ON csel.clippingid = c.clippingid
+	LEFT OUTER JOIN tg_user ON tg_user.user_id = csel.userid
+	"""
+
+	List_Customer_Data_Count2 = """SELECT COUNT(*) FROM userdata.clippings AS c
+	JOIN internal.clippingstatus AS cs ON cs.clippingsstatusid = c.clippingsstatusid
+	JOIN internal.clippingstype AS ct ON ct.clippingstypeid = c.clippingstypeid
+	LEFT OUTER JOIN outlets AS o ON o.outletid = c.outletid"""
+
+
 	List_Emailtemplate_Data = """SELECT
 	c.clippingid,
 	to_char(c.clip_source_date,'DD/MM/YY') as clip_source_date_display,
@@ -180,6 +202,88 @@ class ClippingsGeneral(object):
 		  ClippingsGeneral.List_Customer_Data + whereclause + BaseSql.Standard_View_Order,
 		  ClippingsGeneral.List_Customer_Data_Count + whereclause,
 		  Clipping)
+	
+	@staticmethod
+	def list_clippings2(params):
+		"""list of clippings for customer"""
+
+		whereclause = ''
+
+		if "selected" in params and params['selected'] == True:
+			whereclause = BaseSql.addclause(whereclause, 'csel.userid = :userid AND csel.clippingid = c.clippingid')
+
+		if "customerid" in params:
+			whereclause = BaseSql.addclause(whereclause, 'c.customerid=:customerid')
+
+		if "clientid" in params:
+			whereclause = BaseSql.addclause(whereclause, 'c.clientid=:clientid')
+			params['clientid'] = int(params['clientid'])
+
+		if "outletid" in params:
+			whereclause = BaseSql.addclause(whereclause, 'c.outletid=:outletid')
+			params['outletid'] = int(params['outletid'])
+
+		if params.get('sortfield', '') == 'clip_source_date_display':
+			params['sortfield'] = 'c.clip_source_date'
+
+		if params.get('unprocessed', False):
+			whereclause = BaseSql.addclause(whereclause, 'c.clippingsstatusid=1')
+
+		if 'issueid' in params:
+			whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = :issueid AND ci.clippingid = c.clippingid)')
+			params['issueid'] = int(params['issueid'])
+
+		if "daterestriction" in params:
+			whereclause = BaseSql.addclause(whereclause, "c.clip_source_date= :daterestriction")
+			params["daterestriction"] = datetime.strptime(params["daterestriction"], "%Y-%m-%d").date()
+		else:
+			# date range
+			if "drange" in params and params["drange"].option != DateRangeResult.NOSELECTION:
+				drange = params["drange"]
+				if drange.option == DateRangeResult.BEFORE:
+					# BEfore
+					params["from_date"] = drange.from_date
+					whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date <= :from_date')
+				elif drange.option == DateRangeResult.AFTER:
+					# After
+					params["from_date"] = drange.from_date
+					whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date >= :from_date')
+				elif drange.option == DateRangeResult.BETWEEN:
+					# ABetween
+					params["from_date"] = drange.from_date
+					params["to_date"] = drange.to_date
+					whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date BETWEEN :from_date AND :to_date')
+
+		if 'default_time_frame' in params:
+			params["today_date"] = date.today()
+			params["start_of_period"] = date.today() - timedelta(days=30)
+			whereclause = BaseSql.addclause(whereclause, 'c.clip_source_date BETWEEN :start_of_period AND :today_date')
+
+		if "textid" in params:
+			whereclause = BaseSql.addclause(whereclause, '(c.clip_text ILIKE :textid OR c.clip_title ILIKE :textid)')
+			params["textid"] = "%" + params["textid"] + "%"
+
+		if "clippingstypedescription" in params:
+			whereclause = BaseSql.addclause(whereclause, "ct.clippingstypedescription ilike :clippingstypedescription")
+
+		if "clippingstypeid" in params:
+			whereclause = BaseSql.addclause(whereclause, "c.clippingstypeid = :clippingstypeid")
+
+		if "clippingstones" in params:
+			clippingstonelist = ', '.join(params["clippingstones"])
+			whereclause = BaseSql.addclause(whereclause, "c.clippingstoneid IN (%s)" % clippingstonelist)
+
+		if params.get("tones", None):
+			whereclause = BaseSql.addclause(whereclause, "c.clippingstoneid IN (%s)" % ",".join([str(tone) for tone in params["tones"]]))
+
+		order = 'limit null offset 0'
+		return BaseSql.get_grid_page(
+		    params,
+		    'clippingid',
+		    'clip_source_date',
+		    ClippingsGeneral.List_Customer_Data2 + whereclause + BaseSql.Standard_View_Order2,
+		    ClippingsGeneral.List_Customer_Data_Count2 + whereclause,
+		    Clipping)		    
 
 	@staticmethod
 	def list_clippings_emailtemplate(params):
@@ -434,6 +538,46 @@ class ClippingsGeneral(object):
 				except:
 					pass
 			raise
+
+	@staticmethod
+	def add_user_selection_all(params, in_trans=False):
+		"""add all selected clipping to user clipping selection"""
+
+		if not in_trans:
+			transaction = BaseSql.sa_get_active_transaction()
+		else:
+			transaction = None
+		try:
+			for clip in params['clips']:
+				userclip = ClippingSelection(
+				    userid=params["userid"],
+				    clippingid=clip)
+				session.add(userclip)
+				session.flush()
+			if transaction:
+				transaction.commit()
+		except:
+			LOGGER.exception("clipping_user_selection_add_all")
+			if transaction:
+				try:
+					transaction.rollback()
+				except:
+					pass
+				raise
+
+
+	@staticmethod
+	def select_deselect_all_user_selection(params):
+		
+		listclippings = ClippingsGeneral.list_clippings2(params)
+		checked = 0
+		checked = sum(d['selected'] for d in listclippings['items'])
+		if checked > 0:
+			ClippingsGeneral.clear_user_selection(params)
+		else:
+			clips = [clip['clippingid'] for clip in listclippings['items']]
+			params['clips'] = clips
+			ClippingsGeneral.add_user_selection_all(params)
 
 	@staticmethod
 	def private_clipping_add(params):

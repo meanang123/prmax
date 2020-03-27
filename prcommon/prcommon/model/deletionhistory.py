@@ -182,8 +182,6 @@ class DeletionHistory(BaseSql):
 			contact = Contact.query.get(params["contactid"])
 			deletionhistory = session.query(DeletionHistory).\
 		        filter(DeletionHistory.outlet_name.ilike(contact.getName())).\
-		        filter(DeletionHistory.firstname.ilike(contact.firstname)).\
-		        filter(DeletionHistory.familyname.ilike(contact.familyname)).\
 		        filter(DeletionHistory.deletionhistorytypeid == 2).first()
 		elif params['mode'] == 'contact':
 			deletionhistory = session.query(DeletionHistory).\

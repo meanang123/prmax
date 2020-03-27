@@ -41,6 +41,7 @@ define([
 
 		this._saved_call_back = lang.hitch(this, this._saved);
 		this._load_call_back= lang.hitch(this, this._loaded);
+		this._deleted_call_back= lang.hitch(this, this._deleted_call);
 		this.outletid = -1 ;
 	},
 	postCreate:function()
@@ -54,11 +55,7 @@ define([
 	},
 	_saved:function(response)
 	{
-		if (response.success == "DEL")
-		{
-			alert("Freelance '" + response.data.outlet_name + "' has previously asked to be deleted");
-		}
-		else if (response.success=="OK")
+		if (response.success=="OK")
 		{
 			alert("Freelance Added");
 			this.new_freelance();
@@ -78,11 +75,36 @@ define([
 			alert("Not all required field filled in");
 			throw "N";
 		}
-		data = 	this.requirednode.get("value");
-		data['outletid'] = this.outletid;
-		request.post('/research/admin/outlets/freelance_research_add',
-			utilities2.make_params( {data:data})).then
-			(this._saved_call_back);
+		
+		if ( confirm("Add Freelance?"))
+		{
+			request.post('/research/admin/outlets/research_freelance_check',
+				utilities2.make_params({ data : this.requirednode.get("value")})).
+				then(this._deleted_call_back);
+		}
+	},
+	_deleted_call:function(response)
+	{
+		if (response.success == "DEL")
+		{
+			if (confirm("Freelance '" + response.data.outlet_name + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				data = 	this.requirednode.get("value");
+				data['outletid'] = this.outletid;
+				request.post('/research/admin/outlets/freelance_research_add',
+					utilities2.make_params( {data:data})).then
+					(this._saved_call_back);			
+			}
+		}
+		else
+		{
+			data = 	this.requirednode.get("value");
+			data['outletid'] = this.outletid;
+			request.post('/research/admin/outlets/freelance_research_add',
+				utilities2.make_params( {data:data})).then
+				(this._saved_call_back);			
+		}
+		this.savenode.cancel();	
 	},
 	new_freelance:function()
 	{

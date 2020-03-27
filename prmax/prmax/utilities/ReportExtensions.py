@@ -1394,19 +1394,27 @@ class ClippingsStdReport(ReportCommon):
 			else:
 				params['to_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['to_date'], "%Y-%m-%d"), "%d/%m/%Y")
 			dates = dict(from_date=params['from_date'], to_date=params['to_date'])
+			if 'clientid' in self._reportoptions and self._reportoptions['clientid'] != '' and self._reportoptions['clientid'] is not None  and self._reportoptions['clientid'] != -1 and self._reportoptions['clientid'] != '-1':
+				whereclause = BaseSql.addclause(whereclause, 'c.clientid=%(clientid)s')
+				params['clientid'] = int(self._reportoptions['clientid'])
+			if 'issueid' in self._reportoptions and self._reportoptions['issueid'] != '' and self._reportoptions['issueid'] is not None  and self._reportoptions['issueid'] != -1 and self._reportoptions['issueid'] != '-1':
+				whereclause = BaseSql.addclause(whereclause, 'EXISTS (SELECT clippingsissueid FROM userdata.clippingsissues AS ci WHERE ci.issueid = %(issueid)s AND ci.clippingid = c.clippingid)')
+				params['issueid'] = int(self._reportoptions['issueid'])
 
+
+				
 		results_data = db_connect.executeAll(data_command + whereclause + orderbyclause, params, is_dict)
 		if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv:
 			results_data.insert(0, ('Date', 'Type', 'Client', 'Publication', 'Title', 'Abstract', 'Text', 'URL'))
 
-		return dict(results=results_data, dates=dates, customername=customername)
+		return dict(results=results_data, dates=dates, customername=customername, reporttitle = self._reportoptions['reporttitle'])
 
 	def run(self, data, output):
 		"run clippings report"
 
 		if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
-			report = ClippingsStdPDF(self._reportoptions, data['results'], data['dates'], data['customername'])
+			report = ClippingsStdPDF(self._reportoptions, data['results'], data['dates'], data['customername'], data['reporttitle'])
 		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
-			report = ClippingsStdExcel(self._reportoptions, data['results'], data['dates'])
+			report = ClippingsStdExcel(self._reportoptions, data['results'], data['dates'], data['reporttitle'])
 
 		output.write(report.stream())

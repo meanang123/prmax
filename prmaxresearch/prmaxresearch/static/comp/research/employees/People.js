@@ -54,6 +54,7 @@ define([
 		this._GetEntryCallBack = lang.hitch(this, this._get_contact_entry);
 		this._load_call_back = lang.hitch(this, this._load_call);
 		this._updated_call_back = lang.hitch(this, this._updated_call);
+		this._check_call_back= lang.hitch(this, this._check_call);
 
 		topic.subscribe(PRCOMMON.Events.Person_Added, lang.hitch(this,this._person_add_event));
 		topic.subscribe(PRCOMMON.Events.Person_Update, lang.hitch(this,this._person_update_event));
@@ -67,7 +68,8 @@ define([
 		[
 			{label: 'Id',className: "dgrid-column-nbr-right",field:"contactid"},
 			{label: 'Display Name',className: "standard",field:"contactname"},
-			{label: 'Source',className: "standard",field:"sourcename"}
+			{label: 'Source',className: "standard",field:"sourcename"},
+			{label: 'Country',className: "dgrid-column-status-large",field:"countryname"}
 		];
 		this.people_grid = new Grid({
 			columns: cells,
@@ -100,6 +102,8 @@ define([
 		this.filter_sourcetype.set("value", -1);
 		this.sourcetypeid.set("store", this._sourcetypes2);
 		this.countryid.set("store",PRCOMMON.utils.stores.Countries());
+		this.filter_country.set("store", PRCOMMON.utils.stores.Countries());
+		this.filter_country.set("value", 1);
 
 		this.inherited(arguments);
 	},
@@ -150,6 +154,8 @@ define([
 			query["contactid"] = arguments[0].filter_personid;
 		if (arguments[0].filter_sourcetype != -1)
 			query["sourcetypeid"] = arguments[0].filter_sourcetype;
+		if (arguments[0].filter_country != '')
+			query["filter_countryid"] = arguments[0].filter_country;
 
 		this.people_grid.set("query", query);
 	},
@@ -158,6 +164,7 @@ define([
 		this.filter.set("value","");
 		this.filter_personid.set("value","");
 		this.filter_sourcetype.set("value",-1);
+		this.filter_country.set("value",-1);
 	},
 	_add:function()
 	{
@@ -188,23 +195,58 @@ define([
 			alert("Not all required field filled in");
 			throw "N";
 		}
-
-		request.post("/research/admin/contacts/research_update",
+		request.post("/research/admin/contacts/research_check",
 			utilities2.make_params({data:this.formUpdate.get("value")})).
-			then ( this._updated_call_back);
+			then ( this._check_call_back);
 	},
+	_check_call:function(response)
+	{
+		if (response.success == "DEL")
+		{
+			if (confirm("Contact '" + response.data.firstname+ " " + response.data.familyname + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				request.post('/research/admin/contacts/research_update',
+					utilities2.make_params( {data:this.formUpdate.get("value")})).then
+					(this._updated_call_back);			
+			}
+		}
+		else if (response.success == 'DU')
+		{
+			if ((response.exist == true && confirm("Contact already exist with same Firstname and Surname.\nDo you want to proceed?")) || response.exist == false)
+			{
+				request.post('/research/admin/contacts/research_update',
+					utilities2.make_params({ data : this.formUpdate.get("value")})).
+					then(this._updated_call_back);				
+			}		
+		}
+		else if (response.success == 'DEL+DU')
+		{
+			if (confirm("Contact '" + response.data.deletionhistory.firstname+ " " + response.data.deletionhistory.familyname + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				if ((response.data.exist == true && confirm("Contact already exist with same Firstname and Surname.\nDo you want to proceed?")) || response.data.exist == false)
+				{
+					request.post('/research/admin/contacts/research_update',
+						utilities2.make_params({ data : this.formUpdate.get("value")})).
+						then(this._updated_call_back);				
+				}
+			}
+		}
+		else if (response.success == 'OK')
+		{
+			request.post('/research/admin/contacts/research_update',
+				utilities2.make_params({ data : this.formUpdate.get("value")})).
+				then(this._updated_call_back);			
+		}
+		this.updatenode.cancel();	
+	},
+
 	_clear_reason:function()
 	{
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Upd_Default);
 	},
 	_updated_call:function ( response )
 	{
-	
-		if (response.success == "DEL")
-		{
-			alert("Contact '" + response.data.firstname+ " " + response.data.familyname + "' has previously asked to be deleted");
-		}	
-		else if ( response.success == "OK" )
+		if ( response.success == "OK" )
 		{
 			alert("Contact Updated") ;
 			topic.publish(PRCOMMON.Events.Person_Update, response.contact);

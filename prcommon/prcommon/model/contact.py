@@ -457,9 +457,11 @@ class Contact(BaseSql):
 	__Contact_List_Research_Grid_1 = """
 	SELECT ContactName(con.familyname,con.firstname,con.prefix,'','') as contactname,
 	con.contactid,
-	st.sourcename
+	st.sourcename,
+	c.countryname
 	FROM contacts as con
 	JOIN internal.sourcetypes as st ON st.sourcetypeid = con.sourcetypeid
+	LEFT OUTER JOIN internal.countries AS c ON c.countryid = con.countryid
 	WHERE con.familyname ILIKE :filter AND con.customerid=-1 AND con.sourcetypeid IN (1,2) %s
 	ORDER BY %%s %%s
 	LIMIT :count OFFSET :start"""
@@ -496,6 +498,9 @@ class Contact(BaseSql):
 			if "sourcetypeid" in params:
 				whereclause += " AND con.sourcetypeid=:sourcetypeid"
 				params['sourcetypeid'] = int(params["sourcetypeid"])
+			if "filter_countryid" in params:
+				whereclause += " AND con.countryid=:filter_countryid"
+				params['countryid'] = int(params["filter_countryid"])
 
 			if 'outletid' in params:
 				from prcommon.model.outlet import Outlet

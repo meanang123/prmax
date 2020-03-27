@@ -44,6 +44,7 @@ define([
 	{
 		this._saved_call_back = lang.hitch(this,this._saved);
 		this._load_call_back= lang.hitch(this,this._loaded);
+		this._deleted_call_back= lang.hitch(this, this._deleted_call);
 		this.outletid = -1 ;
 	},
 	postCreate:function()
@@ -66,11 +67,7 @@ define([
 	},
 	_saved:function(response)
 	{
-		if (response.success == "DEL")
-		{
-			alert("Freelance '" + response.data.outlet_name + "' has previously asked to be deleted");
-		}
-		else if (response.success=="OK")
+		if (response.success=="OK")
 		{
 			alert("Freelance Updated");
 			if (response.data.comm.tel != this.tel.get("value"))
@@ -101,14 +98,39 @@ define([
 			throw "N";
 		}
 
-		var tmp = this.requirednode.get("value");
-		tmp["reasoncodeid"] = this.reasoncodeid.get("value");
-		tmp['outletid'] = this.outletid;
-
-		request.post('/research/admin/outlets/freelance_research_update' ,
-					utilities2.make_params({ data: tmp })).then
-					(this._saved_call_back);
+		var data = this.requirednode.get("value");
+		data['outletid'] = this.outletid;
+		request.post('/research/admin/outlets/research_freelance_check',
+			utilities2.make_params({ data : data})).
+			then(this._deleted_call_back);		
 	},
+	_deleted_call:function(response)
+	{
+		if (response.success == "DEL")
+		{
+			if (confirm("Freelance '" + response.data.outlet_name + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				data = 	this.requirednode.get("value");
+				data["reasoncodeid"] = this.reasoncodeid.get("value");
+				data['outletid'] = this.outletid;
+				request.post('/research/admin/outlets/freelance_research_update',
+					utilities2.make_params( {data:data})).then
+					(this._saved_call_back);			
+			}
+		}
+		else
+		{
+			data = 	this.requirednode.get("value");
+			data["reasoncodeid"] = this.reasoncodeid.get("value");
+			data['outletid'] = this.outletid;
+			request.post('/research/admin/outlets/freelance_research_update',
+				utilities2.make_params( {data:data})).then
+				(this._saved_call_back);			
+		}
+		this.savenode.cancel();	
+	},
+
+	
 	new_freelance:function()
 	{
 		this.clear();

@@ -453,6 +453,10 @@ class BaseSql(object):
 	ORDER BY %s %s
 	LIMIT :limit  OFFSET :offset """
 
+	Standard_View_Order2 = """
+	ORDER BY %s %s
+	LIMIT NULL  OFFSET :offset """
+
 def getValue(kw, name):
 	""" get as NULL"""
 	value = kw.get(name, "NULL")

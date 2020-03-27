@@ -17,6 +17,8 @@ dojo.require("prcommon.crm.issues.selectmultiple");
 dojo.require("prcommon.crm.issues.add");
 dojo.require("prcommon.crm.responses.sendreply");
 dojo.require("prcommon.common.ExpandedText");
+dojo.require("prcommon.documents.adddialog");
+
 
 dojo.declare("prcommon.crm.update",
 	[ ttl.BaseWidget ],
@@ -27,6 +29,7 @@ dojo.declare("prcommon.crm.update",
 	show_close:true,
 	constructor: function()
 	{
+		this._DocumentCallBack = dojo.hitch(this, this._DocumentCall);
 
 		this._users = new dojo.data.ItemFileReadStore ( { url:"/user/user_list"});
 		this._contacthistorystatus = new dojo.data.ItemFileReadStore ( {url:'/common/lookups?searchtype=contacthistorystatus'});
@@ -410,7 +413,7 @@ dojo.declare("prcommon.crm.update",
 				content:{issueid:issueid}}));
 		}
 	},
-		_new_document:function()
+	_new_document:function()
 	{
 		this.addctrl.show();
 	},
@@ -482,7 +485,43 @@ dojo.declare("prcommon.crm.update",
 	_expand_response:function()
 	{
 		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, PRMAX.utils.settings.response_description);
-	}
+	},
+
+//	_preview:function()
+//	{
+//		ttl.utilities.gotoDialogPageStatic("/crm/documents/download/"+ this._data.documentid+this._data.ext);
+//	}
+	_preview:function()
+	{
+		this._show_document();
+	},
+	_show_document:function()
+	{
+		var content = {};
+		content['documentid'] = this.documentid.get("value");
+	
+		dojo.xhrPost(
+			ttl.utilities.makeParams({
+			load: this._DocumentCallBack,
+			url:"/crm/documents/get",
+			content:content}));	
+	},	
+	_DocumentCall:function(response)
+	{
+		if (response.success == "OK")
+		{
+
+
+			ttl.utilities.gotoDialogPageStatic("/crm/documents/download/"+ response.data.documentid + response.data.ext);
+
+//			content = "<html>\n\t<head></head>\n\t<body>\n" + response.data.ext + "\n\t</body>\n</html>";
+//			var win = window.open("javascript: ''", "", "status=1,menubar=0,location=0,toolbar=0");
+//			win.document.open();
+//			win.document.write(content);
+//			win.document.close();
+		}
+	},
+	
 });
 
 

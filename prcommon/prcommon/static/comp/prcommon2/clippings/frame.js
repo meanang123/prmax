@@ -49,6 +49,8 @@ define([
 		this._active_page=null;
 
 		topic.subscribe("/clipping/change_view", lang.hitch(this, this._change_view_event));
+		this._selectall_call_back = lang.hitch(this, this._selectall_call);
+		
 
 	},
 	postCreate:function()
@@ -74,12 +76,14 @@ define([
 	{
 		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		domclass.add(this.outputbtn.domNode,"prmaxhidden");
+		domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 		this._show_hide_details(this.piechart);
 	},
 	_time_btn_event:function()
 	{
 		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		domclass.add(this.outputbtn.domNode,"prmaxhidden");
+		domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 		this._show_hide_details(this.lineschart);
 	},
 	_refesh_chart_event:function()
@@ -91,6 +95,7 @@ define([
 	{
 		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		domclass.add(this.outputbtn.domNode,"prmaxhidden");
+		domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 		this.add_private.clear();
 		this.controls.selectChild(this.add_private);
 		this._active_page = null;
@@ -112,16 +117,19 @@ define([
 			case "clippings_view":
 				domclass.remove(this.outputbtn.domNode,"prmaxhidden");
 				domclass.remove(this.emailsbtn.domNode,"prmaxhidden");
+				domclass.remove(this.selectallbtn.domNode,"prmaxhidden");
 				this._show_hide_details(this.clippings_view);
 				break;
 			case "linechart":
 				domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 				domclass.add(this.outputbtn.domNode,"prmaxhidden");
+				domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 				this._show_hide_details(this.lineschart);
 				break;
 			case "newclipping":
 				domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 				domclass.add(this.outputbtn.domNode,"prmaxhidden");
+				domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 				this._add_btn_event();
 				break;
 		}
@@ -130,6 +138,7 @@ define([
 	{
 		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		domclass.add(this.outputbtn.domNode,"prmaxhidden");
+		domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 		this.controls.selectChild(this.options_view);
 		this._active_page = null;
 	},
@@ -137,6 +146,7 @@ define([
 	{
 		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		domclass.add(this.outputbtn.domNode,"prmaxhidden");
+		domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 		this.controls.selectChild(this.dashboard_view);
 		this.dashboard_view.load(PRMAX.utils.settings.cid);
 		this._active_page = null;
@@ -145,9 +155,24 @@ define([
 	{
 		domclass.add(this.emailsbtn.domNode,"prmaxhidden");
 		domclass.add(this.outputbtn.domNode,"prmaxhidden");
+		domclass.add(this.selectallbtn.domNode,"prmaxhidden");
 		this.controls.selectChild(this.dashboardsettings_view);
 		this.dashboardsettings_view.load(PRMAX.utils.settings.cid,1);
 		this._active_page = null;
+	},
+	_selectall_btn_event:function()
+	{
+		var test = this.clippings_view.filter_view.get("filterlimited");
+
+		
+		request.post('/clippings/select_deselect_all_user_selection',
+			utilities2.make_params({ data : test})).
+			then (this._selectall_call_back);
+	
+	},
+	_selectall_call:function(response)
+	{
+		this.clippings_view.clippings_grid.set("query",this.clippings_view.filter_view.get("filterlimited"));
 	}
 });
 });

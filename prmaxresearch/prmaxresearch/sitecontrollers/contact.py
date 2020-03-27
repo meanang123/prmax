@@ -139,10 +139,17 @@ class ContactController(SecureController):
 		params['customerid'] = -1
 		params['mode'] = 'contact'
 		deletionhistory = DeletionHistory.exist(params)
-		if deletionhistory:
+		exist=Contact.exists(params)
+		
+		if deletionhistory and exist:
+			return dict(success="DEL+DU", data=dict(deletionhistory = DeletionHistory.get(deletionhistory.deletionhistoryid),
+			                                      exist=Contact.exists(params)))
+		elif deletionhistory:
 			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		elif exist:
+			return dict(success="DU", exist=Contact.exists(params))
 		else:
-			return dict(success="OK", exist=Contact.exists(params))
+			return stdreturn()
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -152,17 +159,8 @@ class ContactController(SecureController):
 	def research_update(self, *argv, **params):
 		""" update a contact id"""
 
-		params['customerid'] = -1
-		params['mode'] = 'contact'
-		deletionhistory = DeletionHistory.exist(params)
-		if deletionhistory:
-			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
-		else:
-			Contact.research_update(params)
-			return stdreturn(contact=Contact.getContactExt(params['contactid']))	
-		
-#		Contact.research_update(params)
-#		return stdreturn(contact=Contact.getContactExt(params['contactid']))
+		Contact.research_update(params)
+		return stdreturn(contact=Contact.getContactExt(params['contactid']))	
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

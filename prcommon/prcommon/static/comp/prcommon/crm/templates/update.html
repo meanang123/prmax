@@ -35,7 +35,15 @@
 							<span style="width:5%;float:left"><button data-dojo-attach-event="onClick:_expand_response" data-dojo-attach-point="expandresponsebtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-expand",showLabel: false, type:"button", label:"Expand"'></button></span>
 						</div><br/>
 						<label data-dojo-attach-point="client_label" class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><button data-dojo-attach-event="onClick:_new_client" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
-						<label class="label_1">Document</label><select data-dojo-props='name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select><button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
+						
+						
+						<label class="label_1">Document</label>
+						<select data-dojo-props='name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select>
+						<button class="prmaxbutton" data-dojo-attach-point="previewbtn" data-dojo-attach-event="onClick:_preview" data-dojo-type="dijit.form.Button">View</button>
+						<button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
+
+
+
 						<label class="label_1">Follow Up<input data-dojo-props='"class":"prmaxdefault",type:"checkbox",name:"follow_up_view_check"' data-dojo-attach-point="follow_up_view_check" data-dojo-type="dijit.form.CheckBox" data-dojo-attach-event="onClick:_follow_up_view_change"/></label><br/>
 						<div data-dojo-attach-point="follow_up_view" class="prmaxhidden">
 							<label class="label_1">Follow up date</label>
@@ -74,4 +82,5 @@
 	<div data-dojo-attach-point="text_view_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add Notes"'>
 		<div data-dojo-attach-point="text_view_ctrl" data-dojo-type="prcommon.common.ExpandedText" data-dojo-props='style:"width:600px;height:500px"'></div>
 	</div>
+	<div data-dojo-attach-point="addctrl" data-dojo-type="prcommon.documents.adddialog"></div>
 </div>

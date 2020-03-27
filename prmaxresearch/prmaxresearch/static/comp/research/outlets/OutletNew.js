@@ -42,6 +42,8 @@ define([
 	constructor: function()
 	{
 		this._updated_call_back = dojo.hitch ( this , this._updated_call );
+		this._deleted_call_back = lang.hitch(this,this._deleted_call);
+
 		this._store = new ItemFileReadStore({target:'/research/admin/deletionhistory/list', idProperty:"deletionhistoryid"});
 	},
 	postCreate:function()
@@ -62,10 +64,36 @@ define([
 			alert("Not all required field filled in");
 			throw "N";
 		}
-		request.post('/research/admin/outlets/research_add_main',
-			utilities2.make_params({ data : this.form.get("value")})).
-			then ( this._updated_call_back);
+		
+		if ( confirm("Add Outlet?"))
+		{
+			request.post('/research/admin/outlets/research_check',
+				utilities2.make_params({ data : this.form.get("value")})).
+				then(this._deleted_call_back);
+		}		
+
 	},
+	
+	_deleted_call:function(response)
+	{
+		if (response.success == "DEL")
+		{
+			if (confirm("Outlet '" + response.data.outlet_name + "' with domain '" + response.data.domain + "' has previously asked to be deleted.\nDo you want to proceed?"))
+			{
+				request.post('/research/admin/outlets/research_add_main',
+					utilities2.make_params({ data : this.form.get("value")})).
+					then ( this._updated_call_back);			
+			}
+		}
+		else
+		{
+			request.post('/research/admin/outlets/research_add_main',
+				utilities2.make_params({ data : this.form.get("value")})).
+				then ( this._updated_call_back);			
+		}
+		this.savebtn.cancel();
+	},
+	
 	_updated_call: function( response )
 	{
 		if ( response.success=="OK")
@@ -73,11 +101,6 @@ define([
 			alert("Outlet Added");
 			this.clear();
 			this.outletname.focus();
-		}
-		else if (response.success == "DEL")
-		{
-			alert("Outlet '" + response.data.outlet_name + "' with domain '" + response.data.domain + "' has previously asked to be deleted");		
-
 		}
 		else
 		{

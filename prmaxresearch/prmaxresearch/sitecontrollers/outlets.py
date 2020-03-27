@@ -20,7 +20,11 @@ from ttl.tg.validators import std_state_factory, PrFormSchema, IntNull, RestSche
 from ttl.base import  stdreturn
 from prmax.utilities.common import addConfigDetails
 from prcommon.model import Communication, Outlet, Freelance, SearchSession, OutletGeneral
+from prcommon.model.outlet import OutletDesks
 from prcommon.model.deletionhistory import DeletionHistory
+
+from prcommon.sitecontrollers.outletdesks import OutletDeskController
+
 from prcommon.lib.Security import check_access_rights
 import prcommon.Constants as Constants
 
@@ -134,9 +138,16 @@ class OutletResearchInternationalSchema(PrFormSchema):
 	interests = tgvalidators.JSONValidatorInterests()
 	reasoncodeid = validators.Int()
 
+class OutletDeskSchema(PrFormSchema):
+	"""validates form for outletdesk save """
+	outletdeskid = validators.Int()
+
 class OutletController(SecureController):
 	""" outlet controller """
 
+	desks = OutletDeskController()
+	
+	
 	@expose(template="genshi:prmax.templates.maintenance/outlet_edit")
 	def outlet_edit(self, *args, **params):
 		""" outlet edit form"""
@@ -200,6 +211,20 @@ class OutletController(SecureController):
 			params['outletid'],
 			params['customerid'],
 			params)
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	@identity.require(identity.in_group("dataadmin"))
+	def research_check(self, *argv, **params):
+		""" check if a contact exists """
+
+		params['mode'] = 'outlet'
+		deletionhistory = DeletionHistory.exist(params)
+		if deletionhistory:
+			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		return stdreturn()
 
 	#######################################################
 	## Freelance
@@ -285,23 +310,28 @@ class OutletController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrFormSchema(), state_factory=std_state_factory)
+	@identity.require(identity.in_group("dataadmin"))
+	def research_freelance_check(self, *argv, **params):
+		""" check if a contact exists """
+
+		params['mode'] = 'freelance'
+		deletionhistory = DeletionHistory.exist(params)
+		if deletionhistory:
+			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
 	@validate(validators=OutletResearchSave2Schema(), state_factory=std_state_factory)
 	@identity.require(identity.in_group("dataadmin"))
 	def research_main_update(self, *args, **params):
 		""" Save an outlet"""
 
-		params['mode'] = 'outlet'
-		deletionhistory = DeletionHistory.exist(params)
-		if deletionhistory:
-			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
-		else:
-			OutletGeneral.research_main_update(params)
-			return stdreturn(data=Outlet.getBasicDetails(params))
+		OutletGeneral.research_main_update(params)
+		return stdreturn(data=Outlet.getBasicDetails(params))
 		
-#		OutletGeneral.research_main_update(params)
-
-#		return stdreturn(data=Outlet.getBasicDetails(params))
-
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
@@ -311,7 +341,6 @@ class OutletController(SecureController):
 		""" Save an outlet"""
 
 		Outlet.research_update_prn(params)
-
 		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 
@@ -323,13 +352,8 @@ class OutletController(SecureController):
 	def research_add_main(self, *args, **params):
 		""" Add a new global outlet"""
 
-		params['mode'] = 'outlet'
-		deletionhistory = DeletionHistory.exist(params)
-		if deletionhistory:
-			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
-		else:
-			params["outletid"] = Outlet.research_main_add(params)
-			return dict(success="OK", data=Outlet.getBasicDetails(params))
+		params["outletid"] = Outlet.research_main_add(params)
+		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 
 	@expose("json")
@@ -354,13 +378,8 @@ class OutletController(SecureController):
 	def freelance_research_add(self, *args, **params):
 		""" save an freelance record for the research system """
 
-		params['mode'] = 'freelance'
-		deletionhistory = DeletionHistory.exist(params)
-		if deletionhistory:
-			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
-		else:
-			params['outletid'] = Freelance.research_add(params)
-			return dict(success="OK", data=Outlet.getBasicDetails(params))
+		params['outletid'] = Freelance.research_add(params)
+		return dict(success="OK", data=Outlet.getBasicDetails(params))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -370,17 +389,8 @@ class OutletController(SecureController):
 	def freelance_research_update(self, *args, **params):
 		""" save an outlet"""
 
-		params['mode'] = 'freelance'
-		deletionhistory = DeletionHistory.exist(params)
-		if deletionhistory:
-			return dict(success="DEL", data=DeletionHistory.get(deletionhistory.deletionhistoryid))
-		else:
-			Freelance.research_update(params)
-			return stdreturn(data=Outlet.getBasicDetails(params))
-		
-#		Freelance.research_update(params)
-#		return stdreturn(data=Outlet.getBasicDetails(params))
-
+		Freelance.research_update(params)
+		return stdreturn(data=Outlet.getBasicDetails(params))
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)
@@ -547,3 +557,12 @@ class OutletController(SecureController):
 		OutletGeneral.update_international(params)
 
 		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=OutletDeskSchema(), state_factory=std_state_factory)
+	def outletdesk_get_for_load(self, *args, **params):
+		""" return outletdesk details"""
+
+		return stdreturn(data=OutletDesks.getForEdit(params['outletdeskid']))

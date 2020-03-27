@@ -114,6 +114,18 @@ class ClippingsController(SecureController):
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ClippingListSchema(), state_factory=std_state_factory)
+	def list_clippings2(self, *args, **params):
+		""" list of clipps """
+
+		if args:
+			params['clippingid'] = int(args[0])
+
+		return ClippingsGeneral.list_clippings(params)
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
 	@validate(validators=PrGridSchema(), state_factory=std_state_factory)
 	def list_clippings_emailtemplate(self, *args, **params):
 		""" list of clips linked with a press release"""
@@ -204,6 +216,17 @@ class ClippingsController(SecureController):
 		""" user clippings selection"""
 
 		ClippingsGeneral.clear_user_selection(params)
+
+		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ClippingListSchema(), state_factory=std_state_factory)
+	def select_deselect_all_user_selection(self, *args, **params):
+		""" user clippings selection"""
+
+		ClippingsGeneral.select_deselect_all_user_selection(params)
 
 		return stdreturn()
 
