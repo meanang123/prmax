@@ -47,6 +47,20 @@ class OutletDeskGetSchema(PrFormSchema):
 	""" schema """
 	outletdeskid = validators.Int()
 
+class OutletDeskDetailsUpdateSchema(PrFormSchema):
+	""" schema """
+	outletdeskid = validators.Int()
+
+class OutletDeskResearchUpdateSchema(PrFormSchema):
+	""" schema """
+	outletdeskid = validators.Int()
+	researchfrequencyid = validators.Int()
+	quest_month_1 = validators.Int()
+	quest_month_2 = validators.Int()
+	quest_month_3 = validators.Int()
+	quest_month_4 = validators.Int()
+	last_research_completed = ISODateValidator()
+	last_questionaire_sent = ISODateValidator()
 
 class OutletDeskController(object):
 	""" OutletDeskController """
@@ -126,3 +140,30 @@ class OutletDeskController(object):
 		OutletDeskGeneral.delete(params)
 
 		return stdreturn()
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=OutletDeskDetailsUpdateSchema(), state_factory=std_state_factory)
+	@identity.require(identity.in_group("dataadmin"))
+	def update_details(self, *args, **params):
+		""" update a outlet desk """
+
+		if OutletDeskGeneral.exists(params["deskname"], params["outletdeskid"], -1):
+			return duplicatereturn()
+
+		OutletDeskGeneral.update_details(params)
+
+		return stdreturn(data=OutletDeskGeneral.get(params["outletdeskid"]))
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=OutletDeskResearchUpdateSchema(), state_factory=std_state_factory)
+	@identity.require(identity.in_group("dataadmin"))
+	def update_research(self, *args, **params):
+		""" update a outlet desk """
+
+		OutletDeskGeneral.update_research(params)
+
+		return stdreturn(data=OutletDeskGeneral.get(params["outletdeskid"]))
