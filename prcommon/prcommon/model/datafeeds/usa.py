@@ -67,7 +67,7 @@ EMAILMAGAZINECOLUMN = 14
 PROFILEMAGAZINECOLUMN = 11
 CONTACTNAMEMAGAZINECOLUMN = 12
 FREQUENCYMAGAZINECOLUMN = 15
-FREQUENCYMAGAZINECOLUMNBEFORE = 9
+FREQUENCYMAGAZINECOLUMNBEFORE = 10
 
 #constants for radio xls file
 ADDRESS1RADIOCOLUMN = 3
@@ -615,7 +615,7 @@ class USADataImport(object):
 		workbook = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
 
 		#for sheetnum in range (0, workbook.nsheets):
-		xls_sheet = workbook.sheet_by_name('import')
+		xls_sheet = workbook.sheet_by_index(0)
 
 		for rnum in xrange(1, xls_sheet.nrows):
 			session.begin()	
@@ -785,7 +785,7 @@ class USADataImport(object):
 			frequency = 5
 			frequency_text = xls_sheet.cell_value(rnum,FREQUENCYMAGAZINECOLUMN).strip()
 			if frequency_text.lower() in self._frequencies:
-				frequency = self._frequencies[frequency_text]
+				frequency = self._frequencies[frequency_text.lower()]
 			
 			
 			publication = self._find_outlet(outletname, address1, email, None)
@@ -1056,12 +1056,15 @@ class USADataImport(object):
 
 		# address
 		contact_com = Communication(
-			email= xls_sheet.cell_value(rnum, CONTACT_EMAIL_OLD).strip() if xls_sheet.cell_value(rnum, CONTACT_EMAIL_OLD).strip() else outlet_com.email,
+#			email= xls_sheet.cell_value(rnum, CONTACT_EMAIL_OLD).strip() if xls_sheet.cell_value(rnum, CONTACT_EMAIL_OLD).strip() else outlet_com.email,
+			email=outlet_com.email,
 			tel=outlet_com.tel,
 			fax=outlet_com.fax,
 			webphone="",
-			linkedin= xls_sheet.cell_value(rnum, LINKEDIN_OLD)[:84].strip(),
-			twitter= xls_sheet.cell_value(rnum, TWITTER_OLD)[:84].strip())
+#			linkedin= xls_sheet.cell_value(rnum, LINKEDIN_OLD)[:84].strip(),
+#			twitter= xls_sheet.cell_value(rnum, TWITTER_OLD)[:84].strip())
+			linkedin="",
+			twitter="")
 		session.add(contact_com)
 		session.flush()
 
