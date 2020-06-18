@@ -20,7 +20,7 @@ from ttl.tg.validators import std_state_factory, PrFormSchema, IntNull, RestSche
 from ttl.base import  stdreturn
 from prmax.utilities.common import addConfigDetails
 from prcommon.model import Communication, Outlet, Freelance, SearchSession, OutletGeneral
-from prcommon.model.outlet import OutletDesks
+from prcommon.model.outlet import OutletDesk
 from prcommon.model.deletionhistory import DeletionHistory
 
 from prcommon.sitecontrollers.outletdesks import OutletDeskController
@@ -146,8 +146,8 @@ class OutletController(SecureController):
 	""" outlet controller """
 
 	desks = OutletDeskController()
-	
-	
+
+
 	@expose(template="genshi:prmax.templates.maintenance/outlet_edit")
 	def outlet_edit(self, *args, **params):
 		""" outlet edit form"""
@@ -331,7 +331,7 @@ class OutletController(SecureController):
 
 		OutletGeneral.research_main_update(params)
 		return stdreturn(data=Outlet.getBasicDetails(params))
-		
+
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
@@ -502,7 +502,7 @@ class OutletController(SecureController):
 		""" Simple search based on the outletname
 		"""
 		return OutletGeneral.get_research_list(params)
-	
+
 	@expose("json")
 	@error_handler(pr_form_error_handler)
 	@exception_handler(pr_std_exception_handler)
@@ -565,4 +565,4 @@ class OutletController(SecureController):
 	def outletdesk_get_for_load(self, *args, **params):
 		""" return outletdesk details"""
 
-		return stdreturn(data=OutletDesks.getForEdit(params['outletdeskid']))
+		return stdreturn(data=OutletDesk.getForEdit(params['outletdeskid']))
