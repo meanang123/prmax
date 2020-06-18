@@ -78,6 +78,7 @@ class EmployeeSynchronise(object):
 			    join(ResearchDetails, OutletProfile.outletid == ResearchDetails.outletid).\
 			    filter(OutletProfile.seriesparentid != None).\
 			    filter(ResearchDetails.no_sync == False).all()
+#		        filter(OutletProfile.outletid == 76958).all()
 #		        filter(OutletProfile.outletid.in_((130637,130636,130675,71453))).all()
 		results = []
 
@@ -143,11 +144,16 @@ class EmployeeSynchronise(object):
 
 			self.check_childoutlet_com_address()
 
-			child_employees = session.query(Employee).filter(Employee.outletid == self._childoutlet.outletid).all()
+			#fetch all employees from child outlet that are not private contacts
+			child_employees = session.query(Employee).\
+			    filter(Employee.outletid == self._childoutlet.outletid).\
+			    filter(Employee.sourcetypeid != 3).all() 
+			#fetch all employees from parent outlet that are active and not private contacts
 			parent_employees = session.query(Employee).\
 		        filter(Employee.outletid == self._childoutlet.seriesparentid).\
 		        filter(Employee.prmaxstatusid != 2).\
-		        filter(Employee.customerid == -1).all()
+		        filter(Employee.customerid == -1).\
+			    filter(Employee.sourcetypeid != 3).all()
 
 			for parent_emp in parent_employees:
 				sync_emp = session.query(Employee).\
