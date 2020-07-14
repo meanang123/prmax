@@ -188,8 +188,8 @@ $BODY$
 ALTER FUNCTION searchemployeecontactfullextcount(integer, text, boolean, integer) OWNER TO postgres;
 
 
-UPDATE internal.sortorder 
-SET sortorderfieldname = 'UPPER(countryname) %order%, UPPER(sortname) %order%' 
+UPDATE internal.sortorder
+SET sortorderfieldname = 'UPPER(countryname) %order%, UPPER(sortname) %order%'
 WHERE sortorderid = 7;
 
 
@@ -428,5 +428,13 @@ GRANT UPDATE ON TABLE research.researchprojectitememail_researchprojectitememail
 ALTER TABLE internal.publishers DROP CONSTRAINT un_publisher;
 ALTER TABLE internal.publishers ADD CONSTRAINT un_publisher UNIQUE (publishername, countryid);
 
-UPDATE employees SET countryid = (SELECT countryid FROM outlets AS o WHERE o.outletid = employees.outletid) 
+UPDATE employees SET countryid = (SELECT countryid FROM outlets AS o WHERE o.outletid = employees.outletid)
 WHERE employees.countryid is null;
+
+ALTER TABLE research.researchdetails ADD COLUMN italian_export boolean NOT NULL DEFAULT false;
+ALTER TABLE research.researchdetailsdesk ADD COLUMN italian_export boolean NOT NULL DEFAULT false;
+INSERT INTO research.fields(fieldid,fieldname) VALUES(101,'Italian Export');
+
+-- UPDATE research.researchdetails
+-- SET italian_export = true
+-- WHERE outletid in ( SELECT outletid from outlets where customerid = -1 and countryid in (1,113));

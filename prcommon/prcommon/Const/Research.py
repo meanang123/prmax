@@ -140,3 +140,4 @@ Field_Research_Last_Researched_Completed = 98
 Field_Research_Notes = 99
 Field_NewPublisherName = 100
 Field_PublisherName = 65
+Field_Italian_Export = 101

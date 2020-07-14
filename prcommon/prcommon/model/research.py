@@ -555,7 +555,7 @@ class ResearchDetails(BaseSql):
 		             firstname=self.firstname,
 		             prefix=self.prefix,
 		             email=self.email,
-		             #tel=self.tel,
+		             # tel=self.tel,
 		             job_title=self.job_title,
 		             outletid=self.outletid,
 		             researchfrequencyid=self.researchfrequencyid,
@@ -565,7 +565,8 @@ class ResearchDetails(BaseSql):
 		             quest_month_3=self.quest_month_3,
 		             quest_month_4=self.quest_month_4,
 		             last_sync=datetime.datetime.strftime(self.last_sync, "%d-%m-%y  %H:%M:%S") if self.last_sync else None,
-		             no_sync=self.no_sync
+		             no_sync=self.no_sync,
+					 italian_export=self.italian_export
 		            )
 
 	def for_quest(self):
@@ -717,6 +718,7 @@ class ResearchDetails(BaseSql):
 				ActivityDetails.AddChange(researchdetails.email, params["email"], activity.activityid, Constants.Field_Email)
 				#ActivityDetails.AddChange(researchdetails.tel, params["tel"], activity.activityid, Constants.Field_Tel)
 				ActivityDetails.AddChange(researchdetails.job_title, params["job_title"], activity.activityid, Constants.Field_Job_Title)
+				ActivityDetails.AddChange(researchdetails.italian_export, params["italian_export"], activity.activityid, Constants.Field_Italian_Export)
 
 				old_researchfrequencyname = new_researchfrequencyname = ''
 				if researchdetails.researchfrequencyid:
@@ -775,6 +777,8 @@ class ResearchDetails(BaseSql):
 				researchdetails.quest_month_2 = params["quest_month_2"]
 				researchdetails.quest_month_3 = params["quest_month_3"]
 				researchdetails.quest_month_4 = params["quest_month_4"]
+
+				researchdetails.italian_export = params["italian_export"]
 
 			else:
 				researchdetails = ResearchDetails(outletid=params["outletid"],

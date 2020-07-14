@@ -83,6 +83,7 @@ define([
 				domattr.set(this.last_customer_questionaire_action,"innerHTML", response.data.last_customer_questionaire_action);
 				domattr.set(this.last_sync,"innerHTML", response.data.research.last_sync);
 //				this.no_sync.set("value", response.data.research.no_sync);
+				this.italian_export.set("checked", response.data.research.italian_export);
 
 				this.quest_month_1.set("value",response.data.research.quest_month_1==null?-1:response.data.research.quest_month_1);
 				this.quest_month_2.set("value",response.data.research.quest_month_2==null?-1:response.data.research.quest_month_2);
@@ -188,6 +189,7 @@ define([
 		this._show_months();
 		domattr.set(this.last_research_changed_date,"innerHTML", "");
 //		this.no_sync.set("checked", false);
+		this.italian_export.set("checked", false);
 
 	},
 	_update:function()
