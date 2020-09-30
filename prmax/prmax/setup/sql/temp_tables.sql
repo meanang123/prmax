@@ -438,3 +438,6 @@ INSERT INTO research.fields(fieldid,fieldname) VALUES(101,'Italian Export');
 -- UPDATE research.researchdetails
 -- SET italian_export = true
 -- WHERE outletid in ( SELECT outletid from outlets where customerid = -1 and countryid in (1,113));
+
+
+INSERT INTO internal.customertypes(customertypeid, customertypename, shortname, demodays) VALUES (27, 'Journolink', 'jl', 5);

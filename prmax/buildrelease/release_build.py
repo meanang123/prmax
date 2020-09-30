@@ -21,12 +21,13 @@ vpath_live = "prmax\\live"
 
 # standard files
 valid_folders = ('_firebug','nls','resources','images','resources\\images')
-valid_files = ('dojo.js','prmaxdojo.js','parser.js','prmaxstartup.js','prmaxnewcustomer.js',
-               'prmaxinternal.js','prmaxdatadmin.js','prmaxaidojo.js','prmaxnewslivedojo.js',
+valid_files = ('dojo.js', 'prmaxdojo.js', 'parser.js', 'prmaxstartup.js', 'prmaxnewcustomer.js',
+               'prmaxinternal.js', 'prmaxdatadmin.js', 'prmaxaidojo.js', 'prmaxnewslivedojo.js',
                'prmaxupdatumdojo.js', 'prmaxfensdojo.js', 'prmaxkantardojo.js',
                'prmaxphoenixpbdojo.js', 'prmaxseoodojo.js', 'prmaxblueboodojo.js',
                'prmaxipcbdojo.js', 'prmaxsolidmediadojo.js', 'prmaxdeperslijst.js',
-               'prmaxmynewsdesk.js', 'prmaxprofessional.js', 'prmaxstereotribes.js', 'prmaxpressdata.js', 'prmaxpressdataoffice.js')
+               'prmaxmynewsdesk.js', 'prmaxprofessional.js', 'prmaxstereotribes.js', 'prmaxpressdata.js', 'prmaxpressdataoffice.js',
+               'prmaxjournolink.js')
 
 def buildRelease(build = True,islive = True , version = "missing" ):
    print "build dojo release", islive

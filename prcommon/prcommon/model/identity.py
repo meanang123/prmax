@@ -2409,6 +2409,7 @@ class Customer(BaseSql):
 	  Constants.CustomerType_StereoTribes: 'prmax.templates.start_stereotribes',
 	  Constants.CustomerType_PressData: 'prmax.templates.start_pressdata',
 	  Constants.CustomerType_PressDataOffice: 'prmax.templates.start_pressdataoffice',
+	  Constants.CustomerType_Journolink: 'prmax.templates.start_journolink',
 	}
 
 	def get_start_point(self):
