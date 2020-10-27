@@ -441,3 +441,97 @@ INSERT INTO research.fields(fieldid,fieldname) VALUES(101,'Italian Export');
 
 
 INSERT INTO internal.customertypes(customertypeid, customertypename, shortname, demodays) VALUES (27, 'Journolink', 'jl', 5);
+
+INSERT INTO internal.reportsource VALUES (19, 'Sent Distributions Report');
+INSERT INTO internal.reporttemplates VALUES (37, -1, 'Sent Distributions Report', '<queries><query type="CUSTOM"></query></queries>', '', 19, 'SentDistributionsReport');
+
+
+ALTER TABLE outlets ADD COLUMN italian_export boolean NOT NULL DEFAULT false;
+ALTER TABLE research.researchdetails DROP COLUMN italian_export;
+ALTER TABLE research.researchdetailsdesk DROP COLUMN italian_export;
+/*
+INSERT INTO internal.reasoncodes VALUES (31, 'Project Changes', 2);
+INSERT INTO internal.reasoncodes VALUES (32, 'Project Item Changes', 2);
+
+INSERT INTO internal.reasoncodes VALUES (31, 'Project Changes', 2);
+INSERT INTO internal.reasoncodes VALUES (32, 'Project Item Changes', 2);
+
+INSERT INTO internal.objecttypes VALUES (10, 'Project');
+INSERT INTO internal.objecttypes VALUES (11, 'Project Item Status');
+INSERT INTO internal.objecttypes VALUES (12, 'Project Item');
+INSERT INTO internal.objecttypes VALUES (13, 'Project Item History');
+
+INSERT INTO research.fields VALUES (107, 'Project Item Status');
+INSERT INTO research.fields VALUES (102, 'Project Item History');
+INSERT INTO research.fields VALUES (103, 'Project Item History Type');
+INSERT INTO research.fields VALUES (104, 'Project Item History Description');
+INSERT INTO research.fields VALUES (105, 'Project Item History Notes');
+INSERT INTO research.fields VALUES (106, 'Project Item Owner');
+
+
+ALTER TABLE research.activity ADD COLUMN researchprojectid integer;
+
+INSERT INTO internal.actiontypes VALUES (10, 'Received');
+
+INSERT INTO internal.researchprojectitemhistorytype VALUES (6, 'Research complete');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (7, 'Updates in email');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (8, 'Q unresponsive - Not true');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (9, 'Q unresponsive - True');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (10, 'Outlet ceased - Taking a break');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (11, 'Outlet in transition');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (12, 'IP wanted more info');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (13, 'Outlet not policy');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (14, 'Out of office - auto reply');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (15, 'Email bounced');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (16, 'Received by IP - working on it');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (17, 'IP wont click link');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (18, 'Unclear who IP is');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (19, 'Delisting request - outlet');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (20, 'Delisting request - contact');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (21, 'Send to somebody else');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (22, 'Promotional - Media pack');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (23, 'Add outlet - related outlets');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (24, 'Mystery email');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (25, 'Do not send emails');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (26, 'Update frequency inappropriate');
+INSERT INTO internal.researchprojectitemhistorytype VALUES (27, 'Just look at the website');
+
+ALTER TABLE employees ADD COLUMN tracked boolean NOT NULL DEFAULT false;
+
+ALTER TABLE research.researchprojectitemhistory ALTER COLUMN researchprojectitemhistorydescription type character varying;
+
+
+--------
+ALTER TABLE internal.prmaxcosts ADD COLUMN editionid integer NOT NULL DEFAULT 0;
+ALTER TABLE internal.prmaxcosts ADD COLUMN mediadataid integer NOT NULL DEFAULT 0;
+ALTER TABLE internal.prmaxcosts ADD COLUMN paymentmethodid integer NOT NULL DEFAULT 4;
+
+ALTER TABLE internal.prmaxcosts DROP CONSTRAINT pk_terms;
+ALTER TABLE internal.prmaxcosts ADD CONSTRAINT pk_terms PRIMARY KEY (termid, nbrofloginsid, editionid, mediadataid, paymentmethodid);
+
+DELETE FROM internal.prmaxcosts;
+
+INSERT INTO internal.prmaxcosts VALUES (4, 1,187800,37560,225360, 30000,6000,36000,0,0,0,0,0,0,0,0,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,355000,71000,426000, 30000,6000,36000,0,0,0,0,0,0,1,0,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,115500,23100,138600, 30000,6000,36000,0,0,0,0,0,0,2,0,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,256000,51200,307200, 30000,6000,36000,0,0,0,0,0,0,0,1,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,484000,96800,580800, 30000,6000,36000,0,0,0,0,0,0,1,1,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,189500,37900,227400, 30000,6000,36000,0,0,0,0,0,0,2,1,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,308500,61700,370200, 30000,6000,36000,0,0,0,0,0,0,0,2,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,584500,116900,701400, 30000,6000,36000,0,0,0,0,0,0,1,2,4);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,256000,51200,307200, 30000,6000,36000,0,0,0,0,0,0,2,2,4);
+
+INSERT INTO internal.prmaxcosts VALUES (4, 1,18800,3760,22560, 30000/12,6000/12,36000/12,0,0,0,0,0,0,0,0,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,35500,7100,42600, 30000/12,6000/12,36000/12,0,0,0,0,0,0,1,0,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,11500,2300,13800, 30000/12,6000/12,36000/12,0,0,0,0,0,0,2,0,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,25600,5120,30720, 30000/12,6000/12,36000/12,0,0,0,0,0,0,0,1,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,48400,9680,58080, 30000/12,6000/12,36000/12,0,0,0,0,0,0,1,1,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,18900,37800,22680, 30000/12,6000/12,36000/12,0,0,0,0,0,0,2,1,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,30800,61600,36960, 30000/12,6000/12,36000/12,0,0,0,0,0,0,0,2,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,58000,11600,69600, 30000/12,6000/12,36000/12,0,0,0,0,0,0,1,2,2);
+INSERT INTO internal.prmaxcosts VALUES (4, 1,25600,5120,30720, 30000/12,6000/12,36000/12,0,0,0,0,0,0,2,2,2);
+
+INSERT INTO internal.prmaxcosts VALUES (1, 1,19500,3900,23400, 30000/12,6000/12,36000/12,0,0,0,0,0,0,2,0,4);
+
+INSERT INTO internal.researchprojectstatus VALUES (13, 'Response Handling');
+*/

@@ -130,6 +130,9 @@ dojo.declare("prcommon.crm.viewer",
 		if ( arguments[0].response.length > 0 )
 			filter["response"] = arguments[0].response;
 
+		if ( arguments[0].details.length > 0 )
+			filter["details"] = arguments[0].details;
+
 		if ( arguments[0].contacthistorystatusid.length > 0 &&
 					arguments[0].contacthistorystatusid != "" &&
 					arguments[0].contacthistorystatusid != "-1")

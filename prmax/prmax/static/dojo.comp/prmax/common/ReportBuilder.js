@@ -109,7 +109,10 @@ dojo.declare("prmax.common.ReportBuilder",
 					this.reportForm.submit();
 					if (this._complete!=null)
 						this._complete();
-					dijit.byId("std_report_dlg").hide();
+					if (dijit.byId("std_report_dlg")) 
+					{
+						dijit.byId("std_report_dlg").hide();
+					}
 					dojo.style(this.domNode,{ display:"none" }); // show
 				}
 			}

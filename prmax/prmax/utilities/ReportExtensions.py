@@ -34,6 +34,7 @@ from ttl.report.partners_list_report import PartnersListPDF
 from ttl.report.statistics_report import StatisticsPDF, StatisticsExcel
 from ttl.report.activitylog_report import ActivityLogPDF, ActivityLogExcel
 from ttl.report.clippings_std_report import ClippingsStdPDF, ClippingsStdExcel
+from ttl.report.sent_distributions_report import SentDistributionsPDF, SentDistributionsExcel
 from ttl.report.pdf_fields import *
 from datetime import date
 from prcommon.Const.Email_Templates import *
@@ -809,7 +810,8 @@ class ActivityReport(ReportCommon):
 		params = dict(icustomerid = self._reportoptions["customerid"])
 		params['clientid'] = self._reportoptions["clientid"]
 		if params['clientid'] != -1 and params['clientid'] != '-1':
-			andclause_eng = """AND ch.clientid = %(clientid)s"""
+#			andclause_eng = """AND (ch.clientid = %(clientid)s OR  (SELECT i.clientid FROM userdata.issues AS i JOIN userdata.contacthistoryissues AS chi ON chi.issueid = i.issueid WHERE chi.contacthistoryid = ch.contacthistoryid) = = %(clientid)s)"""
+			andclause_eng = """AND (ch.clientid = %(clientid)s """
 			andclause_clip = """AND clip.clientid = %(clientid)s"""
 			andclause_rel = """AND et.clientid = %(clientid)s"""
 
@@ -1416,5 +1418,90 @@ class ClippingsStdReport(ReportCommon):
 			report = ClippingsStdPDF(self._reportoptions, data['results'], data['dates'], data['customername'], data['reporttitle'])
 		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
 			report = ClippingsStdExcel(self._reportoptions, data['results'], data['dates'], data['reporttitle'])
+
+		output.write(report.stream())
+
+
+
+class SentDistributionsReport(ReportCommon):
+	"""Sent Distributions Report"""
+
+	def __init__(self, reportoptions, parent):
+		ReportCommon.__init__(self, reportoptions, parent)
+#		self._byissue = False
+		self._byclient = False
+
+	def load_data(self, db_connect):
+		"Load Data"
+
+		data_command = """SELECT et.emailtemplateid,et.emailtemplatename,pressreleasestatusid, 
+				CASE WHEN et.sent_time is not null THEN to_char(sent_time,'DD-MM-YYYY HH24:MI') ELSE '-' END AS display_sent_time,
+		        CASE WHEN et.pressreleasestatusid = 1 THEN 'Draft' ELSE 'Sent' END AS status,
+		        CASE WHEN et.clientid is not null THEN cli.clientname ELSE '-' END AS clientname
+		        FROM  userdata.emailtemplates AS et
+		        LEFT OUTER JOIN userdata.client AS cli ON cli.clientid = et.clientid"""
+
+		total_rel = """SELECT count(*)
+		FROM userdata.emailtemplates AS et"""
+		
+		customername = """SELECT customername FROM internal.customers WHERE customerid = %(customerid)s"""
+		whereclause = ' WHERE et.customerid = %(customerid)s'
+		orderbyclause = ' ORDER BY et.sent_time ASC'
+
+		params = dict(customerid=self._reportoptions["customerid"])
+		is_dict = False if self._reportoptions["reportoutputtypeid"] in Constants.Phase_3_is_csv else True
+		params['title'] = 'All'
+		if "option" in self._reportoptions:
+			if self._reportoptions['option'].lower() == 'display draft':
+				whereclause = BaseSql.addclause( whereclause, ' et.pressreleasestatusid = 1')
+				params['title'] = 'Draft'
+			if self._reportoptions['option'].lower() == 'display sent':
+				whereclause = BaseSql.addclause( whereclause, ' et.pressreleasestatusid = 2')
+				params['title'] = 'Sent'
+
+				drange = simplejson.loads(self._reportoptions["drange"])
+				option = TTLConstants.CONVERT_TYPES[drange["option"]]
+				if option != TTLConstants.NOSELECTION:
+					if option == TTLConstants.BEFORE:
+						params["from_date"] = drange["from_date"]
+						whereclause = BaseSql.addclause( whereclause, 'et.sent_time <= %(from_date)s')
+					elif option == TTLConstants.AFTER:
+						# After
+						params["from_date"] = drange["from_date"]
+						whereclause = BaseSql.addclause( whereclause, 'et.sent_time >= %(from_date)s')
+					elif option == TTLConstants.BETWEEN:
+						# ABetween
+						params["from_date"] = drange["from_date"]
+						params["to_date"] = drange["to_date"]
+						whereclause = BaseSql.addclause( whereclause, 'et.sent_time BETWEEN %(from_date)s AND %(to_date)s')
+
+		if "clientid" in self._reportoptions and self._reportoptions['clientid'] != None and self._reportoptions['clientid'] != -1 and self._reportoptions['clientid'] != '-1':
+			params['clientid'] = int(self._reportoptions['clientid'])
+			whereclause = BaseSql.addclause( whereclause, 'et.clientid = %(clientid)s')
+
+
+		results_data = db_connect.executeAll(data_command + whereclause + orderbyclause, params, is_dict)
+
+		if 'from_date' not in params:
+			params['from_date'] = 'Start'
+		else:
+			params['from_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['from_date'], "%Y-%m-%d"), "%d/%m/%Y")
+		if 'to_date' not in params:
+			params['to_date'] = datetime.datetime.now().strftime('%d/%m/%Y')
+		else:
+			params['to_date'] = datetime.datetime.strftime(datetime.datetime.strptime(params['to_date'], "%Y-%m-%d"), "%d/%m/%Y")
+		dates = dict(from_date=params['from_date'], to_date=params['to_date'])
+
+		customername = db_connect.executeAll(customername, params, is_dict)
+		return dict(results = results_data, dates = dates, customername = customername, title=params['title'])
+# 	    return dict(results = results_data, dates = dates, customername = customername)
+
+	def run(self, data, output):
+		"run daily report"
+
+		if int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_5_is_excel:
+			report = SentDistributionsExcel(self._reportoptions, data['results'], data['dates'], data['customername'], data['title'])
+		elif int(self._reportoptions["reportoutputtypeid"]) in Constants.Phase_2_is_pdf:
+			report = SentDistributionsPDF(self._reportoptions, data['results'], data['dates'], data['customername'], data['title'])
 
 		output.write(report.stream())

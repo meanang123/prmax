@@ -201,6 +201,11 @@ class ContactHistoryGeneral(object):
 			whereclause = BaseSql.addclause(whereclause, "ch.crm_response ilike :response")
 			params["response"] = "%" + params["response"] + "%"
 
+		if "details" in params:
+			whereclause = BaseSql.addclause(whereclause, "ch.details ilike :details")
+			params["details"] = "%" + params["details"] + "%"
+
+
 		if "sort" in params and params["sort"] == "taken_display":
 			params["sort"] = "ch.taken"
 
