@@ -264,7 +264,13 @@ define([
 		},
 		_transfere:function()
 		{
-			domclass.add(this.show_transfer,"prmaxhidden");
+			if (domclass.contains(this.show_transfer, "prmaxhidden"))
+			{
+				domclass.remove(this.show_transfer,"prmaxhidden");
+			}
+			else{
+				domclass.add(this.show_transfer,"prmaxhidden");
+			}
 		},
 		_delete_call:function( response )
 		{
