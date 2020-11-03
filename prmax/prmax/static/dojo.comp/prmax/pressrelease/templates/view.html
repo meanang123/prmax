@@ -14,7 +14,10 @@
 										<option>Display Draft</option>
 										<option>Display Sent</option>
 										</select></td>
+									<!--	
 									<td data-dojo-attach-point="option2_label1" class="prmaxhidden">Sent in the Last</td><td data-dojo-attach-point="option2_label2" class="prmaxhidden" ><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"6 Months",autocomplete:false' data-dojo-attach-point="option2" data-dojo-attach-event="onChange:_OptionChanged"><option>6 Months</option><option>Year</option><option>All</option></select></td></tr>
+									-->	
+								<tr><td data-dojo-attach-point="drange_label" class="prmaxlabeltag">Dates</td><td colspan="2"><div data-dojo-type="prcommon.date.daterange" data-dojo-attach-point="drange" data-dojo-props='value:"",name:"drange"'></div></td></tr>
 								<tr><td data-dojo-attach-point="client_label">Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"color:black"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid"></select></td></tr>
 								<tr><td><br/><br/></td></tr>
 								<tr>
@@ -25,6 +28,8 @@
 							</table>
 						</div>
 					</div>
+					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Output" data-dojo-attach-point="outputbtn" data-dojo-props='label:"Output",iconClass:"fa fa-print fa-3x",showLabel:false'></div>
+
 				</div>
 			</div>
 		</div>
@@ -95,4 +100,7 @@
 	<div data-dojo-attach-point="crm_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Engagement", style:"width:600px;height:700px"'>
 		<div data-dojo-attach-point="crm_add" data-dojo-type="prcommon.crm.add"></div>
 	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Output"' data-dojo-attach-point="dlg_output">
+		<div data-dojo-attach-point="outputctrl" data-dojo-type="prmax.pressrelease.output" data-dojo-props='style:"width:450px;height:220px"' ></div>
+	</div>	
 </div>

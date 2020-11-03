@@ -1,0 +1,28 @@
+<div>
+<span class="common_prmax_layout"><br/>
+	<form data-dojo-attach-point="form_output" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
+		<input data-dojo-attach-point="reporttemplateid" data-dojo-props='name:"reporttemplateid",type:"hidden",value:37'  data-dojo-type="dijit.form.TextBox"/>
+		<div style="margin:5px">
+			<label class="label_1">Output Format</label>
+			<label data-dojo-attach-point="pdf_label">Pdf&nbsp;<input data-dojo-attach-point="pdf" data-dojo-props="name:'reportoutputtypeid',value:'0',type:'radio',checked:true" data-dojo-type="dijit.form.RadioButton"></label>
+			<label data-dojo-attach-point="excel_label">Excel&nbsp;<input data-dojo-attach-point="excel" data-dojo-props="name:'reportoutputtypeid',value:'4',type:'radio'" data-dojo-type="dijit.form.RadioButton"></label><br/><br/>
+		</div>	
+		<div style="margin:5px">
+			<label class="label_1" data-dojo-attach-point="sent_label">Sent</label>
+			<select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:8em;color:black",value:"Display Sent",autocomplete:false' data-dojo-attach-point="option" data-dojo-attach-event="onChange:_OptionChanged">
+				<option>Display All</option>
+				<option>Display Draft</option>
+				<option>Display Sent</option>
+			</select><br />
+		</div>
+		<div style="margin:5px"><label class="label_1" data-dojo-attach-point="drange_label">Date Range</label><div data-dojo-type="prcommon.date.daterange" data-dojo-attach-point="drange" data-dojo-props='value:"",name:"drange"'></div><br/></div>
+		<div style="margin:5px"><label class="label_1" data-dojo-attach-point="client_label">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid"></select><br/></br></div>	
+		
+		<div data-dojo-type="prmax.common.ReportBuilder" data-dojo-attach-point="reportnode" data-dojo-props='style:"display:none"'></div>
+		<div style="margin:5px">
+			<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft prmaxhidden",iconClass:"fa fa-close fa-2x"'></button>
+			<button data-dojo-attach-event="onClick:_do_report" data-dojo-attach-point="reportbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Generate","class":"btnright",iconClass:"fa fa-print fa-2x"'></button><br/><br/>
+		</div>
+	</form>
+</span>
+</div>

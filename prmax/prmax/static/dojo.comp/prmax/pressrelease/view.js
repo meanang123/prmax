@@ -15,7 +15,9 @@ dojo.require("prmax.pressrelease.newrelease");
 dojo.require("prmax.pressrelease.saveasstanding");
 dojo.require("prmax.pressrelease.briefreport");
 dojo.require("prmax.pressrelease.rename");
+dojo.require("prmax.pressrelease.output");
 dojo.require("prcommon.crm.add");
+dojo.require("prcommon.date.daterange");
 
 dojo.declare("prmax.pressrelease.view",
 	[ ttl.BaseWidget ],
@@ -74,7 +76,8 @@ dojo.declare("prmax.pressrelease.view",
 
 			this.grid.setQuery( ttl.utilities.getPreventCache(
 				{restrict:this.option.get("value"),
-				timerestriction: this.option2.get("value")}));
+				//timerestriction: this.option2.get("value"),
+				drange: this.drange.get("value")}));
 		}
 
 		if (PRMAX.utils.settings.useemail == false || PRMAX.utils.settings.isdemo == true )
@@ -258,13 +261,24 @@ dojo.declare("prmax.pressrelease.view",
 		//this.refresh();
 		if ( this.option.get("value") == "Display Sent")
 		{
-			dojo.removeClass(this.option2_label1,"prmaxhidden");
-			dojo.removeClass(this.option2_label2,"prmaxhidden");
+			//dojo.removeClass(this.option2_label1,"prmaxhidden");
+			//dojo.removeClass(this.option2_label2,"prmaxhidden");
+			dojo.removeClass(this.drange_label,"prmaxhidden");
+			dojo.removeClass(this.drange.domNode,"prmaxhidden");
 		}
+//		else if ( this.option.get("value") == "Display All" )
+//		{
+//			dojo.addClass(this.option2_label1,"prmaxhidden");
+//			dojo.addClass(this.option2_label2,"prmaxhidden");
+//			dojo.removeClass(this.drange_label,"prmaxhidden");
+//			dojo.removeClass(this.drange.domNode,"prmaxhidden");
+//		}
 		else
 		{
-			dojo.addClass(this.option2_label1,"prmaxhidden");
-			dojo.addClass(this.option2_label2,"prmaxhidden");
+			//dojo.addClass(this.option2_label1,"prmaxhidden");
+			//dojo.addClass(this.option2_label2,"prmaxhidden");
+			dojo.addClass(this.drange_label,"prmaxhidden");
+			dojo.addClass(this.drange.domNode,"prmaxhidden");
 		}
 	},
 	refresh:function( startup )
@@ -277,8 +291,9 @@ dojo.declare("prmax.pressrelease.view",
 		this.grid.setQuery( ttl.utilities.getPreventCache(
 				{
 					restrict:this.option.get("value"),
-					timerestriction: this.option2.get("value"),
-					clientid : this.clientid.get("value")
+					//timerestriction: this.option2.get("value"),
+					clientid : this.clientid.get("value"),
+					drange: this.drange.get("value")
 				}));
 
 		this._ClearAndHideDetails();
@@ -432,8 +447,9 @@ dojo.declare("prmax.pressrelease.view",
 	{
 		var data = {
 			restrict:this.option.get("value"),
-			timerestriction: this.option2.get("value"),
-			clientid : this.clientid.get("value")
+			//timerestriction: this.option2.get("value"),
+			clientid : this.clientid.get("value"),
+			drange: this.drange.get("value")
 		};
 
 		var tmp = this.namefilter.get("value");
@@ -453,21 +469,6 @@ dojo.declare("prmax.pressrelease.view",
 	{
 		this.controls2.selectChild ( this.grid_clips );
 	},
-	_execute_filter:function()
-	{
-		var data = {
-			restrict:this.option.get("value"),
-			timerestriction: this.option2.get("value"),
-			clientid : this.clientid.get("value")
-		};
-
-		var tmp = this.namefilter.get("value");
-
-		if (tmp.length)
-			data["emailtemplatename"] = tmp;
-
-		this.grid.setQuery(ttl.utilities.getPreventCache(data));
-	},
 	_clear_filter:function()
 	{
 		this.clientid.set("value",-1);
@@ -479,5 +480,11 @@ dojo.declare("prmax.pressrelease.view",
 		dojo.attr(this.rename_dialog, "title", "Rename " + PRMAX.utils.settings.distribution_description );
 		dojo.attr(this.duplcatedlg, "title", "Duplicate " + PRMAX.utils.settings.distribution_description );
 		dojo.attr(this.show_list, "label", PRMAX.utils.settings.distribution_description);
+	},
+	_Output:function()
+	{
+		this.outputctrl.clear();
+		this.outputctrl.set("dialog", this.dlg_output);
+		this.dlg_output.show();
 	}
 });
