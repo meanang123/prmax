@@ -521,7 +521,7 @@ class StatisticsExcel(object):
 		self._sheet.write(self._row, 9, res_by_client['stat_used'], self._percentage_format)
 
 	def _do_division(self, value1, value2):
-		if value2 == 0 or value2 == 0:
+		if value2 == 0 or value1 == 0:
 			retval = 0
 		else:
 			retval = value1/(value2 * 1.0)

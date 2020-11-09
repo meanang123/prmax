@@ -1,3 +1,6 @@
+.dojoxGrid {
+	font-family: LatoWeb, Arial;
+}
 .dijitReset {
     margin: 0;
     border: 0;
@@ -628,7 +631,7 @@ body .dijitAlignClient { position: absolute }
 .dijitTitlePane .dijitArrowNodeInner { display: none }
 .dj_a11y .dijitTitlePane .dijitArrowNodeInner {
     display: inline !important;
-    font-family: monospace;
+    font-family: LatoWeb, monospace;
 }
 .dj_a11y .dijitTitlePane .dijitArrowNode { display: none }
 .dj_ie6 .dijitTitlePaneContentOuter,
@@ -910,7 +913,7 @@ div.dijitTabDisabled,
     display: inline;
     padding-left: 10px;
     padding-right: 10px;
-    font-family: monospace;
+    font-family: LatoWeb, monospace;
     border-style: solid;
     border-width: thin;
     cursor: pointer;
@@ -1054,7 +1057,7 @@ div.dijitTabDisabled,
 .dijitSliderDecorationH { width: 100% }
 .dijitSliderDecorationV { height: 100% }
 .dijitSliderButton {
-    font-family: monospace;
+    font-family: LatoWeb, monospace;
     margin: 0;
     padding: 0;
     display: block;
@@ -1122,7 +1125,7 @@ div.dijitTabDisabled,
 .dj_ie .dj_a11y .dijitSliderReadOnly .dijitSliderBar,
 .dj_ie .dj_a11y .dijitSliderDisabled .dijitSliderBar { filter: alpha(opacity=40) }
 .dj_a11y .dijitSlider .dijitSliderButtonContainer div {
-    font-family: monospace;
+    font-family: LatoWeb, monospace;
     font-size: 1em;
     line-height: 1em;
     height: auto;
@@ -1188,7 +1191,7 @@ div.dijitTabDisabled,
     visibility: hidden;
 }
 .dj_ie6 .dijitToggleButtonIconChar,
-.dj_ie6 .tabStripButton .dijitButtonText { font-family: "Arial Unicode MS" }
+.dj_ie6 .tabStripButton .dijitButtonText { font-family: LatoWeb, "Arial Unicode MS" }
 .dj_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar {
     display: inline !important;
     visibility: visible !important;
@@ -2290,7 +2293,7 @@ div.dijitTabDisabled,
 }
 .soria .dijitBorderContainer .dijitMenuBar { border: 1px solid #B1BADF }
 .soria .dijitMenuItem {
-    font-family: sans-serif;
+    font-family: LatoWeb, sans-serif;
     margin: 0;
     color: #333;
 }
@@ -3015,7 +3018,7 @@ div.dijitTabDisabled,
     padding-right: 1%;
     padding-top: 1%;
     padding-bottom: 1%;
-    font-family: Arial;
+    font-family: LatoWeb, Arial;
     font-size: 20px;
     font-weight: bold;
     background-color: black;
@@ -3545,7 +3548,7 @@ div.dijitTabDisabled,
 .soria .requestdemo p {
     padding: 0px;
     margin: 0px;
-    font-family: Arial,Helvetica,Sans-serif;
+    font-family: LatoWeb, Arial,Helvetica,Sans-serif;
     font-size: 16px;
     color: #0B4C89;
     font-weight: normal;
@@ -3562,7 +3565,7 @@ div.dijitTabDisabled,
 }
 .soria .requestdemo .infozone p {
     padding:5px;
-    font-family: Arial,Helvetica,Sans-serif;
+    font-family: LatoWeb, Arial,Helvetica,Sans-serif;
     font-size: 18px;
     color: grey;
     font-weight: bold;
@@ -3758,7 +3761,6 @@ div.dijitTabDisabled,
     width: 273px !important;
     height: 56px !important;
 	background-size: 200px 56px;
-    background-image: url(/static/images/journolink/journolinklogo.png);
 	background-repeat: no-repeat;
 }
 #std_banner_control > div:first-child img { display: none }
