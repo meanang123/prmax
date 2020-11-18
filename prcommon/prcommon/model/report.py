@@ -133,7 +133,7 @@ class ReportTemplate(BaseSql):
 	FROM internal.reporttemplates as r
 	WHERE
 		reporttemplateid = :id AND
-		(r.customerid=-1 OR r.customerid = :customerid"""
+		(r.customerid=-1 OR r.customerid = :customerid)"""
 
 	List_Std_EastAyrshire = """SELECT reporttemplateid,
 	CASE
@@ -157,19 +157,31 @@ class ReportTemplate(BaseSql):
 		if "reporttemplatename" in kw:
 			kw['reporttemplatename'] = kw['reporttemplatename'].replace("*", "%")
 
+
+		if 'customerid' in kw and kw['customerid'] == 3611:
+#		if 'customerid' in kw and kw['customerid'] == 4765: #test server
+			if 'reportsourceid' in kw:
+				if kw['reportsourceid'] == 2:
+					kw['id'] = 3
+				elif kw['reportsourceid'] == 3:
+					kw['id'] = 38
+
 		if "id" in kw:
 			command = text(ReportTemplate.List_Id)
 		elif "reporttemplatename" not in kw:
 			kw['reporttemplatename'] = "%"
 
-		if not command:
+		if command == None:
 			command = text(ReportTemplate.List_Std)
 
 			if 'customerid' in kw:
 				customertypeid = session.query(Customer.customertypeid).filter(Customer.customerid == kw['customerid']).scalar()
 				if customertypeid == 20:
 					command = text(ReportTemplate.List_Std_EastAyrshire)
+		
 
+		
+		
 		data = cls.sqlExecuteCommand(command,
 									   kw,
 									   BaseSql.ResultAsEncodedDict)
