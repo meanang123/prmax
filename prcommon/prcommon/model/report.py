@@ -157,9 +157,8 @@ class ReportTemplate(BaseSql):
 		if "reporttemplatename" in kw:
 			kw['reporttemplatename'] = kw['reporttemplatename'].replace("*", "%")
 
-
+		# if customer is journolink we want to see restricted exports
 		if 'customerid' in kw and kw['customerid'] == 3611:
-#		if 'customerid' in kw and kw['customerid'] == 4765: #test server
 			if 'reportsourceid' in kw:
 				if kw['reportsourceid'] == 2:
 					kw['id'] = 3
@@ -178,8 +177,6 @@ class ReportTemplate(BaseSql):
 				customertypeid = session.query(Customer.customertypeid).filter(Customer.customerid == kw['customerid']).scalar()
 				if customertypeid == 20:
 					command = text(ReportTemplate.List_Std_EastAyrshire)
-		
-
 		
 		
 		data = cls.sqlExecuteCommand(command,
