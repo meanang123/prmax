@@ -286,7 +286,7 @@ GRANT SELECT ON TABLE internal.prmaxdatasetcountries TO prmaxquestionnaires;
 ALTER TABLE employees ADD COLUMN countryid integer;
 ALTER TABLE employees ADD CONSTRAINT fk_countryid FOREIGN KEY (countryid) REFERENCES internal.countries (countryid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
 
-UPDATE employees SET countryid = (SELECT countryid FROM outlets AS o WHERE o.outletid = employees.outletid);
+--UPDATE employees SET countryid = (SELECT countryid FROM outlets AS o WHERE o.outletid = employees.outletid);
 
 ALTER TABLE contacts ADD COLUMN countryid integer;
 ALTER TABLE contacts ADD CONSTRAINT fk_countryid FOREIGN KEY (countryid) REFERENCES internal.countries (countryid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
@@ -445,11 +445,14 @@ INSERT INTO internal.customertypes(customertypeid, customertypename, shortname, 
 INSERT INTO internal.reportsource VALUES (19, 'Sent Distributions Report');
 INSERT INTO internal.reporttemplates VALUES (37, -1, 'Sent Distributions Report', '<queries><query type="CUSTOM"></query></queries>', '', 19, 'SentDistributionsReport');
 
+INSERT INTO internal.reportsource VALUES (20, 'display restricted');
+INSERT INTO internal.reporttemplates VALUES (38, -1, 'Distribution Export', '<queries><query type="SQL" format="list" dictname="results" defaultsortorder="outletname" header="Outlet Name,Outlet Email,Contact Name,Contact Job Title,Contact Email">SELECT JSON_ENCODE(CASE WHEN o.outlettypeid=19 THEN '''' ELSE o.outletname END)as outletname, get_override(oc_c.email,o_c.email) as o_email, JSON_ENCODE(ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix)) as contactname, e.job_title, get_override(ec_c.email,e_c.email) as c_email FROM userdata.searchsession as s JOIN outlets as o on o.outletid = s.outletid JOIN communications as o_c ON o.communicationid = o_c.communicationid LEFT OUTER JOIN outletcustomers as oc ON oc.outletid = o.outletid AND oc.customerid = s.customerid JOIN employees as e on COALESCE(s.employeeid,oc.primaryemployeeid,o.primaryemployeeid)= e.employeeid LEFT OUTER JOIN communications as e_c ON e.communicationid = e_c.communicationid LEFT OUTER JOIN employeecustomers as ec ON ec.employeeid = e.employeeid AND ec.customerid = s.customerid LEFT OUTER JOIN communications as ec_c ON ec.communicationid = ec_c.communicationid LEFT OUTER JOIN communications as oc_c ON oc_c.communicationid = oc.communicationid LEFT OUTER JOIN contacts as c on e.contactid = c.contactid WHERE s.userid = %(userid)s  and s.searchtypeid= %(searchtypeid)s  AND SELECTION(s.selected, %(selector)s)=true ORDER BY outletname </query></queries>', '', 20, '');
 
+/*
 ALTER TABLE outlets ADD COLUMN italian_export boolean NOT NULL DEFAULT false;
 ALTER TABLE research.researchdetails DROP COLUMN italian_export;
 ALTER TABLE research.researchdetailsdesk DROP COLUMN italian_export;
-/*
+
 INSERT INTO internal.reasoncodes VALUES (31, 'Project Changes', 2);
 INSERT INTO internal.reasoncodes VALUES (32, 'Project Item Changes', 2);
 
