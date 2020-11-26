@@ -158,12 +158,14 @@ class ReportTemplate(BaseSql):
 			kw['reporttemplatename'] = kw['reporttemplatename'].replace("*", "%")
 
 		# if customer is journolink we want to see restricted exports
-		if 'customerid' in kw and kw['customerid'] == 3611:
-			if 'reportsourceid' in kw:
-				if kw['reportsourceid'] == 2:
-					kw['id'] = 3
-				elif kw['reportsourceid'] == 3:
-					kw['id'] = 38
+		if 'customerid' in kw:
+			customer = Customer.query.get(int(kw['customerid']))
+			if customer.customertypeid == 27: 
+				if 'reportsourceid' in kw:
+					if kw['reportsourceid'] == 2:
+						kw['id'] = 3
+					elif kw['reportsourceid'] == 3:
+						kw['id'] = 38
 
 		if "id" in kw:
 			command = text(ReportTemplate.List_Id)

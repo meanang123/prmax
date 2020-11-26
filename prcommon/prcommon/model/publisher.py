@@ -127,7 +127,7 @@ class Publisher(BaseSql):
 		if "publisherid" in  params:
 			whereused = BaseSql.addclause(whereused, "p.publisherid = :publisherid")
 
-		if 'sourcetypeid' in params:
+		if 'sourcetypeid' in params and params['sourcetypeid'] != None and params['sourcetypeid'] != '':
 			whereused = BaseSql.addclause(whereused, "p.sourcetypeid = :sourcetypeid")
 
 		return cls.get_rest_page_base(
