@@ -42,7 +42,7 @@ COMMAND1 = """SELECT
 	CASE WHEN oca.address1 IS NULL THEN oa.postcode	ELSE oca.postcode END as postcode,
 	o.www,
 	get_override(ec_c.tel,e_c.tel,oc_c.tel,o_c.tel) as telephone,
-	get_override(ec_c.mobile,e_c.mobile,'','') as mobile,
+	get_override(ec_c.mobile,e_c.mobile,oc_c.mobile,o_c.mobile) as mobile,
 	get_override(ec_c.fax,e_c.fax,oc_c.fax,o_c.fax) as fax,
 	get_override(ec_c.email,e_c.email,o_c.email,o_c.email) as email,
 	get_override(ec_c.twitter,e_c.twitter,o_c.twitter,'') AS contact_twitter,
