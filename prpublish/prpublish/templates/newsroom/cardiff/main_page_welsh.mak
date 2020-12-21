@@ -26,7 +26,7 @@ var ssiSocialTrackingCode = '081ef02f8d4a40f2';
 <%include file="default_header_welsh.mak"/>
 <div class="content-width">
 	<div class="news-content-cardiff">
-		<p class="content-title" align="center">Diweddaraf Datganiadau</p>
+		<p class="content-title" align="center">Datganiadau Diweddaraf</p>
 		<div class="single-news-text">
 			% if not results:
 				<div class="empty" >Ni chafwyd canlyniadau</div>
