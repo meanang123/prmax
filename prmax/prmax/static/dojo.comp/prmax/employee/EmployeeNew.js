@@ -66,7 +66,7 @@ dojo.declare("prmax.employee.EmployeeNew",
 	{
 		this.prefix.set("value","");
 		this.firstname.set("value","");
-		this.familyname.et("value","");
+		this.familyname.set("value","");
 	},
 	_setCallbackAttr:function( func)
 	{
