@@ -338,12 +338,12 @@ class Root(controllers.RootController):
 
 		return ""
 
-	LOGIN_PAGES = (("mediamatchmaker", "prmax.templates.logins/blueboo"),
+	LOGIN_PAGES = (("mediamatchmaker", "prmax.templates.logins/mediamatchmaker"),
 		       ("blueboo", "prmax.templates.logins/blueboo"),
 	               ("deperslijst", "prmax.templates.logins/deperslijst"),
 	               ("professional", "mako:prmax.templates.logins.professional"),
 	               ("levelcert", "mako:prmax.templates.logins.levelcert"),
-		       ("tmediamatchmaker", "prmax.templates.logins/blueboo"),
+		       ("tmediamatchmaker", "prmax.templates.logins/mediamatchmaker"),
 		       ("tblueboo", "prmax.templates.logins/blueboo"),
 	               ("tdeperslijst", "prmax.templates.logins/deperslijst"),
 	               ("tprofessional", "mako:prmax.templates.logins.professional"),
