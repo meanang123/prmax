@@ -274,7 +274,7 @@ NewsFeed_SEO 		 = 3
 NewsFeed_Monitor = 4
 
 from datetime import date
-Direct_Debit_Expire_Date = date(2020, 12, 31)
+Direct_Debit_Expire_Date = date(2035, 12, 31)
 
 OrderConfirmationPayment_CC = 1
 OrderConfirmationPayment_SI_GA = 2

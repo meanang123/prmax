@@ -926,6 +926,7 @@ CONTENTHEADERS = dict (
   xlc = "application/vnd.ms-excel",
   xlm = "application/vnd.ms-excel",
   xls = "application/vnd.ms-excel",
+  xlsx = "application/vnd.ms-excel",
   xlt = "application/vnd.ms-excel",
   xlw = "application/vnd.ms-excel",
   xof = "x-world/x-vrml",

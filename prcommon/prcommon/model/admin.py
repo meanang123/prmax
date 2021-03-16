@@ -615,8 +615,11 @@ class PRMaxAdmin(BaseSql):
 			customer.advancefeatures = params["advancefeatures"]
 			if params["advancefeatures"]:
 				customer.advance_licence_start = params["advance_licence_start"]
-				advance_licence_expired = customer.advance_licence_start + \
-					datetime.timedelta(days=(params["adv_months_free"] + params["adv_months_paid"]) * 30)
+				if params["orderpaymentmethodid"] in Constants.OrderConfirmationPayment_Is_DD:
+					advance_licence_expired = licence_expire
+				else:
+					advance_licence_expired = customer.advance_licence_start + \
+						datetime.timedelta(days=(params["adv_months_free"] + params["adv_months_paid"]) * 30)
 				if customer.advance_licence_expired != advance_licence_expired:
 					customer.advance_licence_expired = advance_licence_expired
 					session.add(AuditTrail(audittypeid=Constants.audit_expire_date_changed,
@@ -641,8 +644,12 @@ class PRMaxAdmin(BaseSql):
 				customer.maxmonitoringusers = params["maxmonitoringusers"]
 
 				customer.updatum_start_date = params["updatum_start_date"]
-				updatum_end_date = customer.updatum_start_date + \
-					datetime.timedelta(days=(params["updatum_months_free"] + params["updatum_months_paid"]) * 30)
+				
+				if params["orderpaymentmethodid"] in Constants.OrderConfirmationPayment_Is_DD:
+					updatum_end_date = licence_expire
+				else:				
+					updatum_end_date = customer.updatum_start_date + \
+						datetime.timedelta(days=(params["updatum_months_free"] + params["updatum_months_paid"]) * 30)
 				if customer.updatum_start_date != updatum_end_date:
 					customer.updatum_end_date = updatum_end_date
 					session.add(AuditTrail(audittypeid=Constants.audit_expire_date_changed,
