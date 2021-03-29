@@ -1434,6 +1434,7 @@ class SentDistributionsReport(ReportCommon):
 	def load_data(self, db_connect):
 		"Load Data"
 
+# SELECT et.emailtemplateid,et.emailtemplatename,pressreleasestatusid,et.emailtemplatecontent,
 		data_command = """SELECT et.emailtemplateid,et.emailtemplatename,pressreleasestatusid, 
 				CASE WHEN et.sent_time is not null THEN to_char(sent_time,'DD-MM-YYYY HH24:MI') ELSE '-' END AS display_sent_time,
 		        CASE WHEN et.pressreleasestatusid = 1 THEN 'Draft' ELSE 'Sent' END AS status,

@@ -538,3 +538,5 @@ INSERT INTO internal.prmaxcosts VALUES (1, 1,19500,3900,23400, 30000/12,6000/12,
 
 INSERT INTO internal.researchprojectstatus VALUES (13, 'Response Handling');
 */
+
+INSERT INTO internal.hostspf(host, is_valid_source) VALUES ('tayloralden.co.uk', true);

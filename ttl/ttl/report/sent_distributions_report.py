@@ -21,6 +21,8 @@ from reportlab.platypus.flowables import Spacer, Flowable
 Table = tables.Table
 import xlsxwriter
 import csv
+#from ttl.postgres  import DBConnect, DBCompress
+#from bs4 import BeautifulSoup
 
 FONT_TYPE='Helvetica'
 FONT_TYPE_BOLD='Helvetica-Bold'
@@ -294,10 +296,14 @@ class SentDistributionsExcel(object):
 
 	def _do_distributions(self):
 		for dist in self._data:
+#			content = DBCompress.decode(dist['emailtemplatecontent'])
+#			soup = BeautifulSoup(content)
+#
 			self._sheet.write(self._row, 0, dist['display_sent_time'])
 			self._sheet.write(self._row, 1, dist['emailtemplatename'])
 			self._sheet.write(self._row, 2, dist['status'])
 			self._sheet.write(self._row, 3, dist['clientname'])
+#			self._sheet.write(self._row, 4, soup.get_text().replace('\n','\n\n'))
 
 			self._row +=1		
 	
