@@ -42,6 +42,7 @@ setup(
               "prservices.primport.nijgh.utils",
               "prservices.primport.ayrshire",
               "prservices.primport.anglianwater",
+              "prservices.primport.barnsleycouncil",
               "prservices.emplsynchronise",
               "prservices.emplcommunication",
               "prservices.cleanup",
