@@ -53,12 +53,12 @@ class DataClean(object):
                 #filter(Customer.customerid > 1800).distinct().all()
                 #filter(Customer.customerid == 1134).all()
 
-        print 'start'
-        print len(customers_todelete)
+        print ('start')
+        print (len(customers_todelete))
         counter = 0
         for customerid in customers_todelete:
             counter += 1
-            print '%s: %s' %(counter,customerid)
+            print ('%s: %s' %(counter,customerid))
             session.begin()
             try:
 
@@ -188,8 +188,8 @@ class DataClean(object):
                 LOGGER.exception("Delete Failure")
                 session.rollback()
                 raise
-            # print '%s: %s' %(counter,customerid)
-        print 'finished'
+            # print ('%s: %s' %(counter,customerid))
+        print ('finished')
 
     def start_old_data(self):
 
@@ -198,7 +198,7 @@ class DataClean(object):
             try:
                 deletedata = session.execute(text("""select emailtemplateid,listid from userdata.emailtemplates where sent_time < current_date - interval '3 years' and listid is not null and customerid = :customerid"""), {'customerid': customer.customerid,}, Customer).fetchall()
 
-                print 'Start', customer.customerid, customer.customername, len(deletedata)
+                print ('Start', customer.customerid, customer.customername, len(deletedata))
                 totallen =  len(deletedata)
 
                 if totallen >  0 and totallen <= 100:
@@ -241,12 +241,12 @@ class DataClean(object):
 
                     sys.stdout.write('\r')
                     session.commit()
-                print "Completed"
+                print ("Completed")
             except:
                 LOGGER.exception("Delete Failure")
                 session.rollback()
                 raise
-        print "finished"
+        print ("finished")
 
 class CollateralClean(object):
     """Clean collateral database """
@@ -254,14 +254,14 @@ class CollateralClean(object):
     def start_service(self):
 
         prmaxcollateral = session.query(Collateral.collateralid).all()
-        print 'prmaxcollateral: %s' %len(prmaxcollateral)
+        print ('prmaxcollateral: %s' %len(prmaxcollateral))
 
         nbr = 0
         for x in range(1, 137):
             collateral_collateral = session.query(ECollateral).\
                 filter(ECollateral.collateralid < x*1000).filter(ECollateral.collateralid >= (x-1)*1000).all()
 
-            print 'collateral_collateral: %s' %len(collateral_collateral)
+            print ('collateral_collateral: %s' %len(collateral_collateral))
             session.begin()
             for col in collateral_collateral:
                 if col.collateralid not in prmaxcollateral:
@@ -270,7 +270,6 @@ class CollateralClean(object):
                     if nbr%50 == 0:
                         session.commit()
                         session.begin()
-                        print '%5d:' % nbr
+                        print ('%5d:' % nbr)
             session.commit()
-        print 'Total deleted: %s' % nbr
-
+        print ('Total deleted: %s' % nbr)

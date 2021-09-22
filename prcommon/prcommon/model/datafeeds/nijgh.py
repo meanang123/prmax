@@ -158,14 +158,14 @@ class NijghImport(object):
 			if os.path.isdir(fullpath) or filename.startswith('.'):
 				continue
 
-			print "Processing File", filename
+			print ("Processing File", filename)
 
 			importer = NijghImportFile(fullpath, _db_interface)
 
 			importer.do_phase()
 
 		if self._check:
-			print _db_interface.do_update_translations()
+			print (_db_interface.do_update_translations())
 			_db_interface.do_import_completed()
 
 class NijghDbImport(object):
@@ -185,7 +185,7 @@ class NijghDbImport(object):
 			session.begin()
 			if  publication["command"] in ("Update", "Add"):
 				if publication["type"] not in ("Publication", "Organisation", "Freelance"):
-					print publication["type"]
+					print (publication["type"])
 				outlet = session.query(Outlet).\
 				  filter(Outlet.sourcetypeid == Constants.Source_Type_Nijgh).\
 				  filter(Outlet.sourcekey2 == publication["mediaid"]).scalar()
@@ -202,7 +202,7 @@ class NijghDbImport(object):
 					if publication["type"] in ("Freelance", ):
 						self._add_freelance_outlet(publication, contacts)
 			else:
-				print publication["command"], publication["type"]
+				print (publication["command"], publication["type"])
 
 			session.commit()
 
@@ -210,9 +210,9 @@ class NijghDbImport(object):
 		"""do_import_completed"""
 		if  self._check:
 			for key in self._captured:
-				print "\n%s\n" % key.upper()
+				print ("\n%s\n" % key.upper())
 				for value in self._captured[key].keys():
-					print value
+					print (value)
 
 	def _create_outlet_name(self, publication):
 		actual_name = (publication.get("title-prefix", " ") + " " + publication["main-title"])

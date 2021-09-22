@@ -25,7 +25,7 @@ class DBCompress(object):
 	@classmethod
 	def decode2(cls,data):
 		"""decode data"""
-		print "decode2"
+		print ("decode2")
 		return cPickle.loads(b64decode(data))
 
 	@classmethod

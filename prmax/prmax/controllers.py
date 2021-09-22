@@ -394,7 +394,7 @@ class Root(controllers.RootController):
 				response.status = 403
 				raise redirect("/login", dict(message="Forbidden"))
 
-			print "post test"
+			print ("post test")
 			# clear connections
 			try:
 				# for 1.5

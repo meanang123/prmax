@@ -30,7 +30,7 @@ for option, params in options:
     dest = params
 
 if dest == None or source == None:
-  print "Missing Parameters"
+  print ("Missing Parameters")
   exit(-1)
 
 workbook = xlrd.open_workbook(source)

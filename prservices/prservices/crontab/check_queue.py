@@ -54,6 +54,6 @@ def _run():
 			Constants.SupportEmail)
 
 if __name__ == '__main__':
-	print "Starting ", datetime.now()
+	print ("Starting ", datetime.now())
 	_run()
-	print "Existing ", datetime.now()
+	print ("Existing ", datetime.now())

@@ -24,4 +24,4 @@ if __name__=='__main__':
 			buildRelease(True,False,_captureVersion())
 			done = True
 	if not done:
-		print "Missing Environment"
+		print ("Missing Environment")

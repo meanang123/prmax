@@ -36,7 +36,7 @@ class MediaToolKitSearch(object):
 		transaction = BaseSql.sa_get_active_transaction()
 		try:
 			for clip in results:
-				print clip
+				print (clip)
 				# check exits
 				# yes check for update
 				# check customer and if no add

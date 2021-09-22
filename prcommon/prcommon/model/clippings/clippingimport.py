@@ -220,7 +220,7 @@ class ClippingsIpcb(object):
 		except:
 			display = str(r_data)
 
-		#print "%.15s : %s" % (nodename, display)
+		#print ("%.15s : %s" % (nodename, display))
 
 		if r_data == None:
 			raise Exception("Missing Type translation")

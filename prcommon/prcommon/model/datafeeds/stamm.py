@@ -162,14 +162,14 @@ class StammImport(object):
 			if os.path.isdir(fullpath) or filename.startswith('.'):
 				continue
 
-			print "Processing File", filename
+			print ("Processing File", filename)
 
 			importer = StammImportFile(fullpath, _db_interface)
 
 			importer.do_phase()
 
 		if self._check:
-			print _db_interface.do_update_translations()
+			print (_db_interface.do_update_translations())
 			_db_interface.do_import_completed()
 
 
@@ -191,7 +191,7 @@ class StammDbImport(object):
 			session.begin()
 			if  publication["command"] in ("Change", "Add"):
 				if publication["type"] not in ("Publication", "Organisation", "Freelance", "Freelancer"):
-					print publication["type"]
+					print (publication["type"])
 				outlet = session.query(Outlet).\
 				  filter(Outlet.sourcetypeid == Constants.Source_Type_Stamm).\
 				  filter(Outlet.sourcekey == publication["mediaid"]).scalar()
@@ -210,14 +210,14 @@ class StammDbImport(object):
 			# delete
 			elif  publication["command"] == "Delete":
 				if publication["type"] not in ("Publication", "Organisation", "Freelance", "Freelancer"):
-					print publication["type"]
+					print (publication["type"])
 				outlet = session.query(Outlet).\
 			      filter(Outlet.sourcetypeid == Constants.Source_Type_Stamm).\
 			      filter(Outlet.sourcekey == publication["mediaid"]).scalar()
 				if outlet:
 					self._delete_outlet(outlet)
 			else:
-				print publication["command"], publication["type"]
+				print (publication["command"], publication["type"])
 
 			session.commit()
 
@@ -225,9 +225,9 @@ class StammDbImport(object):
 		"""do_import_completed"""
 		if  self._check:
 			for key in self._captured:
-				print "\n%s\n" % key.upper()
+				print ("\n%s\n" % key.upper())
 				for value in self._captured[key].keys():
-					print value
+					print (value)
 
 	def _create_outlet_name(self, publication):
 		actual_name = (publication.get("title-prefix", " ") + " " + publication["main-title"])
@@ -994,7 +994,7 @@ class StammDbImport(object):
 				if row.fieldname.strip() == "jobtitle-areainterest":
 					translation = simplejson.loads(row.translation)
 				self._translations[row.fieldname.strip()][row.sourcetext.lower().strip()] = (translation, extended_function, extra)
-		print 'test'
+		print ('test')
 
 	def do_translation(self, typeid, indata, extended=False):
 		"do translation "

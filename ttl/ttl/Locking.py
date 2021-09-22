@@ -27,7 +27,7 @@ def get_lock(file_id):
 		try:
 			file_lock.acquire()
 		except Exception, details:
-			print details
+			print (details)
 
 def release_lock(file_id):
 	try:

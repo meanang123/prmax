@@ -29,7 +29,7 @@ class CyberWatchGeneral(object):
 		                CSWCommand.Index_Blog,
 		                CSWCommand.Index_Twitter,
 		                CSWCommand.Index_Forum):
-			print indexid
+			print (indexid)
 			indexid = CSWCommand.Index_Twitter
 			command.search_all(start_date=start_date,
 			                   index=indexid,

@@ -65,7 +65,7 @@ class PressDataImport(object):
 			if os.path.isdir(fullcustomerpath) or filename.startswith('.') or not filename.endswith('xml'):
 				continue
 
-			print "Processing File", filename
+			print ("Processing File", filename)
 			importer = PressDataImportFile(fullcustomerpath, _db_interface)
 			results = importer.do_phase()
 			

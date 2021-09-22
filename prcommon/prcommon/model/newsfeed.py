@@ -81,7 +81,7 @@ class NewsFeed(BaseSql):
 			link = webroot + "newsitems/%d.html" %  news.newsfeedid
 			tmp.appendChild ( doc.createTextNode( link))
 			item.appendChild (tmp)
-			tmp = doc.createElement('pubdate')
+			tmp = doc.createElement('pubDate')
 			tmp.appendChild ( doc.createTextNode(news.published.strftime("%Y-%m-%d")))
 			item.appendChild (tmp)
 

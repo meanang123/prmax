@@ -42,7 +42,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir == None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 
@@ -155,7 +155,7 @@ def _run():
 					interests[0].customerid = -1
 					keywords.append(interests[0].interestid)
 				else:
-					print interestname
+					print (interestname)
 		keywords = simplejson.dumps(keywords)		
 
 		tmp = session.query(DataSourceTranslations).\

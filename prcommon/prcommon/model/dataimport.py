@@ -255,7 +255,7 @@ class DataImport(object):
 			out = OutletFields(self._customerid, self._userid)
 
 			for row in reader:
-				print row
+				print (row)
 				out.Clear()
 				for x in xrange(0, len(row)):
 					out.set(hfields[x], row[x])
@@ -305,7 +305,7 @@ class DataImport(object):
 				transaction.rollback()
 			except:
 				pass
-			print ex
+			print (ex)
 			raise Exception(message)
 
 		return added

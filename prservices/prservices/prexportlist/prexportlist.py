@@ -43,7 +43,7 @@ def _run( ):
 				is_list = True
 				listid = params
 	if listid == None:
-		print "Missing Export List"
+		print ("Missing Export List")
 		return
 
 	if  is_list:

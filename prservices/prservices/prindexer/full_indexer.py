@@ -35,11 +35,11 @@ class IndexSection(Thread):
 	def run(self):
 		while True:
 			if self._queue.empty():
-				print "Existing %s" % self.getName()
+				print ("Existing %s" % self.getName())
 				break
 
 			record = self._queue.get()
-			print "%s Staring %d " % (datetime.now(), record)
+			print ("%s Staring %d " % (datetime.now(), record))
 			os.system(COMMANDFILE % record)
 
 class QueueSize(Thread):
@@ -52,11 +52,11 @@ class QueueSize(Thread):
 	def run(self):
 		while True:
 			if self._queue.empty():
-				print "Queue Empty Timer Finishing"
+				print ("Queue Empty Timer Finishing")
 				break
 
 			sleep(30)
-			print "%s Queue Size : %d " % (datetime.now(), self._queue.qsize())
+			print ("%s Queue Size : %d " % (datetime.now(), self._queue.qsize()))
 
 def _run():
 	"""Run Indexer """
@@ -74,6 +74,6 @@ def _run():
 	newthread.join()
 
 if __name__ == '__main__':
-	print "Starting ", datetime.now()
+	print ("Starting ", datetime.now())
 	_run( )
-	print "Completed ", datetime.now()
+	print ("Completed ", datetime.now())

@@ -44,7 +44,7 @@ def _run( ):
 
 
 	if fieldname == None or  sourcetypeid == None:
-		print "Missing Options"
+		print ("Missing Options")
 		return
 
 	DataSourceTranslations.do_translations(sourcetypeid, fieldname, limit)

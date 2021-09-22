@@ -23,7 +23,7 @@ def SycnInfoForCacheDB():
 	cur = dbMain.getCursor()
 	cCache = dbCache.getCursor()
 
-	print "Syncing Users" , datetime.datetime.now()
+	print ("Syncing Users" , datetime.datetime.now())
 	cur.execute("""SELECT user_id,display_name,customerid FROM public.tg_user""")
 	rows = cur.fetchall()
 	for row in rows:
@@ -31,12 +31,12 @@ def SycnInfoForCacheDB():
 		exists = cCache.fetchone()
 		params = dict ( user_id = row[0] , user_name = row[1] , customerid = row[2] )
 		if not exists:
-			print "Adding User" , row
+			print ("Adding User" , row)
 			cCache.execute("""INSERT INTO public.user_tmp ( user_id,user_name,customerid) VALUES( %(user_id)s,%(user_name)s,%(customerid)s)""", params )
 		else:
 			cCache.execute("""UPDATE public.user_tmp SET user_name = %(user_name)s WHERE user_id = %(user_id)s""", params)
 
-	print "Syncing Customers"
+	print ("Syncing Customers")
 	cur.execute("""SELECT customerid, customername FROM internal.customers""")
 	rows = cur.fetchall()
 	for row in rows:
@@ -44,7 +44,7 @@ def SycnInfoForCacheDB():
 		exists = cCache.fetchone()
 		params = dict ( customerid = row[0] , customername = row[1] )
 		if not exists:
-			print "Adding Customer" , row
+			print ("Adding Customer" , row)
 			cCache.execute("""INSERT INTO public.customer_tmp ( customerid,customername) VALUES( %(customerid)s,%(customername)s)""", params )
 		else:
 			cCache.execute("""UPDATE public.customer_tmp SET customername = %(customername)s WHERE customerid = %(customerid)s""", params )
@@ -59,7 +59,7 @@ def deleteAdvanceFeatures():
 	dbMain = DBConnect(Constants.db_Command_Service)
 	cur = dbMain.getCursor()
 
-	print "Delete Out of Date Fetures" , datetime.datetime.now()
+	print ("Delete Out of Date Fetures" , datetime.datetime.now())
 
 	one_year_only = datetime.date.today() - datetime.timedelta( days = 365 )
 

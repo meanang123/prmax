@@ -15,12 +15,12 @@ import pkg_resources
 try:
     pkg_resources.require('TurboGears>=1.1.0')
 except pkg_resources.DistributionNotFound:
-    print """\
+    print ("""\
 This is a TurboGears 1.5.1 (http://www.turbogears.org) application.
 It seems that you either don't have TurboGears installed or it can not be found.
 Please check if your PYTHONPATH is set correctly. To install TurboGears, go to
 http://www.turbogears.org/en/documentation and follow the instructions there. If
-you are stuck, visit http://www.turbogears.org/en/resources for support options."""
+you are stuck, visit http://www.turbogears.org/en/resources for support options.""")
     sys.exit(1)
 
 import cherrypy

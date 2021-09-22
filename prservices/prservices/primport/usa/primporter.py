@@ -52,7 +52,7 @@ def _run():
 			sourcetypeid = int(params)
 
  	if sourcedir == None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	if remove_old:

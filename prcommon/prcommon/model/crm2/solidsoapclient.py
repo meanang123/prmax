@@ -27,7 +27,7 @@ try:
 	logging.getLogger('suds.cache').setLevel(logging.ERROR)
 	PTSOAPCLIENT = Client("http://service.cyberwatcher.com/PortalServices/PortalServices.asmx?WSDL")
 except:
-	print "Problem loading PT interface "
+	print ("Problem loading PT interface ")
 	PTSOAPCLIENT = None
 
 

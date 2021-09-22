@@ -54,7 +54,7 @@ class ConnectToImap(object):
                     ref['listmemberdistributionid'] = unicode(subject[subject.find('lunsubscribe')+12:].strip())
                     if ref['listmemberdistributionid'].isnumeric:
                         UnsubscribeGeneral.do_unsubscribe(ref)
-                        print 'Unsubscribe listmemberdistributionid = %s' %ref['listmemberdistributionid']
+                        print ('Unsubscribe listmemberdistributionid = %s' %ref['listmemberdistributionid'])
 
 
     def archiveMessage(self, msg_id):

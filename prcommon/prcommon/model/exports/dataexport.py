@@ -254,15 +254,15 @@ class DataExport(object):
 			ext = ".xml"
 		if self._limit:
 			command = self._get_base_query(self._limit)
-			print "To Export   : %d" % command.count()
+			print ("To Export   : %d" % command.count())
 			export_command(command, "1%s" % ext)
-			print "Export Complete"
+			print ("Export Complete")
 		else:
 			if self._countryid:
 				command = self._get_base_query(None, None, self._countryid)
-				print "To Export   : %d" % command.count()
+				print ("To Export   : %d" % command.count())
 				export_command(command, "%d.%s" % (self._countryid, ext))
-				print "Export %d Completed" % (self._countryid, )
+				print ("Export %d Completed" % (self._countryid, ))
 
 	def _export_outlet_query(self, command, outfilename):
 		"export set of outlets"
@@ -641,7 +641,7 @@ class DataExport(object):
 		# get list of countries in set
 		countries = self._get_country_list()
 		for countryid in countries:
-			print "Exporting Country %3d (%3d of %3d)" % (countryid[0], countries.index(countryid) + 1, len(countries))
+			print ("Exporting Country %3d (%3d of %3d)" % (countryid[0], countries.index(countryid) + 1, len(countries)))
 			command = COMMANDFILE
 			if self._limit:
 				command += " --limit=%d" % self._limit
@@ -652,7 +652,7 @@ class DataExport(object):
 			if self._employee_filter:
 				command += ' --employee_filter="%s"' % (self._employee_filter.replace("%", "%%").replace("\n", " "), )
 
-			print command % (countryid[0], self._export_dir)
+			print (command % (countryid[0], self._export_dir))
 			os.system(command % (countryid[0], self._export_dir))
 
 	def export(self):

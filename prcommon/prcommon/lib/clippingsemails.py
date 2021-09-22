@@ -53,10 +53,10 @@ class ConnectToImap(object):
 
         for part in mail.walk():
             if part.get_content_maintype() == 'multipart':
-                # print part.as_string()
+                # (print part.as_string())
                 continue
             if part.get('Content-Disposition') is None:
-                # print part.as_string()
+                # (print part.as_string())
                 continue
             fileName = part.get_filename()
             if bool(fileName) and  fileName.lower().endswith('.xml'):

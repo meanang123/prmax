@@ -33,10 +33,10 @@ COMMANDS = (("Disable Old Demo's", DEMO_RE_SET), )
 def _run():
 	""" run the application """
 	for command in COMMANDS:
-		print command[0]
+		print (command[0])
 		session.execute(text(command[1]), None, Customer)
 
 if __name__ == '__main__':
-	print "Starting ", datetime.now()
+	print ("Starting ", datetime.now())
 	_run()
-	print "Existing ", datetime.now()
+	print ("Existing ", datetime.now())

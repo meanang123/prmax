@@ -56,10 +56,10 @@ class ConnectToImap(object):
         for part in mail.walk():
             #if part.get
             #if part.get_content_maintype() == 'multipart':
-            #    # print part.as_string()
+            #    # print (part.as_string())
             #    continue
             #if part.get('Content-Disposition') is None:
-                # print part.as_string()
+                # print (part.as_string())
             #    continue
             
             if 'Stamatoyla' in part['Subject']:

@@ -53,7 +53,7 @@ class WordToHtmlController(object):
 			# this is restricted to internal email no mass email allowed
 			cur.execute("""SELECT mswordqueueid,indata,orgfilename,template,customerid,emailtemplateid,cleanuphtmltypeid,exclude_images FROM queues.mswordqueue WHERE statusid = 1 """)
 			rows = cur.fetchall()
-			print "Start (%d) %s" % (len(rows), datetime.now())
+			print ("Start (%d) %s" % (len(rows), datetime.now()))
 			if len(rows):
 				for row in rows:
 					params = dict ( mswordqueueid = row[0] , exclude_images = row[7], statusid = 2, outdata = None)
@@ -107,7 +107,7 @@ class WordToHtmlController(object):
 							                                     self._base_url)
 							analyse.parse()
 						except Exception, ex :
-							print ex
+							print (ex)
 							analyse = None
 
 					finally:
@@ -162,18 +162,18 @@ class WordToHtmlController(object):
 						db.commitTransaction( cur )
 						dbColl.commitTransaction( dbCur )
 
-				print "Complete (%d) %s" % (len(rows), datetime.now())
+				print ("Complete (%d) %s" % (len(rows), datetime.now()))
 			db.Close()
 			dbColl.Close()
 		except Exception, ex:
 			try:
-				print ex
+				print (ex)
 				tmp = file("c:\\temp\\log.txt","a")
 				tmp.write(str(ex))
 				tmp.close()
 			except Exception, ex:
-				print ex
-			print ex
+				print (ex)
+			print (ex)
 		finally:
 			self._running = False
 

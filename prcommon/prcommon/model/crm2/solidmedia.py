@@ -66,7 +66,7 @@ class SolidMediaUsers():
 								          headers = SolidMediaInterface.get_default_headers())
 		req.get_method = lambda: "POST"
 		response = OPENER.open(req)
-		print simplejson.load(response)
+		print (simplejson.load(response))
 
 	@staticmethod
 	def add_user(customer):
@@ -87,7 +87,7 @@ class SolidMediaUsers():
 			retdata = simplejson.load(response)
 			success = BaseConstants.Return_Success
 		except Exception, ex:
-			print ex
+			print (ex)
 			success = BaseConstants.Return_Failed
 			retdata = None
 
@@ -141,7 +141,7 @@ class SolidMediaSearchProfiles():
 		headers = SolidMediaInterface.get_default_headers()
 		headers["authorization-token"] =  auth_user
 
-		print SolidMediaSearchProfiles.get_host() +  SolidMediaSearchProfiles.get_path() + "/" + profile_guid
+		print (SolidMediaSearchProfiles.get_host() +  SolidMediaSearchProfiles.get_path() + "/" + profile_guid)
 
 		req = urllib2.Request(SolidMediaSearchProfiles.get_host() +  SolidMediaSearchProfiles.get_path() + "/" + profile_guid,
 								          headers = headers)
@@ -197,7 +197,7 @@ if __name__=='__main__':
 	#                                             [{"type":"or", "keyword":"iphone"}],
 	#                                             user_created["data"]["auth_token"] )
 
-	print SolidMediaSearchProfiles.search('ACV4DbIgjpnJhPhDfdPk3yCLgqdUGAUI')
+	print (SolidMediaSearchProfiles.search('ACV4DbIgjpnJhPhDfdPk3yCLgqdUGAUI'))
 
 
 

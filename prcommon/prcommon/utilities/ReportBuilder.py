@@ -149,7 +149,7 @@ class ReportController(object):
 			self._db.commitTransaction(comm)
 			self._db.closeCursor(comm)
 		except Exception , ex :
-			print ex
+			print (ex)
 
 
 class ReportBuilder(object):

@@ -43,7 +43,7 @@ def _run( ):
 			remove_old = int(params)
 
 	if sourcedir == None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	if remove_old:

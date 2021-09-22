@@ -64,14 +64,14 @@ def build_test_main_dojo():
 def build_live_eggs():
     for fd in build_folders ( live_location ) :
         with lcd("\Projects\\" + fd[0] ):
-            print fd[1]
+            print (fd[1])
             local('%s setup.py clean --all bdist_egg' % python_path , capture=True)
 
 def build_test_eggs():
     for fd in build_folders ( test_location ) :
-        print "\Projects\\" + fd[0]
+        print ("\Projects\\" + fd[0])
         with lcd("\Projects\\" + fd[0] ):
-            print fd[1]
+            print (fd[1])
             local('%s setup.py clean --all bdist_egg' % python_path , capture=False)
 
 def prepare_live_deploy():
@@ -174,7 +174,7 @@ def deploy_to_new_system():
     env.user = "prmax"
 
     for app_server in prmax_servers:
-        print "Doing - ", app_server
+        print ("Doing - ", app_server)
 
         env.host_string  = app_server
 
@@ -191,7 +191,7 @@ def deploy_test_to_new_system():
     env.user = "prmax"
 
     for app_server in prmax_servers_new:
-        print "Doing - ", app_server
+        print ("Doing - ", app_server)
 
         env.host_string  = app_server
 
@@ -209,7 +209,7 @@ def deploy_live_to_new_system():
     env.user = "prmax"
 
     for app_server in prmax_servers_new:
-        print "Doing - ", app_server
+        print ("Doing - ", app_server)
 
         env.host_string  = app_server
 
@@ -273,7 +273,7 @@ def build_test_dojo_live( command ):
 def build_test_eggs_2( egg_list ):
     for fd in egg_list:
         with lcd("\Projects\\" + fd[0] ):
-            print fd[1]
+            print (fd[1])
             local('%s setup.py clean --all bdist_egg' % python_path  , capture=True)
 
 

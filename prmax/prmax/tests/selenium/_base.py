@@ -41,8 +41,8 @@ class PrmaxWebBase(unittest.TestCase):
 
 	def setUp(self):
 		""" default test start function """
-		print "Using selenium server at " + self.seleniumHost + ":" + self.seleniumPort
-		print "Browser is " + self.browserStartCommand
+		print ("Using selenium server at " + self.seleniumHost + ":" + self.seleniumPort)
+		print ("Browser is " + self.browserStartCommand)
 
 		self.selenium = SeleniumExt(self.seleniumHost,
 									self.seleniumPort,

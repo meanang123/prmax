@@ -83,19 +83,19 @@ class SqlCommand(object):
 
 	def __call__(self):
 		""" run command """
-		print "Excuting Command " , self._commandline , datetime.datetime.now()
+		print ("Excuting Command " , self._commandline , datetime.datetime.now())
 		db = DBConnect(self._dbconnectionstring)
 		try:
 			cur = db.getCursor(True)
 			try:
 				cur.execute( self._commandline)
 				db.commitTransaction(cur)
-				print "Command Completed " , datetime.datetime.now()
+				print ("Command Completed " , datetime.datetime.now())
 			except Exception, ex:
 				try:
 					db.rollbackTransaction(cur)
 				except: pass
-				print ex
+				print (ex)
 		finally:
 			db.Close()
 
@@ -111,7 +111,7 @@ def CheckQueue():
 	GROUP BY customerid, l.emailtemplatename, embargo
 	ORDER BY embargo"""
 
-	print "Excuting Command " , datetime.datetime.now()
+	print ("Excuting Command " , datetime.datetime.now())
 
 	db = DBConnect(Constants.db_Command_Service)
 	try:
@@ -127,6 +127,6 @@ def CheckQueue():
 				  "support@prmax.co.uk" )
 
 		except Exception, ex:
-			print ex
+			print (ex)
 	finally:
 		db.Close()

@@ -816,7 +816,7 @@ class Outlet(BaseSql):
 
 			session.execute(text(Outlet.Delete_Outlet), params, cls)
 
-			print "completed"
+			print ("completed")
 
 			transaction.commit()
 		except:

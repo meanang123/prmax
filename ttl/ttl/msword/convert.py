@@ -70,7 +70,7 @@ class WordToHtml:
 		     "/f",															# imput file
 		     self._file
 		    ])
-		print result
+		print (result)
 
 
 	def getFixUpHtmlForIE(self):

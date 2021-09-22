@@ -156,7 +156,7 @@ class EmailController(object):
 		    emailrec,
 		    TESTMODE,
 		    sender)
-		print "Result", fields['error']
+		print ("Result", fields['error'])
 
 	def _open_relay(self, emailrec, host, fields):
 		"""Open Replay"""
@@ -166,7 +166,7 @@ class EmailController(object):
 
 			stmp.send(emailrec)
 		except Exception, e:
-			print e
+			print (e)
 
 	def _open_relay_basic(self, emailrec, host, fields):
 		"""Open Replay Basic version http only """
@@ -176,7 +176,7 @@ class EmailController(object):
 
 			stmp.send(emailrec)
 		except Exception, e:
-			print e
+			print (e)
 
 
 	def _365_relay(self, emailrec, username, password):
@@ -188,7 +188,7 @@ class EmailController(object):
 
 			stmp.send(emailrec)
 		except Exception, e:
-			print e
+			print (e)
 
 	def run(self):
 		""" run """
@@ -243,10 +243,10 @@ class EmailController(object):
 									WHERE emailqueueid =  %(emailqueueid)s""", fields)
 
 						db_connect.commitTransaction(cur)
-				print "Complete (%d) %s" % (len(rows), datetime.now())
+				print ("Complete (%d) %s" % (len(rows), datetime.now()))
 			db_connect.Close()
 		except Exception, ex:
-			print ex
+			print (ex)
 
 # need to add a timing loop in here to run every 60 second if not already running
 EMAILCTRL = EmailController()

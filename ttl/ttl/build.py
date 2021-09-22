@@ -18,7 +18,7 @@ import shutil
 
 def CompressDetails ( rootdev, rootrel, cssname ) :
     """ Conver all the file and move from dev to rel"""
-    print "Compress Js and Css html "
+    print ("Compress Js and Css html ")
     for(dirpath,dirnames, filenames) in os.walk(rootdev):
         if dirpath.find(".svn")!=-1:
             continue
@@ -56,14 +56,14 @@ def CompressDetails ( rootdev, rootrel, cssname ) :
                 else:
                     slimmed = slimmer.xhtml_slimmer(code)
                 if slimmed:
-                    print "Compressing" , nfile
+                    print ("Compressing" , nfile)
                     nfile2 = os.path.join(dirpath.replace(rootdev,rootrel),nfile)
                     f1 = open(nfile2,"w")
                     f1.write(codecs.BOM_UTF8 )
                     f1.write(slimmed.replace(codecs.BOM_UTF8, "").encode('utf-8'))
                     f1.close()
             if sfile[1] in (".gif",".jpg",".ico", ".png"):
-                print "Copying" , nfile
+                print ("Copying" , nfile)
                 shutil.copyfile ( os.path.normpath ( os.path.join(dirpath,nfile) ) ,
                                   os.path.normpath ( os.path.join(dirpath.replace(rootdev,rootrel),nfile)))
         if prmaxcss:

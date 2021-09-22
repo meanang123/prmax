@@ -70,8 +70,8 @@ Just inherit it (with optional arguments) and find the password in the class var
 			#if randint(0, 5) == 0 and randoms < 2:
 				#   warped_password += choice("\/_.,!;:'+-=")
 				#   randoms += 1
-#        print "unwarped pass = ", self.password
-#        print "warped pass   = ", warped_password
+#        print ("unwarped pass = ", self.password)
+#        print ("warped pass   = ", warped_password)
 
 		return warped_password
 
@@ -119,5 +119,5 @@ if __name__=='__main__':
 
 	t1 = Pgenerate(4,0)
 
-	print t1.password
+	print (t1.password)
 

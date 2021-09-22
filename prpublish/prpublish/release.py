@@ -18,7 +18,7 @@ version = "1.0"
 # license = "MIT"
 
 
-print "Compress Js and Css"
+print ("Compress Js and Css")
 rootdev= r"prpublish\static\dev"
 rootrel= r"prpublish\static\rel"
 
@@ -45,7 +45,7 @@ CompressDetails ( rootdev, rootrel, "prpublish" )
 	#for nfile in filenames:
 		#sfile = os.path.splitext(nfile)
 		#if sfile[1] in (".css",".htm",".kid",".html",".js"):
-			#print "Compressing" , nfile
+			#print ("Compressing" , nfile)
 			#slimmed = None
 			#code = open(os.path.join(dirpath,nfile)).read()
 			## need to add code here to improve

@@ -15,9 +15,11 @@ db_Cache_Name = 'prmaxcache'
 db_Collateral_Name = 'prmaxcollateral'
 db_User='prmax'
 db_Host='localhost'
+#db_Host='5.28.62.201'
 db_Password='mkjn_45'
 db_Full_User='postgres'
 db_Full_Password='amber'
+db_Port=5432
 
 db_User_Service='prmaxservice'
 db_Password_Service='VVD8MuRF'

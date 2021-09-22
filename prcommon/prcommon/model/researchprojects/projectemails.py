@@ -211,7 +211,7 @@ class ProjectEmails(object):
 			# otherwise we will have to rewrite email to have single connection open for whole session
 
 			if first_send_total % 50 == 0:
-				print "Resting for 30 Seconds"
+				print ("Resting for 30 Seconds")
 				sleep(30)
 
 		if researchprojectid:
@@ -226,7 +226,7 @@ class ProjectEmails(object):
 
 		# get email server access details
 		if test_mode:
-			print toemail, subject, researchprojectitemid
+			print (toemail, subject, researchprojectitemid)
 			return
 
 		email = EmailMessage(from_email,
@@ -267,7 +267,7 @@ class ProjectEmails(object):
 		if not statusid:
 			raise Exception("Problem Sending Email")
 
-		print error, statusid
+		print (error, statusid)
 
 	@staticmethod
 	def send_follow_up_emails(istest=True, to_email=None, test_mode=False):
@@ -379,7 +379,7 @@ class ProjectEmails(object):
 			session.commit()
 
 			if sent_qty % 50 == 0:
-				print "Resting for 30 Seconds"
+				print ("Resting for 30 Seconds")
 				sleep(30)
 
 	@staticmethod

@@ -37,7 +37,7 @@ class CacheController(object):
             control = cur.fetchone()
             if control:
                 # get the index
-                print "Started %s"%(datetime.datetime.now())
+                print ("Started %s"%(datetime.datetime.now()))
                 # now we need to build and run query
 
                 command = SearchSession_ListData%( DBCompress.decode(control[4]))
@@ -68,11 +68,11 @@ class CacheController(object):
 
                 cur.execute("""DELETE FROM  queues.cachequeue WHERE cachequeueid = %(cachequeueid)s """, dict(cachequeueid=control[0]))
                 db.commitTransaction(cur)
-                print "Complete %s"%(datetime.datetime.now())
+                print ("Complete %s"%(datetime.datetime.now()))
 
             db.Close()
         except Exception, ex:
-            print ex
+            print (ex)
 
     def RunSingle(self):
         self.doIndex()

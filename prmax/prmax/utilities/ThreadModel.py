@@ -25,7 +25,7 @@ class ThreadProcess(object):
                     result = command(context)
                 Qout.put(result)
             except:
-                print err_msg()
+                print (err_msg())
             
     def start_threads(self):
         for i in range(self.nbr):

@@ -99,7 +99,7 @@ class SolidSearch(object):
 		  apiKey = self._api_key)))
 
 
-		print tostring(self._root)
+		print (tostring(self._root))
 
 		response = OPENER.open(req)
 		tree = ElementTree()

@@ -133,7 +133,7 @@ class EmployeeSynchronise(object):
 						results.append()
 				except Exception, ex:
 					results.append(str(ex))
-		print results
+		print (results)
 
 	def synchronise_employees(self):
 

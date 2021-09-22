@@ -43,15 +43,15 @@ def run_twitter():
 	since_id = database.session.query(PRRequest.twitterid).order_by(desc(PRRequest.prrequestid)).limit(1).scalar()
 
 	# capture data
-	print "Twitter Capture"
-	print "Starting at  : ", datetime.now().strftime("%d/%m/%y %H:%M:%S")
+	print ("Twitter Capture")
+	print ("Starting at  : ", datetime.now().strftime("%d/%m/%y %H:%M:%S"))
 
 	database.session.begin()
 	twitters = prtwitter.search("#prrequest OR #journorequest", since_id=since_id)
 	for row in twitters:
 		tmp = database.session.query(PRRequest.prrequestid).filter(PRRequest.twitterid == str(row.id)).all()
 		if tmp:
-			print row.id, len(str(row.id)), parser.parse(row.created_at)
+			print (row.id, len(str(row.id)), parser.parse(row.created_at))
 			continue
 
 		database.session.add(PRRequest(
@@ -61,9 +61,9 @@ def run_twitter():
 		  tweet=row.text,
 		  profile_image_url=row.user.profile_image_url))
 	database.session.commit()
-	print "Finished"
-	print "Nbr Imported : ", len(twitters)
-	print "Completed at : ", datetime.now().strftime("%d/%m/%y %H:%M:%S")
+	print ("Finished")
+	print ("Nbr Imported : ", len(twitters))
+	print ("Completed at : ", datetime.now().strftime("%d/%m/%y %H:%M:%S"))
 
 if __name__ == "__main__":
 	run_twitter()

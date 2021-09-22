@@ -36,7 +36,7 @@ def _run():
 			sourcefile = params
 
 	if sourcefile == None:
-		print "Missing Source File or Directory"
+		print ("Missing Source File or Directory")
 		return
 
 	OutletExternalLinkGeneral.import_xls(sourcefile)

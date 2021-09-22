@@ -36,7 +36,7 @@ class AnalyseHtmlWordDocument(object):
 	class MyHTMLParser(HTMLParser):
 		def handle_starttag(self, tag, attrs):
 				if tag == "img":
-					print attrs
+					print (attrs)
 					src = [attr[1] for attr in attrs  if attr[0] =="src"]
 					if src:
 						global _p_control

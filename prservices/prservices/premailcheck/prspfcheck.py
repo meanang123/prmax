@@ -64,7 +64,7 @@ ORDER BY c.customerid"""), None, Outlet).fetchall():
 		except:
 			results.append([str(row[0]), row[1].encode('ascii','ignore') if row[1] else '', row[2], row[3].encode('ascii','ignore') if row[3] else '', row[4], str(row[5]), 'INVALID DOMAIN'])
 			#result.append("INVALID DOMAIN")
-		print domain
+		print (domain)
 #		results.append(result)
 
 	with file("/tmp/spf2.csv", "wb") as outfile:

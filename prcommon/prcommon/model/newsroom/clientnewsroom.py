@@ -174,7 +174,7 @@ class ClientNewsRoom(object):
 		else:
 			retval = "%snr/g%d" % (config.get('prpublish.web', ''), self.newsroomid)
 
-		print retval
+		print (retval)
 		return retval
 
 #		return "%s/nr/%d/%s" % (config.get('prpublish.web', ''), self.customerid, self.news_room_root)

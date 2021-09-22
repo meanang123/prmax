@@ -1528,7 +1528,7 @@ class SEOSite(object):
 			link = webroot + "releases/%d.html" % seo.seoreleaseid
 			tmp.appendChild(doc.createTextNode(link))
 			item.appendChild(tmp)
-			tmp = doc.createElement('pubdate')
+			tmp = doc.createElement('pubDate')
 			tmp.appendChild(doc.createTextNode(str(seo.published)))
 			item.appendChild(tmp)
 
@@ -1587,7 +1587,7 @@ class SEOSite(object):
 				link = webroot + "releases/%s%d/%d.html" % ('w', newsroomid, seo.seoreleaseid)
 			tmp.appendChild(doc.createTextNode(link))
 			item.appendChild(tmp)
-			tmp = doc.createElement('pubdate')
+			tmp = doc.createElement('pubDate')
 			tmp.appendChild(doc.createTextNode(str(seo.published)))
 			item.appendChild(tmp)
 
@@ -1703,6 +1703,7 @@ class SEOSite(object):
 		rss = doc.createElement('rss')
 		rss.setAttribute("version", "2.0")
 		rss.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/")
+		rss.setAttribute("xmlns:atom", "http://www.w3.org/2005/Atom")
 
 		doc.appendChild(rss)
 		channel = doc.createElement('channel')
@@ -1735,7 +1736,7 @@ class SEOSite(object):
 			link = webroot + "releases/%d.html" % seo['seoreleaseid']
 			tmp.appendChild(doc.createTextNode(link))
 			item.appendChild(tmp)
-			tmp = doc.createElement('pubdate')
+			tmp = doc.createElement('pubDate')
 			tmp.appendChild(doc.createTextNode(str(seo['published_display'])))
 			item.appendChild(tmp)
 

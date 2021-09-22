@@ -57,18 +57,18 @@ def _run( ):
 			countryid = int(params)
 
 	if outdir == None:
-		print "Missing Output Directory"
+		print ("Missing Output Directory")
 		return
 
-	print "Settings"
-	print "Output Dir		:", outdir
-	print "Output Style	:", "csv" if is_csv else "xml"
-	print "Zipper			:", "True" if is_zipped else "False"
-	print "Limited			:", "True" if limit else "False"
-	print "Outlet Filtered	:", "True" if sql_filter else "False"
-	print "Employee Filter	:", "True" if employee_filter else "False"
-	print "Zip Pswd		:", password if password else "Not Selected"
-	print "CountryId		:", str(countryid, )
+	print ("Settings")
+	print ("Output Dir		:", outdir)
+	print ("Output Style	:", "csv" if is_csv else "xml")
+	print ("Zipper			:", "True" if is_zipped else "False")
+	print ("Limited			:", "True" if limit else "False")
+	print ("Outlet Filtered	:", "True" if sql_filter else "False")
+	print ("Employee Filter	:", "True" if employee_filter else "False")
+	print ("Zip Pswd		:", password if password else "Not Selected")
+	print ("CountryId		:", str(countryid, ))
 
 	exporter = DataExport(
 	  outdir,

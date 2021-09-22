@@ -35,10 +35,10 @@ class MediaToolkitTest(unittest.TestCase):
 
 		data = engine.execute_search(37943, 6106508, from_time=datetime.now() - timedelta(days=1))
 
-		print len(data)
+		print (len(data))
 
 		for clip in data:
-			print clip["id"], clip["type"], clip["url"]
+			print (clip["id"], clip["type"], clip["url"])
 
 	def test_list_all_avaliable_searchs(self):
 
@@ -47,4 +47,4 @@ class MediaToolkitTest(unittest.TestCase):
 		data = engine.list_all_avaliable_searchs()
 
 		for row in data:
-			print row
+			print (row)

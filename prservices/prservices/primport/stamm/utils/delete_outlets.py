@@ -43,7 +43,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir is None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	count = deleted = 0

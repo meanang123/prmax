@@ -208,7 +208,7 @@ class DateWeekly(object):
 		try:
 			edate = hndDates(d2.strftime("%d-%m-%Y")).SystemDate()
 		except Exception, details:
-			print details , d2
+			print (details , d2)
 			edate = datetime.datetime ( 2020 , 1,1 ,0,0,0)
 
 		# voucher is no appliable for start section
@@ -248,7 +248,7 @@ class DateWeekly(object):
 		try:
 			thisdate = hndDates(d1.strftime("%d-%m-%Y")).SystemDate()
 		except Exception, details:
-			print details , d1
+			print (details , d1)
 			thisdate = datetime.datetime ( 2020 , 1,1 ,0,0,0)
 
 		# is this date on the relevant day of week

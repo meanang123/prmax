@@ -43,7 +43,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir is None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	#delete unused publishers
@@ -60,7 +60,7 @@ def _delete_unsused_publishers():
 	for notlinkedpublisherid in notlinkedpublishers:
 		session.begin()
 		session.execute(text("DELETE FROM internal.publishers WHERE publisherid = :publisherid"), {'publisherid': notlinkedpublisherid}, Publisher)
-		print 'Deleted Publisherid: %s' %notlinkedpublisherid
+		print ('Deleted Publisherid: %s' %notlinkedpublisherid)
 		session.commit()
 
 

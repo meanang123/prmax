@@ -21,7 +21,7 @@ def getEnvironment():
 		if o in ("--test",):
 			return True
 	else:
-		print "No Environment Specific --live or --test"
+		print ("No Environment Specific --live or --test")
 		return None
 
 

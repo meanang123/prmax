@@ -121,7 +121,7 @@ class DateWeekly(object):
 		try:
 			edate = datetime.datetime(d2.year, d2.month, d2.day)
 		except Exception, details:
-			print details , d2
+			print (details , d2)
 			edate = datetime.datetime ( 2020 , 1,1 ,0,0,0)
 
 		# voucher is no appliable for start section
@@ -161,7 +161,7 @@ class DateWeekly(object):
 		try:
 			thisdate = d1
 		except Exception, details:
-			print details , d1
+			print (details , d1)
 			thisdate = datetime.datetime ( 2020 , 1,1 ,0,0,0)
 
 		# is this date on the relevant day of week

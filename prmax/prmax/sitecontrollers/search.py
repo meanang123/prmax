@@ -126,7 +126,7 @@ class SearchController(SecureController):
 			if type(obj) in (types.ListType, types.DictionaryType):
 				kw2.keyname = obj
 				if kw2.keytypeid == Constants.employee_contact_ext_employeeid:
-					print type(kw2.keyname["data"]["surname"])
+					print (type(kw2.keyname["data"]["surname"]))
 			else:
 				kw2.keyname =  ",".join(["'%s'"% encodeforpostgres( key  ) for key in  obj.keys()])
 		else:

@@ -41,7 +41,7 @@ class Testreports(unittest.TestCase):
 		t = file ("c:\\temp\\q.html","w")
 		t.write ( a.output)
 		t.close()
-		print a.output_compressed
+		print (a.output_compressed)
 
 	def test_preview_questionnaires(self):
 		""" """
@@ -54,6 +54,5 @@ class Testreports(unittest.TestCase):
 		t = file ("c:\\temp\\qp.html","w")
 		t.write ( a.output)
 		t.close()
-		print a.output_compressed
-
+		print (a.output_compressed)
 

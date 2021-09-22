@@ -150,7 +150,7 @@ class IndexController(object):
 					# uk only
 					country = [1, None]
 				else:
-					print "Missing Type", row[1]
+					print ("Missing Type", row[1])
 
 				# this ensure that a delete is applied over all the data sets for consistency
 				if row[4] == Constants.index_Delete:
@@ -169,7 +169,7 @@ class IndexController(object):
 						if row[4] == Constants.index_Delete:
 							prmaxdatasets = self._all_prmaxdatasets
 						else:
-							print "Problem Row", row
+							print ("Problem Row", row)
 							# check
 							records_delete.append( row[5] )
 							continue
@@ -182,7 +182,7 @@ class IndexController(object):
 					tmp = str(row[keyid]).decode("utf-8", "replace")[:44]
 					row[2] = tmp
 				except Exception, ex:
-					print "Problem", ex
+					print ("Problem", ex)
 					records_delete.append( row[5] )
 					continue
 
@@ -206,7 +206,7 @@ class IndexController(object):
 
 			maxrows = len(records)
 			if maxrows and not no_output:
-				print "Found (%d) at %s" % (maxrows, datetime.datetime.now())
+				print ("Found (%d) at %s" % (maxrows, datetime.datetime.now()))
 
 			for record in records.itervalues():
 				# get the index
@@ -275,16 +275,16 @@ class IndexController(object):
 				db.commitTransaction(cur)
 
 			if not no_output:
-				print "Completed", datetime.datetime.now()
+				print ("Completed", datetime.datetime.now())
 			if records_delete:
 				if not no_output:
-					print "Do Final Deletes %d" % (len(set(records_delete)), )
+					print ("Do Final Deletes %d" % (len(set(records_delete)), ))
 				db.startTransaction(cur)
 				cur.execute("""DELETE FROM queues.indexerqueue WHERE indexerqueueid IN (%s)"""% ",".join([ str(line) for line in set(records_delete)]))
 				db.commitTransaction(cur)
 			db.Close()
 		except Exception, ex:
-			print ex
+			print (ex)
 
 		return maxrows
 

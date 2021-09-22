@@ -85,7 +85,7 @@ def Test():
 
 
 	def _print(fromFile, to ):
-		print fromFile , to
+		print (fromFile , to)
 
 	walkAndPutTreeExt ( r"C:\PPRTest\Products\Hnd",
 	                    "/home/zope/instance/Products/Hnd",

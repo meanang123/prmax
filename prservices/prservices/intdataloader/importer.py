@@ -333,7 +333,7 @@ class PRMaxImporter(object):
 	def verify(self):
 		"""Check all """
 
-		print "Verify Run"
+		print ("Verify Run")
 		is_missing = False
 
 		# load ignore
@@ -406,17 +406,17 @@ class PRMaxImporter(object):
 				raise
 
 		if self._missing_countries:
-			print "Missing Countries"
-			print "\n".join(self._missing_countries.keys())
+			print ("Missing Countries")
+			print ("\n".join(self._missing_countries.keys()))
 		if self._missing_outlettypes:
-			print "Missing Outlet Types"
-			print "\n".join(self._missing_outlettypes.keys())
+			print ("Missing Outlet Types")
+			print ("\n".join(self._missing_outlettypes.keys()))
 		if self._missing_interests:
-			print "Missing Interests"
-			print "\n".join(self._missing_interests.keys())
+			print ("Missing Interests")
+			print ("\n".join(self._missing_interests.keys()))
 		if self._missing_frequencies:
-			print "Missing Frequencies"
-			print "\n".join(self._missing_frequencies.keys())
+			print ("Missing Frequencies")
+			print ("\n".join(self._missing_frequencies.keys()))
 
 		return is_missing
 
@@ -924,11 +924,11 @@ def _run( ):
 
 
 	if sourcefile == None:
-		print "Missing Source"
+		print ("Missing Source")
 		return
 
 	if datatype == None:
-		print "Missing data type"
+		print ("Missing data type")
 		return
 
 	ctrl = PRMaxImporter(sourcefile, offset, istest, upper_limit)
@@ -941,6 +941,6 @@ def _run( ):
 			ctrl.do_import()
 
 if __name__ == '__main__':
-	print "Starting ", datetime.now()
+	print ("Starting ", datetime.now())
 	_run(  )
-	print "Existing ", datetime.now()
+	print ("Existing ", datetime.now())

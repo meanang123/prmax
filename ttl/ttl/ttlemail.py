@@ -28,7 +28,7 @@ try:
 	from bs4 import BeautifulSoup
 	BSV4 = True
 except:
-	print "Need to Install BeautifulSoup 4"
+	print ("Need to Install BeautifulSoup 4")
 	from BeautifulSoup import BeautifulSoup
 	BSV4 = False
 from email.MIMEMultipart import MIMEMultipart
@@ -201,7 +201,7 @@ class EmailMessage:
 			plain = plain.encode(self._charset, "ignore")
 
 		except Exception, e:
-			print e
+			print (e)
 			plain = "Please view in HTML mode"
 
 		self._msgAlternative.attach(MIMEText(plain, 'plain', self._charset))
@@ -1077,5 +1077,5 @@ def send_gmail_server(message, from_email, from_password, test=False):
 	if not statusid:
 		raise Exception("Problem Sending Email")
 
-	print error, statusid
+	print (error, statusid)
 

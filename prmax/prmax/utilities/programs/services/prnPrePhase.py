@@ -86,11 +86,11 @@ def LoadPrnData():
 		parser.parse(codecs.open(os.path.normpath(os.path.join(dirSource,dh.filename))))
 
 
-print "Start Pre Update Run", datetime.datetime.now()
+print ("Start Pre Update Run", datetime.datetime.now())
 
 LoadPrnData()
 
-print "Complete", datetime.datetime.now()
+print ("Complete", datetime.datetime.now())
 
 
 

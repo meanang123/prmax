@@ -16,7 +16,7 @@ def _RunReport():
 		r.write(sys.argv[2])
 
 	except Exception , ex :
-		print ex
+		print (ex)
 		sys.exit(-1)
 
 # report options

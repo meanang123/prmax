@@ -51,7 +51,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir == None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	workbook = xlrd.open_workbook(os.path.join(sourcedir, "contacthistory.xlsx"))

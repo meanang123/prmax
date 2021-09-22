@@ -194,7 +194,7 @@ class USADataImport(object):
 		files = os.listdir(self._sourcedir)
 
 		for filename in files:
-			print 'start updating file: %s' % filename
+			print ('start updating file: %s' % filename)
 			counter = 0
 			if os.path.isdir(os.path.join(self._sourcedir, filename)) == False:
 
@@ -370,7 +370,7 @@ class USADataImport(object):
 						session.execute(text('DELETE FROM employees WHERE employeeid = :employeeid'), {'employeeid': publication.primaryemployeeid}, Employee)
 					counter = counter + 1
 				session.commit()
-		print '%s records updated for file %s' %(counter, filename) 
+		print ('%s records updated for file %s' %(counter, filename) )
 	
 	def update_daily_weekly_tv_radio(self, counter, filename, address1column, citycolumn, statecolumn, postcode, phonecolumn, faxcolumn, wwwcolumn, emailcolumn, matchedidcolumn, frequencyid):
 	
@@ -428,9 +428,9 @@ class USADataImport(object):
 						session.execute(text("UPDATE addresses SET address1 = :address1, townname = :city, county = :state, postcode = :zipcode where addressid = :addressid"), \
 						                {'address1': address1, 'city': city, 'state': state, 'zipcode': zipcode, 'addressid': addr.addressid}, Address)
 						counter = counter + 1
-						print outletname
+						print (outletname)
 			session.commit()
-		print '%s records updated for file %s' %(counter, filename) 
+		print ('%s records updated for file %s' %(counter, filename)) 
 
 	def _find_outlet(self, outletname, address1, email, regionaltypeid):
 		if regionaltypeid != None:
@@ -605,7 +605,7 @@ class USADataImport(object):
 			
 			counter = counter + 1
 			session.commit()
-		print '%s records imported for file %s' %(counter, filename) 
+		print ('%s records imported for file %s' %(counter, filename) )
 
 	def import_radio(self, filename, regionaltypeid, frequency):
 		
@@ -679,7 +679,7 @@ class USADataImport(object):
 			
 			counter = counter + 1	
 			session.commit()
-		print '%s records imported for file %s' %(counter, filename) 
+		print ('%s records imported for file %s' %(counter, filename) )
 
 
 	def import_tv(self, filename, regionaltypeid, frequency):
@@ -895,7 +895,7 @@ class USADataImport(object):
 			#	objectid=outlet.outletid))
 			counter = counter + 1
 			session.commit()
-		print '%s records imported for file %s' %(counter, filename) 
+		print ('%s records imported for file %s' %(counter, filename) )
 
 	def _import_old_ping_outlets(self, filename):
 		
@@ -1023,7 +1023,7 @@ class USADataImport(object):
 
 			counter = counter + 1
 			session.commit()
-		print '%s records imported for file %s' %(counter, filename) 
+		print ('%s records imported for file %s' %(counter, filename) )
 
 	def _get_contactid(self, contact):
 		"""get the contact id """
@@ -1310,7 +1310,7 @@ class USADataImport(object):
 		files = os.listdir(self._sourcedir)
 
 		for filename in files:
-			print filename
+			print (filename)
 			if os.path.isdir(os.path.join(self._sourcedir, filename)) == False:
 				read = xlrd.open_workbook(os.path.join(self._sourcedir, filename))
 				read_sheet = read.sheet_by_index(0)

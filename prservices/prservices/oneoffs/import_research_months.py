@@ -44,7 +44,7 @@ def _run():
 			source = params
 
 	if source == None:
-		print "Missing Parameters"
+		print ("Missing Parameters")
 		exit(-1)
 
 	workbook = xlrd.open_workbook(source)
@@ -62,7 +62,7 @@ def _run():
 			if value:
 				dates.append(xlrd.xldate.xldate_as_datetime(value, workbook.datemode))
 
-		print outletid
+		print (outletid)
 		session.begin()
 		research = session.query(ResearchDetails).filter(ResearchDetails.outletid == outletid).scalar()
 		if research:

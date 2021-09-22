@@ -149,7 +149,7 @@ class FileCache(PicklingCache):
 
 class MemCache(PicklingCache):
     def __init__(self,servers):
-        #print servers.split(';')
+        #print (servers.split(';'))
         import memcache
         self._cache=memcache.Client(servers.split(';'))
 
@@ -171,7 +171,7 @@ BACKENDS = {
 }
 
 def load_backend(uri):
-    #print "using cache uri: %s" % uri
+    #print ("using cache uri: %s" % uri)
     prefix,params=uri.split('://')
     backend_class=BACKENDS[prefix]
     return backend_class(params)
@@ -282,7 +282,7 @@ def cache_result(key_fn=url_key,version_fn=default_version,timeout_seconds=_deco
                         finally:
                             lock.release()
                     #else:
-                    #    print "**********serving stale*************"
+                    #    print ("**********serving stale*************")
             else:
                 lock.acquire()
                 try:

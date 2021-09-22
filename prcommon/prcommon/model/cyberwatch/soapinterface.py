@@ -47,12 +47,12 @@ class LogPlugin(MessagePlugin):
 	def sending(self, context):
 		if  self._request_file:
 			self._request_file.write(str(context.envelope))
-			print str(context.envelope)
+			print (str(context.envelope))
 
 	def received(self, context):
 		if self._response_file:
 			self._response_file.write(str(context.reply))
-			print str(context.reply)
+			print (str(context.reply))
 
 # try and ignore suds errors
 try:
@@ -75,7 +75,7 @@ try:
 	#CWSOAPLOG = None
 	#CWSOAPCLIENT = Client(Constants.SOAPURL, prefixes=True)
 except:
-	print "Problem loading CW interface "
+	print ("Problem loading CW interface ")
 	CWSOAPCLIENT = None
 
 # base class for handling results
@@ -308,14 +308,14 @@ class CSWResultTextView(CSWSearchResult):
 					if key2 == "source":
 						for value in values:
 							if self._no_print == False:
-								print key2, value[0], value[1]
+								print (key2, value[0], value[1])
 				continue
 
 			if self._no_print == False:
 				if isinstance(doc[key], StringTypes):
-					print key, u" : ", doc[key].encode("utf-8") if doc[key] else ""
+					print (key, u" : ", doc[key].encode("utf-8") if doc[key] else "")
 				else:
-					print key, u" : ", doc[key] if doc[key] else ""
+					print (key, u" : ", doc[key] if doc[key] else "")
 
 		if doc.Id not in self._dict:
 			self._dict[doc.Id] = True
@@ -327,7 +327,7 @@ class CSWResultTextView(CSWSearchResult):
 		pass
 
 	def post_query(self, query_count):
-		print "Results Analysed %d ducplicates (%d) query_count (%d)" % (self._count, self._duplicates, query_count)
+		print ("Results Analysed %d ducplicates (%d) query_count (%d)" % (self._count, self._duplicates, query_count))
 
 
 class CSWNoseTest(CSWSearchResult):

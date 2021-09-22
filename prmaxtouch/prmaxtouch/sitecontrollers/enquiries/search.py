@@ -181,7 +181,7 @@ class SearchContactHistoryController(EmbeddedBaseController):
 			    "location%s" %row : ilocation
 			    
 		    }
-			#print '%s - %s' %(row, newitem2['subject%s' %row])
+			#print ('%s - %s' %(row, newitem2['subject%s' %row]))
 			items.update(newitem2)
 			row += 1
 				

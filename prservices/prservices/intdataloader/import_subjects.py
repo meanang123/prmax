@@ -26,7 +26,7 @@ _interests_missing = {}
 _subjects = {}
 
 def _Import():
-	print "Running Import Mode"
+	print ("Running Import Mode")
 	c = _db.getCursor()
 	_db.startTransaction(c)
 	_db.execute("TRUNCATE interestsubjects",None)
@@ -67,9 +67,9 @@ def _Import():
 					             interestid = _interests[interestname]))
 
 	_db.commitTransaction(c)
-	print "MISSING Interests"
+	print ("MISSING Interests")
 	for key in _interests_missing:
-		print key
+		print (key)
 
 
 _db =  DBConnect(Constants.db_Command_Service)
@@ -85,7 +85,7 @@ for o, a in opts:
 	if o in ("--test",):
 		break
 else:
-	print " --import or --test"
+	print (" --import or --test")
 
 _db.Close()
 

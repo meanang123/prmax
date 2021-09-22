@@ -30,7 +30,7 @@ valid_files = ('dojo.js', 'prmaxdojo.js', 'parser.js', 'prmaxstartup.js', 'prmax
                'prmaxjournolink.js')
 
 def buildRelease(build = True,islive = True , version = "missing" ):
-   print "build dojo release", islive
+   print ("build dojo release", islive)
    # get correct environment
    vpath = vpath_live if islive else vpath_test
    vpath = "\\"+ vpath +"\\prmax"
@@ -47,13 +47,13 @@ def buildRelease(build = True,islive = True , version = "missing" ):
       os.system(build_exe);
 
       # copy files
-   print "copy build to release"
+   print ("copy build to release")
    for(dirpath,dirnames, filenames) in os.walk(spath):
       if not ( dirpath==spath or dirpath[len(spath)+1:] in valid_folders):
          continue
 
       dbase = dirpath.replace(spath,dpath)
-      print "copying " , dbase
+      print ("copying " , dbase)
       for npath in dirnames:
          if not npath in valid_folders:
             continue
@@ -70,7 +70,7 @@ def buildRelease(build = True,islive = True , version = "missing" ):
          shutil.copy( os.path.join(dirpath,nfile),
                       os.path.join(dbase,nfile))
 
-   print "copy  Theme"
+   print ("copy  Theme")
    themename = ( "tundra", "soria","claro" )
    themeimages = ("tundra\\images","soria\\images","claro\\images")
    sourcethemeroot= "\\Projects\\" + vpath  + "\\buildrelease\\dojo\\release\\prmax\\dijit\\themes"
@@ -93,7 +93,7 @@ def buildRelease(build = True,islive = True , version = "missing" ):
             shutil.copy( os.path.join(dirpath,nfile),
                          os.path.join(dname,nfile))
 
-   print "Compress Js and Css"
+   print ("Compress Js and Css")
    rootdev= "\\Projects\\" + vpath  + "\\prmax\\static\\dev"
    rootrel= "\\Projects\\" + vpath  + "\\prmax\\static\\rel"
    prmaxcss = ""
@@ -114,7 +114,7 @@ def buildRelease(build = True,islive = True , version = "missing" ):
       for nfile in filenames:
          sfile = os.path.splitext(nfile)
          if sfile[1] in (".css",".htm",".kid",".html",".js"):
-            print "Compressing" , nfile
+            print ("Compressing" , nfile)
             slimmed = None
             code = open(os.path.join(dirpath,nfile)).read()
             # need to add code here to improve

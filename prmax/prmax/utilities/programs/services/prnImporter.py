@@ -158,7 +158,7 @@ class DocHandlerBase(ContentHandler):
 
 	def startDocument(self):
 		self._rows = []
-		print self.__class__
+		print (self.__class__)
 
 	def _ignore(self, row , mustexist = True ):
 		if row.has_key("OTL_ID") and self._ignoreprn_keys.has_key ( row["OTL_ID"] ) :
@@ -174,7 +174,7 @@ class DocHandlerBase(ContentHandler):
 		for count in xrange(0,len(self._tablename)):
 			_tablename = self._tablename[count]
 			_tablekey =  self._tablekey[count]
-			print _tablename, _tablekey
+			print (_tablename, _tablekey)
 			dinserts = []
 			dupdates = []
 			for row in self._rows:
@@ -245,7 +245,7 @@ class DocHandlerBase(ContentHandler):
 					self._db.commitTransaction(c)
 
 				except Exception, ex :
-					print ex
+					print (ex)
 					self._db.rollbackTransaction(c)
 			finally:
 				self._db.closeCursor(c)
@@ -277,7 +277,7 @@ class DocHandlerBase(ContentHandler):
 			self._data = self._db.executeOne(command,dict(key=int(key)),True)
 			return self._data
 		except  Exception, ex :
-			print command,"\n",ex
+			print (command,"\n",ex)
 			return 0
 
 	def _checklanguage(self):
@@ -432,7 +432,7 @@ class GeneralReference(DocHandlerBase):
 		self._fields[0].append(ImportField("REF_VALUE","?",types.StringType ))
 
 	def endDocument(self):
-		print "lookups"
+		print ("lookups")
 		fields = {"220":[[],[],"internal.status","statusname"],  # Status Table
 				  "140":[[],[],"internal.outlettypes","outlettypename"],  # Outlet type table
 				  "170":[[],[],"internal.producttypes","producttypename"],  # Prodcut types
@@ -462,7 +462,7 @@ class GeneralReference(DocHandlerBase):
 				d[0].append(value)
 
 		for key,data in fields.iteritems():
-			print key
+			print (key)
 			d = fields[key]
 			self._tablename[0] = d[2]
 			self._fields[0][1].dbname = d[3]
@@ -474,7 +474,7 @@ class GeneralReference(DocHandlerBase):
 				c.executemany(commandline,d[0])
 				self._db.commitTransaction(c)
 			except Exception, ex :
-				print ex
+				print (ex)
 				self._db.rollbackTransaction(c)
 			self._db.closeCursor(c)
 
@@ -611,7 +611,7 @@ class Outlet(DocHandlerBase):
 				c.execute("update outlets as o set primaryemployeeid = e.employeeid FROM employees as e where e.outletid = o.outletid AND o.outlettypeid = 19 and o.primaryemployeeid  is null;")
 				self._db.commitTransaction(c)
 			except Exception, ex :
-				print ex
+				print (ex)
 				self._db.rollbackTransaction(c)
 		finally:
 			self._db.closeCursor(c)
@@ -654,7 +654,7 @@ class Employee(DocHandlerBase):
 				c.execute("update outlets as o set primaryemployeeid = e.employeeid FROM employees as e where e.outletid = o.outletid AND o.outlettypeid = 19 and o.primaryemployeeid  is null;")
 				self._db.commitTransaction(c)
 			except Exception, ex :
-				print ex
+				print (ex)
 				self._db.rollbackTransaction(c)
 		finally:
 			self._db.closeCursor(c)
@@ -756,7 +756,7 @@ class EmployeeLanguages(DocHandlerBase):
 			if data:
 				return True
 		except  Exception, ex :
-			print command,"\n",ex
+			print (command,"\n",ex)
 			return False
 
 class OutletLanguages(DocHandlerBase):
@@ -780,7 +780,7 @@ class OutletLanguages(DocHandlerBase):
 			if data:
 				return True
 		except  Exception, ex :
-			print command,"\n",ex
+			print (command,"\n",ex)
 			return False
 
 		return None
@@ -793,7 +793,7 @@ class Products(DocHandlerBase):
 			self._data = self._db.executeOne(command,dict(key=int(key)),True)
 			return self._data
 		except  Exception, ex :
-			print command,"\n",ex
+			print (command,"\n",ex)
 			return 0
 
 	def __init__(self):
@@ -839,7 +839,7 @@ def _fixrows(row):
 def PrnDeletesData():
 	def _PRNDeleteEmployee(c, lastcompleted):
 		# delete  contact that are not primary
-		print "_PRNDeleteEmployee"
+		print ("_PRNDeleteEmployee")
 
 		# Export record for report
 		c.execute("""SELECT CAST(o.outletid AS character varying) AS outletid,o.outletname,e.job_title,
@@ -885,10 +885,10 @@ def PrnDeletesData():
 		                "UPDATE  employees AS e SET prmaxstatusid = 2 FROM outlets AS o WHERE o.outletid = e.outletid AND isprimary=1 and e.update::date != '%s' and e.employeeid != o.primaryemployeeid AND o.customerid =-1  AND e.sourcetypeid = 1 AND e.prmaxstatusid = 1 AND NOT EXISTS (SELECT employeeid FROM userdata.listmembers AS lm WHERE lm.employeeid = e.employeeid)"
 		                )
 		for sqlcommand in sqlCommands:
-			print sqlcommand
+			print (sqlcommand)
 			c.execute(sqlcommand%lastcompleted)
 
-		print "Outlet DeleteReport"
+		print ("Outlet DeleteReport")
 		c.execute("""SELECT c.customername,l.listname,o.outletname
 		FROM outlets AS o
 		JOIN userdata.listmembers as lm ON lm.outletid = o.outletid
@@ -904,7 +904,7 @@ def PrnDeletesData():
 
 
 	# need to add a section to controll the deleteing to make sure it can't be run on failure etc or wrong day
-	print "Deleting All "
+	print ("Deleting All ")
 	command_list = (
 		("DELETE FROM %s AS %s where (CAST( update as DATE) != '%s' OR update is null) AND prn_key>0",
 		  (("addresses","a", "AND NOT EXISTS (select communicationid as c from communications as c where c.addressid = a.addressid ) " ),
@@ -937,26 +937,26 @@ def PrnDeletesData():
 		try:
 			for command in command_list:
 				for table in command[1]:
-					print table[0]
+					print (table[0])
 					sqlcommand = command[0]%(table[0], table[1], lastcompleted)
 					if table[2]:
 						sqlcommand+= " "
 						sqlcommand+= table[2]
-					print sqlcommand
+					print (sqlcommand)
 					c.execute(sqlcommand)
 			_PRNDeleteEmployee(c, lastcompleted)
 			_db.commitTransaction(c)
 		except Exception, ex :
-			print ex
+			print (ex)
 			_db.rollbackTransaction(c)
 	finally:
 		_db.closeCursor(c)
 	_db.Close()
-	print "Deleting Complete"
+	print ("Deleting Complete")
 
 
 def LoadMediaProofData():
-	print "Loading MediaProof Data"
+	print ("Loading MediaProof Data")
 	_db =  DBConnect(Constants.db_Command_Service)
 	try:
 		sfile = codecs.open(os.path.normpath(os.path.join(dirSource,"mediadata.csv")))
@@ -990,7 +990,7 @@ def LoadMediaProofData():
 
 
 def PostDataLoad():
-	print "Loading PRmax Outlet Search Types"
+	print ("Loading PRmax Outlet Search Types")
 	_db =  DBConnect(Constants.db_Command_Service)
 	try:
 		c = _db.getCursor()
@@ -1031,7 +1031,7 @@ def PostDataLoad():
 	# at this point we could send all the reports too david
 
 
-print "Start Run", datetime.datetime.now()
+print ("Start Run", datetime.datetime.now())
 
 PreDataLoad()
 LoadPrnData()
@@ -1039,7 +1039,7 @@ LoadMediaProofData()
 PrnDeletesData()
 PostDataLoad()
 
-print "Complete", datetime.datetime.now()
+print ("Complete", datetime.datetime.now())
 
 
 

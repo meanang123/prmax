@@ -27,7 +27,7 @@ class TestAjaxJSF(unittest.TestCase):
     browserURL = "http://www.irian.at"
 
     def setUp(self):
-        print "Using selenium server at " + self.seleniumHost + ":" + self.seleniumPort
+        print ("Using selenium server at " + self.seleniumHost + ":" + self.seleniumPort)
         self.selenium = selenium(self.seleniumHost, self.seleniumPort, self.browserStartCommand, self.browserURL)
         self.selenium.start()
 

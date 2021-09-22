@@ -86,7 +86,7 @@ class ListingPDF(BasePDF):
         self.processListing()
 
     def __del__(self):
-        print "Do Clean"
+        print ("Do Clean")
         self.clean()
 
     def clean(self):

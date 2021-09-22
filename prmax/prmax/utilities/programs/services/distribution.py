@@ -547,7 +547,7 @@ def _run(test_environment, run_restriction, single_customer, tmp_sendpriority):
 
 	do_email = True
 	if singlecustomer:
-		print "Single Customer", singlecustomer
+		print ("Single Customer", singlecustomer)
 	ctrl = DistController(20, do_email, test_environment, run_restriction, single_customer, tmp_sendpriority)
 	ctrl.setDaemon(True)
 	ctrl.initApp()
@@ -557,7 +557,7 @@ def _run(test_environment, run_restriction, single_customer, tmp_sendpriority):
 			ctrl.join(3)
 			if not ctrl.is_alive():
 				if singlecustomer:
-					print "Endinging Customer", singlecustomer
+					print ("Endinging Customer", singlecustomer)
 				return
 
 		except KeyboardInterrupt:
@@ -580,7 +580,7 @@ if __name__ == '__main__':
 		if option in ("--ispriority", ):
 			sendpriority = 1
 	if testEnvironment == None:
-		print "No Environment Specific --live or --test"
+		print ("No Environment Specific --live or --test")
 		exit(-1)
 
 	# find restruction

@@ -22,7 +22,7 @@ def _do(args,dirname,fname):
         if dirname.lower().find(f)!=-1: return
     for name in fname:
         if name.find(".sql")!=-1 and ( ( name.find("init_") !=-1 and doinit) or ( name.find("init_")==-1)):
-            print dirname,name
+            print (dirname,name)
             dbConnection = args[0]
             if name.find("prmaxcache")!=-1:
                 dbConnection = args[1]
@@ -48,7 +48,7 @@ template_dir = root_dir+"/template"
 
 
 def doReportRelease():
-    print "Report Template Release" , datetime.datetime.now()
+    print ("Report Template Release" , datetime.datetime.now())
 
     if len(sys.argv)==2 and  sys.argv[1]=="rel_sql":
         db = DBConnect(Constants.db_Release_Command)
@@ -60,7 +60,7 @@ def doReportRelease():
     for fullname in os.listdir(ctrl_dir):
         if fullname[-4:].lower() == ".ctl":
             name = os.path.basename(fullname).replace(".ctl","")
-            print name
+            print (name)
             query = file(os.path.normpath(os.path.join(query_dir,name+".sql")),"r").read().replace("\t", " " ).replace("\n", " " )
             templatefilename = os.path.normpath(os.path.join(template_dir,name+".htm"))
             if os.path.exists(templatefilename):
@@ -106,7 +106,7 @@ def doReportRelease():
 
     db.Close()
     db2.Close()
-    print "End Report Template Release " , datetime.datetime.now()
+    print ("End Report Template Release " , datetime.datetime.now())
 
 if __name__=="__main__":
     doReportRelease()

@@ -352,7 +352,7 @@ class ECollateralController(controllers.RootController):
 						data = ECollateral.get(collateralid)
 						fcache.add(data)
 		except Exception, ex:
-			print ex
+			print (ex)
 			return data
 
 		try:
@@ -376,7 +376,7 @@ class ECollateralController(controllers.RootController):
 			response.headers["Last-Modified"] = tday
 			response.headers["Expires"] = (datetime.now()+ timedelta(days=1)).strftime("%a, %d %b %Y %M:%H:%S GMT")
 		except Exception, ex:
-			print ex
+			print (ex)
 			return "Not Found"
 		return data
 

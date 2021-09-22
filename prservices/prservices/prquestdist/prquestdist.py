@@ -49,11 +49,11 @@ def _run():
 			test_mode = True
 
 	if do_test is None:
-		print "Missing Environment"
+		print ("Missing Environment")
 		return
 
 	if do_test and  to_email is None:
-		print "Test Environment requires 'toemail' address"
+		print ("Test Environment requires 'toemail' address")
 		return
 
 
@@ -62,6 +62,6 @@ def _run():
 	ProjectEmails.send_follow_up_emails(do_test, to_email, test_mode)
 
 if __name__ == '__main__':
-	print "Starting ", datetime.now()
+	print ("Starting ", datetime.now())
 	_run()
-	print "Existing ", datetime.now()
+	print ("Existing ", datetime.now())

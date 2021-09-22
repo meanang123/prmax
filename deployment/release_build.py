@@ -29,10 +29,10 @@ valid_files = ('dojo.js',
                )
 
 def buildRelease(build, islive, version, module ):
-   print "build dojo release", islive
+   print ("build dojo release", islive)
    # get correct environment
    vpath = vpath_live if islive else vpath_test
-   print vpath
+   print (vpath)
    ( build_exe, profile_source, profile_dest, spath, dpath) = _init_path( vpath, islive, version, module)
 
    # set up correct build profile
@@ -45,13 +45,13 @@ def buildRelease(build, islive, version, module ):
       os.system(build_exe);
 
       # copy files
-   print "copy build to release"
+   print ("copy build to release")
    for(dirpath,dirnames, filenames) in os.walk(spath):
       if not ( dirpath==spath or dirpath[len(spath)+1:] in valid_folders):
          continue
 
       dbase = dirpath.replace(spath,dpath)
-      print "copying " , dbase
+      print ("copying " , dbase)
       for npath in dirnames:
          if not npath in valid_folders:
             continue
@@ -65,11 +65,11 @@ def buildRelease(build, islive, version, module ):
             if not nfile in valid_files:
                continue
 
-         print os.path.join(dbase,nfile)
+         print (os.path.join(dbase,nfile))
          shutil.copy( os.path.join(dirpath,nfile),
                       os.path.join(dbase,nfile))
 
-   print "copy  Theme"
+   print ("copy  Theme")
    themename = ( r"themes\claro", )
    themeimages = [r"themes\claro\images",
                   r"themes\claro\layout\images",
@@ -106,7 +106,7 @@ def buildRelease(build, islive, version, module ):
             shutil.copy( os.path.join(dirpath,nfile),
                          os.path.join(dname,nfile))
 
-   print "Compress Js and Css and Images prcommon"
+   print ("Compress Js and Css and Images prcommon")
    if vpath == "test":
       rootdev= r"\Projects\prmax\development\prcommon\prcommon\static\dev"
       rootrel= r"\Projects\prmax\development\prcommon\prcommon\static\rel"
@@ -131,7 +131,7 @@ def buildRelease(build, islive, version, module ):
       for nfile in filenames:
          sfile = os.path.splitext(nfile)
          if sfile[1] in (".css",".htm",".kid",".html",".js"):
-            print "Compressing" , nfile
+            print ("Compressing" , nfile)
             slimmed = None
             code = open(os.path.join(dirpath,nfile)).read()
             # need to add code here to improve
@@ -163,7 +163,7 @@ def buildRelease(build, islive, version, module ):
       f1.write(slimmer.css_slimmer(prcss.encode('utf-8')))
       f1.close()
 
-   print "Copying ", module
+   print ("Copying ", module)
    if vpath == "test":
       rootdev= r"\Projects\prmax\\development\%s\%s\static\dev" %(module, module)
       rootrel= r"\Projects\prmax\\development\%s\%s\static\rel" %(module, module)
@@ -188,7 +188,7 @@ def buildRelease(build, islive, version, module ):
       for nfile in filenames:
          sfile = os.path.splitext(nfile)
          if sfile[1] in (".css",".htm",".kid",".html",".js"):
-            print "Compressing" , nfile
+            print ("Compressing" , nfile)
             slimmed = None
             code = open(os.path.join(dirpath,nfile)).read()
             # need to add code here to improve

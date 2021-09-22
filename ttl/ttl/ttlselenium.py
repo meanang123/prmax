@@ -16,7 +16,7 @@ import os
 try:
 	from selenium import webdriver
 except:
-	print "Test Framework not avaliable"
+	print ("Test Framework not avaliable")
 
 class SeleniumWebInterface(object):
 	"SeleniumWebInterface"
@@ -54,7 +54,7 @@ class SeleniumWebInterface(object):
 			try:
 				browser[0].close()
 			except Exception, ex:
-				print ex
+				print (ex)
 
 		self._browsers = ()
 

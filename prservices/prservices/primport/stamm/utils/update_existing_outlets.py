@@ -50,7 +50,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir is None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	filename = "stamm_no_classification Dec 2017.xlsx"
@@ -180,7 +180,7 @@ def _run():
 
 		session.commit()
 
-	print 'updated - %s' %updated
+	print ('updated - %s' %updated)
 
 if __name__ == '__main__':
 	_run()

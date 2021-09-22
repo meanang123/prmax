@@ -84,4 +84,4 @@ def execute_capture():
 		except Exception, ex:
 			LOGGER.exception("general")
 
-	print results
+	print (results)

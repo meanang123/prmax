@@ -1148,7 +1148,7 @@ class DataSourceTranslations(BaseSql):
 			opener = urllib2.build_opener()
 			urllib2.install_opener(opener)
 			retdata = simplejson.load(urllib2.urlopen(req).fp)
-			print row.sourcetext.encode("utf-8")
+			print (row.sourcetext.encode("utf-8"))
 			word_translated = retdata["responseData"]["translatedText"]
 			if word_translated.find("YOU USED ALL AVAILABLE FREE TRANSLATION FOR TODAY") != -1:
 				break

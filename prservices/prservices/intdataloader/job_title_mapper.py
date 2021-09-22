@@ -65,7 +65,7 @@ for row in rows:
 	# get parent
 	prmaxrole = session.query(PRMaxRoles).filter(PRMaxRoles.prmaxrole == row[1].strip()).scalar()
 	if not prmaxrole:
-		print "Missing", row[1]
+		print ("Missing", row[1])
 		continue
 	_do_match(prmaxrole, row[0].strip())
 
@@ -89,13 +89,13 @@ for row in rows:
 			opener = urllib2.build_opener()
 			urllib2.install_opener(opener)
 			retdata = simplejson.load(urllib2.urlopen(req).fp)
-			print retdata["responseData"]["translatedText"]
+			print (retdata["responseData"]["translatedText"])
 			word_translated = retdata["responseData"]["translatedText"]
 			if word_translated.find("YOU USED ALL AVAILABLE FREE TRANSLATION FOR TODAY") !=  -1:
 				trans_used_up = True
 				break
 
-		print lan, row[0], word_translated
+		print (lan, row[0], word_translated)
 		_do_match(prmaxrole, word_translated)
 
 		if word not in translations:

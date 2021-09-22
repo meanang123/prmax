@@ -48,7 +48,7 @@ def _run():
 	for notlinkedcontactid in notlinkedcontacts:
 		session.begin()
 		session.execute(text("DELETE FROM contacts WHERE contactid = :contactid"), {'contactid': notlinkedcontactid}, Contact)
-		print 'Deleted Contactid: %s' %notlinkedcontactid
+		print ('Deleted Contactid: %s' %notlinkedcontactid)
 		session.commit()
 
 if __name__ == '__main__':

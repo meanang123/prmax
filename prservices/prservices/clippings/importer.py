@@ -39,7 +39,7 @@ def _run():
 				sourcedir = params
 
 	if sourcefile == None and sourcedir == None:
-		print "Missing Source File or Directory"
+		print ("Missing Source File or Directory")
 		return
 
 	importer = ClippingsImport()

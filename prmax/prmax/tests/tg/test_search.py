@@ -21,7 +21,7 @@ class TestSearchController( PRMaxBase ):
 
 		#search_partial
 		self.initSecurity()
-		print "Test Empty Query"
+		print ("Test Empty Query")
 		response = self.app.get('/search/dosearch',
 								self._get_quick_search(),
 								headers={'Cookie': self.session_id })
@@ -29,7 +29,7 @@ class TestSearchController( PRMaxBase ):
 		assert obj['success'] == "OK", "Response Error"
 		assert obj['data']['total'] == 0, "Found should not be found"
 
-		print "Test Outlet Name Search"
+		print ("Test Outlet Name Search")
 		command = self._get_quick_search()
 		command['quick_searchname'] = "t"
 		response = self.app.get('/search/dosearch',
@@ -40,7 +40,7 @@ class TestSearchController( PRMaxBase ):
 		assert obj['data']['total'] != 0, "No Outlets Found"
 		nbr = obj['data']['total']
 
-		print "Test Outlet Name Search with partial match"
+		print ("Test Outlet Name Search with partial match")
 		command['search_partial'] = 1
 		response = self.app.get('/search/dosearch',
 								command,
@@ -49,10 +49,10 @@ class TestSearchController( PRMaxBase ):
 		assert obj['success'] == "OK", "Response Error"
 		assert obj['data']['total'] != 0, "No Outlets Found"
 
-		print "Patial Match found more?"
+		print ("Patial Match found more?")
 		assert obj['data']['total'] > nbr, "Partial match did find more"
 
-		print "Test Characters"
+		print ("Test Characters")
 		command = self._get_quick_search()
 		command['quick_searchname'] = """!"£%^&*(){}[]@'#~"""
 		response = self.app.get('/search/dosearch',

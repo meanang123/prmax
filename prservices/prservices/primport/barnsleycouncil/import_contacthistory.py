@@ -54,7 +54,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir == None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	workbook = xlrd.open_workbook(os.path.join(sourcedir, "contacthistory1.xlsx"))
@@ -86,7 +86,7 @@ def _run():
 		if outlet:
 			outletid = outlet.outletid
 		else:
-			print outletname
+			print (outletname)
 			
 		contactsource = contactname.split(' ')
 		if contactsource:

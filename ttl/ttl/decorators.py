@@ -33,9 +33,9 @@ def synchronized(lockname="_def_name"):
 
 def traced(func):
     def wrapper(*__args,**__kw):
-        print "entering", func
+        print ("entering", func)
         try:
             return func(*__args,**__kw)
         finally:
-            print "exiting", func
+            print ("exiting", func)
     return wrapper

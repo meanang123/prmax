@@ -51,7 +51,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir == None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	workbook = xlrd.open_workbook(os.path.join(sourcedir, "contacthistory.xlsx"))
@@ -80,13 +80,13 @@ def _run():
 		if outlet:
 			outletid = outlet.outletid
 		else:
-			print outletname
+			print (outletname)
 									
 		chissue = session.query(Issue).\
 			filter(Issue.customerid == CUSTOMERID).\
 		    filter(Issue.name.ilike(issue)).scalar()
 		if not chissue:
-			print 'Issue: %s' %issue
+			print ('Issue: %s' %issue)
 				
 		chtype = session.query(ContactHistoryTypes).\
 		    filter(ContactHistoryTypes.contacthistorytypedescription.ilike(type)).scalar()

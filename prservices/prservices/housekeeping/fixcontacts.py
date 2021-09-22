@@ -43,7 +43,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir is None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	filename = "contacts.xlsx"
@@ -81,7 +81,7 @@ def _update_sourcetype_freelancers(workbook):
 					session.execute(text("UPDATE employees SET sourcetypeid = 2 where employeeid = :employeeid"),{'employeeid': employee.employeeid}, Employee)
 	
 		session.commit()			
-	print 'End _update_sourcetype_freelancers'			
+	print ('End _update_sourcetype_freelancers'			)
 	
 def _duplicate_contacts2(workbook, xls_sheet):
 
@@ -124,7 +124,7 @@ def _duplicate_contacts2(workbook, xls_sheet):
 					session.commit()
 					session.begin()
 		session.commit()
-	print 'End _duplicate_contacts2'
+	print ('End _duplicate_contacts2')
 
 
 def _duplicate_contacts3(workbook, xls_sheet):
@@ -164,7 +164,7 @@ def _duplicate_contacts3(workbook, xls_sheet):
 					session.commit()
 					session.begin()
 		session.commit()
-	print 'End _duplicate_contacts3'
+	print ('End _duplicate_contacts3')
 	
 def _update_france_sourcetype(workbook):
 	
@@ -176,14 +176,14 @@ def _update_france_sourcetype(workbook):
 		session.execute(text("UPDATE employees SET sourcetypeid = :sourcetypeid where employeeid = :employeeid"), \
 	                    {'employeeid': employeeid, 'sourcetypeid': sourcetypeid}, Employee)
 		session.commit()
-	print 'End _update_france_sourcetype'
+	print ('End _update_france_sourcetype')
 	
 	
 def _test():
 
 	a = session.query(Contact).filter(Contact.countryid == None).all()
 	x = session.query(Contact).filter(Contact.countryid == None).filter(Contact.sourcetypeid != 3).filter(Contact.customerid == -1).all()
-	print 'hello'
+	print ('hello')
 	
 	
 	
@@ -203,10 +203,10 @@ def _match_customerid_for_private():
 			nbr += 1
 		if nbr % 50 == 0:
 			session.commit()
-			print '%s contacts updated' %(nbr)
+			print ('%s contacts updated' %(nbr))
 			session.begin()		
 	session.commit()		
-	print 'End _match_customerid_for_private'
+	print ('End _match_customerid_for_private')
 	
 	
 def _update_distinct_contacts():
@@ -231,10 +231,10 @@ def _update_distinct_contacts():
 		nbr += 1
 		if nbr % 50 == 0:
 			session.commit()
-			print '%s records update out of %s' %(nbr, len(contacts))
+			print ('%s records update out of %s' %(nbr, len(contacts)))
 			session.begin()
 	session.commit()
-	print 'End _update_distinct_contacts'
+	print ('End _update_distinct_contacts')
 	
 def _update_contacts():
 	
@@ -249,7 +249,7 @@ def _update_contacts():
 		session.flush()
 			
 	session.commit()
-	print 'End _update_contacts'
+	print ('End _update_contacts')
 	
 def _update_stamm_contacts(workbook):
 
@@ -264,7 +264,7 @@ def _update_stamm_contacts(workbook):
 		session.execute(text("UPDATE contacts SET countryid = :countryid where contactid = :contactid"), \
 	                    {'contactid': contactid, 'countryid': countryid}, Contact)
 		session.commit()
-	print 'End _update_stamm_contacts'
+	print ('End _update_stamm_contacts')
 
 
 def _duplicate_contacts(workbook, xls_sheet):
@@ -308,7 +308,7 @@ def _duplicate_contacts(workbook, xls_sheet):
 					session.commit()
 					session.begin()
 		session.commit()
-	print 'End _duplicate_contacts'
+	print ('End _duplicate_contacts')
 	
 	
 if __name__ == '__main__':

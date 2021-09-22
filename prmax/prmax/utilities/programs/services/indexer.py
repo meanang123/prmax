@@ -44,7 +44,7 @@ class IndexController(object):
 						keyid = 6
 					tmp = str(row[keyid]).decode("utf-8")
 				except Exception, ex:
-					print ex
+					print (ex)
 					records_delete.append( row[5] )
 					continue
 				key = "%d-%d-%s" % (row[0], row[1], str(row[keyid]))
@@ -57,7 +57,7 @@ class IndexController(object):
 
 			maxrows = len(records)
 			if maxrows:
-				print "Found (%d) at %s" % (maxrows, datetime.datetime.now())
+				print ("Found (%d) at %s" % (maxrows, datetime.datetime.now()))
 			for record in records.itervalues():
 				# get the index
 				db.startTransaction(cur)
@@ -102,7 +102,7 @@ class IndexController(object):
 				# Completed indexing delete group
 				cur.execute("""DELETE FROM  queues.indexerqueue WHERE indexerqueueid IN (%s)"""% ",".join([ str(line[5]) for line in record]))
 				db.commitTransaction(cur)
-				print "Complete %s" % (datetime.datetime.now())
+				print ("Complete %s" % (datetime.datetime.now()))
 
 
 			if records_delete:
@@ -111,7 +111,7 @@ class IndexController(object):
 				db.commitTransaction(cur)
 			db.Close()
 		except Exception, ex:
-			print ex
+			print (ex)
 
 	def RunSingle(self):
 		""" run once"""

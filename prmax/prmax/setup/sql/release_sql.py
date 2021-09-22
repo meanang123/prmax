@@ -26,7 +26,7 @@ def _do(args,dirname,fname):
         if name.find(".sql")!=-1 and ( ( name.find("init_") !=-1 and doinit) or ( name.find("init_")==-1)):
             if name.find("temp_")!=-1 or name.find("query_temp")!=-1:
                 continue
-            print os.path.normpath(os.path.join(dirname,name))
+            print (os.path.normpath(os.path.join(dirname,name)))
             dbConnection = args[0]
             if name.find("prmaxcache")!=-1:
                 dbConnection = args[1]
@@ -45,7 +45,7 @@ def _do(args,dirname,fname):
             fi.close()
 
 def doSqlRelease():
-    print "Start SQL Release" , datetime.datetime.now()
+    print ("Start SQL Release" , datetime.datetime.now())
 
     if len(sys.argv)==2 and  sys.argv[1]=="rel_sql":
         db = DBConnect(Constants.db_Release_Command)
@@ -62,7 +62,7 @@ def doSqlRelease():
 
     db.Close()
     db2.Close()
-    print "End SQL Release " , datetime.datetime.now()
+    print ("End SQL Release " , datetime.datetime.now())
 
 if __name__=="__main__":
     doSqlRelease()

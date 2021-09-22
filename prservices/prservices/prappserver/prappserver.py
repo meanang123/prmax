@@ -160,7 +160,7 @@ def _run():
 			do_test = True
 
 	if do_test == None:
-		print "Missing Environment"
+		print ("Missing Environment")
 		return
 
 	ctrl = DistController(4, do_test)
@@ -173,6 +173,6 @@ def _run():
 			break
 
 if __name__ == '__main__':
-	print "Starting ", datetime.now()
+	print ("Starting ", datetime.now())
 	_run()
-	print "Existing ", datetime.now()
+	print ("Existing ", datetime.now())

@@ -42,7 +42,7 @@ def _run():
 			sourcedir = params
 
 	if sourcedir == None:
-		print "Missing Source Directory"
+		print ("Missing Source Directory")
 		return
 
 	inserts = []

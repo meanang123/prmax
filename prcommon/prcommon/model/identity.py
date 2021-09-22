@@ -997,7 +997,7 @@ class Customer(BaseSql):
 
 		if self.valid_ips:
 			if ip not in self.valid_ips:
-				print "sucess"
+				print ("sucess")
 				return True
 
 		return False
