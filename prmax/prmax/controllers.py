@@ -35,7 +35,7 @@ from prmax.sitecontrollers.projects import ProjectController
 from prmax.sitecontrollers.contact import ContactController
 from prmax.sitecontrollers.outlets import OutletController
 from prmax.sitecontrollers.customer import CustomerController
-from prmax.sitecontrollers.admin.admin import ExternalAdminController, InternalAdminController, ExternalAdminController2
+from prmax.sitecontrollers.admin.admin import ExternalAdminController, InternalAdminController
 from prmax.sitecontrollers.geographical import GeographicalController
 from prmax.sitecontrollers.emails import EmailController
 from prmax.sitecontrollers.open import OpenController
@@ -109,7 +109,6 @@ class Root(controllers.RootController):
 	outlets = OutletController()
 	customers = CustomerController()
 	eadmin = ExternalAdminController()
-	eadmin2 = ExternalAdminController2()
 	iadmin = InternalAdminController()
 	geographical = GeographicalController()
 	emails = EmailController()

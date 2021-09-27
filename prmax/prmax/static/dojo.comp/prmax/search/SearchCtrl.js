@@ -262,7 +262,7 @@ dojo.declare("prmax.search.SearchCtrl", null, {
 			var ww = new dijit.Dialog({	id:"search_dialog",
 				href:href,
 				title:"Search",
-				style:"width:700px;height:500px;overflow:hidden",
+				style:"width:700px;height:800px;overflow:hidden",
 				onLoad: dojo.hitch(this,this.onLoadSearchControl),
 				onDownloadError:function(response)
 					{

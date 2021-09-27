@@ -1,81 +1,86 @@
 <div class="prmaxoutlettype">
 	<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" >
 		<tr><td width="20%"   class="prmaxrowtag">Media Channels</td>
-				<td width="5%" ><img height="16px" width="16px" dojoAttachPoint="toggleCtrl" dojoAttachEvent="onclick:_Toggle" src="/static/images/toopen.gif" class="toggleselect"></img>
+				<td width="5%" ><i dojoAttachPoint="toggleCtrl" dojoAttachEvent="onclick:_Toggle" class="fa fa-plus-circle" style="color:#0C5E97"></i></td>
 				<td align="right" v-align="top" ><div dojoAttachPoint="countNode" dojotype="prmax.search.SearchCount"></div></td>
 		</tr>
 	</table>
 	<div style="border 2px solid black">
-		<div dojoAttachPoint="selectarea" style="display:none" >
+		<div dojoAttachPoint="selectarea" class="prmaxselectmultiple" style="display:none" >
 			<table width="100%" class="prmaxtable" >
 				<tr>
 					 <td width="33%">
 					 <div class="box1">
 					 <input  style="float:left" class="check_input prmaxdefault" dojoAttachPoint="node1" dojoType="dijit.form.CheckBox" type="checkbox" value="1" />
-					 <label dojoAttachPoint="node1label" class="labeltag" >National Newspapers</label><div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node1button" ></img></a></div>
+					 <div class="imagebox"><i dojoAttachPoint="node1button" class="fa fa-plus-circle" style="margin:3px"></i></div>
+					 <label dojoAttachPoint="node1label" class="labeltag" >National Newspapers</label>
 					 </div>
 					 </td>
 					<td width="33%">
 					 <div class="box1">
 					<input style="float:left"  class="check_input prmaxdefault" dojoAttachPoint="node2" dojoType="dijit.form.CheckBox" type="checkbox" value="2" />
+					 <div class="imagebox"><i dojoAttachPoint="node2button" class="fa fa-plus-circle" style="margin:3px"></i></div>
 					<label  dojoAttachPoint="node2label" class="labeltag" >Regional Newspapers</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node2button"></div>
 					</div></td>
 					<td width="33%">
 					 <div class="box1">
 					<input style="float:left" class="check_input prmaxdefault" dojoAttachPoint="node3" dojoType="dijit.form.CheckBox" type="checkbox" value="3" />
+					 <div class="imagebox"><i dojoAttachPoint="node3button" class="fa fa-plus-circle" style="margin:3px"></i></div>
 					<label dojoAttachPoint="node3label" class="labeltag" >B2B Magazines</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node3button"></div>
 					</div></td>
 				</tr>
 				<tr>
 					 <td width="33%">
 					 <div class="box1">
 					<input style="float:left" class="check_input prmaxdefault" dojoAttachPoint="node4" dojoType="dijit.form.CheckBox" type="checkbox" value="4" />
+					 <div class="imagebox"><i dojoAttachPoint="node4button" class="fa fa-plus-circle" style="margin:3px"></i></div>
 					<label dojoAttachPoint="node4label" class="labeltag" >Consumer Magazines</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node4button"></div>
 					</div></td>
 					 <td width="33%">
 					 <div class="box1">
 					<input style="float:left" class="prmaxdefault" dojoAttachPoint="node5" dojoType="dijit.form.CheckBox" type="checkbox" value="5" />
+					 <div class="imagebox"><i dojoAttachPoint="node5button" class="fa fa-plus-circle" style="margin:3px"></i></div>
 					<label class="labeltag" dojoAttachPoint="node5label" >Radio</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node5button"></div>
 					</div></td>
 					 <td width="33%">
 					 <div class="box1">
 					<input style="float:left" class="prmaxdefault" dojoAttachPoint="node6" dojoType="dijit.form.CheckBox" type="checkbox" value="6" />
+					 <div class="imagebox"><i dojoAttachPoint="node6button" class="fa fa-plus-circle" style="margin:3px"></i></div>
 					<label class="labeltag" dojoAttachPoint="node6label" >TV</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node6button"></div>
 					</div></td>
 				</tr>
 				<tr>
 					 <td width="33%">
 					 <div class="box1">
-					<input   style="float:left" class="prmaxdefault" dojoAttachPoint="node7" dojoType="dijit.form.CheckBox" type="checkbox" value="7" /><label class="labeltag" dojoAttachPoint="node7label" >Influencers</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node7button"></div>
+					<input   style="float:left" class="prmaxdefault" dojoAttachPoint="node7" dojoType="dijit.form.CheckBox" type="checkbox" value="7" />
+					 <div class="imagebox"><i dojoAttachPoint="node7button" class="fa fa-plus-circle" style="margin:3px"></i></div>
+					<label class="labeltag" dojoAttachPoint="node7label" >Influencers</label>
 					</div></td>
 					 <td width="33%">
 					 <div class="box1">
-					<input  style="float:left" class="prmaxdefault" dojoAttachPoint="node8" dojoType="dijit.form.CheckBox" type="checkbox" value="8" /><label class="labeltag" dojoAttachPoint="node8label" >News Services</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node8button"></div>
+					<input  style="float:left" class="prmaxdefault" dojoAttachPoint="node8" dojoType="dijit.form.CheckBox" type="checkbox" value="8" />
+					 <div class="imagebox"><i dojoAttachPoint="node8button" class="fa fa-plus-circle" style="margin:3px"></i></div>
+					<label class="labeltag" dojoAttachPoint="node8label" >News Services</label>
 					</div></td>
 					 <td width="33%">
 					 <div class="box1">
-					<input  style="float:left" class="prmaxdefault" dojoAttachPoint="node9"  dojoType="dijit.form.CheckBox" type="checkbox" value="9" /><label class="labeltag" dojoAttachPoint="node9label" >Parliamentary</label>
-					<div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node9button"></div>
+					<input  style="float:left" class="prmaxdefault" dojoAttachPoint="node9"  dojoType="dijit.form.CheckBox" type="checkbox" value="9" />
+					 <div class="imagebox"><i dojoAttachPoint="node9button" class="fa fa-plus-circle" style="margin:3px"></i></div>
+					<label class="labeltag" dojoAttachPoint="node9label" >Parliamentary</label>
 					</div></td>
 				</tr>
 				<tr>
 					 <td width="33%">
 					 <div class="box1">
 					 <input  style="float:left" class="check_input prmaxdefault" dojoAttachPoint="node13" dojoType="dijit.form.CheckBox" type="checkbox" value="13" />
-					 <label dojoAttachPoint="node13label" class="labeltag" >Private Channels</label><div class="imagebox"><img src="/static/images/outlet_fill.gif" dojoAttachPoint="node13button" ></img></a></div>
+					 <div class="imagebox"><i dojoAttachPoint="node13button" class="fa fa-plus-circle" style="margin:3px"></i></div>
+					 <label dojoAttachPoint="node13label" class="labeltag" >Private Channels</label>
 					 </div>
 					 </td>
 				</tr>
 			</table>
 			<br/>
-			<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" >
+			<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0"">
 				  <tr><td width="48%"><select style="width:100%" dojoAttachPoint="OutletType_list" size="${size}" class="lists" multiple="multiple" ></select></td>
 				  <td >
 				  <button class="button_add_all" style="padding:0px;margin:0px" dojoAttachPoint="button_all" disabled="true" type="button" dojoAttachEvent="onClick:_OutletTypeSelectAll" dojoType="dijit.form.Button"><div class="std_movement_button">&gt;&gt;</div></button><br/>
