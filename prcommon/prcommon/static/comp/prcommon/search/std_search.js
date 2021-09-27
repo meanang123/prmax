@@ -137,7 +137,18 @@ dojo.declare("prcommon.search.std_search",
 		_ToggleCascade:function()
 		{
 			dojo.style(this.selectarea,"display",this.open?"block":"none");
-			this.toggleCtrl.src =  this.open?"/static/images/toclosed.gif":"/static/images/toopen.gif";
+//			this.toggleCtrl.src =  this.open?"/static/images/toclosed.gif":"/static/images/toopen.gif";
+			if (this.open)
+			{
+				dojo.addClass(this.toggleCtrl,"fa-minus-circle");
+				dojo.removeClass(this.toggleCtrl,"fa-plus-circle");
+			}
+			else
+			{
+				dojo.addClass(this.toggleCtrl,"fa-plus-circle");
+				dojo.removeClass(this.toggleCtrl,"fa-minus-circle");
+			}
+//			this.toggleCtrl.src =  this.open? '<i class="fa-minus-circle"></i>':'<i class="fa-plus-circle"></i>' ;
 
 			if (this.open) this._focus();
 		},

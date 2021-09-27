@@ -105,11 +105,22 @@ define([
 	_select:function()
 	{
 		this.select_dlg.startup();
+		this._clear_search();
 		this.select_dlg.show();
+	},
+	_clear_search:function()
+	{
+		this.filter.set("value", null);
+		this.filter_personid.set("value", null);
+//		this.filter = null;
+//		this.filter_personid = null;
+		var query = utilities2.EMPTYGRID;
+		this.people_grid.set('query', query);
 	},
 	clear:function()
 	{
 		this._contactid = null;
+		//this.display.innerHTML = this.placeHolder;
 		domattr.set(this.display,"innerHTML",this.placeHolder);
 	},
 	_close:function()
@@ -163,6 +174,7 @@ define([
 	_add_event:function ( contact )
 	{
 		this.model.add(contact);
+		this._clear();
 		this.person_add_dlg.hide();
 	},
 	_close_person_info:function()

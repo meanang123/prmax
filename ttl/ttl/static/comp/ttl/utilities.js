@@ -343,8 +343,17 @@ ttl.utilities.pad_with_zeros = function (rounded_value, decimal_places) {
 }
 
 ttl.utilities.formatButtonCell = function(inDatum) {
-	var status = inDatum==true? 'checked.gif':'unchecked.gif';
-	return '<img  height="10px" width="10px" style="padding:0x;margin:0px" src="/static/images/'+status+'" ></img>';
+	if (inDatum==true)
+	{
+		return '<i class="fa fa-check" style="color:blue"></i>';
+	}
+	else
+	{
+		return '<i class="fa fa-check" style="color:#f6f6f6"></i>';
+		//return '<i class="far fa-square"></i>';
+	}
+//	var status = inDatum==true? 'checked.gif':'unchecked.gif';
+//	return '<img  height="10px" width="10px" style="padding:0x;margin:0px" src="/static/images/'+status+'" ></img>';
 	}
 
 
@@ -393,14 +402,16 @@ ttl.utilities.outletType = function(inDatum) {
 }
 
 ttl.utilities.formatRowCtrl = function(inDatum) {
-	return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrl.gif"></img>';
+	return '<i class="fa fa-chevron-right"></i>'
+//	return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrl.gif"></img>';
 	}
 
 ttl.utilities.formatRowCtrlExists = function(inDatum)
 {
 	if ( inDatum == true )
 	{
-		return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrl.gif"></img>';
+		return '<i class="fa fa-chevron-right"></i>'
+		//return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrl.gif"></img>';
 	}
 	else
 	{
@@ -413,18 +424,23 @@ ttl.utilities.format_row_ctrl = function(inDatum) {
 	}
 
 ttl.utilities.formatRowCtrlLarge = function(inDatum) {
-	return '<img height="20px" width="20px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrllarge.gif"></img>';
+	return '<i class="fa fa-chevron-right fa-lg"></i>'
+//	return '<img height="20px" width="20px" style="padding:0x;margin:0px" src="/prcommon/images/rowctrllarge.gif"></img>';
 	}
 
 ttl.utilities.formatDeletedCtrl = function(inDatum) {
 	if ( inDatum == 2 )
-		return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/delete.gif"></img>';
+		return '<i class="fa fa-times" style="color:red"></i>'
+
+//		return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/delete.gif"></img>';
 	else
 		return "&nbsp;";
 	}
 
 ttl.utilities.deleteRowCtrl = function(inDatum) {
-	return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/delete.gif"></img>';
+	return '<i class="fa fa-times" style="color:red"></i>'
+
+//	return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/delete.gif"></img>';
 	}
 
 ttl.utilities.editRowCtrl = function(inDatum) {
@@ -522,7 +538,8 @@ ttl.utilities.open_close_panel = function ( button, pid )
 	var newmode = dojo.style(ctrl,"display")=="block"? "none":"block";
 
 	dojo.style(ctrl,"display",newmode);
-	button.src =  newmode=="block"?"/static/images/toclosed.gif":"/static/images/toopen.gif";
+	button.src = newmode == 'block'? '<i class="fa-minus-circle"></i>':'<i class="fa-plus-circle"></i>' 
+//	button.src =  newmode=="block"?"/static/images/toclosed.gif":"/static/images/toopen.gif";
 }
 
 

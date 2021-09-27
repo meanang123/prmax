@@ -2077,6 +2077,195 @@ dependencies ={
 
 			]
 		},
+// pressoffice
+		{
+		name: "prmaxpressoffice.js",
+				dependencies: [
+			"dojo.io.iframe",
+			"dojo.back",
+			"dojo.i18n",
+
+			"dojo.data.ItemFileReadStore",
+			"dojo.data.ItemFileWriteStore",
+
+			"dijit.layout.BorderContainer",
+			"dijit.layout.StackContainer",
+			"dijit.layout.TabContainer",
+			"dijit.layout.ContentPane",
+			"dijit.layout.AccordionContainer",
+
+			"dijit.TitlePane",
+			"dijit.Toolbar",
+			"dijit.Menu",
+			"dijit.Tree",
+			"dijit.ProgressBar",
+			"dijit.Dialog",
+
+			"dijit.Editor",
+			"dijit._editor.plugins.FontChoice",
+			"dijit._editor.plugins.TextColor",
+			"dijit._editor.plugins.LinkDialog",
+
+			"dijit.form.Button",
+			"dijit.form.Form",
+			"dijit.form.TextBox",
+			"dijit.form.FilteringSelect",
+			"dijit.form.ValidationTextBox",
+			"dijit.form.NumberTextBox",
+			"dijit.form.CheckBox",
+			"dijit.form.MultiSelect",
+			"dijit.form.ComboBox",
+
+			"dijit.form.Form",
+			"dijit.form.Textarea",
+
+			"dojox.grid.DataGrid",
+			"dojox.data.QueryReadStore",
+			"dojox.form.BusyButton",
+			"dojox.layout.ExpandoPane",
+			"dojox.validate.regexp",
+			"dojox.collections.Dictionary",
+			"dojox.editor.plugins.Preview",
+			"dojox.form.PasswordValidator",
+
+			"ttl.utilities",
+			"ttl.uuid",
+
+			"ttl.GridHelpers",
+			"ttl.layout.ContentPane",
+			"ttl.FrameMngr",
+			"ttl.Form",
+			"ttl.data.utilities",
+
+
+			"prmax.DlgCtrl",
+			"prmax.DlgCtrl2",
+
+			"prcommon.search.std_search",
+			"prcommon.date.DateSearchExtended",
+
+			"prmax.common.SelectOptions",
+			"prmax.common.SelectOptions2",
+			"prmax.common.ReportBuilder",
+
+			"prmax.customer.Customer",
+			"prmax.customer.Preferences",
+
+			"prmax.customer.clients.view",
+			"prmax.customer.activity.viewer",
+
+			"prmax.collateral.view",
+			"prmax.collateral.add",
+			"prmax.collateral.adddialog",
+
+			"prcommon.crm.responses.viewer",
+			"prcommon.newsrooms.viewer",
+
+			"prmax.email.wordtohtml",
+
+			"prmax.display.Output",
+			"prmax.display.StdBanner",
+			"prmax.display.StdView",
+			"prmax.display.startup",
+			"prmax.display.DisplayCtrl",
+
+			"prcommon.data.QueryWriteStore",
+			"prcommon.data.DataStores",
+
+			"prcommon.interests.Interests",
+			"prmax.search.person",
+
+			"prmax.editor.CollateralDialog",
+			"prmax.editor.TtlImgLinkDialog",
+			"prmax.editor.MergeFields",
+
+			"prmax.employee.EmployeeDisplay",
+			"prmax.employee.EmployeeEdit",
+			"prmax.employee.EmployeeOverride",
+			"prmax.employee.ChangeEmployee",
+			"prmax.employee.EmployeeNew",
+			"prmax.employee.EmployeeSelect",
+
+			"prmax.freelance.FreelanceEdit",
+
+			"prmax.geographical.Geographical",
+
+			"prmax.interests.Tags",
+			"prmax.interests.ApplyTags",
+			"prmax.interests.AddTags",
+
+
+			"prmax.lists.projectfilter",
+			"prmax.lists.SaveToListNew",
+			"prmax.lists.DeleteToList",
+			"prmax.lists.NewListDlg",
+			"prmax.lists.view",
+
+			"prmax.outlet.OutletEdit",
+			"prmax.outlet.OutletOverride",
+
+			"prmax.pressrelease.newrelease",
+			"prmax.pressrelease.sendrelease",
+			"prmax.pressrelease.selectrelease",
+			"prmax.pressrelease.view",
+
+			"prmax.projects.projects",
+			"prmax.projects.newproject",
+			"prmax.projects.projectselect",
+
+			"prmax.roles.ApplyRoles",
+			"prmax.roles.Roles",
+			"prmax.roles.SearchRoles",
+
+			"prmax.search.standard",
+			"prmax.search.Circulation",
+			"prmax.search.Frequency",
+			"prmax.search.PrmaxOutletTypes",
+
+			"prmax.search.SearchCount",
+			"prmax.search.SearchCtrl",
+
+			"prmax.searchgrid.SortDisplay",
+			"prmax.searchgrid.SearchGrid",
+			"prmax.searchgrid.SearchGridCount",
+			"prmax.searchgrid.Deduplicate",
+
+			"prmax.help.HelpBrowser",
+
+			"prmax.user.UserAdmin",
+
+			"prmax.email.wordtohtml",
+
+
+			"prcommon.prcommonobjects",
+			"prmax.prmaxobjects",
+
+			"prcommon.data.QueryWriteStore",
+			"prcommon.data.DataStores",
+
+			"prcommon.crm.viewer",
+			"prcommon.crm.issues.viewer",
+			"prcommon.crm.tasks.viewer",
+
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view",
+
+			"prmax.pressoffice.view",
+			"prmax.pressoffice.banner",
+			"prmax.pressoffice.stdview",
+			"prmax.pressoffice.startup",
+
+			"prcommon.clippings.viewer",
+
+			"prmax.pressrelease.distributiontemplate.viewer",
+
+			"prcommon.crm.viewer",
+			"prcommon.contacthistory.notes",
+			"prcommon.documents.view",
+			"prcommon.recovery.passwordrecoverydetails"
+			]
+		},
+
 // Journolink
 		{
 		name: "prmaxjournolink.js",
@@ -2261,6 +2450,7 @@ dependencies ={
 
 			]
 		}
+		
     ],
 //compress/build/
     prefixes: [

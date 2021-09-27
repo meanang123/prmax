@@ -35,7 +35,7 @@ from prmax.sitecontrollers.projects import ProjectController
 from prmax.sitecontrollers.contact import ContactController
 from prmax.sitecontrollers.outlets import OutletController
 from prmax.sitecontrollers.customer import CustomerController
-from prmax.sitecontrollers.admin.admin import ExternalAdminController, InternalAdminController
+from prmax.sitecontrollers.admin.admin import ExternalAdminController, InternalAdminController, ExternalAdminController2
 from prmax.sitecontrollers.geographical import GeographicalController
 from prmax.sitecontrollers.emails import EmailController
 from prmax.sitecontrollers.open import OpenController
@@ -109,6 +109,7 @@ class Root(controllers.RootController):
 	outlets = OutletController()
 	customers = CustomerController()
 	eadmin = ExternalAdminController()
+	eadmin2 = ExternalAdminController2()
 	iadmin = InternalAdminController()
 	geographical = GeographicalController()
 	emails = EmailController()
@@ -338,13 +339,12 @@ class Root(controllers.RootController):
 
 		return ""
 
-	LOGIN_PAGES = (("mediamatchmaker", "prmax.templates.logins/mediamatchmaker"),
-		       ("blueboo", "prmax.templates.logins/blueboo"),
+	LOGIN_PAGES = (("blueboo", "prmax.templates.logins/blueboo"),
 	               ("deperslijst", "prmax.templates.logins/deperslijst"),
 	               ("professional", "mako:prmax.templates.logins.professional"),
+	               ("pressoffice", "mako:prmax.templates.logins.pressoffice"),
 	               ("levelcert", "mako:prmax.templates.logins.levelcert"),
-		       ("tmediamatchmaker", "prmax.templates.logins/mediamatchmaker"),
-		       ("tblueboo", "prmax.templates.logins/blueboo"),
+	               ("tblueboo", "prmax.templates.logins/blueboo"),
 	               ("tdeperslijst", "prmax.templates.logins/deperslijst"),
 	               ("tprofessional", "mako:prmax.templates.logins.professional"),
 				   ("pressdata", "mako:prmax.templates.logins.pressdata"))
@@ -394,7 +394,7 @@ class Root(controllers.RootController):
 				response.status = 403
 				raise redirect("/login", dict(message="Forbidden"))
 
-			print ("post test")
+			print "post test"
 			# clear connections
 			try:
 				# for 1.5

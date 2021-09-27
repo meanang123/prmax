@@ -2,14 +2,14 @@
 	<table style="width:99%;border-style:collapsed" class="prmaxtable" cellpadding="0" cellspacing="0" >
 		<tr><td width="20%" ><span class="prmaxrowtag">${displayname}</span></td>
 			<td width="70%" >
-				<select style="width:7em" dojoType="dijit.form.ComboBox" autocomplete="false" value="No Selection" dojoAttachPoint="option" dojoAttachEvent="onChange:_OptionChanged">
+				<select class="prmaxdate" style="width:7em" dojoType="dijit.form.ComboBox" autocomplete="false" value="No Selection" dojoAttachPoint="option" dojoAttachEvent="onChange:_OptionChanged">
 						<option>No Selection</option>
 						<option>Before</option>
 						<option>After</option>
 						<option>Between</option>
 				</select>
-				<input dojoAttachPoint="from_date_box" class="prmaxbutton prmaxhidden" type="text"  dojoType="dijit.form.DateTextBox" dojoAttachEvent="onChange:_DateChanged" style="width:6em">
-				<label dojoAttachPoint="to_box_label" class="prmaxhidden"> and </label><input dojoAttachPoint="to_date_box" class="prmaxbutton prmaxhidden" type="text"  dojoType="dijit.form.DateTextBox" style="width:6em" dojoAttachEvent="onChange:_DateChanged" >
+				<input dojoAttachPoint="from_date_box" class="prmaxbutton prmaxdate prmaxhidden" type="text"  dojoType="dijit.form.DateTextBox" dojoAttachEvent="onChange:_DateChanged" style="width:6em">
+				<label dojoAttachPoint="to_box_label" class="prmaxhidden"> and </label><input dojoAttachPoint="to_date_box" class="prmaxbutton prmaxdate prmaxhidden" type="text"  dojoType="dijit.form.DateTextBox" style="width:6em" dojoAttachEvent="onChange:_DateChanged" >
 				<input dojoAttachPoint="month_checkbox" type="checkbox" checked value="1" dojoType="dijit.form.CheckBox" dojoAttachEvent="onChange:_DateChanged" ><label dojoAttachPoint="label_box" checked >Include Months</label>
 			</td>
 			<td width="10%" align="right"><div dojoAttachPoint="countNode" dojotype="prmax.search.SearchCount"></div></td>

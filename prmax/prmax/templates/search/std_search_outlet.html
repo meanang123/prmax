@@ -9,34 +9,34 @@
 		<form class="prmaxtable" name="std_search_outlet" cellspacing="0" cellpadding="0" id="${prefix}std_search_outlet_form" formid="std_search_outlet_form" dojoType="ttl.Form" onsubmit="return false">
 		<input type="hidden" value="outlet"  name="search_type" dojoType="dijit.form.TextBox" />
 		<div  usepartial="true" search="std_search_outlet" id="${prefix}std_search_outlet_outlet_name" displayname="Outlet Name" keytypeid="${prmax.search_indexes.outlet_name}" name="outlet_searchname" dojoType="prmax.search.standard"></div>
-		<hr/>
+		<br/>
 		<div search="std_search_outlet" style="width:99%" keytypeid="${prmax.search_indexes.outlet_outlettypeid}" name="outlet_outlettypes" dojoType="prmax.search.PrmaxOutletTypes"></div>
-		<hr/>
+		<br/>
 		<div search="std_search_outlet" style="width:99%" keytypeid="${prmax.search_indexes.outlet_interest}" size="8" name="outlet_interests" dojoType="prcommon.interests.Interests"></div>
-		<hr/>
+		<br/>
 <span py:if="prmax.customer.search_show_job_roles==1" py:strip="">
 		<div  dojoType="prmax.roles.SearchRoles" keytypeid="${prmax.search_indexes.outlet_job_role}"  search="std_search_outlet" name="outlet_roles" id="${prefix}search_outlet_roles" style="width:99%"  ></div>
-		<hr/>
+		<br/>
 </span>
 <span py:if="prmax.customer.search_show_coverage==1" py:strip="">
 		<div search="std_search_outlet" style="width:99%" keytypeid="${prmax.search_indexes.outlet_coverage}" name="outlet_coverage"  id="${prefix}outlet_coverage" dojoType="prmax.geographical.Geographical" ></div>
-		<hr/>
+		<br/>
 </span>
 		<div search="std_search_outlet" style="width:99%"  displayname="Circulation" keytypeid="${prmax.search_indexes.outlet_circulationid}" name="outlet_circulation" dojoType="prmax.search.Circulation"></div>
-		<hr/>
+		<br/>
 <span py:if="prmax.customer.search_show_profile==1" py:strip="">
 		<div search="std_search_outlet" displayname="Profile" keytypeid="${prmax.search_indexes.outlet_profile}" name="outlet_profile" dojoType="prmax.search.standard"></div>
-		<hr/>
+		<br/>
 </span>
 		<div search="std_search_outlet" displayname="Frequency" keytypeid="${prmax.search_indexes.outlet_frequencyid}" name="outlet_frequency" dojoType="prmax.search.Frequency"></div>
-		<hr/>
+		<br/>
 		<span py:if="prmax.customer.advancefeatures" py:strip="">
 			<div  usepartial="true" search="std_search_outlet" displayname="Feature" keytypeid="${prmax.search_indexes.advance_search_name_outletid}" name="outlet_advance_feature" dojoType="prmax.search.standard"></div>
-			<hr/>
+			<br/>
 		</span>
 		<span py:if="prmax.customer.productid==2" py:strip="">
 		<div search="std_search_outlet" displaytitle="Tags" style="width:99%" keytypeid="${prmax.search_indexes.outlet_interest}" nofilter="true" size="8" name="outlet_tags" interesttypeid="2" dojoType="prcommon.interests.Interests"></div>
-		<hr/></span>
+		<br/></span>
 		<div style="width:99%" search="std_search_outlet" keytypeid="${prmax.search_indexes.outlet_countryid}" name="outlet_countryid" dojoType="prcommon.search.Countries"></div>
 
 

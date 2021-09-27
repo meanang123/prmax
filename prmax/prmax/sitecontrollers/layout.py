@@ -42,24 +42,26 @@ class LayoutController(SecureController):
 
 	# list of standard banners from embedded options
 	__std_banner = {
-	  Constants.CustomerType_AIMedia: "prmax.ai.banner",
-	  Constants.CustomerType_NewsLive: "prmax.newslive.banner",
-	  Constants.CustomerType_Updatum: "prmax.updatum.banner",
-	  Constants.CustomerType_PRmax: "prmax.display.StdBanner",
-	  Constants.CustomerType_Fens: "prmax.fens.banner",
-	  Constants.CustomerType_KantarMedia: "prmax.kantar.banner",
-	  Constants.CustomerType_Phoenixpb: "prmax.phoenixpd.banner",
-	  Constants.CustomerType_BlueBoo: "prmax.blueboo.banner",
-	  Constants.CustomerType_IPCB: "prmax.ipcb.banner",
-	  Constants.CustomerType_SolididMedia: "prmax.solidmedia.banner",
-	  Constants.CustomerType_MyNewsdesk: "prmax.mynewsdesk.banner",
-	  Constants.CustomerType_DePerslijst: "prmax.deperslijst.banner",
-	  Constants.CustomerType_PrmaxPressOffice: "prmax.professional.banner",
-	  Constants.CustomerType_LevelCert: "prmax.levelcert.banner",
+	  Constants.CustomerType_AIMedia:"prmax.ai.banner",
+	  Constants.CustomerType_NewsLive:"prmax.newslive.banner",
+	  Constants.CustomerType_Updatum:"prmax.updatum.banner",
+	  Constants.CustomerType_PRmax:"prmax.display.StdBanner",
+	  Constants.CustomerType_Fens:"prmax.fens.banner",
+	  Constants.CustomerType_KantarMedia:"prmax.kantar.banner",
+	  Constants.CustomerType_Phoenixpb:"prmax.phoenixpd.banner",
+	  Constants.CustomerType_BlueBoo:"prmax.blueboo.banner",
+	  Constants.CustomerType_IPCB:"prmax.ipcb.banner",
+	  Constants.CustomerType_SolididMedia:"prmax.solidmedia.banner",
+	  Constants.CustomerType_MyNewsdesk:"prmax.mynewsdesk.banner",
+	  Constants.CustomerType_DePerslijst:"prmax.deperslijst.banner",
+	  Constants.CustomerType_PrmaxPressOffice:"prmax.professional.banner",
+	  Constants.CustomerType_LevelCert:"prmax.levelcert.banner",
 	  Constants.CustomerType_StereoTribes: "prmax.stereotribes.banner",
 	  Constants.CustomerType_PressData: "prmax.pressdata.banner",
 	  Constants.CustomerType_PressDataOffice: "prmax.pressdataoffice.banner",
-	  Constants.CustomerType_Journolink: "prmax.journolink.banner",
+	  Constants.CustomerType_PressOffice: "prmax.pressoffice.banner",
+    Constants.CustomerType_Journolink: "prmax.journolink.banner",
+
 	}
 	__std_start_view = {
 	  Constants.CustomerType_SolididMedia:"prmax.solidmedia.stdview",
@@ -70,7 +72,8 @@ class LayoutController(SecureController):
 	  Constants.CustomerType_StereoTribes: "prmax.stereotribes.stdview",
 	  Constants.CustomerType_PressData: "prmax.pressdata.stdview",
 	  Constants.CustomerType_PressDataOffice: "prmax.pressdataoffice.stdview",
-	  Constants.CustomerType_Journolink: "prmax.journolink.stdview",
+	  Constants.CustomerType_PressOffice: "prmax.pressoffice.stdview",
+    Constants.CustomerType_Journolink: "prmax.journolink.stdview",
 	}
 
 	#######################################################
@@ -188,7 +191,7 @@ class LayoutController(SecureController):
 
 		customer = Customer.query.get(params["customerid"])
 		if params.get("selectedview", "") == "distributions" or \
-		   customer.customertypeid in (Constants.CustomerType_PrmaxPressOffice, Constants.CustomerType_PressDataOffice):
+		   customer.customertypeid in (Constants.CustomerType_PrmaxPressOffice, Constants.CustomerType_PressDataOffice, Constants.CustomerType_PressOffice):
 			params["startup_standing"] = ""
 			params["startup_distributions"] = 'selected:"selected"'
 			params["startup_mode"] = params.get("startup_mode", "All")
@@ -255,7 +258,8 @@ class LayoutController(SecureController):
 	  "stereotribes_start_view": "layout",
 	  "pressdata_start_view": "layout", # pressdata
 	  "pressdataoffice_start_view": "layout", # pressdata
-	  "journolink_start_view" : "layout",
+	  "pressoffice_start_view": "layout", # pressdata
+    "journolink_start_view" : "layout",
 
 		# search templates
 		"std_search_quick":"search", # quick search form

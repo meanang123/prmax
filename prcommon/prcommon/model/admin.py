@@ -43,6 +43,37 @@ LOGGER = logging.getLogger("prcommon")
 
 class CustomerExternal(BaseSql):
 	""" External admin function for customer accessed where the user is not logged in"""
+
+	@classmethod
+	def price(cls, params):
+		""" collect the cost of the required logins/period for the licence"""
+
+		if int(params.get("isprofessional", "0")) == 1:
+			cost = Constants.PRmax_Professional_Cost
+			total = Constants.PRmax_Professional_Total
+		else:
+			result = session.query(Cost).filter_by(
+				termid=params['termid'],
+			    nbrofloginsid=params['nbrofloginsid'],
+			    editionid=params['editionid'],
+			    mediadataid=params['mediadataid'],
+			    paymentmethodid=params['paymentmethodid']
+			)
+			if result.count() == 0:
+				return(0, "Please ring for price", "")
+			else:
+				cost = result[0].cost
+				total = result[0].total
+				if "advancefeatures" in params and params["advancefeatures"]:
+					cost += result[0].advancecost
+					total += result[0].advancetotal
+				if "crm" in params:
+					cost += result[0].crmcost
+					total += result[0].crmtotal
+
+		return(cost, "", total)
+
+
 	@classmethod
 	def cost(cls, params):
 		""" collect the cost of the required logins/period for the licence"""
@@ -96,6 +127,14 @@ class CustomerExternal(BaseSql):
 		""" adds a customer and user record to the system """
 
 		try:
+			params['nbrofloginsid'] = 1
+			params['termid'] = 4
+			params['address1'] = 'address1'
+			params['address2'] = 'address2'
+			params['county'] = 'county'
+			params['postcode'] = 'postcode'
+			params['townname'] = 'townname'
+
 			#get the login count
 			logins = NbrOfLogins.query.get(params['nbrofloginsid'])
 			# get length type
@@ -130,19 +169,23 @@ class CustomerExternal(BaseSql):
 				contact_title=params.get('contact_title', ''),
 				contact_firstname=params.get('contact_firstname', ''),
 				contact_surname=params.get('contact_surname', ''),
-				contactjobtitle=params["contactjobtitle"],
+#			    contactjobtitle=params["contactjobtitle"],
+			    contactjobtitle=params.get('contactjobtitle', 'editor'),
 				logins=logins.nbroflogins,
 				maxnbrofusersaccounts=logins.maxnbrofusersaccounts,
 				addressid=addr.addressid,
 				email=params['email'],
-				tel=params['tel'],
+			    tel=params.get('tel', ''),
+#			    tel=params['tel'],
 				termid=params['termid'],
 				licence_expire=term.getEndDate(),
 				nbrofloginsid=params['nbrofloginsid'],
 				proforma=proforma,
 				vatnumber=params["vatnumber"] if "vatnumber" in params else "",
-				countryid=params["countryid"],
-			  customersourceid=int(params["customersourceid"]))
+			    countryid=1,
+			    customersourceid=1)
+#						countryid=params["countryid"],
+#					  customersourceid=int(params["customersourceid"]))
 			session.add(cust)
 
 			# professional version
@@ -156,15 +199,15 @@ class CustomerExternal(BaseSql):
 				cust.has_global_newsroom = True
 
 			# ispressoffice version
-#			if "ispressoffice" in  params and  params["ispressoffice"] == '1':
-#				cust.advancefeatures = True
-#				cust.crm = True
-#				cust.updatum = True
-#				cust.seo = True
-#				cust.is_bundle = True
-#				cust.has_news_rooms = True
-#				cust.has_global_newsroom = True
-#
+			if "ispressoffice" in  params and  params["ispressoffice"] == '1':
+				cust.advancefeatures = True
+				cust.crm = True
+				cust.updatum = True
+				cust.seo = True
+				cust.is_bundle = True
+				cust.has_news_rooms = True
+				cust.has_global_newsroom = True
+
 			session.flush()
 
 			customer = Customer.query.get(cust.customerid)
@@ -178,7 +221,8 @@ class CustomerExternal(BaseSql):
 			user = User(user_name=params['email'],
 			            email_address=params['email'],
 			            display_name=customer.getContactName(),
-			            password=params['password'],
+			            password=params.get('password', 'qwerty'),
+#			            password=params['password'],
 			            customerid=cust.customerid)
 			session.add(user)
 			session.flush()
@@ -615,11 +659,8 @@ class PRMaxAdmin(BaseSql):
 			customer.advancefeatures = params["advancefeatures"]
 			if params["advancefeatures"]:
 				customer.advance_licence_start = params["advance_licence_start"]
-				if params["orderpaymentmethodid"] in Constants.OrderConfirmationPayment_Is_DD:
-					advance_licence_expired = licence_expire
-				else:
-					advance_licence_expired = customer.advance_licence_start + \
-						datetime.timedelta(days=(params["adv_months_free"] + params["adv_months_paid"]) * 30)
+				advance_licence_expired = customer.advance_licence_start + \
+					datetime.timedelta(days=(params["adv_months_free"] + params["adv_months_paid"]) * 30)
 				if customer.advance_licence_expired != advance_licence_expired:
 					customer.advance_licence_expired = advance_licence_expired
 					session.add(AuditTrail(audittypeid=Constants.audit_expire_date_changed,
@@ -644,12 +685,8 @@ class PRMaxAdmin(BaseSql):
 				customer.maxmonitoringusers = params["maxmonitoringusers"]
 
 				customer.updatum_start_date = params["updatum_start_date"]
-				
-				if params["orderpaymentmethodid"] in Constants.OrderConfirmationPayment_Is_DD:
-					updatum_end_date = licence_expire
-				else:				
-					updatum_end_date = customer.updatum_start_date + \
-						datetime.timedelta(days=(params["updatum_months_free"] + params["updatum_months_paid"]) * 30)
+				updatum_end_date = customer.updatum_start_date + \
+					datetime.timedelta(days=(params["updatum_months_free"] + params["updatum_months_paid"]) * 30)
 				if customer.updatum_start_date != updatum_end_date:
 					customer.updatum_end_date = updatum_end_date
 					session.add(AuditTrail(audittypeid=Constants.audit_expire_date_changed,

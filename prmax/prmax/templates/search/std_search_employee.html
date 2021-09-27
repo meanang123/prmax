@@ -10,17 +10,17 @@
 			<input type="hidden" value="employee"  name="search_type" dojoType="dijit.form.TextBox" />
 			<div class="paddingrow">&nbsp;</div>
 			<div usepartial="true" search="std_search_employee" id="std_search_employee_name_ext" keytypeid="${prmax.search_indexes.employee_contact_ext_employeeid}" name="employee_searchname_ext" dojoType="prmax.search.person"></div>
-			<hr/>
+			<br/>
 <span py:if="prmax.customer.search_show_job_roles==1" py:strip="">
 			<div  search="std_search_employee"  dojoType="prmax.roles.SearchRoles" keytypeid="${prmax.search_indexes.employee_job_role}"  name="employee_roles" style="width:99%" showdefaultoption="false" ></div>
-			<hr/>
+			<br/>
 </span>
 			<div search="std_search_employee" style="width:99%" keytypeid="${prmax.search_indexes.employee_employeeid_interestid}" name="employee_interests" dojoType="prcommon.interests.Interests"></div>
-			<hr/>
+			<br/>
 			<div search="std_search_employee" style="width:99%" keytypeid="${prmax.search_indexes.employee_prmaxoutlettypeid}" name="employee_outlettypes" dojoType="prmax.search.PrmaxOutletTypes"></div>
-			<hr/>
+			<br/>
 			<div search="std_search_employee" style="width:99%" keytypeid="${prmax.search_indexes.employee_countryid}" name="employee_countryid" dojoType="prcommon.search.Countries"></div>
-			<hr/>
+			<br/>
 			<input type="submit" style="display:none"/>
 		</form>
 	</div>

@@ -169,7 +169,6 @@ Customer_Has_Private_Data = (
 Customer_Token_Login = (CustomerType_AIMedia, CustomerType_KantarMedia, CustomerType_StereoTribes, CustomerType_PressData, CustomerType_PressDataOffice,
 						CustomerType_PressOffice, CustomerType_Journolink)
 
-
 Customer_Is_Partner = (CustomerType_AIMedia, CustomerType_NewsLive,
                        CustomerType_Fens, CustomerType_KantarMedia,
                        CustomerType_IHubbub, CustomerType_Phoenixpb, CustomerType_BlueBoo, CustomerType_StereoTribes, CustomerType_Journolink)
@@ -307,6 +306,8 @@ OrderConfirmationPayment_Is_Fixed_Term = (
 )
 
 ReasonCode_Questionnaire =  27
+ReasonCode_Project = 31
+ReasonCode_Project_Item = 32
 
 Source_Type_Stamm = 5
 Source_Type_Nijgh = 6
@@ -315,6 +316,8 @@ Source_Type_Cyberwatch = 8
 Source_Type_MediaToolKit = 9
 Source_Type_Madaptive = 10
 Source_Type_SouthAmerica = 11
+Source_Type_Dutch = 12
+Source_Type_Dutch2 = 14
 
 Clipping_Status_Unallocated = 1
 Clipping_Status_Unprocessed = 2

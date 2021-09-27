@@ -10,19 +10,19 @@
 			<input type="hidden" value="freelance"  name="search_type" dojoType="dijit.form.TextBox" />
 			<div class="paddingrow">&nbsp;</div>
 			<div usepartial="true" search="std_search_freelance" id="${prefix}std_search_freelance_name" displayname="Surname" keytypeid="${prmax.search_indexes.freelance_employeeid}" name="freelance_searchname" dojoType="prmax.search.standard"></div>
-			<hr/>
+			<br/>
 			<div search="std_search_freelance" displayname="Email" keytypeid="${prmax.search_indexes.freelance_email}" name="freelance_email" dojoType="prmax.search.standard"></div>
-			<hr/>
+			<br/>
 			<div search="std_search_freelance" displayname="Tel" keytypeid="${prmax.search_indexes.freelance_tel}" name="freelance_tel" dojoType="prmax.search.standard"></div>
-			<hr/>
+			<br/>
 			<div search="std_search_freelance" style="width:99%" keytypeid="${prmax.search_indexes.freelance_employeeid_interestid}" name="freelance_interests" dojoType="prcommon.interests.Interests"></div>
-			<hr/>
+			<br/>
 <span py:if="prmax.customer.search_show_profile==1" py:strip="">
 			<div search="std_search_freelance" displayname="Profile" keytypeid="${prmax.search_indexes.freelance_profile}" name="freelance_profile" dojoType="prmax.search.standard"></div>
-			<hr/>
+			<br/>
 </span>
 			<div style="width:99%" search="std_search_freelance" keytypeid="${prmax.search_indexes.freelance_employeeid_countryid}" name="freelance_countryid" dojoType="prcommon.search.Countries"></div>
-			<hr/>
+			<br/>
 			<input type="hidden" name="searchtypeid" py:attrs="dict(value=searchtypeid)" dojoType="dijit.form.TextBox"/>
 			<input type="submit" style="display:none"/>
 		</form>

@@ -1,12 +1,12 @@
 <div data-dojo-attach-point="containerNode" >
 	<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" data-dojo-attach-point="top_panel">
 		<tr><td width="20%" class="prmaxrowtag">${displaytitle}</td>
-				<td width="5%" ><img height="16px" width="16px" data-dojo-attach-point="toggleCtrl" data-dojo-attach-event="onclick:_Toggle" src="/static/images/toopen.gif" class="toggleselect"></img></td>
+				<td width="5%" ><i dojoAttachPoint="toggleCtrl" dojoAttachEvent="onclick:_Toggle" class="fa fa-plus-circle" style="color:#0C5E97"></i></td>
 				<td align="right" v-align="top" ><div data-dojo-attach-point="countNode" data-dojo-type="prcommon.search.SearchCount"></div></td>
 		</tr>
 	</table>
 	<div class="dojoInterestPane" >
-		<div data-dojo-attach-point="selectarea" style="display:none" >
+		<div data-dojo-attach-point="selectarea" class="prmaxselectmultiple" style="display:none" >
 			<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" >
 				  <tr><td width="47%"></td><td width="5%"></td><td width="48%" ></td></tr>
 				  <tr><td colspan="3">
