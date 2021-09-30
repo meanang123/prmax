@@ -96,6 +96,7 @@ class OutletDisplay(BaseSql):
 	c.linkedin,
 	c.instagram,
 	c.facebook,
+	c.facebook as facebookimage,
 	Web_To_Html_Link_address(c.blog) as blog
 	FROM outlets as o
 	LEFT OUTER JOIN outletcustomers as oc ON oc.outletid = o.outletid AND oc.customerid = :customerid
@@ -284,8 +285,16 @@ class OutletDisplay(BaseSql):
 			data["profile"] = cls.getProfileList(outletid, customerid)
 		else:
 			data = cls._capture ( outletid, customerid , OutletDisplay.Outlet_Display_Main_Control)
+			if data['outlet']['facebookimage'] != None and data['outlet']['facebookimage'] != '':
+				facebookid = data['outlet']['facebookimage']
+				if facebookid.startswith("https:"):
+					facebookid = facebookid[25:]
+				elif facebookid.startswith("http:"):
+					facebookid = facebookid[24:]
+				facebookimagelink = "http://graph.facebook.com/%s/picture" % facebookid
 
-
+				data['outlet']['facebookimage'] = facebookimagelink
+			
 		data["newprofile"] = cls.get_new_profile(outletid)
 		return data
 

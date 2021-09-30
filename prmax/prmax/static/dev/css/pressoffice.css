@@ -2062,7 +2062,7 @@ div.dijitTabDisabled,
 .soria .dijitCalendarMonthContainer th {
 //    background: #bed7f0 url("/static/images/adept/titleBar.png") repeat-x top;
 	background: none;
-    background-color: #0C5E97 !important;
+    background-color: #7F7F7F !important;
 	color: white !important;
     padding-top: .3em;
     padding-bottom: .2em;
@@ -2118,7 +2118,7 @@ div.dijitTabDisabled,
 	
 }
 .soria .dijitCalendarSelectedDate {
-	background-color: #0C5E97 !important;
+	background-color: #7F7F7F !important;
 	color: white !important;
 	border: none;
 	border-radius: 50%;	
@@ -2128,11 +2128,11 @@ div.dijitTabDisabled,
 }
 //.soria .dijitCalendarYearContainer { background: white url("/static/images/adept/titleBar.png") repeat-x top }
 .soria .dijitCalendarYearContainer { 
-	background-color: #0C5E97 !important;
+	background-color: #7F7F7F !important;
 	color: white !important;
 }
 .soria .dijitCalendarYearContainer > tr{ 
-	background-color: #0C5E97 !important;
+	background-color: #7F7F7F !important;
 	color: white !important;
 	border-radius: 3px !important;
 }
@@ -2150,7 +2150,7 @@ div.dijitTabDisabled,
     color: white;
     padding: 0.2em;
     padding-bottom: 0.1em;
-	background-color: #0C5E97 !important;
+	background-color: #7F7F7F !important;
     //background-color: #b9cbf1 !important;
     //border: #4b5aaa solid 1px !important;
 }
@@ -2287,7 +2287,7 @@ div.dijitTabDisabled,
 		margin:0px !important;
 }
 .soria .dijitDialogTitleBar {
-    background-color: #0C5E97 !important;
+    background-color: #7F7F7F !important;
 		background-image: none !important;
 		color:white !important;
 		padding: 5px;
@@ -3363,7 +3363,9 @@ div.dijitTabDisabled,
 .soria .dijitTabContainerRight-dijitContentPane,
 .soria .dijitAccordionContainer-dijitContentPane {
     background-color: #fff;
-    padding: 0px;
+    padding: 10px;
+    margin: 10px;
+    line-height: 26pt;
 }
 .soria .dijitSplitContainer-dijitContentPane,
 .soria .dijitBorderContainer-dijitContentPane {
@@ -3583,7 +3585,7 @@ div.dijitTabDisabled,
 }
 .soria .searchresults {
 //    background-color: #3397B9 !important;
-    background-color: #0C5E97 !important;
+    background-color: #7F7F7F !important;
     color: white;
     padding: 2px;
     margin: 0px;
@@ -3592,7 +3594,7 @@ div.dijitTabDisabled,
     border: none;
 //    background: #3397B9 url("") repeat-x top left;
 //    background-color: #3397B9;
-    background-color: #0C5E97;
+    background-color: #7F7F7F;
 		color:white;
     padding: 0px;
     margin: 0px;
@@ -3921,7 +3923,7 @@ div.dijitTabDisabled,
 }
 
 .soria .searchTab .dijitTabContainerTop-tabs .dijitTabChecked {
-	border-bottom: 5px solid #0C5E97 !important;
+	border-bottom: 5px solid #7F7F7F !important;
 	background-color: white !important;
 }
 
@@ -3929,7 +3931,7 @@ div.dijitTabDisabled,
 	color: grey !important;
 }
 //.soria .searchTab .dijitTab{
-//	border-bottom: 5px solid #0C5E97 !important;
+//	border-bottom: 5px solid #7F7F7F !important;
 //}
 
 .soria .searchform hr {
@@ -4137,13 +4139,13 @@ a:hover { color: #E5007D }
 .soria .searchresults,
 .soria .searchresults .prmaxrowdisplaylarge,
 .prmaxsearchgridcount,
-.soria .searchresults .dijitToolbarTop { background: #0C5E97}
+.soria .searchresults .dijitToolbarTop { background: #7F7F7F}
 .soria .searchresults .prmaxrowdisplaylarge {
     color: white;
     font-size: 13px;
     width: 11% !important;
     padding: .5% 0 0 1% !important;
-	background-color: #0C5E97;
+	background-color: #7F7F7F;
 }
 
 
@@ -4169,7 +4171,7 @@ a:hover { color: #E5007D }
     border: none;
 }
 //.soria .dijitTabContainerTop-tabs .dijitTabChecked { background: #3397B9 }
-.soria .dijitTabContainerTop-tabs .dijitTabChecked { background: #0C5E97 }
+.soria .dijitTabContainerTop-tabs .dijitTabChecked { background: #7F7F7F }
 
 .soria .dijitTabChecked .dijitTabContent .tabLabel { font-size: 11pt }
 .soria .dijitTabInnerDiv .dijitTabContent {
@@ -4682,37 +4684,37 @@ padding:1px !important;
 
 .prmaxbuttonblue{
 	color: white !important;
-	background-color: #0C5E97 !important;
+	background-color: #7F7F7F !important;
 	border-radius: 3px !important;
 }
 .prmaxbuttonblue > span{
 	background: none !important;
 	color: white !important;
-	background-color: #0C5E97 !important;
+	background-color: #7F7F7F !important;
 	border-radius: 3px !important;
-	border: 1px solid #0C5E97 !important;
+	border: 1px solid #7F7F7F !important;
 }
 .prmaxbuttonwhite{
-	color: #0C5E97 !important;
+	color: #7F7F7F !important;
 	background-color: white !important;
-	border: 1px solid #0C5E97 !important;
+	border: 1px solid #7F7F7F !important;
 	border-radius: 3px !important;	
 }
 .prmaxbuttonwhite > span{
 	background: none !important;
-	color: #0C5E97 !important;
+	color: #7F7F7F !important;
 	background-color: white !important;
-	border: 1px solid #0C5E97 !important;
+	border: 1px solid #7F7F7F !important;
 	border-radius: 3px !important;	
 }
 .prmaxbuttongreyblue{
-	color: #0C5E97 !important;
+	color: #7F7F7F !important;
 	background-color: #D4E1EB !important;
 	border-radius: 3px !important;
 }
 .prmaxbuttongreyblue > span{
 	background: none !important;
-	color: #0C5E97 !important;
+	color: #7F7F7F !important;
 	background-color: #D4E1EB !important;
 	border-radius: 3px !important;
 	border: 1px solid #D4E1EB !important;
