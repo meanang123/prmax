@@ -20,8 +20,8 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 	// need to check that the patther is correct
 	mainViewStringEmpty:"/layout/std_outlet_view_startup",
 	mainViewString:"/display/outletmain?outletid=${outletid}&cachebuster=${cachebuster}",
-	profileViewString:"/display/outletprofile?outletid=${outletid}&cachebuster=${cachebuster}",
-	profilelink:"${displaylink}",
+	//profileViewString:"/display/outletprofile?outletid=${outletid}&cachebuster=${cachebuster}",
+	//profilelink:"${displaylink}",
 	widgetsInTemplate: true,
 	private_data: true,
 	source:"search",
@@ -77,7 +77,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		dojo.subscribe(PRCOMMON.Events.Display_View_Changed, dojo.hitch(this,this.ViewChangedEvent));
 		dojo.subscribe(PRCOMMON.Events.Display_Load, dojo.hitch(this,this.LoadEvent));
 		dojo.subscribe(PRCOMMON.Events.Display_ReLoad, dojo.hitch(this,this.RefreshEvent));
-		dojo.subscribe(PRCOMMON.Events.Update_Notes, dojo.hitch(this,this._profile_refresh_event));
+		//dojo.subscribe(PRCOMMON.Events.Update_Notes, dojo.hitch(this,this._profile_refresh_event));
 		dojo.subscribe('/update/engagement_label', dojo.hitch(this,this._UpdateEngagementLabelEvent));
 
 		this.iefix = false;
@@ -139,7 +139,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 	{
 		this.mainViewButton = this.mainView.controlButton;
 		this.contactsTabButton = this.contactView.controlButton;
-		this.profileTabButton = this.profileView.controlButton;
+		//this.profileTabButton = this.profileView.controlButton;
 		this.advanceTabButton = this.advanceView.controlButton;
 		this.crmView.set("title", PRMAX.utils.settings.crm_engagement_plural);
 		this.crmTabButton = this.crmView.controlButton;
@@ -244,7 +244,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		if (control.outletid == -1 )  display = "none";
 
 		this.mainViewButton.domNode.style.display= display;
-		this.profileTabButton.domNode.style.display=  display;
+		//this.profileTabButton.domNode.style.display=  display;
 
 		if (this.crmTabButton)
 			this.crmTabButton.domNode.style.display = (PRMAX.utils.settings.crm)?display:"none";
@@ -309,7 +309,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 			}
 			this.showOptionsTabs(this.ctrldata);
 			this._SetMainView();
-			this._do_profile_link();
+			//this._do_profile_link();
 			this.contactdisplay.Clear();
 			this.contactgrid.setQuery( ttl.utilities.getPreventCache({outletid:this.ctrldata.outletid}));
 			this.controls.selectChild(this.tabControl);
@@ -374,7 +374,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 			this.mainView.set("href" , this.mainViewStringEmpty );
 		}
 
-		this.profileView.set("content","");
+		//this.profileView.set("content","");
 
 		this.loaded_contacts = false;
 		this.loaded_advance = false;
@@ -658,18 +658,18 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 			this.loadEmployee();
 		}
 	},
-	_profile_refresh_event:function( outletid, employeeid)
-	{
-		if ( employeeid == null)
-			this._do_profile_link();
-	},
-	_do_profile_link:function()
-	{
-		if (this.ctrldata.displaylink)
-			this.profileView.set("href",dojo.string.substitute(this.profilelink,{displaylink:this.ctrldata.displaylink}));
-		else
-			this.profileView.set("href",dojo.string.substitute(this.profileViewString,{outletid:this.ctrldata.outletid,cachebuster:new Date().getTime()}));
-	},
+	//_profile_refresh_event:function( outletid, employeeid)
+	//{
+	//	if ( employeeid == null)
+	//		this._do_profile_link();
+	//},
+	//_do_profile_link:function()
+	//{
+	//	if (this.ctrldata.displaylink)
+	//		this.profileView.set("href",dojo.string.substitute(this.profilelink,{displaylink:this.ctrldata.displaylink}));
+	//	else
+	//		this.profileView.set("href",dojo.string.substitute(this.profileViewString,{outletid:this.ctrldata.outletid,cachebuster:new Date().getTime()}));
+	//},
 	resize:function()
 	{
 		this.borderCtrl.resize( arguments[0] ) ;

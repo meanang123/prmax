@@ -59,14 +59,32 @@ dojo.declare("prcommon.advance.listview",
 	{
 		if ( response.success == "OK" )
 		{
+			var contactdisplay = '';
+			var editorialdisplay = '';
+			var publicationdisplay = '';
 			dojo.attr(this.feature, "innerHTML" , response.data.advance.feature );
-			dojo.attr(this.editorial_date, "innerHTML" , response.data.advance.editorial_date_display);
-			dojo.attr(this.cover_date, "innerHTML" , response.data.advance.cover_date_display);
-			dojo.attr(this.publicationdate, "innerHTML" , response.data.advance.pub_date_display);
-			dojo.attr(this.contactname, "innerHTML" , response.data.advance.contactname);
-			dojo.attr(this.contactemail, "innerHTML" , response.data.advance.contactemail);
-			dojo.attr(this.interests, "innerHTML" , response.data.interests_text );
-			dojo.attr(this.featuredescription,"innerHTML", response.data.advance.featuredescription);
+//			dojo.attr(this.editorial_date, "innerHTML" , response.data.advance.editorial_date_display);
+//			dojo.attr(this.cover_date, "innerHTML" , response.data.advance.cover_date_display);
+//			dojo.attr(this.publicationdate, "innerHTML" , response.data.advance.pub_date_display);
+			if (response.data.advance.editorial_date_display)
+			{
+				editorialdisplay = 'Editorial Deadline ' + response.data.advance.editorial_date_display + ' Cover Date ' + response.data.advance.cover_date_display;
+				dojo.attr(this.editorialdisplay,"innerHTML", editorialdisplay);
+			};
+			if (response.data.advance.contactname)
+			{
+				contactdisplay = 'Contact ' + response.data.advance.contactname + ' ' + response.data.advance.contactemail;
+				dojo.attr(this.contactdisplay,"innerHTML", contactdisplay);
+			};
+			if (response.data.advance.pub_date_display)
+			{
+				publicationdisplay = 'Puiblication Date' + response.data.advance.pub_date_display;
+				dojo.attr(this.publicationdisplay,"innerHTML", publicationdisplay);
+			};
+			
+			
+//			dojo.attr(this.interests, "innerHTML" , response.data.interests_text );
+//			dojo.attr(this.featuredescription,"innerHTML", response.data.advance.featuredescription);
 			dojo.removeClass(this.innerframe,"prmaxhidden");
 		}
 		else

@@ -4,26 +4,34 @@
 			<div dojoAttachPoint="maintab" dojoType="ttl.layout.ContentPane" title='Details' selected="true" style="padding:2px" class="scrollpanel">
 				<table class="prmaxtable" width="100%" cellpadding="0" cellspacing="0" style="border-style:collapsed" >
 					<tr>
-						<td width="14%" class="prmaxrowdisplaylarge" ></td><td class="prmaxrowdisplaylarge" width="76%" dojoAttachPoint="employee_display_contactname"></td>
-						<td width="10%" class="employeetype" dojoAttachPoint="employee_display_options" ></td></tr>
-					<tr><td class="prmaxrowtag" width="14%"></td><td class="prmaxrowdisplay" colspan="2" width="86%" dojoAttachPoint="employee_display_job_title"></td></tr>
-					<tr><td class="prmaxrowtag" ><i class="fa fa-map-marker fa-2x" aria-hidden="true"></i></td><td class="prmaxrowdisplay" colspan="2"dojoAttachPoint="employee_display_address"></td></tr>
-					<tr><td class="prmaxrowtag" ><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></td><td class="prmaxrowdisplay" colspan="2"><a dojoAttachPoint="employee_display_email" href='outlet.email' style="width:100%" target="blank"></a></td></tr>
-					<tr><td class="prmaxrowtag" ><i class="fa fa-phone fa-2x" aria-hidden="true"></td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_tel"></td></tr>
-					<tr><td class="prmaxrowtag" >Fax</td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_fax"></td></tr>
-					<tr><td class="prmaxrowtag" >Mobile</td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_mobile"></td></tr>
-					<tr class="prmaxhidden" dojoAttachPoint="employee_display_twitter_row"><td class="prmaxrowtag">Twitter</td><td class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_twitter" style="width:100%" target="blank"></a></td></tr>
-					<tr class="prmaxhidden"  dojoAttachPoint="employee_display_facebook_row"><td class="prmaxrowtag">Facebook</td><td class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_facebook" style="width:100%" target="blank"></a></td></tr>
-					<tr class="prmaxhidden"  dojoAttachPoint="employee_display_linkedin_row"><td class="prmaxrowtag">Linkedin</td><td class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_linkedin" style="width:100%" target="blank"></a></td></tr>
-					<tr class="prmaxhidden"  dojoAttachPoint="employee_display_instagram_row"><td class="prmaxrowtag">Instagram</td><td class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_instagram" style="width:100%" target="blank"></a></td></tr>
-					<tr><td class="prmaxrowtag" valign="top" >Roles</td><td class="prmaxrowdisplay" colspan="2"><div dojoAttachPoint="employee_display_roles"></div></td></tr>
-					<tr><td class="prmaxrowtag" valign="top" >Keywords</td><td class="prmaxrowdisplay" colspan="2" dojoAttachPoint="interest_display"></td></tr>
+						<td width="14%" class="prmaxrowdisplaylarge" ><img  dojoAttachPoint="employee_profile_image_url" /></td><td class="prmaxrowdisplaylarge" width="76%" dojoAttachPoint="employee_display_contactname"></td>
+						<td width="10%" class="employeetype" dojoAttachPoint="employee_display_options" ></td>
+					</tr>
+					<tr><td class="prmaxrowtag" width="10%"></td><td class="prmaxrowdisplay" colspan="2" width="86%" dojoAttachPoint="employee_display_job_title"></td></tr>
+				</table>	
+				<table class="prmaxtable" width="100%" cellpadding="0" cellspacing="0" style="border-style:collapsed" >
+					<tr>
+						<td width="7%" class="prmaxrowtag" ><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></td>
+						<td width="43%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_email" href='outlet.email' style="width:100%" target="blank"></a></td>
+						<td width="7%" class="prmaxrowtag" ><i class="fa fa-phone fa-2x" aria-hidden="true"></td>
+						<td width="43%" class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_tel"></td>
+					</tr>
+					<tr>
+						<td width="7%" class="prmaxrowtag" ><i class="fa fa-twitter fa-2x" aria-hidden="true"></td>
+						<td width="43%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_twitter" style="width:100%" target="blank"></a></td>
+						<td width="7%" class="prmaxrowtag" ><i class="fa fa-instagram fa-2x" aria-hidden="true"></td>
+						<td width="43%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_instagram" style="width:100%" target="blank"></a></td>
+					</tr>
+
+				</table>
+				<table>
+					<tr><td class="prmaxrowtag" valign="top" >Interests: </td><td class="prmaxrowdisplay" dojoAttachPoint="interest_display"></td></tr>
 				</table>
 			</div>
 			<div dojoType="ttl.layout.ContentPane" title='Notes' >
 				<div style="padding:2px">
 					<table class="prmaxtable" width="100%" >
-						<tr><td valign="top" class="prmaxrowtag" width="17%">Local Profile&nbsp;<button class="edit_profile" type="button" dojoAttachEvent="onclick:_do_notes_edit">Add Notes</button></td><td class="prmaxrowdisplay" dojoAttachPoint="employee_display_localprofile"></td></tr>
+						<tr><td valign="top" class="prmaxrowdisplayinfo" width="17%">Local Profile&nbsp;<button class="prmaxbuttongreybutton" type="button" dojoAttachEvent="onclick:_do_notes_edit">Add Notes</button></td><td class="prmaxrowdisplay" dojoAttachPoint="employee_display_localprofile"></td></tr>
 					</table>
 				</div>
 			</div>

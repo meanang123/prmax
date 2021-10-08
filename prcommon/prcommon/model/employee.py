@@ -1133,6 +1133,7 @@ class EmployeeDisplay(BaseSql):
 	  c_e.linkedin,
 	  c_e.instagram,
 	  c_e.facebook,
+	  c_e.facebook as profileimageurl,
 	  e.contactid,
 	  e.outletid,
 	  o.outletname
@@ -1358,6 +1359,23 @@ class EmployeeDisplay(BaseSql):
 			   filter_by(employeeid=params["employeeid"]).\
 			   order_by(EmployeeInterestView.interestname).all()
 		employee_display_interests = ", ".join([row[0] for row in result if len(row[0])])
+		
+		profile_image_url = ''
+	
+		#search twitter user and get the profile image url to use as outlet profile image
+		if details['twitter'] != None and details['twitter'] != '':
+			from prcommon.model.general.twittergeneral import TwitterSearch
+			profile_image_url = TwitterSearch.get_twitter_profile_image_url(details['twitter'])
+		elif details['facebook'] != None and details['facebook'] != '':
+			facebookid = details['facebook']
+			if facebookid.startswith("https:"):
+				facebookid = facebookid[25:]
+			elif facebookid.startswith("http:"):
+				facebookid = facebookid[24:]
+			profile_image_url = "http://graph.facebook.com/%s/picture" % facebookid
+
+		details['profileimageurl'] = profile_image_url
+		
 
 		return dict(employee=details,
 					employee_display_roles=employee_display_roles,

@@ -188,6 +188,15 @@ td.dijitButtonContents { display: table-cell }
     text-align: center;
     white-space: nowrap;
 }
+.dijitButtonNode .prmaxbuttongreybutton {
+    border: 1px solid gray;
+    margin: 0;
+    line-height: normal;
+    vertical-align: middle;
+    #vertical-align: auto;
+    text-align: center;
+    white-space: nowrap;
+}
 .dj_webkit .dijitSpinner .dijitSpinnerButtonContainer { line-height: inherit }
 .dijitTextBox .dijitButtonNode { border-width: 0 }
 .dijitSelect,
@@ -2652,6 +2661,16 @@ div.dijitTabDisabled,
     valign: top;
     v-align: top;
 }
+.prmaxrowdisplay_profile2 {
+    padding-right: 2px;
+    padding-left: 2px;
+    padding-bottom: 3px;
+    margin: 0px;
+    line-height: 16pt !important;
+    color: grey;
+    valign: top;
+    v-align: top;
+}
 .prmaxrowdisplaylarge {
     padding-right: 1px;
     padding-left: 1px;
@@ -2671,6 +2690,16 @@ div.dijitTabDisabled,
     valign: top;
     v-align: middle;
     font-size: 1.5em;
+}
+.prmaxrowdisplayinfo {
+    padding-right: 2px;
+    padding-left: 2px;
+    padding-bottom: 3px;
+    margin: 0px;
+    line-height: 30pt !important;
+    color: grey;
+    valign: top;
+    v-align: top;
 }
 .prmaxlabeltag {
     padding: 0px;
@@ -4681,7 +4710,23 @@ padding:1px !important;
 	border-radius: 3px !important;
 	background-color: #EBEBEB!important;
 }
+.prmaxbuttongreybutton {
+	background: none !important;
+	color: grey !important;
+	border-radius: 3px !important;
+	background-color: #EBEBEB!important;
+	border: 1px solid #A4A4A4 !important;
+	height: 30px !important;
+}
+span .dijit .dijitReset .dijitInline .prmaxbuttongreybutton .dijitButton {
+	background: none !important;
+	color: grey !important;
+	border-radius: 3px !important;
+	background-color: #EBEBEB!important;
+	border: 1px solid #A4A4A4 !important;
+	height: 30px !important;
 
+}
 .prmaxbuttonblue{
 	color: white !important;
 	background-color: #7F7F7F !important;

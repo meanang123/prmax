@@ -38,3 +38,28 @@ class TwitterSearch(object):
 		debugHTTP = False)
 		# test to see if connection worked
 		tmp =  api.VerifyCredentials()
+		
+	@staticmethod
+	def get_twitter_profile_image_url(twitterlink):
+		user_profile_image_url = ''
+		if twitterlink != None and twitterlink != '':
+			twitterid = twitterlink
+			if twitterid.startswith("https:"):
+				twitterid = twitterid[20:]
+			elif twitterid.startswith("http:"):
+				twitterid = twitterid[19:]
+		
+		api = twitter.Api(
+		  consumer_key=TwitterSearch.__consumer_key,
+		  consumer_secret=TwitterSearch.__consumer_secret,
+			access_token_key=TwitterSearch.__access_token_key,
+			access_token_secret=TwitterSearch.__access_token_secret,
+			debugHTTP = False)
+		
+		user_profile_image_url = ''
+		try:
+			user = api.GetUser(screen_name=twitterid)
+			user_profile_image_url = user.profile_image_url
+		except:
+			user_profile_image_url = ''
+		return user_profile_image_url

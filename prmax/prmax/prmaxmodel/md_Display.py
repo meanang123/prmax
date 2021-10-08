@@ -90,13 +90,15 @@ class OutletDisplay(BaseSql):
 	get_overrideflag(oc.primaryemployeeid,o.primaryemployeeid) as primaryflag,
 	prmax_ot.prmax_outlettypename,
 	o.prmax_outlettypeid,
+	pub.publishername,
 	co.countryname,
 	o.mp_sqcm,
 	c.twitter,
 	c.linkedin,
 	c.instagram,
 	c.facebook,
-	c.facebook as facebookimage,
+	c.facebook as profileimageurl,
+	l.languagename,
 	Web_To_Html_Link_address(c.blog) as blog
 	FROM outlets as o
 	LEFT OUTER JOIN outletcustomers as oc ON oc.outletid = o.outletid AND oc.customerid = :customerid
@@ -117,6 +119,10 @@ class OutletDisplay(BaseSql):
 	LEFT OUTER JOIN internal.prmax_outlettypes AS prmax_ot ON prmax_ot.prmax_outlettypeid = o.prmax_outlettypeid
 	LEFT OUTER JOIN internal.countries AS co ON co.countryid = o.countryid
 	LEFT OUTER JOIN internal.countries AS addr_co ON addr_co.countryid = o.countryid
+	LEFT OUTER JOIN internal.publishers AS pub ON o.publisherid = pub.publisherid
+	LEFT OUTER JOIN outletlanguages AS ol ON ol.outletid = o.outletid and ol.isprefered = 1
+	LEFT OUTER JOIN internal.languages AS l ON l.languageid = ol.languageid
+	
 	WHERE
 	o.outletid = :outletid"""
 
@@ -193,7 +199,7 @@ class OutletDisplay(BaseSql):
 		"""get new profile"""
 
 		retdata = {"subtitle": "", "incorporating": "", "circulation": "", "webbrowsers": "", "frequency": "", "costfield": "","seriesparent": "",
-		           "web_profile_link": None,}
+		           "web_profile_link": None, "editorialprofile":""}
 
 		outletprofile = OutletProfile.query.get ( outletid )
 		outlet = Outlet.query.get( outletid )
@@ -204,6 +210,8 @@ class OutletDisplay(BaseSql):
 				retdata["incorporating"] = outletprofile.incorporating
 			if  outletprofile.web_profile_link:
 				retdata["web_profile_link"] =  outletprofile.web_profile_link
+			if outletprofile.editorialprofile:
+				retdata["editorialprofile"] = outletprofile.editorialprofile
 
 		if outlet.circulation > 0:
 			circ = ""
@@ -272,7 +280,6 @@ class OutletDisplay(BaseSql):
 		main_only_display
 		"""
 		outlet = Outlet.query.get(outletid)
-
 		BaseSql.checkprivate(outlet.customerid)
 		data = None
 
@@ -283,19 +290,42 @@ class OutletDisplay(BaseSql):
 		elif outlet.prmax_outlettypeid in Constants.Outlet_Is_Mp:
 			data = cls._capture ( outletid, customerid , OutletDisplay.Outlet_Display_Mp)
 			data["profile"] = cls.getProfileList(outletid, customerid)
-		else:
-			data = cls._capture ( outletid, customerid , OutletDisplay.Outlet_Display_Main_Control)
-			if data['outlet']['facebookimage'] != None and data['outlet']['facebookimage'] != '':
-				facebookid = data['outlet']['facebookimage']
+			if data['outlet']['twitter'] != None and data['outlet']['twitter'] != '':
+				from prcommon.model.general.twittergeneral import TwitterSearch
+				profile_image_url = TwitterSearch.get_twitter_profile_image_url(data['outlet']['twitter'])
+			elif data['outlet']['facebook'] != None and data['outlet']['facebook'] != '':
+				facebookid = data['outlet']['facebook']
 				if facebookid.startswith("https:"):
 					facebookid = facebookid[25:]
 				elif facebookid.startswith("http:"):
 					facebookid = facebookid[24:]
-				facebookimagelink = "http://graph.facebook.com/%s/picture" % facebookid
-
-				data['outlet']['facebookimage'] = facebookimagelink
+				profile_image_url = "http://graph.facebook.com/%s/picture" % facebookid
+			data['outlet']['profileimageurl'] = profile_image_url
+		else:
+			data = cls._capture ( outletid, customerid , OutletDisplay.Outlet_Display_Main_Control)
+			profile_image_url = ''
 			
+			if data['outlet']['twitter'] != None and data['outlet']['twitter'] != '':
+				from prcommon.model.general.twittergeneral import TwitterSearch
+				profile_image_url = TwitterSearch.get_twitter_profile_image_url(data['outlet']['twitter'])
+			elif data['outlet']['facebook'] != None and data['outlet']['facebook'] != '':
+				facebookid = data['outlet']['facebook']
+				if facebookid.startswith("https:"):
+					facebookid = facebookid[25:]
+				elif facebookid.startswith("http:"):
+					facebookid = facebookid[24:]
+				profile_image_url = "http://graph.facebook.com/%s/picture" % facebookid
+			data['outlet']['profileimageurl'] = profile_image_url
+
 		data["newprofile"] = cls.get_new_profile(outletid)
+		data['prmaxoutlettypedisplay'] = '%s   %s' % (data['newprofile']['frequency'], data['outlet']['prmax_outlettypename'])
+		data['addressdisplay'] = '%s, %s' %(data['outlet']['address'], data['outlet']['countryname'])
+		data['publisherdisplay'] = 'Published by %s in %s' %(data['outlet']['publishername'], data['outlet']['languagename'])
+		interestdisplay = ''
+		if data['interests']:
+			for interest in data['interests']:
+				interestdisplay += '%s, ' % interest['interestname']
+		data['interestsdisplay'] = 'Covers news on %s' %interestdisplay[:-2]
 		return data
 
 	@classmethod
