@@ -8,14 +8,29 @@
                     <tr><td></td><td><input data-dojo-attach-point="option1" data-dojo-attach-event="onClick:_option_changed" data-dojo-props='"class":"prmaxlabeltag",type:"radio",name:"option",value:"1"' data-dojo-type="dijit.form.RadioButton" /><label data-dojo-attach-point="distr_label">Distribution</label></td></tr>
                     <tr><td >&nbsp;</td></tr>
                     <tr><td align="right" width="15%" class="prmaxrowtag" data-dojo-attach-point="statement_label"><label>Statement</label></td>
-                        <td data-dojo-attach-point="statement_node"><span><select data-dojo-attach-point="statementid" data-dojo-props='searchAttr:"statementdescription", name:"statementid",autoComplete:true,labelType:"html", style:"width:300px", value:"-1"' data-dojo-type="dijit.form.FilteringSelect"></select></span>
-                            <span><button data-dojo-attach-event="onClick:_AddStatement" data-dojo-attach-point="addstatementbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Add</button><br/></span></td></tr>
-                    <tr><td align="right" width="15%" class="prmaxrowtag prmaxhidden" data-dojo-attach-point="emailtemplate_label">Distribution</td>
-                        <td data-dojo-attach-point="emailtemplate_node" class="prmaxhidden"><select  data-dojo-attach-point="emailtemplateid" data-dojo-props='searchAttr:"emailtemplatename", name:"emailtemplateid", labelType:"html",style:"width:300px", value:"-1"' data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
-                    <tr><td align="right" width="15%" class="prmaxrowtag"><label>From</label></td><td><span><select data-dojo-props='name:"customeremailserverid",autoComplete:true,labelType:"html", style:"width:300px",' data-dojo-type="dijit.form.Select" data-dojo-attach-point="customeremailserverid" ></select></span>
-                        <span><button data-dojo-attach-event="onClick:_add_server" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"'>Add</button><br/></span></td></tr>
-                    <tr><td align="right" width="15%" class="prmaxrowtag"><label>To</label></td><td data-dojo-props='"class:"prmaxinput"'><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="toemailaddress" data-dojo-props='placeHolder:"Enter Email Address",required:true,name:"toemailaddress",trim:true,type:"text",style:"width:300px"'></td></tr>
-                    <tr><td align="right" width="15%" class="prmaxrowtag"><label>CC</label></td><td><input data-dojo-props='name:"ccemailaddresses",required:true,trim:true,type:"text",style:"width:300px"' data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="ccemailaddresses" ></input></td></tr>
+                        <td data-dojo-attach-point="statement_node">
+                            <span><select data-dojo-attach-point="statementid" data-dojo-props='searchAttr:"statementdescription", name:"statementid",autoComplete:true,labelType:"html", style:"width:300px", value:"-1"' data-dojo-type="dijit.form.FilteringSelect"></select></span>
+                            <span><button data-dojo-attach-event="onClick:_AddStatement" data-dojo-attach-point="addstatementbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >Add</button><br/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%" class="prmaxrowtag prmaxhidden" data-dojo-attach-point="emailtemplate_label">Distribution22</td>
+                        <td data-dojo-attach-point="emailtemplate_node" class="prmaxhidden"><select  data-dojo-attach-point="emailtemplateid" data-dojo-props='searchAttr:"emailtemplatename", name:"emailtemplateid", labelType:"html",style:"width:300px", value:"-1"' data-dojo-type="dijit.form.FilteringSelect"></select></td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%" class="prmaxrowtag"><label>From</label></td><td>
+                            <span><select data-dojo-props='name:"customeremailserverid",autoComplete:true,labelType:"html", style:"width:300px",' data-dojo-type="dijit.form.Select" data-dojo-attach-point="customeremailserverid" ></select></span>
+                            <span><button data-dojo-attach-event="onClick:_add_server" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"'>Add</button><br/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%" class="prmaxrowtag"><label>To</label></td>
+                        <td data-dojo-props='"class:"prmaxinput"'><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="toemailaddress" data-dojo-props='placeHolder:"Enter Email Address",required:true,name:"toemailaddress",trim:true,type:"text",style:"width:300px"'></td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%" class="prmaxrowtag"><label>CC</label></td>
+                        <td><input data-dojo-props='name:"ccemailaddresses",required:true,trim:true,type:"text",style:"width:300px"' data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="ccemailaddresses" ></input></td>
+                    </tr>
                     <tr><td align="left"><button class="prmaxbutton" data-dojo-attach-point="editbtn" data-dojo-attach-event="onClick:_edit" data-dojo-type="dijit.form.Button">Edit</button></td></tr>
                     <tr><td align="left"><button class="prmaxbutton" data-dojo-attach-point="previewbtn" data-dojo-attach-event="onClick:_preview" data-dojo-type="dijit.form.Button">Preview</button></td>
                     <td colspan="2" align="right"><button class="prmaxbutton" data-dojo-attach-point="resendbtn" data-dojo-attach-event="onClick:_resend" data-dojo-type="dijit.form.Button">Re-send</button></td></tr>

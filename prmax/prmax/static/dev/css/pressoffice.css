@@ -182,7 +182,7 @@ td.dijitButtonContents { display: table-cell }
 .dijitButtonNode {
     border: 1px solid gray;
     margin: 0;
-    line-height: normal;
+    #line-height: normal;
     vertical-align: middle;
     #vertical-align: auto;
     text-align: center;
@@ -2657,6 +2657,7 @@ div.dijitTabDisabled,
     padding-left: 2px;
     padding-bottom: 3px;
     margin: 0px;
+    line-height: 26pt !important;
     color: grey;
     valign: top;
     v-align: top;
@@ -3394,7 +3395,7 @@ div.dijitTabDisabled,
     background-color: #fff;
     padding: 10px;
     margin: 10px;
-    line-height: 26pt;
+    #line-height: 26pt;
 }
 .soria .dijitSplitContainer-dijitContentPane,
 .soria .dijitBorderContainer-dijitContentPane {
