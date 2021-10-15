@@ -540,3 +540,5 @@ INSERT INTO internal.researchprojectstatus VALUES (13, 'Response Handling');
 */
 
 INSERT INTO internal.hostspf(host, is_valid_source) VALUES ('tayloralden.co.uk', true);
+
+INSERT INTO internal.reporttemplates VALUES (39, -1, 'Activity/Subject Report', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'ActivitySubjectReport');
