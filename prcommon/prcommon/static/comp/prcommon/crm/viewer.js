@@ -16,6 +16,30 @@ dojo.require("prcommon.crm.settings");
 
 dojo.require("prcommon.date.daterange");
 
+_add_new_line = function(inDatum)
+{
+	return inDatum ? inDatum.replace('====', '<br />'): '';
+};
+
+_add_green_check = function(inDatum)
+{
+	if (inDatum)
+	{
+		var idx = inDatum.search('====');
+		if (inDatum.substr(idx+4, inDatum.length).trim().toLowerCase() == 'completed')
+		{
+			return '<div style="text-align:center">' + inDatum.substr(0, idx) + '<br /><i class="fa fa-check-circle-o fa-2x" style="color:#27BD59; aria-hidden="true"></i></div>';
+		}else
+		{
+			return '<div style="text-align:center">' + inDatum.substr(0, idx) + '<br /><i class="fa fa-check-circle-o fa-2x" style="color:#F6F6F6; aria-hidden="true"></i></div>';
+		}
+		
+	}
+	else{
+		return '';
+	};
+};
+
 dojo.declare("prcommon.crm.viewer",
 	[ ttl.BaseWidget ],
 	{
@@ -52,12 +76,9 @@ dojo.declare("prcommon.crm.viewer",
 	{
 		var view = {
 		cells: [[
-			{name: 'Date',width: "60px",field:'taken_display'},
-			{name: 'Subject',width: "auto",field:'subject'},
-			{name: 'Outlet',width: "auto",field:'outletname'},
-			{name: 'Contact',width: "auto",field:'contactname'},
-			{name: 'User',width: "120px",field:'display_name'},
-			{name: 'Status',width: "120px",field:'contacthistorystatusdescription'}
+			{name: 'Contact',width: "40%",field:'contactdetails_display',formatter:_add_new_line},
+			{name: 'Details',width: "40%",field:'details_display',formatter:_add_new_line},
+			{name: 'Status',width: "20%",field:'status_display',formatter:_add_green_check}
 			]]
 			};
 

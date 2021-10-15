@@ -56,9 +56,9 @@ dojo.declare("prmax.display.StdViewCommon",
 		this._getModelItemCall = dojo.hitch(this,this._getModelItem);
 
 		// local dialogs
-		this.stdDialog = new prmax.DlgCtrl2("width:35em;height:35em");
+		this.stdDialog = new prmax.DlgCtrl2("width:40em;height:35em;margin:5px");
 		this.outputDialog = null;
-		this.largeDialog = new prmax.DlgCtrl2("width:35em;height:44em");
+		this.largeDialog = new prmax.DlgCtrl2("width:40em;height:44em;margin:5px");
 
 		// event to which this control should respond
 		dojo.subscribe(PRCOMMON.Events.Employee_Deleted, dojo.hitch(this,this._EmployeeDeletedEvent));

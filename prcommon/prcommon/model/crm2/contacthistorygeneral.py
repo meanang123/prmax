@@ -175,6 +175,33 @@ class ContactHistoryGeneral(object):
 	List_View_Count = """SELECT COUNT(*) FROM userdata.contacthistory AS ch %s"""
 
 
+	List_View2 = """SELECT ch.contacthistoryid,
+	to_char(ch.taken, 'DD/MM/YY') as taken_display,
+	CASE WHEN LENGTH(ch.crm_subject)>0 THEN ch.crm_subject ELSE ch.subject END AS subject,
+	chs.contacthistorydescription,
+	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
+	com.email as contactemail,
+	o.outletname,
+	contactname || '====' || o.outletname as contactdetails_display,
+	e.job_title,
+	COALESCE(o.outletname,cust.customername) AS source,
+	chstatus.contacthistorystatusdescription,
+	taken.display_name,
+	follow.display_name as follow_up_by,
+	subject || '====' || 'Owner:' || taken.display_name as details_display,
+	to_char(ch.taken, 'DD/MM/YY') || '====' || chstatus.contacthistorystatusdescription as status_display
+	FROM userdata.contacthistory AS ch
+	LEFT OUTER JOIN internal.contacthistorysources as chs ON chs.contacthistorysourceid = ch.contacthistorysourceid
+	LEFT OUTER JOIN internal.contacthistorystatus as chstatus ON chstatus.contacthistorystatusid = ch.contacthistorystatusid
+	LEFT OUTER JOIN outlets AS o ON o.outletid = ch.outletid
+	LEFT OUTER JOIN employees AS e ON e.employeeid = ch.employeeid
+	LEFT OUTER JOIN communications AS com ON com.communicationid = e.communicationid
+	LEFT OUTER JOIN contacts AS c ON c.contactid = COALESCE(ch.contactid,e.contactid)
+	LEFT OUTER JOIN internal.customers AS cust ON cust.customerid = ch.ref_customerid
+	LEFT OUTER JOIN tg_user AS taken ON taken.user_id = ch.taken_by
+	LEFT OUTER JOIN tg_user AS follow ON follow.user_id = ch.follow_up_ownerid"""
+	List_View_Count = """SELECT COUNT(*) FROM userdata.contacthistory AS ch %s"""
+
 	@staticmethod
 	def get_grid_page(params):
 		""" get alist of notes"""
@@ -237,7 +264,7 @@ class ContactHistoryGeneral(object):
 		return BaseSql.get_grid_page(params,
 									'taken',
 									'contacthistoryid',
-									ContactHistoryGeneral.List_View + whereclause + BaseSql.Standard_View_Order,
+									ContactHistoryGeneral.List_View2 + whereclause + BaseSql.Standard_View_Order,
 									ContactHistoryGeneral.List_View_Count % whereclause,
 									ContactHistory)
 

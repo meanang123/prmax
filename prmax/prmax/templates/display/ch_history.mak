@@ -1,19 +1,19 @@
-<span class="common_prmax_layout">
+<span class="common_prmax_layout prmaxrowdisplay_profile">
 %if chh:
 
  %if chh.contacthistoryhistorytypeid == 1:
-  <label>From ${briefing_notes_description}</label><br/>
+  <label><b>From</b> ${briefing_notes_description}:</label><br/>
   <p>${chh.from_notes}</p><br/>
-  <label>To  ${briefing_notes_description}</label><br/>
+  <label><b>To</b> ${briefing_notes_description}:</label><br/>
   <p>${chh.to_notes}</p><br/>
  %elif chh.contacthistoryhistorytypeid == 2:
-  <label>Send By:</label><br/>
+  <label><b>Send By:</b></label><br/>
   <p>${chres.send_by}</p><br/>
-  <label>To:</label><br/>
+  <label><b>To:</b></label><br/>
   <p>${chres.toemailaddress}</p><br/>
-  <label>Statement:</label><br/>
+  <label><b>Statement:</b></label><br/>
   <p>${statementdescription}</p><br/>
-  <label>Body:</label><br/>
+  <label><b>Body:</b></label><br/>
   <p>${chres.response}</p><br/>
  %endif
 

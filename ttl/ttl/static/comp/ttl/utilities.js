@@ -451,6 +451,11 @@ ttl.utilities.formatCopyCtrl= function(inDatum) {
 	return '<img height="10px" width="10px" style="padding:0x;margin:0px" src="/prcommon/images/copy.gif"></img>';
 	}
 
+ttl.utilities.add_new_line = function(inDatum)
+{
+	return inDatum ? inDatum.replace('====', '<br />'): '';
+};
+
 ttl.utilities.toJsonDate = function( inDate)
 {
 	if ( inDate == null )

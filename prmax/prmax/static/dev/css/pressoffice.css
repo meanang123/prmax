@@ -2862,6 +2862,22 @@ div.dijitTabDisabled,
 	padding: 5px 5px 5px 10px !important;
 	border-color: transparent #d1d3d4 #d1d3d4 transparent;
 }
+.soria .spacygriddisplay .dojoxGridHeader .dojoxGridCell {
+	height: 30px !important;
+	border-width: 1px;
+	padding: 5px 5px 5px 10px;
+	border-color: transparent #d1d3d4 #d1d3d4 transparent;
+	background: #E8EAEB;
+	color: grey !important;
+	text-align: center;
+}
+.soria .spacygriddisplay .dojoxGridCell {
+	height: 60px !important;
+	border-width: 5px;
+	padding: 5px 5px 5px 10px !important;
+	border-color: transparent #d1d3d4 #d1d3d4 transparent;
+	border-style: solid double;
+}
 .soria .prmaxSelectedRow {
     background-color: #D4E1EB;
     color: grey;
@@ -4013,8 +4029,8 @@ div.dijitTabDisabled,
     top: 22px;
     width: 273px !important;
     height: 56px !important;
-	background-size: 200px 56px;
-    background-image: url(/static/images/pressdata/pressdatalogo.png);
+	background-size: 220px 50px;
+    background-image: url(/static/images/pressoffice/pressofficelogo2.png);
 	background-repeat: no-repeat;
 }
 #std_banner_control > div:first-child img { display: none }
@@ -4358,23 +4374,24 @@ td.prmaxrowtag { text-align: left !important }
     padding: 0 !important;
 }
 
-.professional_options {}
+.professional_options {border-top:5px solid grey;}
 
 .professional_options .box_1
 {
-    position:absolute;
-    width:700px;
-    height:400px;
+    position:relative;
+    width:600px;
+    height:500px;
     left:18%;top:30%;
 }
 .professional_options .box_1 .btn_size2 {
-	height:120px !important;
-	width:204px !important;
+	height:60px !important;
+	width:150px !important;
+	border-radius: 10px;
 }
 
 .professional_options .box_1 .people {
 	background-color:white !important;
-  color: black;
+	color: black;
 	border: 1px solid black;
 }
 
@@ -4386,7 +4403,7 @@ td.prmaxrowtag { text-align: left !important }
 .professional_options .box_1 .issues {
 //	background-color:#3397B9 !important;
 	background-color:grey !important;
-  color: white;
+	color: white;
 	border: 1px solid white;
 }
 
@@ -4411,7 +4428,7 @@ td.prmaxrowtag { text-align: left !important }
 .professional_options .box_1 .tasks {
 //	background-color:#3397B9 !important;
 	background-color:grey !important;
-  color: white;
+	color: white;
 	border: 1px solid white;
 }
 
@@ -4427,7 +4444,7 @@ td.prmaxrowtag { text-align: left !important }
 .professional_options .box_1 .distribution {
 //	background-color: #3397B9 !important;
 	background-color: grey !important;
-  color: white;
+	color: white;
 	border: 1px solid white;
 }
 
@@ -4442,19 +4459,19 @@ td.prmaxrowtag { text-align: left !important }
 .professional_options .box_1 .coverage {
 //	background-color:#3397B9 !important;
 	background-color:grey !important;
-  color: white;
+	color: white;
 	border: 1px solid white;
 }
 
 .professional_options .box_1 .std_frame {
-		border-radius: 5px;
-		background-color:white !important;
-		border: 1px solid black;
+		border-radius: 10px;
+		background-color:grey !important;
+		//border: 1px solid black;
 		padding: 0px;
 		margin-left:10px;
 		margin-top:10px;
 		position: relative;
-		box-shadow: 2px 2px #888888;
+		//box-shadow: 2px 2px #888888;
 }
 .professional_options .box_1 .std_frame img {
 		position: absolute;
@@ -4472,16 +4489,19 @@ td.prmaxrowtag { text-align: left !important }
 		margin-top: 20px;
 }
 .professional_options .box_1 .std_frame div {
-		border-radius: 2px 2px 0 0;
-		width:100%;
+		border-radius: 10px;
+		//width:100%;
 //		background-color:#3397B9 !important;
 		background-color:grey !important;
 		padding:0px !important;
 		margin:0px !important;
 		position:relative;
-		height:2.5em;
+		//height:80px;
 //		border-bottom:4px solid #3397B9;
 		border-bottom:4px solid grey;
+		display: flex;
+		justify-content: center;
+
 }
 .professional_options .box_1 .std_frame div p {
 		color:white !important;
@@ -4489,13 +4509,32 @@ td.prmaxrowtag { text-align: left !important }
 		background-color:grey !important;
 		padding:0px !important;
 		margin:5px 0px 0px 5px !important;
-		font-size:1.5em;
+		font-size:1.2em;
 		font-weight:bold;
-		position:relative;
+		//position:relative;
 		text-align:center;
-		width:190px;
+		//width:190px;
+		line-height: 50px;
 }
 
+.professional_options .home
+{   
+    width: 100%;
+    height:100%;
+    background-image: url(/static/images/pressoffice/pressofficelogo2.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    filter: blur(4px);
+    background-size: 90%;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    border-top:5px solid black;
+}
 .professional_options .dijitButton .dijitButtonNode,
 .professional_options .dijitDropDownButton .dijitButtonNode,
 .professional_options .dijitComboButton .dijitButtonNode,
@@ -4540,7 +4579,6 @@ td.prmaxrowtag { text-align: left !important }
 	float: left;
 	width:100px;
 }
-
 .professional_options .btn_right
 {
 	display: block;
