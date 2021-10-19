@@ -91,7 +91,7 @@ dojo.declare("prcommon.crm.update",
 		this.contacthistorytypeid.store = this._contacthistorytypes;
 		this.issueid.store = this._issues;
 		this.clientid.set("store", this._clients);
-		dojo.attr(this.sendreplybtn, "disabled", true);
+		//dojo.attr(this.sendreplybtn, "disabled", true);
 
 		if (PRMAX.utils.settings.required_client)
 		{
@@ -140,25 +140,25 @@ dojo.declare("prcommon.crm.update",
 			dojo.addClass(this.closebtn.domNode,"prmaxhidden");
 		}
 
-		dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
+		//dojo.attr(this.issue_label_1, "innerHTML", PRMAX.utils.settings.issue_description);
 		this.new_issue_dlg.set("label",PRMAX.utils.settings.issue_description);
 		this.extraissues.set("displaytitle","Other " + PRMAX.utils.settings.issue_description+"s");
-		if (PRMAX.utils.settings.crm_subject.length>0)
-		{
-			dojo.attr(this.subject_label_1,"innerHTML",PRMAX.utils.settings.crm_subject);
-		}
-		if (PRMAX.utils.settings.crm_outcome.length>0)
-		{
-			dojo.attr(this.outcome_label_1,"innerHTML",PRMAX.utils.settings.crm_outcome);
-		}
-		if (this.briefing_notes_label)
-		{
-			dojo.attr(this.briefing_notes_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description);
-		}
-		if (this.response_label)
-		{
-			dojo.attr(this.response_label, 'innerHTML', PRMAX.utils.settings.response_description);
-		}
+		//if (PRMAX.utils.settings.crm_subject.length>0)
+		//{
+		//	dojo.attr(this.subject_label_1,"innerHTML",PRMAX.utils.settings.crm_subject);
+		//}
+		//if (PRMAX.utils.settings.crm_outcome.length>0)
+		//{
+		//	dojo.attr(this.outcome_label_1,"innerHTML",PRMAX.utils.settings.crm_outcome);
+		//}
+		//if (this.briefing_notes_label)
+		//{
+		//	dojo.attr(this.briefing_notes_label, 'innerHTML', PRMAX.utils.settings.briefing_notes_description);
+		//}
+		//if (this.response_label)
+		//{
+		//	dojo.attr(this.response_label, 'innerHTML', PRMAX.utils.settings.response_description);
+		//}
 
 		this.inherited(arguments);
 	},
@@ -207,7 +207,7 @@ dojo.declare("prcommon.crm.update",
 			if (response.data.outlet != null && response.data.outlet.outletname != "")
 			{
 				if (display != null && display != "")
-					display +=" (" + response.data.outlet.outletname + ")";
+					display +="<br /><br />" + response.data.outlet.outletname;
 				else
 					display = " Outlet: " + response.data.outlet.outletname;
 			}
@@ -217,14 +217,14 @@ dojo.declare("prcommon.crm.update",
 			}
 			this.contact.set("Displayvalue", display);
 
-			if (response.data.ch.crm_response == '')
-			{
-				this.sendreplybtn.set("disabled", true);
-			}
-			else
-			{
-				this.sendreplybtn.set("disabled", false);
-			}
+			//if (response.data.ch.crm_response == '')
+			//{
+			//	this.sendreplybtn.set("disabled", true);
+			//}
+			//else
+			//{
+			//	this.sendreplybtn.set("disabled", false);
+			//}
 
 			this.taken.set("value", ttl.utilities.fromJsonDate( response.data.ch.taken) );
 			this.taken_by.set("value",response.data.ch.taken_by);
@@ -233,10 +233,9 @@ dojo.declare("prcommon.crm.update",
 			this.clientid.set("value",response.data.ch.clientid);
 			this.documentid.set("value",response.data.ch.documentid);
 			this._document_data = response.data.document;
-
-			this.details.set("value", response.data.ch.details);
-			this.outcome.set("value", response.data.ch.outcome);
-			this.crm_response.set("value", response.data.ch.crm_response);
+			this.details.value = response.data.ch.details;
+			this.outcome.value = response.data.ch.outcome;
+			this.crm_response.value = response.data.ch.crm_response;
 			this.crm_subject.set("value", response.data.ch.crm_subject);
 
 			for ( var key in this._fields)
@@ -421,12 +420,12 @@ dojo.declare("prcommon.crm.update",
 	{
 		this.documentid.set( "value", document.documentid );
 	},
-	_send_reply:function()
-	{
-		this.send_reply_ctrl.set("dialog",this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
-		this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
-		this.send_reply_dlg.show();
-	},
+	//_send_reply:function()
+	//{
+	//	this.send_reply_ctrl.set("dialog",this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
+	//	this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
+	//	this.send_reply_dlg.show();
+	//},
 	_update_response_event:function( response )
 	{
 		this.history_grid.setQuery({contacthistoryid:response.data.contacthistoryid});
@@ -482,10 +481,10 @@ dojo.declare("prcommon.crm.update",
 		this.outletid.set("value", response.outletid);
 		this.employeeid.set("value", response.employeeid);
 	},
-	_expand_response:function()
-	{
-		this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, PRMAX.utils.settings.response_description);
-	},
+	//_expand_response:function()
+	//{
+	//	this.text_view_ctrl.show_control( this.crm_response, this.text_view_dlg, PRMAX.utils.settings.response_description);
+	//},
 
 //	_preview:function()
 //	{

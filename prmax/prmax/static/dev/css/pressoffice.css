@@ -1429,7 +1429,7 @@ div.dijitTabDisabled,
     background: lightgrey;
 }
 .soria .dijitTabContainerTopStrip .dijitTabContainerTop-tabs { padding-left: 3px }
-.soria .dijitTabContainerNested .dijitTabListWrapper { height: auto }
+.soria .dijitTabContainerNested .dijitTabListWrapper { height: 45px }
 .soria .dijitTabContainerBottom-tabs {
     margin-top: -1px;
     padding-left: 3px;
@@ -1473,7 +1473,7 @@ div.dijitTabDisabled,
 .soria .dijitTabContainerTop-spacer { border-top: none }
 .soria .dijitTabContainerBottom-spacer { border-bottom: none }
 .soria .dijitTabContainerRight-tabs {
-    height: 100%;
+    //height: 100%;
     border-color: #ccc;
     padding-top: 3px;
 }
@@ -3966,6 +3966,7 @@ div.dijitTabDisabled,
 .soria .searchTab .dijitTabContainerTop-tabs{
 	border-bottom: 5px solid #E8E9EB !important;
 	background-color: white !important;
+	height: 40px !important;
 }
 
 .soria .searchTab .dijitTabContainerTop-tabs .dijitTabChecked {
@@ -4606,7 +4607,7 @@ td.prmaxrowtag { text-align: left !important }
 {
   display: block;
 	float: left;
-	padding:2px !important;
+	padding:2px;
 	margin:0px !important;
 }
 
@@ -4807,4 +4808,17 @@ span .dijit .dijitReset .dijitInline .prmaxbuttongreybutton .dijitButton {
 	color: grey !important;
 	border-radius: 3px !important;
 	border: 1px solid lightgrey !important;
+}
+.noborders {
+    border: 0px !important;
+}
+.prmax-padding-left-small{
+    padding-left: 20px !important;
+}
+.prmax-padding-left-large{
+    padding-left: 50px !important;
+}
+
+.prmax-padding-right{
+    padding-right: 20px !important;
 }

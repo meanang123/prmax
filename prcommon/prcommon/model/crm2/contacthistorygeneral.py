@@ -182,7 +182,7 @@ class ContactHistoryGeneral(object):
 	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
 	com.email as contactemail,
 	o.outletname,
-	contactname || '====' || o.outletname as contactdetails_display,
+	ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) || '====' || o.outletname as contactdetails_display,
 	e.job_title,
 	COALESCE(o.outletname,cust.customername) AS source,
 	chstatus.contacthistorystatusdescription,

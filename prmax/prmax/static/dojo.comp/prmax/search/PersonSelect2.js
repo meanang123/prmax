@@ -25,7 +25,7 @@ dojo.declare("prmax.search.PersonSelect2",
 	{
 	templatePath: dojo.moduleUrl( "prmax.search","templates/PersonSelect2.html"),
 	searchtypeid:7,
-	placeHolder:"Select Contact",
+	placeHolder:"Select Contact<br/><br/><br/>",
 	source_url:"/search/list",
 	constructor: function()
 	{
@@ -153,7 +153,7 @@ dojo.declare("prmax.search.PersonSelect2",
 		var display = contactname;
 		if (outletname != "")
 		{
-			display +=" (" + outletname + ")";
+			display +="<br /><br />" + outletname;
 		}
 		dojo.attr(this.contact_display,"innerHTML",display);
 		dojo.removeClass(this.clearbtn.domNode, "prmaxhidden");
