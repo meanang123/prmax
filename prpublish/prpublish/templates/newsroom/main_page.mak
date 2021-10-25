@@ -18,7 +18,7 @@
 				<div class="empty" >No Results Found</div>
 			% else:
 				<%namespace file="../resulttrail.mak" import="create_trail"/>
-				${create_trail( resultcount, criteria, offset)}
+				${create_trail( resultcount, criteria, page_title, offset)}
 				% for result in results:
 					%if result['seoimageid']:
 						<img style="float:left;margin:0px 20px 10px 0px;" alt="Image" src="${'/releases/images?imageid=%d' % result['seoimageid']}" height="${result['height']}px" width="${result['width']}px"></img>

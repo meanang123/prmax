@@ -46,6 +46,9 @@
 							</div>
 						</td>
 					</tr>
+
+					<tr><td colspan="2"><label>Is Key Topic</label><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="iskeytopic" data-dojo-props='name:"iskeytopic",type:"checkbox"'></td></tr>
+
 					<tr><td align="right" class="prmaxrowtag" data-dojo-attach-point="companyname_label">Company Name</td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="companyname" data-dojo-props='"class":"prmaxrequired",name:"companyname",required:true,trim:true,maxLength:120,promptMessage:"Add the name of the company that the press release relates to",missingMessage:"Add the name of the company that the press release related to",type:"text",style:"width:20em"' ></td></tr>
 					<tr><td align="right" class="prmaxrowtag" data-dojo-attach-point="www_label">Www</td><td><input data-dojo-attach-point="www" data-dojo-props='name:"www",type:"text",size:"40",maxLength:"90",trim:true,style:"width:25em",regExpGen:dojox.validate.regexp.url,promptMessage:"The main web site that relates to the content of the press release",missingMessage:"The main web site that relates to the content of the press release"' data-dojo-type="dijit.form.ValidationTextBox"/></td></tr>
 					<tr><td align="right" class="prmaxrowtag" data-dojo-attach-point="email_label">Email</td><td><input data-dojo-attach-point="email" data-dojo-props='name:"email",type:"text",size:"40",maxLength:"84",trim:true,style:"width:25em",regExpGen:dojox.validate.regexp.emailAddress,promptMessage:"The main email address for media enquiries about the release",missingMessage:"The main email address for media enquiries about the release"' data-dojo-type="dijit.form.ValidationTextBox"/></td></tr>

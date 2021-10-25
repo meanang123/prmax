@@ -352,6 +352,9 @@ select {
     .main-header-cardiff .search-bar .latest-news, .main-header .search-bar .search-menu-bar {
       float: left;
       height: 45px;}
+    .main-header-cardiff .search-bar .key-topics, .main-header .search-bar .search-menu-bar {
+      float: left;
+      height: 45px;}
     .main-header-cardiff .search-bar .latest-news {
       width: 145px;
       margin-right: 10px;
@@ -362,7 +365,19 @@ select {
       background-position: left 10px center;
       background-repeat: no-repeat;
       background-size: 20px 20px; }
+    .main-header-cardiff .search-bar .key-topics {
+      width: 145px;
+      margin-right: 10px;
+      font-size: 16px;
+      color: white;
+      padding-left: 35px;
+      background-image: url(/static/images/flame.svg);
+      background-position: left 10px center;
+      background-repeat: no-repeat;
+      background-size: 20px 20px; }
     .main-header-cardiff .search-bar .latest-news:hover {
+      background-color: #f2f2f2;}
+    .main-header-cardiff .search-bar .key-topics:hover {
       background-color: #f2f2f2;}
     .main-header-cardiff .search-bar .search-menu-bar {
       background-color: #AE1A2A;
@@ -490,12 +505,24 @@ select {
   .main-header .search-bar .latest-news, .main-header .search-bar .search-menu-bar {
     float: left;
     height: 40px; }
+  .main-header .search-bar .key-topics, .main-header .search-bar .search-menu-bar {
+    float: left;
+    height: 40px; }
   .main-header .search-bar .latest-news {
     width: 145px;
     margin-right: 10px;
     font-size: 16px;
     padding-left: 35px;
     background-image: url(/static/images/clock.svg);
+    background-position: left 10px center;
+    background-repeat: no-repeat;
+    background-size: 20px 20px; }
+  .main-header .search-bar .key-topics {
+    width: 145px;
+    margin-right: 10px;
+    font-size: 16px;
+    padding-left: 35px;
+    background-image: url(/static/images/flame.svg);
     background-position: left 10px center;
     background-repeat: no-repeat;
     background-size: 20px 20px; }
@@ -1251,6 +1278,11 @@ select {
     background-position: center center; }
     .main-header .search-bar .latest-news span {
       display: none; }
+  .main-header .search-bar .key-topics {
+    width: 47px;
+    background-position: center center; }
+    .main-header .search-bar .key-topics span {
+      display: none; }
   .main-header .search-bar .search-menu-bar {
     width: calc(100% - 57px); }
     .main-header .search-bar .search-menu-bar .search {
@@ -1262,6 +1294,11 @@ select {
     width: 47px;
     background-position: center center; }
     .main-header-cardiff .search-bar .latest-news span {
+      display: none; }
+  .main-header-cardiff .search-bar .key-topics {
+    width: 47px;
+    background-position: center center; }
+    .main-header-cardiff .search-bar .key-topics span {
       display: none; }
   .main-header-cardiff .search-bar .search-menu-bar {
     width: calc(100%); }
