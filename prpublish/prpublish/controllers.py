@@ -23,8 +23,8 @@ CARDIFF_ENGLISH = 25
 CARDIFF_WELSH = 66
 CARDIFF_LS_TITLE_ENGLISH = 'Latest Releases'
 CARDIFF_LS_TITLE_WELSH = 'Datganiadau Diweddaraf'
-CARDIFF_KT_TITLE_ENGLISH = 'Key Topics'
-CARDIFF_KT_TITLE_WELSH = 'Pynciau Allweddol'
+CARDIFF_KT_TITLE_ENGLISH = 'Hot Topics'
+CARDIFF_KT_TITLE_WELSH = 'Prif Pynciau'
 
 class Root(controllers.RootController):
 	"""The root controller of the application."""

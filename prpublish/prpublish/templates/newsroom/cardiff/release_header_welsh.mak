@@ -30,7 +30,7 @@ from datetime import date
         <div class="content-width">
             <form action="/searchwelsh" method="post" target="_parent">
                 <button class="prmax-cardiff-btn dark-cardiff-btn latest-news"><a href="/" title="Newyddion Diweddaraf"><span>Newyddion Diweddaraf</span></a></button>
-                <button class="prmax-cardiff-btn dark-cardiff-btn key-topics" name='keytopics' id="keytopics"><a href="/" title="Pynciau Allweddol"><span>Pynciau Allweddol</span></a></button>
+                <button class="prmax-cardiff-btn dark-cardiff-btn key-topics" name='keytopics' id="keytopics"><a href="/" title="Prif Pynciau"><span>Prif Pynciau</span></a></button>
                 <div class="search-menu-bar">
                     <div class="float-right">
                         <input type="text" class="default-input search" placeholder="Chwilio" name="search" id="search">
