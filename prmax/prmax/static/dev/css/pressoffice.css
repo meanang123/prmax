@@ -3411,8 +3411,8 @@ div.dijitTabDisabled,
     background-color: #fff;
     padding: 10px;
     margin: 10px;
-    #line-height: 26pt;
-}
+    //line-height: 26pt;
+    }
 .soria .dijitSplitContainer-dijitContentPane,
 .soria .dijitBorderContainer-dijitContentPane {
     background-color: #fff;
@@ -4817,6 +4817,9 @@ span .dijit .dijitReset .dijitInline .prmaxbuttongreybutton .dijitButton {
 }
 .prmax-padding-left-large{
     padding-left: 50px !important;
+}
+.prmax-padding-left-verylarge{
+    padding-left: 120px !important;
 }
 
 .prmax-padding-right{

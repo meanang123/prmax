@@ -70,7 +70,7 @@ dojo.declare("prcommon.crm.update",
 		this._documents = new dojox.data.JsonRestStore( {target:"/crm/documents/rest_combo", idAttribute:"id"});
 
 		dojo.subscribe(PRCOMMON.Events.Issue_Add, dojo.hitch(this, this._new_issue_event));
-		dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
+		//dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
 		dojo.subscribe(PRCOMMON.Events.Document_Add, dojo.hitch(this, this._add_event));
 		dojo.subscribe("/crm/update_response", dojo.hitch(this, this._update_response_event));
 		dojo.subscribe("/crm/update_person", dojo.hitch(this, this._update_person_event));
@@ -129,11 +129,11 @@ dojo.declare("prcommon.crm.update",
 			this["chud"+keyid+"id"].store = this["_chud"+keyid];
 		}
 
-		if (userdefine==true)
-		{
-			dojo.removeClass(this["chud5_view"],"prmaxhidden");
-			dojo.removeClass(this["chud6_view"],"prmaxhidden");
-		}
+		//if (userdefine==true)
+		//{
+		//	dojo.removeClass(this["chud5_view"],"prmaxhidden");
+		//	dojo.removeClass(this["chud6_view"],"prmaxhidden");
+		//}
 
 		if ( this.show_close == false )
 		{
@@ -326,13 +326,13 @@ dojo.declare("prcommon.crm.update",
 
 		this.savebtn.cancel();
 	},
-	_follow_up_view_change:function()
-	{
-		if ( this.follow_up_view_check.get("checked"))
-			dojo.removeClass(this.follow_up_view,"prmaxhidden");
-		else
-			dojo.addClass(this.follow_up_view,"prmaxhidden");
-	},
+	//_follow_up_view_change:function()
+	//{
+	//	if ( this.follow_up_view_check.get("checked"))
+	//		dojo.removeClass(this.follow_up_view,"prmaxhidden");
+	//	else
+	//		dojo.addClass(this.follow_up_view,"prmaxhidden");
+	//},
 	_new_issue_event:function(issue)
 	{
 		this.issueid.set("value", issue.issueid);
@@ -363,23 +363,23 @@ dojo.declare("prcommon.crm.update",
 			this._tmp_size.h = actualsize.h;
 		}
 	},
-	_settings_event:function()
-	{
-		for ( var key in this._fields)
-		{
-			var keyid = this._fields[key];
-			if (PRMAX.utils.settings["crm_user_define_" + keyid] != "" && PRMAX.utils.settings["crm_user_define_" + keyid] != null )
-			{
-				dojo.removeClass(this["chud" + keyid + "_view"],"prmaxhidden");
-				dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
-			}
-			else
-			{
-				dojo.addClass(this["chud" + keyid + "_view"],"prmaxhidden");
-				dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
-			}
-		}
-	},
+	//_settings_event:function()
+	//{
+	//	for ( var key in this._fields)
+	//	{
+	//		var keyid = this._fields[key];
+	//		if (PRMAX.utils.settings["crm_user_define_" + keyid] != "" && PRMAX.utils.settings["crm_user_define_" + keyid] != null )
+	//		{
+	//			dojo.removeClass(this["chud" + keyid + "_view"],"prmaxhidden");
+	//			dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
+	//		}
+	//		else
+	//		{
+	//			dojo.addClass(this["chud" + keyid + "_view"],"prmaxhidden");
+	//			dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
+	//		}
+	//	}
+	//},
 	_download:function()
 	{
 		ttl.utilities.gotoDialogPageStatic("/crm/documents/download/"+ this._document_data.documentid+this._document_data.ext);
@@ -420,12 +420,12 @@ dojo.declare("prcommon.crm.update",
 	{
 		this.documentid.set( "value", document.documentid );
 	},
-	//_send_reply:function()
-	//{
-	//	this.send_reply_ctrl.set("dialog",this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
-	//	this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
-	//	this.send_reply_dlg.show();
-	//},
+	_send_reply:function()
+	{
+		this.send_reply_ctrl.set("dialog",this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
+		this.send_reply_ctrl.load(this.send_reply_dlg,this.crm_subject.value, this.contacthistoryid.value, this._contactemail);
+		this.send_reply_dlg.show();
+	},
 	_update_response_event:function( response )
 	{
 		this.history_grid.setQuery({contacthistoryid:response.data.contacthistoryid});
