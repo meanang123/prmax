@@ -146,6 +146,16 @@ class ContactHistory(BaseSql):
 			raise
 
 	@classmethod
+	def task_exists(cls, contacthistoryid):
+		""" Check to see if a task exists """
+
+		from prcommon.model import Task
+		result = session.query(Task).filter_by(contacthistoryid=contacthistoryid)
+		
+		return True if result.count() else False	
+
+
+	@classmethod
 	def deleteNote(cls, params):
 		""" Delete a note record """
 		transaction = cls.sa_get_active_transaction()
@@ -471,7 +481,7 @@ class Task(BaseSql):
 	def getDisplay(cls, taskid):
 		"get display "
 
-		return cls.sqlExecuteCommand(text(Task.View_Single),
+		return cls.sqlExecuteCommand(text(Task.View_Single2),
 		                              dict(taskid=taskid),
 		                              BaseSql.SingleResultAsEncodedDict)
 

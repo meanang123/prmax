@@ -13,7 +13,7 @@
 								<tr><td><label>Status</label></td><td><select data-dojo-props='name:"taskstatusid",autoComplete:true,labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="taskstatusid" ></select></td></tr>
 								<tr><td><label>Owner</label></td><td><select data-dojo-props='name:"ownerid",autoComplete:true,labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="ownerid" ></select></td></tr>
 								<tr>
-									<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Clear Filter by</button></td>
+									<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Clear Filter</button></td>
 									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Filter by</button></td>
 								</tr>
 							</table>
@@ -28,8 +28,10 @@
 
 		<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="controls2" data-dojo-props="region:'center',preload:false,style:'height:100%;width:100%'">
 			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-attach-point="tasks_view" data-dojo-props='style:"width:100%;height:100%",gutters:false'>
-				<div data-dojo-attach-point="viewer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{},rowsPerPage:30,style:"width:50%;height:100%",region:"center"'></div>
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:50%;height:100%","class":"scrollpanel",region:"right",splitter:true'>
+				<div data-dojo-type="dijit.layout.ContentPane" class="spacygriddisplay" data-dojo-props='style:"width:45%;height:100%","class":"scrollpanel",region:"center",splitter:true'>
+					<div data-dojo-attach-point="viewer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{},rowsPerPage:30,style:"width:50%;height:100%",region:"center"'></div>
+				</div>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:55%;height:100%","class":"scrollpanel",region:"right",splitter:true'>
 					<div data-dojo-attach-point="update_task_ctrl" data-dojo-type="prcommon.crm.tasks.update" data-dojo-props='style:"width:100%;height:100%"'></div>
 				</div>
 			</div>

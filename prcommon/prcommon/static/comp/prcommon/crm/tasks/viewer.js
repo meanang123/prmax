@@ -13,6 +13,30 @@ dojo.require("prcommon.crm.tasks.add");
 dojo.require("prcommon.crm.tasks.update");
 dojo.require("prcommon.crm.tasks.addtype");
 dojo.require("prcommon.crm.tasks.updatetype");
+_add_new_line = function(inDatum)
+{
+	return inDatum ? inDatum.replace('====', '<br />'): '';
+};
+
+_add_green_check = function(inDatum)
+{
+	if (inDatum)
+	{
+		var idx = inDatum.search('====');
+		if (inDatum.substr(idx+4, inDatum.length).trim().toLowerCase() == 'completed')
+		{
+			return '<div style="text-align:center">' + inDatum.substr(0, idx) + '<br /><i class="fa fa-check-circle-o fa-2x" style="color:#27BD59; aria-hidden="true"></i></div>';
+		}else
+		{
+			return '<div style="text-align:center">' + inDatum.substr(0, idx) + '<br /><i class="fa fa-check-circle-o fa-2x" style="color:#F6F6F6; aria-hidden="true"></i></div>';
+		}
+		
+	}
+	else{
+		return '';
+	};
+};
+
 dojo.declare("prcommon.crm.tasks.viewer",
 	[ ttl.BaseWidget ],
 	{
@@ -46,13 +70,27 @@ dojo.declare("prcommon.crm.tasks.viewer",
 	},
 	_view : { noscroll: false,
 		cells: [[
-		{name: 'Owner',width: "150px",field:'display_name'},
-		{name: 'Date',width: "60px",field:'due_date_display'},
-		{name: 'Status',width: "80px",field:'taskstatusdescription'},
-		{name: 'Contact',width: "120px",field:'contactname'},
-		{name: 'Subject',width: "200px",field:'description'},
-		{name: 'Outlet',width: "200px",field:'outletname'}
-		]]
+		//{name: 'Contact',width: "30%",field:'contactdetails_display',formatter:_add_new_line},
+		//{name: 'Details',width: "30%",field:'details_display',formatter:_add_new_line},
+		//{name: 'Status',width: "20%",field:'status_display',formatter:_add_green_check},
+		//{name: 'Status2',width: "10%",field:'taskstatusid'},
+		//{name: 'Owner',width: "10%",field:'isassigntoid'}
+		
+		//]]		
+			{name: 'Contact',width: "200px",field:'contactdetails_display',formatter:_add_new_line},
+			{name: 'Details',width: "300px",field:'details_display',formatter:_add_new_line},
+			{name: 'Status',width: "100px",field:'status_display',formatter:_add_green_check}
+			]]
+		
+		//cells: [[
+		//{name: 'Owner',width: "150px",field:'display_name'},
+		//{name: 'Date',width: "60px",field:'due_date_display'},
+		//{name: 'Status',width: "80px",field:'taskstatusdescription'},
+		//{name: 'Contact',width: "120px",field:'contactname'},
+		//{name: 'Subject',width: "200px",field:'description'},
+		//{name: 'Outlet',width: "200px",field:'outletname'}
+		//]]
+			
 	},
 	_view_tasktypes : { noscroll: false,
 		cells: [[
@@ -62,7 +100,17 @@ dojo.declare("prcommon.crm.tasks.viewer",
 	},
 	postCreate:function()
 	{
+	
+		//var view = {
+		//cells: [[
+		//	{name: 'Contact',width: "40%",field:'contactdetails_display',formatter:_add_new_line},
+		//	{name: 'Details',width: "40%",field:'details_display',formatter:_add_new_line},
+		//	{name: 'Status',width: "20%",field:'status_display',formatter:_add_green_check}
+		//	]]
+		//	};	
+	
 		this.viewer_grid.set("structure", this._view);
+		//this.viewer_grid.set("structure", view);
 		this.viewer_grid._setStore(this.filter_db);
 		this.viewer_grid.setQuery({taskstatusid:1,ownerid:PRMAX.utils.settings.uid});
 
@@ -164,6 +212,7 @@ dojo.declare("prcommon.crm.tasks.viewer",
 	_add_task_event:function( task )
 	{
 		this.filter_db.newItem( task );
+		this.viewer_grid.setQuery({taskstatusid:1,ownerid:PRMAX.utils.settings.uid});
 	},
 	_update_task_event:function( task )
 	{

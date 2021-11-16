@@ -16,7 +16,7 @@ from ttl.tg.errorhandlers import pr_form_error_handler, pr_std_exception_handler
 from ttl.tg.controllers import SecureController
 from ttl.tg.validators import std_state_factory, PrFormSchema, PrGridSchema, IntNull, JSONValidator, BooleanValidator, \
      ISODateValidator, ISODateTimeValidator, DateRangeValidator, Int2Null
-from ttl.base import stdreturn, duplicatereturn
+from ttl.base import stdreturn, duplicatereturn, errorreturn
 
 from prcommon.model import ContactHistory, PRNotesGeneral, ContactHistoryGeneral, TasksGeneral, ContactHistoryHistory, \
      ContactHistoryUserDefine, ContactHistoryResponses, EmailTemplates
@@ -196,8 +196,10 @@ class CrmController(SecureController):
 	def deletenote(self, *args, **params):
 		""" Delete a contact history note """
 
-		ContactHistory.deleteNote(params)
-
+		if ContactHistory.task_exists(params["contacthistoryid"]):
+			return errorreturn("Task exists")		
+		else:
+			ContactHistory.deleteNote(params)
 		return stdreturn()
 
 	@expose("json")

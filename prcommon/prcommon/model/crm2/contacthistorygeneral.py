@@ -32,6 +32,7 @@ from ttl.tg.validators import DateRangeResult
 from ttl.ttlemail import EmailMessage, SMTPSERVERBYTYPE
 from ttl.sqlalchemy.ttlcoding import CryptyInfo
 
+
 CRYPTENGINE = CryptyInfo(Constants.KEY1)
 LOGGER = logging.getLogger("prcommon.model")
 
@@ -119,7 +120,8 @@ class ContactHistoryGeneral(object):
 						session.add(chi)
 
 			# add task ?
-			if params["follow_up_view_check"]:
+			#if params["follow_up_view_check"]:
+			if params["follow_up_date"]:
 				subject = None
 				if 'crm_subject' in params and params['crm_subject'] != "":
 					subject = params['crm_subject']
@@ -328,7 +330,9 @@ class ContactHistoryGeneral(object):
 			contacthistory.clientid = params["clientid"] if 'clientid' in params else contacthistory.clientid
 			contacthistory.documentid = params["documentid"] if 'documentid' in params else contacthistory.documentid
 
-			if 'follow_up_view_check' in params and params["follow_up_view_check"] and contacthistory.taskid is None:
+			if 'follow_up_date' in params and params['follow_up_date'] and contacthistory.taskid is None:
+				
+			#if 'follow_up_view_check' in params and params["follow_up_view_check"] and contacthistory.taskid is None:
 				task = Task(
 						taskstatusid=Constants.TaskStatus_InProgress,
 				        due_date=params["follow_up_date"],
@@ -343,7 +347,8 @@ class ContactHistoryGeneral(object):
 				contacthistory.taskid = task.taskid
 				contacthistory.follow_up_date = params["follow_up_date"]
 				contacthistory.follow_up_ownerid = params["follow_up_ownerid"]
-			elif contacthistory.taskid is not None and 'follow_up_view_check' in params and params["follow_up_view_check"]:
+			#elif contacthistory.taskid is not None and 'follow_up_view_check' in params and params["follow_up_view_check"]:
+			elif contacthistory.taskid is not None and 'follow_up_date' in params and params["follow_up_date"]:
 				# an update of task?
 				task = Task.query.get(contacthistory.taskid)
 				task.due_date = params["follow_up_date"]

@@ -56,7 +56,7 @@ dojo.declare("prcommon.crm.add",
 		}
 
 		dojo.subscribe(PRCOMMON.Events.Issue_Add, dojo.hitch(this, this._new_issue_event));
-		//dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
+		dojo.subscribe("/crm/settings_change", dojo.hitch(this, this._settings_event));
 		dojo.subscribe(PRCOMMON.Events.Document_Add, dojo.hitch(this, this._add_event));
 		dojo.subscribe("/crm/update_person", dojo.hitch(this, this._update_person_event));
 	},
@@ -289,30 +289,30 @@ dojo.declare("prcommon.crm.add",
 	{
 		this._dialog = dialog;
 	},
-	//_settings_event:function()
-	//{
-//
-	//	dojo.addClass(this["chud5_view"],"prmaxhidden");
-//
-	//	for ( var key in this._fields)
-	//	{
-	//		var keyid = this._fields[key];
-	//		if (PRMAX.utils.settings["crm_user_define_" + keyid] != "" && PRMAX.utils.settings["crm_user_define_" + keyid] != null )
-	//		{
-	//			dojo.removeClass(this["chud" + keyid + "_view"],"prmaxhidden");
-	//			dojo.removeClass(this["chud5_view"],"prmaxhidden");
-//
-	//			dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
-	//		}
-	//		else
-	//		{
-	//			dojo.addClass(this["chud" + keyid + "_view"],"prmaxhidden");
-	//			dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
-	//		}
-	//	}
-//
-	//	this.initiate_layout();
-	//},
+	_settings_event:function()
+	{
+
+		dojo.addClass(this["chud5_view"],"prmaxhidden");
+
+		for ( var key in this._fields)
+		{
+			var keyid = this._fields[key];
+			if (PRMAX.utils.settings["crm_user_define_" + keyid] != "" && PRMAX.utils.settings["crm_user_define_" + keyid] != null )
+			{
+				dojo.removeClass(this["chud" + keyid + "_view"],"prmaxhidden");
+				dojo.removeClass(this["chud5_view"],"prmaxhidden");
+
+				dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
+			}
+			else
+			{
+				dojo.addClass(this["chud" + keyid + "_view"],"prmaxhidden");
+				dojo.attr(this["chud"+keyid+"_label"],"innerHTML",PRMAX.utils.settings["crm_user_define_"+keyid]);
+			}
+		}
+
+		this.initiate_layout();
+	},
 	_new_document:function()
 	{
 		this.addctrl.show();

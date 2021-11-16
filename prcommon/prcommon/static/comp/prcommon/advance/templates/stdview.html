@@ -4,14 +4,14 @@
 			<div style="height:44px;width:100%;overflow:hidden" class="searchresults">
 				<div style="float:left;padding:0px;margin:0px;width:200px;height:100%;padding-top:10px;padding-left:5px;overflow:hidden" class="namecolour" dojoAttachPoint="list"></div>
 				<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:250px">
-					<div dojoType="dijit.form.DropDownButton" dojoAttachPoint="save" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsSave"  showLabel="false">
+					<div dojoType="dijit.form.DropDownButton" dojoAttachPoint="save" disabled="disabled" iconClass="fa fa-floppy-o fa-3x"  showLabel="false">
 						<div dojoType="dijit.Menu" >
 							<div dojoType="dijit.MenuItem" label="To Features List" dojoAttachPoint="clear" dojoAttachEvent="onClick:_Save" ></div>
 							<div dojoType="dijit.MenuItem" label="To Media List" dojoAttachEvent="onClick:_Save_Standing"></div>
 						</div>
 					</div>
-					<div dojoType="dijit.form.Button" dojoAttachPoint="output" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsOutput"  showLabel="false" dojoAttachEvent="onClick:_OutputPrint"></div>
-					<div dojoType="dijit.form.Button"  dojoAttachPoint="delete_option" dojoAttachEvent="onClick:_Delete" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsRemove"  showLabel="false">Delete</div>
+					<div dojoType="dijit.form.Button" dojoAttachPoint="output" disabled="disabled" iconClass="fa fa-print fa-3x"  showLabel="false" dojoAttachEvent="onClick:_OutputPrint"></div>
+					<div dojoType="dijit.form.Button"  dojoAttachPoint="delete_option" dojoAttachEvent="onClick:_Delete" disabled="disabled" iconClass="fa fa-trash fa-3x" showLabel="false">Delete</div>
 					<div dojoType="dijit.form.DropDownButton" dojoAttachPoint="search" class="prmaxhidden" iconClass="PrmaxResultsIcon PrmaxResultsSearch"  showLabel="false">
 						<div dojoType="dijit.Menu" >
 							<div dojoType="dijit.MenuItem" label="Add To List" dojoAttachEvent="onClick:_Search_Append" ></div>
@@ -29,18 +29,18 @@
 		</div>
 	</div>
 	<div dojoType="dijit.Dialog" title="Save as Features List" dojoAttachPoint="dlg_saveas">
-		<div dojoAttachPoint="saveas" dojoType="prcommon.advance.saveas" style="width:500px;height:350px"></div>
+		<div dojoAttachPoint="saveas" dojoType="prcommon.advance.saveas" style="width:500px;height:370px"></div>
 	</div>
 	<div dojoType="dijit.Dialog" title="Delete Entries" dojoAttachPoint="dlg_delete">
-		<div dojoAttachPoint="deletectrl" dojoType="prcommon.advance.DeleteFromList" style="width:400px;height:150px"></div>
+		<div dojoAttachPoint="deletectrl" dojoType="prcommon.advance.DeleteFromList" style="width:400px;height:180px;margin:10px"></div>
 	</div>
 	<div dojoType="dijit.Dialog" title="Save To a Media List" dojoAttachPoint="dlg_save_to_standing">
-		<div dojoAttachPoint="savetostandingctrl" dojoType="prcommon.advance.SaveToStanding" style="width:450px;height:250px"></div>
+		<div dojoAttachPoint="savetostandingctrl" dojoType="prcommon.advance.SaveToStanding" style="width:450px;height:300px"></div>
 	</div>
 	<div dojoType="dijit.Dialog" title="Save Results To List" dojoAttachPoint="dlg_save_results_to_list">
-		<div dojoAttachPoint="resultstolistctrl" dojoType="prcommon.advance.ResultsToLists" style="width:500px;height:250px"></div>
+		<div dojoAttachPoint="resultstolistctrl" dojoType="prcommon.advance.ResultsToLists" style="width:500px;height:280px"></div>
 	</div>
 	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Output"' data-dojo-attach-point="dlg_output">
-		<div data-dojo-attach-point="outputctrl" data-dojo-type="prcommon.advance.Output" data-dojo-props='style:"width:450px;height:300px"' ></div>
+		<div data-dojo-attach-point="outputctrl" data-dojo-type="prcommon.advance.Output" data-dojo-props='style:"width:450px;height:320px"' ></div>
 	</div>
 </div>

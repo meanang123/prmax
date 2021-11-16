@@ -51,10 +51,10 @@ dojo.declare("prmax.pressrelease.seo.view",
 	view:{
 		cells: [[
 			{name: 'Seo Name',width: "auto", field:"headline"},
-			{name: 'Client',width: "150px", field:"clientname"},
-			{name: 'Status',width: "150px", field:"seostatusdescription"},
-			{name: 'Published',width: "100px", field:"published_display"},
-			{name: 'Views',width: "50px", field:"viewed"}
+			{name: 'Client',width: "120px", field:"clientname"},
+			{name: 'Status',width: "70px", field:"seostatusdescription"},
+			{name: 'Published',width: "80px", field:"published_display"},
+			{name: 'Views',width: "30px", field:"viewed"}
 			]]
 	},
 	resize:function()

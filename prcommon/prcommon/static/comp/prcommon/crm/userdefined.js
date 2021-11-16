@@ -67,7 +67,7 @@ dojo.declare("prcommon.crm.userdefined",
 	},
 	force_startup:function()
 	{
-		this.grid.resize( {w:200, h:75});
+		this.grid.resize( {w:200, h:150});
 	},
 	_add:function()
 	{

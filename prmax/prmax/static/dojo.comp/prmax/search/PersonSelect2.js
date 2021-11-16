@@ -27,13 +27,13 @@ dojo.declare("prmax.search.PersonSelect2",
 	searchtypeid:7,
 	placeHolder:"Select Contact<br/><br/><br/>",
 	source_url:"/search/list",
+	mode: "search",
 	constructor: function()
 	{
 		this._contactid = null;
 		this._load_call_back = dojo.hitch(this, this._load_call);
 		this._on_select_contact_call_back = dojo.hitch(this,this._on_select_contact);
 		this.show_infotbtn = false;
-
 	},
 	postCreate:function()
 	{
@@ -57,9 +57,14 @@ dojo.declare("prmax.search.PersonSelect2",
 		this._contactid = value ;
 		this._set_view();
 	},
+	_setModeAttr:function(value)
+	{
+		this.mode = value ;
+		this._set_view();
+	},
 	_setDisplayvalueAttr:function(value)
 	{
-		if (value == "" || value == null )
+		if (value == "" || value == null)
 		{
 			dojo.attr(this.contact_display,"innerHTML",this.placeHolder);
 			dojo.addClass(this.contact_display,"PlaceHolder");
@@ -90,17 +95,26 @@ dojo.declare("prmax.search.PersonSelect2",
 	},
 	_set_view:function()
 	{
-		if (this._contactid == null)
-		{
-			dojo.removeClass(this.clearbtn.domNode,"prmaxhidden");
-			dojo.addClass(this.infobtn.domNode,"prmaxhidden");
-			dojo.addClass(this.contact_display,"PlaceHolder");
-		}
-		else
-		{
-			dojo.removeClass(this.clearbtn.domNode,"prmaxhidden");
-			dojo.removeClass(this.infobtn.domNode,"prmaxhidden");
-			dojo.removeClass(this.contact_display,"PlaceHolder");
+
+		if (this.mode == 'info'){
+			dojo.addClass(this.selectbtn.domNode, "prmaxhidden");
+			dojo.addClass(this.clearbtn.domNode, "prmaxhidden");
+			dojo.removeClass(this.infobtn.domNode, "prmaxhidden");
+		}else{
+
+
+			if (this._contactid == null)
+			{
+				dojo.removeClass(this.clearbtn.domNode,"prmaxhidden");
+				dojo.addClass(this.infobtn.domNode,"prmaxhidden");
+				dojo.addClass(this.contact_display,"PlaceHolder");
+			}
+			else
+			{
+				dojo.removeClass(this.clearbtn.domNode,"prmaxhidden");
+				dojo.removeClass(this.infobtn.domNode,"prmaxhidden");
+				dojo.removeClass(this.contact_display,"PlaceHolder");
+			}
 		}
 	},
 	_select:function()

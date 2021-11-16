@@ -4133,3 +4133,98 @@ td.prmaxrowtag { text-align: left !important }
 		margin:0px;
 		padding-top:6px;
 }
+
+
+
+
+.prmaxbuttongrey{
+	color: grey !important;
+	border-radius: 3px !important;
+	border: 1px solid #E8E9EB !important;
+}
+.prmaxbuttongrey >span {
+	background: none !important;
+	color: grey !important;
+	border-radius: 3px !important;
+	background-color: #EBEBEB!important;
+}
+.prmaxbuttongreybutton {
+	background: none !important;
+	color: grey !important;
+	border-radius: 3px !important;
+	background-color: #EBEBEB!important;
+	border: 1px solid #A4A4A4 !important;
+	height: 30px !important;
+}
+span .dijit .dijitReset .dijitInline .prmaxbuttongreybutton .dijitButton {
+	background: none !important;
+	color: grey !important;
+	border-radius: 3px !important;
+	background-color: #EBEBEB!important;
+	border: 1px solid #A4A4A4 !important;
+	height: 30px !important;
+
+}
+.prmaxbuttonblue{
+	color: white !important;
+	background-color: #7F7F7F !important;
+	border-radius: 3px !important;
+}
+.prmaxbuttonblue > span{
+	background: none !important;
+	color: white !important;
+	background-color: #7F7F7F !important;
+	border-radius: 3px !important;
+	border: 1px solid #7F7F7F !important;
+}
+.prmaxbuttonwhite{
+	color: #7F7F7F !important;
+	background-color: white !important;
+	border: 1px solid #7F7F7F !important;
+	border-radius: 3px !important;	
+}
+.prmaxbuttonwhite > span{
+	background: none !important;
+	color: #7F7F7F !important;
+	background-color: white !important;
+	border: 1px solid #7F7F7F !important;
+	border-radius: 3px !important;	
+}
+.prmaxbuttongreyblue{
+	color: #7F7F7F !important;
+	background-color: #D4E1EB !important;
+	border-radius: 3px !important;
+}
+.prmaxbuttongreyblue > span{
+	background: none !important;
+	color: #7F7F7F !important;
+	background-color: #D4E1EB !important;
+	border-radius: 3px !important;
+	border: 1px solid #D4E1EB !important;
+}
+.prmaxdate{
+	color: grey !important;
+	border-radius: 3px !important;
+	border: 1px solid lightgrey !important;
+}
+.noborders {
+    border: 0px !important;
+}
+.prmax-padding-left-small{
+    padding-left: 20px !important;
+}
+.prmax-padding-left-large{
+    padding-left: 50px !important;
+}
+.prmax-padding-left-verylarge{
+    padding-left: 120px !important;
+}
+
+.prmax-padding-right{
+    padding-right: 20px !important;
+}
+textarea  
+{  
+   font-family:sans-serif;
+   font-size:inherit;  
+}

@@ -1,8 +1,8 @@
 <div>
-	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-point='style:"width:580px;height:100%",gutters:false' >
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-point='style:"width:680px;height:100%",gutters:false' >
 		<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="display_view" data-dojo-props='region:"center"'>
 			<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props="region:'center',splitter:true,'class':'bordered'">
-				<div data-dojo-attach-point="details_view"  data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Details',style:'height:100%;width:500px;overflow :auto','class':'bordered scrollpane common_prmax_layout',selected:'selected'">
+				<div data-dojo-attach-point="details_view" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'Details',style:'height:100%;width:500px;overflow :auto','class':'bordered scrollpane common_prmax_layout',selected:'selected'">
 					<br/>
 					<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
 						<input data-dojo-attach-point="contacthistoryid"  data-dojo-props='name:"contacthistoryid",type:"hidden",value:"-1"' data-dojo-type="dijit.form.TextBox" />
@@ -11,7 +11,7 @@
 						<input data-dojo-props='name:"employeeid",type:"hidden",value:"-1"' data-dojo-attach-point="employeeid"  data-dojo-type="dijit.form.TextBox" />
 						<table width="550px" class="prmaxtable">
 						<tr>
-							<td rowspan=2><span data-dojo-props='name:"contact",placeHolder:"Select contact <br/><br/><br/>",required:false,style:"width:230px;height:75px;float:left"' data-dojo-type="prmax.search.PersonSelect2" data-dojo-attach-point="contact"></span></td>
+							<td rowspan="2"><span data-dojo-props='name:"contact",placeHolder:"Select contact <br/><br/><br/>",required:false,style:"width:230px;height:75px;float:left"' data-dojo-type="prmax.search.PersonSelect2" data-dojo-attach-point="contact"></span></td>
 							<td><span><input data-dojo-props='placeHolder:"Date", type:"text",name:"taken",required:"true","class":"input_field input_date noborders prmax-padding-left-small"' data-dojo-attach-point="taken" data-dojo-type="dijit.form.DateTextBox" ></span></td>
 							<td><span class="prmax-padding-left-small"><select data-dojo-props='style:"width:150px",placeHolder:"Taken By", name:"taken_by","class":"prmaxrequired",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Taken By",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="taken_by"></select></span></td>
 						</tr>
@@ -32,30 +32,32 @@
 						<tr><td colspan="3"><span class="prmax-padding-left-large">
 							<textarea placeHolder="Details" data-dojo-attach-point="outcome" name="outcome" style="width:450px;min-height:70px;margin-top:10px;"></textarea>
 						</span></td></tr>
-						<tr><td colspan="3"><span class="prmax-padding-left-large">
-							<input data-dojo-attach-event="onClick:_send_reply" data-dojo-attach-point="sendreplybtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Send Reply","class":"btnleft",disabled:"disabled"'><br />
+						<tr><td colspan="3"><span class="prmax-padding-left-large" style="float:left">
+							<input data-dojo-attach-event="onClick:_send_reply" data-dojo-attach-point="sendreplybtn" data-dojo-type="dijit.form.Button" data-dojo-props='"class":"prmax-padding-left-large",type:"button",label:"Send Reply","class":"btnleft",disabled:"disabled"'><br />
 						</span></td></tr>
 						
 						<tr><td colspan="3"><span class="prmax-padding-left-large">
 							<textarea placeHolder="Response Details" name="crm_response" style="width:450px;margin-top:10px;min-height:70px;" data-dojo-attach-point="crm_response"></textarea>
 						</span></td></tr>
 						
-						<tr><td><span class="prmax-padding-left-large">
+						<tr data-dojo-attach-point="chud5_view" class="prmaxhidden">
+							<td data-dojo-attach-point="chud1_view" class="prmaxhidden"><span class="prmax-padding-left-large">
 								<select data-dojo-props='placeHolder:"User Define 1", name:"chud1id",autoComplete:true,searchAttr:"description",required:false,invalidMessage:"User Defined",labelType:"html",style:"width:150px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="chud1id"></select>
 							</span></td>
-							<td colspan="2"><span class="prmax-padding-left-verylarge">
+							<td data-dojo-attach-point="chud2_view" class="prmaxhidden" colspan="2"><span class="prmax-padding-left-verylarge">
 								<select data-dojo-props='placeHolder:"User Define 2", name:"chud2id",autoComplete:true,searchAttr:"description",required:false,invalidMessage:"User Defined",labelType:"html",style:"width:150px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="chud2id"></select>
 							</span></td>
 						</tr>						
-						<tr><td><span class="prmax-padding-left-large">
+						<tr data-dojo-attach-point="chud6_view" class="prmaxhidden">
+							<td data-dojo-attach-point="chud3_view" class="prmaxhidden"><span class="prmax-padding-left-large">
 								<select data-dojo-props='placeHolder:"User Define 3", name:"chud3id",autoComplete:true,searchAttr:"description",required:false,invalidMessage:"User Defined",labelType:"html",style:"width:150px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="chud3id"></select>
 							</span></td>
-							<td colspan="2"><span class="prmax-padding-left-verylarge">
+							<td data-dojo-attach-point="chud4_view" class="prmaxhidden" colspan="2"><span class="prmax-padding-left-verylarge">
 								<select data-dojo-props='placeHolder:"User Define 4", name:"chud4id",autoComplete:true,searchAttr:"description",required:false,invalidMessage:"User Defined",labelType:"html",style:"width:150px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="chud4id"></select>
 							</span></td>
 						</tr>						
-						<tr><td colspan="3"><span class="prmax-padding-left-large">
-								<label class="label_1">Document</label>
+						<tr><td colspan="3" ><span>
+								<label style="padding-left:50px !important" class="label_1">Document</label>
 								<select data-dojo-props='placeHolder:"Document", style:"width:150px",name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select>
 								<button class="prmaxbutton" data-dojo-attach-point="previewbtn" data-dojo-attach-event="onClick:_preview" data-dojo-type="dijit.form.Button">View</button>
 								<button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New"'></button>
@@ -79,13 +81,17 @@
 							</span></td>
 						</tr>						
 
-						</table>
-						<div data-dojo-attach-point="chud6_view"><br/></div>
-						<div data-dojo-attach-point="chud5_view"><br/></div>
-						
-						<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft",'></button>
-						<button data-dojo-attach-event="onClick:_delete" data-dojo-attach-point="deletebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Deleting...",label:"Delete","class":"btnleft",'></button>
-						<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright"'></button>
+						<tr><td>&nbsp</td></tr>
+						<tr><td>&nbsp</td></tr>
+						<tr><td>
+							<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft",iconClass:"fa fa-close fa-2x"'></button>
+							<button data-dojo-attach-event="onClick:_delete" data-dojo-attach-point="deletebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Deleting...",label:"Delete","class":"btnleft",iconClass:"fa fa-trash-o  fa-2x"'></button>
+						</td>
+						<td colspan="2" align="right">
+							<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating...",label:"Update",iconClass:"fa fa-floppy-o fa-2x"'></button><br/><br/>
+						</td>
+						</table><br/><br/>
+					
 					</form>
 
 					<div data-dojo-attach-point="person_select_dlg" data-dojo-type="prmax.search.PersonSelect"></div>
@@ -108,7 +114,7 @@
 		<div data-dojo-type="prmax.customer.clients.add" data-dojo-attach-point="client_add_ctrl"></div>
 	</div>
 	
-	<div data-dojo-attach-point="send_reply_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Send Reply", style:"width:550px;height:550px"'>
+	<div data-dojo-attach-point="send_reply_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Send Reply", style:"width:550px;height:580px"'>
 		<div data-dojo-attach-point="send_reply_ctrl" data-dojo-type="prcommon.crm.responses.sendreply"></div>
 	</div>
 	
