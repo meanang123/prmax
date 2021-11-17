@@ -1,19 +1,19 @@
-<div style="width:500px">
+<div style="width:500px;height:450px;margin:10px">
 	<form data-dojo-attach-point="formnode" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"common_prmax_layout prmaxdefault","onSubmit":"return false"'>
 		<br/>
-		<label class="label_1">Title</label><input data-dojo-props='"class":"prmaxrequired",name:"name",type:"text",maxlength:80,trim:true,required:true,style:"width:26em"' data-dojo-attach-point="issue" data-dojo-type="dijit.form.ValidationTextBox"/><br/>
-		<label class="label_1">Document</label><select data-dojo-props='name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select><button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button><br/>
-		<label class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><br/>
+		<label class="label_1">Title</label><input data-dojo-props='"class":"prmaxrequired prmaxinput",name:"name",type:"text",maxlength:80,trim:true,required:true,style:"width:26em"' data-dojo-attach-point="issue" data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+		<label class="label_1">Document</label><select data-dojo-props='"class":"prmaxinput",name:"documentid",autoComplete:true,searchAttr:"description",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="documentid" ></select><button data-dojo-attach-event="onClick:_new_document" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New"'></button><br/>
+		<label class="label_1">Client</label><select data-dojo-props='"class":"prmaxinput",name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><br/>
 		<label data-dojo-attach-point="briefing_notes_label">Briefing Notes</label><br/><br/>
-		<div class="stdframe" style="height:150px;" data-dojo-attach-point="notes_frame" ><textarea data-dojo-attach-point="briefingnotes" data-dojo-props='name:"briefingnotes",trim:true,required:true,style:"width:99%;height:80%"' data-dojo-type="dijit.form.Textarea" ></textarea></div><br/>
-		<label class="label_1" data-dojo-attach-point="briefing_notes_status_label">Notes Status</label><select data-dojo-props='"class":"prmaxrequired",name:"briefingnotesstatusid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Briefing Note Status",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="briefingnotesstatusid" data-dojo-attach-event="onChange:_change_colour"></select><br/>
-		<label class="label_1">Approved By</label><select data-dojo-props='"class":"prmaxrequired",name:"approvedbyid",autoComplete:true,searchAttr:"name",required:false,invalidMessage:"Select",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="approvedbyid"></select><br/><br/>
+		<div class="stdframe" style="height:150px;" data-dojo-attach-point="notes_frame" ><textarea data-dojo-attach-point="briefingnotes" data-dojo-props='"class":"prmaxinput",name:"briefingnotes",trim:true,required:true,style:"width:99%;height:80%"' data-dojo-type="dijit.form.Textarea" ></textarea></div><br/>
+		<label class="label_1" data-dojo-attach-point="briefing_notes_status_label">Notes Status</label><select data-dojo-props='"class":"prmaxrequired prmaxinput", name:"briefingnotesstatusid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Briefing Note Status",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="briefingnotesstatusid" data-dojo-attach-event="onChange:_change_colour"></select><br/>
+		<label class="label_1">Approved By</label><select data-dojo-props='"class":"prmaxrequired prmaxinput", name:"approvedbyid",autoComplete:true,searchAttr:"name",required:false,invalidMessage:"Select",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="approvedbyid"></select><br/><br/>
 		<br/><br/>
-		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft",iconClass:"fa fa-close fa-2x"'></button>
-		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Adding...",label:"Add","class":"btnright",iconClass:"fa fa-floppy-o fa-2x"'></button><br/><br/>
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft"'></button>
+		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Adding...",label:"Add","class":"btnright"'></button><br/><br/>
 	</form>
 	<div data-dojo-attach-point="add_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='style:"width:600px;height:500px"'>
 		<div data-dojo-props='style:"width:100%;height:100%"' data-dojo-attach-point="add_ctrl" data-dojo-type="prcommon.crm.solidsocial.preview"></div>
 	</div>
-	<div data-dojo-attach-point="addctrl" data-dojo-type="prcommon.documents.adddialog"></div>
+	<div data-dojo-attach-point="addctrl" data-dojo-type="prcommon.documents.adddialog" data-dojo-props='style:"width:400px;height:200px;margin:10px"'></div>
 </div>
