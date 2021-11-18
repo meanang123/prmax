@@ -5,8 +5,8 @@
 			<div title="main" dojoAttachPoint="tabControl" dojotype="dijit.layout.TabContainer" tabStrip="true" region="center" >
 				<div dojoAttachPoint="mainView" dojoType="ttl.layout.ContentPane" title='Details' preload="true" href="/layout/std_outlet_view_startup" > </div>
 				<div dojoAttachPoint="contactView" dojoType="dijit.layout.BorderContainer" title='Contacts' preload="true" style="width:100%;height:100%" selected="selected" gutters="false">
-					<div dojoAttachPoint="contactdisplay" region="top" dojotype="prmax.employee.EmployeeDisplay" splitter="true" style="height:60%;width:100%"  ></div>
-					<div dojoAttachPoint="contactgrid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="30" region="center" style="height:40%;width:100%" ></div>
+					<div dojoAttachPoint="contactdisplay" region="center" dojotype="prmax.employee.EmployeeDisplay" style="height:60%;width:100%"></div>
+					<div dojoAttachPoint="contactgrid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="30" splitter="true" region="bottom" style="height:40%;width:100%" ></div>
 				</div>
 				<!--
 				<div dojoAttachPoint="profileView" dojoType="ttl.layout.ContentPane" title='Profile' preload="false"></div>

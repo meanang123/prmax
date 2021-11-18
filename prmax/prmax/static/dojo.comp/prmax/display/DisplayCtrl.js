@@ -277,7 +277,7 @@ dojo.declare("prmax.display.DisplayCtrl", [dijit._Widget, dijit._Templated, diji
 		cells: [[
 			{name: " ",width: "15px",field:"customerid",formatter:ttl.utilities.formatContactInfo},
 			{name: 'Contact',width: "200px",field:"contactname"},
-			{name: 'Job Title',width: "200px",field:"job_title"},
+			{name: 'Job Title',width: "350px",field:"job_title"},
 			{name: " ",width: "15px",field:"",formatter:ttl.utilities.formatRowCtrl}
 			]]
 	},
