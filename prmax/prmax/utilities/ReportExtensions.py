@@ -811,10 +811,10 @@ class ActivityReport(ReportCommon):
 		params = dict(icustomerid = self._reportoptions["customerid"])
 		params['clientid'] = self._reportoptions["clientid"]
 		if params['clientid'] != -1 and params['clientid'] != '-1':
-#			andclause_eng = """AND (ch.clientid = %(clientid)s OR  (SELECT i.clientid FROM userdata.issues AS i JOIN userdata.contacthistoryissues AS chi ON chi.issueid = i.issueid WHERE chi.contacthistoryid = ch.contacthistoryid) = = %(clientid)s)"""
-			andclause_eng = """AND (ch.clientid = %(clientid)s """
-			andclause_clip = """AND clip.clientid = %(clientid)s"""
-			andclause_rel = """AND et.clientid = %(clientid)s"""
+#			andclause_eng = """ AND (ch.clientid = %(clientid)s OR  (SELECT i.clientid FROM userdata.issues AS i JOIN userdata.contacthistoryissues AS chi ON chi.issueid = i.issueid WHERE chi.contacthistoryid = ch.contacthistoryid) = = %(clientid)s)"""
+			andclause_eng = """ AND (ch.clientid = %(clientid)s """
+			andclause_clip = """ AND clip.clientid = %(clientid)s"""
+			andclause_rel = """ AND et.clientid = %(clientid)s"""
 
 		drange = simplejson.loads(self._reportoptions["drange"])
 		option = TTLConstants.CONVERT_TYPES[drange["option"]]
@@ -939,10 +939,10 @@ class ActivitySubjectReport(ReportCommon):
 		params = dict(icustomerid = self._reportoptions["customerid"])
 		params['clientid'] = self._reportoptions["clientid"]
 		if params['clientid'] != -1 and params['clientid'] != '-1':
-#			andclause_eng = """AND (ch.clientid = %(clientid)s OR  (SELECT i.clientid FROM userdata.issues AS i JOIN userdata.contacthistoryissues AS chi ON chi.issueid = i.issueid WHERE chi.contacthistoryid = ch.contacthistoryid) = = %(clientid)s)"""
-			andclause_eng = """AND (ch.clientid = %(clientid)s """
-			andclause_clip = """AND clip.clientid = %(clientid)s"""
-			andclause_rel = """AND et.clientid = %(clientid)s"""
+#			andclause_eng = """ AND (ch.clientid = %(clientid)s OR  (SELECT i.clientid FROM userdata.issues AS i JOIN userdata.contacthistoryissues AS chi ON chi.issueid = i.issueid WHERE chi.contacthistoryid = ch.contacthistoryid) = = %(clientid)s)"""
+			andclause_eng = """ AND (ch.clientid = %(clientid)s """
+			andclause_clip = """ AND clip.clientid = %(clientid)s"""
+			andclause_rel = """ AND et.clientid = %(clientid)s"""
 
 		drange = simplejson.loads(self._reportoptions["drange"])
 		option = TTLConstants.CONVERT_TYPES[drange["option"]]
