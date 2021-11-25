@@ -3017,13 +3017,13 @@ div.dijitTabDisabled,
 	border-radius: 3px;
 	border: 1px solid lightgrey !important;
 }
-.prmaxinput:hover {
-    padding: 0px;
-    margin: 0px;
-    color: black;
-	border-radius: 3px;
-	border: 1px solid lightgrey !important;
-}
+//.prmaxinput:hover {
+//    padding: 0px;
+//    margin: 0px;
+//    color: black;
+//	border-radius: 3px;
+//	border: 1px solid lightgrey !important;
+//}
 .prmaxinputdisabled {
     padding: 0px;
     margin: 0px;

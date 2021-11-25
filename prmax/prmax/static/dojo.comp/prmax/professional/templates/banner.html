@@ -14,11 +14,17 @@
 			    <div data-dojo-attach-point="advance_view" data-dojo-type="dijit.MenuItem" data-dojo-props='"class":"prmaxhidden",label:"Features"' data-dojo-attach-event="onClick:_ShowAdvanceResult" ></div>
 			</div>
 		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:ShowListsPage" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-list-ul fa-2x"></i><p>Lists</p></span></span>
+		</div>
 		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_crm_viewer" data-dojo-props='showLabel:true' data-dojo-attach-point="engbtn">
 			<span><span class="main_menu_button"><i class="fa fa-user fa-2x"></i><p>Engagements</p></span></span>
 		</div>
-		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:ShowListsPage" data-dojo-props='showLabel:true'>
-			<span><span class="main_menu_button"><i class="fa fa-list-ul fa-2x"></i><p>Lists</p></span></span>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_tasks" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-tasks fa-2x"></i><p>Tasks</p></span></span>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_issues" data-dojo-props='showLabel:true'>
+			<span><span class="main_menu_button"><i class="fa fa-pencil fa-2x"></i><p>Issues</p></span></span>
 		</div>
 		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='showLabel:true' data-dojo-attach-point="distribution_menu" >
 			<span><span class="main_menu_button"><i class="fa fa-share-square-o fa-2x"></i><p>Distribute</p></span></span>
@@ -27,6 +33,9 @@
 			    <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Drafts"' data-dojo-attach-event="onClick:ShowExistingPressRelease" ></div>
 					<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Sent"' data-dojo-attach-event="onClick:ShowSentDistributions" ></div>
 			</div>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="clippings" data-dojo-attach-event="onClick:_show_clippings" data-dojo-props='showLabel:true,"class":"prmaxhidden",style:"border:none"'>
+			<span><span class="main_menu_button"><i class="fa fa-paperclip fa-2x"></i><p>Monitoring111</p></span></span>
 		</div>
 		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='showLabel:true'>
 			<span><span class="main_menu_button"><i class="fa fa-lock fa-2x"></i><p>Private</p></span></span>
@@ -56,15 +65,14 @@
 				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"PRRequests"' data-dojo-attach-event="onClick:_pprrequest"></div>
 			</div>
 		</div>
-		<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="clippings" data-dojo-attach-event="onClick:_show_clippings" data-dojo-props='showLabel:true,"class":"prmaxhidden",style:"border:none"'>
-			<span><span class="main_menu_button"><i class="fa fa-paperclip fa-2x"></i><p>Clippings</p></span></span>
-		</div>
 		<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="updatum_view" data-dojo-attach-event="onClick:_Updatum" data-dojo-props='"class":"prmaxhidden",iconClass:"fa fa-eye fa-2x",showLabel:false'></div>
 		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Help" data-dojo-props='showLabel:true'>
 			<span><span class="main_menu_button"><i class="fa fa-question fa-2x"></i><p>Help</p></span></span>
 		</div>
 	</div>
-	<div style="height:20px;width:20%;float:right;padding:0px;margin:0px" class="background_color"><table class="background_color" width="100%" height="100%" cellspacing="0" cellpadding="0"><tr align="right" valign="bottom"><td width="100%" class="message">${message}</td><td><a style="color:#E5007D" data-dojo-attach-event="onclick:_Logout">Logout</a></td></tr></table></div>
+	<!--
+	<div style="height:20px;width:20%;float:right;padding:0px;margin:0px" class="background_color"><table class="background_color" width="100%" height="100%" cellspacing="0" cellpadding="0"><tr align="right" valign="bottom"><td width="100%" class="message">${message}</td><td><a style="color:#E5007D" data-dojo-attach-event="onclick:_Logout">567Logout</a></td></tr></table></div>
+	-->
 	<div data-dojo-type="prmax.pressrelease.newrelease" data-dojo-attach-point="newrelease"></div>
 	<div data-dojo-type="prmax.pressrelease.selectrelease" data-dojo-attach-point="selectrelease"></div>
 </div>

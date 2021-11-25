@@ -29,7 +29,7 @@
 				<form dojoAttachPoint="addform" name="addform"  onSubmit="return false;" dojoType="dijit.form.Form">
 					<table width="100%" class="prmaxtable" >
 						<tr><td width="30%" align="right" class="prmaxrowtag">New List Name</td><td ><input dojoType="dijit.form.ValidationTextBox" name="listname" dojoAttachPoint="listnamenew" required="true" promptMessage="Please Enter new list name" trim="true" maxlength="45" ></td></tr>
-						<tr><td align="right" class="prmaxlabeltag" >Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select></td></tr>
+						<tr><td align="right" class="prmaxrowtag" >Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select></td></tr>
 						<tr><td align="right" class="prmaxrowtag" valign="top">Save from search</td><td><div name="selection" dojoAttachPoint="source2" dojoType="prmax.common.SelectOptions" ></div></td></tr>
 						<tr><td colspan="3" >&nbsp;</td></tr>
 						<tr><td colspan="3" align="center" ><button  type="button" class="prmaxbuttonlarge" dojoAttachEvent="onClick:_SaveNewList" dojoAttachPoint="addNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Save Results To New List"></button></td></tr>

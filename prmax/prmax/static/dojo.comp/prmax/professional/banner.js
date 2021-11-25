@@ -35,7 +35,7 @@ dojo.declare("prmax.professional.banner",
 	{
 		this._Updatum();
 	},
-	show_tasks:function()
+	_show_tasks:function()
 	{
 		this.loadLinks();
 		var args =
@@ -57,6 +57,27 @@ dojo.declare("prmax.professional.banner",
 			this.mainpanel.showPage(page);
 		}
 	},
+	_show_issues:function()
+	{
+		this.loadLinks();
+		var args =
+			{
+				key:"issues.html",
+				href:"/layout/issues",
+				style:"width:100%;height:100%"
+			};
+
+		var page = this.mainpanel.getPage("issues.html");
+		if (page==null)
+		{
+			page = this.mainpanel.addPage ( args ) ;
+			ttl.utilities.resize ( page ) ;
+		}
+		else
+		{
+			this.mainpanel.showPage(page);
+		}
+	},	
 	_show_clippings:function()
 	{
 		this.loadLinks();
