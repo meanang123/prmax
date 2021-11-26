@@ -41,8 +41,8 @@ CARDIFF_ENGLISH = 25
 CARDIFF_WELSH = 66
 CARDIFF_LS_TITLE_ENGLISH = 'Latest Releases'
 CARDIFF_LS_TITLE_WELSH = 'Datganiadau Diweddaraf'
-CARDIFF_KT_TITLE_ENGLISH = 'Hot Topics'
-CARDIFF_KT_TITLE_WELSH = 'Prif Bynciau'
+CARDIFF_KT_TITLE_ENGLISH = 'Capital Ambition'
+CARDIFF_KT_TITLE_WELSH = 'Uchelgais Prifddinas'
 
 #########################################################
 ## Map object to db
@@ -899,12 +899,12 @@ class SEORelease(BaseSql):
 		page_title = CARDIFF_LS_TITLE_ENGLISH
 		if 'nid' in params:
 			if params['nid'] == CARDIFF_ENGLISH:
-				if 'keytopics' in params:
+				if 'keytopics' in params and params['keytopics'] != 0 and params['keytopics'] != '0':
 					page_title = CARDIFF_KT_TITLE_ENGLISH
 				else:
 					page_title = CARDIFF_LS_TITLE_ENGLISH
 			if params['nid'] == CARDIFF_WELSH:
-				if 'keytopics' in params:
+				if 'keytopics' in params and params['keytopics'] != 0 and params['keytopics'] != '0':
 					page_title = CARDIFF_KT_TITLE_WELSH
 				else:
 					page_title = CARDIFF_LS_TITLE_WELSH
@@ -938,6 +938,8 @@ class SEORelease(BaseSql):
 					
 				if key == "iskeytopic":
 					whereused += "AND seo.iskeytopic is true"
+				else:
+					whereused += " AND seo.iskeytopic is false"
 		else:
 			# This is for the quick search
 			if params.get("common", "").strip():
@@ -978,7 +980,9 @@ class SEORelease(BaseSql):
 				
 				if 'keytopics' in params:
 					cri["iskeytopic"] = True
-					whereused += "AND seo.iskeytopic is true"     				
+					whereused += "AND seo.iskeytopic is true"  
+				else:
+					whereused += " AND seo.iskeytopic is false"				
 
 		fields.update(cri)
 

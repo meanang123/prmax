@@ -23,8 +23,8 @@ CARDIFF_ENGLISH = 25
 CARDIFF_WELSH = 66
 CARDIFF_LS_TITLE_ENGLISH = 'Latest Releases'
 CARDIFF_LS_TITLE_WELSH = 'Datganiadau Diweddaraf'
-CARDIFF_KT_TITLE_ENGLISH = 'Hot Topics'
-CARDIFF_KT_TITLE_WELSH = 'Prif Pynciau'
+CARDIFF_KT_TITLE_ENGLISH = 'Capital Ambition'
+CARDIFF_KT_TITLE_WELSH = 'Uchelgais Prifddinas'
 
 class Root(controllers.RootController):
 	"""The root controller of the application."""
@@ -64,7 +64,7 @@ class Root(controllers.RootController):
 		ret = page_settings_basic()
 		kw['nid'] = CARDIFF_ENGLISH
 		kw['page_title'] = CARDIFF_LS_TITLE_ENGLISH
-		if 'keytopics' in kw:
+		if 'keytopics' in kw and kw['keytopics'] != 0 and kw['keytopics'] != '0':
 			kw['page_title'] = CARDIFF_KT_TITLE_ENGLISH
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
@@ -75,8 +75,8 @@ class Root(controllers.RootController):
 		ret = page_settings_basic()
 		kw['nid'] = CARDIFF_WELSH
 		kw['page_title'] = CARDIFF_LS_TITLE_WELSH
-		if 'keytopics' in kw:
-			kw['page_title'] = CARDIFF_KT_TITLE_WELSH		
+		if 'keytopics' in kw and kw['keytopics'] != 0 and kw['keytopics'] != '0':
+			kw['page_title'] = CARDIFF_KT_TITLE_WELSH
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 

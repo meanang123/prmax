@@ -30,7 +30,7 @@ from datetime import date
         <div class="content-width">
             <form action="/searchcardiff" method="post" target="_parent">
                 <button class="prmax-cardiff-btn dark-cardiff-btn latest-news"><a href="/" title="Latest News"><span>Latest news</span></a></button>
-                <button class="prmax-cardiff-btn dark-cardiff-btn key-topics" name='keytopics' id="keytopics"><a href="/" title="Hot Topics"><span>Hot Topics</span></a></button>
+                <button class="prmax-cardiff-btn dark-cardiff-btn key-topics" name='keytopics' id="keytopics"><a href="/" title="Capital Ambition"><span>Capital Ambition</span></a></button>
                 <div class="search-menu-bar">
                     <div class="float-right">
                         <input type="text" class="default-input search" placeholder="Search" name="search" id="search">
