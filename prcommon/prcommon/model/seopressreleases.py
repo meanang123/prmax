@@ -979,10 +979,13 @@ class SEORelease(BaseSql):
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
 				
 				if 'keytopics' in params:
-					cri["iskeytopic"] = True
-					whereused += "AND seo.iskeytopic is true"  
+					if params['keytopics'] != 0 and params['keytopics'] != '0':
+						cri["keytopics"] = True
+						whereused += "AND seo.iskeytopic is true"
+					else:
+						whereused += " AND seo.iskeytopic is false"
 				else:
-					whereused += " AND seo.iskeytopic is false"				
+					whereused += " AND seo.iskeytopic is false"
 
 		fields.update(cri)
 
