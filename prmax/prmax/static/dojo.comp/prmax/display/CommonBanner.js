@@ -84,6 +84,7 @@ dojo.declare("prmax.display.CommonBanner",
 
 		if (PRMAX.utils.settings.crm)
 		{
+			dojo.removeClass(this.engbtn.domNode,"prmaxhidden");
 			if ( this.banner_crm)
 				dojo.removeClass(this.banner_crm.domNode,"prmaxhidden");
 			if ( this.banner_issue_label)
@@ -107,6 +108,77 @@ dojo.declare("prmax.display.CommonBanner",
 		if (PRMAX.utils.settings.has_global_newsroom==false)
 		{
 			dojo.addClass(this.newsrooms.domNode,"prmaxhidden");
+		}
+
+
+
+		if (PRMAX.utils.settings.pm_new_outlet==true)
+		{
+			dojo.removeClass(this.pm_new_outlet.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_new_freelance==true)
+		{
+			dojo.removeClass(this.pm_new_freelance.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_collateral==true)
+		{
+			dojo.removeClass(this.pm_collateral.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_exclusions==true)
+		{
+			dojo.removeClass(this.pm_exclusions.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_clients==true)
+		{
+			dojo.removeClass(this.clients.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_issues==true)
+		{
+			dojo.removeClass(this.pm_issues.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_statements==true)
+		{
+			dojo.removeClass(this.pm_statements.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_questions==true)
+		{
+			dojo.removeClass(this.pm_questions.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_global_analysis==true)
+		{
+			dojo.removeClass(this.pm_global_analysis.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_documents==true)
+		{
+			dojo.removeClass(this.pm_documents.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_private_media_channels==true)
+		{
+			dojo.removeClass(this.pm_private_media_channels.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_user_preferences==true)
+		{
+			dojo.removeClass(this.pm_user_preferences.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_account_details==true)
+		{
+			dojo.removeClass(this.pm_account_details.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_activity_log==true)
+		{
+			dojo.removeClass(this.pm_activity_log.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_user_admin==true)
+		{
+			dojo.removeClass(this.pm_user_admin.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_financial==true)
+		{
+			dojo.removeClass(this.pm_financial.domNode,"prmaxhidden");
+		}
+		if (PRMAX.utils.settings.pm_prrequests==true)
+		{
+			dojo.removeClass(this.pm_prrequests.domNode,"prmaxhidden");
 		}
 
 
