@@ -25,6 +25,7 @@ from prcommon.model.accounts.customeraccountsdetails import CustomerAccountsDeta
 from prcommon.model.customer.customersettings import CustomerSettings
 from prcommon.model.customer.customermediaaccesstypes import CustomerMediaAccessTypes
 from prcommon.model.customer.customeraccesslog import CustomerAccessLog
+from prcommon.model.customer.customermenusettings import CustomerMenuSettings
 from prcommon.model.emailserver import EmailServer
 
 from simplejson import JSONEncoder
@@ -199,6 +200,7 @@ class User(BaseSql):
 		""" return the setting object for the user inthe current browser"""
 
 		customer = session.query(Customer).filter_by(customerid=self.customerid).one()
+		customermenusettings = session.query(CustomerMenuSettings).filter_by(customerid=self.customerid).scalar()
 		# groups
 		groups = ""
 		gs_rec = session.query(Group).filter(Group.group_id == UserGroups.group_id).\
@@ -283,7 +285,24 @@ class User(BaseSql):
 		   crm_outcome_page_1=customer.crm_outcome_page_1,
 		   crm_analysis_page_1=customer.crm_analysis_page_1,
 		   crm_response_page_1=customer.crm_response_page_1,
-		   crm_briefingnotes_page_1=customer.crm_briefingnotes_page_1
+		   crm_briefingnotes_page_1=customer.crm_briefingnotes_page_1,
+		   pm_new_outlet=customermenusettings.pm_new_outlet if customermenusettings else None,
+		   pm_new_freelance=customermenusettings.pm_new_freelance if customermenusettings else None,
+		   pm_collateral=customermenusettings.pm_collateral if customermenusettings else None,
+		   pm_exclusions=customermenusettings.pm_exclusions if customermenusettings else None,
+		   pm_clients=customermenusettings.pm_clients if customermenusettings else None,
+		   pm_issues=customermenusettings.pm_issues if customermenusettings else None,
+		   pm_statements=customermenusettings.pm_statements if customermenusettings else None,
+		   pm_questions=customermenusettings.pm_questions if customermenusettings else None,
+		   pm_global_analysis=customermenusettings.pm_global_analysis if customermenusettings else None,
+		   pm_documents=customermenusettings.pm_documents if customermenusettings else None,
+		   pm_private_media_channels=customermenusettings.pm_private_media_channels if customermenusettings else None,
+		   pm_user_preferences=customermenusettings.pm_user_preferences if customermenusettings else None,
+		   pm_account_details=customermenusettings.pm_account_details if customermenusettings else None,
+		   pm_activity_log=customermenusettings.pm_activity_log if customermenusettings else None,
+		   pm_user_admin=customermenusettings.pm_user_admin if customermenusettings else None,
+		   pm_financial=customermenusettings.pm_financial if customermenusettings else None,
+		   pm_prrequests=customermenusettings.pm_prrequests if customermenusettings else None
 		  )
 
 		return JSONEncoder().encode(data).replace("'", "\'")
@@ -377,7 +396,24 @@ class User(BaseSql):
 		   crm_analysis_page_1=customer.crm_analysis_page_1,
 		   crm_outcome_page_1=customer.crm_outcome_page_1,
 		   crm_response_page_1=customer.crm_response_page_1,
-		   crm_briefingnotes_page_1=customer.crm_briefingnotes_page_1
+		   crm_briefingnotes_page_1=customer.crm_briefingnotes_page_1,
+		   pm_new_outlet=customermenusettings.pm_new_outlet if customermenusettings else None,
+		   pm_new_freelance=customermenusettings.pm_new_freelance if customermenusettings else None,
+		   pm_collateral=customermenusettings.pm_collateral if customermenusettings else None,
+		   pm_exclusions=customermenusettings.pm_exclusions if customermenusettings else None,
+		   pm_clients=customermenusettings.pm_clients if customermenusettings else None,
+		   pm_issues=customermenusettings.pm_issues if customermenusettings else None,
+		   pm_statements=customermenusettings.pm_statements if customermenusettings else None,
+		   pm_questions=customermenusettings.pm_questions if customermenusettings else None,
+		   pm_global_analysis=customermenusettings.pm_global_analysis if customermenusettings else None,
+		   pm_documents=customermenusettings.pm_documents if customermenusettings else None,
+		   pm_private_media_channels=customermenusettings.pm_private_media_channels if customermenusettings else None,
+		   pm_user_preferences=customermenusettings.pm_user_preferences if customermenusettings else None,
+		   pm_account_details=customermenusettings.pm_account_details if customermenusettings else None,
+		   pm_activity_log=customermenusettings.pm_activity_log if customermenusettings else None,
+		   pm_user_admin=customermenusettings.pm_user_admin if customermenusettings else None,
+		   pm_financial=customermenusettings.pm_financial if customermenusettings else None,
+		   pm_prrequests=customermenusettings.pm_prrequests if customermenusettings else None
 		)
 
 		return data
@@ -1152,11 +1188,22 @@ class Customer(BaseSql):
 
 		try:
 			customer = Customer.query.get(params['icustomerid'])
+			customermenusettings = CustomerMenuSettings.query.get(params['icustomerid'])
 
 			if customer.crm != params["crm"]:
 				session.add(AuditTrail(
 				  audittypeid=Constants.audit_expire_date_changed,
 				  audittext="Crm Turned %s" % ("On" if params["crm"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_statements,
+				  audittext="Private Menu - Statements Turned %s" % ("On" if params["crm"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_documents,
+				  audittext="Private Menu - Documents Turned %s" % ("On" if params["crm"] else "Off"),
 				  userid=params["userid"],
 				  customerid=params["icustomerid"]))
 
@@ -1171,6 +1218,16 @@ class Customer(BaseSql):
 				session.add(AuditTrail(
 				  audittypeid=Constants.audit_expire_date_changed,
 				  audittext="Monitoring Turned %s" % ("On" if params["updatum"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_questions,
+				  audittext="Private Menu - Qusetions Turned %s" % ("On" if params["crm"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_global_analysis,
+				  audittext="Private Menu - Global Analysis Turned %s" % ("On" if params["crm"] else "Off"),
 				  userid=params["userid"],
 				  customerid=params["icustomerid"]))
 
@@ -1241,10 +1298,14 @@ class Customer(BaseSql):
 			customer.has_journorequests = params["has_journorequests"]
 			customer.is_bundle = params["is_bundle"]
 			customer.crm = params["crm"]
+			customermenusettings.pm_statemsnts = params["crm"]
+			customermenusettings.pm_documents = params["crm"]
 			customer.seo = params["seo"]
 			customer.seotranslation = params["seotranslation"]
 			customer.advancefeatures = params["advancefeatures"]
 			customer.updatum = params["updatum"]
+			customermenusettings.pm_questions = params["updatum"]
+			customermenusettings.pm_global_analysis = params["updatum"]
 			customer.maxmonitoringusers = params["maxmonitoringusers"]
 			customer.has_international_data = params["has_international_data"]
 			customer.has_clippings = params["has_clippings"]
@@ -1253,6 +1314,163 @@ class Customer(BaseSql):
 			transaction.commit()
 		except:
 			LOGGER.exception("update_modules")
+			transaction.rollback()
+			raise
+
+	@classmethod
+	def update_private_menu(cls, params):
+		""" 	update the module fields
+		"""
+		transaction = cls.sa_get_active_transaction()
+
+		try:
+			customer = Customer.query.get(params['icustomerid'])
+			cms = CustomerMenuSettings.query.get(params['icustomerid'])
+
+			if cms.pm_new_outlet != params["pm_new_outlet"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_new_outlet,
+				  audittext="Private Menu - New Outlet Turned %s" % ("On" if params["pm_new_outlet"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_new_freelance != params["pm_new_freelance"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_new_freelance,
+				  audittext="Private Menu - New Freelance Turned %s" % ("On" if params["pm_new_freelance"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+
+			if cms.pm_collateral != params["pm_collateral"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_collateral,
+				  audittext="Private Menu - Collateral Turned %s" % ("On" if params["pm_collateral"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_exclusions != params["pm_exclusions"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_exclusions,
+				  audittext="Private Menu - Exclusions Turned %s" % ("On" if params["pm_exclusions"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+
+			if cms.pm_clients != params["pm_clients"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_clients,
+				  audittext="Private Menu - Clients Turned %s" % ("On" if params["pm_clients"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_issues != params["pm_issues"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_issues,
+				  audittext="Private Menu - Issues Turned %s" % ("On" if params["pm_issues"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_statements != params["pm_statements"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_statements,
+				  audittext="Private Menu - Statements Turned %s" % ("On" if params["pm_statements"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_questions != params["pm_questions"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_questions,
+				  audittext="Private Menu - Questions Turned %s" % ("On" if params["pm_questions"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_global_analysis != params["pm_global_analysis"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_global_analysis,
+				  audittext="Private Menu - Global Analysis Turned %s" % ("On" if params["pm_global_analysis"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_documents != params["pm_documents"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_documents,
+				  audittext="Private Menu - Documents Turned %s" % ("On" if params["pm_documents"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_private_media_channels != params["pm_private_media_channels"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_private_media_channels,
+				  audittext="Private Menu - Private Media Channels Turned %s" % ("On" if params["pm_private_media_channels"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_user_preferences != params["pm_user_preferences"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_user_preferences,
+				  audittext="Private Menu - User Preferences Turned %s" % ("On" if params["pm_user_preferences"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_account_details != params["pm_account_details"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_account_details,
+				  audittext="Private Menu - Account Details Turned %s" % ("On" if params["pm_account_details"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_activity_log != params["pm_activity_log"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_activity_log,
+				  audittext="Private Menu - Activity Log Turned %s" % ("On" if params["pm_activity_log"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_user_admin != params["pm_user_admin"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_user_admin,
+				  audittext="Private Menu - User Admin Turned %s" % ("On" if params["pm_user_admin"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			if cms.pm_financial != params["pm_financial"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_financial,
+				  audittext="Private Menu - Financial Turned %s" % ("On" if params["pm_financial"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+
+			if cms.pm_prrequests != params["pm_prrequests"]:
+				session.add(AuditTrail(
+				  audittypeid=Constants.audit_trail_pm_prrequests,
+				  audittext="Private Menu - PRRequests Turned %s" % ("On" if params["pm_prrequests"] else "Off"),
+				  userid=params["userid"],
+				  customerid=params["icustomerid"]))
+
+			cms.pm_new_outlet = params["pm_new_outlet"]
+			cms.pm_new_freelance = params["pm_new_freelance"]
+			cms.pm_collateral = params["pm_collateral"]
+			cms.pm_exclusions = params["pm_exclusions"]
+			cms.pm_clients = params["pm_clients"]
+			cms.pm_issues = params["pm_issues"]
+			cms.pm_statements = params["pm_statements"]
+			cms.pm_questions = params["pm_questions"]
+			cms.pm_global_analysis = params["pm_global_analysis"]
+			cms.pm_documents = params["pm_documents"]
+			cms.pm_private_media_channels = params["pm_private_media_channels"]
+			cms.pm_user_preferences = params["pm_user_preferences"]
+			cms.pm_account_details = params["pm_account_details"]
+			cms.pm_activity_log = params["pm_activity_log"]
+			cms.pm_user_admin = params["pm_user_admin"]
+			cms.pm_financial = params["pm_financial"]
+			cms.pm_prrequests = params["pm_prrequests"]
+
+			session.flush()
+			transaction.commit()
+		except:
+			LOGGER.exception("update_private_menu")
 			transaction.rollback()
 			raise
 
@@ -1892,6 +2110,8 @@ class Customer(BaseSql):
 			else:
 				emailserver = None
 
+			customermenusettings = CustomerMenuSettings.query.get(cust.customerid)
+
 			cust_mediaaccesstype = [row.mediaaccesstypeid for row in session.query(CustomerMediaAccessTypes).
 			                        filter(CustomerMediaAccessTypes.customerid == cust.customerid).all()]
 
@@ -1899,6 +2119,7 @@ class Customer(BaseSql):
 		            address=address,
 		            iaddress=iaddress,
 		            custsource=custsource,
+			    customermenusettings=customermenusettings if customermenusettings else None,
 		            mediaaccesstype = cust_mediaaccesstype,
 		            emailserver = emailserver)
 
@@ -2270,6 +2491,27 @@ class Customer(BaseSql):
 
 			# add extended settings
 			session.add(CustomerSettings(customerid=cust.customerid))
+
+			# add private menu settings
+			if int(cust.customertypeid) == Constants.CustomerType_PrmaxPressOffice:
+				session.add(CustomerMenuSettings(customerid=cust.customerid,
+								pm_new_outlet=True,
+								pm_new_freelance=True,
+								pm_collateral=True,
+								pm_exclusions=True,
+								pm_clients=True,
+								pm_issues=True,
+								pm_statements=True if cust.crm is True else False,
+								pm_questions=True if cust.updatum is True else False,
+								pm_global_analysis=True if cust.updatum is True else False,
+								pm_documents=True if cust.crm is True else False,
+								pm_private_media_channels=True,
+								pm_user_preferences=True,
+								pm_account_details=True,
+								pm_activity_log=True,
+								pm_user_admin=True,
+								pm_financial=True,
+								pm_prrequests=True))
 
 			cust = Customer.query.get(cust.customerid)
 			cust.contactname = cust.getContactName()

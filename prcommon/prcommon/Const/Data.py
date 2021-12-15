@@ -80,6 +80,25 @@ audit_trail_clipping_order_cancel = 25
 audit_trail_clipping_order_reactivate = 26
 audit_domain_check_failed = 27
 
+audit_trail_pm_new_outlet = 28
+audit_trail_pm_new_freelance = 29
+audit_trail_pm_collateral = 30
+audit_trail_pm_exclusions = 31
+audit_trail_pm_clients = 32
+audit_trail_pm_issues = 33
+audit_trail_pm_statements = 34
+audit_trail_pm_questions = 35
+audit_trail_pm_global_analysis = 36
+audit_trail_pm_documents = 37
+audit_trail_pm_private_media_channels = 38
+audit_trail_pm_user_preferences = 39
+audit_trail_pm_account_details = 40
+audit_trail_pm_activity_log = 41
+audit_trail_pm_user_admin = 42
+audit_trail_pm_financial = 43
+audit_trail_pm_prrequests = 44
+
+
 # payment methods
 payment_cc  = 1
 payment_so  = 2

@@ -416,8 +416,52 @@ dojo.declare("prmax.iadmin.admin",
 			dojo.addClass(this.external_id_view,"prmaxhidden");
 			this.external_key.set("required", false);
 		}
+		//Private Menu settings
+		if (response.data.customermenusettings)
+		{
+			this.pm_new_outlet.set("value", response.data.customermenusettings.pm_new_outlet);
+			this.pm_new_freelance.set("value", response.data.customermenusettings.pm_new_freelance);
+			this.pm_collateral.set("value", response.data.customermenusettings.pm_collateral);
+			this.pm_exclusions.set("value", response.data.customermenusettings.pm_exclusions);
+			this.pm_clients.set("value", response.data.customermenusettings.pm_clients);
+			this.pm_issues.set("value", response.data.customermenusettings.pm_issues);
+			this.pm_statements.set("value", response.data.customermenusettings.pm_statements);
+			this.pm_questions.set("value", response.data.customermenusettings.pm_questions);
+			this.pm_global_analysis.set("value", response.data.customermenusettings.pm_global_analysis);
+			this.pm_documents.set("value", response.data.customermenusettings.pm_documents);
+			this.pm_private_media_channels.set("value", response.data.customermenusettings.pm_private_media_channels);
+			this.pm_user_preferences.set("value", response.data.customermenusettings.pm_user_preferences);
+			this.pm_account_details.set("value", response.data.customermenusettings.pm_account_details);
+			this.pm_activity_log.set("value", response.data.customermenusettings.pm_activity_log);
+			this.pm_user_admin.set("value", response.data.customermenusettings.pm_user_admin);
+			this.pm_financial.set("value", response.data.customermenusettings.pm_financial);
+			this.pm_prrequests.set("value", response.data.customermenusettings.pm_prrequests);
+		}else{
+			this._clear_private_menu_settings();
+		}
 
 		this.options_tab.selectChild(this.options_tab_details);
+	},
+	_clear_private_menu_settings:function()
+	{
+		this.pm_new_outlet.set("value", false);
+		this.pm_new_freelance.set("value", false);
+		this.pm_collateral.set("value", false);
+		this.pm_exclusions.set("value", false);
+		this.pm_clients.set("value", false);
+		this.pm_issues.set("value", false);
+		this.pm_statements.set("value", false);
+		this.pm_questions.set("value", false);
+		this.pm_global_analysis.set("value", false);
+		this.pm_documents.set("value", false);
+		this.pm_private_media_channels.set("value", false);
+		this.pm_user_preferences.set("value", false);
+		this.pm_account_details.set("value", false);
+		this.pm_activity_log.set("value", false);
+		this.pm_user_admin.set("value", false);
+		this.pm_financial.set("value", false);
+		this.pm_prrequests.set("value", false);
+
 	},
 	_Change_Expire_Date:function( cust )
 	{
@@ -1054,6 +1098,44 @@ dojo.declare("prmax.iadmin.admin",
 						has_journorequests: this.has_journorequests.get("value")}
 			}));
 	},
+	_UpdatePrivateMenu:function()
+	{
+		dojo.xhrPost(
+			ttl.utilities.makeParams({
+			load: dojo.hitch(this,this._UpdatePrivateMenuCall),
+			url:'/iadmin/update_customer_private_menu',
+			content:{'icustomerid': this._customerid,
+				pm_new_outlet: this.pm_new_outlet.get("value"),
+				pm_new_freelance: this.pm_new_freelance.get("value"),
+				pm_collateral: this.pm_collateral.get("value"),
+				pm_exclusions: this.pm_exclusions.get("value"),
+				pm_clients: this.pm_clients.get("value"),
+				pm_issues: this.pm_issues.get("value"),
+				pm_statements : this.pm_statements.get("value"),
+				pm_questions : this.pm_questions.get("value"),
+				pm_global_analysis : this.pm_global_analysis.get("value"),
+				pm_documents: this.pm_documents.get("value"),
+				pm_private_media_channels : this.pm_private_media_channels.get("value"),
+				pm_user_preferences: this.pm_user_preferences.get("value"),
+				pm_account_details: this.pm_account_details.get("value"),
+				pm_activity_log: this.pm_activity_log.get("value"),
+				pm_user_admin: this.pm_user_admin.get("value"),
+				pm_financial: this.pm_financial.get("value"),
+				pm_prrequests: this.pm_prrequests.get("value")}
+			}));
+	},
+	_UpdatePrivateMenuCall:function ( response )
+	{
+		if ( response.success == "OK" )
+		{
+			alert("Private Menu Updated");
+			this._CheckLayout(response.data.cust);
+		}
+		else
+		{
+			alert("Private Menu Update Failed");
+		}
+	},
 	_UpdatedCustomerTypeCall:function ( response )
 	{
 		if ( response.success == "OK" )
@@ -1141,7 +1223,6 @@ dojo.declare("prmax.iadmin.admin",
 	{
 		this._customerid = response.data.cust.customerid;
 		this._customertypeid = response.data.cust.customertypeid;
-
 
 		this._LoadCustomer( response ) ;
 		this._LoadTabs( this._customerid ) ;

@@ -217,8 +217,11 @@ from prcommon.model.newsroom.newsrooms import Newsrooms
 from prcommon.model.dataclean.dataclean import DataClean
 
 from prcommon.model.customer.customeraccesslog import CustomerAccessLog
+from prcommon.model.customer.customermenusettings import CustomerMenuSettings
 
 from prcommon.model.prmax_outlettypes import Prmax_Outlettypes
+
+
 
 __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView", "InterestGroups", "BaseSql", "MessageTypes",
            "MessageUser", "AdHocQuery", "User", "UserSession", "RunInTransaction", "LoginTokens", "CustomerTypes", "UserTypes",
@@ -262,6 +265,6 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "OutletDeskGeneral", "GeneralDistributionTemplates", "DistributionTemplateTypes", "MediaToolKitAccess", "MadaptiveAccess",
            "CustomerAccessLog", "ClippingsChartGeneral", "DashboardSettingsGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
            "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
-           "AnalyseGlobal", "Statements", "EmailServer"
+           "AnalyseGlobal", "Statements", "EmailServer", "CustomerMenuSettings"
            ,"Newsrooms", "Prmax_Outlettypes"
 					 ]

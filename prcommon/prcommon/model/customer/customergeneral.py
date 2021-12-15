@@ -20,6 +20,7 @@ from prcommon.model.identity import Customer
 from prcommon.model.customer.customerdatasets import CustomerPrmaxDataSets
 from prcommon.model.accounts.customeraccountsdetails import CustomerAccountsDetails
 from prcommon.model.customer.customersettings import CustomerSettings
+from prcommon.model.customer.customermenusettings import CustomerMenuSettings
 from prcommon.model.lookups import CustomerTypes, CustomerStatus, CustomerSources
 from prcommon.model.communications import Address
 from prcommon.model.identity import User

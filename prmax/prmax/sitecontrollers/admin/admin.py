@@ -150,6 +150,28 @@ class ModulesCustomerSchema(PrFormSchema):
 	has_international_data = BooleanValidator()
 	has_clippings = BooleanValidator()
 
+class PrivateMenuCustomerSchema(PrFormSchema):
+	""" schema """
+	userid = validators.Int()
+	icustomerid = validators.Number()
+	pm_new_outlet = BooleanValidator()
+	pm_new_freelance = BooleanValidator()
+	pm_collateral = BooleanValidator()
+	pm_exclusions = BooleanValidator()
+	pm_clients = BooleanValidator()
+	pm_issues = BooleanValidator()
+	pm_statements = BooleanValidator()
+	pm_questions = BooleanValidator()
+	pm_global_analysis = BooleanValidator()
+	pm_documents = BooleanValidator()
+	pm_private_media_channels = BooleanValidator()
+	pm_user_preferences = BooleanValidator()
+	pm_account_details = BooleanValidator()
+	pm_activity_log = BooleanValidator()
+	pm_user_admin = BooleanValidator()
+	pm_financial = BooleanValidator()
+	pm_prrequests = BooleanValidator()
+
 class CostModulesSchema(PrFormSchema):
 	""" schem for modules included costs """
 	termid = validators.Int()
@@ -1415,6 +1437,17 @@ class InternalAdminController(SecureController):
 		""" Update the customer modules """
 
 		Customer.update_modules(params)
+
+		return stdreturn(data=Customer.get_internal(params))
+
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrivateMenuCustomerSchema(), state_factory=std_state_factory)
+	def update_customer_private_menu(self, *argv, **params):
+		""" Update the customer modules """
+
+		Customer.update_private_menu(params)
 
 		return stdreturn(data=Customer.get_internal(params))
 
