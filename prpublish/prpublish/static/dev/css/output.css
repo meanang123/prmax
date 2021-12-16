@@ -370,8 +370,6 @@ select {
       margin-right: 10px;
       font-size: 16px;
       color: white;
-      padding-left: 35px;
-      background-image: url(/static/images/flame.svg);
       background-position: left 10px center;
       background-repeat: no-repeat;
       background-size: 20px 20px; }
@@ -388,7 +386,6 @@ select {
         padding-right: 30px;
         float: left;
         margin-right: 20px;
-        background-image: url(/static/images/search2.svg);
         background-position: right 7px center;
         background-repeat: no-repeat;
         background-size: 20px 20px; }
@@ -521,8 +518,6 @@ select {
     width: 145px;
     margin-right: 10px;
     font-size: 16px;
-    padding-left: 35px;
-    background-image: url(/static/images/flame.svg);
     background-position: left 10px center;
     background-repeat: no-repeat;
     background-size: 20px 20px; }
