@@ -82,7 +82,7 @@ dojo.declare("prcommon.crm.output",
 	},
 	_get_style:function()
 	{
-		if (this.output_style == 31)
+		if (this.output_style == 31 || this.output_style == 39)
 		{
 			dojo.addClass(this.csv.domNode, "prmaxhidden");
 			dojo.addClass(this.csv_label, "prmaxhidden");

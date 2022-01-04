@@ -57,8 +57,8 @@ class NewsRoom(object):
 	}
 
 	_standard_pages_search_cardiff_welsh = {
-	    "searchcardiff": "searchcardiff",
-	    "searchwelsh": "searchwelsh",
+		"searchcardiff": "searchcardiff",
+		"searchwelsh": "searchwelsh",
 	    "search_results_cardiff": "search_results_cardiff",
 	    "search_results_welsh": "search_results_welsh",
 	}
@@ -90,9 +90,9 @@ class NewsRoom(object):
 			else:
 				lparams.update(SEORelease.do_search(dict(cid=self._client[1].clientid,nr=True)))
 			template = "prpublish.templates.newsroom.main_page"
-			if self._client[0].newsroomid == 25: #Cardiff - English
+			if self._client[0].newsroomid == CARDIFF_ENGLISH: #Cardiff - English
 				template = "prpublish.templates.newsroom.cardiff.main_page"
-			if self._client[0].newsroomid == 66: #Cardiff - Welsh
+			if self._client[0].newsroomid == CARDIFF_WELSH: #Cardiff - Welsh
 				template = "prpublish.templates.newsroom.cardiff.main_page_welsh"
 
 			data = view.render(

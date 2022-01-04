@@ -26,10 +26,18 @@
                 <input type="text" name="headline" value="" id="headline" class="default-input">
                 <div class="clear-fix"></div>
     
-                <label for="bodytext" valign="top">Body text</label>
+                <label for="bodytext" style="float:left">Body text</label>
                 <textarea resizible="false" name="bodytext" value="" class="default-textarea" id="bodytext" cols="30" rows="10"></textarea>
                 <div class="clear-fix"></div>
     
+
+                <label for="keytopics">Capital Ambition?</label>
+                <select name="keytopics" id="keytopics">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+                <div class="clear-fix"></div>
+
                 <label for="category">Category</label>
                 <select name="seocategoryid" id="category">
                     <option value="-1">All Selections</option>

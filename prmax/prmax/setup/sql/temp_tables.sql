@@ -541,6 +541,58 @@ INSERT INTO internal.researchprojectstatus VALUES (13, 'Response Handling');
 
 INSERT INTO internal.hostspf(host, is_valid_source) VALUES ('tayloralden.co.uk', true);
 
-INSERT INTO internal.reporttemplates VALUES (39, -1, 'Activity Report - Subject', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'ActivitySubjectReport');
+INSERT INTO internal.reporttemplates VALUES (39, -1, 'Activity/Subject Report', '<queries><query type="CUSTOM"></query></queries>', '', 9, 'ActivitySubjectReport');
 
+ALTER TABLE seoreleases.seorelease ADD COLUMN iskeytopic boolean NOT NULL DEFAULT false;
+
+DELETE FROM seoreleases.seocache WHERE newsroomid = 25 AND layout = 1;
+DELETE FROM seoreleases.seocache WHERE newsroomid = 66 AND layout = 2;
+
+
+CREATE TABLE internal.customermenusettings
+(
+ customerid integer NOT NULL,
+ pm_new_outlet boolean NOT NULL DEFAULT false,
+ pm_new_freelance boolean NOT NULL DEFAULT false,
+ pm_collateral boolean NOT NULL DEFAULT false,
+ pm_exclusions boolean NOT NULL DEFAULT false,
+ pm_clients boolean NOT NULL DEFAULT false,
+ pm_issues boolean NOT NULL DEFAULT false,
+ pm_statements boolean NOT NULL DEFAULT false,
+ pm_questions boolean NOT NULL DEFAULT false,
+ pm_global_analysis boolean NOT NULL DEFAULT false,
+ pm_documents boolean NOT NULL DEFAULT false,
+ pm_private_media_channels boolean NOT NULL DEFAULT false,
+ pm_user_preferences boolean NOT NULL DEFAULT false,
+ pm_account_details boolean NOT NULL DEFAULT false,
+ pm_activity_log boolean NOT NULL DEFAULT false,
+ pm_user_admin boolean NOT NULL DEFAULT false,
+ pm_financial boolean NOT NULL DEFAULT false,
+ pm_prrequests boolean NOT NULL DEFAULT false,
+
+  CONSTRAINT customermenusettingsid_pkey PRIMARY KEY (customerid),
+  CONSTRAINT customermenusettings_customerid_fkey FOREIGN KEY (customerid)
+      REFERENCES internal.customers (customerid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.customermenusettings OWNER TO postgres;
+GRANT ALL ON TABLE internal.customermenusettings TO postgres;
+GRANT ALL ON TABLE internal.customermenusettings TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.customermenusettings TO prmaxcontrol;
+
+insert into internal.customermenusettings (customerid, pm_new_outlet, pm_new_freelance,pm_collateral, 
+pm_exclusions, pm_clients, pm_issues, pm_statements, pm_questions, pm_global_analysis, pm_documents, 
+pm_private_media_channels, pm_user_preferences, pm_account_details, pm_activity_log, pm_user_admin, pm_financial, pm_prrequests) 
+select customerid, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true
+from internal.customers
+where customertypeid in (1, 20);
+
+ALTER TABLE ONLY internal.customers ALTER COLUMN collateral_size SET DEFAULT 10000;
+ALTER TABLE ONLY internal.customers ALTER COLUMN max_emails_for_day SET DEFAULT 5000;
+
+UPDATE internal.prmaxroles SET prmaxrole = 'Picture and Video Editor' WHERE prmaxroleid = 2503;
+>>>>>>> 61e05125ba337a7208d4ee82b7ca0fc7fc515593
 

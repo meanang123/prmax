@@ -21,6 +21,10 @@ from lib.common import page_settings_basic
 CATEGORY_PAGES = SEOCategories.get_page_map()
 CARDIFF_ENGLISH = 25
 CARDIFF_WELSH = 66
+CARDIFF_LS_TITLE_ENGLISH = 'Latest Releases'
+CARDIFF_LS_TITLE_WELSH = 'Datganiadau Diweddaraf'
+CARDIFF_KT_TITLE_ENGLISH = 'Capital Ambition'
+CARDIFF_KT_TITLE_WELSH = 'Uchelgais Prifddinas'
 
 class Root(controllers.RootController):
 	"""The root controller of the application."""
@@ -45,24 +49,23 @@ class Root(controllers.RootController):
 		""" Show the default page """
 
 		# we need deal with the esearch and sets
-		#kw['nr'] = False
 		return page_settings_basic()
 
 	@expose(template="prpublish.templates.main")
 	def search(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
-		#kw['nr'] = False
 		ret.update ( SEORelease.do_search( kw ))
-
 		return ret
 
 	@expose(template="prpublish.templates.newsroom.cardiff.main_page")
 	def searchcardiff(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
-		#kw['nr'] = False
-		kw['nid'] = 24
+		kw['nid'] = CARDIFF_ENGLISH
+		kw['page_title'] = CARDIFF_LS_TITLE_ENGLISH
+		if 'keytopics' in kw and kw['keytopics'] != 0 and kw['keytopics'] != '0':
+			kw['page_title'] = CARDIFF_KT_TITLE_ENGLISH
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -70,8 +73,10 @@ class Root(controllers.RootController):
 	def searchwelsh(self, *args, **kw ):
 		""" search """
 		ret = page_settings_basic()
-		#kw['nr'] = False
-		kw['nid'] = 65
+		kw['nid'] = CARDIFF_WELSH
+		kw['page_title'] = CARDIFF_LS_TITLE_WELSH
+		if 'keytopics' in kw and kw['keytopics'] != 0 and kw['keytopics'] != '0':
+			kw['page_title'] = CARDIFF_KT_TITLE_WELSH
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -80,7 +85,7 @@ class Root(controllers.RootController):
 		""" search """
 		ret = page_settings_basic()
 		#kw['nr'] = False
-		kw['nid'] = 25
+		kw['nid'] = CARDIFF_ENGLISH
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -89,7 +94,7 @@ class Root(controllers.RootController):
 		""" search """
 		ret = page_settings_basic()
 		#kw['nr'] = False
-		kw['nid'] = 66
+		kw['nid'] = CARDIFF_WELSH
 		ret.update ( SEORelease.do_search( kw ))
 		return ret
 
@@ -204,11 +209,11 @@ class Root(controllers.RootController):
 			ret.update ( SEORelease.do_search( ret ))
 			newsroomid = request.headers.get("X-Custom-Forwarded-For", None)
 			if newsroomid == "25": #Cardiff - english
-				ret['nid'] = 25
+				ret['nid'] = CARDIFF_ENGLISH
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page")
 			elif newsroomid == "66": #Cardiff - welsh
-				ret['nid'] = 66
+				ret['nid'] = CARDIFF_WELSH
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page_welsh")
 			else:
@@ -219,11 +224,11 @@ class Root(controllers.RootController):
 			ret = page_settings_basic()
 			newsroomid = request.headers.get("X-Custom-Forwarded-For", None)
 			if newsroomid == "25": #Cardiff - english
-				ret['nid'] = 25
+				ret['nid'] = CARDIFF_ENGLISH
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page")
 			elif newsroomid == "66": #Cardiff - welsh
-				ret['nid'] = 66
+				ret['nid'] = CARDIFF_WELSH
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page_welsh")
 			else:
@@ -233,11 +238,11 @@ class Root(controllers.RootController):
 			ret = page_settings_basic()
 			newsroomid = request.headers.get("X-Custom-Forwarded-For", None)
 			if newsroomid == "25": #Cardiff - english
-				ret['nid'] = 25
+				ret['nid'] = CARDIFF_ENGLISH
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page")
 			elif clientid == "66": #Cardiff - welsh
-				ret['nid'] = 66
+				ret['nid'] = CARDIFF_WELSH
 				ret.update ( SEORelease.do_search( ret ))
 				return view.render( ret, template = "prpublish.templates.newsroom.cardiff.main_page_welsh")
 			else:

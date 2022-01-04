@@ -1,4 +1,4 @@
-<%def name="create_trail(resultcount, criteria, offset, blocks=16)">
+<%def name="create_trail(resultcount, criteria, page_title, offset, blocks=16)">
 <div class="trail">
 <%
   # setup number of pages
@@ -37,7 +37,7 @@
 %if pages>1:
 <p class="bread">
 %if offset >1:
-  <a href="/search_results_welsh?${urlencode(dict(s=criteria,o=offset-1))}">Blaen &nbsp &nbsp</a>
+  <a href="/search_results_welsh?${urlencode(dict(s=criteria,p=page_title,o=offset-1))}">Blaen &nbsp &nbsp</a>
 % endif
 %for x in xrange(startpoint,startpoint + min(lsections,10)):
 <%
@@ -46,10 +46,10 @@
   else:
     lclass = ""
 %>
-  <a class="${lclass}" href="/search_results_welsh?${urlencode(dict(o=x,s=criteria))}">${x}&nbsp</a>
+  <a class="${lclass}" href="/search_results_welsh?${urlencode(dict(o=x,s=criteria,p=page_title))}">${x}&nbsp</a>
 % endfor
 %if offset < pages:
-  <a href="/search_results_welsh?${urlencode(dict(s=criteria,o=offset+1))}">&nbsp &nbsp Nesaf</a>
+  <a href="/search_results_welsh?${urlencode(dict(s=criteria,p=page_title,o=offset+1))}">&nbsp &nbsp Nesaf</a>
 % endif
 </p>
 %endif

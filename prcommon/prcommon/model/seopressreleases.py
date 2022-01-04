@@ -39,6 +39,10 @@ LOG = logging.getLogger("prcommon")
 BLOCK_SIZE = 16
 CARDIFF_ENGLISH = 25
 CARDIFF_WELSH = 66
+CARDIFF_LS_TITLE_ENGLISH = 'Latest Releases'
+CARDIFF_LS_TITLE_WELSH = 'Datganiadau Diweddaraf'
+CARDIFF_KT_TITLE_ENGLISH = 'Capital Ambition'
+CARDIFF_KT_TITLE_WELSH = 'Uchelgais Prifddinas'
 
 #########################################################
 ## Map object to db
@@ -184,6 +188,7 @@ class SEORelease(BaseSql):
 									 clientid=seo.clientid,
 			                         is_client_newsroom=seo.is_client_newsroom,
 			                         languageid=seo.languageid,
+						 iskeytopic=seo.iskeytopic,
 			                         translatedseoreleaseid=translatedseo.translatedseoreleaseid if translatedseo else -1,
 									 keywords=" ".join([row.seoreleasekeyword for row in session.query(SEOReleaseInterests).filter_by(seoreleaseid=seo.seoreleaseid).all()])
 									)
@@ -398,6 +403,7 @@ class SEORelease(BaseSql):
 		clientid = params.get("clientid", None)
 		seo.is_client_newsroom = params['is_client_newsroom']
 		seo.languageid = params['languageid']
+		seo.iskeytopic = params['iskeytopic']
 		if clientid == -1:
 			clientid = None
 		seo.clientid = clientid
@@ -795,6 +801,7 @@ class SEORelease(BaseSql):
 	END as link,
 	seo.is_client_newsroom,
 	seo.headline, seo.seoimageid,
+	seo.iskeytopic,
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid
@@ -805,7 +812,7 @@ class SEORelease(BaseSql):
 	ELSE '/releases/nr/e'||seo.clientid||'/'||seo.seoreleaseid||'.html'
 	END as link,
 	seo.is_client_newsroom,
-	seo.headline, seo.seoimageid,
+	seo.headline, seo.seoimageid, seo.iskeytopic,
 	si.height,si.width, to_char(seo.published,'DD Month YY') as published_display, to_char(seo.published,'DD/MM/YY') as published_display2
 	FROM seoreleases.seorelease AS seo
 	LEFT OUTER JOIN seoreleases.seoimages AS si ON si.seoimageid = seo.seoimageid"""
@@ -889,6 +896,21 @@ class SEORelease(BaseSql):
 		              offset=BLOCK_SIZE * (int(params.get("o", 1)) -1),
 								)
 		cri = {}
+		page_title = CARDIFF_LS_TITLE_ENGLISH
+		if 'nid' in params:
+			if params['nid'] == CARDIFF_ENGLISH:
+				if 'keytopics' in params and params['keytopics'] != 0 and params['keytopics'] != '0':
+					page_title = CARDIFF_KT_TITLE_ENGLISH
+				else:
+					page_title = CARDIFF_LS_TITLE_ENGLISH
+			if params['nid'] == CARDIFF_WELSH:
+				if 'keytopics' in params and params['keytopics'] != 0 and params['keytopics'] != '0':
+					page_title = CARDIFF_KT_TITLE_WELSH
+				else:
+					page_title = CARDIFF_LS_TITLE_WELSH
+		if 'p' in params:
+			page_title = params["p"]
+			
 		if params.get("s", ""):
 			# load saved context
 			cri = simplejson.JSONDecoder().decode(params["s"])
@@ -913,6 +935,11 @@ class SEORelease(BaseSql):
 
 				if key == "search":
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
+					
+				if key == "iskeytopic":
+					whereused += "AND seo.iskeytopic is true"
+				else:
+					whereused += " AND seo.iskeytopic is false"
 		else:
 			# This is for the quick search
 			if params.get("common", "").strip():
@@ -950,8 +977,18 @@ class SEORelease(BaseSql):
 				if 'search' in params:
 					cri["search"] = "%" + params["search"].strip() + "%"
 					whereused += "AND (seo.headline ilike :search OR seo.content_text ilike :search) "
+				
+				if 'keytopics' in params:
+					if params['keytopics'] != 0 and params['keytopics'] != '0':
+						cri["keytopics"] = True
+						whereused += "AND seo.iskeytopic is true"
+					else:
+						whereused += " AND seo.iskeytopic is false"
+				else:
+					whereused += " AND seo.iskeytopic is false"
 
 		fields.update(cri)
+
 		if 'nid' not in fields:
 			fields['nid'] = -1
 		command = SEORelease._Release_List_Date2 + whereused + SEORelease._Release_List_Order
@@ -971,6 +1008,7 @@ class SEORelease(BaseSql):
 		                                      fields,
 		                                      BaseSql.singleFieldInteger),
 		    criteria=simplejson.JSONEncoder().encode(cri),
+		    page_title=page_title,
 		    offset=(fields["offset"] / BLOCK_SIZE) + 1)
 
 	@classmethod

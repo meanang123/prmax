@@ -68,6 +68,7 @@ class SEOPublishSchema(PrFormSchema):
 	cat_24 = BooleanValidator()
 	cat_25 = BooleanValidator()
 	is_client_newsroom = BooleanValidator()
+	iskeytopic = BooleanValidator()
 
 
 #########################################################

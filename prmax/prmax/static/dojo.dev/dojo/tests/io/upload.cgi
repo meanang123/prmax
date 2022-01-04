@@ -49,7 +49,7 @@ if form.has_key("fileFields"):
 
 debug("'retval': " + retval)
 
-print ("""Content-Type: text/html
+print """Content-Type: text/html
 
 
 <html>
@@ -59,4 +59,4 @@ print ("""Content-Type: text/html
 	    <textarea style="width: 100%%; height: 100px;">{ %s }</textarea>
 	</body>
 </html>
-""" % (string.join(dbg, "\n")))
+""" % (string.join(dbg, "\n"))

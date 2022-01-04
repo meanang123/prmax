@@ -24,6 +24,7 @@ from prcommon.model.lookups import PrmaxModules, CustomerSources, CustomerProduc
 from prcommon.model.customer.customerdatasets import CustomerPrmaxDataSets
 from prcommon.model.accounts.customeraccountsdetails import CustomerAccountsDetails
 from prcommon.model.customer.customersettings import CustomerSettings
+from prcommon.model.customer.customermenusettings import CustomerMenuSettings
 from prcommon.model.crm import Task
 from prcommon.model.communications import Address
 import prcommon.Constants as Constants

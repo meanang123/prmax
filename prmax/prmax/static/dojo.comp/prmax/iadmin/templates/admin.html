@@ -131,6 +131,9 @@
 											<tr><td align="right" class="prmaxrowtag" >Clippings</td><td><input dojoAttachPoint="has_clippings" name="has_clippings" type="checkBox" dojoType="dijit.form.CheckBox" value="true" ></td><td><button dojoAttachEvent="onClick:_UpdateModules" dojoType="dijit.form.Button" label="Update Modules" type="button" ></button></td></tr>
 										</table></td>
 									</tr>
+
+
+
 									<tr><td class="prmaxrowtag">Support User</td><td>
 											<select dojoAttachPoint="support_userid" autoComplete="true" searchAttr="name" dojoType="dijit.form.FilteringSelect" labelType="html" required="true"></select>
 											<button class="prmaxbutton" type="button" dojoAttachEvent="onClick:_SetCustomer" dojoType="dijit.form.Button" label="Set Support User to Customer"></button>
@@ -140,6 +143,35 @@
 											<input type="text" name="has_extended_email_subject" dojoType="dijit.form.CheckBox" dojoAttachPoint="has_extended_email_subject">
 											<button dojoType="dijit.form.Button" label="Change Extended Subject" type="button" dojoAttachEvent="onClick:_change_extended_subject"></button>
 									</td></tr>
+								</table>
+							</div>
+							<div  dojoType="dijit.layout.ContentPane" style="width:99%;height:100%" title="Menu Settings" dojoAttachPoint="options_tab_menusettings">
+								<table style="width:100%;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+									<tr><td>&nbsp;</td></tr>
+									<tr><td>&nbsp;</td></tr>
+									<tr><td valign="top" class="prmaxrowtag">Private Menu</td><td>
+										<table>
+											<tr><td>&nbsp;</td></tr>
+											<tr><td>&nbsp;</td></tr>
+											<tr><td align="right" class="prmaxrowtag" >New Outlet</td><td><input dojoAttachPoint="pm_new_outlet" name="pm_new_outlet" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >New Freelance</td><td><input dojoAttachPoint="pm_new_freelance" name="pm_new_freelance" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Collateral</td><td><input dojoAttachPoint="pm_collateral" name="pm_collateral" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Exclusions</td><td><input dojoAttachPoint="pm_exclusions" name="pm_exclusions" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Clients</td><td><input dojoAttachPoint="pm_clients" name="pm_clients" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Issues</td><td><input dojoAttachPoint="pm_issues" name="pm_issues" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Statements</td><td><input dojoAttachPoint="pm_statements" name="pm_statements" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Questions</td><td><input dojoAttachPoint="pm_questions" name="pm_questions" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Global Analysis</td><td><input dojoAttachPoint="pm_global_analysis" name="pm_global_analysis" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Documents</td><td><input dojoAttachPoint="pm_documents" name="pm_documents" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Private Media Channels</td><td><input dojoAttachPoint="pm_private_media_channels" name="pm_private_media_channels" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >User Preferences</td><td><input dojoAttachPoint="pm_user_preferences" name="pm_user_preferences" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Account Details</td><td><input dojoAttachPoint="pm_account_details" name="pm_account_details" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Activity Log</td><td><input dojoAttachPoint="pm_activity_log" name="pm_activity_log" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >User Admin</td><td><input dojoAttachPoint="pm_user_admin" name="pm_user_admin" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >Financial</td><td><input dojoAttachPoint="pm_financial" name="pm_financial" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td></tr>
+											<tr><td align="right" class="prmaxrowtag" >PRRequests</td><td><input dojoAttachPoint="pm_prrequests" name="pm_prrequests" type="checkBox" dojoType="dijit.form.CheckBox" value="true"></td><td></td><td><button dojoAttachEvent="onClick:_UpdatePrivateMenu" dojoType="dijit.form.Button" label="Update Private Menu" type="button" ></button></td></tr>
+										</table></td>
+									</tr>
 								</table>
 							</div>
 							<div dojoType="prmax.iadmin.PrmaxDataSets" style="width:99%;height:100%" title="Data Sets" dojoAttachPoint="datasets"></div>

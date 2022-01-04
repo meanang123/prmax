@@ -26,7 +26,9 @@ var ssiSocialTrackingCode = '081ef02f8d4a40f2';
 <%include file="default_header_welsh.mak"/>
 <div class="content-width">
 	<div class="news-content-cardiff">
-		<p class="content-title" align="center">Datganiadau Diweddaraf</p>
+		%if page_title:
+			<p class="content-title" align="center">${page_title}</p>
+		%endif
 		<div class="single-news-text">
 			% if not results:
 				<div class="empty" >Ni chafwyd canlyniadau</div>
@@ -61,7 +63,7 @@ var ssiSocialTrackingCode = '081ef02f8d4a40f2';
 		</div>
 		<div class="load-more-cardiff">
 			<%namespace file="resulttrail_welsh.mak" import="create_trail"/>
-			${create_trail( resultcount, criteria, offset)}
+			${create_trail( resultcount, criteria, page_title, offset)}
 		</div>
 	</div>
 	<img src="/static/images/RedCityscape.jpg" height="150px" width="990px"></img>

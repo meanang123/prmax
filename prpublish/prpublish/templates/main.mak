@@ -34,7 +34,7 @@
 
 <div class="load-more">
 	<%namespace file="resulttrail.mak" import="create_trail"/>
-	${create_trail( resultcount, criteria, offset)}		
+	${create_trail( resultcount, criteria, page_title, offset)}		
 
 </div>
 <%include file="footer.mak"/>
