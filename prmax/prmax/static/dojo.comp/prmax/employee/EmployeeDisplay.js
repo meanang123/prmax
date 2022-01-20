@@ -115,20 +115,29 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		dojo.attr(this.employee_display_contactname, "innerHTML", response.employee.contactname);
 		dojo.attr(this.employee_display_job_title,"innerHTML",response.employee.job_title);
 //		dojo.attr(this.employee_display_address,"innerHTML",response.employee.address);
-		dojo.attr(this.employee_display_email,"href","mailto:" + response.employee.email);
-		dojo.attr(this.employee_display_email,"innerHTML",response.employee.email);
 		dojo.attr(this.employee_profile_image_url, "src", response.employee.profileimageurl);
 
-		if ( response.employee.twitter != null && response.employee.twitter.length > 0 )
+		if ( response.employee.email != null && response.employee.email.trim().length > 0 )
+		{
+			dojo.attr(this.employee_display_email,"href","mailto:" + response.employee.email);
+			dojo.attr(this.employee_display_email,"innerHTML",response.employee.email);
+			dojo.removeClass(this.employee_display_email_icon,"prmaxhidden");
+		}
+		else
+		{
+			dojo.addClass(this.employee_display_email_icon,"prmaxhidden");
+		}
+
+		if ( response.employee.twitter != null && response.employee.twitter.trim().length > 0 )
 		{
 			dojo.attr(this.employee_display_twitter,"href",response.employee.twitter);
 			dojo.attr(this.employee_display_twitter,"innerHTML",response.employee.twitter);
-//			dojo.removeClass(this.employee_display_twitter_row,"prmaxhidden");
+			dojo.removeClass(this.employee_display_twitter_icon,"prmaxhidden");
 		}
-//		else
-//		{
-//			dojo.addClass(this.employee_display_twitter_row,"prmaxhidden");
-//		}
+		else
+		{
+			dojo.addClass(this.employee_display_twitter_icon,"prmaxhidden");
+		}
 
 //		if ( response.employee.facebook != null && response.employee.facebook.length > 0 )
 //		{
@@ -151,34 +160,44 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 //		{
 //			dojo.addClass(this.employee_display_linkedin_row,"prmaxhidden");
 //		}
-		if ( response.employee.instagram != null && response.employee.instagram.length > 0 )
+		if ( response.employee.instagram != null && response.employee.instagram.trim().length > 0 )
 		{
 			dojo.attr(this.employee_display_instagram,"href",response.employee.instagram);
 			dojo.attr(this.employee_display_instagram,"innerHTML",response.employee.instagram);
-//			dojo.removeClass(this.employee_display_instagram_row,"prmaxhidden");
+			dojo.removeClass(this.employee_display_instagram_icon,"prmaxhidden");
 		}
-//		else
-//		{
-//			dojo.addClass(this.employee_display_instagram_row,"prmaxhidden");
-//		}
-
-		dojo.attr(this.employee_display_tel,"innerHTML",response.employee.tel);
+		else
+		{
+			dojo.addClass(this.employee_display_instagram_icon,"prmaxhidden");
+		}
+		if (response.employee.tel != null && response.employee.tel.trim().length > 0)
+		{
+			dojo.attr(this.employee_display_tel,"innerHTML",response.employee.tel);
+			dojo.removeClass(this.employee_display_tel_icon,"prmaxhidden");
+		}
+		else
+		{
+			dojo.addClass(this.employee_display_tel_icon,"prmaxhidden");
+		}
 //		dojo.attr(this.employee_display_fax,"innerHTML",response.employee.fax);
 //		dojo.attr(this.employee_display_mobile,"innerHTML",response.employee.mobile);
-//		dojo.attr(this.employee_display_localprofile,"innerHTML",response.employee.localprofile.replace(/\n/g,"<br/>"));
+		dojo.attr(this.employee_display_localprofile,"innerHTML",response.employee.localprofile.replace(/\n/g,"<br/>"));
 //		dojo.attr(this.employee_display_roles,"innerHTML",response.employee_display_roles);
-		dojo.attr(this.interest_display,"innerHTML", response.employee_display_interests); //.replace(/,/g,"<br/>"));
-
+		if (response.employee_display_interests != null && response.employee_display_interests != '')
+		{
+			dojo.attr(this.interest_display,"innerHTML", 'Covers news on '+ response.employee_display_interests); //.replace(/,/g,"<br/>"));
+		}
+		
 		this.customerid = response.employee.customerid;
 		this.ccustomerid = response.employee.customerid;
 		var display_info = "";
-		if ( this.customerid != -1 || this.ccustomerid != -1 )
-			display_info = "Private";
-		if ( response.employee.isprimary)
-		{
-			if (display_info.length>0) display_info+=" | ";
-				display_info += "Primary";
-		}
+		//if ( this.customerid != -1 || this.ccustomerid != -1 )
+		//	display_info = "Private";
+		//if ( response.employee.isprimary)
+		//{
+		//	if (display_info.length>0) display_info+=" | ";
+		//		display_info += "Primary";
+		//}
 
 		dojo.attr(this.employee_display_options, "innerHTML", display_info );
 
@@ -214,7 +233,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		"employee_display_tel",
 //		"employee_display_fax",
 //		"employee_display_mobile",
-//		"employee_display_localprofile",
+		"employee_display_localprofile",
 //		"employee_display_roles",
 		"interest_display"],
 	// empty all details

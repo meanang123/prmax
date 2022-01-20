@@ -2682,6 +2682,16 @@ div.dijitTabDisabled,
     v-align: top;
     font-size: 1.5em;
 }
+.prmaxrowdisplaymedium {
+    padding-right: 1px;
+    padding-left: 1px;
+    padding-bottom: 10px;
+    margin: 0px;
+    color: #333;
+    valign: top;
+    v-align: top;
+    font-size: 1.3em;
+}
 .prmaxrowdisplaytitle {
     padding: 1px;
     padding-left: 20px;

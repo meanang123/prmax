@@ -198,8 +198,8 @@ class OutletDisplay(BaseSql):
 	def get_new_profile(cls, outletid):
 		"""get new profile"""
 
-		retdata = {"subtitle": "", "incorporating": "", "circulation": "", "webbrowsers": "", "frequency": "", "costfield": "","seriesparent": "",
-		           "web_profile_link": None, "editorialprofile":""}
+		retdata = {"subtitle": "", "incorporating": "", "officialjournalof": "", "circulation": "", "webbrowsers": "", "frequency": "", "costfield": "","seriesparent": "",
+		           "web_profile_link": None, "editorialprofile":"", "readership":"", "jicregreadership": "", "nrsreadership": "", "geographicalname":""}
 
 		outletprofile = OutletProfile.query.get ( outletid )
 		outlet = Outlet.query.get( outletid )
@@ -208,10 +208,19 @@ class OutletDisplay(BaseSql):
 				retdata["subtitle"] = outletprofile.subtitle
 			if outletprofile.incorporating:
 				retdata["incorporating"] = outletprofile.incorporating
+			if outletprofile.officialjournalof:
+				retdata["officialjournalof"] = outletprofile.officialjournalof
 			if  outletprofile.web_profile_link:
 				retdata["web_profile_link"] =  outletprofile.web_profile_link
 			if outletprofile.editorialprofile:
 				retdata["editorialprofile"] = outletprofile.editorialprofile
+			if outletprofile.readership:
+				retdata["readership"] = outletprofile.readership
+			if outletprofile.jicregreadership:
+				retdata["jicregreadership"] = outletprofile.jicregreadership
+			if outletprofile.editorialprofile:
+				retdata["nrsreadership"] = outletprofile.nrsreadership
+
 
 		if outlet.circulation > 0:
 			circ = ""
@@ -269,6 +278,7 @@ class OutletDisplay(BaseSql):
 		# series parent
 		if outletprofile and outletprofile.seriesparentid:
 			retdata["seriesparent"] = Outlet.query.get( outletprofile.seriesparentid ).outletname
+			
 
 		return retdata
 
@@ -282,7 +292,8 @@ class OutletDisplay(BaseSql):
 		outlet = Outlet.query.get(outletid)
 		BaseSql.checkprivate(outlet.customerid)
 		data = None
-
+		profile_image_url = ''
+		
 		if outlet.outlettypeid in Constants.Outlet_Is_Individual:
 			data = cls._capture ( outletid, customerid ,
 								  OutletDisplay.Outlet_Display_Individual,
@@ -303,7 +314,7 @@ class OutletDisplay(BaseSql):
 			data['outlet']['profileimageurl'] = profile_image_url
 		else:
 			data = cls._capture ( outletid, customerid , OutletDisplay.Outlet_Display_Main_Control)
-			profile_image_url = ''
+			#profile_image_url = ''
 			
 			if data['outlet']['twitter'] != None and data['outlet']['twitter'] != '':
 				from prcommon.model.general.twittergeneral import TwitterSearch
@@ -318,14 +329,32 @@ class OutletDisplay(BaseSql):
 			data['outlet']['profileimageurl'] = profile_image_url
 
 		data["newprofile"] = cls.get_new_profile(outletid)
-		data['prmaxoutlettypedisplay'] = '%s   %s' % (data['newprofile']['frequency'], data['outlet']['prmax_outlettypename'])
+		if 'incorporating' in data['newprofile'] and data['newprofile']['incorporating'] != None and data['newprofile']['incorporating'] != '':
+			data['incorporatingdisplay'] = 'Incorporating with %s' % (data['newprofile']['incorporating'])
+		if 'subtitle' in data['newprofile'] and data['newprofile']['subtitle'] != None and data['newprofile']['subtitle'] != '':
+			data['subtitledisplay'] = data['newprofile']['subtitle']
+		if 'officialjournalof' in data['newprofile'] and data['newprofile']['officialjournalof'] != None and data['newprofile']['officialjournalof'] != '':
+			data['officialjournalofdisplay'] = 'Official Journal of %s' % (data['newprofile']['officialjournalof'])
+		data['prmaxoutlettypedisplay'] = data['outlet']['prmax_outlettypename']
+		if 'frequency' in data['newprofile'] and data['newprofile']['frequency'] != None and data['newprofile']['frequency'] != '':
+			data['prmaxoutlettypedisplay'] = '%s. %s' % (data['newprofile']['frequency'] if data['newprofile']['frequency'][-1] != '.' else data['newprofile']['frequency'][:-1],  data['outlet']['prmax_outlettypename'])
+		data['editorialprofiledisplay'] = 'In %s' %(data['outlet']['languagename'])
+		if 'editorialprofile' in data['newprofile'] and data['newprofile']['editorialprofile'] != None and data['newprofile']['editorialprofile'] != "":
+			data['editorialprofiledisplay'] = '%s. In %s' %(data['newprofile']['editorialprofile'] if data['newprofile']['editorialprofile'][-1] != '.' else data['newprofile']['editorialprofile'][:-1], data['outlet']['languagename'])
 		data['addressdisplay'] = '%s, %s' %(data['outlet']['address'], data['outlet']['countryname'])
-		data['publisherdisplay'] = 'Published by %s in %s' %(data['outlet']['publishername'], data['outlet']['languagename'])
-		interestdisplay = ''
+		data['publisherdisplay'] = 'Published by %s' %(data['outlet']['publishername'])
+		interestdisplay =  data['interestdisplay'] = coveragedisplay = data['coveragedisplay'] = seriesparentdisplay = data['seriesparentdisplay'] = ''
 		if data['interests']:
 			for interest in data['interests']:
 				interestdisplay += '%s, ' % interest['interestname']
-		data['interestsdisplay'] = 'Covers news on %s' %interestdisplay[:-2]
+			data['interestsdisplay'] = 'Covers news on %s' %interestdisplay[:-2]
+		if data['coverage']:
+			for coverage in data['coverage']:
+				coveragedisplay += '%s, ' % coverage['geographicalname']
+			data['coveragedisplay'] = 'Geo Coverage is %s' %coveragedisplay[:-2]
+		if 'seriesparent' in data['newprofile'] and data['newprofile']['seriesparent'] != None and data['newprofile']['seriesparent'] != '':
+			data['seriesparentdisplay'] = 'Lead outlet (Series parent) is %s' %(data['newprofile']['seriesparent'])
+			
 		return data
 
 	@classmethod

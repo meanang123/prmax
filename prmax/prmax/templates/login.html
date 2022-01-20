@@ -8,6 +8,12 @@
 <title>Prmax login</title>
     <xi:include href="std_header.html" />
     <style type="text/css">
+	#logobox
+	{
+	    width:50px;
+	    height:50px;
+	    background: url('/static/images/favicon.png')
+	}
         #loginBox
         {
             width: 30%;
@@ -29,8 +35,9 @@
             font-size: 30px;
             font-family: "Trebuchet MS";
             margin: 0;
+	    text-align:top !important;
             color: #ddd;
-			padding-bottom:10px;
+	    padding-bottom:10px;
         }
 
         #loginBox h2
@@ -39,19 +46,19 @@
             font-family: "Trebuchet MS";
             margin: 0;
             color: #ddd;
-			padding-bottom:10px;
+	    padding-bottom:10px;
         }
 
 
-		#loginBox h3
-		{
-			font-size: 18px;
-			font-family: "Trebuchet MS";
-			margin: 0;
-			color: red;
-			padding-bottom:10px;
-			text-align:center;
-		}
+	#loginBox h3
+	{
+		font-size: 18px;
+		font-family: "Trebuchet MS";
+		margin: 0;
+		color: red;
+		padding-bottom:10px;
+		text-align:center;
+	}
 
         #loginBox p
         {
@@ -72,7 +79,7 @@
 
         #loginBox td.label
         {
-            width: 33%;
+            width: 25%;
             text-align: left;
 			color: white;
 			padding-left:20px;
@@ -98,10 +105,10 @@
 		a:visited {color:white}
 		a:active {color:white}
 body {
-    background: #282828;
+    background: white;
 }
 #loginBox {
-    background: #282828;
+    background: white;
     border:  none;
     width: 40%;
 }
@@ -110,14 +117,15 @@ label {
 }
 #loginBox td.label {
     padding: 0;
-    width: auto !important;
+    font-size:  18px;
+   
 }
 #loginBox td.field {
     width: 80%;
 }
 div {
     color: #9D9D9B !important;
-    font-size:  13px;
+    font-size:  14px;
     font-weight: 700;
 }
 a:link {
@@ -129,6 +137,19 @@ td.field input {
 
 #loginBox h1 {
     color: #9D9D9B;
+    padding-bottom:50px;
+}
+
+.logobox
+{
+    text-align: center;
+    vertical-align: top;
+    line-height:50px;
+    margin-left: 20px;
+}
+img {
+    width:50px;
+    height:50px;
 }
     </style>
 <script>
@@ -145,16 +166,17 @@ catch ( e ) {}
 
 <body onLoad="start_up()">
     <div id="loginBox">
-        <h2>Search, Save and Distribute with PRmax</h2>
-        <h1>PRmax Login</h1>
+
+	    <h1 align="center"><img src="/static/images/pressoffice/pressofficelogo3.png"  alt=" " /><span class="logobox">Press Office Login</span></h1>
+
 <span py:if="message">
-				<h3>${message}</h3>
+	<h3>${message}</h3>
  </span>
         <form action="${previous_url}" method="POST">
             <table cellspacing="0" cellpadding="1" border="0">
                 <tr>
                     <td class="label">
-                        <label for="user_name">User Name</label>
+                        <label for="user_name">Username</label>
                     </td>
                     <td class="field">
                         <input type="text" id="user_name" name="user_name"/>
@@ -173,11 +195,14 @@ catch ( e ) {}
                         <input class="adept_login_btn" type="submit" name="login" value="Login"/>
                     </td>
                 </tr>
-				<tr>
-					<td class="label">
-						<div><a href="/passwordrequest">Forgot Password?</a></div>
-					</td>
-				</tr>
+		<tr>
+		    <td></td>
+                </tr>
+		<tr>
+		    <td colspan="2" class="label">
+			<div><a href="/passwordrequest">Forgot Password?</a></div>
+		    </td>
+		</tr>
             </table>
 	        <input py:if="forward_url" type="hidden" name="forward_url"
                 value="${forward_url}"/>

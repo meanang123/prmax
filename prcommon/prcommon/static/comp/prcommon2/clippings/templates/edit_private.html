@@ -23,9 +23,9 @@
 				<label class="label_align_r label_tag label_size_3">Rate</label><input data-dojo-props='type:"text",name:"clip_disrate",trim:"true",style:"width:8em",constraints:{fractional:true,places:"0,2",min:0.00,max:999999.00}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="clip_disrate"><br/>
 			</div>
 			<label class="label_align_r label_tag label_size_3">Text</label><div class="stdframe" style="height:150px;padding-left:5px"><textarea data-dojo-attach-point="clip_text" data-dojo-props='name:"clip_text",trim:true,required:true,style:"width:99%;height:80%"' data-dojo-type="dijit/form/Textarea" ></textarea></div><br/><br/>
-			<button data-dojo-attach-event="onClick:_clear" data-dojo-attach-point="clearbtn" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-eraser fa-2x",type:"button",label:"Clear","class":"btnleft"'></button>
-			<button data-dojo-attach-event="onClick:_delete" data-dojo-attach-point="deletebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-trash fa-2x",type:"button",busyLabel:"Please Wait Deleting...",label:"Delete Clipping","class":"btnleft prmaxhidden"'></button>
-			<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-floppy-o fa-2x",type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright"'></button>
+			<button data-dojo-attach-event="onClick:_clear" data-dojo-attach-point="clearbtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Clear","class":"btnleft"'></button>
+			<button data-dojo-attach-event="onClick:_delete" data-dojo-attach-point="deletebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Deleting...",label:"Delete Clipping","class":"btnleft prmaxhidden"'></button>
+			<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright"'></button>
 			<br/><br/><br/><br/>
 		</form>
 	</div>

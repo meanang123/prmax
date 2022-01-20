@@ -5,14 +5,14 @@
 				<div style="height:100%;width:150px;float:left;padding-top:10px;" class="prmaxrowdisplaylarge">Documents</div>
 				<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop", style:"float:left:height:94%;width:400px"' >
 					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_add_document" data-dojo-attach-point="addbutton" data-dojo-props='label:"Add Document", iconClass:"fa fa-plus fa-3x",showLabel:false'></div>
-					<div data-dojo-type="dijit.form.DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter",showLabel:true'>
+					<div data-dojo-type="dijit.form.DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",showLabel:true'>
 						<span>Filter By</span>
 						<div data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Filter By"' data-dojo-attach-event="execute:_filter">
 							<table>
 								<tr><td><label>Description</label></td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="description" data-dojo-props='type:"text",name:"description"' ></td></tr>
 								<tr>
-									<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Clear Filter</button></td>
-									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Filter</button></td>
+									<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Clear</button></td>
+									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Submit</button></td>
 								</tr>
 							</table>
 						</div>

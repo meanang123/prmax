@@ -10,8 +10,29 @@
 		<tr>
 			<td width="50"></td>
 			<td width="auto" class="prmaxrowdisplaylarge" py:content="outlet.outletname"></td>
-			<td py:if="outlet.profileimageurl!=None"><img src="${outlet.profileimageurl}" /></td>
+			<td width="100px" py:if="outlet.profileimageurl!=None"><img src="${outlet.profileimageurl}" /></td>
 		</tr>
+		<span py:if="outlet.outlettypeid!=19" py:strip="">
+			<span py:if="newprofile['incorporating']" py:strip="">
+			<tr>
+				<td width="50"></td>
+				<td colspan="2" class="prmaxrowdisplay_profile2" py:content="incorporatingdisplay"></td>
+			</tr>
+			</span>
+			<span py:if="newprofile['subtitle']" py:strip="">
+			<tr>
+				<td width="50"></td>
+				<td colspan="2" class="prmaxrowdisplay_profile2" py:content="subtitledisplay"></td>
+			</tr>
+			</span>
+			<span py:if="newprofile['officialjournalof']" py:strip="">
+			<tr>
+				<td width="50"></td>
+				<td colspan="2" class="prmaxrowdisplay_profile2" py:content="officialjournalofdisplay"></td>
+			</tr>
+			</span>
+		</span>
+		
 		<span py:if="outlet.www" py:strip="">
 		<tr>
 			<td class="prmaxrowtag"><i class="fa fa-link fa-2x" aria-hidden="true"></i></td>
@@ -30,6 +51,36 @@
 			<td py:content="outlet.tel" class="${outlet.telflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ></td>
 		</tr>
 		</span>
+		<span py:if="outlet.fax" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-fax fa-2x" aria-hidden="true"></i></td>
+			<td py:content="outlet.fax" class="${outlet.faxflag and 'prmaxoverride' or 'prmaxrowdisplay'}"></td>
+		</tr>
+		</span>
+		<span py:if="outlet.twitter" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.twitter}" target="_newtab" py:content="outlet.twitter"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.facebook" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-facebook fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.facebook}" target="_newtab" py:content="outlet.facebook"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.instagram" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-instagram fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.instagram}" target="_newtab" py:content="outlet.instagram"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.linkedin" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.linkedin}" target="_newtab" py:content="outlet.linkedin"></a></td>
+		</tr>
+		</span>
 	</table>
 	<table style="table-layout: fixed;border-collapse: collapse;" width="100%" >
 		<tr>
@@ -38,7 +89,19 @@
 		</tr>		
 		<tr>
 			<td width="50"></td>
-			<td width="auto" class="prmaxrowdisplay_profile2" py:content="newprofile['editorialprofile']"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="editorialprofiledisplay"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="newprofile['readership']"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="newprofile['jicregreadership']"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="newprofile['nrsreadership']"></td>
 		</tr>		
 		<tr>
 			<td width="50"></td>
@@ -51,6 +114,14 @@
 		<tr>
 			<td width="50"></td>
 			<td width="auto" class="prmaxrowdisplay_profile2" py:content="interestsdisplay"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="coveragedisplay"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="seriesparentdisplay"></td>
 		</tr>		
 	</table>
 </div>

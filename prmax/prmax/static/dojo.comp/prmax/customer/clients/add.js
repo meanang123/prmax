@@ -66,7 +66,7 @@ dojo.declare("prmax.customer.clients.add",
 
 		if (this.mode != "edit")
 		{
-			this.frame.resize({w:700, h:567});
+			this.frame.resize({w:800, h:567});
 		}
 	},
 	_Add_Customer:function()
