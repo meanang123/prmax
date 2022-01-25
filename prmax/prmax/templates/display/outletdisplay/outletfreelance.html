@@ -6,31 +6,67 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
 <body>
 <div class="outletdisplay">
-  <table class="prmaxtable" width="100%">
-    <tr><td class="prmaxrowtag" width="14%">Name</td><td  width="86%" class="prmaxrowdisplay" py:content="outlet.outletname"></td></tr>
-    <tr><td class="prmaxrowtag">Web</td><td class="prmaxrowdisplay" ><a py:attrs="{'href':outlet.www}" target="blank" py:content="outlet.www"></a></td></tr>
-    <tr><td class="prmaxrowtag">Address</td><td class="${outlet.addressflag and 'prmaxoverride' or 'prmaxrowdisplay'}" py:content="outlet.address"></td></tr>
-    <tr><td class="prmaxrowtag">Email</td><td class="${outlet.emailflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ><a py:attrs="{'href':'mailto:%s'%outlet.email}" target="blank" py:content="outlet.email"></a></td></tr>
-    <tr><td class="prmaxrowtag">Tel</td><td class="${outlet.telflag and 'prmaxoverride' or 'prmaxrowdisplay'}" py:content="outlet.tel"></td></tr>
-    <tr><td class="prmaxrowtag">Fax</td><td class="${outlet.faxflag and 'prmaxoverride' or 'prmaxrowdisplay'}" py:content="outlet.fax"></td></tr>
-<span py:if="outlet.twitter" py:strip="">
-	<tr><td class="prmaxrowtag">Twitter</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.twitter}" target="_newtab" py:content="outlet.twitter"></a></td></tr>
-</span>
-<span py:if="outlet.facebook" py:strip="">
-	<tr><td class="prmaxrowtag">Facebook</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.facebook}" target="_newtab" py:content="outlet.facebook"></a></td></tr>
-</span>
-<span py:if="outlet.linkedin" py:strip="">
-	<tr><td class="prmaxrowtag">Linkedin</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.linkedin}" target="_newtab" py:content="outlet.linkedin"></a></td></tr>
-</span>
-<span py:if="outlet.instagram" py:strip="">
-	<tr><td class="prmaxrowtag">Instagram</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.instagram}" target="_newtab" py:content="outlet.instagram"></a></td></tr>
-</span>
-<span py:if="outlet.blog" py:strip="">
-	<tr><td class="prmaxrowtag">Blog</td><td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.blog}" target="_newtab" py:content="outlet.blog"></a></td></tr>
-</span>
-	<tr><td width="20%" valign="top" class="prmaxrowtag">Keywords</td><td>
-		<span py:for="interest in interests" py:strip="True"><span class="prmaxrowdisplay" py:content="interest.interestname"></span>,&nbsp;</span>
-	</td></tr>
-</table>
+	<table style="table-layout: fixed;border-collapse: collapse;" width="100%" >
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplaylarge" py:content="outlet.outletname"></td>
+			<td width="100px" py:if="outlet.profileimageurl!=None"><img src="${outlet.profileimageurl}" /></td>
+		</tr>
+		<span py:if="outlet.www" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-link fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.www}" target="_newtab" py:content="outlet.www"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.email" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></td>
+			<td class="${outlet.emailflag and 'prmaxoverride' or 'prmaxrowdisplay'}"><a py:attrs="{'href':'mailto:%s'%outlet.email}" target="blank" py:content="outlet.email"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.tel" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-phone fa-2x" aria-hidden="true"></i></td>
+			<td py:content="outlet.tel" class="${outlet.telflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ></td>
+		</tr>
+		</span>
+		<span py:if="outlet.fax" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-fax fa-2x" aria-hidden="true"></i></td>
+			<td py:content="outlet.fax" class="${outlet.faxflag and 'prmaxoverride' or 'prmaxrowdisplay'}"></td>
+		</tr>
+		</span>
+		<span py:if="outlet.twitter" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.twitter}" target="_newtab" py:content="outlet.twitter"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.facebook" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-facebook fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.facebook}" target="_newtab" py:content="outlet.facebook"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.instagram" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-instagram fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.instagram}" target="_newtab" py:content="outlet.instagram"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.linkedin" py:strip="">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.linkedin}" target="_newtab" py:content="outlet.linkedin"></a></td>
+		</tr>
+		</span>
+	</table>
+	<table style="table-layout: fixed;border-collapse: collapse; margin-top:15px" width="100%" >
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="interestsdisplay"></td>
+		</tr>	
+	</table>
 </div>
-</body></html>
+</body>
+</html>		

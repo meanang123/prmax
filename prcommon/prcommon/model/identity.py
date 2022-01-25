@@ -312,6 +312,7 @@ class User(BaseSql):
 		""" return the setting object for the user inthe current browser"""
 
 		customer = session.query(Customer).filter_by(customerid=self.customerid).one()
+		customermenusettings = session.query(CustomerMenuSettings).filter_by(customerid=self.customerid).scalar()
 		# groups
 		groups = ""
 		gs_rec = session.query(Group).filter(Group.group_id == UserGroups.group_id).\

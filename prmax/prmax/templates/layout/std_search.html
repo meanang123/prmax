@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
-	<div class="searchform" dojotype="dijit.layout.BorderContainer" style="width:700px;height:650px;overflow:hidden" gutters="false">
+	<div class="searchform" dojotype="dijit.layout.BorderContainer" style="width:700px;height:500px;overflow:hidden" gutters="false">
 		<div id="std_search_tabcontainer" dojotype="dijit.layout.TabContainer" class="searchTab" region="center" >
 <span py:if="prmax.customer.search_show_smart==1" py:strip="">
 			<div id="std_search_quick" dojoType="ttl.layout.ContentPane" title="Smart" href="/layout/std_search_quick" style="overflow:auto" ></div>
@@ -15,7 +15,7 @@
 			<div id="std_search_advance" dojoType="ttl.layout.ContentPane" title="Features" py:attrs="features" preload="false" href="/layout/std_search_advance" ></div>
 			</span>
 		</div>
-		<div dojoType="ttl.layout.ContentPane" region="bottom" style="height:15%" class="bottom">
+		<div dojoType="ttl.layout.ContentPane" region="bottom" style="height:16%" class="bottom">
 			<table width="98%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;margin:5px;" >
 			<tr>
 			<td style="width:1%" align="left"><input class="prmaxdefault" py:attrs="prmax.user.partial" type="hidden" id="search_partial" value="2" /></td>

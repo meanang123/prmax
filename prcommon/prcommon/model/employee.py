@@ -1360,7 +1360,7 @@ class EmployeeDisplay(BaseSql):
 			   order_by(EmployeeInterestView.interestname).all()
 		employee_display_interests = ", ".join([row[0] for row in result if len(row[0])])
 		
-		profile_image_url = ''
+		profile_image_url = '/static/images/unnamed2.jpg'
 	
 		#search twitter user and get the profile image url to use as outlet profile image
 		if details['twitter'] != None and details['twitter'] != '':

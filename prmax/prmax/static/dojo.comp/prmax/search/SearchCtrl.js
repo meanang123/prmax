@@ -57,6 +57,8 @@ dojo.declare("prmax.search.SearchCtrl", null, {
 	},
 	_Test:function( name )
 	{
+		this.Clear();
+		this.focus();
 		dojo.connect( dijit.byId(name + "_form"),"onSubmit",dojo.hitch(this,this._Submit,name));
 	},
 	_Submit:function( mouse, name )
@@ -262,7 +264,7 @@ dojo.declare("prmax.search.SearchCtrl", null, {
 			var ww = new dijit.Dialog({	id:"search_dialog",
 				href:href,
 				title:"Search",
-				style:"width:700px;height:650px;overflow:hidden",
+				style:"width:700px;height:500px;overflow:hidden",
 				onLoad: dojo.hitch(this,this.onLoadSearchControl),
 				onDownloadError:function(response)
 					{
