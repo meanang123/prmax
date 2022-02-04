@@ -1299,17 +1299,18 @@ class Customer(BaseSql):
 			customer.has_journorequests = params["has_journorequests"]
 			customer.is_bundle = params["is_bundle"]
 			customer.crm = params["crm"]
-			customermenusettings.pm_statemsnts = params["crm"]
-			customermenusettings.pm_documents = params["crm"]
 			customer.seo = params["seo"]
 			customer.seotranslation = params["seotranslation"]
 			customer.advancefeatures = params["advancefeatures"]
 			customer.updatum = params["updatum"]
-			customermenusettings.pm_questions = params["updatum"]
-			customermenusettings.pm_global_analysis = params["updatum"]
 			customer.maxmonitoringusers = params["maxmonitoringusers"]
 			customer.has_international_data = params["has_international_data"]
 			customer.has_clippings = params["has_clippings"]
+			if customermenusettings:
+				customermenusettings.pm_statemsnts = params["crm"]
+				customermenusettings.pm_documents = params["crm"]
+				customermenusettings.pm_questions = params["updatum"]
+				customermenusettings.pm_global_analysis = params["updatum"]
 
 			session.flush()
 			transaction.commit()

@@ -4,11 +4,17 @@
 			<div dojoAttachPoint="maintab" dojoType="ttl.layout.ContentPane" title='Details' selected="true" style="padding:2px" class="scrollpanel">
 				<table class="prmaxtable" width="100%" cellpadding="0" cellspacing="0" style="border-style:collapsed" >
 					<tr>
-						<td width="10%" class="prmaxrowdisplaylarge" rowspan="2" ><img  dojoAttachPoint="employee_profile_image_url" /></td><td class="prmaxrowdisplaylarge" width="80%" dojoAttachPoint="employee_display_contactname"></td>
+						<td width="10%" class="prmaxrowdisplaylarge" rowspan="3" ><img  dojoAttachPoint="employee_profile_image_url" /></td><td class="prmaxrowdisplaylarge" width="80%" dojoAttachPoint="employee_display_contactname"></td>
 						<td width="10%" class="employeetype" dojoAttachPoint="employee_display_options" ></td>
 					</tr>
 					<tr><td class="prmaxrowdisplaymedium" colspan="2" dojoAttachPoint="employee_display_job_title"></td></tr>
+					<tr><td class="prmaxrowtag" valign="top" colspan="2" class="prmaxrowdisplay" dojoAttachPoint="interest_display"></td></tr>
 				</table></br>	
+<!--
+				<table style="margin-bottom:20px">
+					<tr><td class="prmaxrowtag" valign="top" class="prmaxrowdisplay" dojoAttachPoint="interest_display"></td></tr>
+				</table>
+-->
 				<table class="prmaxtable" width="100%" cellpadding="0" cellspacing="0" style="border-style:collapsed" >
 					<tr>
 						<td width="10%" class="prmaxrowtag"><i class="fa fa-envelope-o fa-2x prmaxhidden" dojoAttachPoint="employee_display_email_icon" aria-hidden="true"></td>
@@ -19,14 +25,17 @@
 					<tr>
 						<td width="10%" class="prmaxrowtag"><i class="fa fa-twitter fa-2x prmaxhidden" dojoAttachPoint="employee_display_twitter_icon" aria-hidden="true"></td>
 						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_twitter" style="width:100%" target="blank"></a></td>
+						<td width="10%" class="prmaxrowtag"><i class="fa fa-mobile fa-2x prmaxhidden" dojoAttachPoint="employee_display_mobile_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_mobile" style="width:100%" target="blank"></a></td>
+					</tr>
+					<tr>
+						<td width="10%" class="prmaxrowtag"><i class="fa fa-linkedin fa-2x prmaxhidden" dojoAttachPoint="employee_display_linkedin_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_linkedin" style="width:100%" target="blank"></a></td>
 						<td width="10%" class="prmaxrowtag"><i class="fa fa-instagram fa-2x prmaxhidden" dojoAttachPoint="employee_display_instagram_icon" aria-hidden="true"></td>
 						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_instagram" style="width:100%" target="blank"></a></td>
 					</tr>
 
 				</table></br>
-				<table>
-					<tr><td class="prmaxrowtag" valign="top" class="prmaxrowdisplay" dojoAttachPoint="interest_display"></td></tr>
-				</table>
 			</div>
 			<div dojoType="ttl.layout.ContentPane" title='Notes' >
 				<div style="padding:2px">

@@ -273,9 +273,9 @@ class ClippingsController(SecureController):
 		customer = Customer.query.get(user.customerid)
 		return add_config_details(dict(control=user.get_json_settings(),
 		                               customertypeid=customer.customertypeid,
-		                               back_colour="#3397B9" if customer.customertypeid == 24 else "black",
-		                               back_panel_colour="white" if customer.customertypeid == 24 else "black",
-		                               fore_color="black" if customer.customertypeid == 24 else "lightblue",
+		                               back_colour="#3397B9" if customer.customertypeid == 24 else "white",
+		                               back_panel_colour="white" if customer.customertypeid == 24 else "white",
+		                               fore_color="black",
 		                               as_frame=1 if params["as_frame"] else 0,
 		                               top_border="border-top:3px solid white" if params["as_frame"] else ""))
 

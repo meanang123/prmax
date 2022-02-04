@@ -70,7 +70,7 @@ class ReportCommon(object):
 		""" get the default setting dict """
 		self.page_info = dict(shop_name = "PRmax",
 							report_date = date.today().strftime("%d-%m-%y"),
-							headerimage = "prmax.gif",
+							headerimage = "pressofficelogo4.png",
 							strapline = "Powered by PRmax prmax.co.uk",
 							prmax_info = dict( name = "PRmax"))
 		self.page_info.update( kw )

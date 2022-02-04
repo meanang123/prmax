@@ -36,7 +36,6 @@
             font-family: "Trebuchet MS";
             margin: 0;
 	    text-align:top !important;
-            color: #ddd;
 	    padding-bottom:10px;
         }
 
@@ -45,7 +44,6 @@
             font-size: 18px;
             font-family: "Trebuchet MS";
             margin: 0;
-            color: #ddd;
 	    padding-bottom:10px;
         }
 
@@ -90,6 +88,12 @@
         {
             width: 66%;
         }
+        #loginBox td.field2
+        {
+            width: 66%;
+	    font-size: 16px;
+	    margin-bottom:15px;
+        }
 
         #loginBox td.field input
         {
@@ -123,10 +127,15 @@ label {
 #loginBox td.field {
     width: 80%;
 }
+#loginBox td.field2 {
+    width: 80%;
+    font-size: 16px;
+    margin-bottom:15px;
+}
 div {
     color: #9D9D9B !important;
     font-size:  14px;
-    font-weight: 700;
+    font-weight: 600;
 }
 a:link {
     color: #9D9D9B;
@@ -137,7 +146,7 @@ td.field input {
 
 #loginBox h1 {
     color: #9D9D9B;
-    padding-bottom:50px;
+    padding-bottom:15px;
 }
 
 .logobox
@@ -167,11 +176,37 @@ catch ( e ) {}
 <body onLoad="start_up()">
     <div id="loginBox">
 
-	    <h1 align="center"><img src="/static/images/pressoffice/pressofficelogo3.png"  alt=" " /><span class="logobox">Press Office Login</span></h1>
+            <table cellspacing="0" cellpadding="1" border="0">
+                <tr>
+                    <td class="label">
+                        <label ></label>
+                    </td>
+                    <td class="field">
+                        <h1 align="center"><img src="/static/images/pressoffice/pressofficelogo3.png"  alt=" " /><span class="logobox">Press Office</span></h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        <label ></label>
+                    </td>
+                    <td class="field">
+                        <h2 align="center">Leading Media and Stakeholder Relations</h2>
+                    </td>
+                </tr>
+		
+		<span py:if="message">
+		<tr>
+                    <td class="label">
+                        <label ></label>
+                    </td>
+                    <td class="field">
+                        <h3>${message}</h3>
+                    </td>
+                </tr>
+		</span>
+	
+	    </table>
 
-<span py:if="message">
-	<h3>${message}</h3>
- </span>
         <form action="${previous_url}" method="POST">
             <table cellspacing="0" cellpadding="1" border="0">
                 <tr>
@@ -204,6 +239,7 @@ catch ( e ) {}
 		    </td>
 		</tr>
             </table>
+
 	        <input py:if="forward_url" type="hidden" name="forward_url"
                 value="${forward_url}"/>
 

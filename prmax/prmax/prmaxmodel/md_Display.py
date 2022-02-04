@@ -11,12 +11,14 @@
 
 #-----------------------------------------------------------------------------
 from turbogears.database import session, mapper, metadata
-from sqlalchemy import Table
+from sqlalchemy import Table, desc
 from sqlalchemy.sql import text
 
 from prmax.prmaxmodel.md_Common import BaseSql
 from prmax.prmaxmodel.md_Outlet import Outlet, OutletCustomerView
-from prcommon.model import OutletProfile, CirculationSources, CirculationDates, Frequencies, OutletPrices, WebSources, WebDates
+from prcommon.model import OutletProfile, CirculationSources, CirculationDates, Frequencies, OutletPrices, WebSources, WebDates, OutletLanguages
+from prcommon.model.language import Languages
+from prcommon.model.productioncompany import ProductionCompany
 import prmax.Constants as Constants
 from ttl.dates import strftimeext
 
@@ -200,7 +202,7 @@ class OutletDisplay(BaseSql):
 
 		retdata = {"subtitle": "", "incorporating": "", "officialjournalof": "", "circulation": "", "webbrowsers": "", "frequency": "", "costfield": "","seriesparent": "",
 		           "web_profile_link": None, "editorialprofile":"", "readership":"", "jicregreadership": "", "nrsreadership": "", "geographicalname":"", "broadcasttimes": "",
-			   "seriesmembers": ""}
+			   "seriesmembers": "", "languages": "", "supplements": "", "supplementof": "", "productioncompany": ""}
 
 		outletprofile = OutletProfile.query.get ( outletid )
 		outlet = Outlet.query.get( outletid )
@@ -219,10 +221,14 @@ class OutletDisplay(BaseSql):
 				retdata["readership"] = outletprofile.readership
 			if outletprofile.jicregreadership:
 				retdata["jicregreadership"] = outletprofile.jicregreadership
-			if outletprofile.editorialprofile:
+			if outletprofile.nrsreadership:
 				retdata["nrsreadership"] = outletprofile.nrsreadership
 			if outletprofile.broadcasttimes:
 				retdata["broadcasttimes"] = outletprofile.broadcasttimes
+			if outletprofile.supplementofid:
+				retdata["supplementof"] = Outlet.query.get( outletprofile.supplementofid).outletname	
+			if outletprofile.productioncompanyid:
+				productioncompany = ProductionCompany.query.get( outletprofile.productioncompanyid )			
 
 		if outlet.circulation > 0:
 			circ = ""
@@ -264,7 +270,7 @@ class OutletDisplay(BaseSql):
 			frequency = Frequencies.query.get(outlet.frequencyid)
 			retdata["frequency"] = frequency.frequencyname
 			if outletprofile and outletprofile.frequencynotes:
-				retdata["frequency"] += ". " + outletprofile.frequencynotes
+				retdata["frequency"] += " " + outletprofile.frequencynotes
 		elif outletprofile:
 			if outletprofile.frequencynotes:
 				retdata['frequency'] = outletprofile.frequencynotes
@@ -287,6 +293,20 @@ class OutletDisplay(BaseSql):
 				  filter(OutletProfile.seriesparentid == outletid).all()]
 		if seriesmembers:
 			retdata['seriesmembers'] = seriesmembers
+			
+		languages = [row[1].languagename for row in session.query(OutletLanguages, Languages).\
+			     join(Languages,  Languages.languageid == OutletLanguages.languageid).\
+			     filter(OutletLanguages.outletid == outlet.outletid).\
+			     order_by(desc(OutletLanguages.isprefered)).all()]	
+		if languages:
+			retdata['languages'] = languages
+
+		supplements = [ row[1].outletname for  row in  session.query( OutletProfile, Outlet).\
+				join(Outlet, Outlet.outletid == OutletProfile.outletid).\
+				filter(OutletProfile.supplementofid == outlet.outletid).all()]
+		if supplements:
+			retdata['supplements'] = supplements
+			
 		return retdata
 
 
@@ -349,36 +369,66 @@ class OutletDisplay(BaseSql):
 			data['outlet']['profileimageurl'] = profile_image_url
 
 		data["newprofile"] = cls.get_new_profile(outletid)
-		if 'incorporating' in data['newprofile'] and data['newprofile']['incorporating'] != None and data['newprofile']['incorporating'] != '':
+		if 'incorporating' in data['newprofile'] and data['newprofile']['incorporating'] != None and data['newprofile']['incorporating'] != '' and data['newprofile']['incorporating'] != 'None':
 			data['incorporatingdisplay'] = 'Incorporating with %s' % (data['newprofile']['incorporating'])
-		if 'subtitle' in data['newprofile'] and data['newprofile']['subtitle'] != None and data['newprofile']['subtitle'] != '':
+		if 'subtitle' in data['newprofile'] and data['newprofile']['subtitle'] != None and data['newprofile']['subtitle'] != '' and data['newprofile']['subtitle'] != 'None':
 			data['subtitledisplay'] = data['newprofile']['subtitle'].strip()
-		if 'officialjournalof' in data['newprofile'] and data['newprofile']['officialjournalof'] != None and data['newprofile']['officialjournalof'] != '':
+		if 'officialjournalof' in data['newprofile'] and data['newprofile']['officialjournalof'] != None and data['newprofile']['officialjournalof'] != '' and data['newprofile']['officialjournalof'] != 'None':
 			data['officialjournalofdisplay'] = 'Official Journal of %s' % (data['newprofile']['officialjournalof'])
 		data['prmaxoutlettypedisplay'] = data['outlet']['prmax_outlettypename'].strip()
-		if 'frequency' in data['newprofile'] and data['newprofile']['frequency'] != None and data['newprofile']['frequency'] != '':
-			data['prmaxoutlettypedisplay'] = '%s. %s' % (data['newprofile']['frequency'].strip() if data['newprofile']['frequency'].strip()[-1] != '.' else data['newprofile']['frequency'].strip()[:-1],  data['outlet']['prmax_outlettypename'])
-		data['editorialprofiledisplay'] = 'In %s' %(data['outlet']['languagename'])
-		if 'editorialprofile' in data['newprofile'] and data['newprofile']['editorialprofile'] != None and data['newprofile']['editorialprofile'] != "":
-			data['editorialprofiledisplay'] = '%s. In %s' %(data['newprofile']['editorialprofile'].strip() if data['newprofile']['editorialprofile'].strip()[-1] != '.' else data['newprofile']['editorialprofile'].strip()[:-1], data['outlet']['languagename'])
+		if 'frequency' in data['newprofile'] and data['newprofile']['frequency'] != None and data['newprofile']['frequency'] != '' and data['newprofile']['frequency'] != 'None':
+			data['prmaxoutlettypedisplay'] = '%s %s' % (data['newprofile']['frequency'].strip() if data['newprofile']['frequency'].strip()[-1] != '.' else data['newprofile']['frequency'].strip()[:-1],  data['outlet']['prmax_outlettypename'])
+		
+		languages = languagesdisplay = ''
+		if 'languages' in data['newprofile'] and data['newprofile']['languages'] != None and data['newprofile']['languages'] != '' and data['newprofile']['languages'] != 'None':
+			languages = data['newprofile']['languages']
+				
+		
+		if languages != '':
+			languagesdisplay = 'In %s' %(' and '.join(languages))
+
+		data['editorialprofiledisplay'] = '%s' %(languagesdisplay)
+		if 'editorialprofile' in data['newprofile'] and data['newprofile']['editorialprofile'] != None and data['newprofile']['editorialprofile'] != "" and data['newprofile']['editorialprofile'] != "None":
+			data['editorialprofiledisplay'] = '%s. %s' %(data['newprofile']['editorialprofile'].strip() if data['newprofile']['editorialprofile'].strip()[-1] != '.' else data['newprofile']['editorialprofile'].strip()[:-1], languagesdisplay)
 		data['addressdisplay'] = '%s, %s' %(data['outlet']['address'], data['outlet']['countryname'])
-		data['publisherdisplay'] = 'Published by %s' %(data['outlet']['publishername'])
-		interestdisplay =  data['interestdisplay'] = coveragedisplay = data['coveragedisplay'] = seriesparentdisplay = data['seriesparentdisplay'] = data['seriesmembersdisplay'] = data['broadcasttimesdisplay'] = ''
+		
+		data['circulationdisplay'] = data['webbrowsersdisplay'] = data['publisherdisplay'] = \
+		interestdisplay =  data['interestdisplay'] = coveragedisplay = data['coveragedisplay'] = \
+		seriesparentdisplay = data['seriesparentdisplay'] = \
+		data['seriesmembersdisplay'] = \
+		data['broadcasttimesdisplay'] = \
+		data['supplementofdisplay'] =  data['supplementsdisplay'] = \
+		data['productioncompanydisplay'] = ''
+		
+		if 'circulation' in data['newprofile'] and data['newprofile']['circulation'] != None and data['newprofile']['circulation'] != '' and data['newprofile']['circulation'] != 'None':
+			data['circulationdisplay'] = 'Circulation %s' %(data['newprofile']['circulation'])
+		if 'webbrowsers' in data['newprofile'] and data['newprofile']['webbrowsers'] != None and data['newprofile']['webbrowsers'] != '' and data['newprofile']['webbrowsers'] != 'None':
+			data['webbrowsersdisplay'] = 'Web Browsers %s' %(data['newprofile']['webbrowsers'])
+		
+		if 'publishername' in data['outlet'] and data['outlet']['publishername'] != None and data['outlet']['publishername'] != '' and data['outlet']['publishername'] != 'None':
+			data['publisherdisplay'] = 'Published by %s' %(data['outlet']['publishername'])
 		if 'interests' in data and data['interests']:
 			for interest in data['interests']:
 				interestdisplay += '%s, ' % interest['interestname']
-			data['interestsdisplay'] = 'Covers news on %s' %interestdisplay[:-2]
+			data['interestdisplay'] = 'Covers news on %s' %interestdisplay[:-2]
 		if 'coverage' in data and data['coverage']:
 			for coverage in data['coverage']:
 				coveragedisplay += '%s, ' % coverage['geographicalname']
 			data['coveragedisplay'] = 'Geo Coverage is %s' %coveragedisplay[:-2]
-		if 'seriesparent' in data['newprofile'] and data['newprofile']['seriesparent'] != None and data['newprofile']['seriesparent'] != '':
-			data['seriesparentdisplay'] = 'Lead outlet (Series parent) is %s' %(data['newprofile']['seriesparent'])
-		if 'seriesmembers' in data['newprofile'] and data['newprofile']['seriesmembers'] != None and data['newprofile']['seriesmembers'] != '' :
-			data['seriesmembersdisplay'] = 'Group outlets (Series members) of %s' %(', '.join(data['newprofile']['seriesmembers']))
-			
-		if 'broadcasttimes' in data['newprofile'] and data['newprofile']['broadcasttimes'] != None and data['newprofile']['broadcasttimes'] != '':
+		if 'seriesparent' in data['newprofile'] and data['newprofile']['seriesparent'] != None and data['newprofile']['seriesparent'] != '' and data['newprofile']['seriesparent'] != 'None':
+			data['seriesparentdisplay'] = 'Lead outlet %s' %(data['newprofile']['seriesparent'])
+		if 'seriesmembers' in data['newprofile'] and data['newprofile']['seriesmembers'] != None and data['newprofile']['seriesmembers'] != '' and data['newprofile']['seriesmembers'] != 'None':
+			data['seriesmembersdisplay'] = 'Group outlets %s' %(', '.join(data['newprofile']['seriesmembers']))
+		if 'broadcasttimes' in data['newprofile'] and data['newprofile']['broadcasttimes'] != None and data['newprofile']['broadcasttimes'] != '' and data['newprofile']['broadcasttimes'] != 'None':
 			data['broadcasttimesdisplay'] = 'Broadcast times are %s' % (data['newprofile']['broadcasttimes'])
+		if 'supplementof' in data['newprofile'] and data['newprofile']['supplementof'] != None and data['newprofile']['supplementof'] != '' and data['newprofile']['supplementof'] != 'None':
+			data['supplementofdisplay'] = 'Supplement of %s' %(data['newprofile']['supplementof'])
+		if 'supplements' in data['newprofile'] and data['newprofile']['supplements'] != None and data['newprofile']['supplements'] != '' and data['newprofile']['supplements'] != 'None':
+			data['supplementsdisplay'] = 'Supplements %s' %(', '.join(data['newprofile']['supplements']))
+		if 'productioncompany' in data['newprofile'] and data['newprofile']['productioncompany'] != None and data['newprofile']['productioncompany'] != '' and data['newprofile']['productioncompany'] != 'None':
+			data['productioncompanydisplay'] = 'Production Company is %s' % (data['newprofile']['productioncompany'])
+			
+		
 
 		return data
 

@@ -300,12 +300,12 @@ class ActivitySubjectPDF(object):
 		    (Paragraph(engagment["contacthistorystatusdescription"], DATA_STYLE_RIGHT))
 		)]
 		details = [((Paragraph(engagment["subject"].replace("\n", "<br/>"), DATA_STYLE_LEFT),),)]
-		outcome = [((Paragraph(engagment["outcome"].replace("\n", "<br/>"), DATA_STYLE_LEFT),),)]
+		#outcome = [((Paragraph(engagment["outcome"].replace("\n", "<br/>"), DATA_STYLE_LEFT),),)]
 		self.append(Table(first_line,self.col_widths,self.row_heights,STD_FRAME,repeatRows=1))
 		self.append(Table(second_line,self.col_widths,self.row_heights,STD_FRAME,repeatRows=1))
 		self.append(Spacer(10, 5))
 		self.append(Paragraph(engagment["subject"].replace("\n", "<br/>"), DATA_STYLE_LEFT_2))
-		self.append(Paragraph(engagment["outcome"].replace("\n", "<br/>"), DATA_STYLE_LEFT_2))
+		#self.append(Paragraph(engagment["outcome"].replace("\n", "<br/>"), DATA_STYLE_LEFT_2))
 
 		self.append(Spacer(10, 5))
 		self.append(MLine(40,0,480,0))

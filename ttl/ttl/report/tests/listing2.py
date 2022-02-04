@@ -6,7 +6,7 @@ page_header = dict(prmax_info=dict(
 			fax = "fax",
 			email = "email"),
 			reportname="This is the report name",
-			headerimage = "prmax.gif",
+			headerimage = "pressofficelogo4.png",
 			strapline = "Powered by PRmax prmax.co.uk")
 invoicedetails = [
 	(rSingleLine,"Name", "Test"),

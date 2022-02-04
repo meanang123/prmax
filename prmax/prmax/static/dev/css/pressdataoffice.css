@@ -3499,8 +3499,6 @@ div.dijitTabDisabled,
     font-size: 1.5em;
 }
 
-
-
 .soria .searchresults .dijitDropDownButtonHover,
 .soria .searchresults .dijitButtonHover,
 .soria .searchresults .dijitToggleButtonHover,
@@ -3662,7 +3660,7 @@ div.dijitTabDisabled,
     margin: 0px;
     color: white;
     font-size: 12pt;
-    font-weight: bold;
+    font-weight: normal;
 }
 .soria .searchresults .prmaxrowdisplaylarge2 {
     padding-right: 1px;

@@ -1090,6 +1090,7 @@ class EmployeeDisplay(BaseSql):
 	Employee_Display_Query = """
 	SELECT e.job_title,
 		ContactName(c.prefix,c.firstname,c.middlename,c.familyname,c.suffix) as contactname,
+		ContactName('',c.firstname,c.middlename,c.familyname,'') as contactname_limited,
 		get_override(e.profile,'') as profile,
 		get_override(ec.profile,'') as localprofile,
 		get_override(c_ce.email,c_e.email,o_c_c.email,o_c.email) as email,

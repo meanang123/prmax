@@ -55,7 +55,8 @@ dojo.declare("prmax.pressdataoffice.banner",
 		{
 			this.mainpanel.showPage(page);
 		}
-	},	_show_clippings:function()
+	},	
+	_show_clippings:function()
 	{
 		this.loadLinks();
 		var args =

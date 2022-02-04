@@ -112,7 +112,7 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		this._outletid = response.employee.outletid;
 		this._outletname = response.employee.outletname;
 		this.crmview.set("title", PRMAX.utils.settings.crm_engagement_plural);
-		dojo.attr(this.employee_display_contactname, "innerHTML", response.employee.contactname);
+		dojo.attr(this.employee_display_contactname, "innerHTML", response.employee.contactname_limited);
 		dojo.attr(this.employee_display_job_title,"innerHTML",response.employee.job_title);
 //		dojo.attr(this.employee_display_address,"innerHTML",response.employee.address);
 		dojo.attr(this.employee_profile_image_url, "src", response.employee.profileimageurl);
@@ -150,16 +150,16 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 //			dojo.addClass(this.employee_display_facebook_row,"prmaxhidden");
 //		}
 
-//		if ( response.employee.linkedin != null && response.employee.linkedin.length > 0 )
-//		{
-//			dojo.attr(this.employee_display_linkedin,"href",response.employee.linkedin);
-//			dojo.attr(this.employee_display_linkedin,"innerHTML",response.employee.linkedin);
-//			dojo.removeClass(this.employee_display_linkedin_row,"prmaxhidden");
-//		}
-//		else
-//		{
-//			dojo.addClass(this.employee_display_linkedin_row,"prmaxhidden");
-//		}
+		if ( response.employee.linkedin != null && response.employee.linkedin.length > 0 )
+		{
+			dojo.attr(this.employee_display_linkedin,"href",response.employee.linkedin);
+			dojo.attr(this.employee_display_linkedin,"innerHTML",response.employee.linkedin);
+			dojo.removeClass(this.employee_display_linkedin_icon,"prmaxhidden");
+		}
+		else
+		{
+			dojo.addClass(this.employee_display_linkedin_icon,"prmaxhidden");
+		}
 		if ( response.employee.instagram != null && response.employee.instagram.trim().length > 0 )
 		{
 			dojo.attr(this.employee_display_instagram,"href",response.employee.instagram);
@@ -179,6 +179,15 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		{
 			dojo.addClass(this.employee_display_tel_icon,"prmaxhidden");
 		}
+		if (response.employee.mobile != null && response.employee.mobile.trim().length > 0)
+		{
+			dojo.attr(this.employee_display_mobile,"innerHTML",response.employee.mobile);
+			dojo.removeClass(this.employee_display_mobile_icon,"prmaxhidden");
+		}
+		else
+		{
+			dojo.addClass(this.employee_display_mobile_icon,"prmaxhidden");
+		}
 //		dojo.attr(this.employee_display_fax,"innerHTML",response.employee.fax);
 //		dojo.attr(this.employee_display_mobile,"innerHTML",response.employee.mobile);
 		dojo.attr(this.employee_display_localprofile,"innerHTML",response.employee.localprofile.replace(/\n/g,"<br/>"));
@@ -187,6 +196,11 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 		{
 			dojo.attr(this.interest_display,"innerHTML", 'Covers news on '+ response.employee_display_interests); //.replace(/,/g,"<br/>"));
 		}
+		
+//		if (response.employee_display_roles != null && response.employee_display_roles != '')
+//		{
+//			dojo.attr(this.roles_display,"innerHTML", 'Job roles are '+ response.employee_display_roles); //.replace(/,/g,"<br/>"));
+//		}
 		
 		this.customerid = response.employee.customerid;
 		this.ccustomerid = response.employee.customerid;
@@ -227,14 +241,14 @@ dojo.declare("prmax.employee.EmployeeDisplay",
 //		"employee_display_address",
 		"employee_display_email",
 		"employee_display_twitter",
-//		"employee_display_linkedin",
+		"employee_display_linkedin",
 //		"employee_display_facebook",
 		"employee_display_instagram",
 		"employee_display_tel",
 //		"employee_display_fax",
-//		"employee_display_mobile",
+		"employee_display_mobile",
 		"employee_display_localprofile",
-//		"employee_display_roles",
+//		"roles_display",
 		"interest_display"],
 	// empty all details
 	Clear:function()

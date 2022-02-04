@@ -61,6 +61,7 @@ dojo.declare("prcommon.advance.listview",
 		{
 			var contactdisplay = '';
 			var editorialdisplay = '';
+			var coverdisplay = '';
 			var publicationdisplay = '';
 			dojo.attr(this.feature, "innerHTML" , response.data.advance.feature );
 //			dojo.attr(this.editorial_date, "innerHTML" , response.data.advance.editorial_date_display);
@@ -68,8 +69,13 @@ dojo.declare("prcommon.advance.listview",
 //			dojo.attr(this.publicationdate, "innerHTML" , response.data.advance.pub_date_display);
 			if (response.data.advance.editorial_date_display)
 			{
-				editorialdisplay = 'Editorial Deadline ' + response.data.advance.editorial_date_display + ' Cover Date ' + response.data.advance.cover_date_display;
+				editorialdisplay = 'Editorial Deadline ' + response.data.advance.editorial_date_display;
 				dojo.attr(this.editorialdisplay,"innerHTML", editorialdisplay);
+			};
+			if (response.data.advance.cover_date_display)
+			{
+				coverdisplay = 'Cover Date ' + response.data.advance.cover_date_display;
+				dojo.attr(this.coverdisplay,"innerHTML", coverdisplay);
 			};
 			if (response.data.advance.contactname)
 			{
@@ -78,7 +84,7 @@ dojo.declare("prcommon.advance.listview",
 			};
 			if (response.data.advance.pub_date_display)
 			{
-				publicationdisplay = 'Puiblication Date' + response.data.advance.pub_date_display;
+				publicationdisplay = 'Puiblication Date ' + response.data.advance.pub_date_display;
 				dojo.attr(this.publicationdisplay,"innerHTML", publicationdisplay);
 			};
 			

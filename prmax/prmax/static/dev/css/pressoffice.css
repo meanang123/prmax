@@ -2681,6 +2681,7 @@ div.dijitTabDisabled,
     valign: top;
     v-align: top;
     font-size: 1.5em;
+    font-weight:bold;
 }
 .prmaxrowdisplaymedium {
     padding-right: 1px;

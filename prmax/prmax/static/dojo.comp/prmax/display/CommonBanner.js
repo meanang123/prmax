@@ -41,9 +41,15 @@ dojo.declare("prmax.display.CommonBanner",
 	{
 		if ( this.useradmin !=  null )
 			this.useradmin.set("disabled" , this.isuseradmin?false:true);
+			if (this.pm_user_admin){
+				this.pm_user_admin.set("disabled" , this.isuseradmin?false:true);
+			}
 
 		if ( this.financial != null )
 			this.financial.set("disabled" , this.canviewfinancial?false:true);
+			if (this.pm_financial){
+				this.pm_financial.set("disabled" , this.canviewfinancial?false:true);
+			}
 
 		// for pro version show extra menu options
 		if (PRMAX.utils.settings.productid==PRCOMMON.Constants.PRMAX_Pro)
@@ -171,10 +177,13 @@ dojo.declare("prmax.display.CommonBanner",
 		if (PRMAX.utils.settings.pm_user_admin==true)
 		{
 			dojo.removeClass(this.pm_user_admin.domNode,"prmaxhidden");
+			//this.useradmin.set("disabled", false);
 		}
 		if (PRMAX.utils.settings.pm_financial==true)
 		{
 			dojo.removeClass(this.pm_financial.domNode,"prmaxhidden");
+			//dojo.attr(this.pm_financial, "disabled", false);
+			//this.financial.set("disabled", false);
 		}
 		if (PRMAX.utils.settings.pm_prrequests==true)
 		{
