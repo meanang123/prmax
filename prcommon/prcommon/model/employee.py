@@ -1364,6 +1364,7 @@ class EmployeeDisplay(BaseSql):
 		profile_image_url = '/static/images/unnamed2.jpg'
 	
 		#search twitter user and get the profile image url to use as outlet profile image
+		'''
 		if details['twitter'] != None and details['twitter'] != '':
 			from prcommon.model.general.twittergeneral import TwitterSearch
 			profile_image_url = TwitterSearch.get_twitter_profile_image_url(details['twitter'])
@@ -1374,7 +1375,7 @@ class EmployeeDisplay(BaseSql):
 			elif facebookid.startswith("http:"):
 				facebookid = facebookid[24:]
 			profile_image_url = "http://graph.facebook.com/%s/picture" % facebookid
-
+		'''
 		details['profileimageurl'] = profile_image_url
 		
 

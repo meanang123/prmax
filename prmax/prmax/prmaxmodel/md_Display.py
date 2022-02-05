@@ -326,6 +326,8 @@ class OutletDisplay(BaseSql):
 								  OutletDisplay.Outlet_Display_Individual,
 								  outlet.primaryemployeeid)
 			profile_image_url = '/static/images/unnamed2.jpg'
+			
+			'''
 			if data['outlet']['twitter'] != None and data['outlet']['twitter'] != '':
 				from prcommon.model.general.twittergeneral import TwitterSearch
 				profile_image_url = TwitterSearch.get_twitter_profile_image_url(data['outlet']['twitter'])
@@ -336,11 +338,13 @@ class OutletDisplay(BaseSql):
 				elif facebookid.startswith("http:"):
 					facebookid = facebookid[24:]
 				profile_image_url = "http://graph.facebook.com/%s/picture" % facebookid
+			'''
 			data['outlet']['profileimageurl'] = profile_image_url
 
 		elif outlet.prmax_outlettypeid in Constants.Outlet_Is_Mp:
 			data = cls._capture ( outletid, customerid , OutletDisplay.Outlet_Display_Mp)
 			data["profile"] = cls.getProfileList(outletid, customerid)
+			'''
 			if data['outlet']['twitter'] != None and data['outlet']['twitter'] != '':
 				from prcommon.model.general.twittergeneral import TwitterSearch
 				profile_image_url = TwitterSearch.get_twitter_profile_image_url(data['outlet']['twitter'])
@@ -351,11 +355,12 @@ class OutletDisplay(BaseSql):
 				elif facebookid.startswith("http:"):
 					facebookid = facebookid[24:]
 				profile_image_url = "http://graph.facebook.com/%s/picture" % facebookid
+			'''
 			data['outlet']['profileimageurl'] = profile_image_url
 		else:
 			data = cls._capture ( outletid, customerid , OutletDisplay.Outlet_Display_Main_Control)
 			#profile_image_url = ''
-			
+			'''
 			if data['outlet']['twitter'] != None and data['outlet']['twitter'] != '':
 				from prcommon.model.general.twittergeneral import TwitterSearch
 				profile_image_url = TwitterSearch.get_twitter_profile_image_url(data['outlet']['twitter'])
@@ -366,6 +371,7 @@ class OutletDisplay(BaseSql):
 				elif facebookid.startswith("http:"):
 					facebookid = facebookid[24:]
 				profile_image_url = "http://graph.facebook.com/%s/picture" % facebookid
+			'''
 			data['outlet']['profileimageurl'] = profile_image_url
 
 		data["newprofile"] = cls.get_new_profile(outletid)
