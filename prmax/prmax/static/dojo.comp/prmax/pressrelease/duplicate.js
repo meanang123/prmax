@@ -23,7 +23,6 @@ dojo.declare("prmax.pressrelease.Duplicate",
 	postCreate:function()
 	{
 		dojo.subscribe('/update/distribution_label', dojo.hitch(this,this._UpdateDistributionLabelEvent));
-		dojo.connect(this.form,"onSubmit",dojo.hitch(this,this._SubmitAdd));
 		dojo.attr(this.distr_label, "innerHTML", "New " + PRMAX.utils.settings.distribution_description + " Name");
 
 		this.inherited(arguments);
@@ -44,22 +43,20 @@ dojo.declare("prmax.pressrelease.Duplicate",
 	},
 	_Save:function()
 	{
-		this.form.submit();
-	},
-	_SubmitAdd:function()
-	{
 		if ( ttl.utilities.formValidator(this.form)==false)
 		{
 			alert("Not all required field filled in");
 			this.saveNode.cancel();
 			return;
 		}
-
+		var content = {};
+		content['emailtemplateid'] = this.emailtemplateid.get("value");
+		content['emailtemplatename'] = this.emailtemplatename.get("value");
 		dojo.xhrPost(
 			ttl.utilities.makeParams({
 				load: this._SavedCall,
 				url: "/emails/template_duplicate" ,
-				content: this.form.get("value")
+				content: content
 			}));
 	},
 	_Saved:function(response)
