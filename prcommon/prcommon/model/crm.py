@@ -481,7 +481,7 @@ class Task(BaseSql):
 	def getDisplay(cls, taskid):
 		"get display "
 
-		return cls.sqlExecuteCommand(text(Task.View_Single2),
+		return cls.sqlExecuteCommand(text(Task.View_Single),
 		                              dict(taskid=taskid),
 		                              BaseSql.SingleResultAsEncodedDict)
 

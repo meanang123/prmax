@@ -158,7 +158,7 @@ class TasksGeneral(object):
 			LOGGER.exception("Task Update")
 			raise
 
-	View_Single = """SELECT t.taskid,
+	View_Single2 = """SELECT t.taskid,
 			to_char(t.due_date, 'DD/MM/YY') as due_date_display,
 			CASE WHEN t.due_date IS NOT NULL AND t.due_date<CURRENT_DATE THEN true ELSE false END AS isoverdue,
 			u.user_name,
@@ -183,7 +183,7 @@ class TasksGeneral(object):
 	    LEFT OUTER JOIN contacts AS con ON con.contactid = e.contactid
 			WHERE t.taskid = :taskid """
 
-	View_Single2 = """SELECT t.taskid,
+	View_Single = """SELECT t.taskid,
 			to_char(t.due_date, 'DD/MM/YY') as due_date_display,
 			CASE WHEN t.due_date IS NOT NULL AND t.due_date<CURRENT_DATE THEN true ELSE false END AS isoverdue,
 			u.user_name,
@@ -225,7 +225,7 @@ class TasksGeneral(object):
 	def get(taskid, extended=False):
 		"get"
 
-		data = Task.sqlExecuteCommand(text(TasksGeneral.View_Single2),
+		data = Task.sqlExecuteCommand(text(TasksGeneral.View_Single),
 		                              dict(taskid=taskid),
 		                              BaseSql.SingleResultAsEncodedDict)
 

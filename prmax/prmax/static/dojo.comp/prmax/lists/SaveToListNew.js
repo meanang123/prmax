@@ -57,7 +57,7 @@ dojo.declare("prmax.lists.SaveToListNew",
 	{
 		this.source.setOptions(this.selected);
 		this.source2.setOptions(this.selected);
-		this.lists.focus();
+		//this.lists.focus();
 
 		//this.tabController.startup();
 		this.inherited(arguments);
