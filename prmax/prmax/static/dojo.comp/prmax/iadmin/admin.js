@@ -1145,6 +1145,28 @@ dojo.declare("prmax.iadmin.admin",
 			alert("Customer Type Changed");
 			this.extendedsettings.load(response.data.cust,response.data.mediaaccesstype);
 			this._CheckLayout(response.data.cust);
+			if (response.data.customermenusettings)
+			{
+				this.pm_new_outlet.set("value", response.data.customermenusettings.pm_new_outlet);
+				this.pm_new_freelance.set("value", response.data.customermenusettings.pm_new_freelance);
+				this.pm_collateral.set("value", response.data.customermenusettings.pm_collateral);
+				this.pm_exclusions.set("value", response.data.customermenusettings.pm_exclusions);
+				this.pm_clients.set("value", response.data.customermenusettings.pm_clients);
+				this.pm_issues.set("value", response.data.customermenusettings.pm_issues);
+				this.pm_statements.set("value", response.data.customermenusettings.pm_statements);
+				this.pm_questions.set("value", response.data.customermenusettings.pm_questions);
+				this.pm_global_analysis.set("value", response.data.customermenusettings.pm_global_analysis);
+				this.pm_documents.set("value", response.data.customermenusettings.pm_documents);
+				this.pm_private_media_channels.set("value", response.data.customermenusettings.pm_private_media_channels);
+				this.pm_user_preferences.set("value", response.data.customermenusettings.pm_user_preferences);
+				this.pm_account_details.set("value", response.data.customermenusettings.pm_account_details);
+				this.pm_activity_log.set("value", response.data.customermenusettings.pm_activity_log);
+				this.pm_user_admin.set("value", response.data.customermenusettings.pm_user_admin);
+				this.pm_financial.set("value", response.data.customermenusettings.pm_financial);
+				this.pm_prrequests.set("value", response.data.customermenusettings.pm_prrequests);			
+			}
+
+
 		}
 		else
 		{
