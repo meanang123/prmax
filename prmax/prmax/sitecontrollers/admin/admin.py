@@ -1387,7 +1387,7 @@ class InternalAdminController(SecureController):
 		                dict(id=31, type=0, name="Companies", content="prmax.iadmin.sales.prospects.companies.view"),
 		                dict(id=32, type=0, name="Mailing Lists", content="prmax.iadmin.sales.prospects.mailing.view"),
 		                dict(id=33, type=0, name="Bounces", content="prmax.iadmin.sales.prospects.bounces.view"),
-		                dict(id=34, type=0, name="Exclusions", content="prmax.iadmin.sales.prospects.exclusions.view")
+				dict(id=34, type=0, name="Exclusions", content="prmax.iadmin.sales.prospects.exclusions.view")
 
 								  ])
 
@@ -1450,6 +1450,15 @@ class InternalAdminController(SecureController):
 		Customer.update_private_menu(params)
 
 		return stdreturn(data=Customer.get_internal(params))
+
+	@expose("json")
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=PrCustomerSchema(), state_factory=std_state_factory)
+	def get_customer_private_menu(self, *argv, **params):
+		""" Update the customer modules """
+
+		return stdreturn(data=Customer.get_private_menu(params["icustomerid"]))
+
 
 	@expose("json")
 	@exception_handler(pr_std_exception_handler)

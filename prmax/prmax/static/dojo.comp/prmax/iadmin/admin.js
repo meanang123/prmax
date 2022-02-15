@@ -1063,6 +1063,8 @@ dojo.declare("prmax.iadmin.admin",
 		this.datasets.controlButton.domNode.style.display = display;
 		this.extendedsettings.load(customer, mediaaccesstype);
 		this.emailserver.load(customer, emailserver);
+		display = (customer.customertypeid == 20)?"":"none";
+		this.options_tab_menusettings.controlButton.domNode.style.display = display;
 
 	},
 	_UpdateModulesCall:function ( response )
@@ -1142,6 +1144,7 @@ dojo.declare("prmax.iadmin.admin",
 		{
 			alert("Customer Type Changed");
 			this.extendedsettings.load(response.data.cust,response.data.mediaaccesstype);
+			this._CheckLayout(response.data.cust);
 		}
 		else
 		{
@@ -1152,6 +1155,8 @@ dojo.declare("prmax.iadmin.admin",
 	{
 		if ( confirm("Change Customer Type"))
 		{
+			this._clear_private_menu_settings();
+			
 			dojo.xhrPost(
 				ttl.utilities.makeParams({
 				load: dojo.hitch(this,this._UpdatedCustomerTypeCallBack),

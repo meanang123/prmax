@@ -967,7 +967,6 @@ class User(BaseSql):
 		  force_passwordrecovery=user.force_passwordrecovery
 		)
 
-
 	def force_logout(self):
 		"""For a logout"""
 
@@ -1107,15 +1106,41 @@ class Customer(BaseSql):
 			from_type = CustomerTypes.query.get(customer.customertypeid)
 			to_type = CustomerTypes.query.get(kw["customertypeid"])
 			if  customer.customertypeid != kw["customertypeid"]:
+				cms = CustomerMenuSettings.query.get(customer.customerid)
+				if cms:
+					session.delete(cms)
+
 				customer.customertypeid = kw["customertypeid"]
+				if int(kw["customertypeid"]) == Constants.CustomerType_PrmaxPressOffice:
+					session.add(CustomerMenuSettings(customerid=customer.customerid,
+									pm_new_outlet=True,
+									pm_new_freelance=True,
+									pm_collateral=True,
+									pm_exclusions=True,
+									pm_clients=True,
+									pm_issues=True,
+									pm_statements=True if customer.crm is True else False,
+									pm_questions=True if customer.updatum is True else False,
+									pm_global_analysis=True if customer.updatum is True else False,
+									pm_documents=True if customer.crm is True else False,
+									pm_private_media_channels=True,
+									pm_user_preferences=True,
+									pm_account_details=True,
+									pm_activity_log=True,
+									pm_user_admin=True,
+									pm_financial=True,
+									pm_prrequests=True))
+				
+
 				session.add(AuditTrail(
 				  audittypeid=Constants.audit_customer_typeid,
 				  audittext="From %s To %s" % (from_type.customertypename, to_type.customertypename),
 				  userid=kw["userid"],
 				  customerid=kw["icustomerid"]))
 
+			
+			# add private menu settings
 			customer.set_type_defaults()
-
 			transaction.commit()
 		except:
 			LOGGER.exception("update_customertypeid")
@@ -2124,6 +2149,13 @@ class Customer(BaseSql):
 			    customermenusettings=customermenusettings if customermenusettings else None,
 		            mediaaccesstype = cust_mediaaccesstype,
 		            emailserver = emailserver)
+
+	@classmethod
+	def get_private_menu(cls, customerid):
+		""" get internal user settings """
+
+		cms = CustomerMenuSettings.query.get(customerid)
+		return dict(cms = cms)
 
 	@classmethod
 	def setExtpireDateInternal(cls, customerid, licence_expire, advance_licence_expired,
