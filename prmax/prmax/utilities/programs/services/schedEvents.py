@@ -20,6 +20,7 @@ Command_Optimize = "VACUUM"
 
 Command_Cache_Clean = """ DELETE FROM actionlog WHERE when_date < CURRENT_DATE - interval '1 months'"""
 
+Command_Visit_Clean = """DELETE FROM public.visit where expiry < CURRENT_DATE - interval '3 months'"""
 Command_Email_Clean = """DELETE FROM queues.emailqueue where sent < CURRENT_DATE - interval '1 months'"""
 Command_Word_Clean = """DELETE FROM queues.mswordqueue where uploaded < CURRENT_DATE - interval '1 months'"""
 Command_Attachments_Clean = """DELETE FROM userdata.emailtemplatesattachements WHERE emailtemplateid in (
@@ -36,6 +37,7 @@ s = Scheduler()
 # add options daily
 s.addTask(ScheduleTask(0, (8, 53), SqlCommand(Command_CleanUp)))
 s.addTask(ScheduleTask(0, (23, 00), SqlCommand(Command_Attachments_Clean)))
+s.addTask(ScheduleTask(0, (23, 10), SqlCommand(Command_Visit_Clean)))
 s.addTask(ScheduleTask(0, (23, 20), SqlCommand(Command_Email_Clean)))
 s.addTask(ScheduleTask(0, (23, 30), SqlCommand(Command_Word_Clean)))
 s.addTask(ScheduleTask(0, (23, 40), SqlCommand(Command_Cache_Clean, tocache=True)))
