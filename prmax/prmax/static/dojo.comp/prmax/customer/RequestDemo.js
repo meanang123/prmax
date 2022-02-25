@@ -23,7 +23,7 @@ dojo.require("ttl.utilities");
 dojo.declare("prmax.customer.RequestDemo",
 	[dijit._Widget, dijit._Templated, dijit._Container],{
 		widgetsInTemplate: true,
-		customertypeid:1,
+		customertypeid:20,
 		customersourceid:5,
 		templatePath: dojo.moduleUrl( "prmax.customer","templates/RequestDemo.html"),
 	constructor: function()

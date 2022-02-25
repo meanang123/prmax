@@ -439,7 +439,7 @@ class ExternalAdminController(controllers.RootController):
 	@expose(template="prmax.templates.eadmin/requestdemo")
 	def requestdemo(self, *args, **params):
 		"""  Request a Demo """
-		params["customertypeid"] = 1
+		params["customertypeid"] = 20 #Customertype = PRMaxPressOffice
 		if "customersourceid" not in params:
 			params["customersourceid"] = 5
 

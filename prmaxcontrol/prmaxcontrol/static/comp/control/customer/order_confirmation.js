@@ -435,7 +435,7 @@ _Show_Hide_DD:function( advancefeatures, updatum, has_international_data, orderp
 	_ProductTypeSetting:function( customertypeid )
 	{
 		// this is one oof ours
-		if ( customertypeid == 1 )
+		if ( customertypeid == 1 || customertypeid == 20)
 		{
 			this.emailtocustomer.set("checked", true ) ;
 			this.emailtocustomer.set("disabled" , false ) ;

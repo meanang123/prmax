@@ -1,114 +1,29 @@
-﻿Update internal.prmax_outlettypes set prmax_outlettypename = 'Academic Journal' where prmax_outlettypeid = 63;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business directory' where prmax_outlettypeid = 19;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business magazine (Series member)' where prmax_outlettypeid = 72;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business magazine' where prmax_outlettypeid = 13;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business magazine supplement' where prmax_outlettypeid = 14;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business newsletter' where prmax_outlettypeid = 17;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer directory' where prmax_outlettypeid = 20;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer magazine (Series member)' where prmax_outlettypeid = 71;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer magazine' where prmax_outlettypeid = 15;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'In-Flight magazine' where prmax_outlettypeid = 48;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'In-Store magazine' where prmax_outlettypeid = 47;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer magazine supplement' where prmax_outlettypeid = 16;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer newsletter' where prmax_outlettypeid = 18;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Freelancer' where prmax_outlettypeid = 42;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business blog' where prmax_outlettypeid = 33;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer blog' where prmax_outlettypeid = 34;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'News blog' where prmax_outlettypeid = 32;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business email bulletin' where prmax_outlettypeid = 35;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer email bulletin' where prmax_outlettypeid = 46;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Podcast' where prmax_outlettypeid = 75;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Private' where prmax_outlettypeid = 74;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Business website' where prmax_outlettypeid = 30;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Consumer website' where prmax_outlettypeid = 31;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'News website' where prmax_outlettypeid = 29;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National newspaper magazine' where prmax_outlettypeid = 2;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National newspaper supplement' where prmax_outlettypeid = 3;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National newspaper' where prmax_outlettypeid = 1;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National newspaper outside UK' where prmax_outlettypeid = 5;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'News & Photo agency' where prmax_outlettypeid = 43;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'News & Photo agency outside UK' where prmax_outlettypeid = 44;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Trade Association' where prmax_outlettypeid = 39;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Writers Guild' where prmax_outlettypeid = 38;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Not Specified' where prmax_outlettypeid = 45;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Alliance MP' where prmax_outlettypeid = 52;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Conservative MP' where prmax_outlettypeid = 50;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Democratic Unionist Party MP' where prmax_outlettypeid = 62;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Green MP' where prmax_outlettypeid = 53;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Independent MP' where prmax_outlettypeid = 61;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Labour MP' where prmax_outlettypeid = 58;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Liberal Democrat MP' where prmax_outlettypeid = 59;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Plaid Cymru MP' where prmax_outlettypeid = 55;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Scottish National MP' where prmax_outlettypeid = 56;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Sinn Fein MP' where prmax_outlettypeid = 60;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Social Democratic and Labour MP' where prmax_outlettypeid = 57;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'UK Independence Party MP' where prmax_outlettypeid = 73;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Ulster Unionist MP' where prmax_outlettypeid = 54;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Advertising' where prmax_outlettypeid = 95;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'BBC Shared Data Unit' where prmax_outlettypeid = 81;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Central Government' where prmax_outlettypeid = 96;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Colleges' where prmax_outlettypeid = 94;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Emergency services' where prmax_outlettypeid = 90;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Health' where prmax_outlettypeid = 87;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Health Trusts' where prmax_outlettypeid = 97;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'International magazines' where prmax_outlettypeid = 93;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local business' where prmax_outlettypeid = 80;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local Council' where prmax_outlettypeid = 76;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local Government' where prmax_outlettypeid = 77;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'MPs' where prmax_outlettypeid = 102;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National business' where prmax_outlettypeid = 100;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National charity' where prmax_outlettypeid = 85;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Other' where prmax_outlettypeid = 88;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Police' where prmax_outlettypeid = 101;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'PR companies NE' where prmax_outlettypeid = 84;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'PR companies UK' where prmax_outlettypeid = 92;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'PR in house national' where prmax_outlettypeid = 99;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Regional arts organisations' where prmax_outlettypeid = 89;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Regional charity' where prmax_outlettypeid = 78;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Safeguarding' where prmax_outlettypeid = 82;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Schools' where prmax_outlettypeid = 91;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Tees, Esk, & Wear Valleys NHS Trust' where prmax_outlettypeid = 98;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Teesside MPs' where prmax_outlettypeid = 79;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'test media channels' where prmax_outlettypeid = 103;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Universties' where prmax_outlettypeid = 86;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Voluntary sector' where prmax_outlettypeid = 83;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Radio production company' where prmax_outlettypeid = 41;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local radio programme' where prmax_outlettypeid = 66;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National radio programme' where prmax_outlettypeid = 24;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Hospital radio station' where prmax_outlettypeid = 23;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local radio station' where prmax_outlettypeid = 21;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National radio station (Analogue)' where prmax_outlettypeid = 64;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'National radio station (Digital)' where prmax_outlettypeid = 65;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Student radio station' where prmax_outlettypeid = 49;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Radio station outside UK' where prmax_outlettypeid = 22;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local newspaper magazine' where prmax_outlettypeid = 11;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local newspaper supplement' where prmax_outlettypeid = 12;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local newspaper (Weekly)' where prmax_outlettypeid = 10;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Local newspaper (Series member)' where prmax_outlettypeid = 69;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Regional newspaper edition' where prmax_outlettypeid = 9;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Regional newspaper magazine' where prmax_outlettypeid = 7;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Regional newspaper supplement' where prmax_outlettypeid = 8;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Regional newspaper (Daily)' where prmax_outlettypeid = 6;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Regional newspaper (Series member)' where prmax_outlettypeid = 70;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Television production company' where prmax_outlettypeid = 40;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Television programme' where prmax_outlettypeid = 27;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Television station' where prmax_outlettypeid = 25;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Television station outside UK' where prmax_outlettypeid = 26;
-Update internal.prmax_outlettypes set prmax_outlettypename = 'Television text service' where prmax_outlettypeid = 28;
-                                                             
-
-
-
-
-
-
-
-
-
-
+﻿ALTER TABLE ONLY internal.demorequests ALTER COLUMN customertypeid SET DEFAULT 20;
 
 
 /*
+
+drop table twitter_userdetails;
+
+CREATE TABLE twitter_userdetails
+(
+  objectid integer NOT NULL,
+  objecttypeid integer NOT NULL,
+  twitterlink character varying(225) NOT NULL,
+  user_name character varying(50),
+  profile_image_url character varying(128),
+  CONSTRAINT pk_objectid PRIMARY KEY (objectid),
+  CONSTRAINT pk_objectid UNIQUE (objectid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE twitter_userdetails OWNER TO postgres;
+GRANT ALL ON TABLE twitter_userdetails TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE twitter_userdetails TO prmax;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE twitter_userdetails TO prmaxcontrol;
+
+
 --Direct Debit and monthly payments new expiry year
 UPDATE internal.customers
 SET licence_expire = licence_expire + interval '15 years'
@@ -263,13 +178,10 @@ GRANT ALL ON TABLE research.researchprojectitememail_researchprojectitememailid_
 GRANT UPDATE ON TABLE research.researchprojectitememail_researchprojectitememailid_seq TO prmax;
 GRANT UPDATE ON TABLE research.researchprojectitememail_researchprojectitememailid_seq TO prmaxcontrol;
 
-*/
-
 ALTER TABLE research.researchdetails ADD COLUMN italian_export boolean NOT NULL DEFAULT false;
 ALTER TABLE research.researchdetailsdesk ADD COLUMN italian_export boolean NOT NULL DEFAULT false;
 INSERT INTO research.fields(fieldid,fieldname) VALUES(101,'Italian Export');
 
-/*
 ALTER TABLE outlets ADD COLUMN italian_export boolean NOT NULL DEFAULT false;
 ALTER TABLE research.researchdetails DROP COLUMN italian_export;
 ALTER TABLE research.researchdetailsdesk DROP COLUMN italian_export;

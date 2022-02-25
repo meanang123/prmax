@@ -336,6 +336,29 @@ class CustomerExternal(BaseSql):
 				cust.updatum = True
 
 				SolidMediaGeneral(cust)
+				
+			# add private menu settings
+			if int(cust.customertypeid) == Constants.CustomerType_PrmaxPressOffice:
+				session.add(CustomerMenuSettings(customerid=cust.customerid,
+								pm_new_outlet=True,
+								pm_new_freelance=True,
+								pm_collateral=True,
+								pm_exclusions=True,
+								pm_clients=True,
+								pm_issues=True,
+								pm_statements=False,
+								pm_questions=True,
+								pm_global_analysis=True,
+								pm_documents=False,
+								pm_private_media_channels=True,
+								pm_user_preferences=True,
+								pm_account_details=True,
+								pm_activity_log=True,
+								pm_user_admin=True,
+								pm_financial=True,
+								pm_prrequests=True))
+			
+			
 		except:
 			LOGGER.exception("customer_external_new")
 			raise
