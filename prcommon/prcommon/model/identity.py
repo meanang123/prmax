@@ -1086,6 +1086,10 @@ class Customer(BaseSql):
 				customer.customerstatusid = Constants.Customer_Awaiting_Deletion
 				return "FD"
 			else:
+				cms = CustomerMenuSettings.query.get(customerid)
+				if cms:
+					session.delete(cms)
+					session.flush()
 				session.delete(customer)
 			session.flush()
 			transaction.commit()
