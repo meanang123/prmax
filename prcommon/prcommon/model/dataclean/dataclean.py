@@ -18,6 +18,7 @@ import simplejson
 from ttl.model import BaseSql
 from prcommon.model.outlet import Outlet
 from prcommon.model.customer.customergeneral import Customer
+from prcommon.model import CustomerTypes
 from prcommon.model.seopressreleases import SEORelease
 from prcommon.model.client import Client
 from prcommon.model.emails import EmailTemplates
@@ -28,6 +29,7 @@ from prcommon.model.newsroom.clientnewsroomcontactdetails import ClientNewsRoomC
 from prcommon.model.crm import ContactHistory
 from prcommon.model.collateral import Collateral, ECollateral
 from prcommon.model.interests import Interests, OutletInterestView, EmployeeInterestView, InterestGroups
+from prcommon.model import ClippingsOrder, Clipping
 from datetime import datetime, timedelta, date
 
 import prcommon.Constants as Constants
@@ -42,19 +44,25 @@ class DataClean(object):
 
         fromdate1 = date.today() - timedelta(days = 365*2)
         fromdate2 = date.today() - timedelta(days = 365*3)
-        customers_todelete = session.query(Customer.customerid).\
+        customers_todelete = [cust.customerid for cust in session.query(Customer).\
             outerjoin(SEORelease, SEORelease.customerid == Customer.customerid).\
-            filter(or_(and_(Customer.customerstatusid == 3, SEORelease.published < fromdate2),
+            filter(or_(and_(Customer.customerstatusid == 3, Customer.createddate < fromdate2, SEORelease.published < fromdate2),
                        Customer.licence_expire < fromdate2,
                        (and_(Customer.licence_expire > fromdate2,
                              Customer.licence_expire < fromdate1,
                              SEORelease.published < fromdate2)))).distinct().\
-        	filter(Customer.isinternal == False).all()
+                filter(Customer.isinternal == False).all()]
                 #filter(Customer.customerid > 1800).distinct().all()
                 #filter(Customer.customerid == 1134).all()
 
-        print ('start')
+        print ('start service dataclean')
         print (len(customers_todelete))
+        self.delete_customers(customers_todelete)
+
+    def delete_customers(self, customers_todelete):
+        print ('Start delete_customers')
+        print (len(customers_todelete))
+
         counter = 0
         for customerid in customers_todelete:
             counter += 1
@@ -150,9 +158,12 @@ class DataClean(object):
                 clients_seo = [row.clientid for row in session.query(SEORelease.clientid).\
                                filter(SEORelease.customerid == customerid).\
                                filter(SEORelease.clientid.in_(clients)).distinct().all()]
+                clients_clippings = [row.defaultclientid for row in session.query(ClippingsOrder.defaultclientid).\
+                               filter(ClippingsOrder.customerid == customerid).\
+                               filter(ClippingsOrder.defaultclientid.in_(clients)).distinct().all()]
                 clients_todelete = []
                 if clients and clients_seo:
-                    clients_todelete = (list(set(clients) - set(clients_seo)))
+                    clients_todelete = (list(set(clients) - set(clients_seo) - set(clients_clippings)))
                 for clientid in clients_todelete:
                     session.execute(text('DELETE FROM userdata.client WHERE customerid = :customerid AND clientid = :clientid'),
                                     {'customerid': customerid, 'clientid':clientid}, Customer)
@@ -194,7 +205,7 @@ class DataClean(object):
     def start_old_data(self):
 
         for customer in session.query(Customer).filter(Customer.isinternal == False).all():
-            #  delete all list/distributions thatareover3 years old
+            #  delete all list/distributions that are over3 years old
             try:
                 deletedata = session.execute(text("""select emailtemplateid,listid from userdata.emailtemplates where sent_time < current_date - interval '3 years' and listid is not null and customerid = :customerid"""), {'customerid': customer.customerid,}, Customer).fetchall()
 
@@ -257,6 +268,85 @@ class CollateralClean(object):
         print ('prmaxcollateral: %s' %len(prmaxcollateral))
 
         nbr = 0
+        for x in range(136, 200):
+            collateral_collateral = session.query(ECollateral).\
+                filter(ECollateral.collateralid < x*1000).filter(ECollateral.collateralid >= (x-1)*1000).all()
+
+            print ('collateral_collateral: %s' %len(collateral_collateral))
+            session.begin()
+            for col in collateral_collateral:
+                if col.collateralid not in prmaxcollateral:
+                    nbr += 1
+                    session.delete(col)
+                    if nbr%50 == 0:
+                        session.commit()
+                        session.begin()
+                        print ('%5d:' % nbr)
+            session.commit()
+        print ('Total deleted: %s' % nbr)
+
+class CustomersClean(object):
+    """Delete old customers """
+
+    CUSTOMERTYPES_TODELETE = [2,4,6,7,11,12,14,16,17,19,21]
+
+    def delete_old_customers(self):
+
+        customers_todelete = [cust.customerid for cust in session.query(Customer).\
+            filter(Customer.customertypeid.in_((2,4,6,7,11,12,14,16,17,19,21))).\
+            filter(Customer.customerid != 4332).\
+            filter(Customer.customerid != 4823).\
+            filter(Customer.customerid != 3690).\
+            filter(Customer.customerid != 1953).\
+            filter(Customer.customerid != 5209).\
+            filter(Customer.customerid != 2736).\
+            filter(Customer.customerid != 2783).\
+            filter(Customer.customerid != 1314).\
+            filter(Customer.customerid != 926).\
+            filter(Customer.customerid != 843).\
+            filter(Customer.customerid != 2365).\
+            filter(Customer.customerid != 1892).\
+            filter(Customer.customerid != 3972).\
+            filter(Customer.customerid != 1975).\
+            filter(Customer.customerid != 2119).\
+            filter(Customer.customerid != 85).\
+            filter(Customer.customerid != 5817).\
+            filter(Customer.customerid != 1997).\
+            filter(Customer.customerid != 2537).\
+            filter(Customer.customerid != 4822).\
+            filter(Customer.customerid != 4693).\
+            all()]
+
+        a = DataClean()
+        print('Start customertypes')
+        a.delete_customers(customers_todelete)
+
+#        session.begin()
+        if customers_todelete:
+            print('Start Customers')
+            for customerid in customers_todelete:
+                print(customerid)
+                session.begin()
+                session.execute(text("""DELETE FROM internal.customers where customerid=:customerid"""), {'customerid': customerid}, Customer)
+                session.commit()
+            print('End Customers')
+
+        print('Start CustomerTypes')
+        session.begin()
+        session.execute(text("""DELETE FROM internal.customertypes where customertypeid in (4,11,12,14,16,21)"""), {}, CustomerTypes)
+        session.commit()
+        print('End customertypes')
+
+
+'''    def delete_old_customers(self):
+
+        for customer in session.query(Customer).\
+            filter(Customer.customertype).
+
+        prmaxcollateral = session.query(Collateral.collateralid).all()
+        print ('prmaxcollateral: %s' %len(prmaxcollateral))
+
+        nbr = 0
         for x in range(1, 137):
             collateral_collateral = session.query(ECollateral).\
                 filter(ECollateral.collateralid < x*1000).filter(ECollateral.collateralid >= (x-1)*1000).all()
@@ -273,3 +363,9 @@ class CollateralClean(object):
                         print ('%5d:' % nbr)
             session.commit()
         print ('Total deleted: %s' % nbr)
+'''
+
+class ClippingsClean(object):
+    """Delete old clippings """
+
+    pass
