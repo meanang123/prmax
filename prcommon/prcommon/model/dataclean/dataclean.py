@@ -18,6 +18,7 @@ import simplejson
 from ttl.model import BaseSql
 from prcommon.model.outlet import Outlet
 from prcommon.model.customer.customergeneral import Customer
+from prcommon.model import CustomerInvoice, CustomerAllocation, CustomerPayments
 from prcommon.model import CustomerTypes
 from prcommon.model.seopressreleases import SEORelease
 from prcommon.model.client import Client
@@ -58,6 +59,31 @@ class DataClean(object):
         print ('start service dataclean')
         print (len(customers_todelete))
         self.delete_customers(customers_todelete)
+
+    def delete_3years_suspended_and_licence_expired(self):
+
+        
+        customerinvoices = [ci.customerid for ci in session.query(CustomerInvoice.customerid).order_by(CustomerInvoice.customerid).distinct()]
+        customerpayments = [ca.customerid for ca in session.query(CustomerPayments.customerid).order_by(CustomerPayments.customerid).distinct()]
+        customerseoreleases = [seo.customerid for seo in session.query(SEORelease.customerid).filter(SEORelease.seostatusid==2).order_by(SEORelease.customerid).distinct()]
+        customerclippingsorders = [co.customerid for co in session.query(ClippingsOrder.customerid).order_by(ClippingsOrder.customerid).distinct()]
+        
+        fromdate2 = date.today() - timedelta(days = 365*3)
+        customers_todelete = [cust.customerid for cust in session.query(Customer).\
+                filter(Customer.customerstatusid == 3).\
+                filter(Customer.licence_expire < fromdate2).\
+                filter(not_(Customer.customerid.in_(customerinvoices))).\
+                filter(not_(Customer.customerid.in_(customerpayments))).\
+                filter(not_(Customer.customerid.in_(customerseoreleases))).\
+                filter(not_(Customer.customerid.in_(customerclippingsorders))).\
+                filter(Customer.isinternal == False).all()]
+                #filter(Customer.customerid > 1800).distinct().all()
+                #filter(Customer.customerid == 1134).all()
+
+        print ('start service dataclean')
+        print (len(customers_todelete))
+        self.delete_customers(customers_todelete)
+
 
     def delete_customers(self, customers_todelete):
         print ('Start delete_customers')
@@ -102,6 +128,7 @@ class DataClean(object):
                 session.execute(text('DELETE FROM userdata.clippings WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.clippingsanalysis WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.clippingsanalysistemplate WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM internal.clippingsorder WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.customersolidmediaprofiles WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.customersolidmedia WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
 
@@ -152,18 +179,25 @@ class DataClean(object):
                 session.execute(text('DELETE FROM public.communications WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM public.outlets WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
 
+                session.execute(text('DELETE FROM seoreleases.seorelease WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+
                 #delete clients that are not linked with an SEO
                 clients = [row.clientid for row in session.query(Client.clientid).\
                            filter(Client.customerid == customerid).all()]
-                clients_seo = [row.clientid for row in session.query(SEORelease.clientid).\
-                               filter(SEORelease.customerid == customerid).\
-                               filter(SEORelease.clientid.in_(clients)).distinct().all()]
-                clients_clippings = [row.defaultclientid for row in session.query(ClippingsOrder.defaultclientid).\
-                               filter(ClippingsOrder.customerid == customerid).\
-                               filter(ClippingsOrder.defaultclientid.in_(clients)).distinct().all()]
-                clients_todelete = []
-                if clients and clients_seo:
-                    clients_todelete = (list(set(clients) - set(clients_seo) - set(clients_clippings)))
+                #clients_seo = [row.clientid for row in session.query(SEORelease.clientid).\
+                #               filter(SEORelease.customerid == customerid).\
+                #               filter(SEORelease.clientid.in_(clients)).distinct().all()]
+                #clients_clippings = [row.defaultclientid for row in session.query(ClippingsOrder.defaultclientid).\
+                #               filter(ClippingsOrder.customerid == customerid).\
+                #               filter(ClippingsOrder.defaultclientid.in_(clients)).distinct().all()]
+                clients_todelete = clients
+                #if clients:
+                #    if clients_seo: #and clients_clippings:
+                #        clients_todelete = (list(set(clients) - set(clients_seo))) # - set(clients_clippings)))
+                    #elif clients_seo and not clients_clippings:
+                    #    clients_todelete = (list(set(clients) - set(clients_seo)))
+                    #elif not clients_seo and clients_clippings:
+                    #    clients_todelete = (list(set(clients) - set(clients_clippings)))
                 for clientid in clients_todelete:
                     session.execute(text('DELETE FROM userdata.client WHERE customerid = :customerid AND clientid = :clientid'),
                                     {'customerid': customerid, 'clientid':clientid}, Customer)
@@ -182,7 +216,7 @@ class DataClean(object):
                     session.execute(text("DELETE FROM userdata.emailtemplatelist WHERE emailtemplateid = :emailtemplateid"), {'emailtemplateid':emailtemplateid}, Customer)
                     session.execute(text("UPDATE userdata.emailtemplates SET listid = null WHERE emailtemplateid = :emailtemplateid"), {'emailtemplateid':emailtemplateid}, Customer)
 
-                emailtemplates_todelete = []
+                emailtemplates_todelete = emailtemplates
                 if emailtemplates and emailtemplates_seo:
                     emailtemplates_todelete = (list(set(emailtemplates) - set(emailtemplates_seo)))
                 for emailtemplateid in emailtemplates_todelete:
@@ -191,10 +225,21 @@ class DataClean(object):
 
                 session.flush()
                 session.execute(text('DELETE FROM userdata.list WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM queues.indexerqueue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM queues.cachequeue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM queues.emailqueue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM queues.mswordqueue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM queues.reports WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+
+                session.execute(text('DELETE FROM internal.customermenusettings WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
 
                 session.execute(text('DELETE FROM public.tg_user WHERE customerid = :customerid AND user_id != 5732 AND usertypeid = 1'), {'customerid': customerid}, Customer)
-
+                session.flush()
+                
+                #session.execute(text('DELETE FROM internal.customers WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                #print('Deleted customerid: %s' %customerid)
                 session.commit()
+
             except:
                 LOGGER.exception("Delete Failure")
                 session.rollback()
@@ -291,31 +336,38 @@ class CustomersClean(object):
     CUSTOMERTYPES_TODELETE = [2,4,6,7,11,12,14,16,17,19,21]
 
     def delete_old_customers(self):
-
+        
+        customerinvoices = [ci.customerid for ci in session.query(CustomerInvoice.customerid).order_by(CustomerInvoice.customerid).distinct()]
+        customerpayments = [ca.customerid for ca in session.query(CustomerPayments.customerid).order_by(CustomerPayments.customerid).distinct()]
+        
         customers_todelete = [cust.customerid for cust in session.query(Customer).\
             filter(Customer.customertypeid.in_((2,4,6,7,11,12,14,16,17,19,21))).\
-            filter(Customer.customerid != 4332).\
-            filter(Customer.customerid != 4823).\
-            filter(Customer.customerid != 3690).\
-            filter(Customer.customerid != 1953).\
-            filter(Customer.customerid != 5209).\
-            filter(Customer.customerid != 2736).\
-            filter(Customer.customerid != 2783).\
-            filter(Customer.customerid != 1314).\
-            filter(Customer.customerid != 926).\
-            filter(Customer.customerid != 843).\
-            filter(Customer.customerid != 2365).\
-            filter(Customer.customerid != 1892).\
-            filter(Customer.customerid != 3972).\
-            filter(Customer.customerid != 1975).\
-            filter(Customer.customerid != 2119).\
-            filter(Customer.customerid != 85).\
-            filter(Customer.customerid != 5817).\
-            filter(Customer.customerid != 1997).\
-            filter(Customer.customerid != 2537).\
-            filter(Customer.customerid != 4822).\
-            filter(Customer.customerid != 4693).\
+            filter(not_(Customer.customerid.in_(customerinvoices))).\
+            filter(not_(Customer.customerid.in_(customerpayments))).\
             all()]
+
+#            filter(Customer.customerid != 4332).\
+#            filter(Customer.customerid != 4823).\
+#            filter(Customer.customerid != 3690).\
+#            filter(Customer.customerid != 1953).\
+#            filter(Customer.customerid != 5209).\
+#            filter(Customer.customerid != 2736).\
+#            filter(Customer.customerid != 2783).\
+#            filter(Customer.customerid != 1314).\
+#            filter(Customer.customerid != 926).\
+#            filter(Customer.customerid != 843).\
+#            filter(Customer.customerid != 2365).\
+#            filter(Customer.customerid != 1892).\
+#            filter(Customer.customerid != 3972).\
+#            filter(Customer.customerid != 1975).\
+#            filter(Customer.customerid != 2119).\
+#            filter(Customer.customerid != 85).\
+#            filter(Customer.customerid != 5817).\
+#            filter(Customer.customerid != 1997).\
+#            filter(Customer.customerid != 2537).\
+#            filter(Customer.customerid != 4822).\
+#            filter(Customer.customerid != 4693).\
+#            all()]
 
         a = DataClean()
         print('Start customertypes')
@@ -337,33 +389,6 @@ class CustomersClean(object):
         session.commit()
         print('End customertypes')
 
-
-'''    def delete_old_customers(self):
-
-        for customer in session.query(Customer).\
-            filter(Customer.customertype).
-
-        prmaxcollateral = session.query(Collateral.collateralid).all()
-        print ('prmaxcollateral: %s' %len(prmaxcollateral))
-
-        nbr = 0
-        for x in range(1, 137):
-            collateral_collateral = session.query(ECollateral).\
-                filter(ECollateral.collateralid < x*1000).filter(ECollateral.collateralid >= (x-1)*1000).all()
-
-            print ('collateral_collateral: %s' %len(collateral_collateral))
-            session.begin()
-            for col in collateral_collateral:
-                if col.collateralid not in prmaxcollateral:
-                    nbr += 1
-                    session.delete(col)
-                    if nbr%50 == 0:
-                        session.commit()
-                        session.begin()
-                        print ('%5d:' % nbr)
-            session.commit()
-        print ('Total deleted: %s' % nbr)
-'''
 
 class ClippingsClean(object):
     """Delete old clippings """

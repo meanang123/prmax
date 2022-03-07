@@ -30,7 +30,8 @@ def _run():
     """ run the application """
 
     dataclean = DataClean()
-    resultdata = dataclean.start_service()
+    resultdata = dataclean.delete_3years_suspended_and_licence_expired()
+    #resultdata = dataclean.start_service()
 
 
 if __name__ == '__main__':

@@ -16,10 +16,12 @@ from prmax.utilities.syncCacheDBInfo import SycnInfoForCacheDB, deleteAdvanceFea
 # command list
 Command_CleanUp = """SELECT * FROM SystemCleanUp()"""
 Command_Optimize = "VACUUM"
+Command_Optimize2 = "reindex database prmax"
 
 
-Command_Cache_Clean = """ DELETE FROM actionlog WHERE when_date < CURRENT_DATE - interval '1 months'"""
+Command_Cache_Clean = """ DELETE FROM actionlog WHERE when_logged < CURRENT_DATE - interval '1 months'"""
 
+Command_Bounceddistributions_Clean = """DELETE FROM research.bounceddistribution where created < CURRENT_DATE - interval '6 months' """
 Command_Visit_Clean = """DELETE FROM public.visit where expiry < CURRENT_DATE - interval '3 months'"""
 Command_Email_Clean = """DELETE FROM queues.emailqueue where sent < CURRENT_DATE - interval '1 months'"""
 Command_Word_Clean = """DELETE FROM queues.mswordqueue where uploaded < CURRENT_DATE - interval '1 months'"""
@@ -36,12 +38,14 @@ s = Scheduler()
 
 # add options daily
 s.addTask(ScheduleTask(0, (8, 53), SqlCommand(Command_CleanUp)))
+s.addTask(ScheduleTask(0, (22, 00), SqlCommand(Command_Bounceddistributions_Clean)))
 s.addTask(ScheduleTask(0, (23, 00), SqlCommand(Command_Attachments_Clean)))
 s.addTask(ScheduleTask(0, (23, 10), SqlCommand(Command_Visit_Clean)))
 s.addTask(ScheduleTask(0, (23, 20), SqlCommand(Command_Email_Clean)))
 s.addTask(ScheduleTask(0, (23, 30), SqlCommand(Command_Word_Clean)))
 s.addTask(ScheduleTask(0, (23, 40), SqlCommand(Command_Cache_Clean, tocache=True)))
 s.addTask(ScheduleTask(0, (23, 55), SqlCommand(Command_Optimize)))
+s.addTask(ScheduleTask(0, (23, 59), SqlCommand(Command_Optimize2)))
 s.addTask(ScheduleTask(1, 3600, SycnInfoForCacheDB))
 s.addTask(ScheduleTask(0, (22,01), deleteAdvanceFeatures))
 s.addTask(ScheduleTask(0, (22,04), SqlCommand(Command_Disabled_Expired_Demo)))
