@@ -18,7 +18,7 @@ import simplejson
 from ttl.model import BaseSql
 from prcommon.model.outlet import Outlet
 from prcommon.model.customer.customergeneral import Customer
-from prcommon.model import CustomerInvoice, CustomerAllocation, CustomerPayments
+from prcommon.model import CustomerInvoice, CustomerAllocation, CustomerPayments, Adjustments
 from prcommon.model import CustomerTypes
 from prcommon.model.seopressreleases import SEORelease
 from prcommon.model.client import Client
@@ -128,6 +128,12 @@ class DataClean(object):
                 session.execute(text('DELETE FROM userdata.clippings WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.clippingsanalysis WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.clippingsanalysistemplate WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                clippingsorders = session.query(ClippingsOrder.clippingsorderid).filter(ClippingsOrder.customerid == customerid).all()
+                for clippingsorderid in clippingsorders:
+                    session.execute(text('DELETE FROM internal.clippingsordercountry WHERE clippingsorderid = :clippingsorderid'), {'clippingsorderid': clippingsorderid}, Customer)
+                    session.execute(text('DELETE FROM internal.clippingsorderlanguage WHERE clippingsorderid = :clippingsorderid'), {'clippingsorderid': clippingsorderid}, Customer)
+                    session.execute(text('DELETE FROM internal.clippingsordertype WHERE clippingsorderid = :clippingsorderid'), {'clippingsorderid': clippingsorderid}, Customer)
+                session.flush()
                 session.execute(text('DELETE FROM internal.clippingsorder WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.customersolidmediaprofiles WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM userdata.customersolidmedia WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
@@ -228,7 +234,7 @@ class DataClean(object):
                 session.execute(text('DELETE FROM queues.indexerqueue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM queues.cachequeue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM queues.emailqueue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
-                session.execute(text('DELETE FROM queues.mswordqueue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                #session.execute(text('DELETE FROM queues.mswordqueue WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 session.execute(text('DELETE FROM queues.reports WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
 
                 session.execute(text('DELETE FROM internal.customermenusettings WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
@@ -236,6 +242,34 @@ class DataClean(object):
                 session.execute(text('DELETE FROM public.tg_user WHERE customerid = :customerid AND user_id != 5732 AND usertypeid = 1'), {'customerid': customerid}, Customer)
                 session.flush()
                 
+                customerinvoices = [row.customerinvoiceid for row in session.query(CustomerInvoice.customerinvoiceid).\
+                                  filter(CustomerInvoice.customerid == customerid).all()]
+                for customerinvoiceid in customerinvoices:
+                    session.execute(text('DELETE FROM accounts.customerallocation WHERE alloc_invoiceid = :customerinvoiceid'), {'customerinvoiceid': customerinvoiceid}, Customer)
+                session.flush()    
+                customerpayments = [row.customerpaymentid for row in session.query(CustomerPayments.customerpaymentid).\
+                                  filter(CustomerPayments.customerid == customerid).all()]
+                for customerpaymentid in customerpayments:
+                    session.execute(text('DELETE FROM accounts.customerallocation WHERE alloc_paymentid = :customerpaymentid'), {'customerpaymentid': customerpaymentid}, Customer)
+                    session.execute(text('DELETE FROM accounts.customerallocation WHERE source_paymentid = :customerpaymentid'), {'customerpaymentid': customerpaymentid}, Customer)
+                session.flush()            
+
+                customeradjustments = [row.adjustmentid for row in session.query(Adjustments.adjustmentid).\
+                                  filter(Adjustments.customerid == customerid).all()]
+                for adjustmentid in customeradjustments:
+                    session.execute(text('DELETE FROM accounts.customerallocation WHERE alloc_adjustmentid = :adjustmentid'), {'adjustmentid': adjustmentid}, Customer)
+                    session.execute(text('DELETE FROM accounts.customerallocation WHERE source_adjustmentid = :adjustmentid'), {'adjustmentid': adjustmentid}, Customer)
+                session.flush()
+                    
+                session.execute(text('DELETE FROM accounts.customerinvoices WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.flush()
+                session.execute(text('DELETE FROM accounts.audittrail WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.flush()
+                
+
+                session.execute(text('DELETE FROM accounts.adjustments WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+                session.execute(text('DELETE FROM accounts.customerpayments WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
+
                 #session.execute(text('DELETE FROM internal.customers WHERE customerid = :customerid'), {'customerid': customerid}, Customer)
                 #print('Deleted customerid: %s' %customerid)
                 session.commit()
@@ -342,8 +376,8 @@ class CustomersClean(object):
         
         customers_todelete = [cust.customerid for cust in session.query(Customer).\
             filter(Customer.customertypeid.in_((2,4,6,7,11,12,14,16,17,19,21))).\
-            filter(not_(Customer.customerid.in_(customerinvoices))).\
-            filter(not_(Customer.customerid.in_(customerpayments))).\
+            #filter(not_(Customer.customerid.in_(customerinvoices))).\
+            #filter(not_(Customer.customerid.in_(customerpayments))).\
             all()]
 
 #            filter(Customer.customerid != 4332).\
@@ -386,6 +420,8 @@ class CustomersClean(object):
         print('Start CustomerTypes')
         session.begin()
         session.execute(text("""DELETE FROM internal.customertypes where customertypeid in (4,11,12,14,16,21)"""), {}, CustomerTypes)
+        session.execute(text("""DELETE FROM internal.customertypes where customertypeid in (2,4,6,7,11,12,14,16,17,19,21)"""), {}, CustomerTypes)
+                
         session.commit()
         print('End customertypes')
 
