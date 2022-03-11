@@ -716,7 +716,7 @@ class EmailTemplates(BaseSql):
 		  WHEN emailstatusid = 3 THEN 'Emailing'
 		  WHEN emailstatusid = 5 THEN 'Duplicate'
 		  WHEN emailstatusid = 4 THEN 'No Address'
-		  WHEN emailstatusid = 6 THEN 'Sent'
+		  WHEN emailstatusid = 6 THEN 'Delivered'
 		  WHEN emailstatusid = 7 THEN 'Responded'
 		  WHEN emailstatusid = 8 THEN 'Unsubscribed'
 		  ELSE '' END as status,
@@ -1306,7 +1306,7 @@ class ListMemberDistribution(BaseSql):
 	WHEN emailstatusid = 3 THEN 'Emailing'
 	WHEN emailstatusid = 5 THEN 'Duplicate'
 	WHEN emailstatusid = 4 THEN 'No Address'
-	WHEN emailstatusid = 6 THEN 'Sent'
+	WHEN emailstatusid = 6 THEN 'Delivered'
 	WHEN emailstatusid = 7 THEN 'Responded'
 	WHEN emailstatusid = 8 THEN 'Unsubscribed'
 	ELSE '' END as status,
