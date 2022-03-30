@@ -381,7 +381,7 @@ class OutletDisplay(BaseSql):
 			data['subtitledisplay'] = data['newprofile']['subtitle'].strip()
 		if 'officialjournalof' in data['newprofile'] and data['newprofile']['officialjournalof'] != None and data['newprofile']['officialjournalof'] != '' and data['newprofile']['officialjournalof'] != 'None':
 			data['officialjournalofdisplay'] = 'Official Journal of %s' % (data['newprofile']['officialjournalof'])
-		data['prmaxoutlettypedisplay'] = data['outlet']['prmax_outlettypename'].strip()
+		data['prmaxoutlettypedisplay'] = data['outlet']['prmax_outlettypename'].strip() if data['outlet']['prmax_outlettypename'] else None
 		if 'frequency' in data['newprofile'] and data['newprofile']['frequency'] != None and data['newprofile']['frequency'] != '' and data['newprofile']['frequency'] != 'None':
 			data['prmaxoutlettypedisplay'] = '%s %s' % (data['newprofile']['frequency'].strip() if data['newprofile']['frequency'].strip()[-1] != '.' else data['newprofile']['frequency'].strip()[:-1],  data['outlet']['prmax_outlettypename'])
 		
