@@ -184,6 +184,12 @@
 			<td width="auto" class="prmaxrowdisplay_profile2" py:content="seriesmembersdisplay"></td>
 		</tr>		
 		</span>
+		<span py:if="outlet" py:strip="">
+		<tr>
+			<td width="50" class="prmaxrowdisplay_profile">Private</td>
+			<td width="auto"><button class="edit_profile" type="button" onclick='javascript:dojo.publish("/crm/edit_notes",[${outlet.outletid}]);'>Add Notes</button></td><td class="prmaxrowdisplay_profile"><span name="private"></span></td>
+		</tr>
+		</span>
 	</table>
 </div>
 </body>
