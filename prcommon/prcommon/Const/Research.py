@@ -141,3 +141,6 @@ Field_Research_Notes = 99
 Field_NewPublisherName = 100
 Field_PublisherName = 65
 Field_Italian_Export = 101
+Field_Outlet_Market_Sector_Primary = 102
+Field_Outlet_Market_Sector_Secondary = 103
+Field_Outlet_Market_Sector_Tertiary = 104

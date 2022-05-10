@@ -1,5 +1,42 @@
-﻿ALTER TABLE ONLY internal.demorequests ALTER COLUMN customertypeid SET DEFAULT 20;
+﻿ALTER TABLE ONLY internal.customers ALTER COLUMN collateral_size SET DEFAULT 1000;
 
+-- drop table internal.marketsector;
+
+CREATE TABLE internal.marketsector
+(
+  marketsectorid serial NOT NULL,
+  marketsectordescription character varying(225) NOT NULL,
+  CONSTRAINT pk_marketsectorid PRIMARY KEY (marketsectorid),
+  CONSTRAINT pk_marketsectorid UNIQUE (marketsectorid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE internal.marketsector OWNER TO postgres;
+GRANT ALL ON TABLE internal.marketsector TO postgres;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.marketsector TO prmax;
+GRANT SELECT ON TABLE internal.marketsector TO prmaxquestionnaires;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE internal.marketsector TO prmaxcontrol;
+
+GRANT ALL ON TABLE internal.marketsector_marketsectorid_seq TO postgres;
+GRANT UPDATE ON TABLE internal.marketsector_marketsectorid_seq TO prmax;
+GRANT UPDATE ON TABLE internal.marketsector_marketsectorid_seq TO prmaxcontrol;
+
+ALTER TABLE outlets ADD COLUMN marketsectorprimaryid integer;
+ALTER TABLE outlets ADD COLUMN marketsectorsecondaryid integer;
+ALTER TABLE outlets ADD COLUMN marketsectortertiaryid integer;
+
+ALTER TABLE outlets ADD CONSTRAINT fk_marketsectorprimaryid FOREIGN KEY (marketsectorprimaryid) REFERENCES internal.marketsector(marketsectorid) MATCH SIMPLE;
+ALTER TABLE outlets ADD CONSTRAINT fk_marketsectorsecondaryid FOREIGN KEY (marketsectorsecondaryid) REFERENCES internal.marketsector(marketsectorid) MATCH SIMPLE;
+ALTER TABLE outlets ADD CONSTRAINT fk_marketsectortertiaryid FOREIGN KEY (marketsectortertiaryid) REFERENCES internal.marketsector(marketsectorid) MATCH SIMPLE;
+
+--UPDATE outlets SET marketsectorprimaryid = -1;
+--UPDATE outlets SET marketsectorsecondaryid = -1;
+--UPDATE outlets SET marketsectortertiaryid = -1;
+
+INSERT INTO research.fields VALUES (102, 'Primary Market Sector');
+INSERT INTO research.fields VALUES (103, 'Secondary Market Sector');
+INSERT INTO research.fields VALUES (104, 'Tertiary Market Sector');
 
 /*
 

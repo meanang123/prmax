@@ -38,6 +38,7 @@ define([
 	"research/translations/translations",
 	"research/clippings/linkoutlets",
 	"research/organisation/organisationnew",
-	"research/lookups/DeletionHistory"
+	"research/lookups/DeletionHistory",
+	"research/lookups/MarketSector"
 
 ], function( ){});

@@ -20,7 +20,7 @@ from prcommon.model import InterestGroups, MessageTypes, CustomerTypes, UserType
      ResearchFrequencies, PRMaxRoles, EmailSendTypes, Languages, Continents, ContactHistoryStatus,\
      ContactHistoryTypes, CirculationSources, WebSources, ClippingsReport, CustomerStatus, ClippingSource, ClippingsTypes, ServerTypes, \
      ClippingsTone, MediaAccessTypes, PaymentMethods, CustomerPaymentTypes, Statements, ChartView, DateRanges, GroupBy, DashboardSettingsMode, \
-     DashboardSettingsStandard, DashboardSettingsStandardSearchBy, Prmax_Outlettypes, Sourcetypes, DeletionHistoryType
+     DashboardSettingsStandard, DashboardSettingsStandardSearchBy, Prmax_Outlettypes, Sourcetypes, DeletionHistoryType, MarketSector
 from prcommon.model.hostspf import Hostspf
 from prcommon.model.emails import EmailFooter, EmailHeader, EmailLayout
 from prcommon.model.customer.customeremailserver import CustomerEmailServer
@@ -123,13 +123,14 @@ class OpenController(OpenSecureController):
 	              "dashboardsettingsstandard": DashboardSettingsStandard,
 	              "dashboardsettingsstandardsearchby": DashboardSettingsStandardSearchBy,
 	              "privatechannels":Prmax_Outlettypes,
-	              "sourcetypes":Sourcetypes
-	              ,"deletionhistorytype": DeletionHistoryType
+	              "sourcetypes":Sourcetypes,
+	              "deletionhistorytype": DeletionHistoryType,
+		      "marketsector": MarketSector
 		            }
 
 	_AddFilter = ("taskstatus", "users", "tasktype", "tasktags", "countrytypes", "seostatus", "newsfeedtypes", "customertypes",
 	              "reasoncategories", "countries", "researchprojectstatus", "languages", "contacthistorystatus",
-	              "briefingnotesstatus", "customerstatus", "financialstatus", "clippingsource", "customersources", "sourcetypes")
+	              "briefingnotesstatus", "customerstatus", "financialstatus", "clippingsource", "customersources", "sourcetypes", "marketsector")
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

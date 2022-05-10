@@ -24,6 +24,7 @@ from prcommon.model.circulationsources import CirculationSources
 from prcommon.model.circulationdates import CirculationDates
 from prcommon.model.websources import WebSources
 from prcommon.model.webdates import WebDates
+from prcommon.model.marketsector import MarketSector
 from prcommon.model.productioncompany import ProductionCompany
 from prcommon.lib.caching import Invalidate_Cache_Object_Research
 import prcommon.Constants as Constants
@@ -253,6 +254,35 @@ class OutletGeneral(object):
 				new_webauditdatedescription = new_webdate.webauditdatedescription
 			ActivityDetails.AddChange(old_webauditdatedescription, new_webauditdatedescription, activity.activityid, Constants.Field_Outlet_Web_Dates)
 
+
+			old_marketsectorprimarydescription = new_marketsectoryprimarydescription = ""
+			if outlet.marketsectorprimaryid:
+				old_marketsectorprimaryid = MarketSector.query.get(outlet.marketsectorprimaryid)
+				old_marketsectorprimarydescription = old_marketsector.marketsectorprimarydescription
+			if 'marketsectorprimaryid' in params and params['marketsectorprimaryid'] != None:
+				new_marketsectorprimary = MarketSector.query.get(int(params['marketsectorprimaryid']))
+				new_marketsectorprimarydescription = new_marketsectorprimary.marketsectorprimarydescription
+			ActivityDetails.AddChange(old_marketsectorprimarydescription, new_marketsectorprimarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Primary)
+
+			old_marketsectorsecondarydescription = new_marketsectorysecondarydescription = ""
+			if outlet.marketsectorsecondaryid:
+				old_marketsectorsecondaryid = MarketSector.query.get(outlet.marketsectorsecondaryid)
+				old_marketsectorsecondarydescription = old_marketsector.marketsectorsecondarydescription
+			if 'marketsectorsecondaryid' in params and params['marketsectorsecondaryid'] != None:
+				new_marketsectorsecondary = MarketSector.query.get(int(params['marketsectorsecondaryid']))
+				new_marketsectorsecondarydescription = new_marketsectorsecondary.marketsectorsecondarydescription
+			ActivityDetails.AddChange(old_marketsectorsecondarydescription, new_marketsectorsecondarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Secondary)
+
+			old_marketsectortertiarydescription = new_marketsectorytertiarydescription = ""
+			if outlet.marketsectortertiaryid:
+				old_marketsectortertiaryid = MarketSector.query.get(outlet.marketsectortertiaryid)
+				old_marketsectortertiarydescription = old_marketsector.marketsectortertiarydescription
+			if 'marketsectortertiaryid' in params and params['marketsectortertiaryid'] != None:
+				new_marketsectortertiary = MarketSector.query.get(int(params['marketsectortertiaryid']))
+				new_marketsectortertiarydescription = new_marketsectortertiary.marketsectortertiarydescription
+			ActivityDetails.AddChange(old_marketsectortertiarydescription, new_marketsectortertiarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Tertiary)
+
+
 			old_outletpricedescription = new_outletpricedescription = ""
 			if outlet.outletpriceid:
 				old_outletprice = OutletPrices.query.get(outlet.outletpriceid)
@@ -397,6 +427,40 @@ class OutletGeneral(object):
 			ActivityDetails.AddChange(old_prmax_outlettype.prmax_outlettypename, new_prmax_outlettype.prmax_outlettypename, activity.activityid, Constants.Field_Outlet_Type)
 
 			outlet.prmax_outlettypeid = params['prmax_outlettypeid']
+
+
+			old_marketsectorprimarydescription = new_marketsectorprimarydescription = ""
+			if outlet.marketsectorprimaryid:
+				old_marketsectorprimary = MarketSector.query.get(outlet.marketsectorprimaryid)
+				old_marketsectorprimarydescription = old_marketsectorprimary.marketsectordescription
+			if 'marketsectorprimaryid' in params and params['marketsectorprimaryid'] != None and params['marketsectorprimaryid'] != '':
+				new_marketsectorprimary = MarketSector.query.get(int(params['marketsectorprimaryid']))
+				new_marketsectorprimarydescription = new_marketsectorprimary.marketsectordescription
+			ActivityDetails.AddChange(old_marketsectorprimarydescription, new_marketsectorprimarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Primary)
+			outlet.marketsectorprimaryid = params['marketsectorprimaryid'] if params['marketsectorprimaryid'] != '' else None 
+
+			old_marketsectorsecondarydescription = new_marketsectorsecondarydescription = ""
+			if outlet.marketsectorsecondaryid:
+				old_marketsectorsecondary = MarketSector.query.get(outlet.marketsectorsecondaryid)
+				old_marketsectorsecondarydescription = old_marketsectorsecondary.marketsectordescription
+			if 'marketsectorsecondaryid' in params and params['marketsectorsecondaryid'] != None and params['marketsectorsecondaryid'] != '':
+				new_marketsectorsecondary = MarketSector.query.get(int(params['marketsectorsecondaryid']))
+				new_marketsectorsecondarydescription = new_marketsectorsecondary.marketsectordescription
+			ActivityDetails.AddChange(old_marketsectorsecondarydescription, new_marketsectorsecondarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Secondary)
+			outlet.marketsectorsecondaryid = params['marketsectorsecondaryid'] if params['marketsectorsecondaryid'] != '' else None
+
+			old_marketsectortertiarydescription = new_marketsectortertiarydescription = ""
+			if outlet.marketsectortertiaryid:
+				old_marketsectortertiary = MarketSector.query.get(outlet.marketsectortertiaryid)
+				old_marketsectortertiarydescription = old_marketsectortertiary.marketsectordescription
+			if 'marketsectortertiaryid' in params and params['marketsectortertiaryid'] != None and params['marketsectortertiaryid'] != '':
+				new_marketsectortertiary = MarketSector.query.get(int(params['marketsectortertiaryid']))
+				new_marketsectortertiarydescription = new_marketsectortertiary.marketsectordescription
+			ActivityDetails.AddChange(old_marketsectortertiarydescription, new_marketsectortertiarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Tertiary)
+			outlet.marketsectortertiaryid = params['marketsectortertiaryid'] if params['marketsectortertiaryid'] != '' else None
+
+
+
 
 			profile = OutletProfile.query.get(outlet.outletid)
 			if not profile:

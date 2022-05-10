@@ -124,6 +124,7 @@ from prcommon.model.language import Languages
 from prcommon.model.outlettooutlets import OutletToOutlets
 from prcommon.model.general.profilecache import ProfileCache
 from prcommon.model.outletprofile import OutletProfile
+from prcommon.model.marketsector import MarketSector
 
 from prcommon.model.partners.comeval import ComEval
 
@@ -266,5 +267,5 @@ __all__ = ["UserView", "Interests", "OutletInterestView", "EmployeeInterestView"
            "CustomerAccessLog", "ClippingsChartGeneral", "DashboardSettingsGeneral", "ClippingsTypes", "ClippingsTone", "MediaAccessTypes", "ApiSearch",
            "ApiLookups", "TaskTypeStatus", "ServerTypes", "CustomerEmailServer", "EmailHeader", "EmailFooter", "EmailLayout",
            "AnalyseGlobal", "Statements", "EmailServer", "CustomerMenuSettings"
-           ,"Newsrooms", "Prmax_Outlettypes"
+           ,"Newsrooms", "Prmax_Outlettypes", "MarketSector"
 					 ]

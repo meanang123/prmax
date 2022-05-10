@@ -47,10 +47,21 @@ define([
 	{
 		this._update_call_back = lang.hitch(this, this._update_call);
 		this._error_call_back = lang.hitch(this, this._error_call);
+
+		this._marketsector = new JsonRest( {target:'/research/admin/marketsector/list', labelAttribute:"marketsectordescription",idProperty:"marketsectorid"});
+
 	},
 	postCreate:function()
 	{
 		this.prmax_outlettypeid.set("store",PRCOMMON.utils.stores.OutletTypes_noFreelancer());
+		//this.marketsectorprimaryid.set("store",PRCOMMON.utils.stores.MarketSector());
+		//this.marketsectorsecondaryid.set("store",PRCOMMON.utils.stores.MarketSector());
+		//this.marketsectortertiaryid.set("store",PRCOMMON.utils.stores.MarketSector());
+		
+
+		this.marketsectorprimaryid.set("store", this._marketsector);
+		this.marketsectorsecondaryid.set("store", this._marketsector);
+		this.marketsectortertiaryid.set("store", this._marketsector);
 
 		this.reasoncodeid.set("store",PRCOMMON.utils.stores.Research_Reason_Add_Codes());
 		this.reasoncodeid.set("value", PRCOMMON.utils.stores.Reason_Add_Default);
@@ -67,6 +78,9 @@ define([
 		this.outletid.set("value", outletid);
 		this.prmax_outlettypeid.set("value",outlet.outlet.prmax_outlettypeid);
 		this._outletname = outlet.outlet.outletname;
+		this.marketsectorprimaryid.set("value", outlet.outlet.marketsectorprimaryid);
+		this.marketsectorsecondaryid.set("value", outlet.outlet.marketsectorsecondaryid);
+		this.marketsectortertiaryid.set("value", outlet.outlet.marketsectortertiaryid);
 
 		this.interests.set("value",outlet.interests ) ;
 		this.coverage.set("value",outlet.coverage ) ;

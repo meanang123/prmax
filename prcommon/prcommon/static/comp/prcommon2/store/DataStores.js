@@ -33,6 +33,7 @@ define([
 		this._customertypes_model_ext = new ItemFileReadStore ( { url:"/common/lookups?searchtype=customertypes&include_no_option=1"});
 		this._researchprojectstatus = new ItemFileReadStore ( { url:"/common/lookups?searchtype=researchprojectstatus"});
 		this._reasoncode_del_hist = new ItemFileReadStore ({ url:"/common/lookups?searchtype=reasoncodes&reasoncategoryid=8"});
+		this._makretsector = new ItemFileReadStore ({ url:"/common/lookups?searchtype=marketsector"});
 	},
 	Reason_Add_Default:5,
 	Reason_Upd_Default:8,
@@ -123,6 +124,11 @@ define([
 	Research_Project_Status:function()
 	{
 		return this._researchprojectstatus;
-	}
+	},
+	MarketSector:function()
+	{
+		return this._makretsector;
+	},
+	
 });
 });

@@ -135,6 +135,11 @@ define([
 	Web_Dates_Update : "/webdates/update",
 	Web_Dates_Deleted : "/webdates/deleted",
 
+	// Market Sector
+	Market_Sector_Added : "/marketsector/add",
+	Market_Sector_Update : "/marketsector/update",
+	Market_Sector_Deleted : "/marketsector/deleted",
+
 	// Production Companies
 	Production_Company_Added : "/production/add",
 	Production_Company_Update : "/production/update",

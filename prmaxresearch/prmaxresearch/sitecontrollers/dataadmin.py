@@ -42,6 +42,7 @@ from prcommon.sitecontrollers.websources import WebSourcesController
 from prcommon.sitecontrollers.webdates import WebDatesController
 from prcommon.sitecontrollers.production import ProductionCompanyController
 from prcommon.sitecontrollers.outletdesks import OutletDeskController
+from prcommon.sitecontrollers.marketsector import MarketSectorController
 
 from prcommon.model.outlets.emplsynchronisation import EmployeeSynchronise
 from prcommon.model.outlet import OutletProfile
@@ -120,6 +121,7 @@ class DataAdminController(SecureController):
 	desks = OutletDeskController()
 	subjects = SubjectController()
 	deletionhistory = DeletionHistoryController()
+	marketsector = MarketSectorController()
 
 
 	@expose("json")
