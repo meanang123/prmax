@@ -95,7 +95,7 @@ class MarketSector(BaseSql):
 
 	@classmethod
 	def delete(cls, marketsectorid):
-		""" Delete Makret Sector"""
+		""" Delete Market Sector"""
 		transaction = BaseSql.sa_get_active_transaction()
 
 		try:
