@@ -255,7 +255,7 @@ class OutletGeneral(object):
 			ActivityDetails.AddChange(old_webauditdatedescription, new_webauditdatedescription, activity.activityid, Constants.Field_Outlet_Web_Dates)
 
 
-			old_marketsectorprimarydescription = new_marketsectoryprimarydescription = ""
+			old_marketsectorprimarydescription = new_marketsectorprimarydescription = ""
 			if outlet.marketsectorprimaryid:
 				old_marketsectorprimaryid = MarketSector.query.get(outlet.marketsectorprimaryid)
 				old_marketsectorprimarydescription = old_marketsector.marketsectorprimarydescription
@@ -264,7 +264,7 @@ class OutletGeneral(object):
 				new_marketsectorprimarydescription = new_marketsectorprimary.marketsectorprimarydescription
 			ActivityDetails.AddChange(old_marketsectorprimarydescription, new_marketsectorprimarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Primary)
 
-			old_marketsectorsecondarydescription = new_marketsectorysecondarydescription = ""
+			old_marketsectorsecondarydescription = new_marketsectorsecondarydescription = ""
 			if outlet.marketsectorsecondaryid:
 				old_marketsectorsecondaryid = MarketSector.query.get(outlet.marketsectorsecondaryid)
 				old_marketsectorsecondarydescription = old_marketsector.marketsectorsecondarydescription
@@ -273,7 +273,7 @@ class OutletGeneral(object):
 				new_marketsectorsecondarydescription = new_marketsectorsecondary.marketsectorsecondarydescription
 			ActivityDetails.AddChange(old_marketsectorsecondarydescription, new_marketsectorsecondarydescription, activity.activityid, Constants.Field_Outlet_Market_Sector_Secondary)
 
-			old_marketsectortertiarydescription = new_marketsectorytertiarydescription = ""
+			old_marketsectortertiarydescription = new_marketsectortertiarydescription = ""
 			if outlet.marketsectortertiaryid:
 				old_marketsectortertiaryid = MarketSector.query.get(outlet.marketsectortertiaryid)
 				old_marketsectortertiarydescription = old_marketsector.marketsectortertiarydescription
