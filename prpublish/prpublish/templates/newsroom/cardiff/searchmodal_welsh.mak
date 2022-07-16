@@ -30,7 +30,7 @@
                 <textarea resizible="false" name="bodytext" value="" class="default-textarea" id="bodytext" cols="30" rows="10"></textarea>
                 <div class="clear-fix"></div>
                 
-                <label for="keytopics">Uchelgais Prifddinas?</label>
+                <label for="keytopics">Cryfach, Tecach, Gwyrddach?</label>
                 <select name="keytopics" id="keytopics">
                     <option value="0">No</option>
                     <option value="1">Yes</option>

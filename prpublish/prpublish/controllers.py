@@ -23,8 +23,8 @@ CARDIFF_ENGLISH = 25
 CARDIFF_WELSH = 66
 CARDIFF_LS_TITLE_ENGLISH = 'Latest Releases'
 CARDIFF_LS_TITLE_WELSH = 'Datganiadau Diweddaraf'
-CARDIFF_KT_TITLE_ENGLISH = 'Capital Ambition'
-CARDIFF_KT_TITLE_WELSH = 'Uchelgais Prifddinas'
+CARDIFF_KT_TITLE_ENGLISH = 'Stronger, Fairer, Greener'
+CARDIFF_KT_TITLE_WELSH = 'Cryfach, Tecach, Gwyrddach'
 
 class Root(controllers.RootController):
 	"""The root controller of the application."""
