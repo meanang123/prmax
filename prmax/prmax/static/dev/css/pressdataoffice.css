@@ -2754,6 +2754,7 @@ div.dijitTabDisabled,
 	border-color: transparent #d1d3d4 #d1d3d4 transparent;
 	background: #d1d3d4;
 	color: white !important;
+    cursor: pointer;
 }
 .soria .prmaxSelectedRow {
     background-color: #0e83Cd;
