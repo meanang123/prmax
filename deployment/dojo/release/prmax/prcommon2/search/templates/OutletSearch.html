@@ -1,0 +1,31 @@
+<div class="searchform">
+	<div class="paddingcell" >
+		<form data-dojo-props='onsubmit:"return false","class":"prmaxtable",name:"std_search_outlet",formid:"std_search_outlet_form"' data-dojo-attach-point="form_name" data-dojo-type="ttl/Form2" >
+		<input data-dojo-props='type:"hidden",value:"outlet",name:"search_type"' data-dojo-type="dijit/form/TextBox" />
+		<br/>
+		<div  data-dojo-props='usepartial:true,displayname:"Outlet Name",keytypeid:1,name:"outlet_searchname",value:""' data-dojo-attach-point="std_search_outlet_outlet_name" data-dojo-type="prcommon2/search/standard"></div>
+		<hr/>
+		<div data-dojo-props='style:"width:99%",keytypeid:23,name:"outlet_outlettypes"' data-dojo-type="prcommon2/search/PrmaxOutletTypes"></div>
+		<hr/>
+		<div data-dojo-props='style:"width:99%",keytypeid:6,size:8,name:"outlet_interests"' data-dojo-type="prcommon2/interests/Interests"></div>
+		<hr/>
+		<div  data-dojo-type="prcommon2/search/SearchRoles" data-dojo-props='keytypeid:119,name:"outlet_roles",style:"width:99%",showdefaultoption:false' data-dojo-attach-point="search_outlet_roles" ></div>
+		<hr/>
+		<div data-dojo-props='style:"width:99%",keytypeid:50,name:"outlet_coverage"' data-dojo-attach-point="outlet_coverage" data-dojo-type="prcommon2/geographical/Geographical" ></div>
+		<hr/>
+		<div data-dojo-props='style:"width:99%",displayname:"Circulation",keytypeid:4,name:"outlet_circulation"' data-dojo-type="prcommon2/search/Circulation"></div>
+		<hr/>
+		<div data-dojo-props='displayname:"Profile",keytypeid:102,name:"outlet_profile",value:""' data-dojo-type="prcommon2/search/standard"></div>
+		<hr/>
+		<div data-dojo-props='displayname:"Frequency",keytypeid:3,name:"outlet_frequency"' data-dojo-type="prcommon2/search/Frequency"></div>
+		<hr/>
+		<div data-dojo-props='displayname:"Publisher",keytypeid:137,name:"outlet_publisher"' data-dojo-type="prcommon2/search/Publisher"></div>
+		<hr/>
+		<div data-dojo-props='usepartial:true,displayname:"Feature",keytypeid:128,name:"outlet_advance_feature",value:""' data-dojo-type="prcommon2/search/standard"></div>
+		<hr/>
+		<div data-dojo-props='style:"width:99%",keytypeid:24,name:"outlet_countryid"' data-dojo-type="prcommon2/search/Countries"></div>
+		<input data-dojo-props='type:"hidden",name:"searchtypeid",value:1' data-dojo-attach-point="searchtypeid" data-dojo-type="dijit/form/TextBox"/>
+		<input type="submit" style="display:none"/>
+		</form>
+	</div>
+</div>

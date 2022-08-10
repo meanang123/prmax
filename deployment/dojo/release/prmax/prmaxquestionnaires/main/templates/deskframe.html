@@ -1,0 +1,23 @@
+<div>
+	<div data-dojo-type="prmaxquestionnaires/main/deskbanner" data-dojo-props='region:"top",style:"width:100%;height:62px",title:"Banner"'></div>
+	<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="zone_cont" data-dojo-props='region:"center",doLayout:true'>
+		<div  data-dojo-props='style:"width:100%;height:100%",title:"maindetails"' data-dojo-attach-point="maindetails" data-dojo-type="prmaxquestionnaires/pages/DeskDetails" ></div>
+		<div  data-dojo-props='style:"width:100%;height:100%",title:"journalists"' data-dojo-attach-point="journalists" data-dojo-type="prmaxquestionnaires/pages/Journalists" ></div>
+		<div  data-dojo-props='style:"width:100%;height:100%",title:"Related Outlets"' data-dojo-attach-point="related_outlets" data-dojo-type="prmaxquestionnaires/pages/RelatedOutlets" ></div>
+	</div>
+	<div  data-dojo-props='region:"bottom",style:"height:55px;width:100%;overflow:hidden"' data-dojo-attach-point="bottom_panel" data-dojo-type="dijit/layout/ContentPane">
+		<table style="width:100%;border-collapse:collapse;" cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td><img src="/prmax_common_s/images/prmax_logo.png" height="51px" width="118px"></td>
+				<td><p class="footer_text">Contact PRmax. Email <a data-dojo-attach-point="support_email_address" href="mailto:updates@prmax.co.uk" target="_blank">updates@prmax.co.uk</a></p></td>
+				<td><p class="footer_text"><a href="http://app.prmax.co.uk/static2/html/prmax-data-use-policy.html" target="_blank">Data Protection statement</a></p></td>
+				<td><p class="footer_text"><a href="http://app.prmax.co.uk/static2/html/prmax-copyright-statement.html" target="_blank">Copyright statement</a></p></td>
+				<td align="right">
+					<button data-dojo-attach-event="onClick:_update_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='float:"right",type:"button",busyLabel:"Please Wait",label:"Save"'></button>
+					<button data-dojo-attach-event="onClick:_update_prev" data-dojo-attach-point="prevbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='"class":"prmaxhidden",float:"right",type:"button",busyLabel:"Please Wait",label:"Prev"'></button>
+					<button data-dojo-attach-event="onClick:_update_next" data-dojo-attach-point="nextbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='float:"right",type:"button",busyLabel:"Please Wait",label:"Next"'></button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

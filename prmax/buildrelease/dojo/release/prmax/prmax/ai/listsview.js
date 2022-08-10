@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+
+if(!dojo._hasResource["prmax.ai.listsview"]){dojo._hasResource["prmax.ai.listsview"]=true;dojo.provide("prmax.ai.listsview");dojo.require("prmax.lists.standinglist");dojo.require("prcommon.advance.listsview");dojo.declare("prmax.ai.listsview",[ttl.BaseWidget],{widgetsInTemplate:true,templateString:"<div>\r\n\t<div dojoAttachPoint=\"borderCtrl\" dojotype=\"dijit.layout.BorderContainer\" style=\"width:100%;height:100%\"  >\r\n\t\t<div dojoAttachPoint=\"tabCtrl\" dojotype=\"dijit.layout.TabContainer\" region=\"center\" >\r\n\t\t\t<div dojotype=\"dijit.layout.BorderContainer\" style=\"width:100%;height:100%\" title=\"Standing\" >\r\n\t\t\t\t<div dojoAttachPoint=\"standing\" dojotype=\"prmax.lists.standinglist\" region=\"center\" ></div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n",refresh:function(_1){this.standing.refresh();this.borderCtrl.resize(arguments[0]);},_ShowView:function(_2){if(_2=="standing"){this.tabCtrl.selectChild(this.standingtab_view);}},postCreate:function(){if(PRMAX.utils.settings.advancefeatures){var _3=new dijit.layout.BorderContainer({dojoAttachPoint:"advance_view",style:"width:100%;height:100%",title:"Features"});this.advance=new prcommon.advance.listsview({dojoAttachPoint:"advance",region:"center"});_3.addChild(this.advance);this.tabCtrl.addChild(_3);}this.inherited(arguments);}});}

@@ -1,0 +1,17 @@
+<div >
+	<form class="prmaxdefault" dojoAttachPoint="formNode" dojoType="dijit.form.Form" onSubmit="return false">
+		<input name="contacthistoryid" type="hidden" dojoAttachPoint="contacthistoryid"  value = "-1" dojoType="dijit.form.TextBox" />
+		<input name="ref_customerid" type="hidden" dojoAttachPoint="ref_customerid"  dojoType="dijit.form.TextBox" />
+		<input name="outletid" type="hidden" dojoAttachPoint="outletid"  dojoType="dijit.form.TextBox" />
+		<input name="employeeid" type="hidden" dojoAttachPoint="employeeid"  dojoType="dijit.form.TextBox" />
+		<input name="taskid" type="hidden" dojoAttachPoint="taskid"  dojoType="dijit.form.TextBox" />
+		<input name="contactid" type="hidden" dojoAttachPoint="contactid"  dojoType="dijit.form.TextBox" />
+		<table style="width:100%;border-collapse:collapse;" cellspacing="1" cellpadding="1" border="0">
+			<tr><td width="20%" class="prmaxrowtag" valign="top"align="right">Subject</td><td><input class="prmaxrequired" name="subject" type="text" dojoAttachPoint="subject"  maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" style="width:98%"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Contact Type</td><td><select class="prmaxrequired" name="contacthistorysourceid" autoComplete="true" searchAttr="name" dojoType="dijit.form.FilteringSelect" required="true" invalidMessage="Please Select Contact History Type" labelType="html" dojoAttachPoint="contacthistorysourceid"></td></tr>
+			<tr><td  align="right" valign="top" class="prmaxrowtag">Details</td><td ><div class="stdframe" style="height:150px;" ><textarea dojoAttachPoint="details" name="details" trim="true" required="true" dojoType="dijit.form.Textarea" style="width:99%;height:80%" ></textarea></div></td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td ><button class="prmaxhidden" dojoAttachEvent="onClick:_Close" dojoAttachPoint="closeNode" dojoType="dijit.form.Button" type="button" label="Close"></button></td><td align="right"><button dojoAttachEvent="onClick:_Save" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" type="button" busyLabel="Please Wait Adding Notes..." label="Add"></button></td></tr>
+		</table>
+	</form>
+</div>

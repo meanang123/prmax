@@ -1,0 +1,41 @@
+<div>
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,style:"width:100%;height:100%"' >
+	<span class="std_menu_view">
+		<div data-dojo-type="dijit.Toolbar" data-dojo-props='region:"top",style:"height:38px;width:100%;overflow:hidden","class":"std_menu_view"'>
+			<button data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-plus fa-3x"' data-dojo-attach-event="onClick:_add_issue" data-dojo-attach-point="addbtn"></button>
+			<div data-dojo-type="dijit.form.DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",showLabel:true'>
+				<span></span>
+				<div data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Filter By"' data-dojo-attach-event="execute:_filter">
+					<table>
+						<tr><td><label>Active Only</label></td><td><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="autoonly" data-dojo-props='"class":"prmaxinput",type:"checkbox",name:"autoonly",checked:true,value:"1"' ></td></tr>
+						<tr><td><label>Name</label></td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="issuename" data-dojo-props='"class":"prmaxinput",type:"text",name:"issuename"' ></td></tr>
+						<tr><td><label data-dojo-attach-point="briefing_notes_label">Briefing Status</label></td><td><select data-dojo-props='"class":"prmaxinput",name:"briefingnotesstatusid",autoComplete:true,searchAttr:"name",required:false,labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="filter_briefingnotesstatusid"></select></td></tr>
+						<tr><td>&nbsp</td></tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"'>Clear</button></td>
+							<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Submit</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<button data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-cog fa-3x"' data-dojo-attach-event="onClick:_settings_function"></button>
+		</div>
+		</span>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center",splitter:true'>
+			<div data-dojo-attach-point="viewer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30,style:"width:100%;height:100%"' ></div>
+	</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:50%;height:100%","class":"scrollpanel",region:"right",splitter:true'>
+			<div data-dojo-attach-point="update_issue_ctrl" data-dojo-type="prcommon.crm.issues.update" data-dojo-props='style:"width:100%;height:100%"'></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="new_issue_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New"'>
+		<div data-dojo-attach-point="new_issue_ctrl" data-dojo-type="prcommon.crm.issues.add" data-dojo-props='style:"width:500px"'></div>
+	</div>
+	<div data-dojo-attach-point="archive_issue_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Change Status"'>
+		<div data-dojo-attach-point="archive_issue_ctrl" data-dojo-type="prcommon.crm.issues.archive"></div>
+	</div>
+	<div data-dojo-attach-point="settings_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Briefing Notes Status"'>
+		<div data-dojo-attach-point="settings_ctrl" data-dojo-type="prcommon.crm.issues.settings"></div>
+	</div>
+
+</div>

@@ -1,0 +1,15 @@
+<div>
+	<div dojoType="dojox.layout.GridContainer"
+						acceptTypes="Portlet, standing, distribution, FeedPortlet, updatum, contactus, passwordrecovery"
+						hasResizableColumns="false"
+						nbZones="2"
+						colWidths="50, 50"
+						allowAutoScroll="true"
+						isAutoOrganized ="true"
+						dragHandleClass="dijitTitlePaneTitle"
+						dojoAttachPoint="frame">
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="set_passwordrecovery_dialog" data-dojo-props='title:"Set Password Recovery",style:"width:450px;height:250px"'>
+		<div data-dojo-type="prcommon.recovery.passwordrecoverydetails" data-dojo-attach-point="set_passwordrecovery_ctrl"></div>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+<div>
+	<div dojoType="dijit.layout.ContentPane"  dojoAttachPoint="frame" style="overflow:auto;overflow-x:hidden;border:1px solid black">
+		<form class="prmaxdefault" dojoAttachPoint="formNode" dojoType="dijit.form.Form" onSubmit="return false">
+			<input name="outletid" dojoAttachPoint="outletidNode" type="hidden" dojoType="dijit.form.TextBox"></input>
+			<input name="employeeid" dojoAttachPoint="employeeidNode" type="hidden" dojoType="dijit.form.TextBox"></input>
+			<table style="width:97%;border-collapse:collapse;" cellspacing="0" cellpadding="0" border="0">
+				<tr><td width="15%" class="prmaxrowtag" valign="top"align="right">Person</td><td><div class="prmaxrequired" dojoType="prmax.dataadmin.employees.EmployeeSelect" dojoAttachPoint="selectcontact"></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Job Title</td><td><input class="prmaxrequired" name="job_title" type="text" dojoAttachPoint="job_title"  maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" style="width:98%"/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Email</td><td ><input class="prmaxinput" name="email" dojoAttachPoint="email" type="text" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" style="width:98%" maxlength="70"></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Tel</td><td><input class="prmaxinput" name="tel" type="text" dojoAttachPoint="tel" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Fax</td><td><input class="prmaxinput" name="fax" type="text" dojoAttachPoint="fax" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Mobile</td><td><input class="prmaxinput" name="mobile" type="text" dojoAttachPoint="mobile" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Twitter</td><td><input dojoAttachPoint="twitter" name="twitter" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url" type="text" maxlength="80" trim="true" style="width:70%"/>
+					<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Update Media Only",style:"float:right",disabled:"disabled"' data-dojo-attach-event="onClick:_UpdateMediaOnly" data-dojo-attach-point="socialmediabtn"></button>
+				</td></tr>
+				<tr><td align="right" class="prmaxrowtag">Facebook</td><td><input dojoAttachPoint="facebook" class="prmaxinput" name="facebook" type="text" maxlength="80" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url"  trim="true" style="width:90%"/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Linkedin</td><td><input dojoAttachPoint="linkedin" class="prmaxinput" name="linkedin" type="text" maxlength="80" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url" regExpGen="dojox.validate.regexp.url" trim="true" style="width:90%" /></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Instagram</td><td><input dojoAttachPoint="instagram" class="prmaxinput" name="instagram" type="text" maxlength="80" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url" regExpGen="dojox.validate.regexp.url" trim="true" style="width:90%" /></td></tr>
+
+				<tr><td align="right" class="prmaxrowtag">Different Address</td><td><input name="no_address" type="checkbox" dojoAttachPoint="no_address"  dojoType="dijit.form.CheckBox" dojoAttachEvent="onClick:_AddressShow" /></td></tr>
+				<tr dojoAttachPoint="addr1" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Address1</td><td><input dojoAttachPoint="address1" style="margin-left:10px" class="prmaxinput"  name="address1" type="text" trim="true" invalidMessage="Please enter address" dojoType="dijit.form.ValidationTextBox" style="width:90%"></input></td></tr>
+				<tr dojoAttachPoint="addr2" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Address2</td><td><input dojoAttachPoint="address2" style="margin-left:10px" class="prmaxinput" name="address2" type="text" trim="true" dojoType="dijit.form.ValidationTextBox" style="width:90%"></input></td></tr>
+				<tr dojoAttachPoint="addr3" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Town</td><td><input dojoAttachPoint="townname" style="margin-left:10px" class="prmaxinput" name="townname" type="text" trim="true" dojoType="dijit.form.ValidationTextBox" style="width:90%" ></input></td></tr>
+				<tr dojoAttachPoint="addr4" class="prmaxhidden" ><td align="right" class="prmaxrowtag">County</td><td><input dojoAttachPoint="county" style="margin-left:10px" class="prmaxinput" name="county" type="text" trim="true" dojoType="dijit.form.ValidationTextBox" style="width:90%" ></input></td></tr>
+				<tr dojoAttachPoint="addr5" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Post Code</td><td><input dojoAttachPoint="postcode" style="margin-left:10px" class="prmaxinput" name="postcode" type="text" trim="true" dojoType="dijit.form.ValidationTextBox" style="width:10em" ></input></td></tr>
+				<tr><td colspan="2" align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Update Interest Only",style:"float:right",disabled:"disabled"' data-dojo-attach-event="onClick:_UpdateInterestsOnly" data-dojo-attach-point="interestupdbtn"></button></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top" >Keywords:</td><td><div displaytitle="" dojoType="prcommon.interests.Interests"  restrict="0" dojoAttachPoint="interests" size="6" name="interests" startopen="true" selectonly="true" nofilter="true" keytypeid="1" interesttypeid="1" ></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Profile</td><td><div class="dialogprofileframe" ><textarea dojoAttachPoint="profile" name="profile" dojoType="dijit.form.Textarea"  style="width:99%;height:99%" ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Notes</td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Code</td><td ><select dojoAttachPoint="reasoncodeid" name="reasoncodeid" dojotype ="dijit.form.FilteringSelect" searchAttr="name" labelType="html" style="width:98%" class="prmaxrequired" /></td></tr>
+				<tr><td  align="right" valign="top" class="prmaxrowtag">Description</td><td ><div class="reasonframe" ><textarea dojoAttachPoint="reason" name="reason" required="true" dojoType="dijit.form.Textarea" style="width:99%;height:80%" ></textarea></div></td></tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr><td dojoAttachPoint="close_button" class="prmaxhidden"><button type="button" dojoType="dijit.form.Button" label="Close" dojoAttachEvent="onClick:_Close"></button></td><td colspan="3" align="right"><button disabled="disabled" dojoAttachEvent="onClick:_Submit" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" type="button" busyLabel="Please Wait Saving..." label="Save"></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>

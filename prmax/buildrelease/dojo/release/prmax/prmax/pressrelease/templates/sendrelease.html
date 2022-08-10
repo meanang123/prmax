@@ -1,0 +1,182 @@
+<div class="sendemail" style="width:100%;height:100%;">
+	<div dojoAttachPoint="sendemail" dojoType="dijit.layout.BorderContainer" design="sidebar" style="width:100%;height:100%">
+		<div dojoAttachPoint="left_zone" dojoType="dijit.layout.BorderContainer" region="left" style="width:60%;height:100%">
+			<div dojoAttachPoint="template_selection_view" dojotype="dijit.layout.ContentPane" region="top" style="width:100%;height:0%">
+				<button dojoAttachPoint="usetemplates" dojoAttachEvent="onChange:_usetemplates_view" dojotype="dijit.form.ToggleButton" iconClass="dijitCheckBoxIcon" style="float:right">Use Press Release Templates</button>
+
+				<table dojoAttachPoint="usetemplates_view" class="prmaxhidden" width="450px" cellspacing="0" cellpadding="0" border="0" style="padding-top:5px;">
+					<tr><td width="140px" align="right" class="prmaxrowtag">Header Template</td><td><select autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="templateheaderid" searchAttr="description" required="false" ></select><button type="button" dojoType="dijit.form.Button"  label="Add" dojoAttachEvent="onClick:_add_header_template" ></button></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Footer Template</td><td><select autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="templatefooterid" searchAttr="description" required="false" ></select><button type="button" dojoType="dijit.form.Button"  label="Add" dojoAttachEvent="onClick:_add_footer_template" ></button></td></tr>
+				</table><br/>
+				<p dojoAttachPoint="usetemplates_view_2" class="prmaxrowdisplaylarge prmaxhidden" style="text-align:center;width:100%;padding:0px;margin:0px">Body Template</p>
+			</div>
+			<div dojoType="dijit.Editor" dojoAttachPoint="emailtemplatecontent" region="center" style="width:60%;height:100%" extraPlugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:false},'fontSize','createLink','viewsource','preview','ttlinsertimage','insertCollateral','mergefields']" splitter ></div>
+		</div>
+		<div  dojoAttachPoint="expo_pane" dojotype="dijit.layout.StackContainer" region="center" >
+			<div title="upload" dojoAttachPoint="upload_view" dojotype="dijit.layout.ContentPane" style="width:100%;height:100%">
+				<div dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%">
+					<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:2em">
+						<p class="step">Step 1 </p><p class="stepspace">-</p><p class="stepdetails" data-dojo-attach-point="step1_label">Upload Your Press Release</p>
+					</div>
+					<div dojotype="dijit.layout.ContentPane" region="center">
+						<div dojoType="dijit.TitlePane" title="Upload Ms Word Documents" style="width: 100%" >
+							<div dojoAttachPoint="wordtohtml" title="Upload" dojoType="prmax.email.wordtohtml" ></div>
+						</div>
+						<div dojoType="dijit.TitlePane" title="Email Attachments" style="width: 100%" >
+							<div dojoAttachPoint="attachments" style="width:100%;height:100px" dojoType="prmax.pressrelease.attachments" ></div>
+						</div>
+						<div dojoType="dijit.TitlePane" title="Options" style="width: 100%" >
+							<table width="99%" class="prmaxtable" cellspacing="0" cellpadding="0" border="0">
+								<tr><td align="right" class="prmaxrowtag" width="25%"><label>Include Web View</label></td><td><input type="checkbox" dojoAttachPoint="include_view_as_link" name="include_view_as_link" dojotype = "dijit.form.CheckBox"/></td></tr>
+								<tr><td align="right" class="prmaxrowtag">Email Format</td><td><select autoComplete="true" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="emailsendtypeid" ></select></td></tr>
+							</table>
+						</div>
+						<div dojoType="dijit.TitlePane" title="Send Preview Email" style="width: 100%" >
+							<table width="99%" class="prmaxtable" cellspacing="0" cellpadding="0" border="0">
+								<tr><td  >&nbsp;</td></tr>
+								<tr><td width="15%" align="right" class="prmaxrowtag" >From Address</td><td width="84%"><input style="width:99%" type="text" dojoAttachPoint="fromemail" size="40" maxlength="70" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" required="false" nvalidMessage="Please Enter Valid Reply Email Address" /></td></tr>
+								<tr><td align="right" class="prmaxrowtag" >Preview Address</td><td width="84%"><input  style="width:99%" type="text" dojoAttachPoint="preview_email_1" size="40" maxlength="70" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" required="true" nvalidMessage="Please Enter Valid Preview Email Address" /></td></tr>
+								<tr><td  >&nbsp;</td></tr>
+								<tr><td colspan="2" class="prmaxrowtag" data-dojo-attach-point="sendpreview_distrtext">In the top box enter the email address you wish this press release to come from.<br/>
+In the bottom box enter an email address if you wish to send yourself or someone else a preview proof copy of this press release</td></tr>
+								<tr><td colspan="2" align="right"><button type="button" class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Sending Preview" label="Send Preview" dojoAttachPoint="preview_1" dojoAttachEvent="onClick:_Preview1" ></button></td></tr>
+							</table>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="bottom" style="width:100%;height:3em;overflow:auto">
+						<button style="float:left;padding-left:2px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Clear" dojoAttachEvent="onClick:_ClearRelease" ></button>
+						<button style="float:left;padding-left:2px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Save Changes" dojoAttachEvent="onClick:_SaveChanges" ></button>
+						<button style="float:right;padding-right:2px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Next" dojoAttachEvent="onClick:_Step_2_Next" ></button>
+					</div>
+				</div>
+			</div>
+			<div title="select_lists" dojoAttachPoint="select_lists_view" dojotype="dijit.layout.ContentPane" style="width:100%;height:100%">
+				<div dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%">
+					<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:2em">
+						<p class="step" >Step 2 </p><p class="stepspace">-</p><p class="stepdetails">Select Lists</p>
+						<div class="subjecttitle" dojoAttachPoint="step_2_title"></div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;height:100%">
+						<div dojoAttachPoint="selectgrid" dojoType="dojox.grid.DataGrid" query="{ }" rowsPerPage="50" style="width:100%;height:100%">></div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center">
+						<div dojoAttachPoint="selectedgrid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="50" style="width:100%;height:100%">></div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="bottom" style="width:100%;height:3em">
+						<button style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dojox.form.BusyButton"  label="Next" dojoAttachEvent="onClick:_Step_3_Next" busylabel="Please Wait Creating List" dojoAttachPoint="step_3_next_btn"></button>
+						<button style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Prev" dojoAttachEvent="onClick:_Step_3_Prev" ></button>
+					</div>
+				</div>
+			</div>
+			<div title="modify_lists" dojoAttachPoint="modify_lists_view" dojotype="dijit.layout.ContentPane" style="width:100%;height:100%">
+				<div dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%">
+					<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:3em">
+						<p class="step">Step 3 </p><p class="stepspace">-</p><p class="stepdetails" data-dojo-attach-point="step3_label">Modify Distribution Lists</p>
+						<p data-dojo-type="dijit.form.Button" data-dojo-props='"class":"prmaxhidden", iconClass:"fa fa-trash-o fa-2x",showLabel:false,label:"Remove Selected List Members"' data-dojo-attach-point="removeselectedbtn" data-dojo-attach-event="onClick:_remove_selected_listmembers"></p>
+						<div class="subjecttitle" dojoAttachPoint="step_3_title"></div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center">
+						<div dojoAttachPoint="listitemsgrid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="50" style="width:100%;height:100%"> ></div>
+					</div>
+					<div  dojotype="dijit.layout.ContentPane" dojoAttachPoint="outlet_details" class="prmaxrowdisplay_profile" region="right" style="width:46%;height:100%" splitter="true" >
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="bottom" style="width:100%;height:3em">
+						<button dojoAttachPoint="step_4_next" style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Next" dojoAttachEvent="onClick:_Step_4_Next" ></button>
+						<button dojoAttachPoint="step_4_prev" style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Prev" dojoAttachEvent="onClick:_Step_4_Prev" ></button>
+					</div>
+				</div>
+			</div>
+			<div title="Send" dojoAttachPoint="send_view" dojoType="dijit.layout.ContentPane" style="width:100%;height:100%">
+				<div dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%">
+					<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:2em">
+						<p class="step" data-dojo-attach-point="step5_name">Step 4 </p><p class="stepspace">-</p><p class="stepdetails" data-dojo-attach-point="step4_label">Send Release</p>
+						<div class="subjecttitle" dojoAttachPoint="step_4_title"></div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center">
+						<table width="99%" class="prmaxtable" cellspacing="0" cellpadding="0" border="0">
+							<tr><td colspan="2" ><br/></td></tr>
+							<tr><td width="15%" nowrap class="prmaxrowtag"  >Emails to be Sent</td><td width="84%"><span class="emailcount" dojoAttachPoint="nbrtobesent"></span></td></tr>
+							<tr><td width="15%" nowrap class="prmaxrowtag" >Subject</td><td width="84%"><input  style="width:99%" type="text" dojoAttachPoint="subject2" size="40" maxlength="80" dojoType="dijit.form.TextBox"  trim="true" required="true" /></td></tr>
+							<tr><td colspan="2" ><br/></td></tr>
+							<tr><td colspan="2" ><br/></td></tr>
+							<tr><td  colspan="2"  class="prmaxrowdisplaylarge2" >Send Preview Email</td></tr>
+							<tr><td width="15%" nowrap class="prmaxrowtag" >Preview Address</td><td width="84%"><input  style="width:99%" type="text" dojoAttachPoint="preview_email" size="40" maxlength="70" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" required="true" nvalidMessage="Please Enter Valid Preview Email Address" /></td></tr>
+							<tr><td colspan="2" align="right"><button type="button" class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Sending Preview" label="Send Preview" dojoAttachPoint="preview" dojoAttachEvent="onClick:_Preview" ></button></td></tr>
+							<tr><td colspan="2" class="prmaxrowtag" data-dojo-attach-point="sendpreview_distrtext2">Enter an email address here if you wish to send yourself or someone else a preview proof copy of this release.</td></tr>
+							<tr><td colspan="2" ><br/></td></tr>
+							<tr><td colspan="2" class="prmaxrowdisplaylarge2" data-dojo-attach-point="sendemail_label" >Send Email Distribution</td></tr>
+							<tr><td width="15%"  nowrap class="prmaxrowtag" >Reply Name</td><td width="84%"><input style="width:50%" type="text" dojoAttachPoint="returnname" size="40" maxlength="70" dojoType="dijit.form.ValidationTextBox" trim="true" required="true" /></td></tr>
+							<tr><td width="15%"  nowrap class="prmaxrowtag" >Reply Address</td><td width="84%"><input  style="width:99%" type="text" dojoAttachPoint="email" size="40" maxlength="70" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" required="true" nvalidMessage="Please Enter Valid Reply Email Address" /></td></tr>
+							<tr><td colspan="2" align="right"><button type="button" class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Sending" label="Send Emails" dojoAttachPoint="send" dojoAttachEvent="onClick:_check_and_send" ></button></td></tr>
+							<tr><td colspan="2" class="prmaxrowtag" >Insert the email address that you wish journalists to reply</td></tr>
+							<tr><td colspan="2" ><br/></td></tr>
+							<tr><td colspan="2" class="prmaxrowdisplaylarge2" ><label data-dojo-attach-point="embargo_text">Schedule Delivery</label>&nbsp;<input type="checkbox" dojoAttachPoint="embargoed" dojoAttachEvent="onChange:_Embargo_Changed" dojoType="dijit.form.CheckBox" /></td></tr>
+							<tr data-dojo-attach-point="embargo_view" class="prmaxhidden"><td class="prmaxrowtag">Date/Time</td><td><input data-dojo-attach-point="embargo_date" data-dojo-type="dijit.form.DateTextBox" data-dojo-props='name:"embargo_date",type:"text"' />
+												<input data-dojo-attach-point="embargo_time" data-dojo-type="dijit.form.TimeTextBox" data-dojo-props='type:"text", name:"embargo_time",
+												constraints:{timePattern:"HH:mm:ss", clickableIncrement:"T00:15:00", visibleIncrement:"T00:15:00", visibleRange:"T01:00:00"},
+												invalidMessage:"Invalid time. Use HH:mm:ss where HH is 00 - 23 hours."'/>
+												</td></tr>
+							<tr><td><br/></td></tr>
+						</table>
+
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="bottom" style="width:100%;height:3em">
+						<button style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dojox.form.BusyButton" dojoAttachPoint="send2"  label="Send" dojoAttachEvent="onClick:_check_and_send" busyLabel="Sending" ></button>
+						<button style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  dojoAttachPoint = "send_prev" label="Prev" dojoAttachEvent="onClick:_Step_5_Prev" ></button>
+						<button style="float:left;padding-left:2px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button" dojoAttachPoint="savechangesbtn" label="Save Changes" dojoAttachEvent="onClick:_SaveChanges" ></button>
+					</div>
+				</div>
+			</div>
+			<div title="complete" dojoAttachPoint="complete_view" dojoType="dijit.layout.ContentPane" style="width:100%;height:100%">
+				<p class="step">Step 5 </p><p class="stepspace">-</p><p class="stepdetails">Emailing Completed and Distributed</p>
+				<div class="complete_outer">
+					<div class="complete_inner">
+						<p class="white_text" data-dojo-attach-point="step5_mgs">You have successfully distributed your Press Release </p>
+						<p style="text-align:center" ><button type="button" class="prmaxbutton prmax_send_home_btn" dojoAttachEvent="onClick:_Completed" dojoType="dijit.form.Button"  label="Home Page" ></button></p>
+					</div>
+				</div>
+			</div>
+			<div title="Collateral" dojoType="prmax.collateral.view" style="width:100%;height:100%" ></div>
+			<div title="seopressrelease" dojoAttachPoint="seopressrelease_container" dojotype="dijit.layout.ContentPane" style="width:100%;height:100%">
+				<div dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%">
+					<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:3em">
+						<p class="step">Step 4 </p><p class="stepspace">-</p>&nbsp;
+						<button dojoAttachPoint="hasseopressrelease" dojoAttachEvent="onChange:_SEORelease" dojotype="dijit.form.ToggleButton" iconClass="dijitCheckBoxIcon">
+							<p class="stepdetails" >Publish SEO Press Release</p>
+						</button>
+					</div>
+					<div dojoAttachPoint="seopanel" dojotype="dijit.layout.StackContainer" region="center" >
+						<div title="seo_not_avaliable" dojoAttachPoint="seo_not_avaliable" dojoType="dijit.layout.ContentPane" selected style="width:100%;height:100%">
+							<p><b>Why add an SEO press release?</b></p>
+							<p>You have an interesting story, you have written a great Press Release and you have targeted all the right media!</p>
+							<p>But how do you reach a wider audience? How do you get your story to appear on the major News Websites and key search engines such as Google, Yahoo and Bing?</p>
+							<p>How do you attain the absolute maximum number of opportunities for Journalists, News Organisations and News Consumers to see your story?</p>
+							<p><b>SEO is the answer!</b></p>
+							<p>SEO press releases are just like a standard press release but optimised for the web with the addition of Keyword Tags and published in a specific way to achieve the greatest possible visibility in the Search Engines.</p>
+							<p>If you are sending out a press release, it makes sense to get the most out of it. Add the SEO press release and instantly enhance your storyâ€™s potential audience, your search engine rankings and brand visibility in a single stroke.</p>
+							<p>In typical <b>PRmax</b> style you can add videos and images to your press release at no extra cost, your Release will immediately be published on PRnewslink, the Journalist and Newsroom specific online wire service and will start hitting all the major Search Engines in minutes.</p>
+							<p>But most importantly and again, in typical PRmax style, SEO Press Releases are Free</p>
+							<p>To starting using the PRmax SEO press release service tick the box next to 'Publish SEO Press Release' above.</p>
+						</div>
+						<div title="seopressrelease" dojoType="prmax.pressrelease.seo.edit" dojoAttachPoint="seopressrelease" style="width:100%;height:100%"></div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="bottom" style="width:100%;height:3em">
+						<button style="float:left;padding-left:2px" type="button" class="prmaxbuttonlarge prmaxhidden" dojoType="dijit.form.Button"  label="Save Changes" dojoAttachEvent="onClick:_SaveSeoChanges" dojoAttachPoint="seosave"></button>
+						<button dojoAttachPoint="step_6_next" style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Next" dojoAttachEvent="onClick:_Step_6_Next" ></button>
+						<button dojoAttachPoint="step_6_prev" style="float:right;padding-right:20px" type="button" class="prmaxbuttonlarge" dojoType="dijit.form.Button"  label="Prev" dojoAttachEvent="onClick:_Step_6_Prev" ></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="add_template_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add Template",style:"width:600px;height:600px"'>
+		<div data-dojo-attach-point="add_template_ctrl" data-dojo-type="prmax.pressrelease.distributiontemplate.template_add"></div>
+	</div>
+	<div data-dojo-attach-point="remove_listmembers_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Remove Members From Distibution List", style:"width:300px"'>
+		<div data-dojo-type="prmax.pressrelease.removelistmembers" data-dojo-attach-point="remove_listmembers_ctrl"></div>
+	</div>
+	<div data-dojo-attach-point="validate_email_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Return Address Validation", style:"width:400px;height:150px"'>
+		<div data-dojo-attach-point="validate_email_ctrl" data-dojo-type="prmax.pressrelease.emailvalidation"></div>
+	</div>
+	
+</div>

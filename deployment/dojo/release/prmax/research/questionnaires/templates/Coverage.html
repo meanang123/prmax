@@ -1,0 +1,19 @@
+<div >
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"overflow:auto;overflow-x:hidden",region:"center"' >
+		<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+			<input data-dojo-props='type:"hidden",name:"researchprojectitemid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="researchprojectitemid">
+			<table width="100%" cellspacing="0" cellpadding="0">
+				<tr><td align="right" class="prmaxrowtag" valign="top" width="150px">Geo. Coverage</td><td ><div data-dojo-attach-point="coverage" data-dojo-type="prcommon2/geographical/Geographical" data-dojo-props='name:"coverage",selectonly:true,size:6,displaytitle:"",startopen:true,title:"Select"'></div></td></tr>
+				<tr><td class="prmaxrowtag">User FeedBack</td></tr>
+				<tr><td style="padding:5px" class="prmaxrowemphasise" colspan="2" data-dojo-attach-point="feedback"></td></tr>
+			</table>
+		</form>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom", style:"width:100%;height:40px;padding:5px"' >
+			<label class="prmaxrowtag">Reason Code</label><select data-dojo-attach-point="reasoncodeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html","class":"prmaxrequired"'></select>
+			<button data-dojo-attach-event="onClick:_update_coding" data-dojo-attach-point="savenode" data-dojo-type="dojox/form/BusyButton" data-dojo-props='style:"float:right",type:"button",busyLabel:"Please Wait Saving...",label:"Save"'></button>
+	</div>
+	<div data-dojo-attach-point="publisher_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Publisher Add"'>
+		<div data-dojo-attach-point="publisher_add_ctrl" data-dojo-type="prcommon2/publisher/PublisherAdd"></div>
+	</div>
+</div>

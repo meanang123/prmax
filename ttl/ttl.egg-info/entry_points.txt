@@ -1,0 +1,4 @@
+
+      [python.templating.engines]
+      ttlmakoext = ttl.ttlmako:TGMakoExtPlugin
+      

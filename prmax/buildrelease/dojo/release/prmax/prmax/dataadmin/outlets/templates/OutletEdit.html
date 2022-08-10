@@ -1,0 +1,53 @@
+<div >
+	<div  dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer"  style="width:99%;height:100%;overflow: hidden" gutters="false">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="height:42px;width:100%;overflow:hidden" class="searchresults">
+			<div style="height:40px;width:100%;overflow:hidden" class="searchresults">
+				<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left:height:100%;width:100%" >
+					<div dojoAttachEvent="onClick:_ShowDetails" dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" label="Details"></div>
+					<div dojoAttachEvent="onClick:_ShowContacts" dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" label="Contacts" dojoAttachPoint="contact_view_btn"></div>
+					<div dojoAttachEvent="onClick:_ShowProfile" dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" label="Profile" ></div>
+					<div dojoAttachEvent="onClick:_ShowAudit" dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" label="Audit"></div>
+					<div dojoAttachEvent="onClick:_ShowResearch" dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" label="Research"></div>
+					<div dojoAttachEvent="onClick:_ShowPrn" dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" label="Prn"></div>
+					<div dojoAttachEvent="onClick:_ShowAdvance" dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" label="Feature"></div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="outlet_container" region="center"  doLayout="true" >
+			<div title="Details" dojoType="dijit.layout.ContentPane" dojoAttachPoint="outlet_details_view">
+				<div dojoAttachPoint="outlet_main" dojotype="prmax.dataadmin.outlets.OutletEditMainDetails" style="width:100%;height:100%;overflow:auto;"></div>
+			</div>
+			<div title="Contacts" dojoType="dijit.layout.BorderContainer" dojoAttachPoint="outlet_contact_view" style="width:100%;height:100%" gutters="false" >
+				<div dojoAttachPoint="outlet_contact_grid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="500" style="width:100%;height:30%;border:1px solid black" splitter="true" region="center"></div>
+				<div dojoType="dijit.layout.StackContainer" dojoAttachPoint="contact_edit_container" region="bottom" style="width:100%;height:70%" splitter="true" >
+					<div title="blank_cont_view" dojoAttachPoint="blank_cont_view" dojoType="dijit.layout.ContentPane" region="bottom" selected ></div>
+					<div title ="contact_edit" dojoAttachPoint="contact_edit" dojoType="prmax.dataadmin.employees.EmployeeEdit" style="border:1px solid black"></div>
+				</div>
+			</div>
+			<div title="Profile" dojoType="dijit.layout.ContentPane" dojoAttachPoint="outlet_profile_view" style="width:100%;height:100%" >
+				<div dojoAttachPoint="outlet_profile_ctrl" dojotype="prmax.dataadmin.Profile" style="width:100%;height:100%"></div>
+			</div>
+			<div title="Audit" dojoType="dijit.layout.ContentPane" dojoAttachPoint="outlet_audit_view" style="width:100%;height:100%" >
+				<div dojoAttachPoint="outlet_audit_ctrl" dojoType="prmax.dataadmin.AuditViewer" objectisbase="true" objecttypeid="1" style="width:100%;height:100%"></div>
+			</div>
+			<div title="Research" dojoType="dijit.layout.ContentPane" dojoAttachPoint="outlet_research_view" style="width:100%;height:100%" >
+				<div dojoAttachPoint="outlet_research_ctrl" dojoType="prmax.dataadmin.ResearchDetails" style="width:100%;height:100%"></div>
+			</div>
+			<div title="Prn" dojoType="dijit.layout.ContentPane" dojoAttachPoint="outlet_prn_view" style="width:100%;height:100%" >
+				<div dojoAttachPoint="outlet_prn_ctrl" dojoType="prmax.dataadmin.outlets.OutletEditPrn" style="width:100%;height:100%"></div>
+			</div>
+			<div title="Features" dojoType="dijit.layout.ContentPane" dojoAttachPoint="outlet_advance_view" style="width:100%;height:100%" >
+				<div dojoAttachPoint="outlet_advance_ctrl" dojoType="prmax.dataadmin.outlets.AdvanceView" style="width:100%;height:100%"></div>
+			</div>
+		</div>
+	</div>
+	<div dojoAttachPoint="employee_delete_dlg" dojoType="dijit.Dialog" title ="Delete Outlet Contact">
+		<div dojoAttachPoint="employee_delete_ctrl" dojoType="prmax.dataadmin.employees.EmployeeDelete"></div>
+	</div>
+	<div dojoAttachPoint="employee_change_dlg" dojoType="dijit.Dialog" title ="Add/Update">
+		<div dojoAttachPoint="employee_change_ctrl" dojoType="prmax.dataadmin.employees.EmployeeEdit"></div>
+	</div>
+	<div dojoAttachPoint="employee_set_primary_dlg" dojoType="dijit.Dialog" title ="Set Primary Contact">
+		<div dojoAttachPoint="employee_set_primary_ctrl" dojoType="prmax.dataadmin.outlets.OutletSetPrimary"></div>
+	</div>
+</div>

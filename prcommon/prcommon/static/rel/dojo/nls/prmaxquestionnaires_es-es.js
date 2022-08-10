@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+//>>built
+define("dojo/nls/prmaxquestionnaires_es-es",{"dijit/form/nls/validate":{"invalidMessage":"El valor especificado no es válido.","rangeMessage":"Este valor está fuera del intervalo.","_localized":{},"missingMessage":"Este valor es necesario."},"dijit/nls/loading":{"_localized":{},"loadingState":"Cargando...","errorState":"Lo siento, se ha producido un error"},"dojo/cldr/nls/number":{"scientificFormat":"#E0","currencySpacing-afterCurrency-currencyMatch":"[:^S:]","infinity":"∞","superscriptingExponent":"×","list":";","percentSign":"%","minusSign":"-","currencySpacing-beforeCurrency-surroundingMatch":"[:digit:]","_localized":{},"decimalFormat-short":"000B","currencySpacing-afterCurrency-insertBetween":" ","nan":"NaN","plusSign":"+","currencySpacing-afterCurrency-surroundingMatch":"[:digit:]","currencyFormat":"#,##0.00 ¤","currencySpacing-beforeCurrency-currencyMatch":"[:^S:]","perMille":"‰","group":".","percentFormat":"#,##0%","decimalFormat-long":"000 billones","decimalFormat":"#,##0.###","decimal":",","currencySpacing-beforeCurrency-insertBetween":" ","exponential":"E"},"dijit/form/nls/ComboBox":{"previousMessage":"Opciones anteriores","_localized":{},"nextMessage":"Más opciones"},"dijit/nls/common":{"buttonOk":"Aceptar","buttonCancel":"Cancelar","_localized":{},"buttonSave":"Guardar","itemClose":"Cerrar"}});

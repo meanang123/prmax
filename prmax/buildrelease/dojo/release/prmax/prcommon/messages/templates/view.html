@@ -1,0 +1,35 @@
+<div >
+	<div dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" >
+		<div dojoType="dijit.MenuBar" region="top" style="height:25px;width:98%">
+			<div dojoType="dijit.MenuBarItem"  dojoAttachEvent="onClick:_Send_Message" dojoAttachPoint="menu_home_btn">Send Message</div>
+				<div dojoType="dijit.PopupMenuBarItem">
+					<span>View</span>
+					<div dojoType="dijit.Menu" >
+						<div dojoType="dijit.CheckedMenuItem" checked >In Coming</div>
+						<div dojoType="dijit.CheckedMenuItem" >Sent </div>
+					</div>
+				</div>
+			<div dojoType="dijit.MenuBarItem"  style="float:right">Help</div>
+		</div>
+		<div dojoAttachPoint="viewer_grid" dojoType="dojox.grid.EnhancedGrid"  region="center" query="{ }" rowsPerPage="30" ></div>
+	</div>
+	<div dojoAttachPoint="sendDialog" dojotype="dijit.Dialog"  title="Send Message" >
+		<div class="dijitDialogPaneContentArea">
+			<div dojoAttachPoint="message" dojotype="prcommon.messages.message"  ></div>
+		</div>
+		<div class="dijitDialogPaneActionBar">
+			<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Close">Close</button>
+			<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Send">Send</button>
+		</div>
+	</div>
+	<div dojoAttachPoint="replyDialog" dojotype="dijit.Dialog"  title="Reply To Message" >
+		<div class="dijitDialogPaneContentArea">
+			<div dojoAttachPoint="view_message" dojotype="prcommon.messages.view_message" ></div>
+			<div dojoAttachPoint="message" dojotype="prcommon.messages.message" ></div>
+		</div>
+		<div class="dijitDialogPaneActionBar">
+			<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Close2">Close</button>
+			<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Reply">Send</button>
+		</div>
+	</div>
+</div>

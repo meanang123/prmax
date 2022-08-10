@@ -1,0 +1,29 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:50%;height:100%"' class="scrollpanel" >
+		<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+			<input data-dojo-props='type:"hidden",name:"questionnaireid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="questionnaireid">
+			<table width="100%" cellspacing="0" cellpadding="0">
+				<tr data-dojo-attach-point="publisher_std_view"><td align="right" class="prmaxrowtag" width="120px">Publisher</td><td><select data-dojo-props='style:"width:25em",name:"publisherid",autoComplete:true,searchAttr:"publishername",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="publisherid"></select></td><tr>
+				<tr data-dojo-attach-point="publisher_text_view"><td align="right" class="prmaxrowtag" width="120px">Add New Publisher</td><td><input data-dojo-attach-point="publishername" data-dojo-props='name:"publishername",type:"text",trim:true,style:"width:70%",required:false' data-dojo-type="dijit/form/ValidationTextBox"></input></td><tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Primary Language</td><td><select data-dojo-props='style:"width:15em",name:"language1id",autoComplete:true,searchAttr:"name",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="language1id"></select></td><tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Other Language</td><td><select data-dojo-props='style:"width:15em",name:"language2id",autoComplete:true,searchAttr:"name",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="language2id"></select></td><tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Editorial Profile</td><td ><div class="fixedtextframe" ><textarea data-dojo-attach-point="editorialprofile" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"editorialprofile",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Readership/Audience</td><td ><div class="fixedtextframe" ><textarea data-dojo-attach-point="readership" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"readership",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr data-dojo-attach-point="productioncompany_view"><td align="right" class="prmaxrowtag">Production Company</td><td><select data-dojo-props='style:"width:15em",name:"productioncompanyid",autoComplete:true,searchAttr:"productioncompanydescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="productioncompanyid"></select></td><tr>
+				<tr data-dojo-attach-point="broadcasttimes_view"><td align="right" class="prmaxrowtag" valign="top">Broadcast Times</td><td ><div class="fixedsmalltextframe" ><textarea data-dojo-attach-point="broadcasttimes" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"broadcasttimes",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Circulation</td><td><input data-dojo-attach-point="circulation" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='"class":"prmaxinput",name:"circulation",type:"text",value:0,constraints:{min:0,max:99999999}, trim:true'/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Circulation Source</td><td><select data-dojo-props='style:"width:15em",name:"circulationsourceid",autoComplete:true,searchAttr:"circulationsourcedescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationsourceid"></select></td><tr>
+				<tr><td align="right" class="prmaxrowtag">Circulation Date</td><td><select data-dojo-props='style:"width:15em",name:"circulationauditdateid",autoComplete:true,searchAttr:"circulationauditdatedescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationauditdateid"></select></td><tr>
+				<tr><td align="right" class="prmaxrowtag">Frequency</td><td>	<select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"frequencyid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Please select frequency",labelType:"html"' data-dojo-attach-point="frequency"></select></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Frequency Notes</td><td ><div class="fixedsmalltextframe" ><textarea data-dojo-attach-point="frequencynotes" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"frequencynotes",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Cost</td><td><select data-dojo-props='style:"width:10em",name:"outletpriceid",autoComplete:true,searchAttr:"name",required:false,placeHolder:""' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="outletpriceid"></select></td><tr>
+			</table>
+		</form>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"right",style:"width:50%;height:100%"' class="scrollpanel" >
+		<table width="100%" cellspacing="2" cellpadding="2">
+			<tr><td align="right" class="prmaxrowtag" valign="top"width="120px">Related Outlets</td><td data-dojo-attach-point="relatedoutlets_view"></td><tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top">Changes</td><td ><div class="fixedtextframe" ><textarea data-dojo-attach-point="relatedoutlets" data-dojo-type="dijit/form/Textarea" data-dojo-props='style:"width:99%;height:99%"'></textarea></div></td></tr>
+		</table>
+	</div>
+</div>

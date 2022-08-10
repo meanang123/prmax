@@ -1,0 +1,17 @@
+<div>
+	<form data-dojo-attach-point="update_form" data-dojo-props='"class":"prmaxdefault", onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<input data-dojo-attach-point="documentid" data-dojo-props='name:"documentid", type:"hidden", value:"-1"' data-dojo-type="dijit.form.TextBox" >
+		<table class="prmaxtable" width="500px" >
+			<tr><td colspan="2" align="center" class="prmaxrowdisplaylarge" > Document Details</td></tr>
+			<tr><td class="prmaxrowtag" >Description</td><td class="prmaxrowdisplay" width="76%"><input data-dojo-props='invalidMessage:"Description field must be filled in", style:"width:98%", "class":"prmaxrequired", name:"description", type:"text", maxlength:80, trim:true, required:true' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="description"/></td></tr>
+			<tr><td class="prmaxrowtag" colspan="2"><br/></td></tr>
+			<tr><td class="prmaxrowtag" >Controls</td>
+				<td class="prmaxrowdisplay" width="76%">
+					<button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Update", busyLabel:"Please Wait Updating" ' data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_update" data-dojo-attach-point="update_form_btn"></button>
+					<button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Delete"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_delete"></button>
+					<button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Download"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_download"></button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

@@ -1,0 +1,37 @@
+<div>
+	<form  dojotype="dijit.form.Form" dojoAttachPoint="form" onsubmit="return false;">
+		<input type="hidden" name="outletid" value="-1" dojoType="dijit.form.TextBox" dojoAttachPoint="outletid">
+		<table cellspacing="1" cellpadding="1"  width="100%">
+			<tr><td width="20%" align="right" class="prmaxrowtag">Surname</td><td><input dojoAttachPoint="surname" class="prmaxrequired"  name="surname" type="text" trim="true" required="true" invalidMessage="Please enter conatct surname" dojoType="dijit.form.ValidationTextBox" style="width:70%"></input></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Firstname</td><td><input class="prmaxinput" dojoAttachPoint="firstname"  name="firstname" type="text" dojoType="dijit.form.TextBox" style="width:40%"></input></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Title</td><td><input class="prmaxinput" dojoAttachPoint="prefix"  name="prefix" type="text" dojoType="dijit.form.TextBox" style="width:20%"></input></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Job Title</td><td><input class="prmaxinput" dojoAttachPoint="job_title"  name="job_title" type="text" dojoType="dijit.form.TextBox" style="width:70%"></input></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Email</td><td><input dojoAttachPoint="email" class="prmaxinput" name="email" dojoAttachPoint="Email" type="text" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="20" maxlength="70" style="width:90%"></tr>
+			<tr><td align="right" class="prmaxrowtag">Tel</td><td><input dojoAttachPoint="tel" class="prmaxinput" name="tel" type="text" maxlength="40" dojoType="dijit.form.ValidationTextBox" trim="true" style="width:60%" /></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Frequency</td>
+			<td ><select style="width:70%" class="prmaxrequired" name="researchfrequencyid"
+									autoComplete="true"
+									searchAttr="name"
+									dojoType="dijit.form.FilteringSelect"
+									required="true"
+									invalidMessage="Please select research frequency"
+									labelType="html"
+									dojoAttachPoint="researchfrequencyid"></select></td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top">Notes</td><td><div class="stdframe" style="height:300px"><textarea dojoAttachPoint="notes"  name="notes" dojoType="dijit.form.Textarea"  style="height:300px"></textarea></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag" width="20%">Reason Code</td><td ><select dojoAttachPoint="reasoncodeid" name="reasoncodeid" dojotype ="dijit.form.FilteringSelect" searchAttr="name" labelType="html" style="width:98%" class="prmaxrequired"  /></td></tr>
+
+			<tr>
+					<td align="left" ><button type="button"  dojoAttachEvent="onClick:_ShowQDlg" dojoType="dijit.form.Button" label="Show Quest" ></button>
+				<button type="button"  dojoAttachEvent="onClick:_Preview" dojoType="dijit.form.Button" label="Preview" ></button></td>
+					<td align="right" ><button type="submit"  dojoAttachPoint="saveBtn" disabled="disabled" dojoAttachEvent="onClick:_Update" dojoType="dojox.form.BusyButton" label="Update Research Details"  busyLabel="Please Wait Updating..."></button></td></tr>
+		</table>
+	</form>
+	<div dojoAttachPoint="qdlg" title="Email Questionaire" dojoType="dijit.Dialog">
+		<div dojoAttachPoint="qctrl" dojoType="prmax.dataadmin.questionnaires.SendSingle"></div>
+	</div>
+
+	<form dojoAttachPoint="previewform" target="_newtab" action="/dataadmin/preview_questionnaire" method="post">
+		<input type="hidden" name="objecttypeid" dojoAttachPoint="preview_objecttypeid">
+		<input type="hidden" name="objectid" dojoAttachPoint="preview_objectid">
+	</form>
+</div>

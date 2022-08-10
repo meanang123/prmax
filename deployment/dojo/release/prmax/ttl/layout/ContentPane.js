@@ -1,0 +1,2 @@
+//>>built
+define("ttl/layout/ContentPane",["dijit","dojo","dojox","dojo/require!dijit/layout/ContentPane,ttl/utilities"],function(_1,_2,_3){_2.provide("ttl.layout.ContentPane");_2.require("dijit.layout.ContentPane");_2.require("ttl.utilities");_2.declare("ttl.layout.ContentPane",[_1.layout.ContentPane],{onDownloadError:function(_4){return ttl.utilities.onDownloadError(_4)||this.errorMessage;}});});

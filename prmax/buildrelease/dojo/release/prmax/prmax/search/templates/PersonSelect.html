@@ -1,0 +1,20 @@
+<div>
+	<div data-dojo-attach-point="search_people_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Find People",style:"width:600px;height:530px"'>
+		<form data-dojo-props='"class":"prmaxdefault",name:"std_search_person",cellspacing:"0",cellpadding:"0",formid:"std_search_person_form",onsubmit:"return false"' data-dojo-type="ttl.Form" data-dojo-attach-point="form_name">
+			<input data-dojo-props='type:"hidden",value:"quick",name:"search_type"' data-dojo-type="dijit.form.TextBox" />
+			<div class="paddingrow">&nbsp;</div>
+			<div data-dojo-props='usepartial:true,search:"std_search_quick",keytypeid:138, name:"quick_contactfull_ext"' data-dojo-type="prmax.search.person" data-dojo-attach-point="quick_contactfull_ext"></div>
+			<hr/>
+			<div  data-dojo-props='usepartial:true,search:"std_search_quick", displayname:"Outlet Name",keytypeid:1,name:"quick_searchname",value:""' data-dojo-attach-point="std_search_outlet_outlet_name" data-dojo-type="prmax.search.standard"></div>
+			<hr/><br/>
+			<button data-dojo-attach-event="onClick:_clear" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Clear","class":"btnleft",style:"float:left",iconClass:"fa fa-eraser fa-2x"'></button>
+			<button data-dojo-attach-event="onClick:_search" data-dojo-attach-point="searchbtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Search","class":"btnright",style:"float:right", iconClass:"fa fa-search fa-2x"'></button><br style="clear:both"/>
+			<br/>
+		</form>
+		<div data-dojo-attach-point="viewer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30' ></div><br/>
+		<button data-dojo-attach-event="onClick:_close" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnright",style:"float:right"'></button>
+	</div>
+	<div data-dojo-attach-point="selectdetails_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Contact Details",style:"width:600px;height:400px"'>
+		<div data-dojo-attach-point="selectdetails_ctrl" data-dojo-type="prmax.search.PersonSelectDetails" data-dojo-props='style:"width:590px;height:390px"'></div>
+	</div>
+</div>

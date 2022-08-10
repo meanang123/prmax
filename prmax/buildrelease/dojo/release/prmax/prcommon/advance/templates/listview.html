@@ -1,0 +1,28 @@
+<div>
+	<div dojoAttachPoint="frame" dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%">
+		<div dojoType="dijit.layout.ContentPane" region="top"  style="height:50%">
+			<div dojoAttachPoint="innerframe" class="outletdisplay prmaxhidden">
+				<table style="width:100%;border-style:collapsed; margin:5px" cellpadding="0" cellspacing="0" border="0">
+					<tr><td align="right" class="prmaxrowdisplaylarge" valign="top" width="10%"></td><td class="prmaxrowdisplaylarge" dojoAttachPoint="feature"></td></tr>
+					
+					<tr><td width="10%"class="prmaxrowtag"></td><td class="prmaxrowdisplayinfo" dojoAttachPoint="contactdisplay"></td></tr>
+					<tr><td width="10%"class="prmaxrowtag"></td><td class="prmaxrowdisplayinfo" dojoAttachPoint="editorialdisplay"></td></tr>
+					<tr><td width="10%"class="prmaxrowtag"></td><td class="prmaxrowdisplayinfo" dojoAttachPoint="coverdisplay"></td></tr>
+					<tr><td width="10%"class="prmaxrowtag"></td><td class="prmaxrowdisplayinfo" dojoAttachPoint="publicationdisplay"></td></tr>
+
+<!--
+					<tr><td align="right" class="prmaxrowtag" width="20%">Feature Details</td><td class="prmaxrowdisplay" dojoAttachPoint="featuredescription"></td></tr>
+					<tr><td align="right" class="prmaxrowtag" width="20%">Editorial Date</td><td class="prmaxrowdisplay" dojoAttachPoint="editorial_date"></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Cover Date</td><td class="prmaxrowdisplay" dojoAttachPoint="cover_date"></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Publication Date</td><td class="prmaxrowdisplay" dojoAttachPoint="publicationdate"></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Feature Interest</td><td class="prmaxrowdisplay" dojoAttachPoint="interests"></td></tr>
+-->
+				</table>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center" style="height:50%">
+			<div dojoAttachPoint="grid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" style="width:100%;height:100%" ></div>
+		</div>
+
+	</div>
+</div>

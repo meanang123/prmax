@@ -1,0 +1,43 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="controls" data-dojo-props='region:"top",style:"height:44px;width:100%;overflow:hidden"'>
+		<div data-dojo-attach-point="researchprojectname" class="dijitToolbar prmaxrowdisplaylarge" style="float:left;height:99%;width:25%;padding:0px;margin:0px">Project Name</div>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-sliders fa-3x",label:"Assignment",showLabel:true' data-dojo-attach-event="onClick:_init_btn_event" data-dojo-attach-point="initbtn"></div>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter",showLabel:true'>
+				<span>Filter By</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="Filter" data-dojo-attach-event="execute: _execute_filter">
+					<table>
+						<tr><td>Outlet Name</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_outletname" data-dojo-props='type:"text",name:"outletname"' ></td></tr>
+						<tr><td>Assign To</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_owner_name" data-dojo-props='type:"text",name:"ownername"' ></td></tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick:_clear_filter" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' >Clear Filter by</button></td>
+							<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit",name:"submit"'>Filter by</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-attach-event="onClick:_list_of_projects" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-list-alt fa-3x"'><span>Goto Project List</span></div>
+		</div>
+	</div>
+	<div data-dojo-type="dojox/layout/ExpandoPane" data-dojo-props='title:"Outlets",region:"left",maxWidth:175,style:"width:40%;height:100%;overflow:hidden",splitter:true'>
+		<div data-dojo-attach-point="grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"height:100%;width:100%"'></div>
+	</div>
+	<div data-dojo-attach-point="tabcont" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"'>
+		<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-attach-point="details_tab" data-dojo-props='style:"height:100%","class":"scrollpanel",title:"Details"'>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:100%padding-left:5px","class":"scrollpanel",region:"center"'>
+				<form  data-dojo-data='"class":"prmaxdefault"' data-dojo-attach-point="form" data-dojo-type="dijit/form/Form">
+					<input data-dojo-attach-point="researchprojectitemid" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"hidden",name:"researchprojectitemid",value:"-1"'/>
+					<h3 style="text-align:left;color:#1E538E">Contact Details</h3>	
+					<table style="width:98%" class="prmaxtable" cellspacing="0" cellpadding="0" >
+						<tr><td align="right" class="prmaxrowtag" width="100px">Owner</td><td><select data-dojo-attach-point="owner_id" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='autoComplete:true,required:false,searchAttr:"owner_name",name:"owner_id"' /></td></tr>
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<tr><td align="left"><button data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_update_owner" data-dojo-props='type:"button",label:"Update"'></button></td></tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="init_dlg" data-dojo-type="dijit/Dialog" title="Project Assignments" data-dojo-props='style:"width:600px;height:450px"'>
+		<div data-dojo-type="research/projects/init" data-dojo-attach-point="init_ctrl"></div>
+	</div>	
+</div>

@@ -1,0 +1,13 @@
+<div>
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,style:"width:100%;height:100%"' >
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden","class":"common_prmax_layout"'>
+			<form data-dojo-attach-point="formnode" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"common_prmax_layout prmaxdefault","onSubmit":"return false"'>
+				<label class="label_1">Keywords</label>
+				<input data-dojo-props='type:"text",trim:true,style:"width:20em",style:"float:left",required:true' data-dojo-attach-point="keywords" data-dojo-type="dijit.form.ValidationTextBox"/>
+				<label class="label_1">Exact<input data-dojo-attach-point="exact" data-dojo-type="dijit.form.CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"1",checked:"checked",style:"float:left"' /></label>
+				<button data-dojo-attach-event="onClick:_show_selection" data-dojo-type="dijit.form.Button" data-dojo-props='"class":"dojo_button",type:"button",label:"Preview"'></button>
+			</form>
+		</div>
+		<div data-dojo-attach-point="results" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'></div>
+	</div>
+</div>

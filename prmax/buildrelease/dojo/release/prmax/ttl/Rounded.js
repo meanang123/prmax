@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+
+if(!dojo._hasResource["ttl.Rounded"]){dojo._hasResource["ttl.Rounded"]=true;dojo.provide("ttl.Rounded");dojo.require("dijit._Widget");dojo.require("dijit._Templated");dojo.declare("ttl.Rounded",[dijit._Widget,dijit._Templated],{templateString:"<div class=\"Rounded\" dojoAttachPoint=\"outerNode\">\r\n\t<div class=\"RoundedContent\" dojoAttachPoint=\"roundedContent\">\r\n\t    <div class=\"RoundedTop\" dojoAttachPoint=\"roundedTop\"></div>\r\n\t    <div dojoAttachPoint=\"contentNode\">\r\n\t\t\t<div dojoAttachPoint='titleTextNode' class='RoundedTitle'>${title}</div>\r\n\t\t\t<div dojoAttachPoint=\"containerNode\"></div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"RoundedBottom\" dojoAttachPoint=\"roundedBottom\"><div dojoAttachPoint=\"roundedBottomDiv\"></div>\r\n</div>\r\n",bgImg:"",bgImgAlt:"",bgImgDefault:"/static/images/RoundedLight.png",title:"",postCreate:function(){if(this.title.length==0){dojo.style(this.titleTextNode,"display","none");}if(this.bgImg.length==0){this.bgImg=this.bgImgDefault;}dojo.style(this.contentNode,"height",dojo.style(this.outerNode,"height")-10+"px");var _1=(this.bgImgAlt.length&&dojo.isIE<7);dojo.forEach(["roundedContent","roundedTop","roundedBottom","roundedBottomDiv"],function(_2){dojo.style(this[_2],"backgroundImage","url("+(_1?this.bgImgAlt:this.bgImg)+")");},this);}});}

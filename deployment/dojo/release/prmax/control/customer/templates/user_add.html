@@ -1,0 +1,9 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='onSubmit:"return false","class":"common_prmax_layout"'>
+		<input data-dojo-attach-point="icustomerid" name="icustomerid" type="hidden" size="40" data-dojo-type="dijit/form/TextBox" value="" />
+		<label class="label_size_1 label_align_r">Email Address</label><input data-dojo-attach-point="email" name="email" type="text" maxlength="80" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,pattern:dojox.validate.regexp.emailAddress,required:true,invalidMessage:"invalid email address",style:"width:27em"'/><br/>
+		<label class="label_size_1 label_align_r">Display Name</label><input data-dojo-attach-point="displayname" name="displayname" type="text" maxlength="80" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,required:true,invalidMessage:"Must be entered",style:"width:15em"'/><br/>
+		<label class="label_size_1 label_align_r">Password</label><input data-dojo-attach-point="password" name="password" type="password" size="20" maxlength="20" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true,invalidMessage:"Must be entered",style:"width:10em"'/><br/><br/>
+		<button class="btnright" data-dojo-attach-point="save_user_btn" data-dojo-attach-event="onClick:_add_user" data-dojo-type="dojox/form/BusyButton" data-dojo-props='busyLabel:"Please Wait Adding...",label:"Add"'></button><br/><br/>
+	</form>
+</div>

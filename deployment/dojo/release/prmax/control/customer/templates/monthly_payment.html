@@ -1,0 +1,18 @@
+<div>
+<form data-dojo-attach-point="form"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+<table width="500px" cellpadding="0" cellpadding="0" >
+	<tr><td colspan="4"><div data-dojo-props='"class":"prmaxrowdisplaylarge",style:"text-align:center;display:inline"'>Monthly Payment (Inc Vat.)</div><div data-dojo-props='"class":"prmaxrowdisplaylarge",style:"display:inline"' data-dojo-attach-point="customername"></div></td>
+	<tr><td class="prmaxrowlabel" align="right">Amount (Inc Vat.)</td>
+		<td><input data-dojo-props='type:"text",name:"value",required:true,trim:true' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="payment" /></td>
+	</tr>
+	<tr><td class="prmaxrowlabel" align="right">Paid Month</td>
+	<td><select data-dojo-props='"class":"prmaxinput",name:"monthid",style:"width:10em",autoComplete:"true"' data-dojo-attach-point="monthid" data-dojo-type="dijit/form/FilteringSelect"></select></td>
+	<td class="prmaxrowlabel" align="right">Paid Year</td><td><select data-dojo-props='"class":"prmaxinput",name:"yearid",style:"width:5em",autoComplete:"true"' data-dojo-attach-point="yearid" data-dojo-type="dijit/form/FilteringSelect"></select></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" valign="top">Message</td><td><div class="dialogprofileframe" >
+	<textarea data-dojo-attach-point="message" data-dojo-props='name:"message","class":"dijitTextarea",style:"width:99%;height:99%"' data-dojo-type="dijit/form/Textarea" ></textarea></div></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" >Email Address</td><td><input class="prmaxinput"  data-dojo-props='name:"email",type:"text",trim:true,required:true,regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address",size:"40",maxLength:"85"' data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox" /></td></tr>
+	<tr><td class="prmaxrowlabel" align="right">Payment Date</td><td><input data-dojo-props='type:"text",name:"payment_date"'  data-dojo-attach-point="payment_date" data-dojo-type="dijit/form/DateTextBox" ></td>
+	</tr>
+	<tr><td class="prmaxrowlabel" colspan="4" align="right"><button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_take_payment">Take Payment</button></td>
+</table></form>
+</div>

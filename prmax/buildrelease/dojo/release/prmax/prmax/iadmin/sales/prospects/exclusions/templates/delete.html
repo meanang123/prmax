@@ -1,0 +1,18 @@
+<div>
+	<br/>
+	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<input data-dojo-attach-point="prospectid" data-dojo-props='type:"hidden",name:"prospectid"', data-dojo-type="dijit.form.TextBox" ></input>
+		<table width="600px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2" data-dojo-attach-point="title"></td></tr>
+			<tr><td><br/></td></tr>
+			<tr><td>
+			<input data-dojo-props='"class":"prmaxlabeltag",type:"radio",name:"deleteoption",value:"0",checked:"checked"' data-dojo-type="dijit.form.RadioButton" /><label data-dojo-attach-point="deletoption_0">Archive</label><br/>
+			<input data-dojo-props='"class":"prmaxlabeltag",type:"radio",name:"deleteoption",value:"1"' data-dojo-type="dijit.form.RadioButton" /><label data-dojo-attach-point="deletoption_1">Unsubscribe</label><br/><br/>
+			</td></tr>
+			<tr>
+				<td class="prmaxrowlabel"><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="closebtn" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_close">Close</button></td>
+				<td class="prmaxrowlabel" align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="addbtn" data-dojo-props='busyLabel:"Saving ...",type:"button"' data-dojo-attach-event="onClick:_update">Remove</button></td>
+			</tr>
+		</table>
+	</form>
+</div>

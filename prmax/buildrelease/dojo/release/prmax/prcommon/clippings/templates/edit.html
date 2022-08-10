@@ -1,0 +1,9 @@
+<div>
+	<form data-dojo-attach-point="formnode" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"common_prmax_layout prmaxdefault","onSubmit":"return false"'>
+		<input data-dojo-attach-point="clippingid" data-dojo-props='value:"",name:"clippingid",type:"hidden"' data-dojo-type="dijit.form.TextBox"/>
+		<br/>
+		<label class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><br/>
+		<label data-dojo-attach-point="issue_label_1" class="label_1">Issue</label><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid" ></select><br/>
+		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright"'></button>
+	</form>
+</div>

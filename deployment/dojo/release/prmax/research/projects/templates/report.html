@@ -1,0 +1,19 @@
+<div style="margin:10px">
+<form  data-dojo-props='onsubmit:"return false","class":"prmaxdefault"' data-dojo-attach-point="form" data-dojo-type="dijit/form/Form">
+	<input data-dojo-props='name:"researchprojectid",type:"hidden",value:-1'  data-dojo-attach-point="researchprojectid" data-dojo-type="dijit/form/TextBox"/>
+		<table cellspacing="0" cellpadding="0">
+		<tr><td >&nbsp;</td></tr>
+		<tr><td align="right" class="prmaxrowtag">Assign To</td><td><select data-dojo-attach-point="owner_id" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"owner_id",searchAttr:"owner_name",labelType:"html",style:"width:300px"'/></td></tr>
+		<tr><td align="right" class="prmaxrowtag">Outlet</td><td><select data-dojo-attach-point="outletid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"outletid",searchAttr:"outletname",labelType:"html",style:"width:300px"'/></td></tr>
+		<tr><td align="right" class="prmaxrowtag">Date</td><td data-dojo-type="prcommon2/date/daterange" data-dojo-attach-point="drange"></td></tr>
+
+		<tr><td >&nbsp;</td></tr>
+		<tr>
+			<td data-dojo-attach-point="close_button"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Close"' data-dojo-attach-event="onClick:_close"></button></td>
+			<td align="right"><button data-dojo-attach-event="onClick:_do_report" data-dojo-attach-point="reportbtn" data-dojo-type="dojox/form/BusyButton" type="button" busyLabel="Please Wait..." label="Report"></button></td></tr>
+	</table>
+</form>
+<div data-dojo-attach-point="report_dlg" data-dojo-type="dijit/Dialog" title="Projects Report" data-dojo-props='style:"width:300px"'>
+	<div data-dojo-type="prcommon2/reports/ReportBuilder" data-dojo-attach-point="report_node"></div>
+</div>
+</div>

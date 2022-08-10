@@ -1,0 +1,84 @@
+<div style="width:800px;height:500px;padding:0px;margin:0px">
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%"' >
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"left",style:"width:150px;height:100%"'>
+		<input class="prmaxinput" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"media_upgrade",type:"checkbox"' data-dojo-attach-point="media_upgrade" data-dojo-attach-event="onClick:_change_media_view"/><label class="prmaxrowtag">Media Core</label><br/>
+		<input class="prmaxinput" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"advance_upgrade",type:"checkbox"' data-dojo-attach-point="advance_upgrade" data-dojo-attach-event="onClick:_change_advance_view"/><label class="prmaxrowtag">Advance Features</label><br/>
+		<input class="prmaxinput" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"monitoring_upgrade",type:"checkbox"' data-dojo-attach-point="monitoring_upgrade" data-dojo-attach-event="onClick:_change_monitoring_view"/><label class="prmaxrowtag">Monitoring</label><br/>
+		<input class="prmaxinput" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"international_upgrade",type:"checkbox"' data-dojo-attach-point="international_upgrade" data-dojo-attach-event="onClick:_change_international_view"/><label class="prmaxrowtag">International</label><br/>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center","class":"scrollpanel"'>
+			<form data-dojo-attach-point="form"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+				<table width="100%" cellpadding="0" cellpadding="0" style="border-collapse:collapse" >
+				<input data-dojo-attach-point="orderpaymentfreqid" data-dojo-props='type:"hidden",name:"orderpaymentfreqid"' data-dojo-type="dijit.form.TextBox" >
+					<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline"><div style="display:inline;text-align:center" class="prmaxrowdisplaylarge" data-dojo-attach-point="customername">Name</div></label></td>
+					<tr><td class="prmaxrowtag" align="right">Payment Method</td><td><select data-dojo-props='"class":"prmaxinput",name:"paymentmethodid",style:"width:15em",autoComplete:true,readonly:"readonly"' data-dojo-attach-point="paymentmethodid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+					<tr><td class="prmaxrowtag" align="right" >Purchase Order</td><td><input data-dojo-attach-point="purchase_order" data-dojo-props='"class":"prmaxinput",name:"purchase_order",type:"text",trim:true' data-dojo-type="dijit.form.TextBox" ></td></tr>
+					<tr><td class="prmaxrowtag" align="right">Email Confirmation</td><td><input data-dojo-attach-point="emailtocustomer" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"emailtocustomer", type:"checkbox","class":"prmaxinput", checked:"checked"' /><input data-dojo-attach-point="email" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",style:"width:20em",trim:true,regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address"' /></td></tr>
+					<tr data-dojo-attach-point="sendinvoice_view"><td class="prmaxrowtag" align="right">Send Invoice</td><td><input data-dojo-attach-point="sendinvoice" data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"sendinvoice", type:"checkbox","class":"prmaxinput"' /></td></tr>
+					<tr><td class="prmaxrowtag" align="right">Confirmation On Login</td><td><input data-dojo-attach-point="upgrade_confirmation_accepted" data-dojo-props='"class":"prmaxinput",name:"upgrade_confirmation_accepted",type:"checkbox"' data-dojo-type="dijit.form.CheckBox" checked /></td></tr>
+					<tr><td valign="top" align="right" ><label class="prmaxrowtag">Message</label></td><td><div class="stdframe" ><textarea data-dojo-attach-point="order_confirmation_message" data-dojo-props='name:"order_confirmation_message", "class":"dijitTextarea",style:"width:99%;height:99%"' data-dojo-type="dijit.form.Textarea"></textarea></div></td></tr>
+					<tr><td align="right" class="prmaxrowtag">Ordered By</td><td><input data-dojo-props='"class":"prmaxrequired",type:"text",name:"orderedby",trim:true,required:true' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="orderedby"></input></td></tr>
+
+				</table>
+			<div data-dojo-attach-point="media_core_view" class="prmaxhidden" style="padding-top:10px">
+				<hr/>
+				<table width="100%" cellpadding="0" cellpadding="0" style="border-collapse:collapse" >
+					<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Core Media Settings</label></td></tr>
+					<tr><td class="prmaxrowtag" width="150px" align="right" >Concurrent Licence</td><td ><input data-dojo-attach-point="logins" data-dojo-type="dijit.form.NumberTextBox"data-dojo-props='"class":"prmaxrequired",type:"text",name:"logins",value:"1",style:"width:4em",required:true,constraints:{min:1,max:50}'></td></tr>
+					<tr><td width="12%">Price Code</td><td width="12%">Price ex VAT</td><td width="12%">Rnwl Code</td></tr>
+					<tr>
+						<td><select data-dojo-props='"class":"prmaxinput",name:"pricecodeid",autoComplete:true,style:"width:8em"' data-dojo-attach-point="pricecodeid"  data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-event="onChange:_PriceChange" ></select></td>
+						<td><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-attach-point="cost" data-dojo-props='type:"text",name:"cost",required:true,trim:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:6em"'></input></td>
+						<td><select data-dojo-props='"class":"prmaxinput",name:"pricecoderenewalid",autoComplete:true,style:"width:8em"' data-dojo-attach-point="pricecoderenewalid"  data-dojo-type="dijit.form.FilteringSelect" ></select></td>
+					</tr>
+				</table>
+			</div>
+			<div data-dojo-attach-point="advance_view" class="prmaxhidden">
+				<hr/>
+				<table width="100%" cellpadding="0" cellpadding="0" style="border-collapse:collapse" >
+					<tr><td colspan="4"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Advance Features Settings</label></td></tr>
+					<tr><td width="12%">Price Code</td><td width="12%">Price ex VAT</td><td width="12%">Rnwl Code</td></tr>
+					<tr>
+						<td  data-dojo-attach-point="features_view_4"><select data-dojo-attach-point="advpricecodeid" data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-event="onChange:_PriceChange" data-dojo-props='"class":"prmaxinput",name:"advpricecodeid",autoComplete:true, required:false,style:"width:8em"'  ></select></td>
+						<td  data-dojo-attach-point="features_view_5"><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-attach-point="advcost" data-dojo-props='type:"text",name:"advcost",trim:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:6em"'></input></td>
+						<td  data-dojo-attach-point="features_view_6"><select data-dojo-props='"class":"prmaxinput",name:"advpricecoderenewalid",autoComplete:true,required:false,style:"width:8em"' data-dojo-attach-point="advpricecoderenewalid" data-dojo-type="dijit.form.FilteringSelect"></select></td>
+					</tr>
+				</table>
+			</div>
+			<div data-dojo-attach-point="international_view" class="prmaxhidden">
+				<hr/>
+				<table width="100%" cellpadding="0" cellpadding="0" style="border-collapse:collapse" >
+					<tr><td colspan="4"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">International Settings</label></td></tr>
+					<tr><td width="12%">Price Code</td><td width="12%">Price ex VAT</td><td width="12%">Rnwl Code</td></tr>
+					<tr>
+						<td  data-dojo-attach-point="international_view_4">&nbsp;</td>
+						<td  data-dojo-attach-point="international_view_5"><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-attach-point="internationalcost" data-dojo-props='type:"text",name:"internationalcost",trim:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:6em"'></input></td>
+						<td  data-dojo-attach-point="international_view_6">&nbsp;</td>
+					</tr>
+				</table>
+			</div>
+			<div data-dojo-attach-point="monitoring_view" class="prmaxhidden">
+				<hr/>
+				<table width="100%" cellpadding="0" cellpadding="0" style="border-collapse:collapse" >
+					<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Monitoring Settings</label></td></tr>
+					<tr><td class="prmaxrowtag" align="right" >Monitoring Count</td><td><input data-dojo-attach-point="maxmonitoringusers" data-dojo-props='"class":"prmaxrequired",type:"text",name:"maxmonitoringusers",value:"1",style:"width:4em",constraints:{min:0,max:50}' data-dojo-type="dijit.form.NumberTextBox"></td></tr>
+					<tr><td width="12%">Start Date</td><td width="12%" data-dojo-attach-point="view_dd_1">Free Mths</td><td width="12%" data-dojo-attach-point="view_dd_2">Paid Mths</td><td width="12%">Price Code</td><td width="12%">Price ex VAT</td><td width="12%">Rnwl Code</td></tr>
+					<tr>
+						<td  data-dojo-attach-point="updatum_view_1"><input data-dojo-attach-point="updatum_start_date" data-dojo-type="dijit.form.DateTextBox" data-dojo-props='name:"updatum_start_date",type:"text",style:"width:8em"'></td>
+						<td  data-dojo-attach-point="updatum_view_2"><input data-dojo-attach-point="updatum_months_free" data-dojo-type="dijit.form.NumberTextBox" data-dojo-props='type:"text",name:"updatum_months_free",value:0,constraints:{min:0,max:36},required:true,style:"width:6em"'></td>
+						<td  data-dojo-attach-point="updatum_view_3"><input data-dojo-attach-point="updatum_months_paid" data-dojo-type="dijit.form.NumberTextBox" data-dojo-props='name:"updatum_months_paid",type:"text",value:12,constraints:{min:3,max:36},required:true,style:"width:6em"'></td>
+						<td  data-dojo-attach-point="updatum_view_4"><select data-dojo-attach-event="onChange:_PriceChange" data-dojo-attach-point="updatumpricecodeid"  data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='"class":"prmaxinput",name:"updatumpricecodeid",autoComplete:true,required:false,style:"width:8em"' ></select></td>
+						<td  data-dojo-attach-point="updatum_view_5"><input data-dojo-attach-point="updatumcost" data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-props='type:"text",name:"updatumcost",trim:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:6em"'></input></td>
+						<td  data-dojo-attach-point="updatum_view_6"><select data-dojo-attach-point="updatumpricecoderenewalid" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='"class":"prmaxinput",name:"updatumpricecoderenewalid",autoComplete:true,required:false,style:"width:8em"'></select></td>
+					</tr>
+				</table>
+			</div>
+			</form>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:2.5em"'>
+			<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_Close">Close</button>
+			<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_Preview">Preview</button>
+			<button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="sendbtn" data-dojo-props='busyLabel:"Sending upgrade confirmation ...",type:"button",style:"float:right;padding-right:10px"' data-dojo-attach-event="onClick:_Send">Send Upgrade Confirmation</button>
+		</div>
+	</div>
+</div>

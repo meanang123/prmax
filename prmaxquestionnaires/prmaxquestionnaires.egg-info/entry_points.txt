@@ -1,0 +1,4 @@
+[console_scripts]
+start-prmaxquestionnaires = prmaxquestionnaires.command:start
+bootstrap-prmaxquestionnaires = prmaxquestionnaires.command:bootstrap
+

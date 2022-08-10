@@ -1,0 +1,11 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<table>
+			<tr><td class="prmaxrowlabel" align="right" >Mailing Name</td><td><input data-dojo-props='type:"text",name:"mailingname"' data-dojo-attach-point="mailingname" data-dojo-type="dijit.form.TextBox" ></td></tr>
+			<tr>
+				<td class="prmaxrowlabel"><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="closebtn" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_close">Close</button></td>
+				<td class="prmaxrowlabel" align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="addbtn" data-dojo-props='busyLabel:"Saving ...",type:"button"' data-dojo-attach-event="onClick:_update">Adding</button></td>
+			</tr>
+		</table>
+	</form>
+</div>

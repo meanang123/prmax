@@ -1,0 +1,1 @@
+({"height":"Height","text":"Description:","set":"Set","label":"Insert Image","target":"Target:","ttlinsertimageTitle":"Image Properties","width":"Width","url":"URL:","style":"Style"})

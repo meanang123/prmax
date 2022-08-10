@@ -1,0 +1,11 @@
+<div style="border: 1px solid black">
+<form  data-dojo-props='onsubmit:"return false","class":"prmaxdefault"' data-dojo-attach-point="form" data-dojo-type="dijit/form/Form">
+	<input data-dojo-props='name:"circulationsourceid",type:"hidden",value:-1'  data-dojo-attach-point="circulationsourceid" data-dojo-type="dijit/form/TextBox"/>
+		<table cellspacing="0" cellpadding="0" width="400px">
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Circulation Source</td><td ><input data-dojo-props='"class":"prmaxinput",name:"circulationsourcedescription",type:"text",trim:true,required:true,style:"width:90%",placeHolder:"Circulation Source Name"'  data-dojo-attach-point="circulationsourcedescription" data-dojo-type="dijit/form/ValidationTextBox" ></input></td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr><td data-dojo-attach-point="close_button"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Close"' data-dojo-attach-event="onClick:_close"></button></td><td colspan="3" align="right"><button data-dojo-attach-event="onClick:_add_publisher" data-dojo-attach-point="savenode" data-dojo-type="dojox/form/BusyButton" type="button" busyLabel="Please Wait Saving..." label="Save"></button></td></tr>
+	</table>
+</form>
+</div>

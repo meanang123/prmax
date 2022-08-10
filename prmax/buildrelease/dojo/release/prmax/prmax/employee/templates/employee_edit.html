@@ -1,0 +1,26 @@
+<div>
+	<form class="prmaxdefault" dojoAttachPoint="formNode" dojoType="dijit.form.Form" onSubmit="return false">
+		<input name="outletid" dojoAttachPoint="outletidNode" type="hidden" dojoType="dijit.form.TextBox"></input>
+		<input name="employeeid" dojoAttachPoint="employeeidNode" type="hidden" dojoType="dijit.form.TextBox"></input>
+		<table style="width:100%;border-collapse:collapse;" cellspacing="1" cellpadding="1">
+			<tr><td class="prmaxrowtag">Contact Title</td><td><input class="prmaxinput" name="prefix" dojoAttachPoint="prefix" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 2em;" ></input></td></tr>
+			<tr><td class="prmaxrowtag">First Name</td><td><input class="prmaxinput" name="firstname" dojoAttachPoint="firstname" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 5em;" ></input></td></tr>
+			<tr><td class="prmaxrowtag">Surname</td><td><input class="prmaxinput" name="familyname" dojoAttachPoint="familyname" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 12em;"></input></td></tr>
+			<tr><td class="prmaxrowtag">Job Title:</td><td><input class="prmaxrequired" name="job_title" type="text" dojoAttachPoint="job_title"  maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox"/></td></tr>
+			<tr><td class="prmaxrowtag">Email:</td><td ><input class="prmaxinput" name="email" dojoAttachPoint="email" type="text" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="20" maxlength="70"></tr>
+			<tr><td class="prmaxrowtag">Tel:</td><td><input class="prmaxinput" name="tel" type="text" dojoAttachPoint="tel" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+			<tr><td class="prmaxrowtag">Fax:</td><td><input class="prmaxinput" name="fax" type="text" dojoAttachPoint="fax" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+			<tr><td class="prmaxrowtag">Mobile:</td><td><input class="prmaxinput" name="mobile" type="text" dojoAttachPoint="mobile" size="25" maxlength="40" dojoType="dijit.form.TextBox"/></td></tr>
+			<tr><td class="prmaxrowtag">Twitter</td><td><input dojoAttachPoint="twitter" class="prmaxinput" name="twitter" type="text" maxlength="80" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url" trim="true" style="width:90%"/></td></tr>
+			<tr><td class="prmaxrowtag">Facebook</td><td><input dojoAttachPoint="facebook" class="prmaxinput" name="facebook" type="text" maxlength="80" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url"  trim="true" style="width:90%"/></td></tr>
+			<tr><td class="prmaxrowtag">Linkedin</td><td><input dojoAttachPoint="linkedin" class="prmaxinput" name="linkedin" type="text" maxlength="80" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url" trim="true" style="width:90%" /></td></tr>
+			<tr><td class="prmaxrowtag">Instagram</td><td><input dojoAttachPoint="instagram" class="prmaxinput" name="instagram" type="text" maxlength="80" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.url" trim="true" style="width:90%" /></td></tr>
+
+			<tr><td colspan="2"><div displaytitle="Interests:" dojoType="prcommon.interests.Interests"  restrict="0" dojoAttachPoint="interests" size="6" name="interests" startopen="true" selectonly="true" nofilter="true" keytypeid="1" interesttypeid="1" ></div></td></tr>
+			<tr><td class="prmaxrowtag" valign="top">Profile</td><td><div class="dialogprofileframe" ><textarea dojoAttachPoint="profile" name="profile" class="dijitTextarea" dojoType="dijit.form.Textarea"  style="width:99%;height:99%" ></textarea></div></td></tr>
+			<tr><td ><button type="button" dojoType="dijit.form.Button" label="Close" dojoAttachEvent="onClick:_Close"></button></td>
+					<td colspan="3" align="right"><button disabled="disabled" dojoAttachEvent="onClick:_Submit" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" type="button" busyLabel="Please Wait Saving..." label="Save"></button></td>
+			</tr>
+		</table>
+	</form>
+</div>

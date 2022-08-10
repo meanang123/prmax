@@ -1,0 +1,15 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false","class":"prmaxdefault"' data-dojo-type="dijit.form.Form">
+		<input data-dojo-props='type:"hidden",name:"iuserid"' data-dojo-attach-point="iuserid" data-dojo-type="dijit.form.TextBox" ></input>
+		<table class="prmaxtable" width="500px"  border="0">
+			<tr><td class="prmaxrowtag" align="right" >Display Name</td><td data-dojo-attach-point="displayname" ></td></tr>
+			<tr><td class="prmaxrowtag" align="right" >Email To:</td><td><input data-dojo-attach-point="email" data-dojo-props='name:"email",type:"text",maxlength:80,trim:true,regExpGen:dojox.validate.regexp.emailAddress,required:true,invalidMessage:"invalid email address"' data-dojo-type="dijit.form.ValidationTextBox" /></td>
+			<tr><td class="prmaxrowtag" align="right" >Password</td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"password",type:"text",size:"40",maxlength:"40",trim:true,required:true' data-dojo-attach-point="password" /></td></tr>
+			<tr><td class="prmaxrowtag" align="right" >Full Details</td><td><input data-dojo-attach-point="fulldetails" data-dojo-props='value:"false",name:"fulldetails",type:"checkBox"' data-dojo-type="dijit.form.CheckBox" ></td></tr>
+			<tr><td class="prmaxrowtag" colspan ="2">&nbsp;</td></tr>
+			<tr><td class="prmaxrowtag" colspan="2" align="right"><button data-dojo-attach-point="updbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='busyLabel:"Please Wait...",label:"Send Details","class":"prmaxbutton"' data-dojo-attach-event="onClick:_update" ></button></td></tr>
+		</table>
+	</form>
+</div>
+
+

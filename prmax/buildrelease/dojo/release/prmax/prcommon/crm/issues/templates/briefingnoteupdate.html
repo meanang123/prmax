@@ -1,0 +1,11 @@
+<div style="width:500px">
+	<form class="common_prmax_layout prmaxdefault" data-dojo-attach-point="formnode" data-dojo-type="dijit.form.Form" onSubmit="return false">
+		<br/>
+		<label class="label_2" data-dojo-attach-point="briefing_notes_status_label">Notes Status</label><input data-dojo-props='"class":"prmaxrequired prmaxinput",name:"briefingnotesstatusdescription",type:"text",maxlength:80,trim:true,required:true,style:"width:26em"' data-dojo-attach-point="briefingnotesstatusdescription" data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+		<label class="label_2">Background Color</label><div data-dojo-type="prmax.customer.clients.pickcolour" data-dojo-attach-point="background_colour" data-dojo-props='name:"background_colour",style:"width:200px"' ></div>
+		<label class="label_2">Text Color</label><div data-dojo-type="prmax.customer.clients.pickcolour" data-dojo-attach-point="text_colour" data-dojo-props='name:"text_colour",style:"width:200px"'></div><br/>
+
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft"'></button>
+		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright", style:"float:right"'></button><br/><br/>
+	</form>
+</div>

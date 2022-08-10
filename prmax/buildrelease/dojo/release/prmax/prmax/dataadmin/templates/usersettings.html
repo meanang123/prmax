@@ -1,0 +1,12 @@
+<div>
+	<form  dojotype="dijit.form.Form" dojoAttachPoint="form" onsubmit="return false;">
+		<table width="100%" cellspacing="0" cellpadding="0">
+			<tr><td colspan="2" class="prmaxrowdisplaylarge">Researcher Setting</td></tr>
+			<tr><td align="right" class="prmaxrowtag">Display Name</td><td><input class="prmaxrequired" name="display_name" type="text" dojoAttachPoint="display_name"  maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" style="width:15em"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Job Title</td><td><input class="prmaxrequired" name="job_title" type="text" dojoAttachPoint="job_title"  maxlength="80" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" style="width:15em"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Email</td><td ><input class="prmaxrequired" name="email_address" dojoAttachPoint="email_address" type="text" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" style="width:25em" maxlength="70"></tr>
+			<tr><td align="right" class="prmaxrowtag">Tel</td><td><input class="prmaxrequired" name="tel" type="text" dojoAttachPoint="tel" size="25" maxlength="40" dojoType="dijit.form.TextBox" style="width:15em" required="true"/></td></tr>
+			<tr><td></td><td><button disabled="disabled" dojoAttachEvent="onClick:_Update" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" type="button" busyLabel="Please Wait Saving..." label="Save"></button></td></tr>
+		</table>
+	</form>
+</div>

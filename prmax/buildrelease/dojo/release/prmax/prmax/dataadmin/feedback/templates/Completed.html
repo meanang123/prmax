@@ -1,0 +1,14 @@
+<div style="width:600px;height:200px;" >
+	<form  class="prmaxdefault" data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" onsubmit="return false;">
+		<input data-dojo-attach-point="bounceddistributionid" data-dojo-props='type:"hidden",name:"bounceddistributionid"' data-dojo-type="dijit.form.TextBox" >
+		<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0"  border ="0">
+			<tr><td align="right" class="prmaxrowtag" width="20%">Has Been Researched?</td><td><input data-dojo-attach-point="has_been_research" data-dojo-props='"class":"prmaxbutton", type:"text", name:"has_been_research"' data-dojo-type="dijit.form.CheckBox" ></td><td>
+			<tr><td align="right" class="prmaxrowtag" width="20%">Reason</td><td >
+			<select data-dojo-attach-point="reasoncodes" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='searchattr:"name",labeltype:"html",name:"reasoncodeid",style:"width:98%","class":"prmaxrequired"'/>
+			</td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top">Description</td><td  ><div class="reasonframe" ><textarea data-dojo-attach-point="reason" data-dojo-props='name:"reason","class":"prmaxrowtag",required:true,style:"width:99%;height:80%;"' data-dojo-type="dijit.form.Textarea"></textarea></div></td></tr>
+			<tr><td><br/><br/></td></tr>
+			<tr><td align="right" colspan="2"><button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-event="onClick:_CompleteSubmit" name="submit">Bounce Email Completed</button></td></tr>
+		</table>
+	</form>
+</div>

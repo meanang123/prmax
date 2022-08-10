@@ -1,0 +1,45 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<input data-dojo-props='type:"hidden",name:"prospectid"' data-dojo-attach-point="prospectid" data-dojo-type="dijit.form.TextBox" >
+		<table width="500px" cellpadding="0" cellpadding="0" >
+			<tr><td class="prmaxrowlabel" align="right" >Email</td><td><input data-dojo-attach-point="email" data-dojo-props='required:true,"class":"prmaxinput",name:"email",type:"text",style:"width:20em",trim:"true",regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address"' data-dojo-type="dijit.form.ValidationTextBox" /></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Family Name</td><td><input data-dojo-props='type:"text",name:"familyname"' data-dojo-attach-point="familyname" data-dojo-type="dijit.form.TextBox" ></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >First Name</td><td><input data-dojo-props='type:"text",name:"firstname"' data-dojo-attach-point="firstname" data-dojo-type="dijit.form.TextBox" ></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Title</td><td><input data-dojo-props='type:"text",name:"title"' data-dojo-attach-point="title" data-dojo-type="dijit.form.TextBox" ></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Company</td><td>
+				<select data-dojo-props='searchAttr:"prospectcompanyname",required:false,"class":"prmaxinput",name:"prospectcompanyid",style:"width:19em",autoComplete:true' data-dojo-attach-point="prospectcompanyid" data-dojo-type="dijit.form.FilteringSelect" ></select>
+				<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_add_company">New </button>
+			</td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Source</td><td><select data-dojo-props='searchAttr:"prospectsourcename",required:false,"class":"prmaxinput",name:"prospectsourceid",style:"width:19em",autoComplete:true' data-dojo-attach-point="prospectsourceid" data-dojo-type="dijit.form.FilteringSelect" ></select>
+					<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_add_source">New </button>
+			</td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Type</td><td>
+					<select data-dojo-props='searchAttr:"prospecttypename",required:false,"class":"prmaxinput",name:"prospecttypeid",style:"width:19em",autoComplete:true' data-dojo-attach-point="prospecttypeid" data-dojo-type="dijit.form.FilteringSelect" ></select>
+					<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_add_type">New </button>
+			</td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Region</td><td>
+					<select data-dojo-props='searchAttr:"prospectregionname",required:false,"class":"prmaxinput",name:"prospectregionid",style:"width:19em",autoComplete:true' data-dojo-attach-point="prospectregionid" data-dojo-type="dijit.form.FilteringSelect" ></select>
+					<button data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_add_region">New </button>
+			</td></tr>
+
+			<tr><td class="prmaxrowlabel" align="right" >Www:</td><td><input data-dojo-attach-point="web" data-dojo-props='name:"web",type:"text",maxlength:120,regExpGen:dojox.validate.regexp.url' data-dojo-type="dijit.form.ValidationTextBox"/></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Tel:</td><td><input data-dojo-attach-point="telephone" data-dojo-props='name:"telephone",type:"text",maxlength:40,trim:true' data-dojo-type="dijit.form.ValidationTextBox" /></td></tr>
+			<tr>
+				<td class="prmaxrowlabel"><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="closebtn" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_close">Close</button></td>
+				<td class="prmaxrowlabel" align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="addbtn" data-dojo-props='busyLabel:"Saving ...",type:"button"' data-dojo-attach-event="onClick:_update">Save</button></td>
+			</tr>
+		</table>
+	</form>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add New Company"' data-dojo-attach-point="adddialog">
+		<div data-dojo-attach-point="addctrl" data-dojo-type="prmax.iadmin.sales.prospects.companies.add" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add New Prospect Source"' data-dojo-attach-point="addsourcedialog">
+		<div data-dojo-attach-point="addsourcectrl" data-dojo-type="prmax.iadmin.sales.prospects.sources.add" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add New Prospect Type"' data-dojo-attach-point="addtypedialog">
+		<div data-dojo-attach-point="addtypectrl" data-dojo-type="prmax.iadmin.sales.prospects.types.add" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Add New Prospect Region"' data-dojo-attach-point="addregiondialog">
+		<div data-dojo-attach-point="addregionctrl" data-dojo-type="prmax.iadmin.sales.prospects.regions.add" ></div>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<div style="border: 1px solid black">
+<form class="prmaxdefault" dojoAttachPoint="form" dojoType="dijit.form.Form" onsubmit="return false">
+	<table cellspacing ="0" cellpadding="0" width="100%">
+		<tr><td class="prmaxrowtag">${displayname}</td><td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Prefix</td><td ><input class="prmaxinput" name="prefix" dojoAttachPoint="prefix" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 2em;" ></input></td></tr>
+		<tr><td align="right" class="prmaxrowtag">First Name</td><td ><input class="prmaxinput" name="firstname" dojoAttachPoint="firstname" type="text" trim="true" dojoType="dijit.form.TextBox" style="width: 5em;" ></input></td></tr>
+		<tr><td align="right" class="prmaxrowtag">Surname</td><td><input class="prmaxrequired" name="familyname" dojoAttachPoint="familyname" type="text"  trim="true" required="true" dojoType="dijit.form.ValidationTextBox" style="width: 12em;"></input></td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Reason Code</td><td ><select dojoAttachPoint="reasoncodeid" name="reasoncodeid" dojotype ="dijit.form.FilteringSelect" searchAttr="name" labelType="html" style="width:98%" class="prmaxrequired"  /></td></tr>
+		<tr><td  align="right" valign="top" class="prmaxrowtag">Description</td><td ><div class="reasonframe" ><textarea dojoAttachPoint="reason" name="reason" required="true" dojoType="dijit.form.Textarea" style="width:99%;height:80%" ></textarea></div></td></tr>
+		<tr><td colspan="2" align="right" valign="bottom" ><button dojoAttachEvent="onClick:_AddContact" dojoAttachPoint="addContactNode" type="button" dojoType="dijit.form.Button" label="Add"></button></td></tr>
+	</table>
+</form>
+</div>

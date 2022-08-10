@@ -1,0 +1,18 @@
+<div>
+	<form data-dojo-attach-point="update_emailtemplate_form" data-dojo-type="dijit.form.Form" data-dojo-props='"onSubmit":"return false", name:"update_emailtemplate_form", style:"margin:5px"'>
+		<input data-dojo-attach-point="emailtemplateid" data-dojo-props='name:"emailtemplateid", type:"hidden", value:"-1"' data-dojo-type="dijit.form.TextBox" >
+		<table class="prmaxtable" width="700px" >
+			<tr><td colspan="2" align="center" class="prmaxrowdisplaylarge" > Press Release Details</td></tr>
+			<tr><td class="prmaxrowtag" >Description</td><td class="prmaxrowdisplay" width="86%"><input data-dojo-props='invalidMessage:"Description field must be filled in", style:"width:98%", "class":"prmaxrequired", name:"emailtemplatename", type:"text", maxlength:80, trim:true, required:true' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="emailtemplatename"/></td></tr>
+			<tr><td class="prmaxrowtag" >Client</td><td class="prmaxrowdisplay" width="86%" ><select data-dojo-attach-point="clientid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"clientid", searchAttr:"clientname", labelType:"html", style:"width:98%" '/></td></tr>
+			<tr><td class="prmaxrowtag" >Issue</td><td class="prmaxrowdisplay" width="86%"><select data-dojo-attach-point="issueid" data-dojo-type ="dijit.form.FilteringSelect" data-dojo-props='name:"issueid", searchAttr:"name", labelType:"html", style:"width:98%" '/></td></tr>
+			<tr><td class="prmaxrowtag" >Output</td><td class="prmaxrowdisplay" width="86%"><div data-dojo-type="dijit.Editor" data-dojo-attach-point="emailtemplatecontent" data-dojo-props='name:"emailtemplatecontent",style:"border:1px solid gray",sourcename:"pressrelease_update"'  extraPlugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:false},'fontSize','createLink','viewsource','preview','mergefields']"></div></td>
+			</tr>
+			<tr><td colspan = "2" align="right"><button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Update", busyLabel:"Please Wait Updating" ' data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_Update" data-dojo-attach-point="update_form_btn"></button></td></tr>
+		</table>
+	</form>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="upload_doc_dlg" data-dojo-props='title:"Upload document",style:"width:450px;height:260px"'>
+		<div data-dojo-type="prcommon.documents.upload" data-dojo-attach-point="upload_doc_ctrl"></div><br/>
+		<div data-dojo-attach-event="onClick:_close_dlg" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Close",style:"float:left;padding-right:20px"'></div>
+	</div>	
+</div>

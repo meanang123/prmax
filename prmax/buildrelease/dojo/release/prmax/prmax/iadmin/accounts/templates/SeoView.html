@@ -1,0 +1,31 @@
+<div>
+	<div data-dojo-attach-point="borderCtrl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",gutters:false' >
+		<div data-dojo-type="dijit.Toolbar" data-dojo-props='style:"height:42px;width:100%;padding:0px;margin:0px;overflow:hidden", region:"top"'>
+			<div data-dojo-type="dijit.form.DropDownButton"  data-dojo-props='iconClass:"PRMaxStdIcon PRMaxFilterIcon",label:"Filter SEO",showLabel:false'>
+				<span></span>
+				<div data-dojo-type="dijit.TooltipDialog" data-dojo-attach-event="execute:_ExecuteFilter">
+					<table>
+						<tr><td class="prmaxrowtag" align="right">Invoice Id</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="filter_invoicenbr" data-dojo-props='name:"invoicenbr",type:"text"' ></td></tr>
+						<tr><td class="prmaxrowtag" align="right">Date Range?</td><td><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="filter_daterange" data-dojo-props='name:"allaccount",type:"checkbox"' >
+							<div><p class="prmaxrowtag">Between</p>
+								<input data-dojo-props='style:"width:8em", name:"from_date", type:"text"' data-dojo-attach-point="filter_from_date" data-dojo-type="dijit.form.DateTextBox" >
+								<p class="prmaxrowtag">To</p>
+								<input data-dojo-props='style:"width:8em", name:"to_date", type:"text"' data-dojo-attach-point="filter_to_date" data-dojo-type="dijit.form.DateTextBox" >
+							</div>
+						</td></tr>
+						<tr><td class="prmaxrowtag" align="right">Payment Method</td><td><select data-dojo-props='"class":"prmaxinput",name:"seopaymenttypeid",style:"width:15em",autoComplete:true' data-dojo-attach-point="filter_seopaymenttypeid" data-dojo-type="dijit.form.FilteringSelect" ></select></td></tr>
+						<tr><td class="prmaxrowtag" align="right">Paid</td><td><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="filter_paid" data-dojo-props='name:"paid",type:"checkbox"' ></td></tr>
+						<tr><td class="prmaxrowtag" align="right">Not Paid</td><td><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="filter_notpaid" data-dojo-props='name:"notpaid",type:"checkbox"' ></td></tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick: _ClearFilter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Clear Filter by</button></td>
+							<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Filter by</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center",style:"width:50%",splitter:"true"' >
+			<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.EnhancedGrid" data-dojo-props='rowsPerPage:50' style="width:100%;height:100%" ></div>
+		</div>
+	</div>
+</div>

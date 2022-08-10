@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Testing Standard</title>
+	<style type="text/css">
+		@import "/static/dojo.dev/dojo/resources/dojo.css";
+		@import "/static/dojo.dev/dijit/tests/css/dijitTests.css";
+		@import "/static/dojo.dev/dojo/resources/dojo.css";
+		@import "/static/dojo.dev/dojo/resources/dnd.css";
+		@import "/static/dojo.dev/dojo/tests/dnd/dndDefault.css";
+		@import "/static/dojo.dev/dijit/themes/claro/claro.css";
+
+	</style>
+
+	<link id="themeStyles" rel="stylesheet" href="/static/dojo.dev/dijit/themes/claro/claro.css">
+
+
+	<script type="text/javascript" src="../../../../dojo.dev/dojo/dojo.js"
+		djconfig="parseOnLoad:true, isDebug: true, defaultTestTheme:'claro',
+		baseUrl:'../../../../dojo.dev/dojo/',modulePaths:{'ttl':'/ttl_comp/ttl','prmax':'/static/dojo.comp/prmax'}"></script>
+	<script type="text/javascript" src="../../../../dojo.dev/dijit/tests/_testCommon.js"></script>
+	<script type="text/javascript">
+		dojo.require("dojo.parser");
+		dojo.require("doh.runner");
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dojox.data.JsonRestStore");
+		dojo.require("dijit.Tree");
+		dojo.require("dijit.tree.ForestStoreModel");
+		dojo.require("dijit.tree.dndSource");
+
+	</script>
+	<script type="text/javascript" src="/static/dojo.comp/prmax/geographical/GeographicalTree.js"></script>
+</head>
+<body class="claro">
+<h1 class="testTitle">prmax.geographical.GeographicalTree</h1>
+<div dojoType="prmax.geographical.GeographicalTree" style="width:400px%;height:400px" ></div>
+</body>
+</html>

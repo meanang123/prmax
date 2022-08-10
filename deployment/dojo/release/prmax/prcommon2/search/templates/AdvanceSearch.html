@@ -1,0 +1,17 @@
+<div class="searchform">
+	<div class="paddingcell" >
+		<form data-dojo-attach-point="std_search_advance_form" data-dojo-props='name:"search_advance",formid:"std_search_advance_form",onsubmit:"return false"' data-dojo-type="ttl/Form2" >
+			<input data-dojo-props='type:"hidden",value:"advance",name:"search_type"' data-dojo-type="dijit/form/TextBox" />
+			<div class="paddingrow">&nbsp;</div>
+			<div  data-dojo-props='search:"std_search_advance",displayname:"Publication Date",keytypeid:124,name:"advance_publicationdate"' data-dojo-type="prcommon2/date/DateSearchExtended"></div>
+			<hr />
+			<div  data-dojo-props='usepartial:true,search:"std_search_advance",displayname:"Feature Text",keytypeid:122,name:"advance_advancename"' data-dojo-type="prcommon2/search/standard"></div>
+			<hr />
+			<div data-dojo-props='search:"std_search_advance",style:"width:99%",keytypeid:127,name:"advance_outlettypes"'data-dojo-type="prcommon2/search/PrmaxOutletTypes"></div>
+			<hr />
+			<div data-dojo-props='usepartial:true,search:"std_search_advance",displayname:"Outlet Name",keytypeid:126,name:"advance_outletname"' data-dojo-type="prcommon2/search/standard"></div>
+			<hr/>
+			<input type="submit" style="display:none"/>
+		</form>
+	</div>
+</div>

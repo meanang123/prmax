@@ -1,0 +1,33 @@
+<div>
+	<form data-dojo-attach-point="formnode" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"common_prmax_layout prmaxdefault","onSubmit":"return false"'>
+		<input data-dojo-attach-point="clippingid" data-dojo-props='value:"",name:"clippingid",type:"hidden"' data-dojo-type="dijit.form.TextBox"/>
+		<br/>
+		<label class="label_1">Title</label><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="clip_title" data-dojo-props='required:true,name:"clip_title",maxLength:128,trim:true,type:"text",style:"width:30em"'><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Abstract</label><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="clip_abstract" data-dojo-props='required:false,name:"clip_abstract",maxLength:128,trim:true,type:"text",style:"width:30em"'><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Outlet</label><select data-dojo-props='name:"outletid",autoComplete:true,searchAttr:"outletname",required:true,placeHolder:"No Selection",pageSize:20,required:true' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="outletid"></select><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Date</label><input data-dojo-props='type:"text",name:"clip_source_date",required:"true",style:"width:7em"' data-dojo-attach-point="clip_source_date" data-dojo-type="dijit.form.DateTextBox" ><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Page</label><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="clip_source_page" data-dojo-props='required:false,name:"clip_source_page",maxLength:128,trim:true,type:"text"'><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Size</label><input data-dojo-props='name:"clip_article_size",type:"text",trim:true, constraints:{min:0,max:999999}, style:"width:5em"' data-dojo-attach-point="clip_article_size" data-dojo-type="dijit.form.NumberTextBox"><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Words</label><input data-dojo-props='name:"clip_words",type:"text",trim:true, constraints:{min:0,max:999999}, style:"width:5em"' data-dojo-attach-point="clip_words" data-dojo-type="dijit.form.NumberTextBox"><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Circulation</label><input data-dojo-props='name:"clip_circulation",type:"text",trim:true, constraints:{min:0,max:999999}, style:"width:5em"' data-dojo-attach-point="clip_circulation" data-dojo-type="dijit.form.NumberTextBox"><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Readership</label><input data-dojo-props='name:"clip_readership",type:"text",trim:true, constraints:{min:0,max:999999}, style:"width:5em"' data-dojo-attach-point="clip_readership" data-dojo-type="dijit.form.NumberTextBox"><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Rate</label><input data-dojo-props='type:"text",name:"clip_disrate",trim:"true",style:"width:8em",constraints:{fractional:true,places:"0,2",min:0.00,max:999999.00}' data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-attach-point="clip_disrate"><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Text</label><div class="stdframe" style="height:150px;"><textarea data-dojo-attach-point="clip_text" data-dojo-props='name:"clip_text",trim:true,required:true,style:"width:99%;height:80%"' data-dojo-type="dijit.form.Textarea" ></textarea></div><br/>
+		<p class="spacer">&nbsp;</p>
+		<label class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><br/>
+		<p class="spacer">&nbsp;</p>
+		<label data-dojo-attach-point="issue_label_1" class="label_1">Issue</label><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid" ></select><br/>
+		<p class="spacer_large">&nbsp;</p>
+		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright"'></button>
+	</form>
+</div>

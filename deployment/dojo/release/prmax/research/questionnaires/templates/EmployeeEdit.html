@@ -1,0 +1,55 @@
+<div>
+	<form data-dojo-attach-point="formnode" data-dojo-type="dijit/form/Form" data-dojo-props='onSubmit:"return false","class":"prmaxdefault"' >
+		<input data-dojo-attach-point="employeeidnode" data-dojo-props='type:"hidden",name:"employeeid"' data-dojo-type="dijit/form/TextBox"></input>
+		<input data-dojo-attach-point="researchprojectitemid" data-dojo-props='name:"researchprojectitemid",type:"hidden"' data-dojo-type="dijit/form/TextBox"></input>
+		<input data-dojo-attach-point="researchprojectitemchangeid" data-dojo-props='name:"researchprojectitemchangeid",type:"hidden"' data-dojo-type="dijit/form/TextBox"></input>
+		<table style="width:97%;border-collapse:collapse;" cellspacing="0" cellpadding="0" border="0">
+			
+			<tr><td width="15%" class="prmaxrowtag" valign="top"align="right">Person</td><td><div data-dojo-props='"class":"prmaxrequired"' data-dojo-type="research/employees/EmployeeSelect" data-dojo-attach-point="selectcontact"></div><div data-dojo-attach-point="contact_name_display" style="color:red;font-weight:bold"></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Job Title</td><td><input data-dojo-attach-point="job_title" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxrequired",name:"job_title",type:"text",maxlength:80,trim:true,required:false,style:"width:98%"'/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="job_title_modified"></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top">Job Roles</td><td><div data-dojo-attach-point="jobroles" data-dojo-type="prcommon2/roles/Roles" data-dojo-props='name:"jobroles",value:"",startopen:true, size:6, searchmode:true, selectonly:true' ></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Desk</td><td><select data-dojo-attach-point="outletdeskid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"outletdeskid",searchAttr:"deskname",labelType:"html","class":"prmaxrequired"' /></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Email</td><td ><input data-dojo-attach-point="email"  data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",pattern:dojox.validate.regexp.emailAddress,trim:true,invalidMessage:"invalid email address",style:"width:98%",maxlength:70'></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="email_modified"></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Tel</td><td><input data-dojo-attach-point="tel" data-dojo-props='"class":"prmaxinput",name:"tel",type:"text",size:25,maxlength:40' data-dojo-type="dijit/form/TextBox"/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="tel_modified"></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Fax</td><td><input data-dojo-attach-point="fax" data-dojo-type="dijit/form/TextBox" data-dojo-props='"class":"prmaxinput",name:"fax",type:"text",size:25,maxlength:40' /></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="fax_modified"></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Mobile</td><td><input data-dojo-props='"class":"prmaxinput",name:"mobile",type:"text",size:25,maxlength:40' data-dojo-attach-point="mobile" data-dojo-type="dijit/form/TextBox"/></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="mobile_modified"></div></td></tr>
+
+			<tr><td align="right" class="prmaxrowtag">Twitter</td>
+				<td><span><input data-dojo-attach-point="twitter" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"twitter",pattern:dojox.validate.regexp.url,type:"text",maxlength:80,trim:true,style:"width:90%"'/></span>
+					<span><div data-dojo-attach-point="twitter_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+				</td>
+				<td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="twitter_modified"></div></td>
+			</tr>
+			<tr><td align="right" class="prmaxrowtag">Facebook</td>
+				<td><span><input data-dojo-attach-point="facebook" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"facebook",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"'/></span>
+					<span><div data-dojo-attach-point="facebook_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+				</td>
+				<td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="facebook_modified"></div></td>
+			</tr>
+			<tr><td align="right" class="prmaxrowtag">Linkedin</td>
+				<td><span><input data-dojo-attach-point="linkedin" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"linkedin",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></span>
+					<span><div data-dojo-attach-point="linkedin_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+				</td>
+				<td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="linkedin_modified"></div></td>
+			</tr>
+			<tr><td align="right" class="prmaxrowtag">Instagram</td>
+				<td><span><input data-dojo-attach-point="instagram" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"instagram",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></span>
+					<span><div data-dojo-attach-point="instagram_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+				</td>
+				<td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="instagram_modified"></div></td>
+			</tr>
+			<tr><td align="right" class="prmaxrowtag">Different Address</td><td><input data-dojo-props='name:"no_address",type:"checkbox"' data-dojo-attach-point="no_address"  data-dojo-type="dijit/form/CheckBox" data-dojo-attach-event="onClick:_address_show" /></td></tr>
+			<tr data-dojo-attach-point="addr1" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Address1</td><td><input data-dojo-attach-point="address1" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='style:"margin-left:10px","class":"prmaxinput",name:"address1",type:"text",trim:true,invalidMessage:"Please enter address",style:"width:90%"'></input></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="address1_modified"></div></td></tr>
+			<tr data-dojo-attach-point="addr2" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Address2</td><td><input data-dojo-attach-point="address2" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='style:"margin-left:10px","class":"prmaxinput",name:"address2",type:"text",trim:true,style:"width:90%"'></input></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="address2_modified"></div></td></tr>
+			<tr data-dojo-attach-point="addr3" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Town</td><td><input data-dojo-attach-point="townname" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"townname",type:"text",trim:true,style:"width:90%"' ></input></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="townname_modified"></div></td></tr>
+			<tr data-dojo-attach-point="addr4" class="prmaxhidden" ><td align="right" class="prmaxrowtag">County</td><td><input data-dojo-attach-point="county" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"county",type:"text",trim:true,style:"width:90%"' ></input></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="county_modified"></div></td></tr>
+			<tr data-dojo-attach-point="addr5" class="prmaxhidden" ><td align="right" class="prmaxrowtag">Post Code</td><td><input data-dojo-attach-point="postcode" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"postcode",type:"text",trim:true,style:"width:10em"' ></input></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="postcode_modified"></div></td></tr>
+			<tr><td></td><td data-dojo-attach-point="copy_keywords_btn" align="left" class="prmaxrowtag"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Copy Keywords from Outlet"' data-dojo-attach-event="onClick:_copy_keywords_btn"></button></td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top" >Writes About:</td><td class="prmaxrowemphasise" data-dojo-attach-point="interests" ></td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top" >Keywords:</td><td><div data-dojo-type="prcommon2/interests/Interests" data-dojo-attach-point="interests_org" data-dojo-props='displaytitle:"",restrict:0,size:6,name:"interests",startopen:true,selectonly:true,nofilter:true,keytypeid:1,interesttypeid:1' ></div></td><td width="5%"><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="interests_modified"></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top">Profile</td><td><div class="dialogprofileframe" ><textarea data-dojo-attach-point="profile" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"profile",style:"width:99%;height:99%"' ></textarea></div></td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td colspan="3" align="right"><button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savenode" data-dojo-type="dojox/form/BusyButton" type="button" busyLabel="Please Wait Saving ..." label="Save"></button></td></tr>
+		</table>
+	</form>
+</div>

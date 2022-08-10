@@ -1,0 +1,16 @@
+<div class="prmaxhidden scrollpanel" dojoAttachPoint="view" style="width:100%;height:100%" >
+	<table width="100%" cellspacing="0" cellpadding="0" class="prmaxtable" border="0">
+		<tr><td align="right" width="20%" class="prmaxrowtag" >Subject</td><td colspan="2" dojoAttachPoint="subject"></td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Created Date</td><td dojoAttachPoint="taken"></td>
+		<td rowspan="2" align="right" width="10%" ><button dojotype="dijit.form.Button" label="Edit Note" dojoAttachEvent="onClick:_EditNote" dojoAttachPoint="editbtn" class="prmaxhidden"></button></td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Created By</td><td dojoAttachPoint="takenbyname"></td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Source Type</td><td dojoAttachPoint="contacthistorydescription"></td>
+		<td rowspan="2" align="right" width="10%" ><button dojotype="dijit.form.Button" label="Delete Note" dojoAttachEvent="onClick:_DeleteNote" dojoAttachPoint="deletebtn" class="prmaxhidden"></button></td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Modified Date</td><td dojoAttachPoint="modified"></td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Modified By</td><td dojoAttachPoint="modifiedbyname"></td></tr>
+		<tr><td align="right" class="prmaxrowtag" valign="top">Details</td><td  colspan="2" dojoAttachPoint="details"></td></tr>
+	</table>
+	<div dojoAttachPoint="editctrl" dojoType="dijit.Dialog" title="Edit Contact Note">
+		<div dojoAttachPoint="editctrl1" dojotype="prmax.crm.AddContact" showclose="true" isedit="true" style="width:600px;height:300px"></div>
+	</div>
+</div>

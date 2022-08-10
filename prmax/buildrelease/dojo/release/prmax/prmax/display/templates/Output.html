@@ -1,0 +1,89 @@
+<div style="width:710px;height:465px;overflow:auto;padding:0px;margin:0px">
+	<div  dojoAttachPoint="tabcont" dojotype="dijit.layout.TabContainer" style="width:100%;height:100%;padding:0px;margin:0px" >
+		<div dojoAttachPoint="excelview" dojoType="dijit.layout.ContentPane" title="Excel" preload="true"  selected >
+			<form dojoType="dijit.form.Form" onsubmit="return false" dojoAttachPoint="csvFormNode">
+			<table width="100%" class="prmaxtable" >
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr><td class="prmaxrowtag" >Formats</td>
+					<td><select  name="reporttemplateid" class="prmaxrequired"
+							dojoAttachPoint="csvTemplateNode"
+							autoComplete="true"
+							 searchAttr="reporttemplatename"
+							 labelAttr="reporttemplatename"
+							 dojoType="dijit.form.FilteringSelect"
+							 labelType="html"></select></td></tr>
+				<tr><td class="prmaxrowtag">Selection</td>
+					<td><div  name = "selector"
+								dojoAttachPoint="csvSelectionNode"
+								 dojoType="prmax.common.SelectOptions" ></div></td></tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr><td colspan="2" >
+					<table width="90%" class="prmaxtable">
+						<tr><td><div dojoType="prmax.common.ReportBuilder" dojoAttachPoint="csvReportNode" style="display:none"></div></td></tr>
+						<tr><td colspan="2" align="right"><button class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Generating Report..." label="Generate" dojoAttachPoint="csvReportButtonNode" dojoAttachEvent="onClick:_csvreport"></button></td></tr>
+					</table></td></tr>
+					<tr><td colspan="2"><div dojoAttachPoint="csv_notshown" class="prmaxhidden">If you cannot see the report, please press <a  dojoAttachPoint="csv_link" href=""  target="_blank">here</a></div></td></tr>				
+					
+				</table>
+			</form>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="Labels" preload="true" >
+			<form dojoType="dijit.form.Form" onsubmit="return false" dojoAttachPoint="labelFormNode">
+			<table width="100%" class="prmaxtable" >
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr><td class="prmaxrowtag" >Label Format</td>
+					<td><select  name="labelid" class="prmaxrequired"
+							dojoAttachPoint="labelTemplateNode"
+						autoComplete="true"
+						 searchAttr="name"
+						 labelAttr="name"
+						 dojoType="dijit.form.FilteringSelect"
+						 required="true"
+						invalidMessage="Please select label format"
+						 labelType="html"></select></td></tr>
+				<tr><td class="prmaxrowtag" valign="top">Selection</td>
+					<td><div  name = "selector"
+								dojoAttachPoint="labelSelectionNode"
+								 dojoType="prmax.common.SelectOptions" ></div></td></tr>
+				<tr><td class="prmaxrowtag" valign="top">Show Label Outlines</td>
+				<td><input name="frame" value="1" class="prmaxinput" type="checkbox" dojoType="dijit.form.CheckBox" /></td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td colspan="2" >
+				<table width="90%" class="prmaxtable">
+					<tr><td><div dojoType="prmax.common.ReportBuilder" dojoAttachPoint="labelReportNode" style="display:none"></div></td></tr>
+					<tr><td colspan="2" align="right"><button class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Generating Labels..." label="Generate" dojoAttachPoint="labelReportButtonNode" dojoAttachEvent="onClick:_labelreport"></button></td></tr>
+				</table></td></tr>
+			<tr><td colspan="2"><div dojoAttachPoint="label_notshown" class="prmaxhidden">If you cannot see the report, please press <a  dojoAttachPoint="label_link" href=""  target="_blank">here</a></div></td></tr>				
+			</table>
+			</form>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="Reports" preload="true" dojoAttachPoint="reports" >
+			<form dojoType="dijit.form.Form" onsubmit="return false" dojoAttachPoint="formNode">
+			<table width="100%" class="prmaxtable" >
+			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td class="prmaxrowtag" >Report</td>
+				<td><select  name="reporttemplateid" class="prmaxrequired"
+						dojoAttachPoint="reportTemplateNode"
+						autoComplete="true"
+						 searchAttr="reporttemplatename"
+						 labelAttr="reporttemplatename"
+						 dojoType="dijit.form.FilteringSelect"
+						 labelType="html"></select></td></tr>
+			<tr><td class="prmaxrowtag">Selection</td>
+				<td><div  name = "selector"
+							dojoAttachPoint="selectionNode"
+							 dojoType="prmax.common.SelectOptions" ></div></td></tr>
+			<tr><td class="prmaxrowtag">Report Title</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="reporttitle" data-dojo-props='name:"reporttitle"'></td></tr>
+
+			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td colspan="2" >
+				<table width="90%" class="prmaxtable">
+					<tr><td><div dojoType="prmax.common.ReportBuilder" dojoAttachPoint="reportNode" style="display:none"></div></td></tr>
+					<tr><td colspan="2" align="right"><button class="prmaxbutton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Generating Report..." label="Generate" dojoAttachPoint="reportButtonNode" dojoAttachEvent="onClick:_report"></button></td></tr>
+				</table></td></tr>
+			<tr><td colspan="2"><div dojoAttachPoint="report_notshown" class="prmaxhidden">If you cannot see the report, please press <a  dojoAttachPoint="report_link" href=""  target="_blank">here</a></div></td></tr>				
+			</table>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,54 @@
+<div class="stdbanner background_color">
+	<div style="height:100%;width:10%;float:left;padding:0px;margin:0px" class="background_color"><img height="50px" width="300px"></img></div>
+	<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop adapt_toolbar",style:"height:100%;width:62%;float:left;padding:0px;margin:0px"'>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_start_up" data-dojo-props='iconClass:"fa fa-home fa-2x",showLabel:false'>Home</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_ShowSearchStd" data-dojo-props='iconClass:"fa fa-search fa-2x",showLabel:false'>Search</div>
+		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"fa fa-bar-chart-o fa-2x",showLabel:false'>
+			<span>View Results</span>
+			<div data-dojo-type="dijit.Menu">
+			    <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Outlets"' data-dojo-attach-event="onClick:_ShowResultList" ></div>
+			    <div data-dojo-attach-point="advance_view" data-dojo-type="dijit.MenuItem" data-dojo-props='"class":"prmaxhidden",label:"Features"' data-dojo-attach-event="onClick:_ShowAdvanceResult" ></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_crm_viewer" data-dojo-props='iconClass:"fa fa-user fa-2x",showLabel:false'>Engagement</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:ShowListsPage" data-dojo-props='iconClass:"fa fa-list-ul fa-2x",showLabel:false'>Lists</div>
+		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"fa fa-share-square-o fa-2x",showLabel:false' data-dojo-attach-point="distribution_menu" >
+			<span>Distribute</span>
+			<div data-dojo-type="dijit.Menu">
+			    <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"New"' data-dojo-attach-event="onClick:ShowNewPressRelease" ></div>
+			    <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Drafts"' data-dojo-attach-event="onClick:ShowExistingPressRelease" ></div>
+					<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Sent"' data-dojo-attach-event="onClick:ShowSentDistributions" ></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"fa fa-lock fa-2x",showLabel:false'>
+			<span>Private</span>
+			<div data-dojo-type="dijit.Menu">
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"New Outlet"' data-dojo-attach-event="onClick:_Outlet" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"New Freelance"' data-dojo-attach-event="onClick:_Freelance" ></div>
+				<div data-dojo-attach-point="tag_menu" data-dojo-type="dijit.MenuItem" data-dojo-props='"class":"prmaxhidden",label:"Tags"' data-dojo-attach-event="onClick:_Tags" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Collateral"' data-dojo-attach-event="onClick:_Collateral" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Exclusions"' data-dojo-attach-event="onClick:_ExclusionList" ></div>
+				<div data-dojo-attach-point="clients" data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Clients"' data-dojo-attach-event="onClick:_Clients" ></div>
+				<div data-dojo-attach-point="newsrooms" data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Newsrooms"' data-dojo-attach-event="onClick:_Newsrooms" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Issues"' data-dojo-attach-event="onClick:_issues" data-dojo-attach-point="banner_issue_label"></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Documents"' data-dojo-attach-event="onClick:_show_documents_view" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"User Preferences"' data-dojo-attach-event="onClick:_Preferences" ></div>
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Release Templates","class":"prmaxhidden"' data-dojo-attach-event="onClick:_release_templates" data-dojo-attach-point="distribution_template_menu"></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.form.DropDownButton" data-dojo-props='iconClass:"fa fa-cogs fa-2x",showLabel:false,"class":"prmaxhidden"',>
+		    <span>Settings</span>
+		    <div data-dojo-type="dijit.Menu" >
+				<div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"User Preferences"' data-dojo-attach-event="onClick:_Preferences" ></div>
+		        <div data-dojo-type="dijit.MenuItem" data-dojo-props='label:"Customer Details"' data-dojo-attach-event="onClick:_Customers" ></div>
+		        <div data-dojo-type="dijit.MenuItem" data-dojo-props='"disabled":"disabled",label:"User Admin"' data-dojo-attach-event="onClick:_UserAdmin" data-dojo-attach-point="useradmin" ></div>
+		        <div data-dojo-type="dijit.MenuItem" data-dojo-props='"disabled":"disabled",label:"Financial"' data-dojo-attach-event="onClick:_Financial" data-dojo-attach-point="financial" ></div>
+		     </div>
+		</div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-point="updatum_view" data-dojo-attach-event="onClick:_Updatum" data-dojo-props='"class":"prmaxhidden",iconClass:"fa fa-eye fa-2x",showLabel:false'></div>
+		<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_help_sr" data-dojo-props='iconClass:"fa fa-question fa-2x",showLabel:false'></div>
+	</div>
+	<div style="height:100%;width:20%;float:right;padding:0px;margin:0px" class="background_color"><table class="background_color" width="100%" height="100%" cellspacing="0" cellpadding="0"><tr align="right" valign="bottom"><td width="100%" class="message">${message}</td><td><a style="color:red" data-dojo-attach-event="onclick:_Logout2" href="#">Logout</a></td></tr></table></div>
+	<div data-dojo-type="prmax.pressrelease.newrelease" data-dojo-attach-point="newrelease"></div>
+	<div data-dojo-type="prmax.pressrelease.selectrelease" data-dojo-attach-point="selectrelease"></div>
+</div>

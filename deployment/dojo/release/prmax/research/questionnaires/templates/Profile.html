@@ -1,0 +1,38 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"overflow:auto;overflow-x:hidden",region:"center"' >
+		<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+			<input data-dojo-props='type:"hidden",name:"researchprojectitemid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="researchprojectitemid">
+			<table width="98%" cellspacing="0" cellpadding="0">
+				<tr><td align="right" class="prmaxrowtag">Publisher</td><td><select data-dojo-props='style:"width:15em",name:"publisherid",autoComplete:true,searchAttr:"publishername",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="publisherid"></select></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="publisher_modified"></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Publisher Name </td><td data-dojo-attach-point="publishername_view" class="prmaxrowemphasise"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Primary Language</td><td><select data-dojo-props='style:"width:15em",name:"language1id",autoComplete:true,searchAttr:"name",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="language1id"></select></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="language1id_modified"></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Other Language</td><td><select data-dojo-props='style:"width:15em",name:"language2id",autoComplete:true,searchAttr:"name",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="language2id"></select></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="language2id_modified"></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Editorial Profile</td><td ><div class="reasonframe" ><textarea data-dojo-attach-point="editorialprofile" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"editorialprofile",style:"width:99%;height:99%"'  ></textarea></div></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="editorialprofile_modified"></div></td><td valign="top"><button data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxdefault",type:"button",label:"Expand"' data-dojo-attach-event="onClick:_expand_profile"></button></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Readership/Audience</td><td ><div class="reasonframe" ><textarea data-dojo-attach-point="readership" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"readership",style:"width:99%;height:99%"'  ></textarea></div></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="readership_modified"></div></td><td><button data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxdefault",type:"button",label:"Expand"' data-dojo-attach-event="onClick:_expand_readership"></button></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">PAMco</td><td ><div class="reasonframe" ><textarea data-dojo-attach-point="nrsreadership" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"nrsreadership",style:"width:99%;height:99%"'  ></textarea></div></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="nrsreadership_modified"></div></td><td valign="top"><button data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxdefault",type:"button",label:"Expand"' data-dojo-attach-event="onClick:_expand_nrsreadership"></button></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">JICREG Readership</td><td ><div class="reasonframe" ><textarea data-dojo-attach-point="jicregreadership" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"jicregreadership",style:"width:99%;height:99%"'  ></textarea></div></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="jicregreadership_modified"></div></td><td valign="top"><button data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxdefault",type:"button",label:"Expand"' data-dojo-attach-event="onClick:_expand_jicreg_readership"></button></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Production Company</td><td><select data-dojo-props='style:"width:15em",name:"productioncompanyid",autoComplete:true,searchAttr:"productioncompanydescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="productioncompanyid"></select></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="productioncompanyid_modified"></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Broadcast Times</td><td ><div class="reasonframe" ><textarea data-dojo-attach-point="broadcasttimes" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"broadcasttimes",style:"width:99%;height:99%"'  ></textarea></div></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="broadcasttimes_modified"></div></td><td valign="top"><button data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxdefault",type:"button",label:"Expand"' data-dojo-attach-event="onClick:_expand_broadcast"></button></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Deadlines</td><td ><div class="reasonframe" ><textarea data-dojo-attach-point="deadline" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"deadline",style:"width:99%;height:99%"'  ></textarea></div></td><td><div data-dojo-type="research/questionnaires/UserModified" data-dojo-attach-point="deadline_modified"></div></td><td valign="top"><button data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxdefault",type:"button",label:"Expand"' data-dojo-attach-event="onClick:_expand_deadline"></button></td></tr>
+			</table>
+		</form>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom", style:"width:100%;height:40px;padding:5px"' >
+		<table width="100%" cellspacing="0" cellpadding="0">
+			<tr>
+				<td><button data-dojo-attach-event="onClick:_update_profile" data-dojo-attach-point="savenode" data-dojo-type="dojox/form/BusyButton" data-dojo-props='style:"float:right",type:"button",busyLabel:"Please Wait Saving...",label:"Save"'></button></td>
+			</tr>
+		</table>
+	</div>
+
+	<div data-dojo-attach-point="publisher_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Publisher Add"'>
+		<div data-dojo-attach-point="publisher_add_ctrl" data-dojo-type="prcommon2/publisher/PublisherAdd"></div>
+	</div>
+	<div data-dojo-attach-point="production_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Production Company"'>
+		<div data-dojo-attach-point="production_add_ctrl" data-dojo-type="prcommon2/production/ProductionCompanyAdd"></div>
+	</div>
+	<div data-dojo-attach-point="text_view_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Edit"'>
+		<div data-dojo-attach-point="text_view_ctrl" data-dojo-type="prcommon2/common/ExpandedText" data-dojo-props='style:"width:600px;height:500px"'></div>
+	</div>
+
+</div>

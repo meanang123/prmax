@@ -1,0 +1,15 @@
+<div>
+<div dojoType="dijit.TitlePane" title="Existing Tags" open="true" style="width:100%" >
+<table width="100%" class="prmaxtable">
+  <tr><td width="60%"><select dojoAttachPoint="select" style="width:100%" size="10" class="lists" ></select>&nbsp;</td>
+</td><button class="prmaxbutton" disabled="disabled" dojoAttachPoint="renameButton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Rename" style="width:150px" ><div style="width:5em">Rename</div></button>
+<button class="prmaxbutton"  disabled="disabled" dojoAttachPoint="deleteButton" dojoType="dijit.form.Button" style="width:150px" dojoAttachEvent="onClick:_Delete" ><div style="width:5em">Delete</div></button>
+</td></tr></table>
+</div>
+<div dojoType="dijit.TitlePane" title="Add Tag" open="true" style="width:100%" >
+<div dojoType="prmax.interests.AddTags" dojoAttachPoint="addtag" style="width:100%" ></div>
+</div>
+<table width="100%" class="prmaxtable">
+<tr><td><button class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close" label="Close"></button>
+</td></tr></table>
+</div>

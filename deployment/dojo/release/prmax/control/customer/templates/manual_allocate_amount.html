@@ -1,0 +1,12 @@
+<div>
+	<div data-dojo-attach-point="popup_view" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Enter Amount Remaining"'>
+		<br/>
+		<table width="300px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan>Amount</td><td><input data-dojo-props='type:"text",name:"value",trim:true,style:"width:8em",constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="toallocate_value" ></input></td></tr>
+			<tr>
+				<td align="left"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_close">Close</button></td>
+				<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_allocate">Allocate</button></td>
+			</tr>
+		</table>
+	</div>
+</div>

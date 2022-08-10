@@ -1,0 +1,6 @@
+[turbogears.extensions]
+prmax_control_extension = prmax.utilities.prlogger
+
+[console_scripts]
+start-prmax = prmax.commands:start
+

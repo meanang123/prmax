@@ -1,0 +1,12 @@
+<div>
+	<div data-dojo-attach-point="select_view"><input data-dojo-props='name:"contacttype",value:"N"' data-dojo-attach-event="onClick:_contact_mode_no_contact" data-dojo-attach-point="nocontactnode" data-dojo-type="dijit/form/RadioButton"> </input><label data-dojo-attach-point="nocontactlabel">No Person</label>
+		<input data-dojo-props='name:"contacttype",value:"S",checked:true' data-dojo-attach-event="onClick:_contact_mode_contact" data-dojo-attach-point="selectcontactnode" data-dojo-type="dijit/form/RadioButton"> </input><label data-dojo-attach-point="selectcontactlabel">Select Person</label>
+	</div>
+	<div data-dojo-attach-point="selectcontactform" class="prmaxvisible prmaxdefault" >
+		<table style="width:100%" class="prmaxtable" cellspacing="0" cellpadding="0">
+			<tr><td class="prmaxrowtag" data-dojo-attach-point="displayname_ctrl">Person</td><td>
+				<td><div data-dojo-type="prcommon2/contact/ContactSelectMain" data-dojo-props='name:"contactid"' data-dojo-attach-point="contactid"></div></td>
+			</tr>
+		</table>
+	</div>
+</div>

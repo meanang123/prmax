@@ -1,0 +1,44 @@
+<div>
+	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='"class":"scrollpanel",style:"width:1000px;height:700px"'>
+		<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false","class":"common_prmax_layout"'>
+			<div style="height:155px;width:49%;float:left;padding:0px;margin:0px">
+				<input data-dojo-attach-point="icustomerid" data-dojo-props='value:"",name:"icustomerid",type:"hidden"' data-dojo-type="dijit.form.TextBox"/>
+				<label class="label_2">Source</label><select data-dojo-attach-point="clippingsourceid" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='name:"clippingsourceid",autoComplete:true,style:"width:8em"' data-dojo-attach-event="onChange:_change_source"></select><br/>
+				<label class="label_2">Description</label><input data-dojo-attach-point="description" data-dojo-props='name:"description",type:"text",required:true,trim:true' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
+				<label class="label_2">Start Date</label><input data-dojo-props='name:"startdate",style:"width:8em",type:"text",required:true' data-dojo-attach-point="startdate" data-dojo-type="dijit.form.DateTextBox"/><br/>
+				<label class="label_2">End Date</label><input data-dojo-props='name:"enddate",style:"width:8em",type:"text",required:true, readOnly:true' data-dojo-attach-point="enddate" data-dojo-type="dijit.form.DateTextBox"/><br/>
+				<label class="label_2">Keywords</label><input data-dojo-attach-point="keywords" data-dojo-props='name:"keywords",type:"text",required:true,trim:true,style:"width:20em"' data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+				<label class="label_2">RSS Feed</label><input data-dojo-attach-point="rss_feed" data-dojo-props='name:"rss_feed",type:"text",required:false, trim:true,style:"width:20em"' data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+			</div>
+			<div style="height:155px;width:49%;float:right;padding:0px;margin:0px">
+				<label class="label_2">Price Band</label><select data-dojo-props='name:"clippingspriceid",autoComplete:true,searchAttr:"description",labelType:"html",required:true' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clippingspriceid" ></select><br/>
+				<label class="label_2">Price Code</label><select data-dojo-attach-point="pricecodeid" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='name:"pricecodeid",autoComplete:true,style:"width:8em"'></select><br/>
+				<label class="label_2">Purchase Order</label><input data-dojo-attach-point="purchaseorder" data-dojo-props='name:"purchaseorder",type:"text",required:false,trim:true,style:"width:12em"' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
+				<label class="label_2">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_client_change"></select>
+					<button data-dojo-attach-event="onClick: _New_Client" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxdefault"' >New</button><br/>
+				<label class="label_2">Campaign</label><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid"></select><br/>
+			</div>
+			<div style="height:20px;width:100%;float:left;padding:0px;margin:0px"><hr/></div>
+			<div style="height:160px;width:49%;float:left;padding:0px;margin:0px">
+				<div data-dojo-attach-point="countries" data-dojo-props='style:"width:450px",name:"countries", selectonly:true, startopen:true' data-dojo-type="prcommon.search.Countries"></div>
+			</div>
+			<div style="height:160px;width:49%;float:right;padding:0px;margin:0px">
+				<div data-dojo-attach-point="languages" data-dojo-props='style:"width:450px",name:"languages"' data-dojo-type="prcommon.languages.Languages"></div>
+			</div>
+			<div style="height:20px;width:100%;float:left;padding:0px;margin:0px"><br/></div>
+			<div style="height:160px;width:100%;float:left;padding:0px;margin:0px" data-dojo-attach-point="clippingstypes_node">
+				<div data-dojo-attach-point="clippingstypes" data-dojo-props='style:"width:450px",name:"clippingstypes"' data-dojo-type="prcommon.clippings.clippingstype"></div>
+			</div>
+			<div style="height:20px;width:100%;float:left;padding:0px;margin:0px"><hr/></div>
+			<div style="height:100px;width:100%">
+				<label class="label_2">Message</label><div class="stdframe" style="height:50px" ><textarea data-dojo-attach-point="message" data-dojo-props='name:"message",trim:true,style:"width:99%;height:50px"' data-dojo-type="dijit.form.Textarea" ></textarea></div><br/>
+				<button data-dojo-attach-event="onClick:_close" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close",style:"float:left"'></button>
+				<button data-dojo-attach-event="onClick:_add" data-dojo-attach-point="addbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Adding...",label:"Create Order","class":"btnright"'></button>
+			</div>
+		</form>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="client_add_dialog" data-dojo-props='title:"Add New Client",style:"width:700px;height:600px"'>
+		<div data-dojo-type="prmax.customer.clients.add" data-dojo-attach-point="client_add_ctrl"></div>
+	</div>	
+</div>
+

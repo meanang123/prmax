@@ -1,0 +1,211 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false' >
+		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="controls" data-dojo-props="region:'center',preload:false">
+			<input data-dojo-attach-point="nbroflogins" data-dojo-props='type:"hidden",value:"1",name:"nbrofloginsid"' data-dojo-type="dijit/form/TextBox" >
+			<input data-dojo-attach-point="customersourceid" data-dojo-props='type:"hidden",value:"5",name:"customersourceid"' data-dojo-type="dijit/form/TextBox" >
+		
+				<div data-dojo-props='style:"width:100%;height:100%",title:"step1",region:"center", "class":"scrollpanel"' data-dojo-attach-point='step1' data-dojo-type="dijit/layout/ContentPane" >
+					<form style="margin-left:100px" data-dojo-props='"class":"prmaxdefault",onSubmit:"return false"' data-dojo-attach-point="step1_form" data-dojo-type="dijit/form/Form">
+						<div><h1>Order your PRmax</h1></div><br>
+						
+						<table cellspacing ="1" cellpadding="1" width="800px">
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td colspan="3"><div data-dojo-attach-point="step1_logo" style="width:100%"><img style="border:0px;" src="/static/images/step1.png"</img></div><br><br></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="100px">Name*</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width:200px","class":"prmaxinput prmaxrequired",name:"firstname",placeholder:"Firstname"' data-dojo-attach-point="firstname" data-dojo-type="dijit/form/TextBox" ></input></td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width:250px","class":"prmaxinput prmaxrequired",name:"familyname",placeholder:"Surname"' data-dojo-attach-point="familyname" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="100px">Company*</td>
+								<td colspan="2"><input data-dojo-props='type:"text",trim:true,style:"width:510px","class":"prmaxinput prmaxrequired",name:"customername",placeholder:"Company Name"' data-dojo-attach-point="customername" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="100px">Address(billing)*</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 200px","class":"prmaxinput prmaxrequired",name:"address1",placeholder:"Address"' data-dojo-attach-point="address1" data-dojo-type="dijit/form/TextBox" ></input></td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 250px","class":"prmaxinput prmaxrequired",name:"address2",placeholder:"Address Line 2"' data-dojo-attach-point="address2" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="100px"></td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 200px","class":"prmaxinput prmaxrequired",name:"townname",placeholder:"Town"' data-dojo-attach-point="townname" data-dojo-type="dijit/form/TextBox" ></input></td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 250px","class":"prmaxinput prmaxrequired",name:"county",placeholder:"County"' data-dojo-attach-point="county" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="100px"></td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 200px","class":"prmaxinput prmaxrequired",name:"postcode",placeholder:"Postcode"' data-dojo-attach-point="postcode" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="100px">Email Address*</td>
+								<td colspan="2"><input data-dojo-props='type:"text",trim:true,style:"width:510px","class":"prmaxinput prmaxrequired",name:"email",placeholder:"Email address",size:"40",maxlength:"80",required:"true"' data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="100px">Phone Number</td>
+								<td colspan="2"><input data-dojo-props='type:"text",trim:true,style:"width:510px","class":"prmaxinput",name:"tel",placeholder:"Phone Number"' data-dojo-attach-point="tel" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+
+							<tr><td>&nbsp</td></tr>
+							<tr><td align="right" colspan="4"><button style="float:right" data-dojo-attach-point="step1btn" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"fuchsiabtn",type:"button",label:"Next"' data-dojo-attach-event="onClick:_step1_next"></button></td></tr>
+						</table>
+					</form>
+				</div>
+
+				<div data-dojo-props='style:"width:100%;height:100%",title:"step2",region:"center", "class":"scrollpanel"' data-dojo-attach-point='step2' data-dojo-type="dijit/layout/ContentPane" >
+					<form style="margin-left:100px" data-dojo-props='"class":"prmaxdefault",onSubmit:"return false"' data-dojo-attach-point="step2_form" data-dojo-type="dijit/form/Form">
+						<div><h1>Order your PRmax</h1></div><br>
+						<table cellspacing ="1" cellpadding="1" width="800px">
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td colspan="2"><div data-dojo-attach-point="step2_logo" style="width:100%"><img style="border:0px;" src="/static/images/step2.png"</img></div><br><br></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag">I would like an </td>
+								<td align="left">
+									<select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:250px;color:black"' data-dojo-attach-point="termid" data-dojo-attach-event="onChange: _subscription_changed">
+										<option value=4>An Annual Subscription</option>
+										<option value=1>A Single Month Subscription</option>
+									</select><br/>								
+								</td>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">PRmax Edition</td>
+								<td align="left">
+									<select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:250px;color:black"' data-dojo-attach-point="editionid" data-dojo-attach-event="onChange: _edition_changed">
+										<option value=0>PRmax Standard Edition</option>
+										<option value=1>PRmax Press Office</option>
+										<option value=2>PRmax Freelance Edition</option>
+									</select><br/>								
+								</td>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">With</td>
+								<td align="left">
+									<select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:250px;color:black"' data-dojo-attach-point="mediadataid" data-dojo-attach-event="onChange: _mediadata_changed">
+										<option value=0>UK Media Data</option>
+										<option value=1>European Media Data</option>
+										<option value=2>Global Media Data</option>
+									</select><br/>								
+								</td>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Paying</td>
+								<td align="left">
+									<select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:250px;color:black"' data-dojo-attach-point="paymentmethodid" data-dojo-attach-event="onChange: _paymentmethod_changed">
+										<option value=4>Annually Invoice</option>
+										<option value=2>Monthly Direct Debit</option>
+									</select><br/>								
+								</td>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag prmaxhidden" width="200px" data-dojo-attach-point='advancefeatures_label'>Advance Features</td>
+								<td align="left">
+									<input data-dojo-props='"class":"prmaxinput prmaxhidden",name:"advancefeatures", value:"1"' data-dojo-attach-point="advancefeatures" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-event="onChange: _advanced_changed"></input>
+								</td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Price</td>
+								<td align="left">
+									<input data-dojo-props='type:"text",trim:true,style:"width: 200px","class":"prmaxinput prmaxrequired",name:"price", readOnly:"readOnly", value:"${defaultcost}"' data-dojo-attach-point="price" data-dojo-type="dijit/form/TextBox" ></input>
+									<div class="vat">+VAT</div>
+								</td>
+							</tr>
+							<tr><td>&nbsp</td></tr>
+							<tr><td align="right" colspan="3">
+									<button style="float:right" data-dojo-attach-point="step2nextbtn" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"fuchsiabtn",type:"button",label:"Next"' data-dojo-attach-event="onClick:_step2_next"></button>
+									<button style="float:right" data-dojo-attach-point="step2backbtn" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"fuchsiabtn",type:"button",label:"Back"' data-dojo-attach-event="onClick:_step2_back"></button>								
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div data-dojo-props='style:"width:100%;height:100%",title:"step3",region:"center", "class":"scrollpanel"' data-dojo-attach-point='step3' data-dojo-type="dijit/layout/ContentPane" >
+					<form style="margin-left:100px" data-dojo-props='"class":"prmaxdefault",onSubmit:"return false"' data-dojo-attach-point="step3_form" data-dojo-type="dijit/form/Form">
+						<div><h1>Order your PRmax</h1></div><br>
+						<table cellspacing ="1" cellpadding="1" width="800px">
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td colspan="2"><div data-dojo-attach-point="step3_logo" style="width:100%"><img style="border:0px;" src="/static/images/step3.png"</img></div><br><br></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td><td align="left" class="prmaxrowtag" colspan="2">Thank you for ordering PRmax. Please find below details confirming your subscription package and advise us of any changes within 3 days. Please note that annual subscriptions will renew each year unless at least one months notice is received prior to the renewal date.</td></tr>
+							<tr><td>&nbsp</td></tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td><td align="left" class="prmaxrowtag" colspan="2"><b>Your details</b></td></tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Customer Name</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"customername_confirm", readOnly:"readOnly"' data-dojo-attach-point="customername_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Contact Name</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"contactname_confirm", readOnly:"readOnly"' data-dojo-attach-point="contactname_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Address</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"address_confirm", readOnly:"readOnly"' data-dojo-attach-point="address_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Email</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"email_confirm", readOnly:"readOnly"' data-dojo-attach-point="email_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+
+							<tr><td>&nbsp</td></tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td><td align="left" class="prmaxrowtag" colspan="2"><b>Your order</b></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px" data-dojo-attach-point="subscription_confirm_label"></td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"subscription_confirm", readOnly:"readOnly"' data-dojo-attach-point="subscription_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Nbr of Concurrent Users</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"concurrentusers", readOnly:"readOnly"' data-dojo-attach-point="concurrentusers" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">First Access Date</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"firstaccessdate", readOnly:"readOnly"' data-dojo-attach-point="firstaccessdate" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Renewal date</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"renewaldate", readOnly:"readOnly"' data-dojo-attach-point="renewaldate" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Payment Method</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"paymentmethod_confirm", readOnly:"readOnly"' data-dojo-attach-point="paymentmethod_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+
+							<tr><td>&nbsp</td></tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td><td align="left" class="prmaxrowtag" colspan="2"><b>Monthly Service Cost</b></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Media Database</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"mediadatabase_confirm", readOnly:"readOnly"' data-dojo-attach-point="mediadatabase_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Advance</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"advance_confirm", readOnly:"readOnly"' data-dojo-attach-point="advance_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">VAT @ 20%</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"vat_confirm", readOnly:"readOnly"' data-dojo-attach-point="vat_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td align="left" class="prmaxrowtag" width="200px">Total</td>
+								<td><input data-dojo-props='type:"text",trim:true,style:"width: 450px","class":"prmaxinput",name:"total_confirm", readOnly:"readOnly"' data-dojo-attach-point="total_confirm" data-dojo-type="dijit/form/TextBox" ></input></td>
+							</tr>
+							<tr><td>&nbsp</td></tr>
+							<tr><td align="left" class="prmaxrowtag" width="100px"></td>
+								<td class="prmaxrowtag" colspan ="2" align="left"><label data-dojo-attach-point="tclabel">I Agree to the Terms and Conditions</label>&nbsp;<input data-dojo-props='"class":"prmaxinput", name:"tcaccept"' data-dojo-attach-point="tcaccept" data-dojo-type="dijit/form/CheckBox"/>&nbsp;&nbsp;<a href="/static/rel/html/tc.pdf" target="_newtab">View  Terms and Conditions<a/></td></tr>
+							<tr><td>&nbsp</td></tr>
+							<tr><td align="right" colspan="3">
+									<button style="float:right" data-dojo-attach-point="step3nextbtn" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"fuchsiabtn",type:"button",label:"Confirm"' data-dojo-attach-event="onClick:_confirm"></button>
+									<button style="float:right" data-dojo-attach-point="step3backbtn" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"fuchsiabtn",type:"button",label:"Back"' data-dojo-attach-event="onClick:_step3_back"></button>								
+								</td>
+							</tr>
+							<tr><td>&nbsp</td></tr>
+							<tr><td>&nbsp</td></tr>
+							
+						</table>
+
+						
+					</form>
+				</div>
+				
+		</div>
+	</div>
+	
+	
+	
+</div>

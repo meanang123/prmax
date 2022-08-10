@@ -1,0 +1,16 @@
+<div>
+	<form dojoAttachPoint="form" method="post" name="form" enctype="multipart/form-data" onSubmit="return false;">
+		<input type="hidden"  dojoAttachPoint="icustomerid" name="icustomerid" dojoType="dijit.form.TextBox" ></input>
+		<input type="hidden"  dojoAttachPoint="invoice_date2" name="invoice_date" dojoType="dijit.form.TextBox" ></input>
+		<table width="600px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Manual Invoice</label><div style="display:inline" class="prmaxrowdisplaylarge" dojoAttachPoint="customername">Name</div></td></tr>
+			<tr><td style="width:150px" class="prmaxrowlabel" align="right">Invoice Ref</td><td><input type="text"  dojoAttachPoint="invoice_ref" name = "invoice_ref" dojoType="dijit.form.ValidationTextBox" style="width:8em" required="true" ></td></tr>
+			<tr><td class="prmaxrowlabel" align="right">Invoice Date</td><td><input type="text" dojoAttachPoint="invoice_date" dojoType="ttl.DateTextBox" style="width:8em" required="true" ></td></tr>
+			<tr><td align="right"><label class="prmaxrowlabel">Gross Amount</label></td><td><input type="text" name="amount" dojoType="dijit.form.CurrencyTextBox" required="true" trim="true" constraints="{min:0.01,max:99999.00,fractional:true,places:'0,2'}" dojoAttachPoint="amount" style="width:8em" dojoAttachEvent="onBlur:_Amounts"></input></td></tr>
+			<tr><td align="right"><label class="prmaxrowlabel">Vat</label></td><td><input type="text" name="vat" dojoType="dijit.form.CurrencyTextBox" required="true" trim="true" constraints="{min:0.00,max:99999.00,fractional:true,places:'0,2'}" dojoAttachPoint="vat" style="width:8em"></input></td></tr>
+			<tr><td align="right"><label class="prmaxrowlabel" >Unpaid Amount</label></td><td><input type="text" name="unpaidamount" dojoType="dijit.form.CurrencyTextBox" required="true" dojoAttachPoint="unpaidamount" style="width:8em" constraints="{min:0.00,max:99999.00,fractional:true,places:'0,2'}"></input></td></tr>
+			<tr><td align="right" class="prmaxrowlabel">Invoice File (pdf)</td><td><input class="prmaxinput" type="file" dojoAttachPoint="invoice_file" name="invoice_file" size="50"></input></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" colspan="2" align="right"><button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Send">Enter Manual Invoice</button></td></tr>
+		</table>
+	</form>
+</div>

@@ -1,0 +1,26 @@
+<div>
+	<div data-dojo-attach-point="tabcont" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"'>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="view_tab" data-dojo-props='title:"View", "class":"scrollpanel"'>
+			<form  data-dojo-data='"class":"prmaxdefault"' data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" style="margin:20px">
+				<input data-dojo-attach-point="researchprojectitememailid" data-dojo-type="dijit/form/TextBox" data-dojo-props='type:"hidden",name:"researchprojectitememailid",value:"-1"'/>
+				<span data-dojo-attach-point='emaildetails_view'></span>	
+			</form>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="send_tab" data-dojo-props='title:"Send"'>
+			<form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='"onSubmit":"return false", style:"margin:10px"'>
+				<table width="100%" class="prmaxtable" >
+
+<!--
+					<tr><td align="right" class="prmaxrowtag">From</td><td><input data-dojo-attach-point="researchprojectitememailfrom"  data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",disabled:true, name:"researchprojectitememailfrom",type:"text",style:"width:450px",maxlength:70, value:"update@prmax.co.uk"'></td></tr>
+-->
+					<tr><td align="right" class="prmaxrowtag">To</td><td><input data-dojo-attach-point="researchprojectitememailto"  data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"researchprojectitememailto",type:"text",pattern:dojox.validate.regexp.emailAddress,trim:true,invalidMessage:"invalid email address",style:"width:450px",maxlength:70'></td></tr>
+					<tr><td class="prmaxrowtag" align="right">Subject</td><td><input data-dojo-props='style:"width:450px","class":"prmaxrequired",name:"researchprojectitememailsubject",type:"text",trim:true,required:true' data-dojo-attach-point="researchprojectitememailsubject" data-dojo-type="dijit/form/ValidationTextBox"/></td></tr>
+					<tr><td class="prmaxrowtag" valign="top" align="right">Body</td><td><div style="height:350px" class="dialogprofileframelarge"><textarea data-dojo-attach-point="researchprojectitememailbody" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"researchprojectitememailbody",style:"width:99%;height:99%"'></textarea></div></td></tr>
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr><td colspan="2" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-attach-point="sendbtn" data-dojo-attach-event="onClick:_send" data-dojo-props='iconClass:"fa fa-envelope-o fa-2x",type:"button",busyLabel:"Please Wait Sending...",label:"Send","class":"btnright"'>Send</button></td></tr>
+					<tr><td>&nbsp;</td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

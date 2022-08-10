@@ -1,0 +1,23 @@
+<div>
+	<div  data-dojo-attach-point="border_control" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,"class":"clientview",style:"width:100%;height:100%;overflow: hidden"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="controls" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden", "class":"std_menu_view"'>
+			<div data-dojo-type="dijit.Toolbar" data-dojo-props='style:"float:left;height:99%;width:100%;padding:0px;margin:0px","class":"dijitToolbarTop"'>
+				<div data-dojo-attach-event="onClick:_add" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",label:"Add Order"'></div>
+				<div data-dojo-attach-event="onClick:_update_expiry_date" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-pencil fa-3x",label:"Update Expiry Date"'></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center",style:"width:100%;height:50%"'>
+			<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='style:"height:100%;width:100%",rowsPerPage:50,splitter:true'></div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="clipping_add_dialog" data-dojo-props='title:"Add Clipping Order"'>
+		<div data-dojo-type="prmax.iadmin.clippings.add_order" data-dojo-attach-point="clipping_add_ctrl" data-dojo-props='mode:"add","class":"scrollpanel",style:"width:100%;height:100%"'></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="clipping_upd_dialog" data-dojo-props='title:"Update Clipping Order"'>
+		<div data-dojo-type="prmax.iadmin.clippings.update_order" data-dojo-attach-point="clipping_upd_ctrl" data-dojo-props='"class":"scrollpanel",style:"width:100%;height:100%"'></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="update_expiry_date_dialog" data-dojo-props='title:"Update Expiry Date"'>
+		<div data-dojo-type="prmax.iadmin.clippings.update_expiry_date" data-dojo-attach-point="update_expiry_date_ctrl" data-dojo-props='"class":"scrollpanel",style:"width:100%;height:100%"'></div>
+	</div>
+</div>
+

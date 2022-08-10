@@ -1,0 +1,22 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"overflow:hidden;background-color:black;color:white"' class="std_menu_view" >
+		<button data-dojo-attach-event="onClick:_show_extended" data-dojo-attach-point="showextbtn" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:left;margin:0px;padding:0px",type:"button",label:"Filter",iconClass:"fa fa-filter fa-3x"'></button>
+		<p style="border:1px solid green;float:left" data-dojo-attach-point="filter_details">No Filter Selected</p>
+	</div>
+	<div data-dojo-attach-point="filter_dlg" data-dojo-type="dijit/Dialog" title='<i class="fa fa-filter" aria-hidden="true"></i> Filter' data-dojo-props='style:"width:450px;height:320px"'>
+		<span class="common_prmax_layout">
+			<label data-dojo-attach-point="client_label_1" class="label_1"></label><select data-dojo-props='placeHolder:"No Selection",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"width:8em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_change_filter"></select></br>
+			<label data-dojo-attach-point="issue_label_1" class="label_1"></label><select data-dojo-props='placeHolder:"No Selection",name:"issueid",autoComplete:true,searchAttr:"name",required:false,invalidMessage:"Select",labelType:"html",style:"width:8em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="issueid"></select></br>
+			<label class="label_1">Dates</label><div data-dojo-type="prcommon2/date/daterange" data-dojo-attach-point="date_search"></div></br>
+			<label class="label_1">Tone</label><div style="position:relative;top:2px;height:30px"><div data-dojo-type="prcommon2/clippings/selecttone" data-dojo-attach-point="tone_ctrl"></div></div><br/>
+			<label class="label_1">Text</label><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="textid" data-dojo-props='placeHolder:"Search text",required:false,name:"textid",trim:true,type:"text",style:"width:20em"'><br/>
+			<label data-dojo-attach-point="clippingstype_label" class="label_1 prmaxhidden">Types</label><select data-dojo-props='name:"clippingstypeid",autoComplete:true,labelType:"html",style:"width:10em;color:black",value:-1, class:"prmaxhidden"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="clippingstypeid" data-dojo-attach-event="onChange:_swap_view"></select><br data-dojo-attach-point="clippingstype_label_2" class="prmaxhidden"/>
+			<label class="label_1">Release</label><select data-dojo-props='placeHolder:"No Selection",name:"emailtemplateid",autoComplete:true,searchAttr:"emailtemplatename",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="emailtemplateid" ></select><br/>
+			<label data-dojo-attach-point="statement_view_1" class="label_1 prmaxhidden">Statement</label><select data-dojo-props='placeHolder:"No Selection",name:"statementid",autoComplete:true,searchAttr:"statementdescription",labelType:"html","class":"prmaxhidden"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="statementid" ></select><br data-dojo-attach-point="statement_view_2" class="prmaxhidden"/>
+			<button data-dojo-attach-point="clearbtn" data-dojo-attach-event="onClick:_clear" data-dojo-type="dijit/form/Button" data-dojo-props='style:"float:left;padding:0px;margin:0px",type:"button",label:"Clear","class":"dijitReset"'></button>
+			<button data-dojo-attach-event="onClick:_update" data-dojo-attach-point="updbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='style:"float:right",type:"button",busyLabel:"Please Wait Refreshing ...",label:"Refresh"'></button>
+			<br/><br/><br/><br/><br/>
+		</span>
+		<br/><br/><br/><br/>
+	</div>
+</div>

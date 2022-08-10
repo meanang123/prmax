@@ -1,0 +1,22 @@
+<div>
+	<form  dojoAttachPoint="wordtohtml_form" method="post" name="wordtohtml_form" enctype="multipart/form-data"  onSubmit="return false;">
+		<input class="prmaxinput" type="hidden" dojoAttachPoint="wordtohtml_cache" name="wordtohtml_cache" value="-1">
+		<input class="prmaxinput" type="hidden" dojoAttachPoint="emailtemplateid" name="emailtemplateid" value="-1">
+		<br/>
+		<table width="99%" border="0" cellpadding="0" cellspacing="0" border = "0">
+			<tr><td width="10%" align="right" nowrap class="prmaxrowtag" data-dojo-attach-point="subject_label">Release Title/Subject</td><td width="90%"><input style="width:95%" type="text" dojoAttachPoint="subject" size="80" maxlength="80" dojoType="dijit.form.ValidationTextBox" required="true" trim="true"/></td></tr>
+			<tr><td colspan="2"class="prmaxrowtag" data-dojo-attach-point="uploadrelease_mgs">Please enter the Title of your Press Release (which will become the Subject for the email as seen by Journalists).</td></tr>
+			<tr><td  >&nbsp;</td></tr>
+			<tr><td width="10%" aling="right" class="prmaxrowtag" data-dojo-attach-point="doc_label">Release Document</td><td width="90%" ><input style="width:100%" size="30" class="prmaxinput" type="file" dojoAttachPoint="wordtohtml_file" name="wordtohtml_file"></td></tr>
+			<tr><td  >&nbsp;</td></tr>
+			<tr><td colspan="2"><p  class="prmaxrowtag">The following file types can be uploaded .doc, .docx .txt, .htm and.html.  Upload may take a few minutes.</p></td></tr>
+			<tr><td colspan="2" align="right"><button class="prmaxbutton"  dojoAttachPoint="saveNode" type="button"  dojoType="dijit.form.Button" label="Upload Document" dojoAttachEvent="onClick:_Add"></button></td></tr>
+			<tr><td >
+				<div dojoAttachPoint="progressNode" style="display:none;">
+					<p>Uploading started. Please wait as this may take several minutes</p>
+					<div dojoType="dijit.ProgressBar" dojoAttachPoint="downloadProgress" style="width:200px"></div>
+				</div>
+			</td></tr>
+		</table>
+	</form>
+</div>

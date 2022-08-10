@@ -1,0 +1,21 @@
+<div>
+	<form data-dojo-attach-point="wordtohtml_form" method="post" name="wordtohtml_form" enctype="multipart/form-data"  onSubmit="return false;" style="margin:5px">
+		<input class="prmaxinput" type="hidden" data-dojo-attach-point="wordtohtml_cache" name="wordtohtml_cache" value="-1">
+		<input class="prmaxinput" type="hidden" data-dojo-attach-point="emailtemplateid" name="emailtemplateid" value="-1">
+		<input class="prmaxinput" type="hidden" data-dojo-attach-point="exclude_images" name="exclude_images" value="true">
+		<br/>
+		<table width="99%" border="0" cellpadding="0" cellspacing="0" border = "0">
+			<tr><td width="20%" align="right" class="prmaxrowtag">File Name: </td><td width="90%" ><input style="width:100%" size="30" class="prmaxinput" type="file" data-dojo-attach-point="wordtohtml_file" name="wordtohtml_file"></td></tr>
+			<tr><td  >&nbsp;</td></tr>
+			<tr><td colspan="2"><p  class="prmaxrowtag">The following file types can be uploaded .doc, .docx .txt, .htm and.html. Upload may take a few minutes.</p></td></tr>
+			<tr><td colspan="2" align="right"><button data-dojo-attach-point="saveNode" data-dojo-props='type:"button","class":"prmaxbutton",label:"Upload Document"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Add"></button></td></tr>
+			<tr><td  >&nbsp;</td></tr>
+			<tr><td colspan="2" >
+				<div data-dojo-attach-point="progressNode" style="display:none;">
+					<p>Uploading started. Please wait as this may take several minutes</p>
+					<div data-dojo-type="dijit.ProgressBar" data-dojo-attach-point="downloadProgress" data-dojo-props='style:"width:200px"'></div>
+				</div>
+			</td></tr>
+		</table>
+	</form>
+</div>

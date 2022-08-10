@@ -1,0 +1,20 @@
+<div>
+	<form data-dojo-attach-point="statement_form" data-dojo-type="dijit.form.Form" data-dojo-props='"onSubmit":"return false", name:"statement_form", style:"margin:5px"'>
+		<table width="99%" border="0" cellpadding="0" cellspacing="1" >
+			<tr><td align="right" class="prmaxrowtag">Description</td><td><input data-dojo-props='style:"width:400px", "class":"prmaxrequired", name:"statementdescription", type:"text", maxLength:45, trim:true, required:true, invalidMessage:"Description field must be filled in"' data-dojo-attach-point="statementdescription" data-dojo-type="dijit.form.ValidationTextBox"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Client</td><td><select data-dojo-attach-point="clientid" data-dojo-props='searchAttr:"clientname", labelType:"html", style:"width:400px", name:"clientid"' data-dojo-type="dijit.form.FilteringSelect"/></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Issue</td><td><select data-dojo-attach-point="issueid" data-dojo-props='searchAttr:"name", labelType:"html", style:"width:400px", name:"issueid"' data-dojo-type="dijit.form.FilteringSelect" /></td></tr>
+			<tr data-dojo-attach-point="output_node"><td align="right" class="prmaxrowtag"><label>Output</td>
+				<td><div data-dojo-type="dijit.Editor" data-dojo-attach-point="output" data-dojo-props='name:"output",style:"width:400px;height:350px;border:1px solid gray"'  extraPlugins="[{name:'dijit._editor.plugins.FontChoice', command:'fontName', generic:false},'fontSize','createLink','viewsource','preview','mergefields']"></div></td>
+				<td valign="top"><button data-dojo-attach-event="onClick:_LoadWord" data-dojo-attach-point="uploaddocbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-upload",type:"button","class":"prmaxdefault", title:"Upload document", sourcename:"response_add"' ></button><br/></td>
+			</tr>            
+			<tr><td colspan = "2" align="left"><button data-dojo-props='"class":"prmaxbutton prmaxhidden", label:"Close", type:"button"' data-dojo-attach-point="clearNode" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Close"></button></td>
+				<td align="right"><button data-dojo-props='"class":"prmaxbutton", type:"button", label:"Add"' data-dojo-attach-point="saveNode" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Add"></button></td>
+			</tr>
+		</table>
+	</form>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="upload_doc_dlg" data-dojo-props='title:"Upload document",style:"width:450px;height:260px"'>
+		<div data-dojo-type="prcommon.documents.upload" data-dojo-attach-point="upload_doc_ctrl" data-dojo-props='sourcename:"response_add"'></div><br/>
+		<div data-dojo-attach-event="onClick:_close_dlg" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Close",style:"float:left;padding-right:20px"'></div>
+	</div>	
+</div>

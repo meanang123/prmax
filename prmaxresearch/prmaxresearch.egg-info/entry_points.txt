@@ -1,0 +1,4 @@
+[console_scripts]
+bootstrap-prmaxresearch = prmaxresearch.command:bootstrap
+start-prmaxresearch = prmaxresearch.command:start
+

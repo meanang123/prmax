@@ -1,0 +1,17 @@
+<div>
+	<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" onsubmit="return false;">
+	<input data-dojo-attach-point="objecttypeid" data-dojo-props='name:"objecttypeid",type:"hidden"' data-dojo-type="dijit/form/TextBox">
+	<input data-dojo-attach-point="objectid" data-dojo-props='name:"objectid",type:"hidden"' data-dojo-type="dijit/form/TextBox">
+		<table width="700px" cellpadding="0" cellspacing="0">
+			<tr><td  align="center" data-dojo-attach-point="heading" class="prmaxrowdisplaylarge" colspan="2" ></td></tr>
+			<tr><td align="right" class="prmaxrowtag">To Name</td><td>
+			<input data-dojo-attach-point="toname" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"toname",type:"text",style:"width:15em",required:true'></td></tr>
+			<tr><td align="right" class="prmaxrowtag">To Email</td><td><input data-dojo-attach-point="toemail" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"toemail",type:"text",pattern:dojox.validate.regexp.emailAddress,trim:true,invalidMessage:"invalid email address",size:20,style:"width:90%",required:true'></td></tr>
+			<tr><td align="right" class="prmaxrowtag">Subject</td><td><input data-dojo-attach-point="subject" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"subject",type:"text",trim:true,style:"width:90%",required:true'></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Body</td><td><div class="stdframe" style="height:200px;overflow:hidden"><textarea data-dojo-attach-point="body"  data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"body",style:"height:300px"'></textarea></div></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Reason</td><td ><select data-dojo-attach-point="reasoncodeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html",style:"width:15em","class":"prmaxrequired"' /></td></tr>
+			<tr><td align="left"><button data-dojo-attach-event="onClick:_close" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Close"'></button></td>
+				<td align="right"><button data-dojo-attach-point="sendemail" data-dojo-attach-event="onClick:_send" data-dojo-type="dojox/form/BusyButton" data-dojo-props='busyLabel:"Please Wait Sending...",type:"button",label:"Send Email"'></button></td></tr>
+		</table>
+	</form>
+</div>

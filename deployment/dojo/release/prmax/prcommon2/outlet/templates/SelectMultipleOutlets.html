@@ -1,0 +1,20 @@
+<div >
+	<div class="dojolanguagesPane" >
+		<div data-dojo-attach-point="selectarea" class="prmaxselectmultiple" >
+			<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" border="0">
+				  <tr><td width="60%"></td><td width="5%"></td></tr>
+				  <tr>
+					<td><select style="width:100%" data-dojo-attach-point="outlet_select" size="${size}" class="lists"  data-dojo-attach-event="onchange:outlets_update_selection"></select></td>
+				  <td valign="top">
+					<button style="padding:0px;margin:0px" data-dojo-props='type:"button",label:"Select"' data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_select_outlet"></button>
+					<button class="button_del_all" style="padding:0px;margin:0px" data-dojo-attach-point="button_del_all" data-dojo-props='disabled:true,type:"button"' data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:outlets_remove_all"><div class="std_movement_button">&lt;&lt;</div></button><br/>
+					<button class="button_del_single" style="padding:0px;margin:0px" data-dojo-attach-point="button_del_single" data-dojo-props='disabled:true,type:"button"' data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:outlets_remove_single"><div class="std_movement_button">&lt;&nbsp;</div></button></td>
+				  <td ></td>
+				  </tr>
+			</table>
+		</div>
+	</div>
+		<div data-dojo-attach-point="select_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Select Publication"'>
+			<div data-dojo-attach-point="select_ctrl" data-dojo-type="prcommon2/outlet/OutletSelectPanel" data-dojo-props='style:"width:500px;height:600px"'></div>
+	</div>
+</div>

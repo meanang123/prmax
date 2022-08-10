@@ -1,0 +1,4 @@
+[console_scripts]
+start-prpublish = prpublish.command:start
+bootstrap-prpublish = prpublish.command:bootstrap
+

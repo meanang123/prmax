@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+
+if(!dojo._hasResource["prmax.iadmin.Research"]){dojo._hasResource["prmax.iadmin.Research"]=true;dojo.provide("prmax.iadmin.Research");dojo.declare("prmax.iadmin.Research",[ttl.BaseWidget],{widgetsInTemplate:true,templateString:"<div >\r\n\t<div style=\"width:500px\">\r\n\t\t<p style=\"text-align:center\"><em>Daily Activity Details</em></p>\r\n\t\t<form dojoAttachPoint=\"form\" target=\"_newtab\" action=\"/iadmin/research_active\">\r\n\t\t\t<table width=\"70%\" cellpadding=\"0\" cellspacing=\"0\">\r\n\t\t\t\t<tr><td width=\"20%\" align=\"right\" class=\"prmaxrowlabel\">Date</td><td><input type=\"text\"  dojoAttachPoint=\"active_report_date\" name = \"active_report_date\" dojoType=\"dijit.form.DateTextBox\" ></td></tr>\r\n\t\t\t\t<tr><td align=\"right\" class=\"prmaxrowlabel\">Detailed</td><td><input type=\"checkbox\" name = \"active_report_detailed\" dojoType=\"dijit.form.CheckBox\" ></td></tr>\r\n\t\t\t\t<tr><td  colspan = \"2\" align =\"right\"><button type=\"button\" dojoType=\"dijit.form.Button\" label=\"Create  Activity Report\" dojoAttachEvent=\"onClick:_Active_Report\"></button></td></tr>\r\n\t\t\t</table>\r\n\t\t</form>\r\n\t</div>\r\n</div>\r\n",postCreate:function(){this.active_report_date.set("value",new Date());this.inherited(arguments);},_Active_Report:function(){this.form.submit();}});}

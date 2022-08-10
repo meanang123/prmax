@@ -1,0 +1,40 @@
+<div data-dojo-attach-point="containerNode" >
+	<div data-dojo-attach-point="header_panel" >
+		<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0">
+			<tr>
+				<td width="20%" data-dojo-attach-point="issue_label_2" class="prmaxrowtag">${displaytitle}</td>
+				<td width="5%" ><img height="16px" width="16px" data-dojo-attach-point="togglectrl" data-dojo-attach-event="onclick:_toggle" src="/static/images/toopen.gif" class="toggleselect"></img></td>
+				<td width="75%"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="dojoissuePane" >
+		<div data-dojo-attach-point="selectarea" class="prmaxselectmultiple" style="padding:0px;margin:0px" >
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td colspan="2">
+						<table style="width:100%" cellpadding="0" cellspacing="0">
+							<tr>
+								<td width="40%" data-dojo-attach-point="master_type_text"><span data-dojo-attach-point="issue_label_1" class="prmaxrowtag">${displayselect}</span><input class="prmaxfocus prmaxinput" type="text" data-dojo-type="dijit.form.TextBox" style="width:60%" data-dojo-attach-point="issue_list_select" data-dojo-attach-event="onkeyup:_issue_select" /></td>
+							</tr>
+						</table>
+					</td>
+					<td align="right" width="100px"><button data-dojo-attach-event="onClick:_new_issue" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"New",iconClass:"fa fa-plus"'></button></td>
+				</tr>
+				<tr><td width="47%"><select style="width:100%" data-dojo-attach-point="issue_list" size="${size}" class="select_list" multiple="multiple" ></select></td>
+					<td width="5%">
+						<button class="button_add_all"  style="padding:0px;margin:0px" class="button_add_all" data-dojo-attach-point="button_all" disabled="true" type="button" data-dojo-attach-event="onClick:issue_select_all" data-dojo-type="dijit.form.Button"><div class="std_movement_button">&gt;&gt;</div></button><br/>
+						<button class="button_add_single" style="padding:0px;margin:0px" class="button_add_single" data-dojo-attach-point="button_single" disabled="true" type="button" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:issue_select_single"><div class="std_movement_button">&gt;&nbsp;</div></button><br/>
+						<button class="button_del_all" style="padding:0px;margin:0px" class="button_del_all" data-dojo-attach-point="button_del_all" disabled="true" type="button" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:issue_remove_all"><div class="std_movement_button">&lt;&lt;</div></button><br/>
+						<button class="button_del_single" style="padding:0px;margin:0px" class="button_del_single" data-dojo-attach-point="button_del_single" disabled="true" type="button" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:issue_remove_single"><div class="std_movement_button">&lt;&nbsp;</div></button>
+					</td>
+					<td width="48%"><select style="width:100%" data-dojo-attach-point="issue_select" size="${size}" class="selection_lists" multiple="multiple" data-dojo-attach-event="onchange:issue_update_selection"></select></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div data-dojo-attach-point="new_issue_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New"'>
+		<div data-dojo-attach-point="new_issue_ctrl" data-dojo-type="prcommon.crm.issues.add"></div>
+	</div>
+
+</div>

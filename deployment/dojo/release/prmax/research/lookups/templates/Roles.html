@@ -1,0 +1,70 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%;height:48px;padding:0px;margin:0px"'>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxFilterIcon",label:"Filter",showLabel:true'>
+				<span>Filter By</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="Enter Roles filter" data-dojo-attach-event="execute: _execute">
+					<table>
+						<tr>
+							<td>Text</td>
+							<td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter" data-dojo-props='name:"filter",trim:"true",maxlength:45,type:"text"' ></td>
+						</tr>
+						<tr>
+							<td>Primary Only</td>
+							<td><input data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="visible_only" data-dojo-props='name:"visible",type:"checkbox"' ></td>
+						</tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit/form/Button" type="button" >Clear Filter by</button></td>
+							<td align="right"><button data-dojo-type="dijit/form/Button" type="submit" name="submit">Filter by</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxAddIcon",showLabel:true'>
+				<span>New Role</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="Enter New Role" data-dojo-attach-event="execute: _execute_add">
+					<table>
+						<tr>
+							<td>Role</td>
+							<td><input data-dojo-props='trim:true,maxlength:45,type:"text",required:true,invalidMessage:"Role Name Required",name:"rolename"' data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="rolename" ></td>
+						</tr>
+						<tr><td align="right" colspan="2"><button data-dojo-type="dijit/form/Button" type="submit" name="submit">Add Role</button></td></tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' data-dojo-attach-point="grid_view"></div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"height:50%;width:100%;overflow:auto;overflow-x:hidden"'>
+		<div class="prmaxhidden" data-dojo-attach-point="detail_view">
+			<table style="width:100%;height:50px">
+				<tr>
+					<td><label >Primary Only</label><input data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="visible_change" type="checkbox"  ></td>
+					<td><button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_set_primary">Set Primary</button></td>
+				</tr>
+			</table>
+			<div class="prmaxhidden" data-dojo-attach-point="details_ext">
+				<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="ext_form" data-dojo-props='onsubmit:"return false;"'>
+					<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" border="0px">
+						<tr><td width="47%"></td><td width="5%"></td><td width="48%" ></td></tr>
+						<tr><td colspan="3">
+							<table style="width:100%" class="prmaxtable" >
+								<tr><td width="40%" data-dojo-attach-point="master_type_text"><span class="prmaxrowtag">Select</span><input class="prmaxfocus prmaxinput" type="text" data-dojo-type="dijit/form/TextBox" style="width:60%" data-dojo-attach-point="role_list_select" /><button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_find_roles" >Find</button> </td>
+							</tr></table>
+						</td></tr>
+						<tr><td ><select style="width:100%" data-dojo-attach-point="role_list" size="7" class="lists" multiple="multiple" data-dojo-attach-event="onchange:_selection_options,ondblclick:role_select_single" ></select></td>
+							<td >
+								<button class="button_add_single" style="padding:0px;margin:0px" data-dojo-attach-point="button_single" disabled="true" type="button" data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:role_select_single">&gt;&nbsp;</button><br/>
+								<button class="button_del_all" style="padding:0px;margin:0px" data-dojo-attach-point="button_del_all" disabled="true" type="button" data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:role_remove_all">&lt;&lt;</button><br/>
+								<button class="button_del_single" style="padding:0px;margin:0px" data-dojo-attach-point="button_del_single" disabled="true" type="button" data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:role_remove_single">&lt;&nbsp;</button></td>
+							<td ><select style="width:100%" data-dojo-attach-point="role_select" size="7" class="lists" multiple="multiple" data-dojo-attach-event="onchange:_selection_options" ></select></td>
+						</tr>
+						<tr><td align="left" class="prmaxrowtag" valign="top" colspan="3"><div data-dojo-props='keytypeid:6' data-dojo-type="prcommon2/interests/Interests" data-dojo-attach-point="interests" ></div></td></tr>
+						<tr><td colspan="3"></td></tr>
+						<tr><td colspan="3"><button type="button" type="button" data-dojo-attach-event="onClick:_update_synonims" data-dojo-type="dijit/form/Button">Update</button></td></tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,30 @@
+<div class="outlettype">
+	<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" >
+		<tr><td width="20%"   class="prmaxrowtag">Media Type</td>
+				<td width="5%" ><i dojoAttachPoint="toggleCtrl" dojoAttachEvent="onclick:_Toggle" class="fa fa-plus-circle" style="color:#7F7F7F"></i></td>
+				<td align="right" v-align="top" ><div dojoAttachPoint="countNode" dojotype="prmax.search.SearchCount"></div></td>
+		</tr>
+	</table>
+	<div style="border 2px solid black">
+		<div dojoAttachPoint="selectarea" class="prmaxselectmultiple" style="display:none" >
+			<table width="100%" class="prmaxtable">
+				<tr>
+					 <td width="2%"><input class="prmaxdefault" dojoAttachPoint="node1" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="1" /></td><td width="8%"><label dojoAttachPoint="node1label" class="labeltag" >National Newspapers</label></td>
+					<td width="2%"><input class="prmaxdefault" dojoAttachPoint="node2" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="2" /></td><td width="8%"><label dojoAttachPoint="node2label" class="labeltag" >Regional Newspapers</label></td>
+					<td width="2%"><input class="prmaxdefault" dojoAttachPoint="node4" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="4" /></td><td width="8%"><label dojoAttachPoint="node4label" class="labeltag" >B2B Magazines</label></td>
+					<td width="2%"><input class="prmaxdefault" dojoAttachPoint="node5" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="5" /></td><td width="8%"><label dojoAttachPoint="node5label" class="labeltag" >Consumer Magazines</label></td>
+				</tr>
+				<tr>
+				  <td width="2%"><input class="prmaxdefault" dojoAttachPoint="node6" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="6" /></td><td width="8%"><label class="labeltag" dojoAttachPoint="node6label" >Radio</label></td>
+				  <td width="2%"><input class="prmaxdefault" dojoAttachPoint="node7" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="7" /></td><td width="8%"><label class="labeltag" dojoAttachPoint="node7label" >Tv</label></td>
+				  <td width="2%"><input class="prmaxdefault" dojoAttachPoint="node8" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="8" /></td><td width="8%"><label class="labeltag" dojoAttachPoint="node8label" >New Media</label></td>
+				  <td width="2%"><input class="prmaxdefault" dojoAttachPoint="node9" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="9" /></td><td width="8%"><label class="labeltag" dojoAttachPoint="node9label" >Other</label></td>
+				</tr>
+				<tr>
+					<td width="2%"><input class="prmaxdefault" dojoAttachPoint="node11" dojoAttachEvent="onClick:outletSelect" dojoType="dijit.form.CheckBox" type="checkbox" value="1" /></td><td width="8%"><label class="labeltag" dojoAttachPoint="node11label" >Other Newspapers</label></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,61 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%;height:48px;padding:0px;margin:0px"'>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxFilterIcon",label:"Filter",showLabel:true'>
+				<span>Filter By</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="Enter Filter" data-dojo-attach-event="execute: _execute">
+					<table>
+						<tr><td>Text</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter" data-dojo-props='name:"filter",trim:"true",maxlength:45,type:"text"' ></td></tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit/form/Button" type="button" >Clear Filter by</button></td>
+							<td align="right"><button data-dojo-type="dijit/form/Button" type="submit" name="submit">Filter by</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxNewIcon",label:"New",showLabel:true'>
+				<span>New</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="New Keyword" data-dojo-attach-event="execute: _execute_add">
+					<table width="300px">
+						<tr><td><label >Keyword Name</label></td><td><input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,invalidMessage:"Keyword Name Required",name:"interestname",trim:true,maxlength:45,type:"text"' data-dojo-attach-point="interestname" ></td></tr>
+						<tr><td><label >Keyword Parent</label></td><td><select data-dojo-props='style:"width:100%",name:"interestparentid",autoComplete:true,searchAttr:"name",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="master_type" ></select></td></tr>
+						<tr><td><label >Is Section Heading</label></td><td><input data-dojo-type="dijit/form/CheckBox" data-dojo-props='name:"is_new_section",type:"checkbox"'></td></tr>
+						<tr><td align="right" colspan="2"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit",name:"submit"'>Add </button></td></tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="interest_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:50%;height:100%",splitter:true' ></div>
+	<div data-dojo-attach-point="interest_view" data-dojo-type="dijit/layout/StackContainer" data-dojo-props='region:"center",splitter:true'>
+		<div data-dojo-attach-point="blank" data-dojo-type="dijit/layout/ContentPane"></div>
+		<div data-dojo-attach-point="details_view" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='style:"width:100%;height:100%"'>
+			<div data-dojo-attach-point="details" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Details",selected:true' >
+				<table width="100%">
+					<tr><td class="prmaxrowdisplaylarge" width="30%">Keywords</td><td class="prmaxrowdisplaylarge"  data-dojo-attach-point="interest_name"></td></tr>
+					<tr><td><label >Name</label></td><td><input data-dojo-props='required:true,invalidMessage:"Keyword Name Required",trim:true,maxlength:45,type:"text",name:"interestname"' data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="interestname2" ></td></tr>
+					<tr><td><label >Keywords Parent</label></td><td><select data-dojo-props='labelType:"html",style:"width:80%",name:"interestparentid",autoComplete:true,searchAttr:"name"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="master_type2" ></select></td></tr>
+					<tr><td><label >Is Section Heading</label></td><td><input data-dojo-props='name:"is_section",type:"checkbox"'  data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="is_section"  ></td></tr>
+					<tr><td colspan="2" align="right"><button data-dojo-type="dijit/form/Button" type="button" name="button" data-dojo-attach-event="onClick:_rename_interest">Update</button></td></tr>
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr>
+						<td align="left"><button data-dojo-props='style:"padding:0px;margin:0px",type:"button",label:"Show Transfer Keywords"' data-dojo-attach-point="transfer" data-dojo-attach-event="onClick:_transfere" data-dojo-type="dijit/form/Button" ></button></td>
+						<td ><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",name:"submit"' data-dojo-attach-event="onClick:_delete_interest">Delete Keyword</button></td>
+					</tr>
+				</table>
+				<div class="prmaxhidden" data-dojo-attach-point="show_transfer" style="padding-top:5px">
+					<table width="100%" cellpadding="0" cellspacing="0">
+						<tr><td colspan="3" class="prmaxrowdisplaytitle">Move Keyword to a New Keyword</td></tr>
+						<tr><td >&nbsp;</td></tr>
+						<tr ><td colspan="3" ><span class="prmaxrowtag">Select</span><input class="prmaxfocus prmaxinput" type="text" style="width:200px;padding-bottom:3px" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="transfer_list_select" /></td></tr>
+						<tr><td width="46%"><select style="width:100%" data-dojo-attach-point="transfer_list" size="7" class="lists" ></select></td></tr>
+						<tr><td >&nbsp;</td></tr>
+						<tr><td align="left"><button  style="padding:0px;margin:0px" data-dojo-attach-point="transfer_do" disabled="disabled" type="button" data-dojo-attach-event="onClick:_transfere_do" data-dojo-type="dijit/form/Button" label="Do Transfer Keyword To"></button></td></tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-attach-point="interest_outlet_used_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Outlet Used",style:"width:100%;height:100%"'></div>
+			<div data-dojo-attach-point="interest_employee_used_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"Contact Used",style:"width:100%;height:100%"'></div>
+		</div>
+	</div>
+</div>

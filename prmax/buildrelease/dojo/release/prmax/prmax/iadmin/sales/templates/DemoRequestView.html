@@ -1,0 +1,25 @@
+<div>
+	<div dojotype="dijit.layout.BorderContainer" gutters="false" style="width:100%;height:100%" dojoAttachPoint="borderControl" >
+		<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%">
+			<div style="height:40px;width:100%;overflow:hidden;margin:0px;padding:0px" class="searchresults">
+				<div style="height:100%;width:15%;float:left;margin:0px;padding:0px" dojoAttachPoint="demorequests_time" class="dijitToolbar prmaxrowdisplaylarge">Time</div>
+					<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:85%;margin:0px;padding:0px" >
+						<div dojoType="dijit.form.Button" iconClass="PrmaxResultsIcon PrmaxResultsEmpty" dojoAttachEvent="onClick:_RefreshDemoRequest" showLabel="true">Refresh</div>
+					</div>
+				</div>
+			</div>
+		<div  dojoType="dijit.layout.ContentPane" region="left" style="width:70%" >
+			<div dojoAttachPoint="demorequestview" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" structure="PRMAX.iadmin.gridlayout.demorequest" splitter="true"></div>
+		</div>
+		<div  dojoType="dijit.layout.ContentPane" region="center" splitter="true">
+			<div dojoAttachPoint="demo_options_view" class="prmaxhidden">
+				<button dojoType="dijit.form.Button" dojoAttachPoint="demo_to_customer_email" label="Add Customer & Send Email" dojoAttachEvent="onClick:_DemoToCustomerEmail"></button><br/>
+				<button dojoType="dijit.form.Button" dojoAttachPoint="demo_to_customer" label="Add Customer" dojoAttachEvent="onClick:_DemoToCustomer"></button><br/>
+				<button dojoType="dojox.form.BusyButton" dojoAttachPoint="demo_delete" label="Delete Request" busyLabel="Deleting Request" dojoAttachEvent="onClick:_DemoDelete"></button><br/>
+			</div>
+		</div>
+	</div>
+	<div dojotype="dijit.Dialog" title="Add Customer" dojoAttachPoint="senddlg">
+		<div dojotype="prmax.iadmin.sales.DemoAddCustomer" dojoAttachPoint="sendctrl"></div>
+	</div>
+</div>

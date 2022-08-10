@@ -1,0 +1,17 @@
+<div>
+<form class="prmaxdefault" dojoType="dijit.form.Form" dojoAttachPoint="overrideNode" onSubmit="return false">
+<table style="width:99%" class="prmaxtable">
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td class="prmaxrowtag">Email:</td><td ><input style="width:20em" name="email" dojoAttachPoint="email" type="text" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="20" maxlength="70"></tr>
+<tr><td class="prmaxrowtag">Tel:</td><td><input style="width:20em" dojoAttachPoint="tel" name="tel" type="text" maxlength="40" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+<tr><td class="prmaxrowtag">Fax:</td><td><input style="width:20em" dojoAttachPoint="fax" name="fax" type="text" maxlength="40" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+<tr><td class="prmaxrowtag">Mobile</td><td><input style="width:20em" dojoAttachPoint="mobile" name="mobile" type="text" maxlength="40" dojoType="dijit.form.ValidationTextBox" /></td></tr>
+<tr><td colspan="2"><div dojoAttachPoint="interests" name="interests" class="prmaxhidden" selectonly="true" startopen="true" displaytitle="Tags" nofilter="true" size="6" interesttypeid="2" dojoAttachPoint="interest" restrict="0"  dojoType="prcommon.interests.Interests" keytypeid="6" ></div></td></tr>
+<tr><td class="prmaxrowtag" valign="top">Profile:</td>
+<td><div class="dialogprofileframe" ><textarea dojoAttachPoint="profile" name="profile" class="dijitTextarea" dojoType="dijit.form.Textarea"  style="width:99%;height:99%"></textarea></div></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+<td  align="left"><button   type="button" class="prmaxbutton" dojoAttachPoint="cancelNode" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Close"  label="Close"></button></td>
+<td  align="right"><button  type="button" class="prmaxbutton"  dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" dojoAttachEvent="onClick:_Save" busyLabel="Please Wait Saving..."  label="Save"></button></td></tr></table>
+</form>
+</div>

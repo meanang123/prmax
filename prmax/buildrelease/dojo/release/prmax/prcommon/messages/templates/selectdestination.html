@@ -1,0 +1,23 @@
+<div >
+	<div dojoAttachPoint="select_dialog" dojotype="dijit.Dialog"  title="Select To User" >
+		<div class="dijitDialogPaneContentArea">
+			<div dojotype="dijit.layout.BorderContainer" style="width:600px;height:100%" >
+				<div dojotype="dijit.layout.ContentPane" style="width:100%;height:200px"  region="top">
+					<form  onsubmit="return false" dojoType="dijit.form.Form" dojoAttachPoint="formNode">
+						<table class="prmaxtable" width="400px" cellspacing="0" cellpadding="0" border="0">
+						<tr><td align="right" class="prmaxrowtag" style="width:15%">User Name</td><td><input name="username" dojoAttachPoint="username" type="text" trim="true" dojoType="dijit.form.TextBox" style="width:100%" ></input></td></tr>
+						<tr><td align="right" class="prmaxrowtag" style="width:15%">Customer Name</td><td><input name="customername" dojoAttachPoint="customername" type="text" trim="true" dojoType="dijit.form.TextBox" style="width:100%" ></input></td></tr>
+						<tr><td align="right" class="prmaxrowtag" style="width:15%">Customer Id</td><td><input name="customerid" dojoAttachPoint="customerid" type="text" trim="true" dojoType="dijit.form.TextBox" style="width:100%" ></input></td></tr>
+						</table>
+					</form>
+				</div>
+				<div dojotype="dijit.layout.ContentPane" region="center">
+					<div dojoAttachPoint="user_grid" dojoType="dojox.grid.EnhancedGrid"  region="center" query="{ }" rowsPerPage="30" ></div>
+				</div>
+			</div>
+		<div class="dijitDialogPaneActionBar">
+			<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Close">Close</button>
+			<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Send">Send</button>
+		</div>
+	</div>
+</div>

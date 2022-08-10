@@ -1,0 +1,2 @@
+//>>built
+define("ttl/TextBox",["dijit","dojo","dojox","dojo/require!dijit/form/TextBox"],function(_1,_2,_3){_2.provide("ttl.TextBox");_2.require("dijit.form.TextBox");_2.declare("ttl.TextBox",[_1.form.TextBox],{_onKeyPress:function(e){ttl.TextBox.superclass._onKeyPress.call(this,e);this.onChanged();},onChanged:function(){},isNumber:function(){return ttl.utilities.isNumber(this.getValue());},isValid:function(){if(this.isNumber()==false){alert("Must be a number");return false;}return this.isNumber();}});});

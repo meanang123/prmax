@@ -1,0 +1,71 @@
+<div >
+	<div dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" >
+		<div dojotype="dijit.layout.ContentPane"  region="top"  style="width:100%">
+			<div style="height:40px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+				<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="prmaxrowdisplaylarge">Manage Users</div>
+				<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left:height:100%;width:85%;padding:0px;margin:0px" >
+						<div dojoType="dijit.form.Button" dojoAttachEvent="onClick:_ShowAddUser"  iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" dojoAttachPoint="addbutton" label="Add New User"></div>
+				</div>
+			</div>
+		</div>
+		<div dojotype="dijit.layout.ContentPane"   style="width:50%" region="left"  splitter="true">
+			<div dojoAttachPoint="usergrid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="50" style="width:100%:height:100%"  ></div>
+		</div>
+		<div dojotype="dijit.layout.ContentPane"   region="center"  >
+			<div dojoAttachPoint="display_panel" class="prmaxhidden">
+			    <form class="prmaxdefault" dojoAttachPoint="updateform" dojoType="dijit.form.Form" onSubmit="return false">
+					<table style="width:300px" class="prmaxtable" >
+					<tr><td colspan="2" align="center" class="prmaxrowdisplaylarge">Change User Details</td></tr>
+					<tr>
+						<td width="30%" class="prmaxrowtag">Email Address</td>
+						<td><input dojoAttachPoint="update_email" name="email" type="text" size="40" maxlength="80" trim="true" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" required="true" trim="true" invalidMessage="invalid email address" size="40" maxlength="70"/></td>
+						</tr>
+					<tr>
+						<td width="30%" class="prmaxrowtag">Display Name</td>
+						<td><input dojoAttachPoint="update_displayname" name="displayname" type="text" size="40" maxlength="80" trim="true" dojoType="dijit.form.ValidationTextBox" required="true" trim="true" invalidMessage="Must be entered" size="40" maxlength="40"/></td>
+					</tr>
+			        <tr><td colspan="2" align="right"><button class="prmaxbutton" dojoAttachPoint="updateNode" dojoAttachEvent="onClick:_UpdateUser" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Updating..." label="Update"></button></td></tr>
+					<tr><td colspan="2">&nbsp;</td></tr>
+			        <tr><td colspan="2"><button class="prmaxbutton" dojoAttachPoint="resetNode" dojoAttachEvent="onClick:_ResetPassword" dojoType="dijit.form.Button"><div style="width:8em">Reset Password</div></button></td></tr>
+				    <tr><td colspan="2"><button class="prmaxbutton" dojoAttachPoint="deleteNode" dojoAttachEvent="onClick:_DeleteUser" dojoType="dojox.form.BusyButton"  busyLabel="Please Wait Deleting..." ><div style="width:8em">Delete User</div></button></td></tr>
+				    </table>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div dojoType="dijit.Dialog" title="Add User" dojoAttachPoint="adddialog">
+		<form class="prmaxdefault" dojoAttachPoint="addform" dojoType="dijit.form.Form" onSubmit="return false">
+		    <table style="width:350px" class="prmaxtable" >
+		         <tr>
+					<td width="30%" class="prmaxrowtag">Email Address</td>
+					<td><input dojoAttachPoint="email" name="email" type="text" size="40" maxlength="80" trim="true" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" required="true" trim="true" invalidMessage="invalid email address" size="40" maxlength="70"/></td>
+				</tr>
+				 <tr>
+					<td width="30%" class="prmaxrowtag">Display Name</td>
+					<td><input dojoAttachPoint="displayname" name="displayname" type="text" size="40" maxlength="80" trim="true" dojoType="dijit.form.ValidationTextBox" required="true" trim="true" invalidMessage="Must be entered" size="40" maxlength="40"/></td>
+				</tr>
+	             <tr>
+					<td width="30%" class="prmaxrowtag">Password</td>
+					<td><input dojoAttachPoint="password_add" name="password_add" type="password" size="20" maxlength="20" trim="true" dojoType="dijit.form.ValidationTextBox" required="true" trim="true" invalidMessage="Must be entered" size="20" maxlength="20"/></td>
+				</tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+		        <tr><td align="left"><button class="prmaxbutton" dojoAttachEvent="onClick:_CloseAddDialog" dojoType="dijit.form.Button" label="Close"></button></td>
+		        <td align="right"><button class="prmaxbutton" dojoAttachPoint="saveAddNode" dojoAttachEvent="onClick:_AddUser" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Adding..." label="Add"></button></td></tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+		    </table></form>
+	</div>
+	<div dojoType="dijit.Dialog" title="Reset Password" dojoAttachPoint="resetdialog">
+		<form class="prmaxdefault" dojoAttachPoint="resetform" dojoType="dijit.form.Form" onSubmit="return false">
+			<table style="width:300px" class="prmaxtable" >
+			<tr ><td colspan="2"><div dojoAttachPoint="password" dojoType="dojox.form.PasswordValidator" name="password" class="prmaxrowtag">
+				<table class="prmaxtable" width="100%" >
+					<tr><td class="prmaxrowtag" width="30%">Password:</td><td><input dojoAttachPoint="password_1" class="prmaxrequired" type="password" pwType="new" /></td></tr>
+					<tr><td class="prmaxrowtag" >Verify:</td><td><input dojoAttachPoint="password_2" class="prmaxrequired" type="password" pwType="verify" /></td></tr>
+				</table></div></td></tr>
+			<tr><td align="left"><button class="prmaxbutton" dojoAttachEvent="onClick:_CloseDialog" dojoType="dijit.form.Button" label="Close"></button></td>
+		     <td align="right"><button class="prmaxbutton" dojoAttachPoint="resetPasswordNode" dojoAttachEvent="onClick:_ResetPasswordButton" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Changing..." label="ResetPassword"></button></td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
+			 </table>
+		</form>
+	</div>
+</div>

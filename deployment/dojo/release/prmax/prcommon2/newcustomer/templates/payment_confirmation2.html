@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+<body>
+		<div data-dojo-type="dijit/layout/ContentPane">
+
+			<table width="100%" border="0" cellspacing = "0" >
+			<tr><td >&nbsp;</td></tr>
+		    <tr><td colspan="3" align="center" class="prmaxrowdisplaylarge">Payment Details</td></tr>
+		<tr><td colspan="3"><hr/></td></tr>
+			<tr><td class="prmaxrowtag" width="30%">Company Name</td><td width="70%"  >${customer.customername}</td></tr>
+			<tr><td class="prmaxrowtag">Term</td><td><input class="prmaxinput" dojoType="dijit/form/TextBox" readonly="readonly" value="${termname}" /></td></tr>
+			<tr><td class="prmaxrowtag" >Cost (including vat)</td><td><input class="prmaxinput" dojoType="dijit/form/TextBox" readonly="readonly" value="£${cost}" /></td></tr>
+			<tr><td colspan="3">&nbsp;</td></tr>
+		</table>
+		<table width="100%" border="0">
+		<tr><td colspan="3"><hr/></td></tr>
+			<tr><td width="70%">&nbsp;</td>
+				<td  >
+					<form name="VSPForm" method="POST" action="${protex['gateway']}">
+					<input type="hidden" name="VPSProtocol" value="3.00"/>
+					<input type="hidden" name="TxType" value="PAYMENT"/>
+					<input type="hidden" name="Vendor" value="${protex['code']}" />
+					<input type="hidden" name="Crypt"  value="@${protex['crypt']}"/>
+					<input  class="prmaxrowdisplaylarge" type="submit" name="Proceed" dojoType="dijit/form/Button" label="Proceed to payment" value="Proceed"/></form><td >&nbsp;</td> </td>
+			</tr>
+		</table>
+		</div>
+</body>
+</html>

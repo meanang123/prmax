@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+
+if(!dojo._hasResource["prmax.customer.clients.pickcolour"]){dojo._hasResource["prmax.customer.clients.pickcolour"]=true;dojo.provide("prmax.customer.clients.pickcolour");dojo.require("dijit.ColorPalette");dojo.declare("prmax.customer.clients.pickcolour",[ttl.BaseWidget],{name:"",widgetsInTemplate:true,templateString:"<div>\r\n\t<table width=\"100%\" cellpadding=\"0\" cellpadding=\"0\">\r\n\t\t<tr><td width=\"90%\" data-dojo-attach-point=\"colour_view\">&nbsp;</td><td width=\"10%\"><button data-dojo-attach-point=\"show_picker\" data-dojo-type=\"dijit.form.Button\" data-dojo-attach-event=\"onClick:_show_dialog\" data-dojo-props='label:\"Pick\",style:\"padding:0px;margin:0px\"'></button><td></tr>\r\n\t</table>\r\n\t<div data-dojo-attach-point=\"colour_dialog\" data-dojo-type=\"dijit.Dialog\">\r\n\t\t<div data-dojo-type=\"dijit.ColorPalette\" data-dojo-props=\"palette:'7x10'\" data-dojo-attach-event=\"onChange:_new_color\" data-dojo-props='style:\"margin-right:40px\"'></div><br/>\r\n\t\t<button data-dojo-type=\"dijit.form.Button\" data-dojo-attach-event=\"onClick:_close_dialog\" data-dojo-props='style:\"float:right\",label:\"Close\"'></button>\r\n\t</div>\r\n<div>\r\n",constructor:function(){this._value="";},_show_dialog:function(){this.colour_dialog.show();},_new_color:function(_1){this._setValueAttr(_1);this._close_dialog();},_close_dialog:function(){this.colour_dialog.hide();},_setValueAttr:function(_2){this._value=_2;this.colour_view.style["backgroundColor"]=_2;},_getValueAttr:function(){if(this._value==null){return "";}else{return this._value;}}});}

@@ -1,0 +1,2 @@
+//>>built
+define("ttl/Form",["dijit","dojo","dojox","dojo/require!dijit/form/Form"],function(_1,_2,_3){_2.provide("ttl.Form");_2.require("dijit.form.Form");_2.declare("ttl.Form",[_1.form.Form],{formid:"",isValid:function(){return _2.every(this.getDescendants(),function(_4){var _5=!_4.isValid||_4.isValid();if(_5==false){if(_4.isFocusable()){_4.focus();}else{_5=true;}}return _5;});},setExtendedMode:function(_6){_2.forEach(this.getDescendants(),function(_7){if(!_7.name){return;}_7.set("extended",_6);});}});});

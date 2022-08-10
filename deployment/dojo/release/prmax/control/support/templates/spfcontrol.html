@@ -1,0 +1,50 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"height:35px;width:100%;overflow:hidden;border:1px solid black"'>
+		<div class="dijitToolbarTop" data-dojo-type="dijit/Toolbar" data-dojo-props='style:"float:left:height:100%;width:100%","class":"prmaxbuttonlarge"' >
+			<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"PrmaxResultsIcon PrmaxResultsEmpty",showLabel:true' data-dojo-attach-event="onClick:_New">New</div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",style:"width:100%"'>
+		<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-attach-point="hosts_view" data-dojo-props='style:"width:100%;height:100%"' >
+			<div data-dojo-attach-point="hosts_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:50%;height:100%;",region:"center"'></div>
+			<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="options" data-dojo-props='region:"right",style:"width:50%;height:100%"'>
+				<div title="blank" data-dojo-attach-point="blank" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='selected:"selected",style:"width:100%;height:100%"'></div>
+				<div data-dojo-attach-point="host_update" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:100%;height:100%;"'>
+					<form data-dojo-attach-point="formupd"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+						<table style="width:500px;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+							<tr><td align="right" class="prmaxrowtag" >Domain</td><td><input data-dojo-props='type:"text", readOnly:true, name:"host2",style:"width:300px"' data-dojo-attach-point="host2" data-dojo-type="dijit/form/TextBox"></td></tr>
+							<tr><td align="right" class="prmaxrowtag" >Is Valid Source</td><td><input data-dojo-props='type:"text",name:"is_valid_source2"' data-dojo-attach-point="is_valid_source2" data-dojo-type="dijit/form/CheckBox"></td></tr>
+							<tr><td align="right" class="prmaxrowtag" >Private Key</td><td><input data-dojo-props='type:"text",name:"privatekey2",style:"width:300px",rows:"4"' data-dojo-attach-point="privatekey2" data-dojo-type="dijit/form/SimpleTextarea"></td></tr>
+							<tr><td align="right" class="prmaxrowtag" >Selector</td><td><input data-dojo-props='type:"text",name:"selector2",style:"width:300px",rows:"3"' data-dojo-attach-point="selector2" data-dojo-type="dijit/form/SimpleTextarea"></td></tr><br/><br/>
+							<tr><td></td><td align="right"><button data-dojo-props='type:"button",busyLabel:"Updating ...",label:"Update Host"' data-dojo-attach-point="updbtn" data-dojo-attach-event="onClick:_Update" data-dojo-type="dojox/form/BusyButton" ></button></td></tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/Dialog" title="New Host" data-dojo-attach-point="hostdialog">
+		<form data-dojo-attach-point="form" onsubmit="return false" data-dojo-type="dijit/form/Form">
+			<table style="width:500px;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+				<tr><td align="right" class="prmaxrowtag" >Domain</td><td><input data-dojo-props='type:"text",required:"true", name:"host",style:"width:300px"' data-dojo-attach-point="host" data-dojo-type="dijit/form/ValidationTextBox"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Is Valid Source</td><td><input data-dojo-props='type:"text",name:"is_valid_source"' data-dojo-attach-point="is_valid_source" data-dojo-type="dijit/form/CheckBox"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Private Key</td><td><input data-dojo-props='type:"text",name:"privatekey",style:"width:300px",rows:"4"' data-dojo-attach-point="privatekey" data-dojo-type="dijit/form/SimpleTextarea"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Selector</td><td><input data-dojo-props='type:"text",name:"selector",style:"width:300px",rows:"3"' data-dojo-attach-point="selector" data-dojo-type="dijit/form/SimpleTextarea"></td></tr>
+
+				<tr><td colspan="2"><br/></td></tr>
+				<tr>
+					<td><button data-dojo-props='type:"button",label:"Close"' data-dojo-attach-event="onClick:_Close" data-dojo-type="dijit/form/Button"></button></td>
+					<td align="right"><button data-dojo-props='type:"button",busyLabel:"Adding ...",label:"Add Host"' data-dojo-attach-point="addbtn" data-dojo-attach-event="onClick:_Add" data-dojo-type="dojox/form/BusyButton"></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+<!--	
+	<div data-dojo-attach-point="getspfctl" data-dojo-type="dijit/Dialog"  title="Look Up Domain Record">
+		<div><br/>
+		<button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_cancel_dialog" style="float:left">Close</button>
+		<button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_check_domain" style="float:right">OK</button>
+		</div><br/>
+	</div>
+-->	
+</div>

@@ -1,0 +1,14 @@
+<div>
+	<form data-dojo-attach-point="formnode" data-dojo-type="dijit/form/Form" data-dojo-props='"class":"common_prmax_layout prmaxdefault","onSubmit":"return false"'>
+		<input data-dojo-attach-point="clippingid" data-dojo-props='value:"",name:"clippingid",type:"hidden"' data-dojo-type="dijit/form/TextBox"/><br/>
+		<label data-dojo-attach-point="client_label_1" class="label_align_r label_tag label_size_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_client_change"></select><br/>
+		<label data-dojo-attach-point="issue_label_1" class="label_align_r label_tag label_size_1">Issue</label><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="issueid" ></select><br/>
+		<label class="label_align_r label_tag label_size_1">Release</label><select data-dojo-props='name:"emailtemplateid",autoComplete:true,searchAttr:"emailtemplatename",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="emailtemplateid" ></select><br/>
+		<label class="label_align_r label_tag label_size_1">Tone</label><select data-dojo-props='name:"clippingstoneid",autoComplete:true,labelType:"html",style:"width:10em",value:3' data-dojo-type="dijit/form/Select" data-dojo-attach-point="clippingstoneid" ></select><br/>
+		<label class="label_align_r label_tag label_size_1">Outlet</label><div data-dojo-props='name:"outletid",placeHolder:"Select outlet if required",required:false,source_url:"/search2/list_rest"' data-dojo-type="prcommon2/outlet/OutletSelect" data-dojo-attach-point="outletid"></div><br/>
+		<label data-dojo-attach-point="statement_1" class="label_align_r label_tag label_size_1 prmaxhidden">Statement</label><select data-dojo-props='name:"statementid",autoComplete:true,searchAttr:"statementdescription",labelType:"html","class":"prmaxhidden"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="statementid" ></select><br/>
+		<br/>
+		<button data-dojo-attach-event="onClick:_delete" data-dojo-attach-point="deletebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Deleting...",label:"Delete Clipping","class":"btnleft"'></button>
+		<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnleft",style:"padding-left:130px"'></button>
+	</form>
+</div>

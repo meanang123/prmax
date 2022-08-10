@@ -1,0 +1,48 @@
+<div>
+		<div data-dojo-attach-point="frame" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",splitter:true,style:"width:30%;height:100%","class":"common_prmax_layout bordered"'>
+			<h1 style="text-align:center" data-dojo-attach-point="heading_text">Select Chart Options</h1>
+			<form data-dojo-attach-point="formnode" data-dojo-type="dijit/form/Form" data-dojo-props='"onSubmit":"return false"'>
+				<label class="label_align_r label_tag label_size_2">Global Analysis</label><select data-dojo-attach-point='question' data-dojo-props='placeHolder:"No Selection",name:"question",autoComplete:true,searchAttr:"questiontext",labelType:"html",style:"width:15em"' data-dojo-type="dijit/form/FilteringSelect"></select><br/>
+
+				<label data-dojo-attach-point="client_label_1" class="label_align_r label_tag label_size_2">Client</label><select data-dojo-props='pageSize:20,placeHolder:"No Selection",name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_client_change"></select><br/>
+				<label data-dojo-attach-point="issue_label_1" class="label_align_r label_tag label_size_2">Issue</label><select data-dojo-props='pageSize:20,placeHolder:"No Selection",name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="issueid" ></select><br/>
+				<label data-dojo-attach-point="statement_1" class="label_align_r label_tag label_size_2">Statement</label><select data-dojo-props='pageSize:20,name:"statementid",autoComplete:true,searchAttr:"statementdescription",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="statementid" ></select><br/>
+				<label class="label_align_r label_tag label_size_2">Release</label><select data-dojo-props='pageSize:20,name:"emailtemplateid",autoComplete:true,searchAttr:"emailtemplatename",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="emailtemplateid" ></select><br/>
+
+
+				<label class="label_align_r label_tag label_size_2">Chart View</label>
+					<select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:7em;color:black"' data-dojo-attach-point="option">
+						<option value=0>Pie Chart</option>
+						<option value=1>Lines Chart</option>
+					</select><br/>				
+				<label class="label_align_r label_tag label_size_2">Dates</label><div data-dojo-type="prcommon2/date/daterange" data-dojo-attach-point="date_search"></div></br>
+				<button data-dojo-attach-event="onClick:_clear" data-dojo-attach-point="clearbtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Clear","class":"btnleft"'></button>
+				<button data-dojo-attach-event="onClick:_run_options" data-dojo-attach-point="runoptionsbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Run","class":"btnright"'></button>
+				<br/><br/><br/><br/>
+			</form>
+		</div>
+		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-props='region:"center",splitter:true,' data-dojo-attach-point="chart_view_ctrl">
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="blank_view" data-dojo-props='style:"width:100%;height:100%", "class":"bordered"'></div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true, style:"width:100%;height:100%", "class":"bordered"' data-dojo-attach-point="pie_chart_viewer">
+				<div style="height:400px;width:715px;float:left">
+					<div data-dojo-attach-point="pie_chart_node" style="height:400px"></div>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true, style:"width:100%;height:100%", "class":"bordered"' data-dojo-attach-point="lines_chart_viewer">
+				<div style="height:400px;width:70%;float:left">
+					<div data-dojo-attach-point="lines_chart_node" style="height:400px"></div>
+				</div>
+
+
+
+				<div style="height:400px;width:15%;float:right;margin:0 0 0 15px" data-dojo-attach-point="legend_view"><br/>
+					<div data-dojo-attach-point="legend_node_outer" style="height:400px">
+						<div data-dojo-attach-point="legend_node" style="height:400px"></div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+</div>

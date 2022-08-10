@@ -1,0 +1,14 @@
+<div>
+	<form class="prmaxdefault" dojoAttachPoint="form" dojoType="dijit.form.Form" onsubmit="return false">
+	<table class="prmaxtable" width="100%">
+	<tr>
+		<td class="prmaxrowtag">New List Name</label></td>
+		<td><input dojoAttachPoint="listname" dojoType="dijit.form.ValidationTextBox" name="listname" required="true" trim="true" maxlength="${List_Name_Length}" promptMessage="Enter new list name" type="text"></td>
+	</tr>
+	<tr>
+		<td align="left"><button class="prmaxbutton" dojoType="dijit.form.Button" type="button" >Cancel</button></td>
+		<td align="right"><button class="prmaxbutton" dojoAttachEvent="onClick:_Save" dojoAttachPoint="saveNode" iconClass="dijitPrmaxIcon dijitPrmaxAdd"dojoType="dojox.form.BusyButton" type="button" >Add List</button></td>
+	</tr>
+	</table>
+	</form>
+</div>

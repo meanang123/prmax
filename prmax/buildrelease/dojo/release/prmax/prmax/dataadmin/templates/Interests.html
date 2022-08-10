@@ -1,0 +1,84 @@
+<div>
+	<div  dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden" gutters="false">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="height:42px;width:100%;overflow:hidden" class="searchresults">
+			<div style="height:40px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+				<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="dijitToolbar prmaxrowdisplaylarge">Manage Keywords</div>
+					<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:85%;padding:0px;margin:0px" >
+						<div dojoType="dijit.form.DropDownButton"   iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true">
+							<span>Filter  By</span>
+							<div dojoType="dijit.TooltipDialog" title="Enter Keyword filter" dojoAttachEvent="execute: _Execute">
+								<table>
+									<tr>
+										<td><label for="user">Text</label></td>
+										<td><input dojoType="dijit.form.TextBox"name="filter" dojoAttachPoint="filter" trim="true" maxlength="45" type="text"  ></td>
+									</tr>
+									<tr>
+										<td align="left"><button dojoAttachEvent="onClick: _ClearFilter" dojoType="dijit.form.Button" type="button" >Clear Filter by</button></td>
+										<td align="right"><button dojoType="dijit.form.Button" type="submit" name="submit">Filter by</button></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					<div dojoType="dijit.form.DropDownButton"   iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true">
+						<span>New</span>
+						<div dojoType="dijit.TooltipDialog" title="Enter New Keyword Name" dojoAttachEvent="execute: _ExecuteAdd">
+							<table width="300px">
+								<tr>
+									<td><label >Keyword Name</label></td>
+									<td><input required="true" invalidMessage="Keyword Name Required" dojoType="dijit.form.ValidationTextBox" name="interestname" dojoAttachPoint="interestname" trim="true" maxlength="45" type="text"  ></td>
+								</tr>
+								<tr>
+									<td><label >Keyword Parent</label></td><td>
+									<select style="width:100%" name="interestparentid" autoComplete="true" searchAttr="name" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="master_type" ></td></tr>
+								<tr>
+									<tr>
+										<td><label >Is Section Heading</label></td>
+										<td><input name="is_new_section" dojoType="dijit.form.CheckBox"  type="checkbox"  ></td>
+									</tr>
+
+									<td align="right" colspan="2"><button dojoType="dijit.form.Button" type="submit" name="submit">Add </button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;height:100%" splitter="true" >
+			<div dojoAttachPoint="interest_grid" dojoType="dojox.grid.DataGrid" rowsPerPage="100"></div>
+		</div>
+		<div dojoType="dijit.layout.TabContainer" region="center" splitter="true">
+			<div dojoAttachPoint="" dojoType="dijit.layout.ContentPane" title="Details" preload="true"  selected >
+				<div dojoAttachPoint="details_view"  class="prmaxhidden">
+					<table width="100%">
+						<tr><td class="prmaxrowdisplaylarge" width="30%">Keywords</td><td class="prmaxrowdisplaylarge"  dojoAttachPoint="interest_name"></td></tr>
+						<tr><td><label >Name</label></td><td><input required="true" invalidMessage="Keyword Name Required" dojoType="dijit.form.ValidationTextBox" name="interestname" dojoAttachPoint="interestname2" trim="true" maxlength="45" type="text"  ></td></tr>
+						<tr><td><label >Keyword Parent</label></td><td><select style="width:80%" name="interestparentid" autoComplete="true" searchAttr="name" dojoType="dijit.form.FilteringSelect" labelType="html" dojoAttachPoint="master_type2" ></td></tr>
+						<tr><td><label >Is Section Heading</label></td><td><input name="is_section" dojoType="dijit.form.CheckBox" dojoAttachPoint="is_section" type="checkbox"  ></td></tr>
+						<tr><td colspan="2" align="right"><button dojoType="dijit.form.Button" type="button" name="button" dojoAttachEvent="onClick:_RenameInterest">Update</button></td></tr>
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<td align="left"><button  style="padding:0px;margin:0px" dojoAttachPoint="transfer" type="button" dojoAttachEvent="onClick:_Transfere" dojoType="dijit.form.Button" label="Show Transfer Keywords"></button></td>
+							<td ><button dojoType="dijit.form.Button" type="button" name="submit" dojoAttachEvent="onClick:_DeleteInterest">Delete Interest</button></td></tr>
+					</table>
+					<div class="prmaxhidden" dojoAttachPoint="show_transfer" style="padding-top:5px">
+						<table width="100%" cellpadding="0" cellspacing="0">
+							<tr><td colspan="3" class="prmaxrowdisplaytitle">Move Interest to a New Interest</td></tr>
+							<tr><td >&nbsp;</td></tr>
+							<tr ><td colspan="3" ><span class="prmaxrowtag">Select</span><input class="prmaxfocus prmaxinput" type="text" style="width:200px;padding-bottom:3px" dojoType="dijit.form.TextBox" dojoAttachPoint="transfer_list_select" /></td></tr>
+							<tr><td width="46%"><select style="width:100%" dojoAttachPoint="transfer_list" size="7" class="lists" ></select></td>
+							<tr><td >&nbsp;</td></tr>
+							<tr><td align="left"><button  style="padding:0px;margin:0px" dojoAttachPoint="transfer_do" disabled="disabled" type="button" dojoAttachEvent="onClick:_Transfere_Do" dojoType="dijit.form.Button" label="Do Transfer Interest To"></button></td></tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div dojoAttachPoint="" dojoType="dijit.layout.ContentPane" title="Outlet Used">
+				<div dojoAttachPoint="interest_outlet_used_grid" dojoType="dojox.grid.DataGrid" rowsPerPage="200"></div>
+			</div>
+			<div dojoAttachPoint="" dojoType="dijit.layout.ContentPane" title="Contact Used">
+				<div dojoAttachPoint="interest_employee_used_grid" dojoType="dojox.grid.DataGrid" rowsPerPage="200"></div>
+			</div>
+
+		</div>
+	</div>
+</div>

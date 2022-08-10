@@ -1,0 +1,16 @@
+<div>
+<span class="common_prmax_layout"><br/>
+	<form data-dojo-attach-point="form_output" data-dojo-type="dijit/form/Form" data-dojo-props='onSubmit:"return false"'>
+		<label class="label_1">Output Format</label><br/>
+		<label data-dojo-attach-point="pdf_label">Pdf&nbsp;<input data-dojo-attach-point="pdf" data-dojo-props="name:'reportoutputtypeid',value:'0',type:'radio',checked:true" data-dojo-type="dijit/form/RadioButton"></label><br />
+		<label data-dojo-attach-point="excel_label">Excel&nbsp;<input data-dojo-attach-point="excel" data-dojo-props="name:'reportoutputtypeid',value:'4',type:'radio'" data-dojo-type="dijit/form/RadioButton"></label><br/>
+
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Close","class":"btnleft prmaxhidden"'></button>
+		<button data-dojo-attach-event="onClick:_do_report" data-dojo-attach-point="reportbtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Generate","class":"btnright"'></button>
+		<br/><br/>
+	</form>
+</span>
+	<div data-dojo-attach-point="report_dlg" data-dojo-type="dijit/Dialog" title="Chart Report" data-dojo-props='style:"width:300px"'>
+		<div data-dojo-type="prcommon2/reports/ReportBuilder" data-dojo-attach-point="report_node"></div>
+	</div>
+</div>

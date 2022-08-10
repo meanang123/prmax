@@ -1,0 +1,12 @@
+<div>
+	<form data-dojo-attach-point="rename_form" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"common_prmax_layout",onsubmit:"return false"'>
+		<br/>
+		<input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="emailtemplateid"  data-dojo-props='name:"emailtemplateid",type:"hidden"' >
+		<label data-dojo-attach-point="distribution_label" class="label_1">Distribution</label><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="emailtemplatename" data-dojo-props='name:"emailtemplatename",required:true,trim:true,maxLength:45,promptMessage:"Enter Distribution name",type:"text"' ><br/>
+		<label data-dojo-attach-point="client_label" class="label_1">Client</label><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select><br/>
+		<div class="prmaxhidden" style="padding:0px;margin:0px" data-dojo-attach-point="issue_view" ><label class="label_1" data-dojo-attach-point="issue_label">Issue</label><select data-dojo-props='name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid" ></select></div>
+		<br/>
+		<button data-dojo-attach-event="onClick:_cancel" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Cancel",style:"float:left"'></button>
+		<button data-dojo-attach-event="onClick:_rename" data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="rename_btn" data-dojo-props='style:"float:right",type:"button",label:"Rename Distribution"'></button><br/>
+	</form>
+</div>

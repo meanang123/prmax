@@ -1,0 +1,23 @@
+<div class="prmaxstart" style="width:98%;padding:10px">
+	<div ><img  height="59px" width="130px" src="/static/images/prmax.gif"></img></div>
+	<div ><p></p></div>
+	<div class="panel searchpanel" style="float:left">
+		<p><span class="titletext" >Build your Search</span></p>
+		<div style="float:left;width:80px;;margin-left:5px"><a class="button" dojoAttachEvent="onclick:_DoSearch" ><img src="/static/images/home_grey_search.gif"></img></a></div>
+		<div class="description" style="float:right"><span class="desctext">Search </span></div>
+	</div>
+	<div class="panel listpanel" style="float:left;margin-right:4.0%;margin-left:4.0%">
+		<p><span class="titletext">Manage your Lists</span></p>
+		<div style="float:left;width:80px;margin-left:5px"><a class="button" dojoAttachEvent="onclick:_DoLists"><img src="/static/images/home_blue_button.gif"></img></a></div>
+		<div class="description" style="float:right"><span class="desctext">Manage Lists</span></div>
+	</div>
+	<div class="panel distribute" style="float:left">
+		<p><span class="titletext" >Distribute Releases</span></p>
+		<div style="float:left;margin-left:5px"><a class="button" dojoAttachPoint="distribute_exists" dojoAttachEvent="onclick:_Existing" ><img src="/static/images/home_dist_existing.gif"></img></a></div>
+		<div style="float:right;margin-right:5px"><a class="button" dojoAttachPoint="distribute_add" dojoAttachEvent="onclick:_New" ><img src="/static/images/home_dist_new.gif"></img></a></div>
+	</div>
+	<div class="panelfullwidth" dojoAttachPoint="front_panel_1" dojoType="dijit.layout.ContentPane"></div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="set_passwordrecovery_dialog" data-dojo-props='title:"Set Password Recovery",style:"width:450px;height:250px"'>
+		<div data-dojo-type="prcommon.recovery.passwordrecoverydetails" data-dojo-attach-point="set_passwordrecovery_ctrl"></div>
+	</div>
+</div>

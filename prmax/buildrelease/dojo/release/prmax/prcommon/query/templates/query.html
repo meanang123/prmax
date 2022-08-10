@@ -1,0 +1,36 @@
+<div >
+	<div dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" >
+		<div dojotype="dijit.layout.BorderContainer" region="center">
+			<div dojotype="dijit.layout.ContentPane" region="top" style="width:100%;height:240px">
+				<textarea name = "query_text" style="width:100%" rows=9 class="prmaxdefault" dojoAttachPoint="query_text"></textarea>
+				<table cellpadding="0" cellpadding="0" width="100%">
+					<tr><td><button dojoAttachPoint="execute_button" dojoType="dojox.form.BusyButton" dojoAttachEvent="onClick:_Execute" busyLabel="Wait Executing">Execute</button></td>
+				<td>
+					<form dojoAttachPoint="to_excel_form" target="_newtab" method="post" action="/query/to_excel" dojoAttachEvent="onsubmit:_To_Excel" >
+						<input type="hidden"  dojoAttachPoint="query_text_to_excel" name = "query_text" dojoType="dijit.form.TextBox" >
+						<input type="hidden"  dojoAttachPoint="tmp_to_excel" name = "tmp_cache" dojoType="dijit.form.TextBox" >
+					<button type="submit" dojoType="dijit.form.Button" label="To Excel" ></button>
+				</form></td>
+				<td align="right">Visible to Research</td><td><input name="visibletoresearch" type="checkbox" dojoAttachPoint="visibletoresearch"  dojotype="dijit.form.CheckBox" dojoAttachEvent="onClick:_VisibleToResearch" /></td>
+				<td align="right"><button dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Save">Save As</button><select dojoAttachPoint="select" dojotype ="dijit.form.FilteringSelect"  searchAttr="subject" labelType="html" ></select><button dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Load">Load</button></td></tr></table>
+				<br/>
+			</div>
+			<div dojotype="dijit.layout.ContentPane" region="center" dojoAttachPoint="result_view">
+			</div>
+		</div>
+	</div>
+
+	<div dojoAttachPoint="savedlg" dojotype="dijit.Dialog" style="width:300px;height:200px" title="Save Query">
+		<div class="dijitDialogPaneContentArea">
+			<form class="prmaxdefault" dojoAttachPoint="formNode" dojoType="dijit.form.Form" onSubmit="return false">
+				<table style="width:100%;border-collapse:collapse;" cellspacing="1" cellpadding="1" border="0">
+				<tr><td class="prmaxrowtag">Subject</td><td><input style="float:left" name="subject" type="text" dojoAttachPoint="subject_name"  dojoType="dijit.form.ValidationTextBox" trim="true" required="true"/></td></tr>
+				</table>
+			</form>
+		</div>
+		<div class="dijitDialogPaneActionBar">
+				<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_Query_Save" style="float:left">OK</button>
+				<button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_CancelDialog" style="float:right">Cancel</button>
+		</div>
+	</div>
+</div>

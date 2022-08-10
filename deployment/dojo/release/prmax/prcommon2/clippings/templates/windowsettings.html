@@ -1,0 +1,25 @@
+<div>
+    <div data-dojo-attach-point="frame" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",splitter:true,style:"width:750px;height:330px","class":"common_prmax_layout"'>
+        <h1 style="text-align:center" data-dojo-attach-point="heading_text">Select Chart Options</h1>       
+        <form data-dojo-attach-point="formnode" data-dojo-type="dijit/form/Form" data-dojo-props='"onSubmit":"return false"'>
+            <label class="label_align_r label_tag label_size_2">Mode</label><select data-dojo-attach-point="dashboardsettingsmodeid" data-dojo-props='style:"width:10em"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-event="onChange:_change_mode"></select>
+            <label class="label_align_r label_tag label_size_3" data-dojo-attach-point="dashboardsettingsstandardlabel">Option</label><select data-dojo-attach-point="dashboardsettingsstandardid" data-dojo-props='style:"width:12em"' data-dojo-type="dijit/form/FilteringSelect"></select>
+            <label class="label_align_r label_tag label_size_3" data-dojo-attach-point="dashboardsettingsstandardsearchbylabel">Results By</label><select data-dojo-attach-point="dashboardsettingsstandardsearchbyid" data-dojo-props='style:"width:12em"' data-dojo-type="dijit/form/FilteringSelect"></select>
+            <label class="label_align_r label_tag label_size_3 prmaxhidden" data-dojo-attach-point="questionlabel">Question</label><select data-dojo-attach-point='questionid' data-dojo-props='placeHolder:"No Selection",style:"width:12em","class":"prmaxhidden"' data-dojo-type="dijit/form/FilteringSelect"></select><br/>
+            <label class="label_align_r label_tag label_size_2">Chart View</label><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:10em;color:black"' data-dojo-attach-point="chartviewid" data-dojo-attach-event="onChange:_chartview_change"></select><br/><br/><br/>
+            
+            <label class="label_align_r label_tag label_size_2">Data Filters:</label><br/>
+            <label class="label_align_r label_tag label_size_2">Dates</label><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:10em;color:black"' data-dojo-attach-point="daterangeid" data-dojo-attach-event="onChange: _change_daterange"></select>
+            <label class="label_align_r label_tag label_size_3" data-dojo-attach-point="groupby_label">Group by</label><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='style:"width:12em;color:black"' data-dojo-attach-point="groupbyid"></select><br/>
+            <label class="label_align_r label_tag label_size_2" data-dojo-attach-point="by_client_label">By Client</label><input data-dojo-attach-point="by_client" data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox"' data-dojo-attach-event="onClick: _by_client"/>
+            <label data-dojo-attach-point="client_label_1" class="label_align_r label_tag label_size_3 prmaxhidden">Client</label><select data-dojo-props='pageSize:20,placeHolder:"No Selection",name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html","class":"prmaxhidden"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="clientid" data-dojo-attach-event="onChange:_client_change"></select><br/>
+            <label class="label_align_r label_tag label_size_2" data-dojo-attach-point="by_issue_label">By Issue</label><input data-dojo-attach-point="by_issue" data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox"' data-dojo-attach-event="onClick: _by_issue"/>
+            <label data-dojo-attach-point="issue_label_1" class="label_align_r label_tag label_size_3 prmaxhidden">Issue</label><select data-dojo-props='pageSize:20,placeHolder:"No Selection",name:"issueid",autoComplete:true,searchAttr:"name",labelType:"html","class":"prmaxhidden"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="issueid" ></select><br/><br/>
+            
+            </br>
+            <button data-dojo-attach-event="onClick:_clear" data-dojo-attach-point="clearbtn" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Clear","class":"btnleft"'></button>
+            <button data-dojo-attach-event="onClick:_save_settings" data-dojo-attach-point="savesettingsbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving...",label:"Save","class":"btnright"'></button>
+            <br/><br/><br/><br/>
+        </form>
+    </div>
+</div>

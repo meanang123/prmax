@@ -1,0 +1,56 @@
+<div class="dojogeographicalPane" dojoAttachPoint="containerNode" >
+	<form class="prmaxdefault" dojoAttachPoint="form" dojoType="dijit.form.Form" onSubmit="return false">
+	<table width="100%" cellpadding="0" cellspacing="0">
+		<tr><td >&nbsp;</td></tr>
+		<tr><td align="right" class="prmaxrowtag" width="20%">Name</td><td><input dojoType="dijit.form.ValidationTextBox"name="geographicalname" dojoAttachPoint="geographicalname" trim="true" required="true" maxlength="85" style="width:98%" type="text"  ></td></tr>
+		<tr><td align="right" class="prmaxrowtag" width="20%">Type</td><td><select dojoAttachPoint="geographicallookuptypeid" name="geographicallookuptypeid" dojotype ="dijit.form.FilteringSelect" dojoAttachEvent ="onChange:_TypeChanged" searchAttr="name" labelType="html" style="width:98%" /></td></tr>
+		<tr><td >&nbsp;</td></tr>
+		<tr><td class="prmaxrowtag" colspan="2" align="left" >Parent</td></tr>
+		<tr><td colspan="2"><table width="100%" cellpadding="0" cellspacing="0">
+		<tr ><td colspan="3" ><span class="prmaxrowtag">Select</span><input class="prmaxfocus prmaxinput" type="text" style="width:200px;padding-bottom:3px" dojoType="dijit.form.TextBox" dojoAttachPoint="geographical_list_select" /></td></tr>
+		<tr><td width="46%"><select style="width:100%" dojoAttachPoint="geographical_list" size="7" class="lists" multiple="multiple" ></select></td>
+				<td>
+					<button class="button_add_all" style="padding:0px;margin:0px" dojoAttachPoint="button_all" disabled="true" type="button" dojoAttachEvent="onClick:_GeographicalSelectAll" dojoType="dijit.form.Button"><div class="std_movement_button">&gt;&gt;</div></button><br/>
+					<button class="button_add_single" style="padding:0px;margin:0px" dojoAttachPoint="button_single" disabled="true" type="button" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_GeographicalSelectSingle"><div class="std_movement_button">&gt;&nbsp;</div></button><br/>
+					<button class="button_del_all" style="padding:0px;margin:0px" dojoAttachPoint="button_del_all" disabled="true" type="button" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_GeographicalRemoveAll"><div class="std_movement_button">&lt;&lt;</div></button><br/>
+					<button class="button_del_single" style="padding:0px;margin:0px" dojoAttachPoint="button_del_single" disabled="true" type="button" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_GeographicalRemoveSingle"><div class="std_movement_button">&lt;&nbsp;</div></button>
+					</td>
+				<td  width="46%"><select style="width:100%" dojoAttachPoint="geographical_select" size="7" class="lists" multiple="multiple" dojoAttachEvent="onchange:_GeographicalUpdateSelection"></select></td>
+		</tr></table></td></tr>
+	</table>
+	<div dojoAttachPoint="child_view">
+		<table width="100%" cellpadding="0" cellspacing="0">
+			<tr><td class="prmaxrowtag" colspan="2" align="left" >Children</td></tr>
+			<tr><td colspan="2"><table width="100%" cellpadding="0" cellspacing="0">
+			<tr ><td colspan="3" ><span class="prmaxrowtag">Select</span><input class="prmaxfocus prmaxinput" type="text" style="width:200px;padding-bottom:3px" dojoType="dijit.form.TextBox" dojoAttachPoint="child_list_select" /></td></tr>
+			<tr><td width="46%"><select style="width:100%" dojoAttachPoint="child_list" size="7" class="lists" multiple="multiple" ></select></td>
+					<td>
+						<button class="button_add_all"  style="padding:0px;margin:0px" dojoAttachPoint="child_btn_all" disabled="true" type="button" dojoAttachEvent="onClick:_ChildSelectAll" dojoType="dijit.form.Button"><div class="std_movement_button">&gt;&gt;</div></button><br/>
+						<button class="button_add_single" style="padding:0px;margin:0px" dojoAttachPoint="child_btn_single" disabled="true" type="button" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_ChildSelectSingle"><div class="std_movement_button">&gt;&nbsp;</div></button><br/>
+						<button class="button_del_add" style="padding:0px;margin:0px" dojoAttachPoint="child_btn_del_all" disabled="true" type="button" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_ChildRemoveAll"><div class="std_movement_button">&lt;&lt;</div></button><br/>
+						<button class="button_del_single" style="padding:0px;margin:0px" dojoAttachPoint="child_btn_del_single" disabled="true" type="button" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_ChildRemoveSingle"><div class="std_movement_button">&lt;&nbsp;</div></button>
+						</td>
+					<td  width="46%"><select style="width:100%" dojoAttachPoint="child_select" size="7" class="lists" multiple="multiple" dojoAttachEvent="onchange:_ChildUpdateSelection"></select></td>
+			</tr></table></td></tr>
+			<tr><td >&nbsp;</td></tr>
+		</table>
+	</div>
+	<table width="100%" cellpadding="0" cellspacing="0">
+		<tr><td colspan="2"><table width="100%" cellpadding="0" cellspacing="0">
+		<td align="left"><button  style="padding:0px;margin:0px" dojoAttachPoint="transfer" type="button" dojoAttachEvent="onClick:_Transfere" dojoType="dijit.form.Button" label="Show Transfer Coverage"></button></td>
+		<td><class="prmaxhidden" button  style="padding:0px;margin:0px" dojoAttachPoint="deletebtn" type="button" dojoAttachEvent="onClick:_Delete" dojoType="dijit.form.Button" label="Delete"></button></td>
+		<td align="right"><button  style="padding:0px;margin:0px" dojoAttachPoint="save" type="button" dojoAttachEvent="onClick:_Save" dojoType="dijit.form.Button" label="Save"></button></td>
+		</tr></table></tr></td>
+	</table>
+	</form>
+	<div class="prmaxhidden" dojoAttachPoint="show_transfer" style="padding-top:5px">
+		<table width="100%" cellpadding="0" cellspacing="0">
+			<tr><td colspan="3" class="prmaxrowdisplaytitle">Move Coverage to a New Area</td></tr>
+			<tr><td >&nbsp;</td></tr>
+			<tr ><td colspan="3" ><span class="prmaxrowtag">Select</span><input class="prmaxfocus prmaxinput" type="text" style="width:200px;padding-bottom:3px" dojoType="dijit.form.TextBox" dojoAttachPoint="transfer_list_select" /></td></tr>
+		<tr><td width="46%"><select style="width:100%" dojoAttachPoint="transfer_list" size="7" class="lists" ></select></td>
+		<tr><td >&nbsp;</td></tr>
+		<tr><td align="left"><button  style="padding:0px;margin:0px" dojoAttachPoint="transfer_do" disabled="disabled" type="button" dojoAttachEvent="onClick:_Transfere_Do" dojoType="dijit.form.Button" label="Do Transfer Coverage To"></button></td>
+		</tr></table></td></tr>
+
+ </div>

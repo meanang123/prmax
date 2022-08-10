@@ -1,0 +1,60 @@
+<div>
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,style:"width:100%;height:100%"' >
+		<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="display_view" data-dojo-props='region:"center"'>
+			<div title="blank" data-dojo-attach-point="blank" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='selected:"selected",style:"width:100%;height:100%"'></div>
+			<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"center",splitter:true,style:"width:100%;height:100%"'>
+				<div data-dojo-attach-point="details"  data-dojo-type="dijit.layout.ContentPane" data-dojo-props="iconClass:'fa fa-tasks',title:'Task',style:'height:100%;width:50%px;overflow :auto','class':'bordered scrollpane common_prmax_layout',selected:'selected'">
+					<form data-dojo-attach-point="form_taskupdate"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+						<input data-dojo-props='type:"hidden",name:"taskid"' data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="taskid">
+						<table width="550px" class="prmaxtable">
+						
+						<tr>
+							<td rowspan="2"><span data-dojo-props='name:"contact",placeHolder:"Select contact <br/><br/><br/>",required:false,style:"width:230px;height:75px;float:left"' data-dojo-type="prmax.search.PersonSelect2" data-dojo-attach-point="contact_task"></span></td>
+							<td><span class="prmax-padding-left-small input_field input_date"><input data-dojo-props='style:"width:150px", placeHolder:"Date", type:"text",name:"taken",required:"true",disabled:"true"' data-dojo-attach-point="taken" data-dojo-type="dijit.form.DateTextBox" ></span></td>
+							<td><span class="prmax-padding-left-small"><select data-dojo-props='style:"width:150px",placeHolder:"Taken By", disabled:"true",name:"taken_by","class":"prmaxrequired",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Taken By",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="taken_by"></select></span></td>
+						</tr>
+						<tr>
+							<td><span class="prmax-padding-left-small">
+								<select data-dojo-props='style:"width:150px", disabled:"true", placeHolder:"Client", name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select>
+							</span></td>
+							<td><span class="prmax-padding-left-small">
+								<select data-dojo-props='style:"width:150px",placeHolder:"Issue", disabled:"true", "class":"prmaxrequired",name:"issueid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Select",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="issueid"></select>
+							</span></td>
+						</tr>			
+						
+						<tr><td>&nbsp</td></tr>
+						<tr><td colspan="3"><span class="prmax-padding-left-large">
+							<input data-dojo-props='placeHolder:"Subject", type:"text",name:"description",style:"width:450px;margin-top:10px;margin-bottom:2px"' data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="description" />
+						</span></td></tr>
+						<tr><td colspan="3"><span class="prmax-padding-left-large">
+							<textarea placeHolder="Outcome" data-dojo-attach-point="outcome" name="outcome" style="width:450px;min-height:70px;margin-top:10px;"></textarea>
+						</span></td></tr>
+						<tr><td>&nbsp</td></tr>
+						
+						<tr><td><span>
+								<select data-dojo-props='placeHolder:"Call Type","class":"prmaxrequired",name:"tasktypeid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Select",labelType:"html",style:"width:100px;float:left;"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="tasktypeid"></select>
+								<select data-dojo-props='placeHolder:"Status","class":"prmaxrequired",name:"taskstatusid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Status",labelType:"html",style:"width:100px;float:left;"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="taskstatusid"></select><br/>
+							</span></td>
+						<td colspan="2"><span>
+								<input data-dojo-props='placeHolder:"Deadline",type:"text",name:"due_date",required:true,style:"width:120px;float:right"' data-dojo-attach-point="due_date" data-dojo-type="dijit.form.DateTextBox" >
+								<select data-dojo-props='placeHolder:"Task Owner","class":"prmaxrequired",name:"assigntoid",autoComplete:true,searchAttr:"user_name",required:true,invalidMessage:"Follow Up Only",labelType:"html",style:"width:120px;float:right"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="assigntoid"></select><br/>
+							</span></td>
+						</tr>						
+						
+						<tr><td>&nbsp</td></tr>
+						
+						
+						<tr>
+							<td colspan="3" align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="updbtn" data-dojo-props='iconClass:"fa fa-floppy-o fa-2x",busyLabel:"Updating ...",label:"Update"' data-dojo-attach-event="onClick:_update_task"></button></td>
+						</tr>
+						</table>
+					</form>
+				</div>
+				<div data-dojo-attach-point="source_view" data-dojo-type="dijit.layout.StackContainer" data-dojo-props="iconClass:'fa fa-user',title:'Engagement',style:'height:100%;width:90%;overflow :auto','class':'bordered scrollpanel'">
+					<div data-dojo-attach-point="source" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="style:'height:100%;width:500px;overflow :auto','class':'bordered scrollpanel'"></div>
+					<div data-dojo-attach-point="ch_update" data-dojo-type="prcommon.crm.update" data-dojo-props="show_close:false,style:'height:100%;width:100%;overflow :auto','class':'bordered scrollpanel'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

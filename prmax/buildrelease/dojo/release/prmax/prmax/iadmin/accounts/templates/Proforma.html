@@ -1,0 +1,15 @@
+<div>
+<form dojoAttachPoint="form"  onsubmit="return false" dojoType="dijit.form.Form">
+<table width="500px" cellpadding="0" cellpadding="0" >
+	<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Take Payment for <div style="display:inline" class="prmaxrowdisplaylarge" dojoAttachPoint="customername">Name</div></td>
+	<tr><td width="200px" ><label class="prmaxrowlabel">Text</label></td>
+	<td><input type="text" name="proformatext" dojoType="dijit.form.ValidationTextBox" required="true" trim="true" dojoAttachPoint="proformatext"></td></tr>
+	<tr><td><label class="prmaxrowlabel">Value (Excluding Vat)</label></td>
+		<td><input type="text" name="value" dojoType="dijit.form.CurrencyTextBox" required="true" trim="true" dojoAttachPoint="payment"></input></td>
+	</tr>
+	<tr><td class="prmaxrowlabel">Email Address</td>
+		<td><input class="prmaxinput" dojoAttachPoint="email" name="email" type="text" style="width:100%" trim="true" required="true" dojoType="dijit.form.ValidationTextBox" regExpGen="dojox.validate.regexp.emailAddress" trim="true" invalidMessage="invalid email address" size="40" maxlength="70"/></td>
+	</tr>
+	<tr><td class="prmaxrowlabel" colspan="2" align="right"><button dojoType="dijit.form.Button" type="button" dojoAttachEvent="onClick:_SendProforma">Send Proforma</button></td>
+</table></form>
+</div>

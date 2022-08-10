@@ -1,0 +1,2 @@
+//>>built
+define("ttl/grid/PagedGrid",["dojo/_base/declare","dgrid/Selection","dgrid/extensions/DijitRegistry","dgrid/Grid","dgrid/extensions/Pagination","dgrid/TouchScroll","dojo/dom-style"],function(_1,_2,_3,_4,_5,_6,_7){return _1("ttl.grid.PagedGrid",[_4,_5,_2,_3,_6],{postCreate:function(){this.inherited(arguments);_7.set(this.domNode,"height","100%");}});});

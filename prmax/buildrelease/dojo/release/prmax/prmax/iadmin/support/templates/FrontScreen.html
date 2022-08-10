@@ -1,0 +1,16 @@
+<div>
+	<table class="prmaxtable" width="100%">
+	<tr><td class="prmaxrowtag" style="width:30%">Customer</td><td width="70%">
+		<select dojoAttachPoint="customer_front_id"
+							dojoAttachEvent="onChange:_LoadFrontPageChange"
+							autoComplete="true"
+							searchAttr="customername"
+							labelAttr="customername"
+							dojoType="dijit.form.FilteringSelect"
+							labelType="html"></select>
+					<button dojoType=dijit.form.Button dojoAttachEvent="onClick:_UpdateFrontScreen" type="button" name="submit">Update Front Screen Message</button>
+					<button dojoType=dijit.form.Button dojoAttachEvent="onClick:_PreviewFrontScreen" type="button" >Preview Update Front Screen Message</button>
+	</td></tr>
+	</table>
+	<textarea dojoAttachPoint="front_page" class="dijitTextarea" dojoType="dijit.form.Textarea"  style="width:100%;height:400px"></textarea>
+</div>

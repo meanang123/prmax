@@ -1,0 +1,4 @@
+[console_scripts]
+start-prmaxcontrol = prmaxcontrol.command:start
+bootstrap-prmaxcontrol = prmaxcontrol.command:bootstrap
+

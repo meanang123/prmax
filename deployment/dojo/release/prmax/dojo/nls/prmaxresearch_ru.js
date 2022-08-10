@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+//>>built
+define("dojo/nls/prmaxresearch_ru",{"dijit/nls/common":{"buttonOk":"OK","buttonCancel":"Отмена","_localized":{},"buttonSave":"Сохранить","itemClose":"Закрыть"},"dojo/cldr/nls/number":{"scientificFormat":"#E0","currencySpacing-afterCurrency-currencyMatch":"[:^S:]","infinity":"∞","superscriptingExponent":"×","list":";","percentSign":"%","minusSign":"-","currencySpacing-beforeCurrency-surroundingMatch":"[:digit:]","_localized":{},"decimalFormat-short":"000 трлн","currencySpacing-afterCurrency-insertBetween":" ","nan":"не число","plusSign":"+","currencySpacing-afterCurrency-surroundingMatch":"[:digit:]","currencyFormat":"#,##0.00 ¤","currencySpacing-beforeCurrency-currencyMatch":"[:^S:]","perMille":"‰","group":" ","percentFormat":"#,##0 %","decimalFormat-long":"000 триллиона","decimalFormat":"#,##0.###","decimal":",","currencySpacing-beforeCurrency-insertBetween":" ","exponential":"E"},"dijit/form/nls/validate":{"invalidMessage":"Указано недопустимое значение.","rangeMessage":"Это значение вне диапазона.","_localized":{},"missingMessage":"Это обязательное значение."},"dijit/form/nls/ComboBox":{"previousMessage":"Предыдущие варианты","_localized":{},"nextMessage":"Следующие варианты"},"dijit/nls/loading":{"_localized":{},"loadingState":"Загрузка...","errorState":"Извините, возникла ошибка"}});

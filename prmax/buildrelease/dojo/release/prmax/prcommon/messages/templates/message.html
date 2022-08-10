@@ -1,0 +1,25 @@
+<div >
+	<form  onsubmit="return false" dojoType="dijit.form.Form" dojoAttachPoint="formNode">
+		<input name="parentmessageid" dojoAttachPoint="parentmessageid" type="hidden" dojoType="dijit.form.TextBox" value="-1" ></input>
+		<div dojoAttachPoint="to_address"  class="prmaxhidden">
+		<table class="prmaxtable" width="600px" cellspacing="0" cellpadding="0" border="0">
+			<tr><td align="right" class="prmaxrowtag" style="width:15%">To</td><td>
+			<input name="toaddress" dojoAttachPoint="toaddress" type="hidden" dojoType="dijit.form.TextBox" ></input>
+			<input  dojoAttachPoint="toaddress_display" type="text" readonly="readonly" dojoType="dijit.form.TextBox" ></input>
+			<button  type="button" dojoAttachEvent="onClick:_ToButton"  dojoType="dijit.form.Button" >To ...</button>
+			</td></tr></table></div>
+		</table>
+		<table class="prmaxtable" width="600px" cellspacing="0" cellpadding="0" border="0">
+			<tr><td align="right" class="prmaxrowtag" style="width:15%">Subject</td><td><input class="prmaxrequired" name="subject" dojoAttachPoint="subject" type="text" trim="true" dojoType="dijit.form.TextBox" style="width:100%" invalidMessage="Subject Required"></input></td></tr>
+			<tr><td align="right" class="prmaxrowtag" >Category</td><td>
+				<select name="messagetypeid" dojoAttachPoint="messagetypeid" autoComplete="true" searchAttr="name" labelAttr="name" dojoType="dijit.form.FilteringSelect" pageSize="20" required="true" labelType="html">/select>
+			</td></tr>
+			<tr><td valign="top" align="right" class="prmaxrowtag" >Message</td><td>
+			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:200px;padding:0px;margin:0px;overflow:auto" >
+				<textarea style="width:100%;height:200px;padding:0px;margin:0px;" name="message" class="prmaxdefault" dojoType="dijit.form.Textarea" region="center" required="true" dojoAttachPoint="message"></textarea>
+			</div>
+			</td></tr>
+		</table>
+	</form>
+	<div dojoType="prcommon.messages.selectdestination" dojoAttachPoint="select_user_dlg"></div>
+</div>

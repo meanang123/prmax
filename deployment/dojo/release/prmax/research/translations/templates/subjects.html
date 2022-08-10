@@ -1,0 +1,28 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"height:44px;width:100%;overflow:hidden"'>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"float:left;height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-attach-event="onClick:_new_subject_mapping" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxAddIcon"'><span>Add Mapping</span></div>
+			<div data-dojo-attach-event="onClick:_refresh" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxRefreshIcon"'><span>Refresh</span></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"'></div>
+	<div data-dojo-attach-point="link_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Subject to Keyword"'>
+		<form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='onsubmit:"return false;","class":"prmaxdefault"' >
+			<input data-dojo-props='type:"hidden",value:"-1",name:"subjectid"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="subjectid"/>
+			<table width="500px" class="prmaxtable" cellpadding="0" cellspacing="0"  border ="0">
+				<tr><td align="right" class="prmaxrowtag" width="80px">Subject</td><td  data-dojo-attach-point="heading" class="prmaxrowdisplaylarge" colspan="2" ></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Keyword</td><td ><select data-dojo-attach-point="interestid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"interestid",searchAttr:"interestname",labelType:"html",style:"width:98%","class":"prmaxrequired"'/></td></tr>
+				<tr><td align="right" colspan="2"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",name:"submit",label:"Update"' data-dojo-attach-event="onClick:_update_subject" ></button></td></tr>
+			</table>
+		</form>
+	</div>
+	<div data-dojo-attach-point="add_link_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Add Subject and Keyword"'>
+		<form data-dojo-attach-point="form2" data-dojo-type="dijit/form/Form" data-dojo-props='onsubmit:"return false;","class":"prmaxdefault"' >
+			<table width="300px" class="prmaxtable" cellpadding="1" cellspacing="1"  border ="0">
+				<tr><td align="right" class="prmaxrowtag" width="80px">Subject</td><td ><input data-dojo-attach-point="subjectname2" data-dojo-props='style:"width:95%",name:"subjectname",type:"text",required:true' data-dojo-type="dijit/form/ValidationTextBox"></td></tr>
+				<tr><td align="right" class="prmaxrowtag" >Keyword</td><td ><select data-dojo-attach-point="interestid2" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"interestid",searchAttr:"interestname",labelType:"html",style:"width:98%","class":"prmaxrequired"'/>
+				<tr><td align="right" colspan="2"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",name:"submit",label:"Add"' data-dojo-attach-event="onClick:_add_subject" ></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>

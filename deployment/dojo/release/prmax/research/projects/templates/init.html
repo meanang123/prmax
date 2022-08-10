@@ -1,0 +1,17 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='"onSubmit":"return false"'>
+		<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" border ="0" style="margin-left:10px">
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td><label>Project Status</label>
+				<input align="left" data-dojo-props='"class":"prmaxdefault",type:"checkbox",name:"status_check"' data-dojo-attach-point="status_check" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-event="onClick:_status_change"/></td>
+				<td><select data-dojo-props='"class":"prmaxhidden"' data-dojo-attach-point="researchprojectstatusid" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"researchprojectstatusid",searchAttr:"name",labelType:"html","class":"prmaxrequired"'/></td>
+			</tr>
+		</table>
+		<div style="height:320px;width:550px;float:left;padding-left:10px;padding-top:15px;margin:0px" data-dojo-attach-point="researchers_node">
+			<div data-dojo-attach-point="owners" data-dojo-props='style:"width:550px",name:"owners"' data-dojo-type="research/projects/researchers"></div>
+		</div>
+		<div align="right" padding-right="10px"><button data-dojo-attach-event="onClick:_assign" data-dojo-attach-point="assignbtn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-list-alt fa-2x",type:"button",busyLabel:"Please Wait Assigning...",label:"Assign","class":"btnright"'></button></div>
+	</form>
+
+</div>

@@ -1,0 +1,59 @@
+<div >
+	<div key="std_view.search_list" dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%">
+		<div  dojoType="dijit.layout.ContentPane" region="center" preload="true" href="/layout/std_view_outlet"></div>
+		<div dojoAttachPoint="views" dojoType="dijit.layout.StackContainer" region="left" splitter="true"  style="width:50%">
+			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="outlet_view" dojoAttachPoint="outlet_view">
+				<div dojoType="dijit.layout.ContentPane" region="top" style="height:42px;width:100%;overflow:hidden" class="searchresults">
+				<div style="height:44px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+					<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="prmaxrowdisplaylarge">Manage Results</div>
+						<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:83%;padding:0px;margin:0px" >
+							<div dojoType="dijit.form.DropDownButton" dojoAttachPoint="markoptions" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsMark"  showLabel="false">
+								<span>Mark</span>
+								<div dojoType="dijit.Menu" >
+									<div dojoType="dijit.MenuItem" label="Clear Marks" dojoAttachPoint="clear" ></div>
+									<div dojoType="dijit.MenuItem" label="Marks All" dojoAttachPoint="markall" ></div>
+									<div dojoType="dijit.MenuItem" label="Invert Marks" dojoAttachPoint="invertmarks" ></div>
+									<div dojoType="dijit.MenuItem" label="Clear Marks &amp; Mark Appended" dojoAttachPoint="clearappend" ></div>
+									<div dojoType="dijit.MenuItem" label="Mark Appended" dojoAttachPoint="markappended" ></div>
+								</div>
+							</div>
+							<div dojoType="dijit.form.Button" dojoAttachPoint="save" dojoAttachEvent="onClick:_Save" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsSave"  showLabel="false">Save</div>
+							<div dojoType="dijit.form.Button" dojoAttachPoint="output" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsOutput"  showLabel="false" dojoAttachEvent="onClick:_OutputPrint" dojoAttachPoint="output_print"></div>
+							<div dojoType="dijit.form.Button"  dojoAttachPoint="delete_option" dojoAttachEvent="onClick:_Delete" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsRemove"  showLabel="false">Delete</div>
+							<div dojoType="dijit.form.Button"  dojoAttachPoint="clearall" dojoAttachEvent="onClick:_ClearAll" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsClear"  showLabel="false">Clear</div>
+							<div dojoType="dijit.form.DropDownButton" dojoAttachPoint="tools" disabled="disabled" iconClass="PrmaxResultsIcon PrmaxResultsTools"  showLabel="false">
+								<span>Tools</span>
+								<div dojoType="dijit.Menu" >
+									<div dojoType="dijit.MenuItem" label="Deduplicate" dojoAttachEvent="onClick:_DeDuplicate"></div>
+									<div dojoAttachPoint="tag_menu" class="prmaxhidden" dojoType="dijit.MenuItem" label="Apply Tags" dojoAttachEvent="onClick:_ApplyTags"></div>
+									<div dojoType="dijit.MenuItem" label="Apply Roles" dojoAttachEvent="onClick:_ApplyRoles"></div>
+									<div dojoType="dijit.MenuItem" label="Apply Marks" dojoAttachEvent="onClick:_ApplyMarks"></div>
+								</div>
+							</div>
+						</div>
+						<div style="float:right;padding:0px;margin:0px" dojoAttachPoint="countinfo" dojoType="prmax.searchgrid.SearchGridCount"></div>
+					</div>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" region="center">
+					<div dojoAttachPoint="searchgrid" dojoType="dojox.grid.DataGrid" query="{ name:'*'}" rowsPerPage="100" style="width:100%;height:100%"  structure="PRMAX.search.layoutSearch" ></div>
+				</div>
+			</div>
+			<span py:if="prmax.customer.advancefeatures" py:strip="">
+				<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="advance_view" dojoAttachPoint="advance_view">
+					<div dojotype="prcommon.advance.stdview" region="center" advancefeatureslistid="${advancefeatureslistid}" dojoAttachPoint="advance_ctrl" ></div>
+				</div>
+			</span>
+			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="crm_view" dojoAttachPoint="crm_view">
+			</div>
+			<div dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" title="list_view" dojoAttachPoint="list_view">
+			</div>
+		</div>
+	</div>
+	<div dojoAttachPoint="sort_dlg" dojoType="prmax.searchgrid.SortDisplay"></div>
+	<div dojoType="dijit.Dialog" title="Clear Existing Marks & Mark Group" dojoAttachPoint="apply_marks_dlg">
+		<div dojoAttachPoint="apply_marks" dojoType="prmax.searchgrid.ApplyMarks"></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="set_passwordrecovery_dialog" data-dojo-props='title:"Set Password Recovery",style:"width:450px;height:250px"'>
+		<div data-dojo-type="prcommon.recovery.passwordrecoverydetails" data-dojo-attach-point="set_passwordrecovery_ctrl"></div>
+	</div>
+</div>

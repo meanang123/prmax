@@ -1,0 +1,15 @@
+Metadata-Version: 1.1
+Name: prcommon
+Version: 1.0.0.1
+Summary: PrmaxCommon Controls
+Home-page: UNKNOWN
+Author: Chris Hoy
+Author-email: chris.hoy@prmax.co.uk
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Released
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Framework :: Chris

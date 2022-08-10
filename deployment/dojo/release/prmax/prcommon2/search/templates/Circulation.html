@@ -1,0 +1,25 @@
+<div class="circulation">
+	<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0" >
+		<tr><td width="20%"   class="prmaxrowtag">Circulation</td>
+				<td width="5%" ><img height="16px" width="16px" data-dojo-attach-point="togglectrl" data-dojo-attach-event="onclick:_toggle" src="/prmax_common_s/images/toopen.gif" class="toggleselect"></img>
+				<td align="right" valign="top" ><div data-dojo-attach-point="countnode" data-dojo-type="prcommon2/search/SearchCount"></div></td>
+		</tr>
+	</table>
+	<div style="border 2px solid black">
+		<div data-dojo-attach-point="selectarea" style="display:none" >
+			<table width="100%" class="prmaxtable">
+			  <tr>
+			  <td width="8%"><input data-dojo-attach-point="node_1"  data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"1"' data-dojo-attach-event="onClick:check_count"/></td><td width="23%"><label data-dojo-attach-point="node_1_label" class="labeltag">1-500</label></td>
+			  <td width="8%"><input data-dojo-attach-point="node_2" data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"2"' data-dojo-attach-event="onClick:check_count"/></td><td width="26%"><label data-dojo-attach-point="node_2_label" class="labeltag">501-2500</label></td>
+			  <td width="8%"><input data-dojo-attach-point="node_3" data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"3"' data-dojo-attach-event="onClick:check_count"/></td><td width="21%"><label data-dojo-attach-point="node_3_label" class="labeltag">2501-10k</label></td>
+			  </tr>
+			  <tr>
+			  <td width="8%"><input data-dojo-attach-point="node_4" data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"4"' data-dojo-attach-event="onClick:check_count"/></td><td width="23%"><label data-dojo-attach-point="node_4_label" class="labeltag">10001-50k</label></td>
+			  <td width="8%"><input data-dojo-attach-point="node_5" data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"5"' data-dojo-attach-event="onClick:check_count"/></td><td width="26%"><label data-dojo-attach-point="node_5_label" class="labeltag">50001-100k</label></td>
+			  <td width="8%"><input data-dojo-attach-point="node_6" data-dojo-type="dijit/form/CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"6"' data-dojo-attach-event="onClick:check_count"/></td><td width="21%"><label data-dojo-attach-point="node_6_label" class="labeltag">100001+</label></td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</div>
+

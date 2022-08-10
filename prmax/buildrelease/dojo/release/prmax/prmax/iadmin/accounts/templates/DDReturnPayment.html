@@ -1,0 +1,12 @@
+<div>
+	<form dojoAttachPoint="form"  onsubmit="return false" dojoType="dijit.form.Form">
+		<input type="hidden" name="icustomerid" dojoAttachPoint="icustomerid" dojoType="dijit.form.TextBox">
+		<table width="700px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><div class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Reject Last DD for </div><div class="prmaxrowdisplaylarge" style="display:inline" dojoAttachPoint="customername"></div></td>
+			<tr><td class="prmaxrowlabel" align="right">Reason Code</td><td><select class="prmaxinput" name="paymentreturnreasonid" dojoAttachPoint="paymentreturnreasonid" style="width:10em" dojoType="dijit.form.FilteringSelect" autoComplete="true"></select></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" valign="top">Reason</td><td><div class="dialogprofileframe" ><textarea dojoAttachPoint="reason" name="reason" class="dijitTextarea" dojoType="dijit.form.Textarea"  style="width:99%;height:99%" ></textarea></div></td></tr>
+			<tr><td class="prmaxrowlabel" colspan="4" align="right"><button dojoType="dojox.form.BusyButton" busyLabel="Please Wait" type="button" dojoAttachEvent="onClick:_CancelPayment" dojoAttachPoint="okbtn">Cancel DD Payment</button></td>
+		</table>
+	</form>
+
+</div>

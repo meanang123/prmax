@@ -1,0 +1,2 @@
+//>>built
+define("ttl/DateTextBox",["dijit","dojo","dojox","dojo/require!dijit/form/DateTextBox,ttl/utilities"],function(_1,_2,_3){_2.provide("ttl.DateTextBox");_2.require("dijit.form.DateTextBox");_2.require("ttl.utilities");_2.declare("ttl.DateTextBox",_1.form.DateTextBox,{_getValueISOAttr:function(){var _4=this.textbox.value;if(_4.length>0){var _5=_4.split("/");if(_5.length>=3){return _5[2]+"/"+_5[1]+"/"+_5[0];}}return "";}});});

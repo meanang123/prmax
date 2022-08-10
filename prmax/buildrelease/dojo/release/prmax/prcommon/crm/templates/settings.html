@@ -1,0 +1,70 @@
+<div>
+	<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"center"'>
+		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:700px;height:650px","class":"common_prmax_layout",title:"User Defined Fields"'>
+			<br/>
+			<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
+				<div style="float:left;width:280px;height:500px;margin-left:5px">
+					<label class="label_2" style="width:275px">User Defined Field 1<input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="crm_user_define_1_on" data-dojo-props='"class":"input_field",type:"checkbox",name:"crm_user_define_1_on"' data-dojo-attach-event="onClick:_display_fields" ></label>
+					<label data-dojo-attach-point="crm_user_define_1_label" class="prmaxhidden label_2" style="width:50px;float:left">Label</label><input data-dojo-attach-point="crm_user_define_1" data-dojo-props='"class":"prmaxhidden prmaxinput",name:"crm_user_define_1",type:"text",required:false,trim:true,style:"float:left"' data-dojo-type="dijit.form.ValidationTextBox" />
+					<br/><br/>
+					<div data-dojo-type="prcommon.crm.userdefined" data-dojo-attach-point="crm_user_define_menu_1" data-dojo-props="fieldid:1"></div><br/>
+					<label class="label_2" style="width:275px">User Defined Field 2<input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="crm_user_define_2_on" data-dojo-props='"class":"input_field",type:"checkbox",name:"crm_user_define_2_on"' data-dojo-attach-event="onClick:_display_fields"></label>
+					<label data-dojo-attach-point="crm_user_define_2_label" class="prmaxhidden label_2" style="width:50px;float:left">Label</label><input data-dojo-attach-point="crm_user_define_2" data-dojo-props='"class":"prmaxhidden prmaxinput",name:"crm_user_define_2",type:"text",required:false,trim:true' data-dojo-type="dijit.form.ValidationTextBox" />
+					<br/><br/>
+					<div data-dojo-type="prcommon.crm.userdefined" data-dojo-attach-point="crm_user_define_menu_2" data-dojo-props="fieldid:2"></div>
+				</div>
+				<div style="float:right;width:280px;height:500px;margin-right:5px">
+					<label class="label_2" style="width:275px">User Defined Field 3<input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="crm_user_define_3_on" data-dojo-props='"class":"input_field",type:"checkbox",name:"crm_user_define_3_on"' data-dojo-attach-event="onClick:_display_fields"></label>
+					<label data-dojo-attach-point="crm_user_define_3_label" class="prmaxhidden label_2" style="width:50px;float:left">Label</label><input data-dojo-attach-point="crm_user_define_3" data-dojo-props='"class":"prmaxhidden prmaxinput",name:"crm_user_define_3",type:"text",required:false,trim:true' data-dojo-type="dijit.form.ValidationTextBox" />
+					<br/><br/>
+					<div data-dojo-type="prcommon.crm.userdefined" data-dojo-attach-point="crm_user_define_menu_3" data-dojo-props="fieldid:3"></div><br/>
+					<label class="label_2" style="width:275px">User Defined Field 4<input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="crm_user_define_4_on" data-dojo-props='"class":"input_field",type:"checkbox",name:"crm_user_define_4_on"' data-dojo-attach-event="onClick:_display_fields"></label>
+					<label data-dojo-attach-point="crm_user_define_4_label" class="prmaxhidden label_2" style="width:50px;float:left">Label</label><input data-dojo-attach-point="crm_user_define_4" data-dojo-props='"class":"prmaxhidden prmaxinput",name:"crm_user_define_4",type:"text",required:false,trim:true' data-dojo-type="dijit.form.ValidationTextBox" />
+					<br/><br/>
+					<div data-dojo-type="prcommon.crm.userdefined" data-dojo-attach-point="crm_user_define_menu_4" data-dojo-props="fieldid:4"></div>
+					<br/>
+				</div><br/><br/>
+				<button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright",style:"float:right"'></button>
+			</form>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:600px;height:450px","class":"common_prmax_layout",title:"Layout"'>
+			<form data-dojo-attach-point="form_layout" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
+				<div style="width:600px;height:366px">
+					<br/><p style="text-align:center;font-size:1.2em;font-weight:bold;width:100%">Engagement field's on page 1</p><br/>
+					<label class="label_2"><input data-dojo-attach-point="crm_outcome_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_outcome_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:false'/> Outcome</label><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2"><input data-dojo-attach-point="crm_analysis_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_analysis_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:true'/> Analysis</label><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2"><input data-dojo-attach-point="crm_response_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_response_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:true'/> Response</label><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2"><input data-dojo-attach-point="crm_briefingnotes_page_1"  data-dojo-type="dijit.form.CheckBox" data-dojo-props='name:"crm_briefingnotes_page_1","class":"prmaxdefault",type:"checkbox",value:"1",checked:true'/> Briefing Notes</label><br/>
+					<p class="spacer">&nbsp;</p>
+					
+				</div>
+				<button data-dojo-attach-event="onClick:_save_layout" data-dojo-attach-point="savelayoutbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright",style:"float:right"'></button>
+			</form>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:600px;height:450px","class":"common_prmax_layout",title:"Descriptions"'>
+			<form data-dojo-attach-point="form_descriptions" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false"'>
+				<div style="width:600px;height:366px">
+					<br/>
+					<label class="label_2">"Subject" Name</label><input data-dojo-props='style:"float:left;width:8em","class":"prmaxinput",size:40,name:"crm_subject",maxLength:20,trim:true,required:false,invalidMessage:"This cannot be blank"' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="crm_subject"/><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2">"Outcome" Name</label><input data-dojo-props='style:"float:left;width:8em","class":"prmaxinput",size:40,name:"crm_outcome",maxLength:20,trim:true,required:false,invalidMessage:"This cannot be blank"' data-dojo-attach-point="crm_outcome" data-dojo-type="dijit.form.ValidationTextBox" /><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2">"Engagement"</label><input data-dojo-attach-point="crm_engagement" data-dojo-props='style:"float:left;width:10em","class":"prmaxinput",size:40,name:"crm_engagement",maxLength:20,trim:true,required:false,invalidMessage:"This cannot be blank"' data-dojo-type="dijit.form.ValidationTextBox" />
+					<label class="label_1">Plural</label><input  data-dojo-props='style:"float:left;width:8em","class":"prmaxinput",size:40,name:"crm_engagement_plural",maxLength:20,trim:true,required:false,invalidMessage:"This cannot be blank"' data-dojo-attach-point="crm_engagement_plural" data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2">"Briefing Notes"</label><input data-dojo-props='style:"float:left;width:8em","class":"prmaxinput",size:40,name:"briefing_notes_description",maxLength:20,trim:true,required:false,invalidMessage:"This cannot be blank"' data-dojo-attach-point="briefing_notes_description" data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+					<p class="spacer">&nbsp;</p>
+					<label class="label_2">"Response"</label><input data-dojo-props='style:"float:left;width:8em","class":"prmaxinput",size:40,maxlength:20,trim:true,required:false,invalidMessage:"This cannot be blank",name:"response_description"' data-dojo-attach-point="response_description" name="response_description" data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+					
+				</div>
+				<button data-dojo-attach-event="onClick:_save_desc" data-dojo-attach-point="savedescbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Updating...",label:"Update","class":"btnright",style:"float:right"'></button>
+			</form>
+		</div>
+	</div>
+	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="style:'height:45px',region:'bottom'">
+		<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close",style:"float:right"'></button>
+	</div>
+</div>

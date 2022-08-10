@@ -1,0 +1,17 @@
+<div>
+	<form data-dojo-attach-point="form" method="post" name="form" enctype="multipart/form-data" onSubmit="return false;">
+		<input data-dojo-props='type:"hidden",name:"icustomerid"'  data-dojo-attach-point="icustomerid" data-dojo-type="dijit.form.TextBox" ></input>
+		<input data-dojo-attach-point="invoice_date2" data-dojo-props='name:"credit_date",type:"hidden"' data-dojo-type="dijit.form.TextBox" ></input>
+		<table width="600px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Manual Credit</label><div style="display:inline" class="prmaxrowdisplaylarge" data-dojo-attach-point="customername">Name</div></td></tr>
+			<tr><td style="width:150px" class="prmaxrowlabel" align="right">Reference</td><td><input data-dojo-attach-point="ref" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='type:"text",name:"ref",style:"width:8em",required:true' ></td></tr>
+			<tr><td class="prmaxrowlabel" align="right">Date</td><td><input data-dojo-attach-point="credit_date" data-dojo-type="ttl.DateTextBox" data-dojo-props='type:"text",style:"width:8em",required:true' ></td></tr>
+			<tr><td class="prmaxrowtag" valign="top" align="right" >Message</td><td><div class="stdframe" ><textarea data-dojo-attach-point="message" data-dojo-type="dijit.form.Textarea" data-dojo-props='name:"message","class":"dijitTextarea",style:"width:99%;height:99%"'></textarea></div></td></tr>
+			<tr><td align="right" class="prmaxrowlabel">Amount</td><td><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-props='type:"text",name:"amount",style:"width:8em",required:true,trim:true,constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-attach-point="amount" data-dojo-attach-event="onBlur:_Amounts"></input></td></tr>
+			<tr><td align="right" class="prmaxrowlabel">Vat</td><td><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-props='type:"text",name:"vat",required:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:8em"' data-dojo-attach-point="vat"></input></td></tr>
+			<tr><td align="right" class="prmaxrowlabel" >Unpaid Amount</td><td><input data-dojo-type="dijit.form.CurrencyTextBox" data-dojo-attach-point="unpaidamount" data-dojo-props='type:"text",name:"unpaidamount",required:true,style:"width:8em",constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}'></input></td></tr>
+			<tr><td align="right" class="prmaxrowlabel">Credit File (pdf)</td><td><input class="prmaxinput" type="file" data-dojo-attach-point="credit_file" name="credit_file" size="50"></input></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" colspan="2" align="right"><button data-dojo-attach-point="okbtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='busyLabel:"Please Wait Saving...",type:"button"' data-dojo-attach-event="onClick:_Send">Enter Manual Credit Note</button></td></tr>
+		</table>
+	</form>
+</div>

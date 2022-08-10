@@ -1,0 +1,38 @@
+<div>
+<div dojoAttachPoint="borderCtrl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" >
+	<div dojoType="dijit.layout.ContentPane" region="top" style="width:100%;height:38px" class="std_menu_view">
+			<div style="height:43px;width:100%;overflow:hidden;padding:0px;margin:0px" class="std_menu_view">
+				<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="prmaxrowdisplaylarge" dojoAttachPoint="displayNode"></div>
+					<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:85%;padding:0px;margin:0px" >
+						<div dojoAttachEvent="onClick:_New" dojoType="dijit.form.Button" dojoAttachPoint="svl_new" iconClass="fa fa-plus fa-3x" showLabel="false">New</div>
+						<div dojoAttachEvent="onClick:_Delete" dojoType="dijit.form.Button" dojoAttachPoint="svl_delete" iconClass="fa fa-trash fa-3x" disabled="disabled"  showLabel="false">Delete</div>
+						<div dojoAttachEvent="onClick:_Open" dojoType="dijit.form.Button" dojoAttachPoint="svl_open"  iconClass="fa fa-folder-open fa-3x" disabled="disabled"   showLabel="true">Open</div>
+					</div>
+				</div>
+		</div>
+	<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%; " splitter="true" >
+		<div dojoAttachPoint="listGrid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="50" style="width:100%;height:100%" ></div>
+	</div>
+	<div dojoType="dijit.layout.ContentPane" stlye="height:100%width:50%" region="center" >
+		<div dojoType="dijit.TitlePane" title="List Info" dojoAttachPoint="list_info_pane" style="width: 100%;display: none">
+			<table width="100%" style="border-collapse:collapse" cellspacing="0" cellpadding="0">
+				<tr><td width="20%">Name:</td><td width="70%"><span dojoAttachPoint="svl_name_field"></span></td><td width="90px" rowspan="5"><div style="width:120px;height:130px;padding-right:10px;padding-bottom:3px">
+					<div dojoAttachEvent="onClick:_DeleteSingle" disabled="disabled" dojoType="dijit.form.Button" dojoAttachPoint="svl_list_delete" ><div style="width:98px" class="prmaxbutton">Delete</div></div>
+					<div dojoAttachEvent="onClick:_Rename" disabled="disabled" dojoType="dijit.form.Button" dojoAttachPoint="svl_list_rename" ><div style="width:98px" class="prmaxbutton">Rename</div></div>
+					<div dojoAttachEvent="onClick:_OpenSingle" disabled="disabled" dojoType="dijit.form.Button" dojoAttachPoint="svl_list_open"><div style="width:98px" class="prmaxbutton">Open</div></div>
+					</div>
+				</td></tr>
+				<tr><td>Nbr Entries:</td><td><span dojoAttachPoint="svl_count_field"></span></td></tr>
+				<tr><td colspan="3">&nbsp;</td></tr>
+				<tr><td colspan="3">&nbsp;</td></tr>
+			</table>
+		</div>
+	</div>
+	<div dojoType="dijit.Dialog" dojoAttachPoint="svl_list_new_dlg" title="New List" >
+		<div dojoType="prcommon.advance.newlist" dojoAttachPoint="svl_list_new_ctrl"></div>
+	</div>
+	<div dojoType="dijit.Dialog" dojoAttachPoint="adv_rename_dlg" title="Rename" >
+		<div dojoType="prcommon.advance.renamelist" dojoAttachPoint="adv_rename_ctrl"></div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,24 @@
+<div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="dialog" data-dojo-props='title:"Allocate"'>
+		<form data-dojo-attach-point="form"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+			<input type="hidden" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="keyid" name="keyid" >
+			<table width="600px" cellpadding="0" cellpadding="0" >
+				<tr><td colspan="2"><div class="prmaxrowdisplaylarge" style="text-align:center;display:inline"></div><div class="prmaxrowdisplaylarge" style="display:inline" data-dojo-attach-point="customername"></div></td></tr>
+				<tr><td class="prmaxrowlabel" align="right" >Value</td><td>
+					<table width="100%" cellpadding="0" cellpadding="0" ><tr>
+						<td><input data-dojo-props='"class":"prmaxinput",type:"text",readOnly:"readonly",style:"width:8em"' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="payment" ></input></td>
+						<td class="prmaxrowlabel">Amount to Allocate</td>
+						<td class="prmaxrowlabel"><input data-dojo-props='type:"text",style:"width:8em",readOnly:"readonly"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="toallocate"  ></input></td>
+					</tr></table>
+				</td></tr>
+				<tr><td colspan="2">
+					<div data-dojo-attach-point="alloc_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"width:590px;height:300px"'></div>
+				</td></tr>
+				<tr><td class="prmaxrowlabel" colspan="2" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",labelBusy:"Re-Allocation"' data-dojo-attach-point="allocate" data-dojo-attach-event="onClick:_reallocate">Allocate</button></td></tr>
+			</table>
+		</form>
+	</div>
+
+<div data-dojo-attach-point="alloc_manual" data-dojo-type="control/customer/manual_allocate_amount"></div>
+
+</div>

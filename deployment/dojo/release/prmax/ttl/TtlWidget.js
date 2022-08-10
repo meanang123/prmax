@@ -1,0 +1,2 @@
+//>>built
+define("ttl/TtlWidget",["dijit","dojo","dojox"],function(_1,_2,_3){_2.provide("ttl.TtlWidget");_2.declare("ttl.TtlWidget",null,{resize:function(_4){var c=this.getOuterSize(_4.parentNode);_4.style.height=c.h+"px";},getOuterSize:function(_5){var c=_2.coords(_5);c.x=c.y=c.l=c.t=0;return c;}});});

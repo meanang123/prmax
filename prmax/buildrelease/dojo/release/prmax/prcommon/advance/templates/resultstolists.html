@@ -1,0 +1,38 @@
+<div>
+	<div  dojoAttachPoint="borderCtrl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" >
+		<div  dojoAttachPoint="tabController" dojotype="dijit.layout.TabContainer" style="width:100%;height:100%">
+			<div dojoAttachPoint="savetolisttab" dojoType="dijit.layout.ContentPane" title="Save To Existing List" style="width:100%;height:385px;padding:5px">
+				<form class="prmaxdefault" dojoAttachPoint="form" dojoType="dijit.form.Form" onsubmit="return false">
+				<input type="hidden" dojoType="dijit.form.TextBox" dojoAttachPoint="advancefeatureslistid" name ="advancefeatureslistid">
+				<table class="prmaxtable" cellpadding="0" cellspacing ="0" style="border-style:collapsed" width="100%">
+					<tr><td class="prmaxrowtag" width="20%" valign="top">Selection</td><td><div name="selection" dojoAttachPoint="selection" dojoType="prmax.common.SelectOptions"></div></td></tr
+					<tr><td>&nbsp;</td></tr>
+					<tr><td class="prmaxrowtag" valign="top">Save to List</td><td><span dojoAttachPoint="listname_view"></span>&nbsp;<button class="prmaxbutton" dojoAttachEvent="onClick:_Save" dojoAttachPoint="saveNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Save"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><button style="float:right" dojoType="dijit.form.Button" label="Save to Alternate List" dojoAttachEvent="onClick:_ShowSelector"></button></td>
+						<td><table cellpadding="0" cellspacing ="0" style="border-style:collapsed" width="100%"><tr dojoAttachPoint="selection_view" class="prmaxhidden" >
+						<td class="prmaxrowtag" >Select List</td><td>
+					<div dojoType="dijit.form.FilteringSelect" dojoAttachPoint="lists" pageSize="20" autoComplete="true" labelAttr="advancefeatureslistdescription" searchAttr="advancefeatureslistdescription"></div><button dojoType="dijit.form.Button" label="Select" dojoAttachEvent="onClick:_Select"></button></td></tr>
+					</table></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td colspan = "3" align="right"><button class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Cancel" type="button" >Cancel</button></td></tr>
+					</table>
+				</form>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="Save To New List" style="width:100%;height:385px;padding:5px">
+				<form class="prmaxdefault" dojoAttachPoint="form2" dojoType="dijit.form.Form" onsubmit="return false">
+					<input dojoType="dijit.form.TextBox" type="hidden" dojoAttachPoint="advancefeatureslistid2" name="advancefeatureslistid"></input>
+					<br/>
+					<table class="prmaxtable" cellpadding="0" cellspacing ="0" style="border-style:collapsed" width="100%">
+						<tr><td class="prmaxrowtag" valign="top">Selection</td><td><div name="selection" dojoAttachPoint="source2" dojoType="prmax.common.SelectOptions" i></td></tr>
+						<tr><td class="prmaxrowtag">New List Name</td><td><input dojoType="dijit.form.ValidationTextBox" name="listname" dojoAttachPoint="listname" required="true" trim="true"></td><td></td></tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td align="left"><button class="prmaxbutton" dojoType="dijit.form.Button" dojoAttachEvent="onClick:_Cancel" type="button" >Cancel</button></td>
+							<td align="right"><button class="prmaxbutton" dojoAttachEvent="onClick:_Add" dojoAttachPoint="addNode" dojoType="dojox.form.BusyButton" busyLabel="Please Wait Saving..." label="Save"></td></tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,4 @@
+[console_scripts]
+bootstrap-prmaxapiext = prmaxapiext.command:bootstrap
+start-prmaxapiext = prmaxapiext.command:start
+

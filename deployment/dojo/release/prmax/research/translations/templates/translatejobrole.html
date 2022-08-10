@@ -1,0 +1,15 @@
+<div>
+	<form data-dojo-type="dijit/form/Form" data-dojo-attach-point="form">
+		<input data-dojo-props='type:"hidden",value:"-1",name:"datasourcetranslationid"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="datasourcetranslationid"/>
+		<table width="700px" cellspacing="0" cellpadding="0" style="border-collapse: collapse" >
+			<tr><td>&nbsp;</td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top" width="100px">Roles</td><td><div data-dojo-type="prcommon2/roles/Roles" data-dojo-attach-point="roles" data-dojo-props='orderbtns:false,name:"roles",startopen:true,size:6, searchmode:true, selectonly:true'></div></td><tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td align="right" class="prmaxrowtag" valign="top">Keywords</td><td><div data-dojo-type="prcommon2/interests/Interests" data-dojo-attach-point="interests" data-dojo-props='name:"interests",selectonly:true,size:6,displaytitle:"",startopen:true,restrict:0,keytypeid:6,title:"Select"'></div></td><tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td class="prmaxrowtag" align="right"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",name:"submit",label:"Update"' data-dojo-attach-event="onClick:_update_translation" ></button></td></tr>
+		</table>
+		<br/>
+	</form>
+</div>
+

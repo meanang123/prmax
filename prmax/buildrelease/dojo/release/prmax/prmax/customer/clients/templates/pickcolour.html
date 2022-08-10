@@ -1,0 +1,9 @@
+<div>
+	<table width="100%" cellpadding="0" cellpadding="0">
+		<tr><td width="90%" data-dojo-attach-point="colour_view">&nbsp;</td><td width="10%"><button data-dojo-attach-point="show_picker" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_show_dialog" data-dojo-props='label:"Pick",style:"padding:0px;margin:0px"'></button><td></tr>
+	</table>
+	<div data-dojo-attach-point="colour_dialog" data-dojo-type="dijit.Dialog">
+		<div data-dojo-type="dijit.ColorPalette" data-dojo-props="palette:'7x10'" data-dojo-attach-event="onChange:_new_color" data-dojo-props='style:"margin-right:40px"'></div><br/>
+		<button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_close_dialog" data-dojo-props='style:"float:right",label:"Close"'></button>
+	</div>
+<div>

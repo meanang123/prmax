@@ -1,0 +1,25 @@
+<div>
+	<div dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden; border: 0; padding: 0; margin: 0" gutters="false" >
+		<div dojotype="dijit.layout.TabContainer"  region="center">
+			<div title="Features" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden; border: 0; padding: 0; margin: 0" gutters="false" >
+				<div  dojotype="dijit.layout.ContentPane" style="width:50%;height:100%" region="left" splitter="true">
+					<div dojoAttachPoint="outlet_advance_grid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="50" style="width:100%;height:100%"></div>
+				</div>
+				<div dojotype="dijit.layout.ContentPane" region="center" splitter="true">
+					<div dojoAttachPoint="viewfeature" dojotype="prcommon.advance.advance" style="width:100%;height:100%"></div>
+				</div>
+			</div>
+			<div title="Research Infomation" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden; border: 0; padding: 0; margin: 0" gutters="false" >
+				<div dojotype="prmax.dataadmin.advance.researchadvance" dojoAttachPoint="researchadvance" region="center"></div>
+			</div>
+			<div title="New Features" dojoAttachPoint="newfeature"  dojotype="prcommon.advance.advance"></div>
+		</div>
+	</div>
+	<div dojoAttachPoint="advance_delete_dlg" dojoType="dijit.Dialog" title ="Delete Feature">
+		<div dojoAttachPoint="advance_delete_ctrl" dojoType="prmax.dataadmin.advance.AdvanceDelete"></div>
+	</div>
+	<div dojoAttachPoint="advance_duplicate_dlg" dojoType="dijit.Dialog" title ="Duplicate Feature">
+		<div dojoAttachPoint="advance_duplicate_ctrl" dojoType="prmax.dataadmin.advance.AdvanceDuplicate"></div>
+	</div>
+
+</div>

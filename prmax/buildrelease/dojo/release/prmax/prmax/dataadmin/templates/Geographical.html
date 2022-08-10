@@ -1,0 +1,44 @@
+<div>
+	<div  dojoAttachPoint="frame" dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%;overflow: hidden;" gutters="false" >
+		<div dojoType="dijit.layout.ContentPane" region="top" style="height:5%;width:100%;overflow:hidden" class="searchresults">
+			<div style="height:40px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+				<div style="height:100%;width:15%;float:left;padding:0px;margin:0px" class="dijitToolbar prmaxrowdisplaylarge">Manage Geography</div>
+				<div class="dijitToolbarTop" dojoType="dijit.Toolbar" style="float:left;height:100%;width:85%;padding:0px;margin:0px" >
+					<div dojoType="dijit.form.DropDownButton"   iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true">
+						<span>Filter  By</span>
+						<div dojoType="dijit.TooltipDialog" title="Enter Geographical filter" dojoAttachEvent="execute: _Execute">
+							<table>
+								<tr><td>Area</td>
+										<td><input dojoType="dijit.form.TextBox"name="filter" dojoAttachPoint="filter" trim="true" maxlength="45" type="text"  ></td>
+								</tr>
+								<tr>
+									<td>Type</td>
+									<td><select dojoAttachPoint="geographicallookups" name="geographicallookuptypeid" dojotype ="dijit.form.FilteringSelect" searchAttr="name" labelType="html" /></td>
+								</tr>
+								<tr>
+									<td align="left"><button dojoAttachEvent="onClick: _ClearFilter" dojoType="dijit.form.Button" type="button" >Clear Filter by</button></td>
+									<td align="right"><button dojoType="dijit.form.Button" type="submit" name="submit">Filter by</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div dojoType="dijit.form.Button"   iconClass="PrmaxResultsIcon PrmaxResultsEmpty" showLabel="true" dojoAttachEvent="onClick:_AddNew" label="Add"></div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;height:100%" splitter="true" >
+			<div dojoAttachPoint="geographical_grid" dojoType="dojox.grid.DataGrid" rowsPerPage="50"></div>
+		</div>
+		<div dojoType="dijit.layout.TabContainer" region="center" splitter="true" >
+			<div dojoType="dijit.layout.ContentPane" title="Details" >
+				<div dojoAttachPoint="geographical_edit" dojoType="prmax.geographical.GeographicalEdit" style="width:100%;height:100%" class="prmaxhidden"></div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="Geo. Coverage" >
+				<div dojoAttachPoint="coverage_grid" dojoType="dojox.grid.DataGrid" rowsPerPage="50"></div>
+			</div>
+		</div>
+	</div>
+	<div dojoType="dijit.Dialog" title="Add Geographical Area" dojoAttachPoint="geographical_add_dlg" style="display:none;width:400px">
+		<div dojoAttachPoint="geographical_add" dojoType="prmax.geographical.GeographicalEdit" style="width:100%;height:100%" ></div>
+	</div>
+</div>

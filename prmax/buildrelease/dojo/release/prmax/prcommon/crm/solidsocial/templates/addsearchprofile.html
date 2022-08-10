@@ -1,0 +1,11 @@
+<div >
+	<div data-dojo-type="dijit.layout.ContentPane"  data-dojo-props='style:"width:600px;height:600px","class":"common_prmax_layout"'>
+	<br/>
+		<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='onSubmit:"return false",style:"padding:0px;margin:0px"'>
+			<input data-dojo-props='name:"issueid",type:"hidden",value:"-1"' data-dojo-attach-point="issueid" data-dojo-type="dijit.form.TextBox"/><br/>
+			<label class="label_2">Keywords</label><input data-dojo-attach-point="keywords" data-dojo-props='name:"keywords",type:"text",required:true,trim:true,style:"float:left"' data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+			<br/>
+			<button data-dojo-attach-event="onClick:_close" data-dojo-attach-point="closebtn" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button",label:"Close","class":"btnleft prmaxhidden"'></button><button data-dojo-attach-event="onClick:_save" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Adding...",label:"Add","class":"btnright"'></button>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Enter New List Name", style:"width:400px;height:200px"' data-dojo-attach-point="dlg">
+		<br/>
+		<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"prmaxdefault",onsubmit:"return false"'>
+			<table class="prmaxtable" width="100%" >
+				<tr><td width="100px" align="right" class="prmaxlabeltag" >Name</label></td><td><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="listname" data-dojo-props='name:"listname", required:true, trim:true, maxlength:45, promptMessage:"Enter new list name", type:"text"'  ></td></tr>
+				<tr><td align="right" class="prmaxlabeltag" >Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid" ></select></td></tr>
+				<tr><td><br/></td></tr>
+				<tr>
+					<td align="left"><button data-dojo-props='"class":"prmaxbutton",type:"button", label:"Cancel"' data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Cancel" ></button></td>
+					<td align="right"><button data-dojo-attach-event="onClick:_Save" data-dojo-attach-point="saveNode" data-dojo-type="dojox.form.BusyButton" data-dojo-props='"class":"prmaxbutton",busyLabel:"Please Wait Saving...",label:"Save"'></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

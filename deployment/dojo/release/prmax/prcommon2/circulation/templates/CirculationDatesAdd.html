@@ -1,0 +1,14 @@
+<div style="border: 1px solid black">
+<form  data-dojo-props='onsubmit:"return false","class":"prmaxdefault"' data-dojo-attach-point="form" data-dojo-type="dijit/form/Form">
+	<input data-dojo-props='name:"circulationauditdateid",type:"hidden",value:-1'  data-dojo-attach-point="circulationauditdateid" data-dojo-type="dijit/form/TextBox"/>
+		<table cellspacing="0" cellpadding="0" width="400px">
+		<tr><td >&nbsp;</td></tr>
+		<tr><td align="right" class="prmaxrowtag" >Circulation Dates</td><td colspan="2" ><input data-dojo-props='"class":"prmaxinput",name:"circulationauditdatedescription",type:"text",trim:true,required:true,style:"width:90%",placeHolder:"Circulation Dates"'  data-dojo-attach-point="circulationauditdatedescription" data-dojo-type="dijit/form/ValidationTextBox" ></input></td></tr>
+		<tr><td >&nbsp;</td></tr>
+		<tr>
+			<td data-dojo-attach-point="close_button"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Close"' data-dojo-attach-event="onClick:_close"></button></td>
+			<td data-dojo-attach-point="delete_button" class="prmaxhidden" ><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Delete"' data-dojo-attach-event="onClick:_delete"></button></td>
+			<td align="right"><button data-dojo-attach-event="onClick:_add_dates" data-dojo-attach-point="savenode" data-dojo-type="dojox/form/BusyButton" type="button" busyLabel="Please Wait Saving..." label="Save"></button></td></tr>
+	</table>
+</form>
+</div>

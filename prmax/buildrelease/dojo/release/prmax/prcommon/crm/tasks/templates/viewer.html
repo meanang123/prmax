@@ -1,0 +1,53 @@
+<div>
+	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",gutters:false'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="controls" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden"'>
+			<span class="std_menu_view">
+				<div data-dojo-type="dijit.Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+					<div data-dojo-attach-event="onClick:_new_task" data-dojo-attach-point="newtaskbtn" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-plus fa-3x",showLabel:false,style:"padding-right:5px"'><span>New</span></div>
+					<div data-dojo-type="dijit.form.DropDownButton" data-dojo-attach-point="filterbtn" data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter",showLabel:false'>
+						<span>Filter By</span>
+						<div data-dojo-type="dijit.TooltipDialog" data-dojo-props='title:"Filter By"' data-dojo-attach-event="execute:_filter">
+							<table>
+								<tr><td><label>Over due</label></td><td><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="overdue" data-dojo-props='"class":"prmaxinput",type:"checkbox",name:"overdue",checked:false,value:"1"' ></td></tr>
+								<tr><td><label>Subject</label></td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="subject" data-dojo-props='"class":"prmaxinput",type:"text",name:"subject"' ></td></tr>
+								<tr><td><label>Status</label></td><td><select data-dojo-props='"class":"prmaxinput",name:"taskstatusid",autoComplete:true,labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="taskstatusid" ></select></td></tr>
+								<tr><td><label>Owner</label></td><td><select data-dojo-props='"class":"prmaxinput",name:"ownerid",autoComplete:true,labelType:"html",required:false' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="ownerid" ></select></td></tr>
+								<tr><td>&nbsp</td></tr>
+								<tr>
+									<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Clear</button></td>
+									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Submit</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div data-dojo-attach-event="onClick:_edit_tasktype" data-dojo-type="dijit.form.Button" data-dojo-attach-point="tasktypebtn"data-dojo-props='iconClass:"fa fa-pencil-square-o fa-3x",showLabel:false,style:"padding-right:5px"'><span>Edit Task Type</span></div>
+					<div data-dojo-attach-event="onClick:_edit_tasks" data-dojo-type="dijit.form.Button" data-dojo-attach-point='backbtn'data-dojo-props='iconClass:"fa fa-arrow-left fa-3x",showLabel:false,style:"padding-right:5px","class":"prmaxhidden"'><span>Back</span></div>
+					<div data-dojo-attach-event="onClick:_add_tasktype" data-dojo-type="dijit.form.Button" data-dojo-attach-point='newstasktypebtn'data-dojo-props='iconClass:"fa fa-plus fa-3x",showLabel:false,style:"padding-right:5px","class":"prmaxhidden"'><span>Add Task Type</span></div>
+				</div>
+			</span>
+		</div>
+
+		<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="controls2" data-dojo-props="region:'center',preload:false,style:'height:100%;width:100%'">
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-attach-point="tasks_view" data-dojo-props='style:"width:100%;height:100%",gutters:false'>
+				<div data-dojo-type="dijit.layout.ContentPane" class="spacygriddisplay" data-dojo-props='style:"width:45%;height:100%","class":"scrollpanel",region:"center",splitter:true'>
+					<div data-dojo-attach-point="viewer_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{},rowsPerPage:30,style:"width:50%;height:100%",region:"center"'></div>
+				</div>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"width:55%;height:100%","class":"scrollpanel",region:"right",splitter:true'>
+					<div data-dojo-attach-point="update_task_ctrl" data-dojo-type="prcommon.crm.tasks.update" data-dojo-props='style:"width:100%;height:100%"'></div>
+				</div>
+			</div>
+			<div data-dojo-attach-point="tasktype_grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{},rowsPerPage:30,style:"width:30%;height:100%"'></div>
+		</div>
+
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"<p><i class=\"fa fa-tasks\"></i>&nbsp;New Task</p>"' data-dojo-attach-point="newtaskdlg">
+		<div data-dojo-attach-point="newtaskctrl" data-dojo-type="prcommon.crm.tasks.add" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Update Type"' data-dojo-attach-point="updatetasktypedlg">
+		<div data-dojo-attach-point="updatetasktypectrl" data-dojo-type="prcommon.crm.tasks.updatetype" ></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Type"' data-dojo-attach-point="newtasktypedlg">
+		<div data-dojo-attach-point="newtasktypectrl" data-dojo-type="prcommon.crm.tasks.addtype" ></div>
+	</div>
+</div>
+

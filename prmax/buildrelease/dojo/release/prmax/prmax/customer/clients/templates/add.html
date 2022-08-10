@@ -1,0 +1,72 @@
+<div>
+	<div data-dojo-attach-point="frame" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,style:"width:100%;height:100%"' >
+		<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props="region:'center',splitter:true,'class':'bordered'">
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Details",style:"width:100%;height:100%"'>
+				<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"prmaxdefault common_prmax_layout",onsubmit:"return false"'>
+					<br/>
+					<input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="clientid" data-dojo-props='name:"clientid",type:"hidden",value:"-1"' >
+					<label data-dojo-attach-point="client_name" class="label_2">Client Name</label><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="clientname" data-dojo-props='"class":"prmaxrequired",name:"clientname",required:true,trim:true,maxLength:120,invalidMessage:"Client Name Required",promptMessage:"Please Enter a Client Name",type:"text",style:"width:20em"'></br>
+					<label class="label_2">Www</label><input data-dojo-attach-point="www" data-dojo-props='name:"www",type:"text",size:"40",maxLength:"90",trim:true,style:"width:25em",regExpGen:dojox.validate.regexp.url' data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+					<label class="label_2">Email</label><input data-dojo-attach-point="email" data-dojo-props='name:"email",type:"text",size:"40",maxLength:"84",trim:true,style:"width:25em",regExpGen:dojox.validate.regexp.emailAddress' data-dojo-type="dijit.form.ValidationTextBox"/><br/>
+					<label class="label_2">Tel</label><input data-dojo-attach-point="tel" data-dojo-props='name:"tel",type:"text",maxLength:"40",style:"15em"' data-dojo-type="dijit.form.TextBox"/><br/>
+					<label class="label_2">Twitter</label><input data-dojo-attach-point="twitter" data-dojo-props='"class":"prmaxinput",name:"twitter",type:"text",maxLength:"90",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:25em"' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
+					<label class="label_2">Facebook</label><input data-dojo-attach-point="facebook" data-dojo-props='"class":"prmaxinput",name:"facebook",type:"text",maxLength:"90",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:25em"' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
+					<label class="label_2">Linkedin</label><input data-dojo-attach-point="linkedin" data-dojo-props='"class":"prmaxinput",name:"linkedin",type:"text",maxLength:"80",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:25em"' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
+					<label class="label_2">Instagram</label><input data-dojo-attach-point="instagram" data-dojo-props='"class":"prmaxinput",name:"instagram",type:"text",maxLength:"80",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:25em"' data-dojo-type="dijit.form.ValidationTextBox" /><br/>
+				</form>
+			</div>
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"NewsRoom",style:"width:100%;height:100%","class":"scrollpanel"' data-dojo-attach-point="tab_newoom">
+				<form data-dojo-attach-point="form2" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"prmaxdefault common_prmax_layout",onsubmit:"return false"'>
+					<input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="newsroomid" data-dojo-props='name:"newsroomid",type:"hidden",value:"-1"' >
+					<div data-dojo-attach-point="newsroom_avaliable" class="prmaxhidden"<label class="label_1">Has Newsroom</label><input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="has_news_room" data-dojo-props='type:"checkbox",name:"has_news_room"' data-dojo-attach-event="onChange:_new_room_show"/></br></div>
+					<div data-dojo-attach-point="news_room_details" class="prmaxhidden">
+						<table width="100%" cellpadding="0" cellspacing="0">
+							<tr>
+								<td align="right" class="prmaxrowtag" width="20%">News Room Root</td>
+								<td colspan="2"><input data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="news_room_root" data-dojo-props='lowercase:true,"class":"prmaxrequired",name:"news_room_root",trim:true,maxLength:20,type:"text",style:"width:10em", regExp:"[\\w]+", invalidMessage:"Invalid"'/></td>
+								<td><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="show_new_room_url" data-dojo-attach-event="onClick:_show_new_room_url" data-dojo-props='type:"button","class":"prmaxhidden",label:"Goto News Room"'></button></td>
+							</tr>
+							<tr>
+								<td align="right" class="prmaxrowtag">Custom Link 1</td>
+								<td colspan="2">
+									<span class="prmaxrowtag">Name</span><input data-dojo-attach-point="link_1_name" data-dojo-props='"class":"prmaxinput",name:"link_1_name",type:"text",maxLength:"80",trim:true,style:"width:10em"' data-dojo-type="dijit.form.TextBox" />
+									<span class="prmaxrowtag">Url</span><input data-dojo-attach-point="link_1_url" data-dojo-props='"class":"prmaxinput",name:"link_1_url",type:"text",maxLength:"80",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:20em"' data-dojo-type="dijit.form.ValidationTextBox" />
+								</td>
+							</tr>
+							<tr>
+								<td align="right" class="prmaxrowtag">Custom Link 2</td>
+								<td colspan="2">
+									<span class="prmaxrowtag">Name</span><input data-dojo-attach-point="link_2_name" data-dojo-props='"class":"prmaxinput",name:"link_2_name",type:"text",maxLength:"80",trim:true,style:"width:10em"' data-dojo-type="dijit.form.TextBox" />
+									<span class="prmaxrowtag">Url</span><input data-dojo-attach-point="link_2_url" data-dojo-props='"class":"prmaxinput",name:"link_2_url",type:"text",maxLength:"80",regExpGen:dojox.validate.regexp.url,trim:true,style:"width:20em"' data-dojo-type="dijit.form.ValidationTextBox" />
+								</td>
+							</tr>
+							<tr>
+								<td align="right" class="prmaxrowtag" valign="top" >Header Color</td>
+								<td width="200px">
+									<div data-dojo-type="prmax.customer.clients.pickcolour" data-dojo-attach-point="header_colour" data-dojo-props='name:"header_colour",style:"width:200px"' data-dojo-attach-event="onClick:_ColourUpdate" ></div>
+								</td>
+								<td >
+									<label><input data-dojo-attach-point="default_header_colour" data-dojo-type="dijit.form.CheckBox" data-dojo-props='"class":"prmaxdefault",type:"checkbox",value:"0",checked:false' data-dojo-attach-event="onClick:_use_default_color"/>Use Default</label><br/>
+								</td>
+
+							</tr>
+							<tr><td align="right" class="prmaxrowtag" valign="top" >Header Image Left</td><td colspan="3"><div data-dojo-type="prmax.customer.clients.headerimage" data-dojo-attach-point="headerimage_left" data-dojo-props='style:"width:500px;height:120px;margin:2px","class":"bordered",title:"Left side Image",imagetypeid:1,name:"headerimageleftid"' ></div></td></tr>
+							<tr><td align="right" class="prmaxrowtag" valign="top" >Header Image Right</td><td colspan="3"><div data-dojo-type="prmax.customer.clients.headerimage" data-dojo-attach-point="headerimage_right" data-dojo-props='style:"width:500px;height:120px;margin:2px","class":"bordered",title:"Right side Image",imagetypeid:2,name:"headerimagerightid"' ></div></td></tr>
+							<tr><td align="right" class="prmaxrowtag" valign="top" >About</td><td colspan="3"><div data-dojo-type="dijit.Editor" data-dojo-attach-point="about_template" data-dojo-props='name:"about_template", "class":"bordered", extraPlugins:[{name:"dijit._editor.plugins.FontChoice",command:"fontName", generic:false},"fontSize","createLink","viewsource","preview"],style:"width:95%;height:150px"' ></div></td></tr>
+						</table>
+					</div>
+				</form>
+				<form data-dojo-attach-point="show_news_room_form" target="_blank" method="post" action=""></form>
+			</div>
+			<div data-dojo-attach-point="analysis_tab" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Analysis",gutters:false' >
+				<div data-dojo-type="prcommon.clippings.questions.analysis_viewer" data-dojo-props='region:"center",style:"width:100%;height:100%"' data-dojo-attach-point="analysis_ctrl"></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:50px"'>
+			<div class="common_prmax_layout" style="padding:2px;">
+				<button data-dojo-attach-point="delete_ctrl" data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_Delete_Customer" data-dojo-props='busyLabel:"Please Wait Deleting...","class":"prmaxbutton prmaxhidden",style:"float:left",label:"Delete"'></button>
+				<button data-dojo-attach-point="save" data-dojo-type="dojox.form.BusyButton" data-dojo-attach-event="onClick:_Add_Customer" data-dojo-props='busyLabel:"Please Wait...","class":"prmaxbutton",style:"float:right",label:"Create"'>Create</button>
+			</div>
+		</div>
+	</div>
+</div>

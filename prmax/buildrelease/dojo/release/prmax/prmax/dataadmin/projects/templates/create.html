@@ -1,0 +1,38 @@
+<div>
+	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:true,style:"width:100%;height:100%;overflow:hidden"'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:150px;width:100%"'>
+			<form data-dojo-type="dijit.form.Form" data-dojo-attach-event='onsubmit:_ReturnFalse' data-dojo-attach-point="form">
+				<table width="550px" cellspacing="0" cellpadding="0" style="border-collapse: collapse" >
+					<tr><td>&nbsp;</td></tr>
+					<tr><td class="prmaxrowtag" align="right" width="250px" >Name:</td><td><input data-dojo-props='style:"width:300px","class":"prmaxrequired",name:"projectname",type:"text",maxlength:"80",trim:true,required:true' data-dojo-attach-point="projectname" data-dojo-type="dijit.form.ValidationTextBox"/></td></tr>
+					<tr><td class="prmaxrowtag" align="right">User:</td><td><select data-dojo-attach-point="iuserid" data-dojo-props='name:"iuserid",autoComplete:"true",style:"width:15em",labelType:"html"' data-dojo-type="dijit.form.FilteringSelect"></td></tr>
+					<tr><td class="prmaxrowtag" align="right">Email Questionairres</td><td><input data-dojo-attach-point="sendq" data-dojo-props='name:"senq",type:"checkbox"' data-dojo-type="dijit.form.CheckBox"></td></tr>
+										<tr><td>&nbsp;</td></tr>
+					<tr><td colspan="2" align="right"><button data-dojo-attach-event="onClick:_Create" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button","class":"prmaxbuttonlarge",label:"Create Projects"' ></button></td></tr>
+				</table>
+			</div>
+		</form>
+		<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='gutters:false,region:"left",style:"width:50%;height:100%"'>
+			<div data-dojo-attach-point="tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"center"'>
+				<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Search",style:"width:100%;height:100%;overflow:hidden",gutters:false'>
+					<div data-dojo-attach-point="search_tabcont" data-dojo-type="dijit.layout.TabContainer" data-dojo-props='region:"center"'>
+						<div data-dojo-attach-point="search_tab_outlet" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='preload:true,href:"/layout/std_search_outlet?prefix=pr_&searchtypeid=5",style:"height:100%;overflow:auto;overflow-x:hidden","class":"scrollpanel",title:"Outlet"'></div>
+						<div data-dojo-attach-point="search_tab_freelance" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='preload:true,href:"/layout/std_search_freelance?prefix=pr_&searchtypeid=5",style:"height:100%;overflow:auto;overflow-x:hidden","class":"scrollpanel",title:"Freelance"'></div>
+					</div>
+					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:15%;padding-top:10px"'>
+						<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;" >
+							<tr>
+								<td><button data-dojo-attach-point="_search_cancel" data-dojo-attach-event="onClick:_ClearSearch" data-dojo-type="dijit.form.Button" data-dojo-props='"class":"prmaxbutton",label:"Clear Search"' ></button></td>
+								<td align="right"><button data-dojo-attach-point="searchbutton" data-dojo-attach-event="onClick:_Search" data-dojo-type="dojox.form.BusyButton" data-dojo-props='"class":"prmaxbutton",iconClass:"dijitPrmaxIcon dijitPrmaxIconSearch",busyLabel:"Searching..."'><div style="font-size:18pt">Search</div></button></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='style:"height:100%;width:100%",title:"Monthly Set"'></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center",splitter:true'>
+			<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='rowsPerPage:200'>
+		</div>
+	</div>
+</div>

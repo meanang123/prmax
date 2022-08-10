@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+//>>built
+define("dojo/nls/prmaxresearch_de",{"dijit/nls/common":{"buttonOk":"OK","buttonCancel":"Abbrechen","_localized":{},"buttonSave":"Speichern","itemClose":"Schließen"},"dojo/cldr/nls/number":{"scientificFormat":"#E0","currencySpacing-afterCurrency-currencyMatch":"[:^S:]","infinity":"∞","superscriptingExponent":"·","list":";","percentSign":"%","minusSign":"-","currencySpacing-beforeCurrency-surroundingMatch":"[:digit:]","_localized":{},"decimalFormat-short":"000 Bio","currencySpacing-afterCurrency-insertBetween":" ","nan":"NaN","plusSign":"+","currencySpacing-afterCurrency-surroundingMatch":"[:digit:]","currencyFormat":"#,##0.00 ¤","currencySpacing-beforeCurrency-currencyMatch":"[:^S:]","perMille":"‰","group":".","percentFormat":"#,##0 %","decimalFormat-long":"000 Billionen","decimalFormat":"#,##0.###","decimal":",","currencySpacing-beforeCurrency-insertBetween":" ","exponential":"E"},"dijit/form/nls/validate":{"invalidMessage":"Der eingegebene Wert ist ungültig. ","rangeMessage":"Dieser Wert liegt außerhalb des gültigen Bereichs. ","_localized":{},"missingMessage":"Dieser Wert ist erforderlich."},"dijit/form/nls/ComboBox":{"previousMessage":"Vorherige Auswahl","_localized":{},"nextMessage":"Weitere Auswahlmöglichkeiten"},"dijit/nls/loading":{"_localized":{},"loadingState":"Wird geladen...","errorState":"Es ist ein Fehler aufgetreten."}});

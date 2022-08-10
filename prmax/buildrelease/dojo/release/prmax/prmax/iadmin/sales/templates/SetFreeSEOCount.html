@@ -1,0 +1,13 @@
+<div>
+	<div data-dojo-attach-point="dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Set Nbr of Free SEO for Customer"'>
+		<form data-dojo-attach-point="form"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+			<input data-dojo-attach-point="icustomerid" data-dojo-props='name:"icustomerid",type:"hidden"' data-dojo-type="dijit.form.TextBox">
+			<table style="width:400px;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+				<tr ><td class="prmaxrowtag" align="right" >SEO Credit Qty</td><td><input data-dojo-props='"class":"prmaxinput",name:"seonbrincredit",type:"text",trim:true' data-dojo-attach-point="seonbrincredit" data-dojo-type="dijit.form.NumberTextBox"></td></tr>
+				<tr><td align="right" valign="top" class="prmaxrowtag">Reason</td><td colspan="2"><div class="stdframe prmaxrequired" style="height:150px;"><textarea data-dojo-attach-point="reason" data-dojo-props='"class":"prmaxrequired", name:"reason", trim:true, required:true, style:"width:99%;height:80%"' data-dojo-type="dijit.form.Textarea" ></textarea></div></td></tr>
+				<tr><td colspan="2"><br/></td></tr>
+				<tr><td><button data-dojo-attach-event="onClick:_Close" data-dojo-type="dijit.form.Button" data-dojo-props='label:"Close", type:"button"' ></button></td><td align="right"><button data-dojo-attach-point="updBtn" data-dojo-attach-event="onClick:_Update" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button", label:"Set Free SEO Qty",busyLabel:"Please wait Updating"' ></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>

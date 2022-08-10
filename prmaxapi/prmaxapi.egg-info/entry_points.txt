@@ -1,0 +1,4 @@
+[console_scripts]
+bootstrap-prmaxapi = prmaxapi.command:bootstrap
+start-prmaxapi = prmaxapi.command:start
+

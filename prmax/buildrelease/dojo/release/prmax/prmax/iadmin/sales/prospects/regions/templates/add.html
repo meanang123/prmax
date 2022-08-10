@@ -1,0 +1,12 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<input data-dojo-props='type:"hidden",name:"prospectregionid"' data-dojo-attach-point="prospectregionid" data-dojo-type="dijit.form.TextBox" >
+		<table width="400px" cellpadding="0" cellpadding="0" >
+			<tr><td class="prmaxrowlabel" align="right" >Region Name</td><td><input data-dojo-props='type:"text",name:"prospectregionname",required:true' data-dojo-attach-point="prospectregionname" data-dojo-type="dijit.form.ValidationTextBox" ></td></tr>
+			<tr>
+				<td class="prmaxrowlabel"><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="closebtn" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_close">Close</button></td>
+				<td class="prmaxrowlabel" align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="addbtn" data-dojo-props='busyLabel:"Saving ...",type:"button"' data-dojo-attach-event="onClick:_update">Save</button></td>
+			</tr>
+		</table>
+	</form>
+</div>

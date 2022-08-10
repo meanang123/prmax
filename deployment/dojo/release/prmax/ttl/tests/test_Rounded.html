@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Testing the Rounded</title>
+	<style type="text/css">
+		@import "/static/dojo/dijit/tests/css/dijitTests.css";
+	</style>
+	
+	<script type="text/javascript" src="/static/dojo/dojo/dojo.js" 
+		djconfig="parseOnLoad:true, isDebug: true, defaultTestTheme:'ppr',
+		baseUrl:'/static/dojo/dojo/',modulePaths:{'ttl':'/static/ttl'}"></script>
+	<script type="text/javascript" src="/static/dojo/dijit/tests/_testCommon.js"></script>
+	
+	<script type="text/javascript" src="/static/ttl/Rounded.js"></script>
+	<script type="text/javascript">
+		dojo.require("dojo.parser");	
+	</script>
+</head>
+<body>
+<h1 class="testTitle">ttl.Rounded</h1>
+
+<div dojoType="ttl.Rounded" style="width: 300px; height: 100px;" bgImg="/static/images/RoundedLight.png" >Huuuu</div>
+<div dojoType="ttl.Rounded" style="width: 460px; height: 150px;" bgImg="/static/images/RoundedBg.png">Fancy rounded corners</div>
+<br/>
+</body>
+</html>

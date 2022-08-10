@@ -1,0 +1,15 @@
+Metadata-Version: 1.1
+Name: prmaxcollateral
+Version: 1.0.0.1
+Summary: Common Static Elements
+Home-page: UNKNOWN
+Author: Chris Hoy
+Author-email: chris.g.hoy@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Framework :: Chris

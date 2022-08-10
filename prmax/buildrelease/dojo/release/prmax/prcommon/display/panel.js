@@ -1,0 +1,8 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+
+if(!dojo._hasResource["prcommon.display.panel"]){dojo._hasResource["prcommon.display.panel"]=true;dojo.provide("prcommon.display.panel");dojo.require("ttl.BaseWidget");dojo.declare("prcommon.display.panel",[ttl.BaseWidget],{widgetsInTemplate:true,displaytitle:"Keywords",templateString:"<div>\r\n\t<table width=\"100%\" class=\"prmaxtable\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-style:collapsed\">\r\n\t\t<tr><td width=\"14%\" class=\"prmaxrowtag\" dojoAttachPoint=\"displayname_node\">${displaytitle}</td><td width=\"5%\" align=\"left\" ><img height=\"16px\" width=\"16px\" src=\"/static/images/toopen.gif\" class=\"toggleselect\" dojoAttachPoint=\"tglbtn\" dojoAttachEvent=\"onclick:_Expand\"></img></td><td width=\"75%\"></td></tr>\r\n\t</table>\r\n\t<div style=\"display:none;padding:0px;margin:0px;padding-left:10px\" class=\"prmaxrowdisplay\" dojoAttachPoint=\"inner_panel\"></div>\r\n</div>\r\n",_setValueAttr:function(_1){dojo.attr(this.inner_panel,"innerHTML",_1);if(_1===""){this.Close();}},_Expand:function(){var _2=dojo.style(this.inner_panel,"display")=="block"?"none":"block";dojo.style(this.inner_panel,"display",_2);this._SetToggleBtn(_2);},Close:function(){dojo.style(this.inner_panel,"display","none");this._SetToggleBtn("none");},_SetToggleBtn:function(_3){this.tglbtn.src=_3=="block"?"/static/images/toclosed.gif":"/static/images/toopen.gif";}});}

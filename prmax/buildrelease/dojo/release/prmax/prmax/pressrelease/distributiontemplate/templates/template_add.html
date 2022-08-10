@@ -1,0 +1,13 @@
+<div>
+	<form data-dojo-attach-point="main_form" data-dojo-props='onsubmit:"return false","class":"common_prmax_layout"' data-dojo-type="dijit.form.Form">
+		<input data-dojo-props='name:"distributiontemplatetypeid",type:"hidden"' data-dojo-attach-point="distributiontemplatetypeid"  data-dojo-type="dijit.form.TextBox" />
+		<br/>
+		<label class="label_1">Description</label><input data-dojo-props='"class":"prmaxrequired",name:"description",type:"text",maxlength:80,trim:true,required:true,style:"width:26em"' data-dojo-attach-point="description" data-dojo-type="dijit.form.ValidationTextBox"/><br/><br/>
+		<div data-dojo-attach-point="wordtohtml" data-dojo-type="prmax.email.loadworddocument" data-dojo-props='style:"border:1px solid black;padding-bottom:5px",sourcename:"template_add"' ></div><br/>
+		<div data-dojo-type="dijit.Editor" data-dojo-attach-point="emailtemplatecontent" data-dojo-props='name:"templatecontent",style:"width:590px;height:300px;border:1px solid black;padding-left:1px",extraPlugins:[{name:"dijit._editor.plugins.FontChoice",command:"fontName", generic:false},"fontSize","createLink","viewsource","preview","ttlinsertimage","insertCollateral"]'></div>
+		<br/>
+		<button data-dojo-attach-event="onClick:_add_template" data-dojo-attach-point="savebtn" data-dojo-type="dojox.form.BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving ...",label:"Add","class":"btnright"'></button>
+	</form>
+</div>
+
+

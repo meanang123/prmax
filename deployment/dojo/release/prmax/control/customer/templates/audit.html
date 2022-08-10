@@ -1,0 +1,10 @@
+<div>
+        <div data-dojo-attach-point="auditgrid" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"'></div>
+    
+    <form data-dojo-attach-point="documentform" target="_blank" method="post" action="/audit/viewpdf">
+        <input type="hidden" name="audittrailid"data-dojo-attach-point="documentform_audittrailid">
+    </form>
+    <form data-dojo-attach-point="htmlform" target="_blank" method="post" action="/audit/viewhtml">
+        <input type="hidden" name="audittrailid" data-dojo-attach-point="htmlform_audittrailid">
+    </form>
+</div>

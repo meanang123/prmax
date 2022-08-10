@@ -1,0 +1,12 @@
+<div>
+	<form data-dojo-attach-point="form"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+		<input type="hidden" name="icustomerid" data-dojo-attach-point="icustomerid" data-dojo-type="dijit/form/TextBox">
+		<table width="700px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><div class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Reject Last DD for </div><div class="prmaxrowdisplaylarge" style="display:inline" data-dojo-attach-point="customername"></div></td>
+			<tr><td class="prmaxrowlabel" align="right">Reason Code</td><td><select data-dojo-props='"class":"prmaxinput",name="paymentreturnreasonid",style:"width:10em",autoComplete:"true"' data-dojo-attach-point="paymentreturnreasonid" data-dojo-type="dijit/form/FilteringSelect"></select></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" valign="top">Reason</td><td><div class="dialogprofileframe" ><textarea data-dojo-attach-point="reason" data-dojo-props='name:"reason","class":"dijitTextarea",style:"width:99%;height:99%"' data-dojo-type="dijit/form/Textarea"></textarea></div></td></tr>
+			<tr><td class="prmaxrowlabel" colspan="4" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-props='busyLabel:"Please Wait",type:"button"' data-dojo-attach-event="onClick:_cancel_payment" data-dojo-attach-point="okbtn">Cancel DD Payment</button></td>
+		</table>
+	</form>
+
+</div>

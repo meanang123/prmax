@@ -1,0 +1,63 @@
+<div class="employeedisplay">
+	<div dojoType="dijit.layout.BorderContainer" dojoAttachPoint="frame" gutters="false">
+		<div dojoAttachPoint="tabControl" dojotype="dijit.layout.TabContainer" tabStrip="true" region="center">
+			<div dojoAttachPoint="maintab" dojoType="ttl.layout.ContentPane" title='Details' selected="true" style="padding:2px" class="scrollpanel">
+				<table class="prmaxtable" width="100%" cellpadding="0" cellspacing="0" style="border-style:collapsed" >
+					<tr>
+						<td width="10%" class="prmaxrowdisplaylarge" rowspan="3" ><img  dojoAttachPoint="employee_profile_image_url" /></td><td class="prmaxrowdisplaylarge" width="80%" dojoAttachPoint="employee_display_contactname"></td>
+						<td width="10%" class="employeetype" dojoAttachPoint="employee_display_options" ></td>
+					</tr>
+					<tr><td class="prmaxrowdisplaymedium" colspan="2" dojoAttachPoint="employee_display_job_title"></td></tr>
+					<tr><td class="prmaxrowtag" valign="top" colspan="2" class="prmaxrowdisplay" dojoAttachPoint="interest_display"></td></tr>
+				</table></br>	
+<!--
+				<table style="margin-bottom:20px">
+					<tr><td class="prmaxrowtag" valign="top" class="prmaxrowdisplay" dojoAttachPoint="interest_display"></td></tr>
+				</table>
+-->
+				<table class="prmaxtable" width="100%" cellpadding="0" cellspacing="0" style="border-style:collapsed" >
+					<tr>
+						<td width="10%" class="prmaxrowtag"><i class="fa fa-envelope-o fa-2x prmaxhidden" dojoAttachPoint="employee_display_email_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_email" href='outlet.email' style="width:100%" target="blank"></a></td>
+						<td width="10%" class="prmaxrowtag" ><i class="fa fa-phone fa-2x prmaxhidden" dojoAttachPoint="employee_display_tel_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay" colspan="2" dojoAttachPoint="employee_display_tel"></td>
+					</tr>
+					<tr>
+						<td width="10%" class="prmaxrowtag"><i class="fa fa-twitter fa-2x prmaxhidden" dojoAttachPoint="employee_display_twitter_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_twitter" style="width:100%" target="blank"></a></td>
+						<td width="10%" class="prmaxrowtag"><i class="fa fa-mobile fa-2x prmaxhidden" dojoAttachPoint="employee_display_mobile_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_mobile" style="width:100%" target="blank"></a></td>
+					</tr>
+					<tr>
+						<td width="10%" class="prmaxrowtag"><i class="fa fa-linkedin fa-2x prmaxhidden" dojoAttachPoint="employee_display_linkedin_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_linkedin" style="width:100%" target="blank"></a></td>
+						<td width="10%" class="prmaxrowtag"><i class="fa fa-instagram fa-2x prmaxhidden" dojoAttachPoint="employee_display_instagram_icon" aria-hidden="true"></td>
+						<td width="40%" class="prmaxrowdisplay"><a dojoAttachPoint="employee_display_instagram" style="width:100%" target="blank"></a></td>
+					</tr>
+
+				</table></br>
+			</div>
+			<div dojoType="ttl.layout.ContentPane" title='Notes' >
+				<div style="padding:2px">
+					<table class="prmaxtable" width="100%" >
+						<tr><td valign="top" class="prmaxrowdisplayinfo" width="17%">Your notes&nbsp;<button class="prmaxbuttongreybutton" type="button" dojoAttachEvent="onclick:_do_notes_edit">Add Notes</button></td></tr>
+						<tr><td class="prmaxrowdisplay" dojoAttachPoint="employee_display_localprofile"></td></tr>
+					</table>
+				</div>
+			</div>
+			<div dojoAttachPoint="whereusedtab" dojoType="dijit.layout.BorderContainer" design="headline" title='History'>
+				<table dojoAttachPoint="whereused" dojoType="dojox.grid.DataGrid" query="{employeeid:-1}" rowsPerPage="50" region="center" style="width:100%;height:100%">
+					<thead><tr><th field="listname" width="auto">List Name</th><th field="listtypedescription" width="auto">Type</th><th field="update_time" width="auto">Date</th></tr></thead>
+				</table>
+			</div>
+			<div data-dojo-attach-point="crmview" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Engagement",preload:true'>
+				<div data-dojo-attach-point="crmctrl" data-dojo-type="prcommon.crm.viewer_only" data-dojo-props='region:"center",mode:"contact"'></div>
+			</div>
+			<div data-dojo-attach-point="resendview" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"Contact",preload:true'>
+				<div data-dojo-attach-point="resendctrl" data-dojo-type="prcommon.crm.responses.resend" data-dojo-props='region:"center"'></div>
+			</div>
+
+		</div>
+	</div>
+	<div class="prmaxrowdisplaylarge prmaxnametab"><div style="text-align:right;padding-right:4px;padding-top:3px"></div></div>
+</div>

@@ -1,0 +1,26 @@
+<div>
+	<form data-dojo-attach-point="form"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit.form.Form">
+		<table width="99%" class="prmaxtable" cellspacing="0" cellpadding="0" border="0" style="padding-top:5px">
+			<tr><td align="right" valign="top" class="prmaxrowtag" width="120px" >Subject</td><td><input data-dojo-props='type:"text",required:true,name:"description",style:"width:30em"' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-attach-point="description" ></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Type</td>
+				<td><select data-dojo-props='"class":"prmaxinputselect", name:"tasktypeid",autoComplete:true,labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="tasktypeid" ></select>
+					<button data-dojo-type="dijit.form.Button" data-dojo-attach-point="addtypebtn" data-dojo-attach-event="onClick:_addtype" data-dojo-props='label:"Add"'>
+				<td>
+			</tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Status</td><td><select data-dojo-props='"class":"prmaxinputselect",name:"taskstatusid",autoComplete:true,labelType:"html"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="taskstatusid" ></select></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Due Date</td><td><input data-dojo-props='"class":"prmaxdate",style:"width:8em",type:"text",required:false,name:"due_date"' data-dojo-attach-point="due_date" data-dojo-type="dijit.form.DateTextBox"></td></tr>
+			<tr><td align="right" valign="top" class="prmaxrowtag">Owner</td><td><select data-dojo-props='"class":"prmaxrequired prmaxinputselect",required:true,name:"assigntoid",autoComplete:true,style:"width:15em",labelType:"html",searchAttr:"user_name",labelAttr:"user_name"' data-dojo-attach-point="assigntoid" data-dojo-type="dijit.form.FilteringSelect"></select></td></tr>
+			<tr><td colspan="2"><br/></td></tr>
+			<tr>
+				<td><button data-dojo-type="dijit.form.Button" data-dojo-attach-point="clsbtn" data-dojo-attach-event="onClick:_close" data-dojo-props='label:"Close"'></button></td>
+				<td align="right"><button data-dojo-type="dojox.form.BusyButton" data-dojo-attach-point="addbtn" data-dojo-props='busyLabel:"Adding ...",label:"Add"' data-dojo-attach-event="onClick:_add"></button></td>
+			</tr>
+		</table>
+	</form>
+
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Type"' data-dojo-attach-point="newtasktypedlg">
+		<div data-dojo-attach-point="newtasktypectrl" data-dojo-type="prcommon.crm.tasks.addtype" ></div>
+	</div>
+
+</div>
+

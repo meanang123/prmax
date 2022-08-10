@@ -1,0 +1,2 @@
+//>>built
+define("ttl/NumberTextBox",["dijit","dojo","dojox","dojo/require!dijit/form/NumberTextBox"],function(_1,_2,_3){_2.provide("ttl.NumberTextBox");_2.require("dijit.form.NumberTextBox");_2.declare("ttl.NumberTextBox",[_1.form.NumberTextBox],{_onKeyPress:function(e){ttl.NumberTextBox.superclass._onKeyPress.call(this,e);this.onChanged();},onChanged:function(){}});});

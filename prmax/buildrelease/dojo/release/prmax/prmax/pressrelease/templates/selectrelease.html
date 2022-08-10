@@ -1,0 +1,20 @@
+<div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Select Press Release"' data-dojo-attach-point="dlg">
+		<div style="width:330px;padding:20px">
+			<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='"class":"prmaxdefault",onsubmit:"return false"'>
+				<table class="prmaxtable" cellpadding="0" cellspacing ="0">
+					<tr>
+						<td class="prmaxlabeltag" data-dojo-attach-point="distr_label">Release</label></td>
+						<td colspan="2"><select data-dojo-props='"class":"prmaxinputselect",autoComplete:true,searchAttr:"emailtemplatename",labelType:"html",required:true,style:"width:250px"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="template"></select></td>
+					</tr>
+					<tr><td colspan="3">&nbsp;</td></tr>
+					<tr>
+						<td width="33%" align="left"><button class="prmaxbutton" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Cancel" data-dojo-props='type:"button",label:"Cancel"'></button></td>
+						<td width="33%" align="left"><button class="prmaxbutton" data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_new_release" data-dojo-props='type:"button",label:"New Distribution"' data-dojo-attach-point="distrbtn"></button></td>
+						<td width="33%" align="right"><button class="prmaxbutton" data-dojo-attach-event="onClick:_Open" data-dojo-attach-point="saveNode" data-dojo-type="dojox.form.BusyButton" data-dojo-props='busyLabel:"Please Wait Opening",label:"Open"'></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

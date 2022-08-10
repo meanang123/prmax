@@ -1,0 +1,106 @@
+<div>
+	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%"' >
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden","class":"std_menu_view"'>
+			<div style="height:40px;width:100%;overflow:hidden" class="std_menu_view">
+				<div data-dojo-type="dijit.Toolbar" data-dojo-props='"class":"dijitToolbarTop",style:"float:left;height:100%;width:150px"' >
+					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_AddDistributions" data-dojo-attach-point="addbutton" data-dojo-props='label:"New",iconClass:"fa fa-plus fa-3x",showLabel:false'></div>
+					<div data-dojo-type="dijit.form.DropDownButton" data-dojo-attach-point="menu_filter" data-dojo-props='iconClass:"fa fa-filter fa-3x",showLabel:false,label:"Filter By"'>
+						<div data-dojo-type="dijit.TooltipDialog" data-dojo-attach-event="execute:_execute_filter" data-dojo-props='style:"width:500px"'>
+							<table border="0" cellspacing="1" cellpadding="1" width="100%">
+								<tr><td class="prmaxlabeltag">Name</td><td><input data-dojo-type="dijit.form.TextBox" data-dojo-attach-point="namefilter" data-dojo-props='name:"namefilter"'/></td></tr>
+								<tr><td class="prmaxlabeltag">Sent</td>
+									<td><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"All",autocomplete:false' data-dojo-attach-point="option" data-dojo-attach-event="onChange:_OptionChanged">
+										<option>Display All</option>
+										<option>Display Draft</option>
+										<option>Display Sent</option>
+										</select></td>
+									<!--	
+									<td data-dojo-attach-point="option2_label1" class="prmaxhidden">Sent in the Last</td><td data-dojo-attach-point="option2_label2" class="prmaxhidden" ><select data-dojo-type="dijit.form.ComboBox" data-dojo-props='style:"width:7em;color:black",value:"6 Months",autocomplete:false' data-dojo-attach-point="option2" data-dojo-attach-event="onChange:_OptionChanged"><option>6 Months</option><option>Year</option><option>All</option></select></td></tr>
+									-->	
+								<tr><td data-dojo-attach-point="drange_label" class="prmaxlabeltag">Dates</td><td colspan="2"><div data-dojo-type="prcommon.date.daterange" data-dojo-attach-point="drange" data-dojo-props='value:"",name:"drange"'></div></td></tr>
+								<tr><td data-dojo-attach-point="client_label">Client</td><td><select data-dojo-props='name:"clientid",autoComplete:true,searchAttr:"clientname",labelType:"html",style:"color:black"' data-dojo-type="dijit.form.FilteringSelect" data-dojo-attach-point="clientid"></select></td></tr>
+								<tr><td><br/><br/></td></tr>
+								<tr>
+									<td align="left" colspan="2"><button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_clear_filter" data-dojo-props='type:"button"' >Clear Filter</button></td>
+									<td>&nbsp;</td>
+									<td align="right"><button data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit",name:"submit"'>Filter</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_Output" data-dojo-attach-point="outputbtn" data-dojo-props='label:"Output",iconClass:"fa fa-print fa-3x",showLabel:false'></div>
+
+				</div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'>
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%"' >
+				<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='query:{ },rowsPerPage:30,region:"left",style:"width:40%;height:100%",sortFields:[{attribute:"display_sent_time",descending:true}],splitter:true'></div>
+				<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="controls" data-dojo-props='region:"center",doLayout:true'>
+					<div data-dojo-attach-point="blank_view" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"blank",selected:"selected"'></div>
+					<div data-dojo-attach-point="main_view" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='title:"main",style:"width:100%;height:100%"'>
+						<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="cont_stack" data-dojo-props='region:"center",doLayout:true'>
+							<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",title:"distribution"' data-dojo-attach-point="distribution_view">
+								<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"width:100%;height:105px;overflow:auto;overflow-x:hidden"'>
+									<p class="prmaxrowdisplaylarge" style="text-align:center;padding:2px;border:1px soldid red" data-dojo-attach-point="listname_display"></p><br/></br>
+									<button data-dojo-attach-event="onClick:_DeleteRelease" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-trash",label:"Delete",showLabel:false'></button>
+									<button data-dojo-attach-event="onClick:_brief_check_list" data-dojo-attach-point="show_brief" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-print","class":"prmaxhidden",label:"Print",showLabel:false'></button>
+									<button data-dojo-attach-event="onClick:_Show_Email"   data-dojo-type="dijit.form.Button" data-dojo-attach-point="show_email" data-dojo-props='iconClass:"fa fa-envelope","class":"prmaxhidden",label:"Email",showLabel:true'></button>
+									<button data-dojo-attach-event="onClick:_Show_List" data-dojo-attach-point="show_list" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-eye","class":"prmaxhidden",label:"Distribution"'></button>
+									<button data-dojo-attach-event="onClick:_RenameRelease" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-repeat",label:"Rename"'></button>
+									<button data-dojo-attach-event="onClick:_Pull_Release" data-dojo-attach-point="pull_release" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-pencil-square-o","class":"prmaxhidden",label:"Edit Release",showLabel:false'></button>
+									<button data-dojo-attach-event="onClick:_DuplicateRelease" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-floppy-o",label:" Duplicate"'></button>
+									<button data-dojo-attach-event="onClick:_SaveToStanding" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-floppy-o",label:"Media List"'></button>
+									<button data-dojo-attach-event="onClick:_show_analysis" data-dojo-attach-point="show_analysis" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-eye","class":"prmaxhidden",label:"Analysis"'></button>
+									<button data-dojo-attach-event="onClick:_Refresh_Show_List" data-dojo-attach-point="refresh_show_list" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-repeat","class":"prmaxhidden",label:"Refresh"'></button>
+									<button data-dojo-attach-event="onClick:_Show_Seo_Release" data-dojo-attach-point="seo_show" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-eye","class":"prmaxhidden",label:"SEO"'></button>
+									<button data-dojo-attach-event="onClick:_Show_Clippings" data-dojo-attach-point="show_clippings" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"fa fa-eye","class":"prmaxhidden",label:"Clippings"'></button>
+								</div>
+								<div data-dojo-type="dijit.layout.StackContainer" data-dojo-attach-point="controls2" data-dojo-props='region:"center",doLayout:true'>
+									<div data-dojo-attach-point="grid2" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='title:"grid_view",query:{ },rowsPerPage:100,style:"width:100%;height:100%"'></div>
+									<div data-dojo-attach-point="grid_clips" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='title:"grid_view",query:{ },rowsPerPage:100,style:"width:100%;height:100%"'></div>
+									<div data-dojo-attach-point="sent_view" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"sent_view",style:"width:100%;height:100%"'></div>
+									<div data-dojo-attach-point="analysis_view" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"analysis_view",style:"width:100%;height:100%"'></div>
+								</div>
+							</div>
+							<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%",title:"seo_view","class":"seoview"' data-dojo-attach-point="seo_view">
+								<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"width:100%;height:48px;padding:0px;margin:0px"'>
+									<div data-dojo-type="dijit.Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px","class":"dijitToolbarTop"'>
+										<button data-dojo-attach-event="onClick:_Show_Distribution" data-dojo-attach-point="_show_distribution" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"PRMaxStdIcon PRMaxShowDistributionIcon"'></button>
+										<button data-dojo-attach-event="onClick:_Widthdraw_Seo_Release" data-dojo-attach-point="withdraw_release" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"PRMaxStdIcon PRMaxDeleteIcon"'></button>
+										<button data-dojo-attach-event="onClick:_Update_Seo_Release" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"PRMaxStdIcon PRMaxUpdateIcon"'></button>
+									</div>
+								</div>
+								<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center",splitter:true,"class":"scrollpane"' >
+									<div data-dojo-type="prmax.pressrelease.seo.edit" data-dojo-attach-point="seopressrelease" data-dojo-props='style:"width:100%;height:100%","class":"scrollpane"' ></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="rename_dialog" data-dojo-props='title:"Rename Distribution",style:"width:400px;height:200px"'>
+		<div data-dojo-type="prmax.pressrelease.rename" data-dojo-attach-point="rename_ctrl"></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Duplicate Distribution",style:"width:400px;height:180px"' data-dojo-attach-point="duplcatedlg">
+		<div data-dojo-type="prmax.pressrelease.Duplicate" data-dojo-attach-point="duplicatectrl"></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Save As New Media List"' data-dojo-attach-point="saveasstandingdlg">
+		<div data-dojo-type="prmax.pressrelease.saveasstanding" data-dojo-attach-point="saveasstandingctrl"></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Email Response Message"' data-dojo-attach-point="msg_dialog">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="msgctrl" data-dojo-props='style:"height:400px;width:600px","class":"scrollpane"'></div>
+		<button data-dojo-attach-event="onClick:_CancelShow" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button"' >Close</button>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Brief Report"' data-dojo-attach-point="report_dialog">
+		<div data-dojo-type="prmax.pressrelease.briefreport" data-dojo-attach-point="report_ctrl"></div>
+	</div>
+	<div data-dojo-attach-point="crm_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"New Engagement", style:"width:600px;height:700px"'>
+		<div data-dojo-attach-point="crm_add" data-dojo-type="prcommon.crm.add"></div>
+	</div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props='title:"Output"' data-dojo-attach-point="dlg_output">
+		<div data-dojo-attach-point="outputctrl" data-dojo-type="prmax.pressrelease.output" data-dojo-props='style:"width:450px;height:220px"' ></div>
+	</div>	
+</div>

@@ -1,0 +1,32 @@
+<div>
+	<div data-dojo-attach-point="borderControl" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='style:"width:100%;height:100%;overflow: hidden",gutters:false'>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-attach-point="controls" data-dojo-props='region:"top",style:"height:42px;width:100%;overflow:hidden"'>
+			<div data-dojo-attach-point="projectname" class="dijitToolbar prmaxrowdisplaylarge" style="float:left;height:99%;width:25%;padding:0px;margin:0px">Project Name</div>
+			<div data-dojo-type="dijit.Toolbar" data-dojo-props='style:"height:99%;width:75%;padding:0px;margin:0px"'>
+				<div data-dojo-attach-event="onClick:_Filter" data-dojo-type="dijit.form.Button" data-dojo-props='iconClass:"PrmaxResultsIcon PrmaxResultsEmpty"'><span>Filter</span></div>
+			</div>
+		</div>
+		<div data-dojo-type="dojox.layout.ExpandoPane" data-dojo-props='title:"Outlets",region:"left",maxWidth:175,style:"width:40%;height:100%;overflow:hidden",splitter:true'>
+			<div data-dojo-attach-point="grid" data-dojo-type="dojox.grid.DataGrid" data-dojo-props='style:"height:100%;width:100%",rowsPerPage:50'></div>
+		</div>
+		<div data-dojo-attach-point="zone" data-dojo-type="dijit.layout.StackContainer" data-dojo-props='region:"center"'>
+			<div data-dojo-attach-point="blank" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"blank"'></div>
+			<div data-dojo-attach-point="outletwizard" data-dojo-type="prmax.dataadmin.projects.outletwizard" data-dojo-props='title:"outletwizard",style:"height:100%;width:100%"'></div>
+			<div data-dojo-attach-point="outletedit" data-dojo-type="prmax.dataadmin.outlets.OutletEdit" data-dojo-props='title:"outlet",style:"width:100%;height:100%","class":"bordered"'></div>
+			<div data-dojo-attach-point="freelanceedit" data-dojo-type="prmax.dataadmin.freelance.FreelanceEdit" data-dojo-props='title:"freelance",style:"width:100%;height:100%","class":"bordered"'></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="status_dlg" data-dojo-type="dijit.Dialog" data-dojo-props='title:"Change Project Item Status"'>
+		<form data-dojo-attach-point="form" data-dojo-type="dijit.form.Form" data-dojo-props='onsubmit:"return false;","class":"prmaxdefault"'>
+			<input data-dojo-attach-point="researchprojectitemid" data-dojo-props='name:"researchprojectitemid",type:"hidden"' data-dojo-type="dijit.form.TextBox" >
+			<table width="400px" class="prmaxtable" cellpadding="0" cellspacing="0"  border ="0">
+			<tr><td align="right" class="prmaxrowtag" width="200px">New Status</td><td ><select data-dojo-attach-point="researchprojectstatusid" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props='name:"researchprojectstatusid",searchAttr:"name",labelType:"html",style:"width:98%","class":"prmaxrequired"'/></td></tr>
+			<tr><td class="prmaxrowtag" align="right">Update Researched Date</td><td><input data-dojo-attach-point="researcheddate" data-dojo-props='name:"researcheddate",type:"checkbox"' data-dojo-type="dijit.form.CheckBox"></td></tr>
+
+			<tr><td colspan="2">&nbsp;</td></tr>
+			<tr><td colspan="2" align="right"><button data-dojo-type="dijit.form.Button" data-dojo-attach-event="onClick:_UpdateRecord" data-dojo-props='type:"button"'>Update</button></td></tr>
+
+		</table>
+	</form>
+	</div>
+</div>

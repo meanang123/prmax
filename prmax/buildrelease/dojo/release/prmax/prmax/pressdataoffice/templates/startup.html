@@ -1,0 +1,30 @@
+<div>
+	<div class="box_1">
+		<div class="btn_size2 btn_left std_frame" data-dojo-attach-event="onclick:_search">
+			<div><p>Search</p></div>
+			<span class="btn_size fa fa-search fa-4x"></span>
+		</div>
+		<div class="btn_size2 btn_left std_frame" style="display:none" data-dojo-attach-point="issue_frame" data-dojo-attach-event="onclick:_issues">
+			<div><p data-dojo-attach-point="issue_label">Issues</p></div>
+			<img width="48px" height="37px" src="/static/images/professional/subject.png"></img>
+		</div>
+		<div class="btn_size2 btn_left std_frame" style="display:none" data-dojo-attach-point="task_frame" data-dojo-attach-event="onclick:_tasks">
+			<div><p>Tasks</p></div>
+			<img width="48px" height="37px" src="/static/images/professional/tasks.png"></img>
+		</div>
+		<p class=" btn_left" style="width:102px">&nbsp;</p>
+		<div class="btn_size2 btn_left std_frame" data-dojo-attach-point="people_frame" data-dojo-attach-event="onclick:_people">
+			<div><p>People</p></div>
+			<span class="btn_size fa fa-group fa-4x"></span>
+		</div>
+		<div class="btn_size2 btn_left std_frame" data-dojo-attach-event="onclick:_distribution">
+			<div><p data-dojo-attach-point="distribution_label">Distribution</p></div>
+			<span class="btn_size fa fa-share-square-o fa-4x"></span>
+		</div>
+	</div>
+	<div data-dojo-type="prmax.search.PersonSearch" data-dojo-attach-point="person_search" data-dojo-props='"class":"person_search prmaxhidden",style:"background-color:#0F83CE"'></div>
+	<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="set_passwordrecovery_dialog" data-dojo-props='title:"Set Password Recovery",style:"width:450px;height:250px"'>
+		<div data-dojo-type="prcommon.recovery.passwordrecoverydetails" data-dojo-attach-point="set_passwordrecovery_ctrl"></div>
+	</div>
+</div>
+

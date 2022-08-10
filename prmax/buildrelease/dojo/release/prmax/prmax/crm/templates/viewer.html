@@ -1,0 +1,18 @@
+<div>
+	<div dojoAttachPoint="borderControl" dojotype="dijit.layout.BorderContainer" style="width:100%;height:100%" gutters="false" >
+		<div dojoType="dijit.layout.ContentPane" dojoAttachPoint="controls" region="top" style="height:42px;width:100%;overflow:hidden">
+			<button dojotype="dijit.form.Button" label="Add Note" dojoAttachEvent="onClick:_AddNoteShow"></button>
+			Filter By <select class="prmaxrequired" name="contacthistorysourceid" autoComplete="true" searchAttr="name" dojoType="dijit.form.FilteringSelect" required="true" invalidMessage="Please Select Contact History Type" labelType="html" dojoAttachPoint="contacthistorysourceid"></select>
+			<button dojotype="dijit.form.Button" label="Filter" dojoAttachEvent="onClick:_Filter"></button>
+		</div>
+		<div dojotype="dijit.layout.ContentPane"   style="width:100%" region="center"  splitter="true">
+			<div dojoAttachPoint="viewer_grid" dojoType="dojox.grid.DataGrid"   query="{ }" rowsPerPage="30" style="width:100%;height:100%" ></div>
+		</div>
+		<div dojotype="dijit.layout.ContentPane"   style="width:100%;height:30%" class="scrollpanel" region="bottom"  splitter="true">
+			<div dojoAttachPoint="view_details" dojotype="prmax.crm.ViewContact" class="scrollpanel" isdelete="true"  isedit="true" style="width:100%;height:100%"></div>
+		</div>
+	</div>
+	<div dojoAttachPoint="addctrl" dojoType="dijit.Dialog" title="Add Contact Note">
+		<div dojoAttachPoint="addctrl1" dojotype="prmax.crm.AddContact" showclose="true" style="width:600px;height:300px"></div>
+	</div>
+</div>

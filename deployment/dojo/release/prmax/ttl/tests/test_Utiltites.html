@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Testing the Standard Functions</title>
+	<style type="text/css">
+		@import "/static/dojo/dijit/tests/css/dijitTests.css";
+	</style>
+	
+	<script type="text/javascript" src="/static/dojo/dojo/dojo.js" 
+		djconfig="parseOnLoad:true, isDebug: true, defaultTestTheme:'ppr',
+		baseUrl:'/static/dojo/dojo/',modulePaths:{'ttl':'/static/ttl'}"></script>
+	<script type="text/javascript" src="/static/dojo/dijit/tests/_testCommon.js"></script>
+	
+	<script type="text/javascript" src="/static/ttl/utilities.js"></script>
+	<script type="text/javascript">
+		dojo.require("dojo.parser");	
+		dojo.require("dijit.form.Button");	
+		dojo.require("dojox.widget.Toaster");
+	</script>
+</head>
+<body>
+<h1 class="testTitle">ttl.utilities</h1>
+<button dojoType="dijit.form.Button" label="Show Message" onClick="ttl.utilities.showMessageStd('Test auto close')"></button>
+<button dojoType="dijit.form.Button" label="Show Error" onClick="ttl.utilities.showMessageError('Must Click to close')"></button>
+<button dojoType="dijit.form.Button" label="Show Message HTML" onClick="ttl.utilities.showMessageStd('<b>Must Click to close</b><br/><br/>Hello W')"></button>
+<br/>
+<div dojoType="dojox.widget.Toaster" id="toast" positionDirection="br-left" duration="0"></div>
+</body>
+</html>

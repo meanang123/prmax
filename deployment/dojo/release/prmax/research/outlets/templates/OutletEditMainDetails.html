@@ -1,0 +1,99 @@
+<div >
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"overflow:auto;overflow-x:hidden",region:"center"' >
+		<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+			<input data-dojo-props='type:"hidden",name:"outletid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="outletid">
+			<input data-dojo-props='type:"hidden",name:"searchtypeid",value:"3"' data-dojo-type="dijit/form/TextBox" >
+			<table width="98%" cellspacing="0" cellpadding="0">
+				<tr><td width="120px" align="right" class="prmaxrowtag">Outlets Name</td><td><input data-dojo-props='style:"width:90%","class":"prmaxrequired",name:"outletname",type:"text",trim:true,required:true,invalidMessage:"Please enter outletname"' data-dojo-attach-point="outletname" data-dojo-type="dijit/form/ValidationTextBox" ></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Sort Name</td><td><input data-dojo-props='style:"width:90%","class":"prmaxrequired",name:"sortname",type:"text",trim:true,required:true,invalidMessage:"Please enter sortname",uppercase:true' data-dojo-attach-point="sortname" data-dojo-type="dijit/form/ValidationTextBox" ></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Sub Title</td><td ><div class="framesmall" ><textarea data-dojo-attach-point="subtitle" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"subtitle",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Official Journal of</td><td ><div class="framesmall" ><textarea data-dojo-attach-point="officialjournalof" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"officialjournalof",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Incorporating</td><td ><div class="framesmall" ><textarea data-dojo-attach-point="incorporating" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"incorporating",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag">House/Street</td><td><input data-dojo-attach-point="address1" data-dojo-props='name:"address1",type:"text",trim:true,required:false,style:"width:70%"' data-dojo-type="dijit/form/ValidationTextBox"></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Street/District</td><td><input data-dojo-attach-point="address2"data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"address2",type:"text",trim:true,style:"width:70%"'></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Town</td><td><input data-dojo-attach-point="townname" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"townname",type:"text",trim:true,style:"width:70%"' ></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag">County</td><td><input data-dojo-attach-point="county" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"county",type:"text",trim:true,style:"width:70%"' ></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Post Code</td><td><input data-dojo-attach-point="postcode" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"postcode",type:"text",trim:true,style:"width:10em"' ></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Country</td><td><select data-dojo-props='style:"width:90%","class":"prmaxrequired",name:"countryid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Please select Country Name",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="countryid"></select></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Tel</td><td><input data-dojo-attach-point="tel" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"tel",type:"text",maxlength:40,trim:true,style:"width:60%"' /></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Fax</td><td><input data-dojo-attach-point="fax" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"fax",type:"text",maxlength:40, trim:true,style:"width:60%"'/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Email</td><td><input data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",pattern:dojox.validate.regexp.emailAddress, trim:true,invalidMessage:"invalid email address",size:20,maxlength:70,style:"width:90%"'></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Www</td>
+					<td>
+						<span><input data-dojo-attach-point="www" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"www",type:"text",maxlength:"120",pattern:dojox.validate.regexp.url,style:"width:90%"' /></span>
+						<span><div data-dojo-attach-point="www_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Twitter</td>
+					<td><span><input data-dojo-attach-point="twitter" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"twitter",pattern:dojox.validate.regexp.url,type:"text",maxlength:80,trim:true,style:"width:90%"'/></span>
+						<span><div data-dojo-attach-point="twitter_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Facebook</td>
+					<td><span><input data-dojo-attach-point="facebook" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"facebook",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"'/></span>
+						<span><div data-dojo-attach-point="facebook_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Linkedin</td>
+					<td><span><input data-dojo-attach-point="linkedin" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"linkedin",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></span>
+						<span><div data-dojo-attach-point="linkedin_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Instagram</td>
+					<td><span><input data-dojo-attach-point="instagram" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"instagram",type:"text",maxlength:80,pattern:dojox.validate.regexp.url,trim:true,style:"width:90%"' /></span>
+						<span><div data-dojo-attach-point="instagram_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Circulation</td>
+					<td>
+						<span><input data-dojo-attach-point="circulation" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='"class":"prmaxinput",name:"circulation",type:"text",value:0,constraints:{min:0,max:999999999}, trim:true'/></span>
+						<span><div data-dojo-attach-point="circulation_show" data-dojo-type="prcommon2/web/WebButton"></div></span>
+					</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Circulation Source</td><td><select data-dojo-props='style:"width:15em",name:"circulationsourceid",autoComplete:true,searchAttr:"circulationsourcedescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationsourceid"></select></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Circulation Date</td><td><select data-dojo-props='style:"width:15em",name:"circulationauditdateid",autoComplete:true,searchAttr:"circulationauditdatedescription",required:false,placeHolder:"No Selection",pageSize:20' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="circulationauditdateid"></select></td></tr>
+
+				<tr><td align="right" class="prmaxrowtag">Web Browsers</td><td><input data-dojo-attach-point="webbrowsers" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='"class":"prmaxinput",name:"webbrowsers",type:"text",value:0,constraints:{min:0,max:999999999}, trim:true'/></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Web Source</td><td><select data-dojo-props='style:"width:15em",name:"websourceid",autoComplete:true,searchAttr:"websourcedescription",required:false,placeHolder:"No Selection"' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="websourceid"></select></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Web Date</td><td><select data-dojo-props='style:"width:15em",name:"webauditdateid",autoComplete:true,searchAttr:"webauditdatedescription",required:false,placeHolder:"No Selection",pageSize:20' data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="webauditdateid"></select></td></tr>
+
+				<tr><td align="right" class="prmaxrowtag">Frequency</td><td>	<select data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"frequencyid",autoComplete:true,searchAttr:"name",required:true,invalidMessage:"Please select frequency",labelType:"html"' data-dojo-attach-point="frequency"></select></td></tr>
+				<tr><td align="right" class="prmaxrowtag" valign="top">Frequency Notes</td><td ><div class="stdtextframe" ><textarea data-dojo-attach-point="frequencynotes" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"frequencynotes",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Cost</td><td><select data-dojo-props='style:"width:10em",name:"outletpriceid",autoComplete:true,searchAttr:"name",required:false,placeHolder:""' data-dojo-type="dijit/form/Select" data-dojo-attach-point="outletpriceid"></select></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Media Access Type</td><td><select data-dojo-props='style:"width:10em",name:"mediaaccesstypeid",autoComplete:true,searchAttr:"name",required:false,placeHolder:""' data-dojo-type="dijit/form/Select" data-dojo-attach-point="mediaaccesstypeid"></select></td></tr>
+				
+				<tr><td align="right" class="prmaxrowtag">Do not synchronise</td><td><p data-dojo-attach-point="no_sync" data-dojo-type="dijit/form/CheckBox" data-dojo-props='type:"checkbox"' ></p></td></tr>
+
+			</table>
+		</form>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:3em;padding-right:3px;"'>
+		<table width="99%" cellspacing="0" cellpadding="0">
+				<tr>
+					<td align="left"><button data-dojo-attach-event="onClick:_delete" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Delete Outlet"'></button></td>
+					<td align="left"><button data-dojo-attach-event="onClick:_synchronise" data-dojo-attach-point='synchrbtn' data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button","class":"prmaxhidden",label:"Synchronise"'></button></td>
+						<div data-dojo-attach-point="synchronise_dlg" data-dojo-type="dijit/Dialog" title="Synchronise Employees" data-dojo-props='style:"width:350px"'>
+							<div data-dojo-type="prcommon2/dialogs/SynchroniseDialog" data-dojo-attach-point="synchronise_node"></div>
+						</div>						
+					
+					<td align="right"><label class="prmaxrowtag">Reason</label><select data-dojo-attach-point="reasoncodeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"reasoncodeid",searchAttr:"name",labelType:"html","class":"prmaxrequired",style:"width:120px"'></select></td>
+					<td align="right"><button data-dojo-attach-point="updatebtn" data-dojo-attach-event="onClick:_update" data-dojo-type="dojox/form/BusyButton" data-dojo-props='type:"button",busyLabel:"Please Wait Saving Outlet...",label:"Save"'></button></td>
+				</tr>
+		</table>
+	</div>
+	<div data-dojo-attach-point="outlet_delete_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Delete Outlet"'>
+		<div data-dojo-attach-point="outlet_delete_ctrl" data-dojo-type="research/outlets/OutletDelete"></div>
+	</div>
+	<div data-dojo-attach-point="circulationsource_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Circulation Source Add"'>
+		<div data-dojo-attach-point="circulationsource_add_ctrl" data-dojo-type="prcommon2/circulation/CirculationSourcesAdd"></div>
+	</div>
+	<div data-dojo-attach-point="circulationdates_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Circulation Dates Add"'>
+		<div data-dojo-attach-point="circulationdates_add_ctrl" data-dojo-type="prcommon2/circulation/CirculationDatesAdd"></div>
+	</div>
+	<div data-dojo-attach-point="websource_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Web Source Add"'>
+		<div data-dojo-attach-point="websource_add_ctrl" data-dojo-type="prcommon2/web/WebSourcesAdd"></div>
+	</div>
+	<div data-dojo-attach-point="webdates_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Web Dates Add"'>
+		<div data-dojo-attach-point="webdates_add_ctrl" data-dojo-type="prcommon2/web/WebDatesAdd"></div>
+	</div>
+</div>
