@@ -16,7 +16,7 @@ import gzip, zlib
 import codecs
 
 # path to test/live environment
-vpath_test = "test"
+vpath_test = "development"
 vpath_live = "live"
 
 # standard files
@@ -227,7 +227,7 @@ def _init_path( base_locations, islive , version, module) :
    profile_source = r"\Projects\prmax\development\deployment\%s.profile.js" % module
    profile_dest = r"\Projects\prmax\development\deployment\dojo\util\buildscripts\profiles\%s.profile.js" % module
 
-   if base_locations == "test":
+   if base_locations == "development":
       spath = r"\Projects\prmax\development\deployment\dojo\release\prmax\dojo"
       dpath = r"\Projects\prmax\development\prcommon\prcommon\static\rel\dojo"
    else:
