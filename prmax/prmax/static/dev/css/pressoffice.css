@@ -2866,6 +2866,7 @@ div.dijitTabDisabled,
 	border-color: transparent #d1d3d4 #d1d3d4 transparent;
 	background: #E8EAEB;
 	color: grey !important;
+    cursor: pointer;
 }
 .soria .dojoxGridCell {
 	height: 30px !important;
