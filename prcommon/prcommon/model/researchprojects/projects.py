@@ -128,25 +128,6 @@ class ResearchProjects(BaseSql):
 					for rpi in rpi_todelete:
 						ResearchProjectItems.delete_item(rpi)
 									
-				
-				
-				#for rpi in session.query(ResearchProjectItems).\
-				#	filter(ResearchProjectItems.researchprojectid == researchprojectid):
-				#	desks = session.query(OutletDesk).filter(OutletDesk.outletid == rpi.outletid).all()
-				#	if desks and not rpi.outletdeskid:
-						#for desk in desks:
-						#	params["researchprojectid"]=rpi.researchprojectid
-						#	params["outletid"]=rpi.outletid
-						#	params["researchprojectstatusid"]=rpi.researchprojectstatusid
-						#	params["lastationdate"]=rpi.lastationdate
-						#	params["lastactionownerid"]=rpi.lastactionownerid
-						#	params["expire_date"]=rpi.expire_date
-						#	params["notes"]=rpi.notes
-						#	params["outletdeskid"]=desk.outletdeskid
-						#	ResearchProjectItems.add_item(params)
-						#ResearchProjectItems.delete_item(rpi.researchprojectitemid)
-						
-				
 			transaction.commit()
 		except:
 			LOGGER.exception("ResearchProjects delete")
