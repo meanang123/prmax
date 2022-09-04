@@ -76,7 +76,7 @@ def buildRelease(build, islive, version, module ):
                   r"icons",
                   r"icons\images",
                   r"themes\claro\form\images"]
-   if vpath == "test":
+   if vpath == "development":
       sourcethemeroot= r"\Projects\prmax\development\deployment\dojo\release\prmax\dijit"
       destthemeroot= "\\Projects\\prmax\\development\\prcommon\\prcommon\\static\\rel\\dijit"
    else:
@@ -107,7 +107,7 @@ def buildRelease(build, islive, version, module ):
                          os.path.join(dname,nfile))
 
    print ("Compress Js and Css and Images prcommon")
-   if vpath == "test":
+   if vpath == "development":
       rootdev= r"\Projects\prmax\development\prcommon\prcommon\static\dev"
       rootrel= r"\Projects\prmax\development\prcommon\prcommon\static\rel"
    else:
@@ -164,7 +164,7 @@ def buildRelease(build, islive, version, module ):
       f1.close()
 
    print ("Copying ", module)
-   if vpath == "test":
+   if vpath == "development":
       rootdev= r"\Projects\prmax\\development\%s\%s\static\dev" %(module, module)
       rootrel= r"\Projects\prmax\\development\%s\%s\static\rel" %(module, module)
    else:

@@ -54,6 +54,9 @@ class ProjectDeleteSchema(PrFormSchema):
 	""" project delete form schema """
 	researchprojectid = validators.Int()
 
+class ProjectAddDesksSchema(PrFormSchema):
+	""" project delete form schema """
+	researchprojectid = validators.Int()
 
 class OutletResearchSaveSchema(PrFormSchema):
 	"""validates form for outler save """
@@ -187,6 +190,18 @@ class ProjectsController(SecureController):
 		ResearchProjects.delete(params["researchprojectid"])
 
 		return stdreturn(researchprojectid=params["researchprojectid"])
+
+	@expose("json")
+	@error_handler(pr_form_error_handler)
+	@exception_handler(pr_std_exception_handler)
+	@validate(validators=ProjectAddDesksSchema(), state_factory=std_state_factory)
+	def project_add_desks(self, *args, **params):
+		""" Projects delete """
+
+		ResearchProjects.add_desks(params["researchprojectid"])
+
+		return stdreturn(researchprojectid=params["researchprojectid"])
+
 
 	@expose("json")
 	@error_handler(pr_form_error_handler)

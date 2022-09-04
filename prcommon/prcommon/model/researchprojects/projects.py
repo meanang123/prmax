@@ -16,6 +16,10 @@ from sqlalchemy.sql import text, func
 from prcommon.model import BaseSql, SearchSession
 from prcommon.model.research import ResearchControRecord, ResearchDetails
 from prcommon.model.lookups import ResearchProjectStatus
+from prcommon.model.outlets.outletdesk import OutletDesk
+from prcommon.model.outlets.outletdeskgeneral import OutletDeskGeneral
+from prcommon.model.outletprofile import OutletProfile
+
 from prcommon.model.identity import User
 from ttl.ttldate import to_json_date
 import datetime
@@ -91,6 +95,45 @@ class ResearchProjects(BaseSql):
 			LOGGER.exception("ResearchProjects delete")
 			transaction.rollback()
 			raise
+
+	@staticmethod
+	def add_desks(researchprojectid):
+		""" Delete a project"""
+
+		transaction = BaseSql.sa_get_active_transaction()
+		try:
+			# add projects
+			rpc = ResearchProjects.query.get(researchprojectid)
+			params={}
+			if rpc:
+				rpi_todelete = []
+				for rpi in session.query(ResearchProjectItems, OutletDesk, OutletProfile).\
+				    join(OutletDesk, OutletDesk.outletid == ResearchProjectItems.outletid).\
+				    join(OutletProfile, OutletProfile.outletid == ResearchProjectItems.outletid).\
+				   filter(ResearchProjectItems.researchprojectid == researchprojectid).\
+				    filter(OutletProfile.seriesparentid == None).\
+				    filter(ResearchProjectItems.outletdeskid == None):
+					if rpi[0].researchprojectitemid not in rpi_todelete:
+						rpi_todelete.append(rpi[0].researchprojectitemid)
+					params["researchprojectid"]=rpi[0].researchprojectid
+					params["outletid"]=rpi[0].outletid
+					params["researchprojectstatusid"]=rpi[0].researchprojectstatusid
+					params["lastationdate"]=rpi[0].lastationdate
+					params["lastactionownerid"]=rpi[0].lastactionownerid
+					params["expire_date"]=rpi[0].expire_date
+					params["notes"]=rpi[0].notes
+					params["outletdeskid"]=rpi[1].outletdeskid
+					ResearchProjectItems.add_item(params)
+				if rpi_todelete:
+					for rpi in rpi_todelete:
+						ResearchProjectItems.delete_item(rpi)
+									
+			transaction.commit()
+		except:
+			LOGGER.exception("ResearchProjects delete")
+			transaction.rollback()
+			raise
+
 
 	@staticmethod
 	def update(params):
@@ -409,6 +452,43 @@ class ResearchProjectItems(BaseSql):
 		                         dict(researchprojectitemid=researchprojectitemid),
 		                         cls)
 		return cls.SingleResultAsEncodedDict(result)
+
+
+
+	@classmethod
+	def add_item(cls, params):
+		"""Add Research Project Item"""
+
+		try:
+			rpi = ResearchProjectItems(
+				researchprojectid=params["researchprojectid"],
+				outletid=params["outletid"],
+				researchprojectstatusid=params["researchprojectstatusid"],
+				lastationdate=params["lastationdate"],
+				lastactionownerid=params["lastactionownerid"],
+				expire_date=params["expire_date"],
+				notes=params["notes"],
+				outletdeskid=params["outletdeskid"])
+			session.add(rpi)
+			session.flush()
+			return rpi.researchprojectitemid
+		except:
+			LOGGER.exception("researchprojectitem_add")
+			raise
+
+
+	@classmethod
+	def delete_item(cls, researchprojectitemid):
+		""" Delete a probject item  """
+
+		try:
+			rpi = ResearchProjectItems.query.get(researchprojectitemid)
+			if rpi:
+				session.delete(rpi)
+			session.flush()
+		except:
+			LOGGER.exception("researchprojectitem_delete")
+			raise
 
 
 	@classmethod

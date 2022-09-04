@@ -43,6 +43,8 @@ define([
 		this.model =  new Observable( new JsonRest( {target:'/research/admin/projects/projects_list', idProperty:"researchprojectid"}));
 		this._project_deleted_call_back = lang.hitch(this, this._project_deleted_call);
 		this._project_send_call_back = lang.hitch(this, this._project_send_call);
+		this._project_add_desks_call_back = lang.hitch(this, this._project_add_desks_call);
+		
 		this.std_menu = null;
 		this._is_monthly_std_menu = null;
 
@@ -92,6 +94,19 @@ define([
 		}
 
 	},
+	_project_add_desks_call:function(response)
+	{
+		if ( response.success == "OK")
+		{
+			alert("All desks added successfully");
+			this.projects_grid.set("query", {});
+		}
+		else
+		{
+			alert("Problem Adding Desks on Project");
+		}
+	},
+	
 	_on_cell_call:function ( e )
 	{
 		var cell = this.projects_grid.cell(e);
@@ -121,6 +136,7 @@ define([
 				this._is_monthly_std_menu.addChild(new dijit.MenuItem({label:"Delete Project", onClick:lang.hitch(this,this._delete_project)}));
 				this._is_monthly_std_menu.addChild(new dijit.MenuItem({label:"Edit Project", onClick:lang.hitch(this,this._edit_project)}));
 				this._is_monthly_std_menu.addChild(new dijit.MenuItem({label:"Update Project", onClick:lang.hitch(this,this._update_project)}));
+				this._is_monthly_std_menu.addChild(new dijit.MenuItem({label:"Add Desks", onClick:lang.hitch(this,this._add_desks)}));
 				this._is_monthly_std_menu.startup();
 			}
 			menu = this._is_monthly_std_menu;
@@ -137,11 +153,22 @@ define([
 				this.std_menu.addChild(new dijit.MenuItem({label:"Delete Project", onClick:lang.hitch(this,this._delete_project)}));
 				this.std_menu.addChild(new dijit.MenuItem({label:"Edit Project", onClick:lang.hitch(this,this._edit_project)}));
 				this.std_menu.addChild(new dijit.MenuItem({label:"Update Project", onClick:lang.hitch(this,this._update_project)}));
+				this.std_menu.addChild(new dijit.MenuItem({label:"Add Desks", onClick:lang.hitch(this,this._add_desks)}));
 				this.std_menu.startup();
 			}
 			menu = this.std_menu;
 		}
 		menu._openMyself(evt);
+	},
+	_add_desks:function()
+	{
+	
+		if (confirm("Add all desks for projectid " + this._selected_row.researchprojectid + "?"))
+		{
+		request.post('/research/admin/projects/project_add_desks',
+			utilities2.make_params({ data: {researchprojectid:this._selected_row.researchprojectid}})).then
+			(this._project_add_desks_call_back);
+		}	
 	},
 	_edit_project:function()
 	{

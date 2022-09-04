@@ -54,7 +54,7 @@ class Statements(BaseSql):
                         """"local convert"""
                         return [dict(id=row.statementid, name=row.statementdescription) for row in data.fetchall()]
 
-                return cls.sqlExecuteCommand(text(Hostspf.List_Types), None, _convert)
+                return cls.sqlExecuteCommand(text(Statements.List_Types), None, _convert)
 
 #        @classmethod
 #        def exists(cls, params):
