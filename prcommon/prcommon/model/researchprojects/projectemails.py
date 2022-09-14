@@ -122,18 +122,20 @@ class ProjectEmails(object):
 
 
 	@staticmethod
-	def get_link(istest):
+	def get_link(istest, test_server=False):
 		"return link for mode"
+		if test_server:
+			return "http://test.questionnaire.prmax.co.uk"
 		if istest:
 			return "https://questionnaire.pr-max.net"
 		else:
 			return "https://questionnaire.prmax.co.uk"
 
 	@staticmethod
-	def send_first_emails(istest=False, to_email=None, researchprojectid=None, test_mode=False):
+	def send_first_emails(istest=False, to_email=None, researchprojectid=None, test_mode=False, test_server=False):
 		"""Sends a list of first email"""
 
-		link = ProjectEmails.get_link(istest)
+		link = ProjectEmails.get_link(istest, test_server)
 		email_text = ProjectEmails.QuestionairreTextCtrl()
 
 		# find all email
@@ -190,18 +192,19 @@ class ProjectEmails(object):
 					subjectfields = (research[2].outletname, )
 
 				ProjectEmails.send_email(
-				  elements[0] % subjectfields,
-				  elements[1] % dict(contact=researchdetails.get_salutation(),
-				                     deadline=research[3].questionnaire_completion.strftime("%d/%m/%y"),
-				                     link="%s/%d/quest" % (link, research[0].researchprojectitemid),
-				                     researcher=ProjectEmails.get_research_footer(research[4], research[2].countryid, research[5])),
-				  to_local_address,
-				  research[0].researchprojectitemid,
-				  istest,
-				  False,
-				  ProjectEmails.get_from_address(research[2].countryid),
-				  research[2].countryid,
-				  test_mode
+					  elements[0] % subjectfields,
+					  elements[1] % dict(contact=researchdetails.get_salutation(),
+										 deadline=research[3].questionnaire_completion.strftime("%d/%m/%y"),
+										 link="%s/%d/quest" % (link, research[0].researchprojectitemid),
+										 researcher=ProjectEmails.get_research_footer(research[4], research[2].countryid, research[5])),
+					  to_local_address,
+					  research[0].researchprojectitemid,
+					  istest,
+					  False,
+					  ProjectEmails.get_from_address(research[2].countryid, test_server),
+					  research[2].countryid,
+					  test_mode,
+					test_server
 				)
 
 			session.commit()
@@ -221,7 +224,7 @@ class ProjectEmails(object):
 			session.commit()
 
 	@staticmethod
-	def send_email(subject, body_text, toemail, researchprojectitemid, istest, isresend, from_email, countryid, test_mode):
+	def send_email(subject, body_text, toemail, researchprojectitemid, istest, isresend, from_email, countryid, test_mode, test_server=False):
 		""" send tne eail"""
 
 		# get email server access details
@@ -248,6 +251,11 @@ class ProjectEmails(object):
 		#sender = "%s.%d@prmax.co.uk" % ("R", researchprojectitemid)
 		sender = from_email
 		serversettings = EMAILSERVERS.get(countryid, None)
+		if test_server:
+			serversettings = (
+				"takrim.rahman.albi@prmax.co.uk",
+				"Prmax#1234",
+				'"PRmax Research" <takrim.rahman.albi@prmax.co.uk>')
 		if not serversettings:
 			serversettings = EMAILSERVERS[-1]
 
@@ -475,10 +483,16 @@ class ProjectEmails(object):
 			return document
 
 	@staticmethod
-	def get_from_address(countryid):
+	def get_from_address(countryid, test_server=False):
 		"""get from address"""
 
 		serversettings = EMAILSERVERS.get(countryid, None)
+		if test_server:
+			serversettings = (
+				"takrim.rahman.albi@prmax.co.uk",
+				"Prmax#1234",
+				'"PRmax Research" <takrim.rahman.albi@prmax.co.uk>')
+
 		if not serversettings:
 			serversettings = EMAILSERVERS[-1]
 

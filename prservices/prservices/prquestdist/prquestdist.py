@@ -30,11 +30,12 @@ from prcommon.model.researchprojects.projectemails import ProjectEmails
 def _run():
 	""" run the application """
 	#
-	options, dummy = getopt.getopt(sys.argv[1:], "", ["live", "test", "testmode", "toemail=", "researchprojectid="])
+	options, dummy = getopt.getopt(sys.argv[1:], "", ["live", "test", "testmode", "testserver", "toemail=", "researchprojectid="])
 	do_test = None
 	to_email = None
 	researchprojectid = None
 	test_mode = False
+	test_server = False
 
 	for option, params in options:
 		if option in ("--live",):
@@ -47,6 +48,9 @@ def _run():
 			researchprojectid = int(params)
 		if option == "--testmode":
 			test_mode = True
+		if option == "--testserver":
+			test_server = True
+
 
 	if do_test is None:
 		print ("Missing Environment")
@@ -57,7 +61,7 @@ def _run():
 		return
 
 
-	ProjectEmails.send_first_emails(do_test, to_email, researchprojectid, test_mode)
+	ProjectEmails.send_first_emails(do_test, to_email, researchprojectid, test_mode, test_server)
 	# because of the way david wan't too work this is now incorrect
 	ProjectEmails.send_follow_up_emails(do_test, to_email, test_mode)
 
