@@ -128,6 +128,17 @@ define([
 				return;
 			}
 		}
+		if(cell.row.data.actiontypeid == 3 && cell.row.data.applied == 1){
+			if ( cell.row.data.isprimary == true )
+			{
+				alert("Cannot Delete as is Primary");
+				return;
+			}
+			this._row_data = cell.row.data;
+			this._show_menu(e,cell.row.data);
+
+			return;
+		}
 
 		if (cell.row.data.actiontypeid == 3 && cell.row.data.applied == 0)
 		{
@@ -249,7 +260,12 @@ define([
 	},
 	_show_menu:function(e,data)
 	{
-		if (this.std_menu === null)
+		if(data.actiontypeid == 3 && this.std_menu === null){
+			this.std_menu = new dijit.Menu();
+			this.std_menu.addChild(new dijit.MenuItem({label:"Delete Contact", onClick:lang.hitch(this,this._delete_employee),iconClass:"dijitPrmaxIcon dijitPrmaxEmployee"}));
+			this.std_menu.startup();
+		}
+		else if (this.std_menu === null)
 		{
 			this.std_menu = new dijit.Menu();
 			this.std_menu.addChild(new dijit.MenuItem({label:"Add Contact", onClick:lang.hitch(this,this._add_employee),iconClass:"dijitPrmaxIcon dijitPrmaxEmployee"}));

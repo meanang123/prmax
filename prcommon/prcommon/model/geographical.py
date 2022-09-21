@@ -434,8 +434,9 @@ class Geographical(BaseSql):
 				    childgeographicalareaid = geogarea.geographicalid).first()
 				if ld:
 					session.delete ( ld )
-				cls.sqlExecuteCommand (text(Geographical.Cascade),
-				                       dict(geographicalid = area),None )
+				session.query(Geographical).filter(Geographical.geographicalid == area).delete()
+				# cls.sqlExecuteCommand (text(Geographical),
+				#                        dict(geographicalid = area),None )
 
 			for row in cls.sqlExecuteCommand ( text( Geographical._ChildrenList) ,
 			                                              dict ( geographicalid = params["geographicalid"]),
