@@ -1791,9 +1791,7 @@ class InternalAdminController(SecureController):
 	@validate(validators=PrCustomerSchema(), state_factory=std_state_factory)
 	def customer_balance(self, *argv, **params):
 		""" return the customer balance record """
-		balances = Customer.getBalances(params["icustomerid"])
-		balances["balance"] = max(balances["balance"],0)
-		return stdreturn(balances=balances)
+		return stdreturn(balances=Customer.getBalances(params["icustomerid"]))
 
 	@expose("json")
 	@error_handler(pr_std_error_handler)
