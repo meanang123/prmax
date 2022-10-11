@@ -197,7 +197,7 @@ dojo.declare("prmax.iadmin.accounts.FinancialView",
 	{
 		if ( response.success == "OK" )
 		{
-			dojo.attr(this.balance_figure, "innerHTML", dojo.number.format ( response.balances.balance/100.00,{places:2}));
+			dojo.attr(this.balance_figure, "innerHTML", dojo.number.format ( Math.max(response.balances.balance, 0)/100.00,{places:2}));
 		}
 		else
 		{
