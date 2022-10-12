@@ -39,7 +39,7 @@ BEGIN
 		p_payments as payments,
 		p_adjustments_plus as adjustmentsplus,
 		p_adjustments_negative as adjustmentsnegative,
-		p_invoiceamounts - p_payments + p_adjustments_plus + p_adjustments_negative as balance,
+		GREATEST((p_invoiceamounts - p_payments + p_adjustments_plus + p_adjustments_negative), 0) as balance,
 		p_invoiceunpaid as invoiceunpaidamounts, 
 		p_paymentsunallocated as paymentsunallocated,
 		p_adjustments_plus_unalllocated as adjustmentsplusunalllocated,
