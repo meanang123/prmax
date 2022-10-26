@@ -1,0 +1,1 @@
+c:\Python27\Scripts\fab deploy_test_to_bigio -f deployment.py

@@ -96,6 +96,10 @@ def deploy_test_to_min_test():
     _do_deploy(min_test_location)
 
 
+# @hosts("prmax2013.dh.bytemark.co.uk")
+def deploy_test_to_bigio():
+    deploy_test_to_new_system()
+
 def _do_deploy( location ) :
     # user too login as
     env.password = "JUrSke8MNYHz"
