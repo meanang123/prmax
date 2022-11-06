@@ -100,6 +100,9 @@ def deploy_test_to_min_test():
 def deploy_test_to_bigio():
     deploy_test_to_new_system()
 
+def deploy_live_to_bigio():
+    deploy_live_to_new_system()
+
 def _do_deploy( location ) :
     # user too login as
     env.password = "JUrSke8MNYHz"

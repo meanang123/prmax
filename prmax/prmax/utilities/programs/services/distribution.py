@@ -114,12 +114,12 @@ _sql_processing = """SELECT lmd.listmemberdistributionid,lmd.listmemberid,lmd.jo
 lmd.suffix,lmd.emailaddress, et.emailtemplateid, et.emailtemplatecontent,et.returnaddress,et.returnname,et.include_view_as_link,et.subject, et.customerid,
 0 AS attcount,
 seo.seoreleaseid,
-COALESCE( es.email_host, 'localhost') AS email_host,
-COALESCE( es.email_port, 0) AS email_port,
-COALESCE( es.email_https, false) AS email_https,
-COALESCE( es.email_authorise, false) AS email_authorise,
-COALESCE( es.email_username,'') AS email_username,
-COALESCE( es.email_password,'') AS email_password,
+COALESCE( es.email_host, 'smtp.gmail.com') AS email_host,
+COALESCE( es.email_port, 465) AS email_port,
+COALESCE( es.email_https, true) AS email_https,
+COALESCE( es.email_authorise, true) AS email_authorise,
+COALESCE( es.email_username, 'news@prmax.co.uk') AS email_username,
+COALESCE( es.email_password, 'News#280122*PrMax') AS email_password,
 et.emailsendtypeid,
 COALESCE( es.mailedby,'prmax.co.uk') AS mailedby,
 dtf.templatecontent AS footercontent,
@@ -500,8 +500,8 @@ class DistController(threading.Thread):
 						row["email_port"] = 465
 						row["email_https"] = True
 						row["email_authorise"] = True
-						row["email_username"] = "chris.hoy@prmax.co.uk"
-						row["email_password"] = "Ignore" # "RO9JWPqV"
+						row["email_username"] = "news@prmax.co.uk"
+						row["email_password"] = "News#280122*PrMax" # "RO9JWPqV"
 
 					try:
 						# it's now on the processing queue
