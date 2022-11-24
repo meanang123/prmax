@@ -121,7 +121,7 @@ COALESCE( es.email_authorise, false) AS email_authorise,
 COALESCE( es.email_username,'') AS email_username,
 COALESCE( es.email_password,'') AS email_password,
 et.emailsendtypeid,
-COALESCE( es.mailedby,'prmax.co.uk') AS mailedby,
+COALESCE( es.mailedby,'prnewslink.net') AS mailedby,
 dtf.templatecontent AS footercontent,
 dth.templatecontent AS headercontent,
 es.emailservertypeid
@@ -328,9 +328,9 @@ class WorkerController(threading.Thread):
 				# are we sending email ? if then tag us as sender
 				if record["email_host"] == "localhost" or record["emailservertypeid"] in (2, ):
 					if is_valid_email_domain:
-						sender = "%s.%d@prmax.co.uk" % (self._typ, record["listmemberdistributionid"])
+						sender = "%s.%d@prnewslink.net" % (self._typ, record["listmemberdistributionid"])
 					else:
-						sender = "%s.%d-%s@prmax.co.uk" % (self._typ, record["listmemberdistributionid"], record["returnaddress"].replace("@", "="))
+						sender = "%s.%d-%s@prnewslink.net" % (self._typ, record["listmemberdistributionid"], record["returnaddress"].replace("@", "="))
 				else:
 					sender = record["returnaddress"]
 
@@ -500,8 +500,8 @@ class DistController(threading.Thread):
 						row["email_port"] = 465
 						row["email_https"] = True
 						row["email_authorise"] = True
-						row["email_username"] = "chris.hoy@prmax.co.uk"
-						row["email_password"] = "Ignore" # "RO9JWPqV"
+						row["email_username"] = "news@prmax.co.uk"
+						row["email_password"] = "News#280122*PrMax" # "RO9JWPqV"
 
 					try:
 						# it's now on the processing queue

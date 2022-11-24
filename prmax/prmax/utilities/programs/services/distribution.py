@@ -121,7 +121,7 @@ COALESCE( es.email_authorise, false) AS email_authorise,
 COALESCE( es.email_username,'') AS email_username,
 COALESCE( es.email_password,'') AS email_password,
 et.emailsendtypeid,
-COALESCE( es.mailedby,'prmax.co.uk') AS mailedby,
+COALESCE( es.mailedby,'prnewslink.net') AS mailedby,
 dtf.templatecontent AS footercontent,
 dth.templatecontent AS headercontent,
 es.emailservertypeid
@@ -243,7 +243,7 @@ class WorkerController(threading.Thread):
 				if is_valid_email_domain:
 					send_address = record["returnaddress"]
 				else:
-					send_address = '"%s" <%s@prmax.co.uk>' % (record["returnname"], record["returnaddress"].replace("@", "="))
+					send_address = '"%s" <%s@prnewslink.net>' % (record["returnname"], record["returnaddress"].replace("@", "="))
 
 				header = footer = ""
 				if record["footercontent"]:
@@ -343,9 +343,9 @@ class WorkerController(threading.Thread):
 				# are we sending email ? if then tag us as sender
 				if record["email_host"] == "localhost" or record["emailservertypeid"] in (2, ):
 					if is_valid_email_domain:
-						sender = "%s.%d@prmax.co.uk" % (self._typ, record["listmemberdistributionid"])
+						sender = "%s.%d@prnewslink.net" % (self._typ, record["listmemberdistributionid"])
 					else:
-						sender = "%s.%d-%s@prmax.co.uk" % (self._typ, record["listmemberdistributionid"], record["returnaddress"].replace("@", "="))
+						sender = "%s.%d-%s@prnewslink.net" % (self._typ, record["listmemberdistributionid"], record["returnaddress"].replace("@", "="))
 				else:
 					sender = record["returnaddress"]
 
