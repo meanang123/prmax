@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+<head>
+<title>PRmax Upgrade T and C</title>
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<meta name="AUTHOR" content="Chris Hoy"></meta>
+<meta name="COPYRIGHT" content="Prmax System v${prmax['dojoversion']} ${prmax['copyright']}"></meta>
+<script>
+function except_tandc()
+{
+	return confirm("Accept Terms and Conditions");
+}
+</script>
+<style type="text/css"  media="screen" >
+	@import "/static/${prmax['prodpath']}/css/accept_tc.css?version=${prmax['dojoversion']}";
+</style></head>
+<body>
+<div id="outerBox">
+	<div id="innerBox">
+		<img style="margin-left:35%" src="/static/images/adept/banner_prmax_logo.png"></img>
+		<p>Welcome to your free upgrade to PRmax 2014!</p>
+		<p>Whilst retaining all of the logical simplicity of previous versions the 2014 edition contains the  ability to upgrade at any time to a full International Media Database, a host of smaller but  significant improvements and fixes, which include minor updates to the PRmax terms and conditions, along with a completely redesigned user interface to improve your user experience. </p>
+		<p>In order to continue it is important that you read and agree to the changes.</p>
+		<div style="margin:10px;height:30px;width:95%"><a style="float:left;color:white" href="/static/rel/html/tc.pdf" target="_newtab">Read</a>
+			<div style="float:right"><form action="/new_tanc_accepted" onSubmit="javascript:return except_tandc();" method="post"><input style="color:white;background-color:black;font-family: Arial;font-size: 20px;" type="submit" value="Agree"/></form></div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
+

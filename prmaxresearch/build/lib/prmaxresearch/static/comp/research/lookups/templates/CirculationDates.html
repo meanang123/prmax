@@ -1,0 +1,30 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%;height:48px;padding:0px;margin:0px"'>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxFilterIcon",label:"Filter",showLabel:true'>
+				<span>Filter By</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="Enter Circulation Dates filter" data-dojo-attach-event="execute: _execute">
+					<table>
+						<tr>
+							<td>Text</td>
+							<td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter" data-dojo-props='name:"filter",trim:"true",maxlength:45,type:"text"' ></td>
+						</tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit/form/Button" type="button" >Clear Filter by</button></td>
+							<td align="right"><button data-dojo-type="dijit/form/Button" type="submit" name="submit">Filter by</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxAddIcon",showLabel:true' data-dojo-attach-event="onClick: _new_circulation_dates" > <span>New</span></div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' data-dojo-attach-point="grid_view"></div>
+
+	<div data-dojo-attach-point="circulationdates_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Circulation Dates Add"'>
+		<div data-dojo-attach-point="circulationdates_add_ctrl" data-dojo-type="prcommon2/circulation/CirculationDatesAdd"></div>
+	</div>
+	<div data-dojo-attach-point="circulationdates_update_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Circulation Dates Update"'>
+		<div data-dojo-attach-point="circulationdates_update_ctrl" data-dojo-type="prcommon2/circulation/CirculationDatesAdd" data-dojo-props='mode:"update"'></div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+﻿var bCheckNumbers=true;var bCheckUpperCase=true;var bCheckLowerCase=true;var bCheckPunctuation=true;var nPasswordLifetime=365;function checkPassword(strPassword){nCombinations=0;if(bCheckNumbers){strCheck = "0123456789";if(doesContain(strPassword,strCheck) > 0){nCombinations+=strCheck.length;}}if(bCheckUpperCase){strCheck = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";if(doesContain(strPassword,strCheck) > 0){nCombinations+=strCheck.length;}}if(bCheckLowerCase){strCheck = "abcdefghijklmnopqrstuvwxyz";if(doesContain(strPassword,strCheck) > 0){nCombinations+=strCheck.length;}}if(bCheckPunctuation){strCheck = ";:-_=+\|//?^&!.@$#*()%~<>{}[]";if(doesContain(strPassword,strCheck) > 0){nCombinations+=strCheck.length;}}
+var nDays = ((Math.pow(nCombinations, strPassword.length) / 500) / 2) / 86400;var nPerc=nDays / nPasswordLifetime;return nPerc;}
+function runPassword(strPassword,strFieldID){nPerc=checkPassword(strPassword);var ctlBar=document.getElementById(strFieldID + "_bar");var ctlText=document.getElementById(strFieldID + "_text");if(!ctlBar || !ctlText)
+return;var nRound=Math.round(nPerc * 100);if(nRound < (strPassword.length * 5)){nRound+=strPassword.length * 5;}if(nRound > 100)
+nRound=100;ctlBar.style.width=nRound + "%";if(nRound > 95){strText = "Very Secure";strColor = "#3bce08";}else if(nRound > 75){strText = "Secure";strColor = "orange";}else if(nRound > 50){strText = "Mediocre";strColor = "#ffd801";}else{strColor = "red";strText = "Insecure";}
+ctlBar.style.backgroundColor=strColor;ctlText.innerHTML = "<span style='color: " + strColor + ";'>" + strText + "</span>";}
+function doesContain(strPassword,strCheck){nCount=0;for(i=0;i < strPassword.length;i++){if(strCheck.indexOf(strPassword.charAt(i)) > -1)
+{nCount++;}}
+return nCount;}

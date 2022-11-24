@@ -1,0 +1,16 @@
+<div>
+	<form data-dojo-attach-point="form" method="post" name="form" enctype="multipart/form-data" onSubmit="return false;">
+		<input type="hidden" data-dojo-attach-point="icustomerid" name="icustomerid" data-dojo-type="dijit/form/TextBox" ></input>
+		<input type="hidden" data-dojo-attach-point="invoice_date2" name="invoice_date" data-dojo-type="dijit/form/TextBox" ></input>
+		<table width="600px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Manual Invoice</label><div data-dojo-props='style:"display:inline","class":"prmaxrowdisplaylarge"' data-dojo-attach-point="customername">Name</div></td></tr>
+			<tr><td style="width:150px" class="prmaxrowlabel" align="right">Invoice Ref</td><td><input data-dojo-props='type:"text",name:"invoice_ref",style:"width:8em",required:true'  data-dojo-attach-point="invoice_ref" data-dojo-type="dijit/form/ValidationTextBox" ></td></tr>
+			<tr><td class="prmaxrowlabel" align="right">Invoice Date</td><td><input data-dojo-props='type:"text",style:"width:8em",required:true' data-dojo-attach-point="invoice_date" data-dojo-type="ttl/DateTextBox2"></td></tr>
+			<tr><td align="right"><label class="prmaxrowlabel">Gross Amount</label></td><td><input data-dojo-props='type:"text",name:"amount",style:"width:8em",required:true,trim:true,constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="amount" data-dojo-attach-event="onBlur:_amounts"></input></td></tr>
+			<tr><td align="right"><label class="prmaxrowlabel">Vat</label></td><td><input data-dojo-props='type:"text",name:"vat",style:"width:8em",required:true,trim:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="vat"></input></td></tr>
+			<tr><td align="right"><label class="prmaxrowlabel" >Unpaid Amount</label></td><td><input data-dojo-props='type:"text",name:"unpaidamount",style:"width:8em",required:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"}' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="unpaidamount"></input></td></tr>
+			<tr><td align="right" class="prmaxrowlabel">Invoice File (pdf)</td><td><input class="prmaxinput" type="file" name="invoice_file" size="50" data-dojo-attach-point="invoice_file"></input></td></tr>
+			<tr><td class="prmaxrowlabel" align="right" colspan="2" align="right"><button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_send">Enter Manual Invoice</button></td></tr>
+		</table>
+	</form>
+</div>

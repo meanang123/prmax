@@ -1,0 +1,16 @@
+<div>
+	<div data-dojo-attach-point="project_dlg" data-dojo-type="dijit/Dialog" title ="Update Details">
+		<form data-dojo-type="dijit/form/Form" data-dojo-attach-point="form">
+			<input data-dojo-props='name:"researchprojectid",type:"hidden"' data-dojo-attach-point="researchprojectid" data-dojo-type="dijit/form/TextBox"/>
+			<table width="550px" cellspacing="0" cellpadding="0" style="border-collapse: collapse" >
+				<tr><td>&nbsp;</td></tr>
+				<tr><td class="prmaxrowtag" align="right" width="150px" >Name:</td><td ><input data-dojo-props='style:"width:300px","class":"prmaxrequired",name:"researchprojectname",type:"text",maxlength:"80",trim:true,required:true' data-dojo-attach-point="researchprojectname" data-dojo-type="dijit/form/ValidationTextBox"/></td></tr>
+				<tr><td class="prmaxrowtag" align="right">User:</td><td><select data-dojo-attach-point="ownerid" data-dojo-props='name:"ownerid",autoComplete:"true",style:"width:15em",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect"></td></tr>
+				<tr data-dojo-attach-point="start_date_view"><td class="prmaxrowtag" align="right">Start Date</td><td><input data-dojo-attach-point="startdate" data-dojo-ptops='type:"text",name:"startdate",required:false,style:"width:10em"' data-dojo-type="dijit/form/DateTextBox" ></td></tr>
+				<tr><td class="prmaxrowtag" align="right">Completion Date</td><td><input data-dojo-attach-point="questionnaire_completion" data-dojo-ptops='type:"text",name:"questionnaire_completion",required:true,style:"width:10em"' data-dojo-type="dijit/form/DateTextBox" ></td></tr>
+				<td colspan="2" align="right"><button data-dojo-attach-event="onClick:_update" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Update Projects"' ></button></td></tr>
+			</table>
+			<br/>
+		</form>
+	</div>
+</div>

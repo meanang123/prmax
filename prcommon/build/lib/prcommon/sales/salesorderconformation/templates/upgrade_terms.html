@@ -1,0 +1,35 @@
+<%
+from ttl.ttlmako import isnull,text_html
+%>
+<p style="${style['sheader']}">Terms</p>
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+% if c.media_upgrade:
+<tr><td style="${style['ssheader']}" colspan="2">Media Database Upgrade</td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Nbr of Concurrent Users</p></td><td><p style="${style['p']}">${c.logins} was (${c.logins_org})</p></td></tr>
+% endif
+% if c.advance_upgrade:
+<tr><td style="${style['ssheader']}" colspan="2">Advance Features Upgrade</td></tr>
+% endif
+% if c.monitoring_upgrade:
+<tr><td style="${style['ssheader']}" colspan="2">Monitoring Upgrade</td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring Nbr Users</p></td><td><p style="${style['p']}">${c.maxmonitoringusers}
+% if c.maxmonitoringusers != c.maxmonitoringusers_org:
+ was (${c.maxmonitoringusers_org})
+%endif
+</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Monitoring End Date</p></td><td><p style="${style['p']}">A Minimum of ${c.updatum_months_paid + c.updatum_months_free} months
+% if c.updatum_months_free:
+(includes ${c.updatum_months_free} month free)
+% endif
+</p></td></tr>
+% endif
+<tr><td>&nbsp;</td></tr>
+% if c.paymentmethodid in (1,4):
+<tr><td style="width:200px"><p style="${style['p']}">Payment Terms</p></td><td><p style="${style['p']}">14 Days</p></td></tr>
+<tr><td style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Credit Card, Cheque or Bank Transfer</p></td></tr>
+% elif c.paymentmethodid in (2,3):
+<tr><td style="width:200px"><p style="${style['p']}">Payment Method</p></td><td><p style="${style['p']}">Added to existing Direct Debit</p></td></tr>
+% endif
+</table>
+<br/>

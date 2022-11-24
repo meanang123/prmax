@@ -1,0 +1,15 @@
+﻿# -*- coding: utf-8 -*-
+<%
+from ttl.ttlmako import isnull
+%>
+<br/>
+<p style="${style['p']}">${r['rp'].display_name}</p>
+<p style="${style['p']}">${isnull(r['rp'].job_title)}</p>
+<p style="${style['p']}">PRmax Ltd</p>
+<p style="${style['p']}">Tel: ${isnull(r['rp'].tel)}</p>
+<p style="${style['p']}">Email: <a href="emailto:${r['rp'].email_address}">${r['rp'].email_address}</a></p>
+<p style="${style['p']}">Website:<a href="prmax.co.uk">prmax.co.uk</a></p>
+<p style="${style['p']}">Causeway House, 13 The Causeway, Teddington TW11 0JR, United Kingdom</p>
+<br/>
+<p style="${style['p']}">The Simple, Accurate and Affordable Online Media Contacts System</p>
+

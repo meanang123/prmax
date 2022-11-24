@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+	  xmlns:pdf="http://www.example.org/widgets"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<head>
+    <title>List of List</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<style type="text/css">
+	<xi:include href="report.css"  />
+@page {
+  margin: 1cm;
+  margin-top: 2cm;
+  margin-bottom: 0cm;
+  @frame footer {
+    -pdf-frame-content: footerContent;
+    bottom: 1cm;
+    margin-left: 1cm;
+    margin-right: 1cm;
+    height: 1cm;
+  }
+  @frame header {
+    -pdf-frame-content: headerContent;
+    top:0cm;
+    margin-left: 1cm;
+    margin-right: 1cm;
+    height: 2cm;
+  }
+}</style>
+</head>
+<body>
+<table border="1" cellspacing="0" cellpadding="0" style="width:100% ;border-collapse: collapse;">
+<thead class="header"><tr><th style="width:60%"><b>List Name</b></th><th style="width:30%"><b>Projects</b></th><th style="width:10%;padding:2px" align="right"><b>Nbr </b></th></tr></thead>
+<tbody>
+<tr py:for="i, listrow in enumerate(lists)" class="${i%2 and 'odd' or 'even'}">
+<td>${listrow['listname']}</td><td>${listrow['projects']}</td><td style="padding:2px" align="right">${listrow['nbr']}</td>
+</tr>
+</tbody>
+<tfoot>
+<tr><td colspan="3"><b>Nbr of List: </b>${len(lists)}</td></tr>
+</tfoot></table>
+<div id="footerContent">Page <pdf:pagenumber></pdf:pagenumber></div>
+<div id="headerContent">
+<table class="header_main" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+<tr><td style="width:20%">Prmax</td><td style="width:60%" align="center">List of Standing Lists</td><td  width="20%" align="right">${common['datetime']}</td></tr></table> </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+.claro .dijitTitlePaneTitle {
+	background-color: #0282A9;
+	background-image: url(@image-titlebar);
+	background-repeat:repeat-x;
+	border:1px solid @border-color;
+	padding: 0 7px 3px 7px;
+	min-height:17px;
+}
+
+.claro .dijitTitlePane .dijitTitlePaneTextNode
+{
+	font-family: "arial";
+	font-size: 12pt;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.claro .dijitTitlePaneContentInner {
+	padding:0px;
+}

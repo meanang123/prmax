@@ -1,0 +1,48 @@
+﻿# -*- coding: utf-8 -*-
+<%!
+from ttl.ttlmako import isnull
+%>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td colspan="2" style="${style['pheader']}">Primary contact</td></tr>
+<tr><td colspan="2" style="${style['p']}">${p['dname']}</td></tr>
+<tr><td style="${style['plabel']}" width="100px">Email:</td><td style="${style['p']}">${isnull(p['comm'].email)}</td></tr>
+<tr><td style="${style['plabel']}">Direct Tel:</td><td style="${style['p']}">${isnull(p['comm'].tel)}</td></tr>
+<tr><td style="${style['plabel']}">Direct Fax:</td><td style="${style['p']}">${isnull(p['comm'].fax)}</td></tr>
+<tr><td style="${style['plabel']}">Mobile:</td><td style="${style['p']}">${isnull(p['comm'].mobile)}</td></tr>
+<tr><td style="${style['plabel']}">Twitter:</td><td style="${style['p']}">${isnull(p['comm'].twitter)}</td></tr>
+<tr><td style="${style['plabel']}">Facebook:</td><td style="${style['p']}">${isnull(p['comm'].facebook)}</td></tr>
+<tr><td style="${style['plabel']}">LinkedIn:</td><td style="${style['p']}">${isnull(p['comm'].linkedin)}</td></tr>
+<tr><td style="${style['plabel']}">Instagram:</td><td style="${style['p']}">${isnull(p['comm'].instagram)}</td></tr>
+% if p['dinterests']:
+<tr><td colspan="2" style="${style['p']}"><span style="${style['plabel']}">Keywords:</span> ${p['dinterests']}</td></tr>
+% endif
+% if p['caddress']:
+<tr><td colspan="2" style="${style['p']}"><span style="${style['plabel']}">Address:</span> ${p['caddress']}</td></tr>
+% endif
+% if c :
+<tr><td colspan="2" style="${style['p']}">&nbsp;</td></tr>
+<tr><td colspan="2" style="${style['p']}">&nbsp;</td></tr>
+<tr><td colspan="2" style="${style['pheader']}">Contacts</td></tr>
+% for contact in c:
+<tr><td style="${style['p']}" colspan="2">${contact['dname']}</td></tr>
+<tr><td style="${style['plabel']}">Email:</td><td style="${style['p']}">${isnull(contact['comm'].email)}</td></tr>
+<tr><td style="${style['plabel']}">Direct Tel:</td><td>${isnull(contact['comm'].tel)}</td></tr>
+<tr><td style="${style['plabel']}">Direct Fax:</td><td style="${style['p']}">${isnull(contact['comm'].fax)}</td></tr>
+<tr><td style="${style['plabel']}">Mobile:</td><td style="${style['p']}">${isnull(contact['comm'].mobile)}</td></tr>
+<tr><td style="${style['plabel']}">Twitter:</td><td style="${style['p']}">${isnull(contact['comm'].twitter)}</td></tr>
+<tr><td style="${style['plabel']}">Facebook:</td><td style="${style['p']}">${isnull(contact['comm'].facebook)}</td></tr>
+<tr><td style="${style['plabel']}">LinkedIn:</td><td style="${style['p']}">${isnull(contact['comm'].linkedin)}</td></tr>
+<tr><td style="${style['plabel']}">Instagram:</td><td style="${style['p']}">${isnull(contact['comm'].instagram)}</td></tr>
+% if contact['dinterests']:
+<tr><td colspan="2" style="${style['p']}"><span style="${style['plabel']}">Keywords:</span> ${contact['dinterests']}</td></tr>
+%endif:
+% if contact['caddress']:
+<tr><td colspan="2" style="${style['p']}"><span style="${style['plabel']}">Address:</span> ${contact['caddress']}</td></tr>
+% endif
+<tr><td colspan="2" style="${style['p']}">&nbsp;</td></tr>
+<tr><td colspan="2" style="${style['p']}">&nbsp;</td></tr>
+% endfor
+% else:
+<tr><td colspan="2"><p style="${style['p']}">Please add additional editorial contacts</p></td></tr>
+% endif
+</table>

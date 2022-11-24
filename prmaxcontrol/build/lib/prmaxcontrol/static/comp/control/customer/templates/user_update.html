@@ -1,0 +1,14 @@
+<div>
+	<form data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='"class":"common_prmax_layout",onsubmit:"return false;"'>
+		<input data-dojo-attach-point="iuserid" name="iuserid" type="hidden" data-dojo-type="dijit/form/TextBox" value="" />
+		<label class="label_1">Email Address</label><input data-dojo-attach-point="user_email_address" data-dojo-props='name:"email",type:"text",trim:true,required:true,invalidMessage:"Please Enter the name of the business",style:"width:27em"' data-dojo-type="dijit/form/ValidationTextBox"><br/>
+		<label class="label_1">Login Name</label><input data-dojo-attach-point="user_user_name" data-dojo-props='name:"user_name",type:"text",trim:true,required:true,style:"width:15em"' data-dojo-type="dijit/form/ValidationTextBox"><br/>
+		<label class="label_1">Display Name</label><input data-dojo-attach-point="user_display_name" data-dojo-props='name:"display_name",type:"text",trim:true,required:true,style:"width:10em"' data-dojo-type="dijit/form/ValidationTextBox"><br/>
+		<label class="label_2"><input data-dojo-props='name:"isuseradmin",type:"checkbox"' data-dojo-attach-point="isuseradmin" data-dojo-type="dijit/form/CheckBox">&nbsp;User Admin</label><br/>
+		<label class="label_2"><input data-dojo-props='type:"checkbox",name:"nodirectmail"' data-dojo-attach-point="nodirectmail" data-dojo-type="dijit/form/CheckBox">&nbsp;No Direct Mail</label><br/>
+		<label class="label_2"><input data-dojo-props='type:"checkbox",name:"canviewfinancial"' data-dojo-attach-point="canviewfinancial" data-dojo-type="dijit/form/CheckBox">&nbsp;See Invoices</label><br/><br/>
+		<button class="btnleft" data-dojo-attach-event="onClick:_send_login_details" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Send Login Details"' ></button>
+		<button class="btnright" data-dojo-attach-event="onClick:_update_user_details" data-dojo-attach-point="update_ctrl_btn" data-dojo-type="dojox/form/BusyButton" data-dojo-props='busyLabel:"Please Wait Saving...",type:"button",label:"Save"'></button><br/>
+	</form>
+</div>
+

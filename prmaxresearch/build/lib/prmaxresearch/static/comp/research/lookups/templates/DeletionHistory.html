@@ -1,0 +1,39 @@
+<div>
+
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%;height:48px;padding:0px;margin:0px"'>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxFilterIcon",label:"Filter",showLabel:true'>
+				<span>Filter By</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="Deletion History Filter" data-dojo-attach-event="execute: _execute">
+					<table>
+						<tr><td>Date</td><td><input data-dojo-props='"class":"prmaxbutton",type:"text",name:"filter_deletiondate"' data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="filter_deletiondate" ></input></td></tr>
+						<tr><td>Description</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_deletionhistorydescription" data-dojo-props='name:"filter_deletionhistorydescription",trim:"true",maxlength:45,type:"text"' ></td></tr>
+						<tr><td>Outletname</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_outlet_name" data-dojo-props='name:"filter_outlet_name",trim:"true",maxlength:45,type:"text"' ></td></tr>
+						<tr><td>Firstname</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_firstname" data-dojo-props='name:"filter_firstname",trim:"true",maxlength:45,type:"text"' ></td></tr>
+						<tr><td>Surname</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_familyname" data-dojo-props='name:"filter_familyname",trim:"true",maxlength:45,type:"text"' ></td></tr>
+						<tr><td>Domain</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_domain" data-dojo-props='name:"filter_domain",trim:"true",maxlength:45,type:"text"' ></td></tr>
+						<tr><td>Project</td><td><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="filter_researchprojectid" data-dojo-props='name:"filter_researchprojectid",autoComplete:true,style:"width:90%",searchAttr:"researchprojectname",placeHolder:"No Selection"'></select></td></tr>
+						<tr><td>Reason</td><td><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="filter_reasoncodeid" data-dojo-props='name:"filter_reasoncodeid",searchAttr:"name",labelType:"html",style:"width:90%"'/></td></tr>
+						<tr><td>Type</td><td><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="filter_deletionhistorytypeid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='name:"filter_deletionhistorytypeid",searchAttr:"name",labelType:"html",style:"width:90%"'/></td></tr>
+						<tr><td>User</td><td><select data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="filter_userid" data-dojo-props='name:"filter_userid",autoComplete:"true",style:"width:90%",labelType:"html"' ></td></tr>
+						</tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit/form/Button" type="button" >Clear Filter</button></td>
+							<td align="right"><button data-dojo-type="dijit/form/Button" type="submit" name="submit">Filter by</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxAddIcon",showLabel:true' data-dojo-attach-event="onClick: _new_deletionhistory" > <span>New</span></div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' data-dojo-attach-point="grid_view"></div>
+	
+	<div data-dojo-attach-point="deletionhistory_add_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Add Deletion"'>
+		<div data-dojo-attach-point="deletionhistory_add_ctrl" data-dojo-type="prcommon2/deletionhistory/DeletionHistoryAdd" data-dojo-props='mode:"add"'></div>
+	</div>
+	<div data-dojo-attach-point="deletionhistory_update_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Update Deletion"'>
+		<div data-dojo-attach-point="deletionhistory_update_ctrl" data-dojo-type="prcommon2/deletionhistory/DeletionHistoryAdd" data-dojo-props='mode:"update"'></div>
+	</div>
+
+</div>

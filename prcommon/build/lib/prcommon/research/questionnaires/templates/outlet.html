@@ -1,0 +1,19 @@
+﻿# -*- coding: utf-8 -*-
+<%
+from ttl.ttlmako import isnull, isblank, int_to_string
+%>
+<p style="${style['pheader']}">${o['outlet'].outletname}</p>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td style="${style['plabel']}">Web Site</td><td style="${style['p']}">${o['outlet'].www}</td></tr>
+<tr><td style="${style['plabel']}">Address</td><td style="${style['p']}">${o['addr'].getAddressAsLine()}</td></tr>
+<tr><td style="${style['plabel']}">Tel</td><td style="${style['p']}">${o['comm'].tel}</td></tr>
+<tr><td style="${style['plabel']}">Fax</td><td style="${style['p']}">${o['comm'].fax}</td></tr>
+<tr><td style="${style['plabel']}">Email</td><td style="${style['p']}">${o['comm'].email}</td></tr>
+<tr><td style="${style['plabel']}">Circulation</td><td style="${style['p']}">${int_to_string(o['outlet'].circulation)}</td></tr>
+<tr><td style="${style['plabel']}">Twitter</td><td style="${style['p']}">${isnull(o['comm'].twitter)}</td></tr>
+<tr><td style="${style['plabel']}">Facebook</td><td style="${style['p']}">${isnull(o['comm'].facebook)}</td></tr>
+<tr><td style="${style['plabel']}">LinkedIn</td><td style="${style['p']}">${isnull(o['comm'].linkedin)}</td></tr>
+<tr><td style="${style['plabel']}">Instagram</td><td style="${style['p']}">${isnull(o['comm'].instagram)}</td></tr>
+<tr><td style="${style['plabel']}">Frequency</td><td style="${style['p']}">${isnull(o['fdescription'])}</td></tr>
+<tr><td style="${style['plabel']}">Keywords</td><td style="${style['p']}">${o['dinterests']}</td></tr>
+</table>

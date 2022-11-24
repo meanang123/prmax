@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+<head>
+<style type="text/css"  media="screen" >
+<xi:include href="std_definitions.css" parse="text" />
+@import "/static/${prmax['prodpath']}/css/vuelio.css?version=${prmax['dojoversion']}";
+@import "/static/${prmax['prodpath']}/css/font-awesome/css/font-awesome.css";
+html, body { width: 100%; height: 100%;overflow: hidden; border: 0; padding: 0; margin: 0;font-family: sans-serif;font-size:${prmax.user.interface_font_size}pt}
+</style>
+<title>Prmax Main</title>
+<xi:include href="std_header.html"/>
+<script type="text/javascript" >
+<xi:include href="std_definitions.js" parse="text" />
+</script>
+<script type="text/javascript" src="/static/${prmax['dojopath']}/dojo/dojo.js?version=${prmax['dojoversion']}"></script>
+
+<xi py:strip="" py:if="prmax['release']==True">
+<script type="text/javascript" src="/static/${prmax['dojopath']}/dojo/prmaxaidojo.js?version=${prmax['dojoversion']}"></script>
+</xi>
+<script type="text/javascript" >
+<xi py:strip="" py:if="prmax['release']!=True">
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.Toolbar");
+dojo.require("dijit.ProgressBar");
+dojo.require("dijit.TitlePane");
+dojo.require("dijit.Tree");
+
+dojo.require("dijit.layout.BorderContainer");
+dojo.require("dijit.layout.StackContainer");
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.layout.TabContainer");
+dojo.require("dijit.form.Form");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.FilteringSelect");
+dojo.require("dijit.form.Textarea");
+
+dojo.require("dojox.form.BusyButton");
+dojo.require("dojox.validate");
+dojo.require("dojox.grid.DataGrid");
+dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dojox.data.QueryReadStore");
+dojo.require("dojox.collections.Dictionary");
+dojo.require("dojox.form.PasswordValidator");
+
+dojo.require("ttl.utilities");
+dojo.require("ttl.uuid");
+dojo.require("ttl.layout.ContentPane");
+dojo.require("ttl.GridHelpers");
+dojo.require("ttl.FrameMngr");
+dojo.require("ttl.Form" );
+dojo.require("ttl.utilities");
+dojo.require("ttl.data.utilities");
+
+
+dojo.require("prcommon.prcommonobjects");
+dojo.require("prcommon.data.DataStores");
+dojo.require("prcommon.data.QueryWriteStore");
+
+dojo.require("prcommon.interests.Interests");
+
+dojo.require("prcommon.date.DateSearchExtended");
+
+dojo.require("prmax.common.SelectOptions");
+dojo.require("prmax.common.ReportBuilder");
+
+dojo.require("prmax.prmaxobjects");
+dojo.require("prmax.DlgCtrl2");
+
+dojo.require("prmax.search.SearchCtrl");
+dojo.require("prmax.search.Circulation");
+dojo.require("prmax.search.SearchCount");
+dojo.require("prmax.search.Frequency");
+dojo.require("prmax.search.standard");
+dojo.require("prmax.search.PrmaxOutletTypes");
+dojo.require("prmax.searchgrid.SearchGridCount");
+dojo.require("prmax.searchgrid.SortDisplay");
+dojo.require("prmax.searchgrid.Deduplicate");
+dojo.require("prmax.search.person");
+
+dojo.require("prmax.roles.Roles");
+dojo.require("prmax.roles.SearchRoles");
+dojo.require("prmax.geographical.Geographical");
+
+dojo.require("prmax.help.HelpBrowser");
+
+dojo.require("prmax.lists.SaveToListNew");
+dojo.require("prmax.lists.DeleteToList");
+dojo.require("prmax.lists.NewListDlg");
+dojo.require("prmax.lists.view");
+
+
+dojo.require("prmax.display.DisplayCtrl");
+dojo.require("prmax.employee.EmployeeDisplay");
+
+
+dojo.require("prmax.display.StdView");
+
+dojo.require("prmax.ai.view");
+dojo.require("prmax.ai.banner");
+dojo.require("prmax.ai.stdview");
+
+dojo.require("prcommon.crm.responses.viewer");
+dojo.require("prcommon.newsrooms.viewer");
+
+dojo.require("prcommon.recovery.passwordrecoverydetails");
+
+</xi>
+
+// Load global data stores
+PRCOMMON.utils.stores = new prcommon.data.DataStores();
+PRCOMMON.utils.stores.fetch();
+PRCOMMON.utils.uuid = new TTL.UUID();
+
+// PRMAX specific
+
+PRMAX.utils.settings = dojo.fromJson( '${tg.identity.user.get_json_settings()}' );
+
+</script>
+</head>
+<body class="soria">
+<div dojoType="prmax.ai.view" style="width: 100%; height:100%" displayname="${tg.identity.user.display_name}"></div>
+</body></html>

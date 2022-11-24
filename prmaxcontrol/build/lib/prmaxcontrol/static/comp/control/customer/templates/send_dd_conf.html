@@ -1,0 +1,10 @@
+<div>
+	<form data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit/form/Form">
+		<table width="600px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><div data-dojo-props='"class":"prmaxrowdisplaylarge",style:"text-align:center;display:inline"'>Send DD Conformation For</div><div data-dojo-props='"class":"prmaxrowdisplaylarge",style:"display:inline"' data-dojo-attach-point="customername"></div></td>
+			<tr><td colspan="2"><td><br/></tr>
+			<tr><td class="prmaxrowlabel" align="right" >Email Address</td><td><input class="prmaxinput" data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"email",type:"text",style:"width:100%",trim:"true",required:"true",regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address",size:"40",maxlength:"70"'/></td></tr>
+			<tr><td class="prmaxrowlabel" colspan="2" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-attach-point="btn" data-dojo-props='busylabel:"Sending ...",type:"button"' data-dojo-attach-event="onClick:_send_dd_conf">Send DD Confirmation</button></td>
+		</table>
+	</form>
+</div>

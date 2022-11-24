@@ -1,0 +1,5 @@
+reporttemplateid=10
+reportname=Proforma Invoice Format
+customer=-1
+reportsourceid=5
+reportextension=InvoiceProformaReport

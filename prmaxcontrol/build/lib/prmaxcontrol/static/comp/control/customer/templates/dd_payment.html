@@ -1,0 +1,16 @@
+<div>
+<form data-dojo-attach-point="form"  onsubmit="return false" data-dojo-type="dijit/form/Form">
+<table width="600px" cellpadding="0" cellpadding="0" >
+	<tr><td colspan="4"><div data-dojo-props='"class":"prmaxrowdisplaylarge",style:"text-align:center;display:inline"'>Monthly Payment (Inc Vat.)</div><div data-dojo-props='"class":"prmaxrowdisplaylarge",style:"display:inline"' data-dojo-attach-point="customername"></div></td>
+	<tr><td class="prmaxrowlabel" align="right">DD Reference</td><td><input data-dojo-props='type:"text",name:"dd_ref",required:true,trim:true' data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="dd_ref"></input></td></tr>
+	<tr><td class="prmaxrowlabel" align="right">First Month Amount(Inc Vat.)</td><td><input data-dojo-props='type:"text",name:"first_month_value",required:true,trim:true' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="first_month_value"></input></td></tr>
+	<tr><td class="prmaxrowlabel" align="right">Standard Amount (Inc Vat.)</td><td><input data-dojo-props='type:"text",name:"value",required:true,trim:true' data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-attach-point="payment"></input></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" >Monthly Day</td><td width="70%"><select data-dojo-props='style:"width:50px","class":"prmaxinput",name:"pay_montly_day",type:"text"' data-dojo-attach-point="pay_montly_day" data-dojo-type="dijit/form/ComboBox"></select></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" >Sub Day of Month</td><td width="70%"><select data-dojo-props='style:"width:50px","class":"prmaxinput",name:"sub_start_day",type:"text"' data-dojo-attach-point="sub_start_day" data-dojo-type="dijit/form/ComboBox"></select></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" valign="top">Message</td><td><div class="dialogprofileframe" ><textarea data-dojo-attach-point="message" data-dojo-props='name:"message","class":"dijitTextarea",style:"width:99%;height:99%"' data-dojo-type="dijit/form/Textarea" ></textarea></div></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" >Email Address</td><td><input data-dojo-props='"class":"prmaxinput",name:"email",type:"text",style:"width:100%",trim:true,required:true,regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address",size:"40",maxlength:"70"' data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox"/></td></tr>
+	<tr><td class="prmaxrowlabel" align="right" >Collection Date</td><td><input data-dojo-props='type:"text",name:"dd_collectiondate",requiredtrue' data-dojo-attach-point="dd_collectiondate" data-dojo-type="dijit/form/DateTextBox" ></td>
+	</tr>
+	<tr><td class="prmaxrowlabel" colspan="4" align="right"><button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick:_take_payment">Take Payment</button></td>
+</table></form>
+</div>

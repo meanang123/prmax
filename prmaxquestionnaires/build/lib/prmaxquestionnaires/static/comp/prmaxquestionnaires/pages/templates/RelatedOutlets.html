@@ -1,0 +1,32 @@
+<div >
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:50%;height:100%"' class="scrollpanel" >
+		<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+			<input data-dojo-props='type:"hidden",name:"questionnaireid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="questionnaireid">
+			</br/>
+			<table width="100%" cellspacing="1" cellpadding="0">
+				<tr><td></td>
+					<td class="prmaxrowtag" width="50px" >Prefix</td><td class="prmaxrowtag" width="120px" >First</td><td class="prmaxrowtag" width="120px" >Surname</td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag" width="110px">Name</td>
+					<td><input data-dojo-attach-point="prefix" data-dojo-type="dijit/form/TextBox" data-dojo-props='name:"research_prefix",type:"text",style:"width:3em"'></td>
+					<td><input data-dojo-attach-point="firstname" data-dojo-type="dijit/form/TextBox" data-dojo-props='name:"research_firstname",type:"text",style:"width:8em"'></input></td>
+					<td><input data-dojo-attach-point="surname" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"research_surname",type:"text",trim:true,invalidMessage:"Please enter conatct surname",style:"width:12em"'></input></td>
+				</tr>
+				<tr><td align="right" class="prmaxrowtag">Job Title</td><td colspan="3" ><input data-dojo-attach-point="job_title" data-dojo-type="dijit/form/TextBox" data-dojo-props='name:"research_job_title",type:"text",style:"width:70%"'></input></td></tr>
+				<tr><td align="right" class="prmaxrowtag">Email</td><td colspan="3" ><input data-dojo-attach-point="email" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"research_email",type:"text",pattern:dojox.validate.regexp.emailAddress,trim:true,invalidMessage:"invalid email address",size:20,maxlength:70,style:"width:90%"'></td></tr>
+<!--
+				<tr><td align="right" class="prmaxrowtag">Tel</td><td colspan="3" ><input data-dojo-attach-point="tel" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='name:"research_tel",type:"text",maxlength:40,trim:true,style:"width:30%"' /></td></tr>
+-->			
+			</table>
+		</form>
+	</div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' class="scrollpanel" >
+		<div style="border:1px solid black;text-align: center;vertical-align: middle; margin: auto;margin: 5%;font-size:1.1em;padding:4px">
+			<p><b>PRmax contact</b></p>
+			<p>Are you the right person to contact to update our information?</p>
+			<p>If not, please update the fields to the left with the correct details.</p>
+			<p>Thank you for your help.</p><br/>
+		</div>
+	</div>
+</div>
+

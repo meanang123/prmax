@@ -1,0 +1,92 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="controls" data-dojo-props='region:"top",style:"height:44px;width:100%;overflow:hidden"'>
+		<div data-dojo-attach-point="researchprojectname" class="dijitToolbar prmaxrowdisplaylarge" style="float:left;height:99%;width:25%;padding:0px;margin:0px">Project Name</div>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"fa fa-filter fa-3x",label:"Filter",showLabel:true'>
+				<span>Filter By</span>
+				<div data-dojo-type="dijit/TooltipDialog" title="Filter" data-dojo-attach-event="execute: _execute_filter">
+					<table>
+						<tr><td>Type</td><td><select data-dojo-attach-point="filter_researchprojectstatusid" name="researchprojectstatusid" data-dojo-type ="dijit/form/FilteringSelect" data-dojo-props='searchAttr:"name",labelType:"html"' /></td></tr>
+						<tr><td>Outlet Name</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_outletname" data-dojo-props='type:"text",name:"outletname"' ></td></tr>
+						<tr><td>Email Address</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_emailaddress" data-dojo-props='type:"text",name:"emailaddress"' ></td></tr>
+						<tr>
+							<td align="left"><button data-dojo-attach-event="onClick:_clear_filter" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' >Clear Filter by</button></td>
+							<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit",name:"submit"'>Filter by</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-attach-event="onClick:_list_of_projects" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-list-alt fa-3x"'><span>Goto Project List</span></div>
+			<div data-dojo-attach-event="onClick:_show_info" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-info fa-3x"'><span>Project Status</span></div>
+			<div data-dojo-attach-event="onClick:_show_add" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-plus fa-3x"'><span>Add to Project</span></div>
+			<div data-dojo-attach-event="onClick:_do_refresh" data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"fa fa-refresh fa-3x"'><span>Refresh</span></div>
+
+		</div>
+	</div>
+	<div data-dojo-type="dojox/layout/ExpandoPane" data-dojo-props='title:"Outlets",region:"left",maxWidth:175,style:"width:40%;height:100%;overflow:hidden",splitter:true'>
+		<div data-dojo-attach-point="grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='style:"height:100%;width:100%"'></div>
+	</div>
+	<div data-dojo-attach-point="zone" data-dojo-type="dijit/layout/StackContainer" data-dojo-props='region:"center"'>
+		<div data-dojo-attach-point="blank" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"blank"'></div>
+		<div data-dojo-attach-point="outletwizard" data-dojo-type="research/questionnaires/OutletUpdate" data-dojo-props='title:"outletwizard",style:"height:100%;width:100%"'></div>
+		<div data-dojo-attach-point="deskwizard" data-dojo-type="research/questionnaires/DeskUpdate" data-dojo-props='title:"deskwizard",style:"height:100%;width:100%"'></div>
+		<div data-dojo-attach-point="outletedit" data-dojo-type="research/outlets/OutletEdit" data-dojo-props='prefix:"${prefix}",title:"outlet",style:"width:100%;height:100%","class":"bordered"'></div>
+		<div data-dojo-attach-point="freelanceedit" data-dojo-type="research/freelance/FreelanceEdit" data-dojo-props='title:"freelance",style:"width:100%;height:100%","class":"bordered"'></div>
+		<div data-dojo-attach-point="freelancewizard" data-dojo-type="research/questionnaires/FreelanceEdit" data-dojo-props='title:"freelance",style:"width:100%;height:100%","class":"bordered"'></div>
+		<div data-dojo-attach-point="info_page" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"info_page",style:"width:100%;height:100%","class":"bordered"'></div>
+		<div data-dojo-attach-point="statusedit" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"status_edit",style:"width:100%;height:100%","class":"bordered"'>
+			<br/>
+			<form data-dojo-attach-point="form" data-dojo-type="dijit/form/Form" data-dojo-props='onsubmit:"return false;","class":"prmaxdefault"'>
+				<input data-dojo-attach-point="researchprojectitemid" data-dojo-props='name:"researchprojectitemid",type:"hidden"' data-dojo-type="dijit/form/TextBox" >
+				<table width="100%" class="prmaxtable" cellpadding="0" cellspacing="0"  border ="0">
+					<tr><td align="right" class="prmaxrowtag" width="200px">New Status</td><td ><select data-dojo-attach-point="researchprojectstatusid" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"researchprojectstatusid",searchAttr:"name",labelType:"html","class":"prmaxrequired"'/></td></tr>
+<!--
+					<tr><td class="prmaxrowtag" align="right">Update Researched Date</td><td><input data-dojo-attach-point="researcheddate" data-dojo-props='name:"researcheddate",type:"checkbox"' data-dojo-type="dijit/form/CheckBox"></td></tr>
+					<tr><td class="prmaxrowtag" align="right">Notes</td><td><div class="stdtextframe" ><textarea data-dojo-attach-point="notes" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"notes",style:"width:99%;height:99%"'  ></textarea></div></td></tr>
+-->
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr>
+<!--
+						<td align="left"><button data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_update_record_complete" data-dojo-props='type:"button",label:"Complete"'></button></td>
+-->
+						<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_update_record" data-dojo-props='type:"button",label:"Update"'></button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div data-dojo-attach-point="append_select" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='title:"append_select",gutters:false,style:"width:100%;height:100%"'>
+			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"top",style:"width:100%;height:40%;overflow:hidden",gutters:false'>
+				<div data-dojo-attach-point="search_tabcont" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"'>
+					<div data-dojo-attach-point="search_tab_outlet" data-dojo-type="prcommon2/search/OutletSearch" data-dojo-props='style:"height:100%;overflow:auto;overflow-x:hidden","class":"scrollpanel",title:"Outlet"'></div>
+					<div data-dojo-attach-point="search_tab_freelance" data-dojo-type="prcommon2/search/FreelanceSearch" data-dojo-props='style:"height:100%;overflow:auto;overflow-x:hidden","class":"scrollpanel",title:"Freelance"'></div>
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:15%;padding-top:10px"'>
+					<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;" >
+						<tr>
+							<td align="left"><button data-dojo-attach-point="search_append" data-dojo-attach-event="onClick:_search_append" data-dojo-type="dojox/form/BusyButton" data-dojo-props='"class":"prmaxbutton",iconClass:"fa fa-search-plus",busyLabel:"Adding"'>Append Results too Project</button></td>
+							<td><button data-dojo-attach-event="onClick:_clear_search" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxbutton",label:"Clear Results"' ></button></td>
+							<td><button data-dojo-attach-event="onClick:_clear_search_criteria" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxbutton",label:"Clear Criteria"' ></button></td>
+							<td align="right"><button data-dojo-attach-point="searchbutton" data-dojo-attach-event="onClick:_search" data-dojo-type="dojox/form/BusyButton" data-dojo-props='"class":"prmaxbutton",iconClass:"fa fa-search-plus",busyLabel:"Searching...",label:"Search"'></button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-attach-point="grid_append_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true'></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="resend_dlg" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Send Questionnaires Link"'>
+		<form data-dojo-attach-point="form_resend" data-dojo-type="dijit/form/Form" data-dojo-props='onsubmit:"return false;","class":"prmaxdefault"'>
+			<input data-dojo-attach-point="researchprojectitemid2" data-dojo-props='name:"researchprojectitemid",type:"hidden"' data-dojo-type="dijit/form/TextBox" >
+			<table class="prmaxtable" cellpadding="0" cellspacing="0"  border ="0">
+				<tr><td align="right" class="prmaxrowtag" width="120px">Email</td><td style="width:450px"><input data-dojo-attach-point="email"  data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",pattern:dojox.validate.regexp.emailAddress,trim:true,invalidMessage:"invalid email address",style:"width:98%",maxlength:70'></td></tr>
+				<tr><td class="prmaxrowtag" align="right">Subject</td><td><input data-dojo-props='"class":"prmaxrequired",name:"subject",type:"text",trim:true,required:true' data-dojo-attach-point="subject" data-dojo-type="dijit/form/ValidationTextBox"/></td></tr>
+				<tr><td class="prmaxrowtag" align="right">From User</td><td><select data-dojo-attach-point="iuserid" data-dojo-props='name:"iuserid",autoComplete:"true",style:"width:15em",labelType:"html"' data-dojo-type="dijit/form/FilteringSelect"></select></td></tr>
+				<tr><td class="prmaxrowtag" valign="top" align="right">Body</td><td><div style="height:300px" class="dialogprofileframelarge"><textarea data-dojo-attach-point="bodytext" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"bodytext",style:"width:99%;height:99%"'></textarea></div></td></tr>
+
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr><td colspan="2" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-attach-point="sendbtn" data-dojo-attach-event="onClick:_send_email_record" data-dojo-props='type:"button",busyLabel:"Sending"'>Send</button></td></tr>
+			</table>
+		</form>
+	</div>
+
+</div>

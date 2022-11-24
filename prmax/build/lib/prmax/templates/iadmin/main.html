@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+<head>
+<title>Prmax Internal administration</title>
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<meta name="AUTHOR" content="Chris Hoy"></meta>
+<meta name="COPYRIGHT" content="PRmax V${prmax['dojoversion']} ${prmax['copyright']}"></meta>
+<meta name="ROBOTS" content="none"></meta>
+<meta name="GOOGLEBOT" content="none"></meta>
+<style type="text/css"  media="screen" >
+/*<xi:include href="../std_definitions.css" parse="text" />*/
+@import "/static/${prmax['dojopath']}/dijit/themes/claro/claro.css?version=${prmax['dojoversion']}";
+@import "/prcommon/css/prcommon.css?version=${prmax['dojoversion']}";
+@import "/static/${prmax['prodpath']}/css/prmax.css?version=${prmax['dojoversion']}";
+@import "/static/${prmax['prodpath']}/css/font-awesome/css/font-awesome.css";
+html, body { width: 100%; height: 100%;overflow: hidden; border: 0; padding: 0; margin: 0;font-family: sans-serif;font-size:10pt}
+</style>
+<script type="text/javascript" >
+<xi:include href="../std_definitions.js" parse="text" />
+ </script>
+<script type="text/javascript" src="/static/${prmax['dojopath']}/dojo/dojo.js?version=${prmax['dojoversion']}"></script>
+<script type="text/javascript" src="/static/${prmax['dojopath']}/dojo/prmaxinternal.js?version=${prmax['dojoversion']}"></script>
+<script type="text/javascript">
+dojo.require("prmax.iadmin.admin");
+dojo.require("ttl.uuid");
+PRMAX.iadmin = {};
+PRMAX.iadmin.gridlayout = new prmax.iadmin.gridlayouts();
+PRMAX.utils = {};
+PRMAX.utils.fieldControl = {};
+PRCOMMON.utils.stores = new prcommon.data.DataStores();
+PRCOMMON.utils.stores.fetch();
+PRMAX.utils.settings = dojo.fromJson( '${tg.identity.user.get_json_settings()}' );
+PRCOMMON.utils.uuid = new TTL.UUID();
+
+</script>
+</head>
+<body class="claro">
+<div  dojotype="dijit.layout.BorderContainer"  style="width:100%;height:100%">
+<div dojotype="prmax.iadmin.admin" style="padding:0px;margin:0px;width:100%;height:100%" region="center"></div>
+</div>
+</body></html>

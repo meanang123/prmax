@@ -1,0 +1,26 @@
+﻿# -*- coding: utf-8 -*-
+<%
+from ttl.ttlmako import isnull
+%>
+<p style="${style['pheader']}">${o['outlet'].outletname}</p>
+<br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td style="width:120px"><p style="${style['plabel']}">Address</p></td><td><p style="${style['p']}">${o['addr'].getAddressAsLine()}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Tel</p></td><td><p style="${style['p']}">${isnull(o['comm'].tel)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Mobile</p></td><td><p style="${style['p']}">${isnull(o['comm'].mobile)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Fax</p></td><td><p style="${style['p']}">${isnull(o['comm'].fax)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Email</p></td><td><p style="${style['p']}">${isnull(o['comm'].email)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Web</p></td><td><p style="${style['p']}">${isnull(o['outlet'].www)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Blog</p></td><td><p style="${style['p']}">${isnull(o['outlet'].blog)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Twitter</p></td><td><p style="${style['p']}">${isnull(o['comm'].twitter)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Facebook</p></td><td><p style="${style['p']}">${isnull(o['comm'].facebook)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Linked In</p></td><td><p style="${style['p']}">${isnull(o['comm'].linkedin)}</p></td></tr>
+<tr><td ><p style="${style['plabel']}">Instagram</p></td><td><p style="${style['p']}">${isnull(o['comm'].instagram)}</p></td></tr>
+</table>
+<br/>
+<p style="${style['pheader']}">The categories I write about</p>
+<p style="${style['p']}">${o['dinterests']}</p>
+<br/>
+<p style="${style['pheader']}">My Profile</p>
+<p style="${style['p']}">${o['outlet'].profile}</p>
+<br/>

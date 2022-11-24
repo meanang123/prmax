@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<body>
+<div class="outletdisplay">
+	<table style="table-layout: fixed;border-collapse: collapse;" width="100%" >
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplaylarge" py:content="outlet.outletname"></td>
+			<td width="100px" py:if="outlet.profileimageurl!=None"><img src="${outlet.profileimageurl}" /></td>
+		</tr>
+		<span py:if="outlet.outlettypeid!=19" py:strip="">
+			<span py:if="newprofile['incorporating']" py:strip="">
+			<tr>
+				<td width="50"></td>
+				<td colspan="2" class="prmaxrowdisplay_profile2" py:content="incorporatingdisplay"></td>
+			</tr>
+			</span>
+			<span py:if="newprofile['subtitle']" py:strip="">
+			<tr>
+				<td width="50"></td>
+				<td colspan="2" class="prmaxrowdisplay_profile2" py:content="subtitledisplay"></td>
+			</tr>
+			</span>
+			<span py:if="newprofile['officialjournalof']" py:strip="">
+			<tr>
+				<td width="50"></td>
+				<td colspan="2" class="prmaxrowdisplay_profile2" py:content="officialjournalofdisplay"></td>
+			</tr>
+			</span>
+		</span>
+		
+		<span py:if="outlet.www" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-link fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.www}" target="_newtab" py:content="outlet.www"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.email" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></td>
+			<td class="${outlet.emailflag and 'prmaxoverride' or 'prmaxrowdisplay'}"><a py:attrs="{'href':'mailto:%s'%outlet.email}" target="blank" py:content="outlet.email"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.tel" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-phone fa-2x" aria-hidden="true"></i></td>
+			<td py:content="outlet.tel" class="${outlet.telflag and 'prmaxoverride' or 'prmaxrowdisplay'}" ></td>
+		</tr>
+		</span>
+		<span py:if="outlet.fax" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-fax fa-2x" aria-hidden="true"></i></td>
+			<td py:content="outlet.fax" class="${outlet.faxflag and 'prmaxoverride' or 'prmaxrowdisplay'}"></td>
+		</tr>
+		</span>
+		<span py:if="outlet.mobile" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></td>
+			<td py:content="outlet.mobile" class="${outlet.mobileflag and 'prmaxoverride' or 'prmaxrowdisplay'}"></td>
+		</tr>
+		</span>
+		<span py:if="outlet.twitter" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.twitter}" target="_newtab" py:content="outlet.twitter"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.facebook" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-facebook fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.facebook}" target="_newtab" py:content="outlet.facebook"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.instagram" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-instagram fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.instagram}" target="_newtab" py:content="outlet.instagram"></a></td>
+		</tr>
+		</span>
+		<span py:if="outlet.linkedin" py:strip="" style="margin-top:5px">
+		<tr>
+			<td class="prmaxrowtag"><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i></td>
+			<td class="prmaxrowdisplay"><a py:attrs="{'href':outlet.linkedin}" target="_newtab" py:content="outlet.linkedin"></a></td>
+		</tr>
+		</span>
+	</table>
+	<table style="table-layout: fixed;border-collapse: collapse; margin-top:5px;" width="100%" >
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="prmaxoutlettypedisplay"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="editorialprofiledisplay"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="newprofile['readership']"></td>
+		</tr>		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="interestdisplay"></td>
+		</tr>
+		<span py:if="broadcasttimesdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="broadcasttimesdisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="circulationdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="circulationdisplay"></td>
+		</tr>	
+		</span>
+		<span py:if="webbrowsersdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="webbrowsersdisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="newprofile['jicregreadership']" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="newprofile['jicregreadership']"></td>
+		</tr>
+		</span>
+		<span py:if="newprofile['nrsreadership']" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="newprofile['nrsreadership']"></td>
+		</tr>	
+		</span>
+		<span py:if="supplementofdisplay" py:strip="">
+		
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="supplementofdisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="supplementsdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="supplementsdisplay"></td>
+		</tr>	
+		</span>
+		<span py:if="coveragedisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="coveragedisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="publisherdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="publisherdisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="addressdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="addressdisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="productioncompanydisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="productioncompanydisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="seriesparentdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile" py:content="seriesparentdisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="seriesmembersdisplay" py:strip="">
+		<tr>
+			<td width="50"></td>
+			<td width="auto" class="prmaxrowdisplay_profile2" py:content="seriesmembersdisplay"></td>
+		</tr>		
+		</span>
+		<span py:if="outlet" py:strip="">
+		<tr>
+			<td width="50" class="prmaxrowdisplay_profile">Private</td>
+			<td width="auto"><button class="edit_profile" type="button" onclick='javascript:dojo.publish("/crm/edit_notes",[${outlet.outletid}]);'>Add Notes</button></td>
+		</tr>
+		</span>
+	</table>
+</div>
+</body>
+</html>

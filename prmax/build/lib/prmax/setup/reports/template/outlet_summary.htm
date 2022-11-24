@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+	  xmlns:pdf="http://www.example.org/widgets"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<head>
+    <title>List of List</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	
+<style type="text/css">
+    td, th {
+        padding-top: 0.2em;
+        padding-left: 0.2em;
+    }
+	<xi:include href="report.css"  />
+
+@page {
+  margin: 1cm;
+  margin-bottom: 1.5cm;
+  @frame footer {
+    -pdf-frame-content: footerContent;
+    bottom: 2cm;
+    margin-left: 1cm;
+    margin-right: 1cm;
+    height: 1cm;
+  }
+  @frame header {
+    -pdf-frame-content: headerContent;
+    top:0cm;
+    margin-left: 1cm;
+    margin-right: 1cm;
+  }
+}
+</style>
+</head>
+<body>
+<table border="1" cellspacing="0" cellpadding="0" style="width:100% ;border-collapse: collapse;">
+<thead><tr><th><b>List Name</b></th><th><b>Nbr of Entries</b></th></tr></thead>
+</table>
+    <div id="footerContent" >
+<table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+<tr><td align="right">Page <pdf:pagenumber/></td></tr></table>
+ </div>
+  <div id="headerContent" >
+<table class="header_main" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+<tr><td>Prmax</td><td align="right">Summary Report</td><td align="right">Date</td></tr></table>
+ </div>
+</body>
+</html>

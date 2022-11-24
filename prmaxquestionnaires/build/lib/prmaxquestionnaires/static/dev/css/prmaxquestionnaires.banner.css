@@ -1,0 +1,77 @@
+.banner_body {
+	background: #0282A9 !important;
+	padding-right:4px;
+}
+.banner_body .main-menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 87.5%;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.banner_body .main-menu li {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+.banner_body .main-menu li a {
+	display: block;
+	background: url(/prmax_common_s/images/main-menu-bg.png) -10px 0 no-repeat;
+	padding: 9px 30px 10px 30px;
+	text-decoration: none;
+	color: #FFF;
+	border-left: 3px solid #0282A9;
+}
+
+
+.banner_body .main-menu .first a {
+	background-position: 0 0;
+	padding-left: 30px;
+	border: none;
+	color:white;
+}
+.banner_body .main-menu .last a {
+	background-position: right 0;
+	padding-right: 30px;
+	color:white;
+}
+.banner_body .main-menu .std a:hover {
+	background-position: -10px -101px;
+}
+.banner_body .main-menu .selected a {
+	background-position: 0px -101px ;
+}
+
+.banner_body .main-menu .first a:hover {
+	background-position: 0 -101px;
+}
+
+.banner_body .main-menu .last a:hover {
+	background-position: right -101px;
+}
+
+.banner_body .mb_details
+{
+	text-align:right;
+	font-family:arial;
+	font-size:11pt;
+	padding:0px;
+	margin:5px;
+	color:white;
+}
+.banner_body .mb_details_large
+{
+	text-align:left;
+	font-family:arial;
+	font-size:14pt;
+	height:26px;
+	padding:0px;
+	margin:1px;
+	color:white;
+}
+
+.banner_body .mb_details a:link {color:white;}
+.banner_body .mb_details a:visited {color:white;}
+.banner_body .mb_details a:hover {color:white;}
+.banner_body .mb_details p a:active {color:white;}

@@ -1,0 +1,40 @@
+<div>
+	<div  data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"width:100%"' >
+		<div style="height:46px;width:100%;overflow:hidden;padding:0px;margin:0px" class="searchresults">
+			<div class="dijitToolbarTop" data-dojo-type="dijit/Toolbar" style="float:left;height:100%;width:100%;padding:0px;margin:0px" >
+				<div data-dojo-type="dijit/form/DropDownButton" data-dojo-props='iconClass:"fa fa-filter fa-3x",showLabel:true,label:"Filter By"'>
+					<div data-dojo-type="dijit/TooltipDialog" data-dojo-props='title:"Enter Project filter"' data-dojo-attach-event="execute: _execute_customer_filter">
+						<table width="500px">
+							<tr><td class="prmaxrowtag" align="right"><label>Status</label></td><td>
+							<select data-dojo-type="dijit/form/Select" data-dojo-attach-point="filter_customer_statusid" data-dojo-props='name:"customerstatusid",autoComplete:true,labelType:"html"'></select></td></tr>
+							<tr data-dojo-attach-point="filter_show_6"><td class="prmaxrowtag" align="right"><label>Customer Source</label></td><td><select data-dojo-props='name:"customertypeid",autoComplete:true,labelType:"html"'  data-dojo-type="dijit/form/Select" data-dojo-attach-point="filter_customertypeid" ></select></td></tr>
+							<tr data-dojo-attach-point="filter_show_1"><td class="prmaxrowtag" align="right"><label>Financial Status</label></td><td><select data-dojo-props='name:"financialstatusid",autoComplete:true,labelType:"html"' data-dojo-type="dijit/form/Select" data-dojo-attach-point="filter_financialstatus" ></select></td></tr>
+							<tr><td class="prmaxrowtag" align="right"><label>Customer Name</label></td><td><input data-dojo-props='type:"text",name:"customername"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_customername"></td></tr>
+							<tr><td class="prmaxrowtag" align="right"><label>Account Nbr</label></td><td><input data-dojo-props='type:"text",name:"accountnbr"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_accountnbr"></td></tr>
+							<tr><td class="prmaxrowtag" align="right"><label>Not Expired</label></td><td><input data-dojo-props='type:"checkbox",name:"licence_expired"' data-dojo-attach-point="filter_licence_expired" data-dojo-type="dijit/form/CheckBox"></td></tr>
+							<tr><td class="prmaxrowtag" align="right"><label>Email</label></td><td><input data-dojo-props='type:"text",name:"email"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_customeremail"></td></tr>
+							<tr data-dojo-attach-point="filter_show_2"><td class="prmaxrowtag" align="right"><label>Is Internal</label></td><td><input data-dojo-props='type:"text",name:"isinternal"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="filter_isinternal"></td></tr>
+							<tr><td class="prmaxrowtag" align="right"><label>User Name</label></td><td><input data-dojo-props='type:"text",name:"contactname"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_contactname"></td></tr>
+							<tr data-dojo-attach-point="filter_show_3"><td class="prmaxrowtag" align="right"><label>Invoice Nbr</label></td><td><input data-dojo-props='type:"text",name:"invoicenbr"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_invoicenbr"></td></tr>
+							<tr data-dojo-attach-point="filter_show_4"><td class="prmaxrowtag" align="right"><label>Credit Nt/ Nbr</label></td><td><input data-dojo-props='type:"text",name:"creditnotenbr"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter_icreditnotenbr"></td></tr>
+							<tr data-dojo-attach-point="filter_show_5"><td class="prmaxrowtag" align="right"><label>UnAllocated</label></td><td><input data-dojo-props='type:"checkbox",name:"unallocated"' data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="filter_unallocated"></td></tr>
+							<tr>
+								<td align="left"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"button"' data-dojo-attach-event="onClick:_clear_filter">Clear</button></td>
+								<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit",name:"submit"'>Submit</button></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div data-dojo-type="dijit/form/Button" data-dojo-attach-event="onClick:_logout" data-dojo-props='showLabel:"true",iconClass:"fa fa-sign-out fa-3x"'>Logout</div>
+			</div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",gutters:false' >
+		<div data-dojo-attach-point="searchgrid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:40%;height:100%"' ></div>
+		<div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="options" data-dojo-props='region:"center"'>
+			<div title="blank" data-dojo-attach-point="blank" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='selected:"selected",style:"width:100%;height:100%"'></div>
+			<div title="view_internal" data-dojo-attach-point="view_internal" data-dojo-type="control/customer/view_internal" data-dojo-props='style:"width:100%;height:100%"'></div>
+			<div title="view_partner" data-dojo-attach-point="view_partner" data-dojo-type="control/customer/view_partner" data-dojo-props='style:"width:100%;height:100%"'></div>
+		</div>
+	</div>
+</div>

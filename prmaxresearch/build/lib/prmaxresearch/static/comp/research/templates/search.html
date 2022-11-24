@@ -1,0 +1,29 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer"  data-dojo-props='style:"width:100%;height:55%; border: 1",region:"top",gutters:false'>
+		<div data-dojo-attach-point="search_form_pane" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"' >
+			<div data-dojo-attach-point="std_search_smart" data-dojo-type="prcommon2/search/SmartSearch" data-dojo-props='style:"width:100%;height:100%",title:"Smart","class":"scrollpanel"'  ></div>
+			<div data-dojo-attach-point="std_search_outlet" data-dojo-type="prcommon2/search/OutletSearch" data-dojo-props='style:"width:100%;height:100%",title:"Outlet",selected:"selected","class":"scrollpanel"'  ></div>
+			<div data-dojo-attach-point="std_search_employee" data-dojo-type="prcommon2/search/EmployeeSearch" data-dojo-props='style:"width:100%;height:100%",title:"Contact","class":"scrollpanel"' ></div>
+			<div data-dojo-attach-point="std_search_freelance" data-dojo-type="prcommon2/search/FreelanceSearch" data-dojo-props='style:"width:100%;height:100%",title:"Freelance","class":"scrollpanel"'  ></div>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:40px"'>
+			<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;" >
+				<tr>
+					<td ><button data-dojo-attach-event="onClick:_clear_search" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxbutton",label:"Clear Search Criteria",iconClass:"fa fa-undo"' ></button></td>
+					<td ><button data-dojo-attach-event="onClick:_clear_search_results" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxbutton",label:"Clear Search Results",iconClass:"fa fa-undo"' ></button></td>
+					<td align="right"><button data-dojo-attach-point="searchbutton" data-dojo-attach-event="onClick:_search" data-dojo-type="dojox/form/BusyButton" data-dojo-props='iconClass:"fa fa-search-plus fa-2x",busyLabel:"Searching...",label:"Search"' ></button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center",splitter:true, gutters: false' >
+		<div data-dojo-attach-point="searchgrid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' ></div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",style:"width:100%;height:2em"'>
+			<button data-dojo-attach-event="onClick:_contact_interests" data-dojo-type="dijit/form/Button" data-dojo-props='"class":"prmaxbutton" '>Batch Contact Keywords</button>
+		</div>
+	</div>
+	<div data-dojo-attach-point="contact_interest_dlg" data-dojo-type="dijit/Dialog" title ="Modify the Keywords on the Contacts In the Search Results">
+		<div data-dojo-attach-point="contact_interest_ctrl" data-dojo-type="research/employees/ContactInterests"></div>
+		<input data-dojo-type="dijit/form/TextBox"  data-dojo-attach-point="search_partial" data-dojo-props='type:"hidden",value:"2"' />
+	</div>
+</div>

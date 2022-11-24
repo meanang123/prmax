@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en" lang="en">
+<body>
+  <table border="1">
+    <tr>
+      <td>Account Nbr</td>
+      <td>Name</td>
+      <td>Message</td>
+      <td>Collection Date</td>
+      <td align="right">Core</td>
+      <td align="right">Monitoring</td>
+      <td align="right">Soe</td>
+      <td align="right">Features</td>
+      <td align="right">International</td>
+      <td align="right">Clip - Core</td>
+      <td align="right">Clip - Fee</td>
+      <td align="right">Total</td>
+      <td align="right">Start Day</td>
+      <td>Start Date</td>
+      <td>End Date</td>
+    </tr>
+    <tr py:for="row in data">
+      <td py:content="row[0]"></td>
+      <td py:content="row[1]"></td>
+      <td py:content="row[2]"></td>
+      <td py:content="row[3]"></td>
+      <td align="right" py:content="row[4]"></td>
+      <td align="right" py:content="row[5]"></td>
+      <td align="right" py:content="row[6]"></td>
+      <td align="right" py:content="row[7]"></td>
+      <td align="right" py:content="row[8]"></td>
+      <td align="right" py:content="row[9]"></td>
+      <td align="right" py:content="row[10]"></td>
+      <td align="right" py:content="row[11]"></td>
+      <td align="right" py:content="row[12]"></td>
+      <td align="right" py:content="row[13]"></td>
+      <td align="right" py:content="row[14]"></td>
+    </tr>
+  </table>
+</body></html>

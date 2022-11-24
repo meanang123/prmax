@@ -1,0 +1,43 @@
+<div>
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top",style:"height:45px;width:100%;overflow:hidden","class":"searchresults"'>
+		<div data-dojo-type="dijit/Toolbar" data-dojo-props='style:"height:99%;width:100%;padding:0px;margin:0px"'>
+			<div data-dojo-type="dijit/form/DropDownButton"  data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxFilterIcon",label:"Filter",showLabel:true'>
+				<span>Filter By</span>
+				<div data-dojo-type="dijit/TooltipDialog" data-dojo-props='title:"Enter Filter"' data-dojo-attach-event="execute: _execute">
+					<table>
+						<tr><td class="prmaxlabeltag">Name</td><td><input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="filter" data-dojo-props='name:"filter",trim:true,maxlength:45,type:"text"'  ></td></tr>
+						<tr><td class="prmaxlabeltag">Type</td><td><select data-dojo-attach-point="countrytypeid_filter" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"countrytypeid",searchAttr:"name",labelType:"html"' /></td></tr>
+						<tr><td align="left"><button data-dojo-attach-event="onClick: _clear_filter" data-dojo-type="dijit/form/Button" data-dojo-props='type:"button",label:"Clear Filter by"'></button></td>
+								<td align="right"><button data-dojo-type="dijit/form/Button" data-dojo-props='type:"submit",name:"submit",label:"Filter by"'></button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div data-dojo-type="dijit/form/Button" data-dojo-props='iconClass:"PRMaxCommonStdIcon PRMaxAddIcon",showLabel:true,label:"Add"' data-dojo-attach-event="onClick:_show_new"></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="countries_grid_view" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",style:"width:50%;height:100%",splitter:"true"' ></div>
+	<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="add_dlg" data-dojo-props='title:"Add Country",style:"width:400px"'>
+		<form data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+			<table width="300px" cellpadding="0" cellpadding="0">
+				<tr><td class="prmaxlabeltag">Name</td><td><input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="countryname" data-dojo-props='required:true,name:"countryname",invalidMessage:"Please Enter Country Name",trim:true,type:"text"'></td></tr>
+				<tr><td class="prmaxlabeltag">Type</td><td><select data-dojo-attach-point="countrytypeid" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"countrytypeid",searchAttr:"name",labelType:"html",required:true' /></td></tr>
+				<tr><td class="prmaxlabeltag">Parent</td><td><select data-dojo-attach-point="regioncountryid" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"regioncountryid",searchAttr:"name",labelType:"html"' /></td></tr>
+				<tr><td><br/></td></tr>
+				<tr><td colspan="2" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-props='label:"Add",busyLabel:"Please Wait",type:"button"' data-dojo-attach-point="addbtn" data-dojo-attach-event="onClick:_add"></button></td></tr>
+			</table>
+		</form>
+	</div>
+	<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="upd_dlg" data-dojo-props='title:"Update Country",style:"width:400px"'>
+		<form data-dojo-type="dijit/form/Form" data-dojo-attach-point="upd_form" data-dojo-props='onsubmit:"return false;"'>
+			<input data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="upd_countryid" data-dojo-props='name:"countryid",type:"hidden"'>
+			<table width="100%" cellpadding="0" cellpadding="0">
+				<tr><td class="prmaxlabeltag">Name</td><td><input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="upd_countryname" data-dojo-props='required:true,name:"countryname",invalidMessage:"Please Enter Country Name",trim:true,type:"text"'></td></tr>
+				<tr><td class="prmaxlabeltag">Type</td><td><select data-dojo-attach-point="upd_countrytypeid" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"countrytypeid",searchAttr:"name",labelType:"html",required:true' /></td></tr>
+				<tr><td class="prmaxlabeltag">Parent</td><td><select data-dojo-attach-point="upd_regioncountryid" data-dojo-type="dijit/form/FilteringSelect" data-dojo-props='name:"regioncountryid",searchAttr:"name",labelType:"html"' /></td></tr>
+				<tr><td><br/></td></tr>
+				<tr><td colspan="2" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-props='label:"Update",busyLabel:"Please Wait",type:"button"' data-dojo-attach-point="updbtn" data-dojo-attach-event="onClick:_update"></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>

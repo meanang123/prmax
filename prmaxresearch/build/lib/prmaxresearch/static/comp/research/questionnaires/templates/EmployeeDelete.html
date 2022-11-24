@@ -1,0 +1,14 @@
+<div >
+	<div data-dojo-attach-point="dialog_ctrl" data-dojo-type="dijit/Dialog" data-dojo-props='title:"Delete Contact",style:"width:400px"'>
+		<form  data-dojo-type="dijit/form/Form" data-dojo-attach-point="form" data-dojo-props='onsubmit:"return false;"'>
+			<input data-dojo-props='type:"hidden",name:"objectid",value:"-1"' data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="objectid">
+				<p class="prmaxrowtag" style="text-align:center" data-dojo-attach-point="employee_name"></p>
+				<br/>
+				<label class="prmaxrowtag"><input data-dojo-attach-point="delete_completely" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"delete_option","class":"prmaxdefault",checked:"checked",type:"radio",value:"1"'/>Delete completely</label><br/>
+				<label class="prmaxrowtag"><input data-dojo-attach-point="delete_and_retain" data-dojo-type="dijit/form/RadioButton" data-dojo-props='name:"delete_option","class":"prmaxdefault",type:"radio",value:"2"'/>Delete contact and retain role</label><br/>
+				<br/>
+				<button data-dojo-attach-point="savenode" data-dojo-type="dojox/form/BusyButton" data-dojo-props='style:"float:right",type:"button",label:"Delete Contact",busyLabel:"Please Wait Saving ..."' data-dojo-attach-event="onClick:_delete_contact"></button>
+				<br/>
+		</form>
+	</div>
+</div>

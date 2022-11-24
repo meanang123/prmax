@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<body>
+<div class="searchform">
+	<div class="paddingcell" >
+		<form name="search_advance" cellspacing="0" cellpadding="0" id="std_search_advance_form" formid="std_search_advance_form" dojoType="ttl.Form" onsubmit="return false">
+			<input type="hidden" value="advance"  name="search_type" dojoType="dijit.form.TextBox" />
+			<div class="paddingrow">&nbsp;</div>
+			<div  search="std_search_advance" displayname="Publication Date" keytypeid="${prmax.search_indexes.advance_pub_date}" name="advance_publicationdate" dojoType="prcommon.date.DateSearchExtended"></div>
+			<br />
+			<!--<div search="std_search_advance" style="width:99%" keytypeid="${prmax.search_indexes.advance_interest}" size="8" name="advance_interests" dojoType="prcommon.interests.Interests"></div>
+			<hr/>-->
+			<div  usepartial="true" search="std_search_advance" id="std_search_outlet_advance_name" displayname="Feature Text" keytypeid="${prmax.search_indexes.advance_search_name}" name="advance_advancename" dojoType="prmax.search.standard"></div>
+			<br />
+			<div search="std_search_advance" style="width:99%" keytypeid="${prmax.search_indexes.advance_outlettypeid}" name="advance_outlettypes" dojoType="prmax.search.PrmaxOutletTypes"></div>
+			<br />
+			<div  usepartial="true" search="std_search_advance" displayname="Outlet Name" keytypeid="${prmax.search_indexes.advance_outletname}" name="advance_outletname" dojoType="prmax.search.standard"></div>
+			<br/>
+			<input type="submit" style="display:none"/>
+		</form>
+	</div>
+</div>
+</body></html>

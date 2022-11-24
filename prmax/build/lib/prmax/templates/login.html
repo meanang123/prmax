@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<head>
+<title>Prmax login</title>
+    <xi:include href="std_header.html" />
+    <style type="text/css">
+	#logobox
+	{
+	    width:50px;
+	    height:50px;
+	    background: url('/static/images/favicon.png')
+	}
+        #loginBox
+        {
+            width: 30%;
+            margin: auto;
+            margin-top: 15%;
+            padding-left: 2%;
+            padding-right: 2%;
+            padding-top: 2%;
+            padding-bottom: 1%;
+            font-family: verdana;
+            font-size: 10px;
+			background-color:#094a88 ;
+			background:#094a88  url('/static/images/marketing_pane_2_bg.gif') repeat-x top left;
+            border: 2px solid #ccc;
+        }
+
+        #loginBox h1
+        {
+            font-size: 30px;
+            font-family: "Trebuchet MS";
+            margin: 0;
+	    text-align:top !important;
+	    padding-bottom:10px;
+        }
+
+        #loginBox h2
+        {
+            font-size: 18px;
+            font-family: "Trebuchet MS";
+            margin: 0;
+	    padding-bottom:10px;
+        }
+
+
+	#loginBox h3
+	{
+		font-size: 18px;
+		font-family: "Trebuchet MS";
+		margin: 0;
+		color: red;
+		padding-bottom:10px;
+		text-align:center;
+	}
+
+        #loginBox p
+        {
+            position: relative;
+            top: -1.5em;
+            padding-left: 4em;
+            font-size: 12px;
+            margin: 0;
+            color: #666;
+        }
+
+        #loginBox table
+        {
+            table-layout: fixed;
+            border-spacing: 0;
+            width: 100%;
+        }
+
+        #loginBox td.label
+        {
+            width: 25%;
+            text-align: left;
+			color: white;
+			padding-left:20px;
+            font-size: 12px;
+        }
+
+        #loginBox td.field
+        {
+            width: 66%;
+        }
+        #loginBox td.field2
+        {
+            width: 66%;
+	    font-size: 16px;
+	    margin-bottom:15px;
+        }
+
+        #loginBox td.field input
+        {
+            width: 98%;
+        }
+
+        #loginBox td.buttons
+        {
+            text-align: right;
+        }
+
+		a:link {color:white}
+		a:visited {color:white}
+		a:active {color:white}
+body {
+    background: white;
+}
+#loginBox {
+    background: white;
+    border:  none;
+    width: 40%;
+}
+label {
+    color: #9D9D9B;
+}
+#loginBox td.label {
+    padding: 0;
+    font-size:  18px;
+   
+}
+#loginBox td.field {
+    width: 80%;
+}
+#loginBox td.field2 {
+    width: 80%;
+    font-size: 16px;
+    margin-bottom:15px;
+}
+div {
+    color: #9D9D9B !important;
+    font-size:  14px;
+    font-weight: 600;
+}
+a:link {
+    color: #9D9D9B;
+}
+td.field input {
+    padding: 2px;
+}
+
+#loginBox h1 {
+    color: #9D9D9B;
+    padding-bottom:15px;
+}
+
+.logobox
+{
+    text-align: center;
+    vertical-align: top;
+    line-height:50px;
+    margin-left: 20px;
+}
+img {
+    width:50px;
+    height:50px;
+}
+    </style>
+<script>
+function start_up()
+{
+try
+{
+	document.getElementById("user_name").focus();
+}
+catch ( e ) {}
+}
+</script>
+</head>
+
+<body onLoad="start_up()">
+    <div id="loginBox">
+
+            <table cellspacing="0" cellpadding="1" border="0">
+                <tr>
+                    <td class="label">
+                        <label ></label>
+                    </td>
+                    <td class="field">
+                        <h1 align="center"><img src="/static/images/pressoffice/pressofficelogo3.png"  alt=" " /><span class="logobox">Press Office</span></h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        <label ></label>
+                    </td>
+                    <td class="field">
+                        <h2 align="center">Leading Media and Stakeholder Relations</h2>
+                    </td>
+                </tr>
+		
+		<span py:if="message">
+		<tr>
+                    <td class="label">
+                        <label ></label>
+                    </td>
+                    <td class="field">
+                        <h3>${message}</h3>
+                    </td>
+                </tr>
+		</span>
+	
+	    </table>
+
+        <form action="${previous_url}" method="POST">
+            <table cellspacing="0" cellpadding="1" border="0">
+                <tr>
+                    <td class="label">
+                        <label for="user_name">Username</label>
+                    </td>
+                    <td class="field">
+                        <input type="text" id="user_name" name="user_name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        <label for="password">Password</label>
+                    </td>
+                    <td class="field">
+                        <input type="password" id="password" name="password"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right" class="buttons">
+                        <input class="adept_login_btn" type="submit" name="login" value="Login"/>
+                    </td>
+                </tr>
+		<tr>
+		    <td></td>
+                </tr>
+		<tr>
+		    <td colspan="2" class="label">
+			<div><a href="/passwordrequest">Forgot Password?</a></div>
+		    </td>
+		</tr>
+            </table>
+
+	        <input py:if="forward_url" type="hidden" name="forward_url"
+                value="${forward_url}"/>
+
+            <div py:for="name,values in original_parameters.items()" py:strip="1">
+            <input py:for="value in isinstance(values, list) and values or [values]"
+                type="hidden" name="${name}" value="${value}"/>
+            </div>
+			<br/><br/>
+    		<div style="color: #ddd;">PRmax Support 01582 380 198 Email <a  style="link:red;visited:red;active:red;hover:red" href="mailto:support@prmax.co.uk">support@prmax.co.uk</a></div>
+        </form>
+    </div>
+</body>
+</html>

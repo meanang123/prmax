@@ -1,0 +1,15 @@
+<div>
+	<form data-dojo-attach-point="form"  data-dojo-props='onsubmit:"return false"' data-dojo-type="dijit/form/Form">
+		<input data-dojo-props='type:"hidden",name:"icustomerid"' data-dojo-attach-point="icustomerid" data-dojo-type="dijit/form/TextBox" ></input>
+		<table width="600px" cellpadding="0" cellpadding="0" >
+			<tr><td colspan="2"><label class="prmaxrowdisplaylarge" style="text-align:center;display:inline">Enter Invoice</label><div style="display:inline" class="prmaxrowdisplaylarge" data-dojo-attach-point="customername">Name</div></td></tr>
+			<tr><td width="28%" class="prmaxrowtag" align="right" width="120px">Invoice Date</td><td><input data-dojo-attach-point="invoice_date" data-dojo-type="ttl/DateTextBox2" data-dojo-props='type:"text",style:"width:8em",required:true' ></td></tr>
+			<tr><td class="prmaxrowtag" valign="top" align="right" >Message</td><td><div class="stdframe" ><textarea data-dojo-attach-point="message" data-dojo-type="dijit/form/Textarea" data-dojo-props='name:"message","class":"dijitTextarea",style:"width:99%;height:99%"'></textarea></div></td></tr>
+			<tr><td class="prmaxrowtag" align="right" >Purchase Order</td><td><input data-dojo-attach-point="purchase_order" data-dojo-props='"class":"prmaxinput",name:"purchase_order",type:"text",trim:true' data-dojo-type="dijit/form/TextBox" ></td></tr>
+			<tr><td class="prmaxrowtag" align="right">Gross Amount</td><td><input data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-props='type:"text",name:"amount",required:true,trim:true,constraints:{min:0.01,max:99999.00,fractional:true,places:"0,2"},style:"width:8em" ' data-dojo-attach-point="amount" data-dojo-attach-event="onBlur:_Amounts"></input></td></tr>
+			<tr><td class="prmaxrowtag" align="right">Vat</td><td><input data-dojo-type="dijit/form/CurrencyTextBox" data-dojo-props='type:"text",name:"vat",required:true,trim:true,constraints:{min:0.00,max:99999.00,fractional:true,places:"0,2"},style:"width:8em"' data-dojo-attach-point="vat" ></input></td></tr>
+			<tr><td class="prmaxrowtag" align="right">Email Address</td><td><input data-dojo-attach-point="email" data-dojo-props='"class":"prmaxinput",name:"email",type:"text",style:"width:100%",trim:true,required:true,regExpGen:dojox.validate.regexp.emailAddress,invalidMessage:"invalid email address",size:"40",maxlength:"70"' data-dojo-type="dijit/form/ValidationTextBox" /></td></tr>
+			<tr><td class="prmaxrowtag" align="right" colspan="2" align="right"><button data-dojo-type="dojox/form/BusyButton" data-dojo-attach-point="btn" data-dojo-props='busyLabel:"Sending ... ",type:"button"' data-dojo-attach-event="onClick:_Send">Send Invoice</button></td></tr>
+		</table>
+	</form>
+</div>

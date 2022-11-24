@@ -1,0 +1,50 @@
+﻿# -*- coding: utf-8 -*-
+<%
+from datetime import date
+from ttl.ttlmako import encode_utf8
+from ttl.ttlmako import isnull
+%>
+% if "newprofile" in o:
+<p style="${style['pheader']}">Profile</p>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td style="${style['plabel']}" width="100px">Publisher</td><td style="${style['p']}">${o['newprofile']['publishername']}</td></tr>
+<tr><td style="${style['plabel']}">Primary Language</td><td style="${style['p']}">${o['newprofile']['language1']}</td></tr>
+<tr><td style="${style['plabel']}">Other Language</td><td style="${style['p']}">${o['newprofile']['language2']}</td></tr>
+<tr><td style="${style['plabel']}">Editorial Profile</td><td style="${style['p']}">${isnull(o['newprofile']['outletprofile'].editorialprofile)}</td></tr>
+<tr><td style="${style['plabel']}">Readership/Audience</td><td style="${style['p']}">${isnull(o['newprofile']['outletprofile'].readership)}</td></tr>
+<tr><td style="${style['plabel']}">Production Company</td><td style="${style['p']}">${o['newprofile']['pcname']}</td></tr>
+<tr><td style="${style['plabel']}">Broadcast Times</td><td style="${style['p']}">${isnull(o['newprofile']['outletprofile'].broadcast)}</td></tr>
+<tr><td style="${style['plabel']}">Cost</td><td style="${style['p']}">${o['newprofile']['pricename']}</td></tr>
+<tr><td style="${style['plabel']}">Frequency</td><td style="${style['p']}">${o['newprofile']['frequencyname']}</td></tr>
+<tr><td style="${style['plabel']}">Frequency Notes</td><td style="${style['p']}">${isnull(o['newprofile']['outletprofile'].frequencynotes)}</td></tr>
+
+</table>
+%else:
+<p style="${style['pheader']}">Profile</p>
+% for row in o['profile']:
+<p style="${style['p']}">${row[1]}</p>
+% if row[0]:
+	<p style="${style['p']}">${encode_utf8(row[0].replace('\n','<br/>'))}</p>
+% endif
+<br/>
+% endfor
+% endif
+<br/>
+<p style="${style['pheader']}">Geographic Coverage</p>
+% if o["dcoverage"]:
+<p style="${style['p']}">${o["dcoverage"]}</p>
+% else:
+<p style="${style['p']}">United Kingdom</p>
+% endif
+<br/>
+<p style="${style['pheader']}">Features</p>
+% if o['features']:
+<table width="100%" cellspacing="0" cellpadding="0" border = "0">
+<tr><th align="left">Feature</th><th align="left">Publication Date<th></tr>
+	% for feature in o['features']:
+	<tr><td style="${style['p']}">${feature.feature}</td><td style="${style['p']}">${feature.publicationdate_description} (${feature.publicationdate_date})</td></tr>
+	% endfor
+</table>
+% else:
+<p style="${style['p']}">We do not list your ${date.today().year} Forward Features List - Email them to us <a href='mailto:feedback@prmax.co.uk'>here</a></p>
+% endif

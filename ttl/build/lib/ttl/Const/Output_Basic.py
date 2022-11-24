@@ -1,0 +1,11 @@
+Return_Success = "OK"
+Return_Failed  = "FA"
+Return_Duplicate = "DU"
+Return_Same = "SA"
+Return_Locked = "LO"
+Return_Excluded = "EX"
+Return_Licence = "LI"
+Return_Invalid =  "IN"
+
+Status_Key = "success"
+Return_Message = "message"
